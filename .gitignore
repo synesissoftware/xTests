@@ -3,6 +3,10 @@
 
 ideas/
 
+include/shwild/
+
+src/shwild/
+
 # directories (by pattern)
 
 # files (by name)
