@@ -36,6 +36,7 @@ xtests-0.*-doc.chm
 *.opensdf
 *.out
 *.pch
+*.pdb
 *.sdf
 *.sbr
 *.scc
