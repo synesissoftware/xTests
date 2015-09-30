@@ -77,7 +77,7 @@
     }                                                                               \
     catch(std::bad_alloc& /* x */)                                                  \
     {                                                                               \
-        xtests_output_(xtestsCritical, oom_msg ## " due to memory exhaustion\n");   \
+        xtests_output_(xtestsCritical, oom_msg " due to memory exhaustion\n");      \
                                                                                     \
         return 1;                                                                   \
     }                                                                               \
@@ -87,7 +87,7 @@
                                                                                     \
         msg.reserve(200);                                                           \
                                                                                     \
-        msg += stdx_msg ## ": ";                                                    \
+        msg += stdx_msg ": ";                                                       \
         msg += x.what();                                                            \
         msg += "\n";                                                                \
                                                                                     \
@@ -99,6 +99,5 @@
 #else /* ? STLSOFT_CF_EXCEPTION_SUPPORT */
 #define XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_(oom_msg, stdx_msg)
 #endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
-
 
 /* ///////////////////////////// end of file //////////////////////////// */

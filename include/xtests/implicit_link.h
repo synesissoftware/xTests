@@ -4,11 +4,11 @@
  * Purpose: Implicit linking for the xTests API
  *
  * Created: 3rd March 2003
- * Updated: 11th August 2010
+ * Updated: 8th May 2014
  *
  * Home:    http://xtests.org/
  *
- * Copyright (c) 2003-2010, Matthew Wilson and Synesis Software
+ * Copyright (c) 2003-2014, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,9 +60,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MAJOR    1
-# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MINOR    9
+# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MINOR    10
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_REVISION 1
-# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_EDIT     29
+# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_EDIT     31
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -74,6 +74,23 @@
 #endif /* !XTESTS_INCL_XTESTS_H_XTESTS */
 
 #include <platformstl/platformstl.h>
+
+/* /////////////////////////////////////////////////////////////////////////
+ * Helper macros
+ */
+
+# define XTESTS_IL_STRINGIZE_a_(x)          #x
+# define XTESTS_IL_STRINGIZE_a(x)           XTESTS_IL_STRINGIZE_a_(x)
+
+# if defined(__BORLANDC__) || \
+     defined(__SUNPRO_C)
+#  define XTESTS_IL_STRINGIZE_w_(x)         L"" ## XTESTS_IL_STRINGIZE_a(x)
+# else /* ? compiler */
+#  define XTESTS_IL_STRINGIZE_w_(x)         L ## #x
+# endif /* compiler */
+# define XTESTS_IL_STRINGIZE_w(x)           XTESTS_IL_STRINGIZE_w_(x)
+
+# define XTESTS_IL_STRINGIZE_(x)            XTESTS_IL_STRINGIZE_a(x)
 
 /* /////////////////////////////////////////////////////////////////////////
  * Implicit linking
@@ -109,7 +126,7 @@
 
   /* major version */
 
-#  define XTESTS_IMPL_LINK_MAJOR_VERSION        "." STLSOFT_STRINGIZE(_XTESTS_VER_MAJOR)
+#  define XTESTS_IMPL_LINK_MAJOR_VERSION        "." XTESTS_IL_STRINGIZE_(_XTESTS_VER_MAJOR)
 
   /* module name */
 
@@ -188,6 +205,10 @@
 #    define XTESTS_IMPL_LINK_COMPILER_NAME      "vc9"
 #   elif _MSC_VER == 1600
 #    define XTESTS_IMPL_LINK_COMPILER_NAME      "vc10"
+#   elif _MSC_VER == 1700
+#    define XTESTS_IMPL_LINK_COMPILER_NAME      "vc11"
+#   elif _MSC_VER == 1800
+#    define XTESTS_IMPL_LINK_COMPILER_NAME      "vc12"
 #   else /* ? _MSC_VER */
 #    error Visual C++ version not supported
 #   endif /* _MSC_VER */

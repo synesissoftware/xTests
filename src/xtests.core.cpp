@@ -4,11 +4,11 @@
  * Purpose:     Implementation for xTests core library.
  *
  * Created:     20th June 1999
- * Updated:     23rd February 2013
+ * Updated:     21st September 2015
  *
  * Home:        http://stlsoft.org/
  *
- * Copyright (c) 1999-2013, Matthew Wilson and Synesis Software
+ * Copyright (c) 1999-2015, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -75,9 +75,15 @@
     (   defined(STLSOFT_COMPILER_IS_MSVC) && \
         _MSC_VER < 1300)
 #else /* ? compiler */
-# include <stlsoft/util/must_init.hpp>
+# ifndef XTESTS_STLSOFT_1_12_OR_LATER
+#  include <stlsoft/util/must_init.hpp>
+# endif /* !STLSoft 1.12+ */
 #endif /* compiler */
-#include <stlsoft/util/integral_printf_traits.hpp>
+#ifdef XTESTS_STLSOFT_1_12_OR_LATER
+# include <stlsoft/traits/integral_printf_format_traits.hpp>
+#else /* ? STLSoft 1.12+ */
+# include <stlsoft/util/integral_printf_traits.hpp>
+#endif /* STLSoft 1.12+ */
 
 /* Standard C++ Header Files */
 #include <map>
@@ -298,6 +304,8 @@ namespace
 
         int BeginCase(char const* name, char const* description);
         int EndCase(char const* name);
+        void*
+        GetSetupParam() const;
 
         int RegisterSuccessfulCondition(
             char const* file
@@ -648,16 +656,16 @@ namespace
         }
         requiredLen += strlen(fmt);
 
-        int                         r = -1;
-        stlsoft::auto_buffer<char>  buff(1);
+        int             r = -1;
+        char_buffer_t_  buff(1);
 
         { for(unsigned i = 0; i != 10; ++i)
         {
             if(!buff.resize(1 + 1 + requiredLen)) // adds two to allow x and n to be different (required by VC++ "safe" fns)
             {
-                { for(size_t i = 0; i != numSinks; ++i)
+                { for(size_t j = 0; j != numSinks; ++j)
                 {
-                    xtests_sink_t_ const&   sink = sinks[i];
+                    xtests_sink_t_ const&   sink = sinks[j];
                     static const char       oom[] = "out of memory\n";
 
                     sink.pfn(oom, STLSOFT_NUM_ELEMENTS(oom) - 1, sink.param);
@@ -813,6 +821,14 @@ XTESTS_CALL(int) xtests_beginTestCase(
         return s_runner->BeginCase(name, description);
 
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot create test", "Cannot create test")
+}
+
+XTESTS_CALL(void*)
+xtests_getSetupParam(void)
+{
+    STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
+
+    return s_runner->GetSetupParam();
 }
 
 XTESTS_CALL(int) xtests_endTestCase(char const* name)
@@ -1434,7 +1450,7 @@ XTESTS_CALL(int) xtests_commandLine_parseVerbosity(
         {
             *verbosity = ::atoi(argv[i] + s_cchVerb);
 
-            return i;
+            return 1;
         }
     }}
 
@@ -1672,11 +1688,13 @@ namespace
                 m_sinks[0].param    =   stm;
 
 #if XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_
-                if(0 == (xtestsRunnerFlagsNoWindowsDebugString & flags))
+                if(0 == (xtestsRunnerFlagsNoWindowsDebugString & m_flags))
                 {
                     m_sinks[1].pfn      =   adapt_OutputDebugStringA;
                     m_sinks[1].param    =   NULL;
                 }
+#else
+                STLSOFT_SUPPRESS_UNUSED(m_flags);
 #endif /* XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_ */
             }
 
@@ -2239,7 +2257,11 @@ namespace
                 STLSOFT_ASSERT(strlen(s_fmtBases[5]) < bufferSize_);
                 STLSOFT_ASSERT(strlen(s_fmtBases[6]) < bufferSize_);
                 STLSOFT_ASSERT(strlen(s_fmtBases[7]) < bufferSize_);
-                static char const*  s_fmt64 =   stlsoft::integral_printf_traits<stlsoft::sint64_t>::decimal_format_a();
+#ifdef XTESTS_STLSOFT_1_12_OR_LATER
+                static char const*  s_fmt64 =   stlsoft::integral_printf_format_traits<stlsoft::sint64_t>::decimal_format_a();
+#else /* ? STLSoft 1.12+ */
+                static char const*  s_fmt64 =   stlsoft::integral_printf_traits       <stlsoft::sint64_t>::decimal_format_a();
+#endif /* STLSoft 1.12+ */
                 static const int    s_len   =   0
                                             +   xtests_sprintf_2_(&s_fmts[0][0], STLSOFT_NUM_ELEMENTS_(s_fmts[0]), s_fmtBases[0], s_fmt64, s_fmt64)
                                             +   xtests_sprintf_2_(&s_fmts[1][0], STLSOFT_NUM_ELEMENTS_(s_fmts[1]), s_fmtBases[1], s_fmt64, s_fmt64)
@@ -2318,7 +2340,11 @@ namespace
                 STLSOFT_ASSERT(strlen(s_fmtBases[5]) < bufferSize_);
                 STLSOFT_ASSERT(strlen(s_fmtBases[6]) < bufferSize_);
                 STLSOFT_ASSERT(strlen(s_fmtBases[7]) < bufferSize_);
-                static char const*  s_fmt64 =   stlsoft::integral_printf_traits<stlsoft::uint64_t>::decimal_format_a();
+#ifdef XTESTS_STLSOFT_1_12_OR_LATER
+                static char const*  s_fmt64 =   stlsoft::integral_printf_format_traits<stlsoft::uint64_t>::decimal_format_a();
+#else /* ? STLSoft 1.12+ */
+                static char const*  s_fmt64 =   stlsoft::integral_printf_traits       <stlsoft::uint64_t>::decimal_format_a();
+#endif /* STLSoft 1.12+ */
                 static const int    s_len   =   0
                                             +   xtests_sprintf_2_(&s_fmts[0][0], STLSOFT_NUM_ELEMENTS_(s_fmts[0]), s_fmtBases[0], s_fmt64, s_fmt64)
                                             +   xtests_sprintf_2_(&s_fmts[1][0], STLSOFT_NUM_ELEMENTS_(s_fmts[1]), s_fmtBases[1], s_fmt64, s_fmt64)
@@ -2839,6 +2865,12 @@ int RunnerInfo::EndCase(char const* /* name */)
     }
 
     RETURN_UNUSED(-1);
+}
+
+void*
+RunnerInfo::GetSetupParam() const
+{
+    return m_setupParam;
 }
 
 int RunnerInfo::RegisterSuccessfulCondition(
