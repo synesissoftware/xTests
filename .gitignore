@@ -1,6 +1,8 @@
 
 # directories (by name)
 
+_internal/
+
 ideas/
 
 include/shwild/
@@ -12,6 +14,8 @@ src/shwild/
 # files (by name)
 
 list_changes.cmd
+
+prepare.cmd
 
 # files (by pattern)
 
