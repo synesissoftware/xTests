@@ -5,7 +5,7 @@
 #           compiler, on Win32
 #
 # Created:  16th December 2007
-# Updated:  23rd February 2013
+# Updated:  30th September 2015
 #
 ############################################################################
 
@@ -61,8 +61,15 @@ PROJ_TEST_COMPONENT_DIR	=   $(PROJ_TEST_ROOT_DIR)\component
 PROJ_TEST_SCRATCH_DIR	=   $(PROJ_TEST_ROOT_DIR)\scratch
 PROJ_TEST_UNIT_DIR		=   $(PROJ_TEST_ROOT_DIR)\unit
 
-SHWILD_INCLUDE_DIR		=	$(PROJ_BASE_DIR)\include
+SHWILD_PROJ_INCLUDE		=	
+ifdef XTESTS_SHWILD_BASE_DIR
+SHWILD_INCLUDE_DIR		=   $(XTESTS_SHWILD_BASE_DIR)\include
+SHWILD_SRC_DIR			=   $(XTESTS_SHWILD_BASE_DIR)\src
+SHWILD_PROJ_INCLUDE		=	-I$(SHWILD_INCLUDE_DIR)
+else
+SHWILD_INCLUDE_DIR		=   $(PROJ_BASE_DIR)\include
 SHWILD_SRC_DIR			=   $(PROJ_SRC_DIR)\shwild
+endif # !XTESTS_SHWILD_BASE_DIR
 
 ########################################
 # tools
@@ -256,6 +263,7 @@ CPPC_DEFS_ST_R =\
 CC_INCLUDES_BASE =\
  \
  -I$(PROJ_INCLUDE_DIR)\
+ $(SHWILD_PROJ_INCLUDE)\
  -I$(STLSOFT)\include\
  $(COMMON_INCLUDES)\
  \
@@ -326,6 +334,7 @@ CC_XTESTS_INCLUDES_ST_R =\
 CPPC_INCLUDES_BASE =\
  \
  -I$(PROJ_INCLUDE_DIR)\
+ $(SHWILD_PROJ_INCLUDE)\
  -I$(STLSOFT)\include\
  $(COMMON_INCLUDES)\
  \
@@ -518,8 +527,8 @@ CORE_HEADERS=\
  \
 
 SHWILD_HEADERS=\
- $(PROJ_INCLUDE_DIR)\shwild\shwild.h\
- $(PROJ_INCLUDE_DIR)\shwild\shwild.hpp\
+ $(SHWILD_INCLUDE_DIR)\shwild\shwild.h\
+ $(SHWILD_INCLUDE_DIR)\shwild\shwild.hpp\
  \
 
 ############################################################################

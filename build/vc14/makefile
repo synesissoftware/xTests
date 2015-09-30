@@ -1,8 +1,8 @@
 ############################################################################
 # File:     makefile
 #
-# Purpose:  Makefile for the xTests:C project, for the Visual C++ 10 (x64 64-bit)
-#           compiler, on Win64
+# Purpose:  Makefile for the xTests:C project, for the Visual C++ 14 (Win32)
+#           compiler, on Win32
 #
 # Created:  16th December 2007
 # Updated:  30th September 2015
@@ -24,8 +24,8 @@
 ########################################
 # Project & compiler version
 
-COMP_TAG			=	vc10
-ARCH_TAG            =   .x64
+COMP_TAG			=	vc14
+ARCH_TAG            =   
 OS_TAG				=   
 PROJ_TAG			=	xtests
 PROJ_VER_MAJOR		=   0
@@ -123,7 +123,7 @@ TARGET_LIB_MT_R = \
 
 # #defines
 
-COMMON_DEFS 		=	-DWIN64
+COMMON_DEFS 		=	-DWIN32
 
 CUSTOM_DEFS			=	
 

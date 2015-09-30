@@ -1,7 +1,7 @@
 ############################################################################
 # File:     makefile
 #
-# Purpose:  Makefile for the xTests:C project, for the Visual C++ 10 (x64 64-bit)
+# Purpose:  Makefile for the xTests:C project, for the Visual C++ 12 (x64 64-bit)
 #           compiler, on Win64
 #
 # Created:  16th December 2007
@@ -24,7 +24,7 @@
 ########################################
 # Project & compiler version
 
-COMP_TAG			=	vc10
+COMP_TAG			=	vc12
 ARCH_TAG            =   .x64
 OS_TAG				=   
 PROJ_TAG			=	xtests
