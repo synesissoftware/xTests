@@ -1,0 +1,104 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "test.scratch.basics1"=.\test\scratch\test.scratch.basics1\vc6\test.scratch.basics1.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name xtests.core
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "test.scratch.basics2"=.\test\scratch\test.scratch.basics2\vc6\test.scratch.basics2.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name xtests.core
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "test.scratch.fail_all.1"=.\test\scratch\test.scratch.fail_all.1\vc6\test.scratch.fail_all.1.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name xtests.core
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "test.scratch.setup.fail"=.\test\scratch\test.scratch.setup.fail\vc6\test.scratch.setup.fail.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name xtests.core
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "test.scratch.string_slices.c"=.\test\scratch\test.scratch.string_slices.c\vc6\test.scratch.string_slices.c.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name xtests.core
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xtests.core"=.\projects\core\vc6\xtests.core.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

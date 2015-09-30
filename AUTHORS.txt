@@ -1,0 +1,23 @@
+xTests - Authors
+================
+
+Updated:    15th April 2009
+
+
+Authors:
+
+  Matthew Wilson
+
+
+Bug reports, fixes and suggestions (for which we are very grateful):
+
+  Garth Lancaster
+  Mark Ellis
+  Rowan Wilson
+  mis232
+  Joe Mariadassou
+
+
+Contributions are welcomed.
+
+=============================== End of file ================================
