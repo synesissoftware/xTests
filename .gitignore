@@ -3,6 +3,8 @@
 
 _internal/
 
+doc/
+
 ideas/
 
 include/shwild/
@@ -18,6 +20,8 @@ list_changes.cmd
 prepare.cmd
 
 # files (by pattern)
+
+xtests-0.*-doc.chm
 
 *~
 *.a
