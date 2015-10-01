@@ -31,9 +31,11 @@ xtests-0.*-doc.chm
 *.exe
 *.gch
 *.lib
+*.ncb
 *.o
 *.obj
 *.opensdf
+*.opt
 *.out
 *.pch
 *.pdb
