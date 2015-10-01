@@ -1,6 +1,15 @@
 
 # directories (by name)
 
+Debug/
+DebugMt/
+Debug Multithreaded/
+Debug Multithreaded Dll/
+Release/
+ReleaseMt/
+Release Multithreaded/
+Release Multithreaded Dll/
+
 _internal/
 
 doc/
@@ -10,6 +19,9 @@ ideas/
 include/shwild/
 
 src/shwild/
+
+Win32/
+x64/
 
 # directories (by pattern)
 
