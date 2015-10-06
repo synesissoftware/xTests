@@ -50,8 +50,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MAJOR    0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MINOR    1
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_REVISION 1
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     2
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_REVISION 2
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     3
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -84,6 +84,7 @@
 
 #include <platformstl/filesystem/directory_functions.hpp>
 #include <platformstl/filesystem/filesystem_traits.hpp>
+#include <platformstl/filesystem/readdir_sequence.hpp>
 
 #if 0
 #elif defined(PLATFORMSTL_OS_IS_UNIX)
@@ -93,7 +94,6 @@
 #elif defined(PLATFORMSTL_OS_IS_WINDOWS)
 
 # include <comstl/util/guid.hpp>
-# include <winstl/winstl.h>
 #else
 
 # error Operating system not discriminated
@@ -164,6 +164,12 @@ private: // Implementation
     static
     void
     create_directory_(
+        string_type_&   path
+    );
+
+    static
+    bool
+    remove_subdirectories_(
         string_type_&   path
     );
 
@@ -239,6 +245,49 @@ temp_directory::could_not_create_temporary_directory_exception::could_not_create
 )
     : parent_class_type(rc, message)
 {}
+
+
+inline
+/* static */
+bool
+temp_directory::remove_subdirectories_(
+    string_type_&   path
+)
+{
+    // Can't use platformstl::remove_directory_recurse() because it
+    // deletes the directory itself, so instead do a search for
+    // all files and sub-directories and despatch them accordingly
+
+    using ::platformstl::readdir_sequence;
+
+
+    bool succeeded = true;
+
+
+    readdir_sequence files(path, readdir_sequence::files | readdir_sequence::fullPath);
+
+    { for(readdir_sequence::const_iterator i = files.begin(); files.end() != i; ++i)
+    {
+        if(!fs_traits_type_::delete_file(stlsoft::c_str_ptr(*i)))
+        {
+            succeeded = false;
+        }
+    }}
+
+
+    readdir_sequence directories(path, readdir_sequence::directories | readdir_sequence::fullPath);
+
+    { for(readdir_sequence::const_iterator i = directories.begin(); directories.end() != i; ++i)
+    {
+        if(!platformstl::remove_directory_recurse(*i))
+        {
+            succeeded = false;
+        }
+    }}
+
+
+    return succeeded;
+}
 
 
 inline
@@ -360,7 +409,7 @@ temp_directory::create_(
     // 2. Empty it, if required
     if(0 != (EmptyOnOpen & flags))
     {
-        platformstl::remove_directory_recurse(path);
+        remove_subdirectories_(path);
     }
 
     // 3. Delete it, if required
@@ -389,7 +438,7 @@ temp_directory::~temp_directory() stlsoft_throw_0()
 
     if(0 != (EmptyOnClose & m_flags))
     {
-        removed_recursively = platformstl::remove_directory_recurse(m_path);
+        removed_recursively = remove_subdirectories_(m_path);
     }
 
     if( !removed_recursively &&
