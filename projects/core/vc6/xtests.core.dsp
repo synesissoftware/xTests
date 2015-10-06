@@ -440,11 +440,11 @@ SOURCE="$(UNIXEM)\include\unixem\unixem.h"
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE="$(XTESTS_C_ROOT)\include\xtests\internal\safestr.h"
+SOURCE=..\..\..\include\xtests\internal\safestr.h
 # End Source File
 # Begin Source File
 
-SOURCE="$(XTESTS_C_ROOT)\include\xtests\xtests.h"
+SOURCE=..\..\..\include\xtests\xtests.h
 # End Source File
 # Begin Source File
 

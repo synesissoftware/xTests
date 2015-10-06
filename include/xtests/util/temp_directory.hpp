@@ -1,14 +1,14 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:        xtests/util/temp_file.hpp
+ * File:        xtests/util/temp_directory.hpp
  *
- * Purpose:     Definition of the temp_file class.
+ * Purpose:     Definition of the temp_directory class.
  *
- * Created:     8th May 2014
+ * Created:     1st October 2015
  * Updated:     6th October 2015
  *
  * Home:        http://stlsoft.org/
  *
- * Copyright (c) 2014-2015, Matthew Wilson and Synesis Software
+ * Copyright (c) 2015, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,19 +39,19 @@
  * ////////////////////////////////////////////////////////////////////// */
 
 
-/** \file xtests/util/temp_file.hpp
+/** \file xtests/util/temp_directory.hpp
  *
- * [C++ only] Definition of the temp_file class.
+ * [C++ only] Definition of the temp_directory class.
  */
 
-#ifndef XTESTS_INCL_XTESTS_UTIL_HPP_TEMP_FILE
-#define XTESTS_INCL_XTESTS_UTIL_HPP_TEMP_FILE
+#ifndef XTESTS_INCL_XTESTS_UTIL_HPP_TEMP_DIRECTORY
+#define XTESTS_INCL_XTESTS_UTIL_HPP_TEMP_DIRECTORY
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MAJOR     0
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     1
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  1
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      4
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MAJOR    0
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MINOR    1
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_REVISION 1
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     2
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -67,7 +67,7 @@
  */
 
 #ifndef STLSOFT_CF_EXCEPTION_SUPPORT
-# error temp_file can only be used in a compilation unit in which exception support is enabled
+# error temp_directory can only be used in a compilation unit in which exception support is enabled
 #endif /* !STLSOFT_CF_EXCEPTION_SUPPORT */
 
 #ifndef _WIN32
@@ -82,6 +82,7 @@
 # include <xtests/util/filesystem_exception.hpp>
 #endif /* !XTESTS_INCL_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION */
 
+#include <platformstl/filesystem/directory_functions.hpp>
 #include <platformstl/filesystem/filesystem_traits.hpp>
 
 #if 0
@@ -91,18 +92,16 @@
 # include <unistd.h>
 #elif defined(PLATFORMSTL_OS_IS_WINDOWS)
 
-#  include <comstl/util/guid.hpp>
-#  include <winstl/winstl.h>
+# include <comstl/util/guid.hpp>
+# include <winstl/winstl.h>
 #else
 
 # error Operating system not discriminated
 #endif
 
-# include <stlsoft/memory/auto_buffer.hpp>
+#include <stlsoft/memory/auto_buffer.hpp>
 
 #include <string>
-
-#include <stdio.h>
 
 /* /////////////////////////////////////////////////////////////////////////
  * namespace
@@ -119,21 +118,22 @@ namespace util
  * classes
  */
 
-class temp_file
+class temp_directory
 {
 public: // Types
     typedef char                            char_type;
-    typedef temp_file                       class_type;
+    typedef temp_directory                  class_type;
 
     enum Flags
     {
-            None            =   0
-        ,   DeleteOnClose   =   0x0002
-        ,   EmptyOnOpen     =   0x0004
-        ,   EmptyOnClose    =   0x0008
+            None                    =   0
+        ,   EmptyOnOpen             =   0x0001
+        ,   EmptyOnClose            =   0x0002
+        ,   RemoveOnOpen            =   0x0004
+        ,   RemoveOnClose           =   0x0008
     };
 
-    class could_not_create_temporary_file_exception;
+    class could_not_create_temporary_directory_exception;
 
 private:
     typedef std::basic_string<char_type>                string_type_;
@@ -143,49 +143,33 @@ private:
 public: // Construction
     /// Establishes an empty temporary file according to the given
     /// flags
-    explicit temp_file(Flags flags);
-    /// Establishes a non-empty temporary file according to the given
-    /// flags
-    temp_file(
-        Flags       flags
-    ,   void const* pv
-    ,   size_t      cb
-    );
+    explicit temp_directory(Flags flags);
 private:
-    temp_file(class_type const&);
+    temp_directory(class_type const&);
     class_type& operator =(class_type const&);
 public:
-    ~temp_file() stlsoft_throw_0();
+    ~temp_directory() stlsoft_throw_0();
 
 public: // Accessors
     char_type const*    c_str() const;
 
 private: // Implementation
     static
-    file_handle_type_
-    create_file_(
-        string_type_&   path
-    );
-
-    static
-    file_handle_type_
+    void
     create_(
         Flags           flags
     ,   string_type_&   path
-    ,   void const*     pv
-    ,   size_t          cb
     );
 
     static
-    fs_traits_type_::result_code_type
-    empty_file_(
-        file_handle_type_ hFile
+    void
+    create_directory_(
+        string_type_&   path
     );
 
 private: // Fields
-    Flags const             m_flags;
-    string_type_            m_path;
-    file_handle_type_ const m_hFile;
+    Flags const     m_flags;
+    string_type_    m_path;
 };
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -193,13 +177,13 @@ private: // Fields
  */
 
 inline
-temp_file::Flags
+temp_directory::Flags
 operator |(
-    temp_file::Flags    lhs
-,   temp_file::Flags    rhs
+    temp_directory::Flags    lhs
+,   temp_directory::Flags    rhs
 )
 {
-    return static_cast<temp_file::Flags>(int(lhs) | int(rhs));
+    return static_cast<temp_directory::Flags>(int(lhs) | int(rhs));
 }
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -208,11 +192,11 @@ operator |(
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
-class temp_file::could_not_create_temporary_file_exception
+class temp_directory::could_not_create_temporary_directory_exception
     : public filesystem_exception
 {
 public: // Types
-    typedef could_not_create_temporary_file_exception  class_type;
+    typedef could_not_create_temporary_directory_exception  class_type;
 private:
     typedef filesystem_exception                            parent_class_type;
 public:
@@ -220,28 +204,28 @@ public:
 
 public: // Construction
     explicit
-    could_not_create_temporary_file_exception(
+    could_not_create_temporary_directory_exception(
         result_code_type    rc
     );
-    could_not_create_temporary_file_exception(
+    could_not_create_temporary_directory_exception(
         result_code_type    rc
     ,   char_type const*    message
     );
-    could_not_create_temporary_file_exception(
+    could_not_create_temporary_directory_exception(
         result_code_type    rc
     ,   string_type const&  message
     );
 };
 
 inline
-temp_file::could_not_create_temporary_file_exception::could_not_create_temporary_file_exception(
+temp_directory::could_not_create_temporary_directory_exception::could_not_create_temporary_directory_exception(
     result_code_type    rc
 )
     : parent_class_type(rc)
 {}
 
 inline
-temp_file::could_not_create_temporary_file_exception::could_not_create_temporary_file_exception(
+temp_directory::could_not_create_temporary_directory_exception::could_not_create_temporary_directory_exception(
     result_code_type    rc
 ,   char_type const*    message
 )
@@ -249,7 +233,7 @@ temp_file::could_not_create_temporary_file_exception::could_not_create_temporary
 {}
 
 inline
-temp_file::could_not_create_temporary_file_exception::could_not_create_temporary_file_exception(
+temp_directory::could_not_create_temporary_directory_exception::could_not_create_temporary_directory_exception(
     result_code_type    rc
 ,   string_type const&  message
 )
@@ -259,38 +243,8 @@ temp_file::could_not_create_temporary_file_exception::could_not_create_temporary
 
 inline
 /* static */
-temp_file::fs_traits_type_::result_code_type
-temp_file::empty_file_(
-    temp_file::file_handle_type_ hFile
-)
-{
-#if defined(PLATFORMSTL_OS_IS_WINDOWS)
-
-    if( INVALID_SET_FILE_POINTER == ::SetFilePointer(hFile, 0, NULL, SEEK_SET) ||
-        !::SetEndOfFile(hFile))
-    {
-        DWORD const e = ::GetLastError();
-
-        return e;
-    }
-
-    return ERROR_SUCCESS;
-#else
-
-    if(off_t(-1) == ::lseek(hFile, SEEK_SET, 0))
-    {
-        return ::errno;
-    }
-
-    return 0;
-#endif
-}
-
-
-inline
-/* static */
-temp_file::file_handle_type_
-temp_file::create_file_(
+void
+temp_directory::create_directory_(
     string_type_&   path
 )
 {
@@ -340,13 +294,11 @@ temp_file::create_file_(
                         fs_traits_type_::char_copy(p3, stlsoft::c_str_ptr_a(unique_name), comstl::COMSTL_CCH_GUID);
                         p3[comstl::COMSTL_CCH_GUID] = '\0';
 
-                        file_handle_type_ const hFile = fs_traits_type_::create_file(buff.data(), GENERIC_WRITE, 0, NULL, CREATE_NEW, 0, NULL);
-
-                        if(fs_traits_type_::invalid_file_handle_value() != hFile)
+                        if(fs_traits_type_::create_directory(buff.data()))
                         {
                             path.assign(buff.data(), n3 + comstl::COMSTL_CCH_GUID);
 
-                            return hFile;
+                            return;
                         }
                         else
                         {
@@ -360,7 +312,7 @@ temp_file::create_file_(
         ++i;
     }}
 
-    throw could_not_create_temporary_file_exception(e, "could not create file in any of the possible locations");
+    throw could_not_create_temporary_directory_exception(e, "could not create directory in any of the possible locations");
 #else
 
     char tmp_path[] = "/tmp/xtests-temp-dir.XXXXXXXX";
@@ -370,21 +322,14 @@ temp_file::create_file_(
 #  define tmp_path  tmp_path_win_
 # endif
 
-    if(NULL != ::mkstemp(tmp_path))
+    if(NULL == ::mkdtemp(tmp_path))
     {
-        file_handle_type_ const hFile = fs_traits_type_::open_file(tmp_path, O_WRONLY | O_CREAT | O_TRUNC, S_IWRITE);
+        int const e = ::errno;
 
-        if(fs_traits_type_::invalid_file_handle_value() != hFile)
-        {
-            path = tmp_path;
-
-            return hFile;
-        }
+        throw could_not_create_temporary_directory_exception(e, "could not create directory in any of the possible locations");
     }
 
-    int const e = ::errno;
-
-    throw could_not_create_temporary_file_exception(e, "could not create file in any of the possible locations");
+    path = tmp_path;
 
 # ifdef _WIN32
 #  undef tmp_path
@@ -395,84 +340,68 @@ temp_file::create_file_(
 
 inline
 /* static */
-temp_file::file_handle_type_
-temp_file::create_(
-    temp_file::Flags            flags
-,   temp_file::string_type_&    path
-,   void const*                 pv
-,   size_t                      cb
+void
+temp_directory::create_(
+    temp_directory::Flags           flags
+,   temp_directory::string_type_&   path
 )
 {
     // Algorithm:
     //
-    // 1. Generate a unique, new file name
+    // 1. Generate a unique, new directory name
     // 2. Empty it, if required
+    // 3. Delete it, if required
 
 
-    // 1. Generate a unique, new file name
+    // 1. Generate a unique, new directory name
 
-    file_handle_type_ const hFile = create_file_(path);
-
+    create_directory_(path);
 
     // 2. Empty it, if required
     if(0 != (EmptyOnOpen & flags))
     {
-        fs_traits_type_::result_code_type const rc = empty_file_(hFile);
-
-        if(0 != rc)
-        {
-            throw could_not_create_temporary_file_exception(rc, "could not reset contents of temporary file");
-        }
+        platformstl::remove_directory_recurse(path);
     }
 
+    // 3. Delete it, if required
 
-    return hFile;
-}
-
-
-inline
-/* explicit */ temp_file::temp_file(
-    temp_file::Flags flags
-)
-    : m_flags(flags)
-    , m_path()
-    , m_hFile(create_(flags, m_path, NULL, 0))
-{
-    STLSOFT_ASSERT(fs_traits_type_::invalid_file_handle_value() != m_hFile);
-}
-
-inline
-/* explicit */ temp_file::temp_file(
-    Flags       flags
-,   void const* pv
-,   size_t      cb
-)
-    : m_flags(flags)
-    , m_path()
-    , m_hFile(create_(flags, m_path, pv, cb))
-{
-    STLSOFT_ASSERT(fs_traits_type_::invalid_file_handle_value() != m_hFile);
-}
-
-inline
-temp_file::~temp_file() stlsoft_throw_0()
-{
-    fs_traits_type_::close_file(m_hFile);
-
-    if(0 != (DeleteOnClose & m_flags))
+    if(0 != (RemoveOnOpen & flags))
     {
-        fs_traits_type_::delete_file(m_path.c_str());
+        fs_traits_type_::remove_directory(path.c_str());
     }
-    else
+}
+
+
+inline
+/* explicit */ temp_directory::temp_directory(
+    temp_directory::Flags flags
+)
+    : m_flags(flags)
+    , m_path()
+{
+    create_(m_flags, m_path);
+}
+
+inline
+temp_directory::~temp_directory() stlsoft_throw_0()
+{
+    bool removed_recursively = false;
+
     if(0 != (EmptyOnClose & m_flags))
     {
-        fs_traits_type_::delete_file(m_path.c_str());
+        removed_recursively = platformstl::remove_directory_recurse(m_path);
+    }
+
+    if( !removed_recursively &&
+        0 != (RemoveOnClose & m_flags))
+    {
+        fs_traits_type_::remove_directory(m_path.c_str());
     }
 }
 
 inline
-temp_file::char_type const*
-temp_file::c_str() const
+temp_directory::char_type const*
+temp_directory::c_str() const
 {
     return m_path.c_str();
 }
@@ -489,6 +418,6 @@ temp_file::c_str() const
 
 /* ////////////////////////////////////////////////////////////////////// */
 
-#endif /* XTESTS_INCL_XTESTS_UTIL_HPP_TEMP_FILE */
+#endif /* XTESTS_INCL_XTESTS_UTIL_HPP_TEMP_DIRECTORY */
 
 /* ///////////////////////////// end of file //////////////////////////// */
