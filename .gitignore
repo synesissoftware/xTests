@@ -5,11 +5,13 @@ Debug/
 DebugMt/
 Debug Multithreaded/
 Debug Multithreaded Dll/
+DebugNox/
 DebugUnix/
 Release/
 ReleaseMt/
 Release Multithreaded/
 Release Multithreaded Dll/
+ReleaseNox/
 ReleaseUnix/
 
 _internal/
