@@ -446,7 +446,6 @@ SOURCE="$(XTESTS_C_ROOT)\include\xtests\internal\safestr.h"
 
 SOURCE="$(XTESTS_C_ROOT)\include\xtests\xtests.h"
 # End Source File
-# End Group
 # Begin Source File
 
 SOURCE=..\..\..\src\xtests.internal.exception_macros.hpp
@@ -455,6 +454,7 @@ SOURCE=..\..\..\src\xtests.internal.exception_macros.hpp
 
 SOURCE=..\..\..\src\xtests.internal.string.h
 # End Source File
+# End Group
 # End Group
 # Begin Group "Distribution Files"
 

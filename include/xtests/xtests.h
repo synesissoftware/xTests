@@ -51,8 +51,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       38
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        325
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    2
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        326
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -3089,16 +3089,7 @@ namespace cpp
 // NOTE: it is NOT derived from std::exception, because it has
 // to be proof from any catches created by the user.
 class requirement_failed_exception
-    : public std::runtime_error
 {
-public:
-    typedef std::runtime_error              parent_class_type;
-    typedef requirement_failed_exception    class_type;
-
-public:
-    explicit requirement_failed_exception(char const* message)
-        : parent_class_type(message)
-    {}
 };
 
 # endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
@@ -3161,7 +3152,7 @@ xtests_require(int success)
 {
     if(!success)
     {
-        throw requirement_failed_exception("XTESTS_REQUIRE()'d test failed");
+        throw requirement_failed_exception();
     }
 }
 
