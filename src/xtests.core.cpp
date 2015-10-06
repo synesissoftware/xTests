@@ -4,7 +4,7 @@
  * Purpose:     Implementation for xTests core library.
  *
  * Created:     20th June 1999
- * Updated:     21st September 2015
+ * Updated:     6th October 2015
  *
  * Home:        http://stlsoft.org/
  *
@@ -2790,14 +2790,23 @@ int RunnerInfo::BeginCase(
 
         if(NULL != m_setup)
         {
-            int r = (*m_setup)(m_setupParam);
-
-            if(0 != r)
+            try
             {
-                m_reporter->onDefect(m_reporterParam, "setup function returned a non-zero value", NULL, m_verbosity);
+                int r = (*m_setup)(m_setupParam);
 
-                m_testCases.erase(m_currentCase);
-                m_currentCase = m_testCases.end();
+                if(0 != r)
+                {
+                    m_reporter->onDefect(m_reporterParam, "setup function returned a non-zero value", NULL, m_verbosity);
+
+                    m_testCases.erase(m_currentCase);
+                    m_currentCase = m_testCases.end();
+
+                    return -1;
+                }
+            }
+            catch(XTESTS_NS_CPP_QUAL(prerequisite_failed_exception)& x)
+            {
+                m_reporter->onDefect(m_reporterParam, "setup function failed", x.what(), m_verbosity);
 
                 return -1;
             }
@@ -2850,7 +2859,16 @@ int RunnerInfo::EndCase(char const* /* name */)
 
         if(NULL != m_teardown)
         {
-            (*m_teardown)(m_setupParam);
+            try
+            {
+                (*m_teardown)(m_setupParam);
+            }
+            catch(XTESTS_NS_CPP_QUAL(prerequisite_failed_exception)& x)
+            {
+                m_reporter->onDefect(m_reporterParam, "teardown function failed", x.what(), m_verbosity);
+
+                return -1;
+            }
         }
 
         m_currentCase = m_testCases.end();

@@ -50,9 +50,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
-# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       38
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    2
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        326
+# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       39
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        327
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -75,9 +75,9 @@
 
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       18
-#define _XTESTS_VER_REVISION    3
+#define _XTESTS_VER_REVISION    4
 
-#define _XTESTS_VER             0x001203ff
+#define _XTESTS_VER             0x001204ff
 
 /* /////////////////////////////////////////////////////////////////////////
  * Includes - 1
@@ -227,6 +227,9 @@ namespace c
 #  define XTESTS_REPORT_EXCEPTION_(f, l, x)                 XTESTS_NS_C_QUAL(xtests_caseExcepted)((f), (l), "<exception-type unknown: rtti not available>", x.what())
 # endif /* STLSOFT_CF_RTTI_SUPPORT */
 
+
+# define XTESTS_REPORT_PREREQ_FAIL_(f, l, fn, m, q)         XTESTS_NS_C_QUAL(xtests_writeFailMessage)((f), (l), (fn), (m), (q))
+
 # define XTESTS_GET_SETUPPARAM_()                           XTESTS_NS_C_QUAL(xtests_getSetupParam)()
 
 # ifdef __cplusplus
@@ -261,6 +264,10 @@ namespace c
                                                                                         \
             XTESTS_INVOKE_TEST_CASE_FN_INNER_(fn, param);                               \
         }                                                                               \
+        catch(XTESTS_NS_CPP_QUAL(prerequisite_failed_exception)& x)                     \
+        {                                                                               \
+            XTESTS_REPORT_PREREQ_FAIL_((file), (line), XTESTS_GET_FUNCTION_(), "test prerequisite failed", x.what());   \
+        }                                                                               \
         catch(XTESTS_NS_CPP_QUAL(requirement_failed_exception)& /* x */)                \
         {                                                                               \
         }                                                                               \
@@ -287,6 +294,10 @@ namespace c
             XTESTS_INVOKE_TEST_CASE_FN_INNER_(fn, param);                               \
                                                                                         \
             XTESTS_NS_C_QUAL(xtests_caseExceptionExpected)((file), (line), #type);      \
+        }                                                                               \
+        catch(XTESTS_NS_CPP_QUAL(prerequisite_failed_exception)& x)                     \
+        {                                                                               \
+            XTESTS_REPORT_PREREQ_FAIL_((file), (line), XTESTS_GET_FUNCTION_(), "test prerequisite failed", x.what());   \
         }                                                                               \
         catch(XTESTS_NS_CPP_QUAL(requirement_failed_exception)& /* x */)                \
         {                                                                               \
@@ -3090,6 +3101,29 @@ namespace cpp
 // to be proof from any catches created by the user.
 class requirement_failed_exception
 {
+};
+
+// This exception class is used to bring an early end to a test case as a
+// result of a prerequisite failing.
+//
+// NOTE: it is NOT derived from std::exception, because it has
+// to be proof from any catches created by the user
+class prerequisite_failed_exception
+{
+public:
+    typedef prerequisite_failed_exception   class_type;
+
+public:
+    explicit
+    prerequisite_failed_exception()
+    {}
+    virtual ~prerequisite_failed_exception() stlsoft_throw_0()
+    {}
+private:
+    class_type& operator =(class_type const&);
+
+public: // Overrides
+    virtual char const* what() const = 0;
 };
 
 # endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
