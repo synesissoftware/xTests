@@ -4,7 +4,7 @@
  * Purpose:     Definition of the temp_file class.
  *
  * Created:     8th May 2014
- * Updated:     6th October 2015
+ * Updated:     7th October 2015
  *
  * Home:        http://stlsoft.org/
  *
@@ -51,7 +51,7 @@
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MAJOR     0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     1
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  2
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      5
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      6
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -121,13 +121,18 @@ namespace util
  * classes
  */
 
+/// Creates and manages a temporary file for use in testing
 class temp_file
 {
 public: // Types
+    /// The character type
     typedef char                            char_type;
+    /// The size type
     typedef size_t                          size_type;
+    /// This type
     typedef temp_file                       class_type;
 
+    /// Flags that control behaviour of ctor and/or dtor
     enum Flags
     {
             None            =   0
@@ -161,7 +166,9 @@ public:
     ~temp_file() stlsoft_throw_0();
 
 public: // Accessors
+    /// Length of the path of the temporary file
     size_type           size() const;
+    /// C-style string pointer to the path of the temporary file
     char_type const*    c_str() const;
 
 private: // Implementation
@@ -196,6 +203,8 @@ private: // Fields
  * operators
  */
 
+#ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
+
 inline
 temp_file::Flags
 operator |(
@@ -205,6 +214,8 @@ operator |(
 {
     return static_cast<temp_file::Flags>(int(lhs) | int(rhs));
 }
+
+#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
  * implementation
@@ -502,6 +513,8 @@ temp_file::c_str() const
  * shims
  */
 
+#ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
+
 namespace stlsoft
 {
 
@@ -561,6 +574,8 @@ namespace stlsoft
     }
 
 } /* namespace stlsoft */
+
+#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* ////////////////////////////////////////////////////////////////////// */
 

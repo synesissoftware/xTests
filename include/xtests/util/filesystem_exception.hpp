@@ -4,7 +4,7 @@
  * Purpose:     Definition of the filesystem_exception class.
  *
  * Created:     1st October 2015
- * Updated:     6th October 2015
+ * Updated:     7th October 2015
  *
  * Home:        http://stlsoft.org/
  *
@@ -50,8 +50,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_MAJOR      0
 # define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_MINOR      1
-# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_REVISION   2
-# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_EDIT       4
+# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_REVISION   3
+# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_EDIT       5
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -104,41 +104,63 @@ namespace util
  * classes
  */
 
+/// Exception thrown by utility classes
+///
+/// \note This class does not derive from std::exception, and should *not*
+///  be used outside of the <b>xTests</b> framework.
 class filesystem_exception
     : public prerequisite_failed_exception
 {
 public: // Types
+    /// This type
     typedef filesystem_exception                    class_type;
 private:
     typedef prerequisite_failed_exception           parent_class_type;
 public:
+    /// The character type
     typedef char                                    char_type;
 private:
     typedef platformstl::system_traits<char_type>   traits_type_;
 public:
+    /// The result-code type
     typedef traits_type_::result_code_type          result_code_type;
 protected:
+    /// The embedded-exception type
     class                                           embedded_exception_type
         : public platformstl::platform_exception
     {
     public: // Types
+        /// This type
         typedef embedded_exception_type             class_type;
+        /// The parent-class type
         typedef platformstl::platform_exception     parent_class_type;
+        /// The string type
         typedef parent_class_type::string_type      string_type;
 
-    public: // Construction
+    protected: // Construction
+        /// Constructs an instance of the type
+        ///
+        /// \param rc The result-code associated with the exceptional-condition
         explicit
         class_type(
             result_code_type rc
         )
             : parent_class_type(rc)
         {}
+        /// Constructs an instance of the type
+        ///
+        /// \param rc The result-code associated with the exceptional-condition
+        /// \param message The human-readable message to be conveyed to the receiver of the exception
         class_type(
             result_code_type    rc
         ,   char_type const*    message
         )
             : parent_class_type(message, rc)
         {}
+        /// Constructs an instance of the type
+        ///
+        /// \param rc The result-code associated with the exceptional-condition
+        /// \param message The human-readable message to be conveyed to the receiver of the exception
         class_type(
             result_code_type    rc
         ,   string_type const&  message
@@ -147,24 +169,37 @@ protected:
         {}
     };
 public:
-    typedef traits_type_::result_code_type          result_code_type;
+    /// The string type
     typedef embedded_exception_type::string_type    string_type;
 
 protected: // Construction
+    /// Constructs an instance of the type
+    ///
+    /// \param rc The result-code associated with the exceptional-condition
     explicit
     filesystem_exception(
-        result_code_type    code
+        result_code_type    rc
     );
+    /// Constructs an instance of the type
+    ///
+    /// \param rc The result-code associated with the exceptional-condition
+    /// \param message The human-readable message to be conveyed to the receiver of the exception
     filesystem_exception(
-        result_code_type    code
+        result_code_type    rc
     ,   char_type const*    message
     );
+    /// Constructs an instance of the type
+    ///
+    /// \param rc The result-code associated with the exceptional-condition
+    /// \param message The human-readable message to be conveyed to the receiver of the exception
     filesystem_exception(
-        result_code_type    code
+        result_code_type    rc
     ,   string_type const&  message
     );
 
 public: // Overrides
+    /// C-style string pointer to description of condition that causes
+    /// exceptional condition
     /* virtual */ char const* what() const
     {
         return m_embedded.what();
@@ -217,28 +252,32 @@ filesystem_exception::filesystem_exception(
  * shims
  */
 
+#ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
+
 namespace stlsoft
 {
 
-	inline
-	char const*
-	c_str_ptr_a(
-		::xtests::cpp::util::filesystem_exception const& x
-	)
-	{
-		return x.what();
-	}
+    inline
+    char const*
+    c_str_ptr_a(
+        ::xtests::cpp::util::filesystem_exception const& x
+    )
+    {
+        return x.what();
+    }
 
-	inline
-	char const*
-	c_str_ptr(
-		::xtests::cpp::util::filesystem_exception const& x
-	)
-	{
-		return c_str_ptr_a(x);
-	}
+    inline
+    char const*
+    c_str_ptr(
+        ::xtests::cpp::util::filesystem_exception const& x
+    )
+    {
+        return c_str_ptr_a(x);
+    }
 
 } /* namespace stlsoft */
+
+#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* ////////////////////////////////////////////////////////////////////// */
 

@@ -5,7 +5,7 @@
  *              library.
  *
  * Created:     20th June 1999
- * Updated:     6th October 2015
+ * Updated:     7th October 2015
  *
  * Home:        http://stlsoft.org/
  *
@@ -52,7 +52,7 @@
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       39
 # define XTESTS_VER_XTESTS_H_XTESTS_REVISION    2
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        328
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        329
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -1150,6 +1150,19 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
     )
 #endif /* 0 */
 
+/** \def XTESTS_TEST_INTEGER_EQUAL_ANY_OF2(expected0, expected1, actual)
+ *
+ * \ingroup group__xtests__test_functions
+ *
+ * Tests that a given integer value matches one of two given expected values.
+ *
+ * \param expected0 The first expected value
+ * \param expected1 The second expected value
+ * \param actual The actual integer value
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
 # define XTESTS_TEST_INTEGER_EQUAL_ANY_OF2(expected0, expected1, actual)                                                        \
                                                                                                                                 \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                                                                  \
@@ -1165,6 +1178,20 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
     , XTESTS_NS_C_QUAL(xtestsComparisonEqual)))                                                                                 \
     )
 
+/** \def XTESTS_TEST_INTEGER_EQUAL_ANY_OF3(expected0, expected1, expected2, actual)
+ *
+ * \ingroup group__xtests__test_functions
+ *
+ * Tests that a given integer value matches one of three given expected values.
+ *
+ * \param expected0 The first expected value
+ * \param expected1 The second expected value
+ * \param expected2 The third expected value
+ * \param actual The actual integer value
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
 # define XTESTS_TEST_INTEGER_EQUAL_ANY_OF3(expected0, expected1, expected2, actual)                                             \
                                                                                                                                 \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                                                                  \
@@ -4238,9 +4265,34 @@ xtests_commandLine_parseVerbosity(
                                                                                         \
     stlsoft_static_cast(void, XTESTS_NS_C_QUAL(xtests_commandLine_parseVerbosity)((argc), (argv), (pverbosity)))
 
+#ifndef XTESTS_DOCUMENTATION_SKIP_SECTION // The following seems to break Doxygen, so we don't document it :-(
+
+/** \def XTESTS_COMMANDLINE_PARSEVERBOSITY_DEFAULT(argc, argv, pverbosity, defaultVerbosity)
+ *
+ * \ingroup group__xtests__utiliy_functions
+ *
+ * Parses a verbosity from the command-line
+ *
+ * Parse the verbosity from the command-line arguments, looking for an
+ * argument of the form "--verbosity=<N>", where N is a non-negative
+ * integer.
+ *
+ * \param argc The <code>argc</code> parameter passed into
+ *   <code>main()</code>
+ * \param argv The <code>argv</code> parameter passed into
+ *   <code>main()</code>
+ * \param pverbosity A pointer to an integer to receive the verbosity. Will
+ *   be set to xtestsVerbositySummaryOnSuccess even if no verbosity argument
+ *   is found. May not be NULL.
+ * \param defaultVerbosity The default verbosity to be applied if none
+ *   specified on the command-line.
+ *
+ * \see XTESTS_COMMANDLINE_PARSEVERBOSITY()
+ */
 #define XTESTS_COMMANDLINE_PARSEVERBOSITY_DEFAULT(argc, argv, pverbosity, defaultVerbosity)     \
                                                                                                 \
     stlsoft_static_cast(void, ((0 != XTESTS_NS_C_QUAL(xtests_commandLine_parseVerbosity)((argc), (argv), (pverbosity)))) ? 1 : ((*(pverbosity) = (defaultVerbosity)), 0))
+#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
  * Obsolete names

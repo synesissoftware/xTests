@@ -4,11 +4,11 @@
  * Purpose: Implicit linking for the xTests API
  *
  * Created: 3rd March 2003
- * Updated: 8th May 2014
+ * Updated: 7th October 2015
  *
  * Home:    http://xtests.org/
  *
- * Copyright (c) 2003-2014, Matthew Wilson and Synesis Software
+ * Copyright (c) 2003-2015, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,9 +60,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MAJOR    1
-# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MINOR    10
+# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MINOR    11
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_REVISION 1
-# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_EDIT     31
+# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_EDIT     33
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -79,6 +79,8 @@
  * Helper macros
  */
 
+#ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
+
 # define XTESTS_IL_STRINGIZE_a_(x)          #x
 # define XTESTS_IL_STRINGIZE_a(x)           XTESTS_IL_STRINGIZE_a_(x)
 
@@ -91,6 +93,8 @@
 # define XTESTS_IL_STRINGIZE_w(x)           XTESTS_IL_STRINGIZE_w_(x)
 
 # define XTESTS_IL_STRINGIZE_(x)            XTESTS_IL_STRINGIZE_a(x)
+
+#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
  * Implicit linking
@@ -209,6 +213,8 @@
 #    define XTESTS_IMPL_LINK_COMPILER_NAME      "vc11"
 #   elif _MSC_VER == 1800
 #    define XTESTS_IMPL_LINK_COMPILER_NAME      "vc12"
+#   elif _MSC_VER == 1900
+#    define XTESTS_IMPL_LINK_COMPILER_NAME      "vc14"
 #   else /* ? _MSC_VER */
 #    error Visual C++ version not supported
 #   endif /* _MSC_VER */

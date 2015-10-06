@@ -24,6 +24,8 @@ include/shwild/
 
 src/shwild/
 
+releases/
+
 Win32/
 x64/
 

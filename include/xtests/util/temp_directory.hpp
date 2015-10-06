@@ -4,7 +4,7 @@
  * Purpose:     Definition of the temp_directory class.
  *
  * Created:     1st October 2015
- * Updated:     6th October 2015
+ * Updated:     7th October 2015
  *
  * Home:        http://stlsoft.org/
  *
@@ -51,7 +51,7 @@
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MAJOR    0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MINOR    1
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_REVISION 3
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     4
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     5
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -120,13 +120,18 @@ namespace util
  * classes
  */
 
+/// Creates and manages a temporary directory for use in testing
 class temp_directory
 {
 public: // Types
+    /// The character type
     typedef char                            char_type;
+    /// The size type
     typedef size_t                          size_type;
+    /// This type
     typedef temp_directory                  class_type;
 
+    /// Flags that control behaviour of ctor and/or dtor
     enum Flags
     {
             None                    =   0
@@ -154,7 +159,9 @@ public:
     ~temp_directory() stlsoft_throw_0();
 
 public: // Accessors
+    /// Length of the path of the temporary directory
     size_type           size() const;
+    /// C-style string pointer to the path of the temporary directory
     char_type const*    c_str() const;
 
 private: // Implementation
@@ -186,6 +193,8 @@ private: // Fields
  * operators
  */
 
+#ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
+
 inline
 temp_directory::Flags
 operator |(
@@ -195,6 +204,8 @@ operator |(
 {
     return static_cast<temp_directory::Flags>(int(lhs) | int(rhs));
 }
+
+#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
  * implementation
@@ -480,6 +491,8 @@ temp_directory::c_str() const
  * shims
  */
 
+#ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
+
 namespace stlsoft
 {
 
@@ -539,6 +552,8 @@ namespace stlsoft
     }
 
 } /* namespace stlsoft */
+
+#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* ////////////////////////////////////////////////////////////////////// */
 
