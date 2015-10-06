@@ -51,8 +51,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       39
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        327
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    2
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        328
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -3180,6 +3180,7 @@ public:
 #  endif /* STLSOFT_CF_STDCALL_SUPPORTED */
 };
 
+#  if defined(STLSOFT_CF_EXCEPTION_SUPPORT)
 inline
 void
 xtests_require(int success)
@@ -3189,6 +3190,7 @@ xtests_require(int success)
         throw requirement_failed_exception();
     }
 }
+#  endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
 
 # endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 

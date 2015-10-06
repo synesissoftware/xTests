@@ -2790,8 +2790,10 @@ int RunnerInfo::BeginCase(
 
         if(NULL != m_setup)
         {
+#ifdef STLSOFT_CF_EXCEPTION_SUPPORT
             try
             {
+#endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
                 int r = (*m_setup)(m_setupParam);
 
                 if(0 != r)
@@ -2803,6 +2805,7 @@ int RunnerInfo::BeginCase(
 
                     return -1;
                 }
+#ifdef STLSOFT_CF_EXCEPTION_SUPPORT
             }
             catch(XTESTS_NS_CPP_QUAL(prerequisite_failed_exception)& x)
             {
@@ -2810,6 +2813,7 @@ int RunnerInfo::BeginCase(
 
                 return -1;
             }
+#endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
         }
 
         m_reporter->onBeginTestCase(m_reporterParam, name, description, m_verbosity);
@@ -2859,9 +2863,12 @@ int RunnerInfo::EndCase(char const* /* name */)
 
         if(NULL != m_teardown)
         {
+#ifdef STLSOFT_CF_EXCEPTION_SUPPORT
             try
             {
+#endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
                 (*m_teardown)(m_setupParam);
+#ifdef STLSOFT_CF_EXCEPTION_SUPPORT
             }
             catch(XTESTS_NS_CPP_QUAL(prerequisite_failed_exception)& x)
             {
@@ -2869,6 +2876,7 @@ int RunnerInfo::EndCase(char const* /* name */)
 
                 return -1;
             }
+#endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
         }
 
         m_currentCase = m_testCases.end();

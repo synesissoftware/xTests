@@ -22,6 +22,7 @@ CFG=xtests.core - Win32 Unicode Debug Multithreaded
 !MESSAGE "xtests.core - Win32 Debug Multithreaded" (based on "Win32 (x86) Static Library")
 !MESSAGE "xtests.core - Win32 Debug pseudoUNIX" (based on "Win32 (x86) Static Library")
 !MESSAGE "xtests.core - Win32 Unicode Debug Multithreaded" (based on "Win32 (x86) Static Library")
+!MESSAGE "xtests.core - Win32 Release NoX" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
@@ -148,8 +149,33 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LIB32=link.exe -lib
-# ADD BASE LIB32 /nologo /out:"../../../lib/xtests.0.core.vc6.mt.debug.lib"
+# ADD BASE LIB32 /nologo /out:"../../../lib/xtests.0.core.vc6.widestring.mt.debug.lib"
 # ADD LIB32 /nologo /out:"../../../lib/xtests.0.core.vc6.widestring.mt.debug.lib"
+
+!ELSEIF  "$(CFG)" == "xtests.core - Win32 Release NoX"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "ReleaseNox"
+# PROP BASE Intermediate_Dir "ReleaseNox"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "ReleaseNox"
+# PROP Intermediate_Dir "ReleaseNox"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /W3 /O2 /I "../../../include" /I "$(STLSOFT)/include" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
+# SUBTRACT BASE CPP /Fr
+# ADD CPP /nologo /W3 /O2 /I "../../../include" /I "$(STLSOFT)/include" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
+# SUBTRACT CPP /Fr
+# ADD BASE RSC /l 0xc09 /d "NDEBUG"
+# ADD RSC /l 0xc09 /d "NDEBUG"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo /out:"../../../lib/xtests.0.core.vc6.nox.lib"
+# ADD LIB32 /nologo /out:"../../../lib/xtests.0.core.vc6.nox.lib"
 
 !ENDIF 
 
@@ -160,6 +186,7 @@ LIB32=link.exe -lib
 # Name "xtests.core - Win32 Debug Multithreaded"
 # Name "xtests.core - Win32 Debug pseudoUNIX"
 # Name "xtests.core - Win32 Unicode Debug Multithreaded"
+# Name "xtests.core - Win32 Release NoX"
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
@@ -188,6 +215,8 @@ SOURCE=..\..\..\src\xtests.core.cpp
 # ADD BASE CPP /Zi
 # ADD CPP /Zi
 
+!ELSEIF  "$(CFG)" == "xtests.core - Win32 Release NoX"
+
 !ENDIF 
 
 # End Source File
@@ -212,6 +241,11 @@ SOURCE=..\..\..\src\xtests.internal.string.c
 # PROP Exclude_From_Build 1
 
 !ELSEIF  "$(CFG)" == "xtests.core - Win32 Unicode Debug Multithreaded"
+
+# PROP BASE Exclude_From_Build 1
+# PROP Exclude_From_Build 1
+
+!ELSEIF  "$(CFG)" == "xtests.core - Win32 Release NoX"
 
 # PROP BASE Exclude_From_Build 1
 # PROP Exclude_From_Build 1
