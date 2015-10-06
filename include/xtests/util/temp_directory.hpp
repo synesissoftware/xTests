@@ -122,6 +122,7 @@ class temp_directory
 {
 public: // Types
     typedef char                            char_type;
+    typedef size_t                          size_type;
     typedef temp_directory                  class_type;
 
     enum Flags
@@ -151,6 +152,7 @@ public:
     ~temp_directory() stlsoft_throw_0();
 
 public: // Accessors
+    size_type           size() const;
     char_type const*    c_str() const;
 
 private: // Implementation
@@ -446,6 +448,13 @@ temp_directory::~temp_directory() stlsoft_throw_0()
     {
         fs_traits_type_::remove_directory(m_path.c_str());
     }
+}
+
+inline
+temp_directory::size_type
+temp_directory::size() const
+{
+    return m_path.size();
 }
 
 inline

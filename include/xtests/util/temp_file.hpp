@@ -123,6 +123,7 @@ class temp_file
 {
 public: // Types
     typedef char                            char_type;
+    typedef size_t                          size_type;
     typedef temp_file                       class_type;
 
     enum Flags
@@ -158,6 +159,7 @@ public:
     ~temp_file() stlsoft_throw_0();
 
 public: // Accessors
+    size_type           size() const;
     char_type const*    c_str() const;
 
 private: // Implementation
@@ -468,6 +470,13 @@ temp_file::~temp_file() stlsoft_throw_0()
     {
         fs_traits_type_::delete_file(m_path.c_str());
     }
+}
+
+inline
+temp_file::size_type
+temp_file::size() const
+{
+    return m_path.size();
 }
 
 inline
