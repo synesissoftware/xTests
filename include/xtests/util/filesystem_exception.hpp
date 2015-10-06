@@ -50,8 +50,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_MAJOR      0
 # define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_MINOR      1
-# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_REVISION   1
-# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_EDIT       3
+# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_REVISION   2
+# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_EDIT       4
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -212,6 +212,33 @@ filesystem_exception::filesystem_exception(
 } /* namespace util */
 } /* namespace cpp */
 } /* namespace xtests */
+
+/* /////////////////////////////////////////////////////////////////////////
+ * shims
+ */
+
+namespace stlsoft
+{
+
+	inline
+	char const*
+	c_str_ptr_a(
+		::xtests::cpp::util::filesystem_exception const& x
+	)
+	{
+		return x.what();
+	}
+
+	inline
+	char const*
+	c_str_ptr(
+		::xtests::cpp::util::filesystem_exception const& x
+	)
+	{
+		return c_str_ptr_a(x);
+	}
+
+} /* namespace stlsoft */
 
 /* ////////////////////////////////////////////////////////////////////// */
 

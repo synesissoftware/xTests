@@ -50,8 +50,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MAJOR     0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     1
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  1
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      4
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  2
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      5
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -98,7 +98,9 @@
 # error Operating system not discriminated
 #endif
 
-# include <stlsoft/memory/auto_buffer.hpp>
+#include <stlsoft/memory/auto_buffer.hpp>
+
+#include <stlsoft/shims/access/string/fwd.h>
 
 #include <string>
 
@@ -495,6 +497,70 @@ temp_file::c_str() const
 } /* namespace util */
 } /* namespace cpp */
 } /* namespace xtests */
+
+/* /////////////////////////////////////////////////////////////////////////
+ * shims
+ */
+
+namespace stlsoft
+{
+
+    inline
+    size_t
+    c_str_len_a(
+        ::xtests::cpp::util::temp_file const& t
+    )
+    {
+        return t.size();
+    }
+
+    inline
+    char const*
+    c_str_data_a(
+        ::xtests::cpp::util::temp_file const& t
+    )
+    {
+        return t.c_str();
+    }
+
+    inline
+    char const*
+    c_str_ptr_a(
+        ::xtests::cpp::util::temp_file const& t
+    )
+    {
+        return t.c_str();
+    }
+
+
+    inline
+    size_t
+    c_str_len(
+        ::xtests::cpp::util::temp_file const& t
+    )
+    {
+        return c_str_len_a(t);
+    }
+
+    inline
+    char const*
+    c_str_data(
+        ::xtests::cpp::util::temp_file const& t
+    )
+    {
+        return c_str_data_a(t);
+    }
+
+    inline
+    char const*
+    c_str_ptr(
+        ::xtests::cpp::util::temp_file const& t
+    )
+    {
+        return c_str_ptr_a(t);
+    }
+
+} /* namespace stlsoft */
 
 /* ////////////////////////////////////////////////////////////////////// */
 
