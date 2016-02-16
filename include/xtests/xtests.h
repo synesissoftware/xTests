@@ -3636,9 +3636,9 @@ xtests_test_integer_compare_to_range_(
                 break;
             case    xtestsComparisonNotEqual:
             case    xtestsComparisonApproxNotEqual:
-                if(expected != actual)
+                if(expected == actual)
                 {
-                    return true;
+                    return false; 
                 }
                 break;
             case    xtestsComparisonGreaterThan:
@@ -3673,7 +3673,7 @@ xtests_test_integer_compare_to_range_(
         }
     }
 
-    return false;
+    return true;
 }
 
 template<
