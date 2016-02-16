@@ -1171,7 +1171,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
         __FILE__                                                                                                                \
     ,   __LINE__                                                                                                                \
     ,   XTESTS_GET_FUNCTION_()                                                                                                  \
-    ,   "XTESTS_TEST_INTEGER_EQUAL_ANY_OF(" ## #expected0 ## ", " ## #expected1 ## ", " ## #actual ## ")"                       \
+    ,   "XTESTS_TEST_INTEGER_EQUAL_ANY_OF(" #expected0 ", " #expected1 ", " #actual ")"                       \
     ,   (actual)                                                                                                                \
     ,   (expected0)                                                                                                             \
     ,   (expected1)                                                                                                             \
@@ -1200,7 +1200,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
         __FILE__                                                                                                                \
     ,   __LINE__                                                                                                                \
     ,   XTESTS_GET_FUNCTION_()                                                                                                  \
-    ,   "XTESTS_TEST_INTEGER_EQUAL_ANY_OF(" ## #expected0 ## ", " ## #expected1 ## ", " ## #expected2 ## ", " ## #actual ## ")" \
+    ,   "XTESTS_TEST_INTEGER_EQUAL_ANY_OF(" #expected0 ", " #expected1 ", " #expected2 ", " #actual ")" \
     ,   (actual)                                                                                                                \
     ,   (expected0)                                                                                                             \
     ,   (expected1)                                                                                                             \
