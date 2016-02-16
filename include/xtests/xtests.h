@@ -1097,7 +1097,17 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 # define XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(begin, end, actual)                     \
                                                                                         \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_integer_any_in_range(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(" ## #begin ## ", " ## #end ## ", " ## #actual ## ")", (begin), (end), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))))
+                                                                                        \
+    XTESTS_NS_CPP_QUAL(xtests_test_integer_any_in_range(                                \
+          __FILE__                                                                      \
+    ,     __LINE__                                                                      \
+    ,     XTESTS_GET_FUNCTION_()                                                        \
+    ,     "XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(" #begin ", " #end ", " #actual ")"   \
+    ,     (begin)                                                                       \
+    ,     (end)                                                                         \
+    ,     (actual)                                                                      \
+    ,     XTESTS_NS_C_QUAL(xtestsComparisonEqual)))                                     \
+    )
 
 /** \def XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(begin, end, actual)
  *
@@ -1119,7 +1129,17 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 # define XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(begin, end, actual)                 \
                                                                                         \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_integer_any_in_range(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(" ## #begin ## ", " ## #end ## ", " ## #actual ## ")", (begin), (end), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual))))
+                                                                                        \
+    XTESTS_NS_CPP_QUAL(xtests_test_integer_any_in_range(                                \
+          __FILE__                                                                      \
+    ,     __LINE__                                                                      \
+    ,     XTESTS_GET_FUNCTION_()                                                        \
+    ,     "XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(" #begin ", " #end ", " #actual ")"   \
+    ,     (begin)                                                                       \
+    ,     (end)                                                                         \
+    ,     (actual)                                                                      \
+    ,     XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)))                                  \
+    )
 
 
 #if 0
