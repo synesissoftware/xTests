@@ -4,7 +4,7 @@ xTests - History
 Updated:    1st March 2013
 
 
-1st March 2013 - 0.12.1
+1st March 2013 - 0.17.1
 -----------------------
 
  * added XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL() / XTESTS_TEST_WIDE_STRING_SLICE_EQUAL() macros for testing string slices
