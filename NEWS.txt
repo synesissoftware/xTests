@@ -7,6 +7,8 @@ Updated:    22nd July 2016
 
 News:
 
+  22nd July 2016        -   xTests 0.18.9 released
+
   22nd July 2016        -   xTests 0.18.8 released
 
   7th October 2015      -   xTests 0.18.4 released

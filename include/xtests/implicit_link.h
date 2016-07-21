@@ -61,8 +61,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MAJOR    1
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MINOR    12
-# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_REVISION 1
-# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_EDIT     34
+# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_REVISION 2
+# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_EDIT     35
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -181,6 +181,8 @@
 #    define XTESTS_IMPL_LINK_COMPILER_NAME      "bc59x"
 #   elif (0x0610 == (__BORLANDC__ & 0xfff0))
 #    define XTESTS_IMPL_LINK_COMPILER_NAME      "bc61x"
+#   elif (0x0620 == (__BORLANDC__ & 0xfff0))
+#    define XTESTS_IMPL_LINK_COMPILER_NAME      "bc62x"
 #   else /* ? __BORLANDC__ */
 #    error Unrecognised value of __BORLANDC__
 #   endif /* __BORLANDC__ */
