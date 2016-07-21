@@ -4,11 +4,11 @@
  * Purpose: Implicit linking for the xTests API
  *
  * Created: 3rd March 2003
- * Updated: 7th October 2015
+ * Updated: 22nd July 2016
  *
  * Home:    http://xtests.org/
  *
- * Copyright (c) 2003-2015, Matthew Wilson and Synesis Software
+ * Copyright (c) 2003-2016, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,18 +55,18 @@
 #define XTESTS_INCL_XTESTS_H_IMPLICIT_LINK
 
 /* /////////////////////////////////////////////////////////////////////////
- * Version information
+ * version information
  */
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MAJOR    1
-# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MINOR    11
+# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MINOR    12
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_REVISION 1
-# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_EDIT     33
+# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_EDIT     34
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Includes
+ * includes
  */
 
 #ifndef XTESTS_INCL_XTESTS_H_XTESTS
@@ -76,7 +76,7 @@
 #include <platformstl/platformstl.h>
 
 /* /////////////////////////////////////////////////////////////////////////
- * Helper macros
+ * helper macros
  */
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
@@ -97,7 +97,34 @@
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Implicit linking
+ * feature detection
+ */
+
+# if 0 || \
+     defined(__MT__) || \
+     defined(_REENTRANT) || \
+     0
+#  define XTESTS_IMPLICIT_LINK_MT_
+# endif
+
+# if 0 || \
+     defined(_DLL) || \
+     defined(__DLL) || \
+     0
+#  if !defined(__BORLANDC__)
+#   define XTESTS_IMPLICIT_LINK_DLL_
+#  endif
+# endif
+
+# if 1 && \
+     !defined(NDEBUG) && \
+     defined(_DEBUG) && \
+     1
+#  define XTESTS_IMPLICIT_LINK_DEBUG_
+# endif
+
+/* /////////////////////////////////////////////////////////////////////////
+ * implicit linking
  */
 
 #if defined(_WIN32) || \
@@ -117,6 +144,7 @@
      defined(XTESTS_NO_IMPLICIT_LINK)
 #  undef XTESTS_IMPLICIT_LINK_SUPPORT
 # endif /* XTESTS_IMPLICIT_LINK_SUPPORT && XTESTS_NO_IMPLICIT_LINK */
+
 
 # if defined(XTESTS_IMPLICIT_LINK_SUPPORT)
 
@@ -263,11 +291,8 @@
 
   /* threading tag */
 
-#  if defined(__MT__) || \
-      defined(_REENTRANT) || \
-      defined(_MT)
-#   if defined(_DLL) || \
-       defined(__DLL)
+#  ifdef XTESTS_IMPLICIT_LINK_MT_
+#   ifdef XTESTS_IMPLICIT_LINK_DLL_
 #    define XTESTS_IMPL_LINK_THREADING_TAG      ".dll"
 #   else /* ? dll */
 #    define XTESTS_IMPL_LINK_THREADING_TAG      ".mt"
@@ -288,8 +313,7 @@
 
   /* debug tag */
 
-#  if !defined(NDEBUG) && \
-      defined(_DEBUG)
+#  ifdef XTESTS_IMPLICIT_LINK_DEBUG_
 #   define XTESTS_IMPL_LINK_DEBUG_TAG           ".debug"
 #  else /* ? _DEBUG */
 #   define XTESTS_IMPL_LINK_DEBUG_TAG           ""

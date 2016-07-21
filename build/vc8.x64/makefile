@@ -5,61 +5,75 @@
 #           compiler, on Win64
 #
 # Created:  16th December 2007
-# Updated:  7th October 2015
+# Updated:  13th July 2016
 #
 ############################################################################
 
 
 ############################################################################
-# Environment check
-#
+# environment check
 
 !ifndef STLSOFT
 !error STLSOFT must be defined
 !endif # !STLSOFT
 
+
 ############################################################################
-# Symbols
+# symbols
 
 ########################################
-# Project & compiler version
+# project & compiler version
 
-COMP_TAG			=	vc8
+COMP_TAG            =   vc8
 ARCH_TAG            =   .x64
-OS_TAG				=   
-PROJ_TAG			=	xtests
-PROJ_VER_MAJOR		=   0
-PROJ_TAG_VER		=   $(PROJ_TAG).$(PROJ_VER_MAJOR)
-COMP_ARCH_OS_TAG	=	$(COMP_TAG)$(OS_TAG)$(ARCH_TAG)
+OS_TAG              =   
+PROJ_TAG            =   xtests
+PROJ_VER_MAJOR      =   0
+PROJ_MOD_TAG        =   core
+PROJ_TAG_VER        =   $(PROJ_TAG).$(PROJ_VER_MAJOR).$(PROJ_MOD_TAG)
+COMP_ARCH_OS_TAG    =   $(COMP_TAG)$(OS_TAG)$(ARCH_TAG)
 
-SHWILD_VER_MAJOR	=	0
-SHWILD_TAG_VER		=	shwild.$(SHWILD_VER_MAJOR)
+########################################
+# dependencies
 
-UNIXEM_VER_MAJOR	=	1
+SHWILD_VER_MAJOR    =   0
+SHWILD_TAG_VER      =   shwild.$(SHWILD_VER_MAJOR)
+
+XCOVER_VER_MAJOR    =   0
+XCOVER_TAG_VER      =   xcover.$(SHWILD_VER_MAJOR)
+
+UNIXEM_VER_MAJOR    =   1
 UNIXEM_TAG_VER      =   unixem.$(XTESTS_VER_MAJOR)
 
-PROJ_MAKEFILE_NAME	=	makefile
+PROJ_MAKEFILE_NAME  =   makefile
 
 ########################################
-# Testing verbosity
+# testing verbosity
 
-TEST_VERBOSITY		=	2
+TEST_VERBOSITY      =   2
+
+
+############################################################################
+# directories
 
 ########################################
-# Directories
+# project directories
 
-PROJ_BASE_DIR			=   ..\..
-PROJ_BIN_DIR			=   $(PROJ_BASE_DIR)\bin
-PROJ_INCLUDE_DIR		=   $(PROJ_BASE_DIR)\include
-PROJ_LIB_DIR			=   $(PROJ_BASE_DIR)\lib
-PROJ_OBJ_DIR			=   .
-PROJ_SRC_DIR			=   $(PROJ_BASE_DIR)\src
-PROJ_EXAMPLES_DIR		=   $(PROJ_BASE_DIR)\examples
-PROJ_SAMPLES_DIR		=   $(PROJ_BASE_DIR)\samples
-PROJ_TEST_ROOT_DIR		=   $(PROJ_BASE_DIR)\test
-PROJ_TEST_COMPONENT_DIR	=   $(PROJ_TEST_ROOT_DIR)\component
-PROJ_TEST_SCRATCH_DIR	=   $(PROJ_TEST_ROOT_DIR)\scratch
-PROJ_TEST_UNIT_DIR		=   $(PROJ_TEST_ROOT_DIR)\unit
+PROJ_BASE_DIR           =   ..\..
+PROJ_BIN_DIR            =   $(PROJ_BASE_DIR)\bin
+PROJ_INCLUDE_DIR        =   $(PROJ_BASE_DIR)\include
+PROJ_LIB_DIR            =   $(PROJ_BASE_DIR)\lib
+PROJ_OBJ_DIR            =   .
+PROJ_SRC_DIR            =   $(PROJ_BASE_DIR)\src
+PROJ_EXAMPLES_DIR       =   $(PROJ_BASE_DIR)\examples
+PROJ_SAMPLES_DIR        =   $(PROJ_BASE_DIR)\samples
+PROJ_TEST_ROOT_DIR      =   $(PROJ_BASE_DIR)\test
+PROJ_TEST_COMPONENT_DIR =   $(PROJ_TEST_ROOT_DIR)\component
+PROJ_TEST_SCRATCH_DIR   =   $(PROJ_TEST_ROOT_DIR)\scratch
+PROJ_TEST_UNIT_DIR      =   $(PROJ_TEST_ROOT_DIR)\unit
+
+########################################
+# 3rd-party directories
 
 SHWILD_PROJ_INCLUDE		=	
 !ifdef XTESTS_SHWILD_BASE_DIR
@@ -71,203 +85,46 @@ SHWILD_INCLUDE_DIR		=   $(PROJ_BASE_DIR)\include
 SHWILD_SRC_DIR			=   $(PROJ_SRC_DIR)\shwild
 !endif # !XTESTS_SHWILD_BASE_DIR
 
-########################################
+############################################################################
 # tools
 
-CC						=   cl
-CPPC					=   cl
-AR						=   lib
-LD						=   link
-RM						=   del /f
-CP						=   copy
-RC						=   rc
+CC                      =   cl
+CPPC                    =   cl
+AR                      =   lib
+LD                      =   link
+RM                      =   del /f
+CP                      =   copy
+RC                      =   rc
 
+############################################################
+# compiler
 
-
-
-# Lib
-
-LIBS_LEADER 			=	
-
-# lib paths
-
-ENV_LIBPATHS		=
-COMMON_LIBPATHS			=
-
-
-LIBPATHS=\
- $(LIBS_LEADER)\
- $(COMMON_LIBPATHS)\
- $(ENV_LIBPATHS)\
- \
-
-
-# lib names
-
-TARGET_LIB_MT_D = \
- kernel32.lib user32.lib advapi32.lib uuid.lib wininet.lib ole32.lib oleaut32.lib \
- \
-
-TARGET_LIB_DLL_D = \
- kernel32.lib user32.lib advapi32.lib uuid.lib wininet.lib ole32.lib oleaut32.lib \
- \
-
-TARGET_LIB_DLL_R = \
- kernel32.lib user32.lib advapi32.lib uuid.lib wininet.lib ole32.lib oleaut32.lib \
- \
-
-TARGET_LIB_MT_R = \
- kernel32.lib user32.lib advapi32.lib uuid.lib wininet.lib ole32.lib oleaut32.lib \
- \
-
-
-# #defines
-
-COMMON_DEFS 		=	-DWIN64
-
-CUSTOM_DEFS			=	
-
+########################################
 # includes
 
-COMMON_INCLUDES		=	
+INCLUDES_LEADER         =   
 
+PROJ_INCLUDE            =   -I$(PROJ_INCLUDE_DIR)
 
+COMMON_INCLUDES         =
 
-# CC flags
-
-CC_F_NOLOGO           =   -nologo
-CC_F_COMPILE_ONLY     =   -c
-CC_F_WARNING_MAX      =   -W4
-CC_F_WARNING_ERR      =   -WX
-CC_F_MINIMUM_SIZE     =   -O1
-CC_F_MAXIMUM_SPEED	=	-O2
-
-CC_FLAGS_BASE =\
- $(CC_F_NOLOGO)\
- $(CC_F_COMPILE_ONLY)\
- $(CC_F_WARNING_MAX)\
- $(CC_F_WARNING_ERR)\
+STLSOFT_INCLUDES		=\
+ -I"$(STLSOFT)\include"\
  \
 
-CC_FLAGS_MT_D =\
- $(CC_FLAGS_BASE)\
+THIRDPARTY_INCLUDES		=\
+ $(SHWILD_PROJ_INCLUDE)\
  \
 
-CC_FLAGS_DLL_D =\
- $(CC_FLAGS_BASE)\
- \
-
-CC_FLAGS_DLL_R =\
- $(CC_FLAGS_BASE)\
- \
-
-CC_FLAGS_MT_R =\
- $(CC_FLAGS_BASE)\
- \
-
-
-# CPPC flags
-
-CPPC_F_NOLOGO           =   -nologo
-CPPC_F_COMPILE_ONLY     =   -c
-CPPC_F_WARNING_MAX      =   -W4 -wd4800
-CPPC_F_WARNING_ERR      =   -WX
-CPPC_F_EXCEPTIONS_ON	=	-EHsc
-CPPC_F_EXCEPTIONS_OFF	=	-wd4530
-CPPC_F_EXCEPTIONS		=	
-CPPC_F_RTTI_ON			=	-GR
-CPPC_F_RTTI_OFF 		=	-GR-
-CPPC_F_RTTI				=	
-CPPC_F_MINIMUM_SIZE     =   -O1
-CPPC_F_MAXIMUM_SPEED	=	-O2
-
-CPPC_FLAGS_BASE =\
- $(CPPC_F_NOLOGO)\
- $(CPPC_F_COMPILE_ONLY)\
- $(CPPC_F_WARNING_MAX)\
- $(CPPC_F_WARNING_ERR)\
- $(CPPC_F_EXCEPTIONS)\
- $(CPPC_F_RTTI)\
- \
-
-CPPC_FLAGS_MT_D =\
- $(CPPC_FLAGS_BASE)\
- \
-
-CPPC_FLAGS_DLL_D =\
- $(CPPC_FLAGS_BASE)\
- \
-
-CPPC_FLAGS_DLL_R =\
- $(CPPC_FLAGS_BASE)\
- \
-
-CPPC_FLAGS_MT_R =\
- $(CPPC_FLAGS_BASE)\
- \
-
-
-# CC defines
-
-CC_DEFS_BASE =\
- $(COMMON_DEFS)\
- $(CUSTOM_DEFS)\
- \
-
-
-CC_DEFS_MT_D =\
- $(CC_DEFS_BASE)\
- \
-
-CC_DEFS_DLL_D =\
- $(CC_DEFS_BASE)\
- \
-
-CC_DEFS_DLL_R =\
- $(CC_DEFS_BASE)\
- \
-
-CC_DEFS_MT_R =\
- $(CC_DEFS_BASE)\
- \
-
-
-# CPPC defines
-
-CPPC_DEFS_BASE =\
- $(COMMON_DEFS)\
- $(CUSTOM_DEFS)\
- \
-
-
-CPPC_DEFS_MT_D =\
- $(CPPC_DEFS_BASE)\
- \
-
-CPPC_DEFS_DLL_D =\
- $(CPPC_DEFS_BASE)\
- \
-
-CPPC_DEFS_DLL_R =\
- $(CPPC_DEFS_BASE)\
- \
-
-CPPC_DEFS_MT_R =\
- $(CPPC_DEFS_BASE)\
- \
-
-
-
-# CC includes
+# CC
 
 CC_INCLUDES_BASE =\
- \
- -I$(PROJ_INCLUDE_DIR)\
- $(SHWILD_PROJ_INCLUDE)\
- -I$(STLSOFT)\include\
+ $(INCLUDES_LEADER)\
+ $(PROJ_INCLUDE)\
  $(COMMON_INCLUDES)\
+ $(STLSOFT_INCLUDES)\
+ $(THIRDPARTY_INCLUDES)\
  \
-
 
 CC_INCLUDES_MT_D =\
  $(CC_INCLUDES_BASE)\
@@ -284,7 +141,6 @@ CC_INCLUDES_DLL_R =\
 CC_INCLUDES_MT_R =\
  $(CC_INCLUDES_BASE)\
  \
-
 
 
 CC_SHWILD_INCLUDES_BASE =\
@@ -329,16 +185,19 @@ CC_XTESTS_INCLUDES_MT_R =\
  \
 
 
-# CPPC includes
+CC_INCLUDES_TEST=\
+ $(CC_INCLUDES_BASE)\
+ \
+
+# CPPC
 
 CPPC_INCLUDES_BASE =\
- \
- -I$(PROJ_INCLUDE_DIR)\
- $(SHWILD_PROJ_INCLUDE)\
- -I$(STLSOFT)\include\
+ $(INCLUDES_LEADER)\
+ $(PROJ_INCLUDE)\
  $(COMMON_INCLUDES)\
+ $(STLSOFT_INCLUDES)\
+ $(THIRDPARTY_INCLUDES)\
  \
-
 
 CPPC_INCLUDES_MT_D =\
  $(CPPC_INCLUDES_BASE)\
@@ -355,7 +214,6 @@ CPPC_INCLUDES_DLL_R =\
 CPPC_INCLUDES_MT_R =\
  $(CPPC_INCLUDES_BASE)\
  \
-
 
 
 CPPC_SHWILD_INCLUDES_BASE =\
@@ -400,6 +258,161 @@ CPPC_XTESTS_INCLUDES_MT_R =\
  \
 
 
+CPPC_INCLUDES_TEST=\
+ $(CPPC_INCLUDES_BASE)\
+ \
+
+########################################
+# defines
+
+CMN_DEF_NO_IMPLICIT_LINK =\
+ -DXTESTS_NO_IMPLICIT_LINK\
+ \
+
+COMMON_DEFS             =   -DWIN64
+
+CUSTOM_DEFS             =   
+
+# CC
+
+CC_CUSTOM_DEFS          =   $(CUSTOM_DEFS)
+
+CC_DEFS_BASE =\
+ $(CC_CUSTOM_DEFS)\
+ $(COMMON_DEFS)\
+ \
+
+CC_DEFS_MT_D =\
+ $(CC_DEFS_BASE)\
+ \
+
+CC_DEFS_DLL_D =\
+ $(CC_DEFS_BASE)\
+ \
+
+CC_DEFS_DLL_R =\
+ $(CC_DEFS_BASE)\
+ \
+
+CC_DEFS_MT_R =\
+ $(CC_DEFS_BASE)\
+ \
+
+
+# CPPC
+
+CPPC_CUSTOM_DEFS        =   $(CUSTOM_DEFS)
+
+CPPC_DEFS_BASE =\
+ $(CPPC_CUSTOM_DEFS)\
+ $(COMMON_DEFS)\
+ \
+
+CPPC_DEFS_MT_D =\
+ $(CPPC_DEFS_BASE)\
+ \
+
+CPPC_DEFS_DLL_D =\
+ $(CPPC_DEFS_BASE)\
+ \
+
+CPPC_DEFS_DLL_R =\
+ $(CPPC_DEFS_BASE)\
+ \
+
+CPPC_DEFS_MT_R =\
+ $(CPPC_DEFS_BASE)\
+ \
+
+
+########################################
+# flags
+
+# CC
+
+CC_F_NOLOGO             =   -nologo
+CC_F_COMPILE_ONLY       =   -c
+CC_F_FORCE_INCLUDE      =   
+CC_F_WARNING_MAX        =   -W4
+CC_F_WARNING_ERR        =   -WX
+CC_F_MINIMUM_SIZE       =   -O1
+CC_F_MAXIMUM_SPEED      =   -O2
+
+CC_TOOL_FLAGS           =   
+
+CC_FLAGS_BASE =\
+ $(CC_TOOL_FLAGS)\
+ $(CC_F_NOLOGO)\
+ $(CC_F_COMPILE_ONLY)\
+ $(CC_F_FORCE_INCLUDE)\
+ $(CC_F_WARNING_MAX)\
+ $(CC_F_WARNING_ERR)\
+ \
+
+CC_FLAGS_MT_D =\
+ $(CC_FLAGS_BASE)\
+ \
+
+CC_FLAGS_DLL_D =\
+ $(CC_FLAGS_BASE)\
+ \
+
+CC_FLAGS_DLL_R =\
+ $(CC_FLAGS_BASE)\
+ \
+
+CC_FLAGS_MT_R =\
+ $(CC_FLAGS_BASE)\
+ \
+
+#CPPC
+
+CPPC_F_NOLOGO           =   -nologo
+CPPC_F_COMPILE_ONLY     =   -c
+CPPC_F_FORCE_INCLUDE    =   
+CPPC_F_WARNING_MAX      =   -W4 -wd4800
+CPPC_F_WARNING_ERR      =   -WX
+CPPC_F_EXCEPTIONS_ON    =   -EHsc
+CPPC_F_EXCEPTIONS_OFF   =   -wd4530
+CPPC_F_EXCEPTIONS       =   
+CPPC_F_RTTI_ON          =   -GR
+CPPC_F_RTTI_OFF         =   -GR-
+CPPC_F_RTTI             =   
+CPPC_F_MINIMUM_SIZE     =   -O1
+CPPC_F_MAXIMUM_SPEED    =   -O2
+
+CPPC_TOOL_FLAGS         =   
+
+CPPC_FLAGS_BASE =\
+ $(CPPC_TOOL_FLAGS)\
+ $(CPPC_F_NOLOGO)\
+ $(CPPC_F_COMPILE_ONLY)\
+ $(CPPC_F_FORCE_INCLUDE)\
+ $(CPPC_F_WARNING_MAX)\
+ $(CPPC_F_WARNING_ERR)\
+ $(CPPC_F_EXCEPTIONS)\
+ $(CPPC_F_RTTI)\
+ \
+
+CPPC_FLAGS_MT_D =\
+ $(CPPC_FLAGS_BASE)\
+ \
+
+CPPC_FLAGS_DLL_D =\
+ $(CPPC_FLAGS_BASE)\
+ \
+
+CPPC_FLAGS_DLL_R =\
+ $(CPPC_FLAGS_BASE)\
+ \
+
+CPPC_FLAGS_MT_R =\
+ $(CPPC_FLAGS_BASE)\
+ \
+
+
+########################################
+# arguments
 
 # CC args (= flags + defines + includes)
 
@@ -407,26 +420,50 @@ CC_ARGS_MT_D=\
  $(CC_FLAGS_MT_D)\
  $(CPPC_F_EXCEPTIONS_ON) $(CPPC_F_RTTI_ON) -MTd -D_DEBUG -Zi -Fd$*.pdb\
  $(CC_DEFS_MT_D)\
- -DXTESTS_NO_IMPLICIT_LINK\
+ $(CMN_DEF_NO_IMPLICIT_LINK)\
  $(CC_INCLUDES_MT_D)
+CC_ARGS_MT_D_TEST=\
+ $(CC_FLAGS_MT_D)\
+ $(CPPC_F_EXCEPTIONS_ON) $(CPPC_F_RTTI_ON) -MTd -D_DEBUG -Zi -Fd$*.pdb\
+ $(CC_DEFS_MT_D)\
+ $(CMN_DEF_NO_IMPLICIT_LINK)\
+ $(CC_INCLUDES_TEST)
 CC_ARGS_DLL_D=\
  $(CC_FLAGS_DLL_D)\
  $(CPPC_F_EXCEPTIONS_ON) $(CPPC_F_RTTI_ON) -MDd -D_DEBUG -Zi -Fd$*.pdb $(CC_F_MAXIMUM_SPEED) -D_AFXDLL\
  $(CC_DEFS_DLL_D)\
- -DXTESTS_NO_IMPLICIT_LINK\
+ $(CMN_DEF_NO_IMPLICIT_LINK)\
  $(CC_INCLUDES_DLL_D)
+CC_ARGS_DLL_D_TEST=\
+ $(CC_FLAGS_DLL_D)\
+ $(CPPC_F_EXCEPTIONS_ON) $(CPPC_F_RTTI_ON) -MDd -D_DEBUG -Zi -Fd$*.pdb $(CC_F_MAXIMUM_SPEED) -D_AFXDLL\
+ $(CC_DEFS_DLL_D)\
+ $(CMN_DEF_NO_IMPLICIT_LINK)\
+ $(CC_INCLUDES_TEST)
 CC_ARGS_DLL_R=\
  $(CC_FLAGS_DLL_R)\
  $(CPPC_F_EXCEPTIONS_ON) $(CPPC_F_RTTI_ON) -MD -DNDEBUG $(CC_F_MAXIMUM_SPEED) -D_AFXDLL\
  $(CC_DEFS_DLL_R)\
- -DXTESTS_NO_IMPLICIT_LINK\
+ $(CMN_DEF_NO_IMPLICIT_LINK)\
  $(CC_INCLUDES_DLL_R)
+CC_ARGS_DLL_R_TEST=\
+ $(CC_FLAGS_DLL_R)\
+ $(CPPC_F_EXCEPTIONS_ON) $(CPPC_F_RTTI_ON) -MD -DNDEBUG $(CC_F_MAXIMUM_SPEED) -D_AFXDLL\
+ $(CC_DEFS_DLL_R)\
+ $(CMN_DEF_NO_IMPLICIT_LINK)\
+ $(CC_INCLUDES_TEST)
 CC_ARGS_MT_R=\
  $(CC_FLAGS_MT_R)\
  $(CPPC_F_EXCEPTIONS_ON) $(CPPC_F_RTTI_ON) -MT -DNDEBUG $(CC_F_MAXIMUM_SPEED)\
  $(CC_DEFS_MT_R)\
- -DXTESTS_NO_IMPLICIT_LINK\
+ $(CMN_DEF_NO_IMPLICIT_LINK)\
  $(CC_INCLUDES_MT_R)
+CC_ARGS_MT_R_TEST=\
+ $(CC_FLAGS_MT_R)\
+ $(CPPC_F_EXCEPTIONS_ON) $(CPPC_F_RTTI_ON) -MT -DNDEBUG $(CC_F_MAXIMUM_SPEED)\
+ $(CC_DEFS_MT_R)\
+ $(CMN_DEF_NO_IMPLICIT_LINK)\
+ $(CC_INCLUDES_TEST)
 
 # CPPC args (= flags + defines + includes)
 
@@ -434,39 +471,63 @@ CPPC_ARGS_MT_D=\
  $(CPPC_FLAGS_MT_D)\
  $(CPPC_F_EXCEPTIONS_ON) $(CPPC_F_RTTI_ON) -MTd -D_DEBUG -Zi -Fd$*.pdb\
  $(CPPC_DEFS_MT_D)\
- -DXTESTS_NO_IMPLICIT_LINK\
+ $(CMN_DEF_NO_IMPLICIT_LINK)\
  $(CPPC_INCLUDES_MT_D)
+CPPC_ARGS_MT_D_TEST=\
+ $(CPPC_FLAGS_MT_D)\
+ $(CPPC_F_EXCEPTIONS_ON) $(CPPC_F_RTTI_ON) -MTd -D_DEBUG -Zi -Fd$*.pdb\
+ $(CPPC_DEFS_MT_D)\
+ $(CPPC_INCLUDES_TEST)
 CPPC_ARGS_DLL_D=\
  $(CPPC_FLAGS_DLL_D)\
  $(CPPC_F_EXCEPTIONS_ON) $(CPPC_F_RTTI_ON) -MDd -D_DEBUG -Zi -Fd$*.pdb $(CPPC_F_MAXIMUM_SPEED) -D_AFXDLL\
  $(CPPC_DEFS_DLL_D)\
- -DXTESTS_NO_IMPLICIT_LINK\
+ $(CMN_DEF_NO_IMPLICIT_LINK)\
  $(CPPC_INCLUDES_DLL_D)
+CPPC_ARGS_DLL_D_TEST=\
+ $(CPPC_FLAGS_DLL_D)\
+ $(CPPC_F_EXCEPTIONS_ON) $(CPPC_F_RTTI_ON) -MDd -D_DEBUG -Zi -Fd$*.pdb $(CPPC_F_MAXIMUM_SPEED) -D_AFXDLL\
+ $(CPPC_DEFS_DLL_D)\
+ $(CPPC_INCLUDES_TEST)
 CPPC_ARGS_DLL_R=\
  $(CPPC_FLAGS_DLL_R)\
  $(CPPC_F_EXCEPTIONS_ON) $(CPPC_F_RTTI_ON) -MD -DNDEBUG $(CPPC_F_MAXIMUM_SPEED) -D_AFXDLL\
  $(CPPC_DEFS_DLL_R)\
- -DXTESTS_NO_IMPLICIT_LINK\
+ $(CMN_DEF_NO_IMPLICIT_LINK)\
  $(CPPC_INCLUDES_DLL_R)
+CPPC_ARGS_DLL_R_TEST=\
+ $(CPPC_FLAGS_DLL_R)\
+ $(CPPC_F_EXCEPTIONS_ON) $(CPPC_F_RTTI_ON) -MD -DNDEBUG $(CPPC_F_MAXIMUM_SPEED) -D_AFXDLL\
+ $(CPPC_DEFS_DLL_R)\
+ $(CPPC_INCLUDES_TEST)
 CPPC_ARGS_MT_R=\
  $(CPPC_FLAGS_MT_R)\
  $(CPPC_F_EXCEPTIONS_ON) $(CPPC_F_RTTI_ON) -MT -DNDEBUG $(CPPC_F_MAXIMUM_SPEED)\
  $(CPPC_DEFS_MT_R)\
- -DXTESTS_NO_IMPLICIT_LINK\
+ $(CMN_DEF_NO_IMPLICIT_LINK)\
  $(CPPC_INCLUDES_MT_R)
+CPPC_ARGS_MT_R_TEST=\
+ $(CPPC_FLAGS_MT_R)\
+ $(CPPC_F_EXCEPTIONS_ON) $(CPPC_F_RTTI_ON) -MT -DNDEBUG $(CPPC_F_MAXIMUM_SPEED)\
+ $(CPPC_DEFS_MT_R)\
+ $(CPPC_INCLUDES_TEST)
 
+############################################################
+# archiver
 
+AR_F_NOLOGO             =   -nologo
 
-# AR args
+AR_ARGS                 =   -nologo
 
-AR_ARGS 			=	-nologo
+############################################################
+# linker
 
+########################################
+# flags
 
-# LD flags
+LD_F_NOLOGO             =   -nologo
 
-LD_F_NOLOGO				=   -nologo
-
-LD_FLAGS_BASE =\
+LD_FLAGS_BASE           =\
  $(LD_F_NOLOGO)\
  \
 
@@ -487,43 +548,54 @@ LD_FLAGS_MT_R =\
  \
 
 
-# LD includes
+########################################
+# paths
 
-LD_INCLUDES_BASE =\
+LIBPATHS_ENV            =
+
+LIBPATHS_COMMON         =
+
+LIBPATHS_3PTY           =\
+ \
+
+LIBPATHS=\
+ $(LIBPATHS_COMMON)\
+ $(LIBPATHS_3PTY)\
+ $(LIBPATHS_ENV)\
+ \
+
+LIBPATHS_TEST =\
  $(LIBPATHS)\
+ -libpath:$(OPENRJ_ROOT)\lib\
  \
 
-LD_INCLUDES_MT_D =\
- $(LD_INCLUDES_BASE)\
- \
+########################################
+# arguments
 
-LD_INCLUDES_DLL_D =\
- $(LD_INCLUDES_BASE)\
- \
-
-LD_INCLUDES_DLL_R =\
- $(LD_INCLUDES_BASE)\
- \
-
-LD_INCLUDES_MT_R =\
- $(LD_INCLUDES_BASE)\
- \
-
-
-# LD args
-
-LD_ARGS_MT_D= $(LD_FLAGS_MT_D)  $(LD_INCLUDES_MT_D)
-LD_ARGS_DLL_D= $(LD_FLAGS_DLL_D)  $(LD_INCLUDES_DLL_D)
-LD_ARGS_DLL_R= $(LD_FLAGS_DLL_R)  $(LD_INCLUDES_DLL_R)
-LD_ARGS_MT_R= $(LD_FLAGS_MT_R)  $(LD_INCLUDES_MT_R)
+LD_ARGS_MT_D      =    $(LD_FLAGS_MT_D) $(LIBPATHS)
+LD_ARGS_MT_D_TEST =    $(LD_FLAGS_MT_D) $(LIBPATHS_TEST)
+LD_ARGS_DLL_D      =    $(LD_FLAGS_DLL_D) $(LIBPATHS)
+LD_ARGS_DLL_D_TEST =    $(LD_FLAGS_DLL_D) $(LIBPATHS_TEST)
+LD_ARGS_DLL_R      =    $(LD_FLAGS_DLL_R) $(LIBPATHS)
+LD_ARGS_DLL_R_TEST =    $(LD_FLAGS_DLL_R) $(LIBPATHS_TEST)
+LD_ARGS_MT_R      =    $(LD_FLAGS_MT_R) $(LIBPATHS)
+LD_ARGS_MT_R_TEST =    $(LD_FLAGS_MT_R) $(LIBPATHS_TEST)
 
 ############################################################################
-# Headers
+# names
 
-CORE_HEADERS=\
- $(PROJ_INCLUDE_DIR)\flecxx\xtests\xtests.h\
- $(PROJ_INCLUDE_DIR)\flecxx\xtests\implicit_link.h\
- $(PROJ_INCLUDE_DIR)\flecxx\xtests\internal\safestr.h\
+############################################################
+# source
+
+SRCS_HDR_CORE=\
+ $(PROJ_INCLUDE_DIR)\xtests\xtests.h\
+ $(PROJ_INCLUDE_DIR)\xtests\implicit_link.h\
+ $(PROJ_INCLUDE_DIR)\xtests\internal\safestr.h\
+ \
+ $(PROJ_INCLUDE_DIR)\xtests\util\filesystem_exception.hpp\
+ $(PROJ_INCLUDE_DIR)\xtests\util\path.hpp\
+ $(PROJ_INCLUDE_DIR)\xtests\util\temp_directory.hpp\
+ $(PROJ_INCLUDE_DIR)\xtests\util\temp_file.hpp\
  \
 
 SHWILD_HEADERS=\
@@ -531,29 +603,133 @@ SHWILD_HEADERS=\
  $(SHWILD_INCLUDE_DIR)\shwild\shwild.hpp\
  \
 
-############################################################################
-# Names
-
 ############################################################
-# Targets
+# objects / program-databases
 
 ########################################
-# Libraries
+# libraries
 
 # core
-LIB_CORE_MT_D			=	$(PROJ_LIB_DIR)\$(PROJ_TAG_VER).core.$(COMP_ARCH_OS_TAG).mt.debug.lib
-LIB_CORE_DLL_D			=	$(PROJ_LIB_DIR)\$(PROJ_TAG_VER).core.$(COMP_ARCH_OS_TAG).dll.debug.lib
-LIB_CORE_DLL_R			=	$(PROJ_LIB_DIR)\$(PROJ_TAG_VER).core.$(COMP_ARCH_OS_TAG).dll.lib
-LIB_CORE_MT_R			=	$(PROJ_LIB_DIR)\$(PROJ_TAG_VER).core.$(COMP_ARCH_OS_TAG).mt.lib
+
+OBJ_lib_core_MT_D         =   $(PROJ_OBJ_DIR)\core.mt.debug.obj
+PDB_lib_core_MT_D         =   $(PROJ_OBJ_DIR)\core.mt.debug.pdb
+
+OBJS_CORE_MT_D=\
+ $(OBJ_lib_core_MT_D)\
+ \
+
+PDBS_CORE_MT_D=\
+ $(PDB_lib_core_MT_D)\
+ \
+
+OBJ_lib_core_DLL_D         =   $(PROJ_OBJ_DIR)\core.dll.debug.obj
+PDB_lib_core_DLL_D         =   $(PROJ_OBJ_DIR)\core.dll.debug.pdb
+
+OBJS_CORE_DLL_D=\
+ $(OBJ_lib_core_DLL_D)\
+ \
+
+PDBS_CORE_DLL_D=\
+ $(PDB_lib_core_DLL_D)\
+ \
+
+OBJ_lib_core_DLL_R         =   $(PROJ_OBJ_DIR)\core.dll.obj
+
+OBJS_CORE_DLL_R=\
+ $(OBJ_lib_core_DLL_R)\
+ \
+
+OBJ_lib_core_MT_R         =   $(PROJ_OBJ_DIR)\core.mt.obj
+
+OBJS_CORE_MT_R=\
+ $(OBJ_lib_core_MT_R)\
+ \
+
+
+OBJS_CORE=\
+ $(OBJS_CORE_MT_D)\
+ $(OBJS_CORE_DLL_D)\
+ $(OBJS_CORE_DLL_R)\
+ $(OBJS_CORE_MT_R)\
+ \
 
 # shwild - testing only
-LIB_SHWILD_MT_D			=	$(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).mt.debug.lib
-LIB_SHWILD_DLL_D			=	$(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).dll.debug.lib
-LIB_SHWILD_DLL_R			=	$(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).dll.lib
-LIB_SHWILD_MT_R			=	$(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).mt.lib
+
+OBJ_shw_api_MT_D          =   $(PROJ_OBJ_DIR)\shwild.api.mt.debug.obj
+OBJ_shw_matches_MT_D      =   $(PROJ_OBJ_DIR)\shwild.matches.mt.debug.obj
+OBJ_shw_pattern_MT_D      =   $(PROJ_OBJ_DIR)\shwild.pattern.mt.debug.obj
+PDB_shw_api_MT_D          =   $(PROJ_OBJ_DIR)\shwild.api.mt.debug.pdb
+PDB_shw_matches_MT_D      =   $(PROJ_OBJ_DIR)\shwild.matches.mt.debug.pdb
+PDB_shw_pattern_MT_D      =   $(PROJ_OBJ_DIR)\shwild.pattern.mt.debug.pdb
+
+OBJS_SHWILD_MT_D=\
+ $(OBJ_shw_api_MT_D)\
+ $(OBJ_shw_matches_MT_D)\
+ $(OBJ_shw_pattern_MT_D)\
+ \
+
+PDBS_SHWILD_MT_D=\
+ $(PDB_shw_api_MT_D)\
+ $(PDB_shw_matches_MT_D)\
+ $(PDB_shw_pattern_MT_D)\
+ \
+
+OBJ_shw_api_DLL_D          =   $(PROJ_OBJ_DIR)\shwild.api.dll.debug.obj
+OBJ_shw_matches_DLL_D      =   $(PROJ_OBJ_DIR)\shwild.matches.dll.debug.obj
+OBJ_shw_pattern_DLL_D      =   $(PROJ_OBJ_DIR)\shwild.pattern.dll.debug.obj
+PDB_shw_api_DLL_D          =   $(PROJ_OBJ_DIR)\shwild.api.dll.debug.pdb
+PDB_shw_matches_DLL_D      =   $(PROJ_OBJ_DIR)\shwild.matches.dll.debug.pdb
+PDB_shw_pattern_DLL_D      =   $(PROJ_OBJ_DIR)\shwild.pattern.dll.debug.pdb
+
+OBJS_SHWILD_DLL_D=\
+ $(OBJ_shw_api_DLL_D)\
+ $(OBJ_shw_matches_DLL_D)\
+ $(OBJ_shw_pattern_DLL_D)\
+ \
+
+PDBS_SHWILD_DLL_D=\
+ $(PDB_shw_api_DLL_D)\
+ $(PDB_shw_matches_DLL_D)\
+ $(PDB_shw_pattern_DLL_D)\
+ \
+
+OBJ_shw_api_DLL_R          =   $(PROJ_OBJ_DIR)\shwild.api.dll.obj
+OBJ_shw_matches_DLL_R      =   $(PROJ_OBJ_DIR)\shwild.matches.dll.obj
+OBJ_shw_pattern_DLL_R      =   $(PROJ_OBJ_DIR)\shwild.pattern.dll.obj
+
+OBJS_SHWILD_DLL_R=\
+ $(OBJ_shw_api_DLL_R)\
+ $(OBJ_shw_matches_DLL_R)\
+ $(OBJ_shw_pattern_DLL_R)\
+ \
+
+OBJ_shw_api_MT_R          =   $(PROJ_OBJ_DIR)\shwild.api.mt.obj
+OBJ_shw_matches_MT_R      =   $(PROJ_OBJ_DIR)\shwild.matches.mt.obj
+OBJ_shw_pattern_MT_R      =   $(PROJ_OBJ_DIR)\shwild.pattern.mt.obj
+
+OBJS_SHWILD_MT_R=\
+ $(OBJ_shw_api_MT_R)\
+ $(OBJ_shw_matches_MT_R)\
+ $(OBJ_shw_pattern_MT_R)\
+ \
+
+
+OBJS_SHWILD=\
+ $(OBJS_SHWILD_MT_D)\
+ $(OBJS_SHWILD_DLL_D)\
+ $(OBJS_SHWILD_DLL_R)\
+ $(OBJS_SHWILD_MT_R)\
+ \
+
+# *
+
+OBJS_LIBS =\
+ $(OBJS_CORE)\
+ $(OBJS_SHWILD)\
+ \
 
 ########################################
-# Examples
+# examples
 
 OBJ_EX_C_runner_MT_D	=   $(PROJ_OBJ_DIR)\example.c.runner.mt.debug.obj
 OBJ_EX_C_runner_DLL_D	=   $(PROJ_OBJ_DIR)\example.c.runner.dll.debug.obj
@@ -565,16 +741,19 @@ OBJ_EX_C_tests_DLL_D		=   $(PROJ_OBJ_DIR)\example.c.tests.dll.debug.obj
 OBJ_EX_C_tests_DLL_R		=   $(PROJ_OBJ_DIR)\example.c.tests.dll.obj
 OBJ_EX_C_tests_MT_R		=   $(PROJ_OBJ_DIR)\example.c.tests.mt.obj
 
-########################################
-# Tests
-
+OBJS_EXAMPLES =\
+ $(OBJ_EX_C_runner_MT_D)\
+ $(OBJ_EX_C_runner_DLL_D)\
+ $(OBJ_EX_C_runner_DLL_R)\
+ $(OBJ_EX_C_runner_MT_R)\
+ $(OBJ_EX_C_tests_MT_D)\
+ $(OBJ_EX_C_tests_DLL_D)\
+ $(OBJ_EX_C_tests_DLL_R)\
+ $(OBJ_EX_C_tests_MT_R)\
+ \
 
 ##############################
-# Component Tests
-
-
-##############################
-# Scratch Tests
+# scratch tests
 
 OBJ_TEST_SCRT_basics1_MT_D =   $(PROJ_OBJ_DIR)\test.scratch.basics1.mt.debug.obj
 OBJ_TEST_SCRT_basics1_DLL_D =   $(PROJ_OBJ_DIR)\test.scratch.basics1.dll.debug.obj
@@ -591,176 +770,22 @@ OBJ_TEST_SCRT_failall1_DLL_D =   $(PROJ_OBJ_DIR)\test.scratch.fail_all.1.dll.deb
 OBJ_TEST_SCRT_failall1_DLL_R =   $(PROJ_OBJ_DIR)\test.scratch.fail_all.1.dll.obj
 OBJ_TEST_SCRT_failall1_MT_R =   $(PROJ_OBJ_DIR)\test.scratch.fail_all.1.mt.obj
 
-############################################################
-# Objects
-
 ########################################
-# Libraries
-
-# core
-
-OBJ_lib_core_MT_D =	$(PROJ_OBJ_DIR)\core.mt.debug.obj
-PDB_lib_core_MT_D	=	$(PROJ_OBJ_DIR)\core.mt.debug.pdb
-
-OBJ_CORE_MT_D=\
- $(OBJ_lib_core_MT_D)\
- \
-
-PDB_CORE_MT_D=\
- $(PDB_lib_core_MT_D)\
- \
-
-OBJ_lib_core_DLL_D =	$(PROJ_OBJ_DIR)\core.dll.debug.obj
-PDB_lib_core_DLL_D	=	$(PROJ_OBJ_DIR)\core.dll.debug.pdb
-
-OBJ_CORE_DLL_D=\
- $(OBJ_lib_core_DLL_D)\
- \
-
-PDB_CORE_DLL_D=\
- $(PDB_lib_core_DLL_D)\
- \
-
-OBJ_lib_core_DLL_R =	$(PROJ_OBJ_DIR)\core.dll.obj
-
-OBJ_CORE_DLL_R=\
- $(OBJ_lib_core_DLL_R)\
- \
-
-OBJ_lib_core_MT_R =	$(PROJ_OBJ_DIR)\core.mt.obj
-
-OBJ_CORE_MT_R=\
- $(OBJ_lib_core_MT_R)\
- \
-
-
-# shwild
-
-OBJ_shw_api_MT_D            = $(PROJ_OBJ_DIR)\shwild.pan.api.mt.debug.obj
-OBJ_shw_matches_MT_D        = $(PROJ_OBJ_DIR)\shwild.pan.matches.mt.debug.obj
-OBJ_shw_pattern_MT_D        = $(PROJ_OBJ_DIR)\shwild.pan.pattern.mt.debug.obj
-PDB_shw_api_MT_D            = $(PROJ_OBJ_DIR)\shwild.pan.api.mt.debug.pdb
-PDB_shw_matches_MT_D        = $(PROJ_OBJ_DIR)\shwild.pan.matches.mt.debug.pdb
-PDB_shw_pattern_MT_D        = $(PROJ_OBJ_DIR)\shwild.pan.pattern.mt.debug.pdb
-
-OBJ_SHWILD_MT_D=\
- $(OBJ_shw_api_MT_D)\
- $(OBJ_shw_matches_MT_D)\
- $(OBJ_shw_pattern_MT_D)\
- \
-
-PDB_SHWILD_MT_D=\
- $(PDB_shw_api_MT_D)\
- $(PDB_shw_matches_MT_D)\
- $(PDB_shw_pattern_MT_D)\
- \
-
-OBJ_shw_api_DLL_D            = $(PROJ_OBJ_DIR)\shwild.pan.api.dll.debug.obj
-OBJ_shw_matches_DLL_D        = $(PROJ_OBJ_DIR)\shwild.pan.matches.dll.debug.obj
-OBJ_shw_pattern_DLL_D        = $(PROJ_OBJ_DIR)\shwild.pan.pattern.dll.debug.obj
-PDB_shw_api_DLL_D            = $(PROJ_OBJ_DIR)\shwild.pan.api.dll.debug.pdb
-PDB_shw_matches_DLL_D        = $(PROJ_OBJ_DIR)\shwild.pan.matches.dll.debug.pdb
-PDB_shw_pattern_DLL_D        = $(PROJ_OBJ_DIR)\shwild.pan.pattern.dll.debug.pdb
-
-OBJ_SHWILD_DLL_D=\
- $(OBJ_shw_api_DLL_D)\
- $(OBJ_shw_matches_DLL_D)\
- $(OBJ_shw_pattern_DLL_D)\
- \
-
-PDB_SHWILD_DLL_D=\
- $(PDB_shw_api_DLL_D)\
- $(PDB_shw_matches_DLL_D)\
- $(PDB_shw_pattern_DLL_D)\
- \
-
-OBJ_shw_api_DLL_R            = $(PROJ_OBJ_DIR)\shwild.pan.api.dll.obj
-OBJ_shw_matches_DLL_R        = $(PROJ_OBJ_DIR)\shwild.pan.matches.dll.obj
-OBJ_shw_pattern_DLL_R        = $(PROJ_OBJ_DIR)\shwild.pan.pattern.dll.obj
-
-OBJ_SHWILD_DLL_R=\
- $(OBJ_shw_api_DLL_R)\
- $(OBJ_shw_matches_DLL_R)\
- $(OBJ_shw_pattern_DLL_R)\
- \
-
-OBJ_shw_api_MT_R            = $(PROJ_OBJ_DIR)\shwild.pan.api.mt.obj
-OBJ_shw_matches_MT_R        = $(PROJ_OBJ_DIR)\shwild.pan.matches.mt.obj
-OBJ_shw_pattern_MT_R        = $(PROJ_OBJ_DIR)\shwild.pan.pattern.mt.obj
-
-OBJ_SHWILD_MT_R=\
- $(OBJ_shw_api_MT_R)\
- $(OBJ_shw_matches_MT_R)\
- $(OBJ_shw_pattern_MT_R)\
- \
-
-
-
-########################################
-# Examples
-
-TARG_EX_C_runner_MT_D	=   $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).example.c.runner.$(COMP_ARCH_OS_TAG).mt.debug.exe
-TARG_EX_C_runner_DLL_D	=   $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).example.c.runner.$(COMP_ARCH_OS_TAG).dll.debug.exe
-TARG_EX_C_runner_DLL_R	=   $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).example.c.runner.$(COMP_ARCH_OS_TAG).dll.exe
-TARG_EX_C_runner_MT_R	=   $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).example.c.runner.$(COMP_ARCH_OS_TAG).mt.exe
-
-TARG_EX_C_tests_MT_D	=   $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).example.c.tests.$(COMP_ARCH_OS_TAG).mt.debug.exe
-TARG_EX_C_tests_DLL_D	=   $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).example.c.tests.$(COMP_ARCH_OS_TAG).dll.debug.exe
-TARG_EX_C_tests_DLL_R	=   $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).example.c.tests.$(COMP_ARCH_OS_TAG).dll.exe
-TARG_EX_C_tests_MT_R	=   $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).example.c.tests.$(COMP_ARCH_OS_TAG).mt.exe
-
-########################################
-# Tests
-
-##############################
-# Component Tests
+# unit tests
 
 
 ##############################
-# Scratch Tests
-
-TARG_TEST_SCRT_basics1_MT_D    =   $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.scratch.basics1.$(COMP_ARCH_OS_TAG).mt.debug.exe
-TARG_TEST_SCRT_basics1_DLL_D    =   $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.scratch.basics1.$(COMP_ARCH_OS_TAG).dll.debug.exe
-TARG_TEST_SCRT_basics1_DLL_R    =   $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.scratch.basics1.$(COMP_ARCH_OS_TAG).dll.exe
-TARG_TEST_SCRT_basics1_MT_R    =   $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.scratch.basics1.$(COMP_ARCH_OS_TAG).mt.exe
-
-TARG_TEST_SCRT_basics2_MT_D    =   $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.scratch.basics2.$(COMP_ARCH_OS_TAG).mt.debug.exe
-TARG_TEST_SCRT_basics2_DLL_D    =   $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.scratch.basics2.$(COMP_ARCH_OS_TAG).dll.debug.exe
-TARG_TEST_SCRT_basics2_DLL_R    =   $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.scratch.basics2.$(COMP_ARCH_OS_TAG).dll.exe
-TARG_TEST_SCRT_basics2_MT_R    =   $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.scratch.basics2.$(COMP_ARCH_OS_TAG).mt.exe
-
-TARG_TEST_SCRT_failall1_MT_D    =   $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.scratch.fail_all.1.$(COMP_ARCH_OS_TAG).mt.debug.exe
-TARG_TEST_SCRT_failall1_DLL_D    =   $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.scratch.fail_all.1.$(COMP_ARCH_OS_TAG).dll.debug.exe
-TARG_TEST_SCRT_failall1_DLL_R    =   $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.scratch.fail_all.1.$(COMP_ARCH_OS_TAG).dll.exe
-TARG_TEST_SCRT_failall1_MT_R    =   $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.scratch.fail_all.1.$(COMP_ARCH_OS_TAG).mt.exe
-
-##############################
-# Unit Tests
+# component tests
 
 
-# Target groups
+
+
 
 ########################################
 # Objects
-
-# core
-OBJ_CORE=\
- $(OBJ_CORE_MT_D)\
- $(OBJ_CORE_DLL_D)\
- $(OBJ_CORE_DLL_R)\
- $(OBJ_CORE_MT_R)\
- \
-
-# shwild
-OBJ_SHWILD=\
- $(OBJ_SHWILD_MT_D)\
- $(OBJ_SHWILD_DLL_D)\
- $(OBJ_SHWILD_DLL_R)\
- $(OBJ_SHWILD_MT_R)\
- \
 
 # examples
-OBJ_EXAMPLE=\
+OBJS_EXAMPLE=\
  $(OBJ_EX_C_runner_MT_D)\
  $(OBJ_EX_C_tests_MT_D)\
  $(OBJ_EX_C_runner_DLL_D)\
@@ -772,11 +797,11 @@ OBJ_EXAMPLE=\
  \
 
 # Component Tests
-OBJ_TEST_COMPONENT=\
+OBJS_TEST_COMPONENT=\
  \
 
 # Scratch Tests
-OBJ_TEST_SCRATCH=\
+OBJS_TEST_SCRATCH=\
  $(OBJ_TEST_SCRT_basics1_MT_D)\
  $(OBJ_TEST_SCRT_basics2_MT_D)\
  $(OBJ_TEST_SCRT_failall1_MT_D)\
@@ -792,11 +817,150 @@ OBJ_TEST_SCRATCH=\
  \
 
 # Unit Tests
-OBJ_TEST_UNIT=\
+OBJS_TEST_UNIT=\
  \
 
 ########################################
-# Libraries
+# OBJS
+
+OBJS =\
+ $(OBJS_LIBS)\
+ \
+ $(OBJS_EXAMPLES)\
+ $(OBJS_SAMPLES)\
+ $(OBJS_TESTS)\
+ \
+
+############################################################
+# libs
+
+LIBS_EXPLICIT_MT_D =\
+ kernel32.lib user32.lib advapi32.lib uuid.lib wininet.lib ole32.lib oleaut32.lib \
+ \
+
+LIBS_EXPLICIT_DLL_D =\
+ kernel32.lib user32.lib advapi32.lib uuid.lib wininet.lib ole32.lib oleaut32.lib \
+ \
+
+LIBS_EXPLICIT_DLL_R =\
+ kernel32.lib user32.lib advapi32.lib uuid.lib wininet.lib ole32.lib oleaut32.lib \
+ \
+
+LIBS_EXPLICIT_MT_R =\
+ kernel32.lib user32.lib advapi32.lib uuid.lib wininet.lib ole32.lib oleaut32.lib \
+ \
+
+
+LIBS_3PTY_MT_D =\
+ \
+
+LIBS_3PTY_MT_D_TEST =\
+ $(LIBS_3PTY_MT_D)\
+ \
+
+LIBS_3PTY_DLL_D =\
+ \
+
+LIBS_3PTY_DLL_D_TEST =\
+ $(LIBS_3PTY_DLL_D)\
+ \
+
+LIBS_3PTY_DLL_R =\
+ \
+
+LIBS_3PTY_DLL_R_TEST =\
+ $(LIBS_3PTY_DLL_R)\
+ \
+
+LIBS_3PTY_MT_R =\
+ \
+
+LIBS_3PTY_MT_R_TEST =\
+ $(LIBS_3PTY_MT_R)\
+ \
+
+
+LIBS_EXAMPLES_MT_D=\
+ $(LIB_CORE_MT_D)\
+ \
+
+
+LIBS_EXAMPLES_DLL_D=\
+ $(LIB_CORE_DLL_D)\
+ \
+
+
+LIBS_EXAMPLES_DLL_R=\
+ $(LIB_CORE_DLL_R)\
+ \
+
+
+LIBS_EXAMPLES_MT_R=\
+ $(LIB_CORE_MT_R)\
+ \
+
+
+LIBS_SAMPLES_MT_D=\
+ $(LIB_CORE_MT_D)\
+ \
+
+
+LIBS_SAMPLES_DLL_D=\
+ $(LIB_CORE_DLL_D)\
+ \
+
+
+LIBS_SAMPLES_DLL_R=\
+ $(LIB_CORE_DLL_R)\
+ \
+
+
+LIBS_SAMPLES_MT_R=\
+ $(LIB_CORE_MT_R)\
+ \
+
+
+LIBS_TESTS_MT_D=\
+ $(LIB_CORE_MT_D)\
+ $(LIB_SHWILD_MT_D)\
+ \
+
+
+LIBS_TESTS_DLL_D=\
+ $(LIB_CORE_DLL_D)\
+ $(LIB_SHWILD_DLL_D)\
+ \
+
+
+LIBS_TESTS_DLL_R=\
+ $(LIB_CORE_DLL_R)\
+ $(LIB_SHWILD_DLL_R)\
+ \
+
+
+LIBS_TESTS_MT_R=\
+ $(LIB_CORE_MT_R)\
+ $(LIB_SHWILD_MT_R)\
+ \
+
+
+
+############################################################################
+# targets
+
+########################################
+# libraries
+
+# core
+
+LIB_CORE_MT_D                 =   $(PROJ_LIB_DIR)\$(PROJ_TAG_VER).$(COMP_ARCH_OS_TAG).mt.debug.lib
+LIB_CORE_UN_MT_D				=	$(PROJ_LIB_DIR)\$(PROJ_TAG).$(COMP_TAG).mt.debug.lib
+LIB_CORE_DLL_D                 =   $(PROJ_LIB_DIR)\$(PROJ_TAG_VER).$(COMP_ARCH_OS_TAG).dll.debug.lib
+LIB_CORE_UN_DLL_D				=	$(PROJ_LIB_DIR)\$(PROJ_TAG).$(COMP_TAG).dll.debug.lib
+LIB_CORE_DLL_R                 =   $(PROJ_LIB_DIR)\$(PROJ_TAG_VER).$(COMP_ARCH_OS_TAG).dll.lib
+LIB_CORE_UN_DLL_R				=	$(PROJ_LIB_DIR)\$(PROJ_TAG).$(COMP_TAG).dll.lib
+LIB_CORE_MT_R                 =   $(PROJ_LIB_DIR)\$(PROJ_TAG_VER).$(COMP_ARCH_OS_TAG).mt.lib
+LIB_CORE_UN_MT_R				=	$(PROJ_LIB_DIR)\$(PROJ_TAG).$(COMP_TAG).mt.lib
 
 TARGETS_LIB_CORE=\
  $(LIB_CORE_MT_D)\
@@ -805,9 +969,12 @@ TARGETS_LIB_CORE=\
  $(LIB_CORE_MT_R)\
  \
 
-TARGETS_LIB_ALL=\
- $(TARGETS_LIB_CORE)\
- \
+# shwild - testing only
+
+LIB_SHWILD_MT_D               =   $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).mt.debug.lib
+LIB_SHWILD_DLL_D               =   $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).dll.debug.lib
+LIB_SHWILD_DLL_R               =   $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).dll.lib
+LIB_SHWILD_MT_R               =   $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).mt.lib
 
 TARGETS_LIB_SHWILD=\
  $(LIB_SHWILD_MT_D)\
@@ -816,8 +983,28 @@ TARGETS_LIB_SHWILD=\
  $(LIB_SHWILD_MT_R)\
  \
 
+# *
+
+TARGETS_LIB_ALL=\
+ $(TARGETS_LIB_CORE)\
+ \
+
+TARGETS_LIBS=\
+ $(TARGETS_LIB_CORE)\
+ $(TARGETS_LIB_SHWILD)\
+ \
+
 ########################################
-# Programs
+# examples
+
+TARG_EX_C_runner_MT_D         =   $(PROJ_BIN_DIR)\$(PROJ_TAG).example.c.runner.$(COMP_ARCH_OS_TAG).mt.debug.exe
+TARG_EX_C_tests_MT_D          =   $(PROJ_BIN_DIR)\$(PROJ_TAG).example.c.tests.$(COMP_ARCH_OS_TAG).mt.debug.exe
+TARG_EX_C_runner_DLL_D         =   $(PROJ_BIN_DIR)\$(PROJ_TAG).example.c.runner.$(COMP_ARCH_OS_TAG).dll.debug.exe
+TARG_EX_C_tests_DLL_D          =   $(PROJ_BIN_DIR)\$(PROJ_TAG).example.c.tests.$(COMP_ARCH_OS_TAG).dll.debug.exe
+TARG_EX_C_runner_DLL_R         =   $(PROJ_BIN_DIR)\$(PROJ_TAG).example.c.runner.$(COMP_ARCH_OS_TAG).dll.exe
+TARG_EX_C_tests_DLL_R          =   $(PROJ_BIN_DIR)\$(PROJ_TAG).example.c.tests.$(COMP_ARCH_OS_TAG).dll.exe
+TARG_EX_C_runner_MT_R         =   $(PROJ_BIN_DIR)\$(PROJ_TAG).example.c.runner.$(COMP_ARCH_OS_TAG).mt.exe
+TARG_EX_C_tests_MT_R          =   $(PROJ_BIN_DIR)\$(PROJ_TAG).example.c.tests.$(COMP_ARCH_OS_TAG).mt.exe
 
 TARGETS_EXAMPLE_C=\
  $(TARG_EX_C_runner_MT_D)\
@@ -838,13 +1025,27 @@ TARGETS_EXAMPLE=\
  $(TARGETS_EXAMPLE_CPP)\
  \
 
+########################################
+# samples
 
 TARGETS_SAMPLE=\
  \
 
+########################################
+# scratch tests
 
-TARGETS_TEST_COMPONENT=\
- \
+TARG_TEST_SCRT_basics1_MT_D   =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.basics1.$(COMP_ARCH_OS_TAG).mt.debug.exe
+TARG_TEST_SCRT_basics2_MT_D   =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.basics2.$(COMP_ARCH_OS_TAG).mt.debug.exe
+TARG_TEST_SCRT_failall1_MT_D  =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.fail_all.1.$(COMP_ARCH_OS_TAG).mt.debug.exe
+TARG_TEST_SCRT_basics1_DLL_D   =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.basics1.$(COMP_ARCH_OS_TAG).dll.debug.exe
+TARG_TEST_SCRT_basics2_DLL_D   =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.basics2.$(COMP_ARCH_OS_TAG).dll.debug.exe
+TARG_TEST_SCRT_failall1_DLL_D  =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.fail_all.1.$(COMP_ARCH_OS_TAG).dll.debug.exe
+TARG_TEST_SCRT_basics1_DLL_R   =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.basics1.$(COMP_ARCH_OS_TAG).dll.exe
+TARG_TEST_SCRT_basics2_DLL_R   =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.basics2.$(COMP_ARCH_OS_TAG).dll.exe
+TARG_TEST_SCRT_failall1_DLL_R  =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.fail_all.1.$(COMP_ARCH_OS_TAG).dll.exe
+TARG_TEST_SCRT_basics1_MT_R   =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.basics1.$(COMP_ARCH_OS_TAG).mt.exe
+TARG_TEST_SCRT_basics2_MT_R   =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.basics2.$(COMP_ARCH_OS_TAG).mt.exe
+TARG_TEST_SCRT_failall1_MT_R  =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.fail_all.1.$(COMP_ARCH_OS_TAG).mt.exe
 
 TARGETS_TEST_SCRATCH=\
  $(TARG_TEST_SCRT_basics1_MT_D)\
@@ -861,12 +1062,30 @@ TARGETS_TEST_SCRATCH=\
  $(TARG_TEST_SCRT_failall1_MT_R)\
  \
 
+########################################
+# component tests
+
+
+TARGETS_TEST_COMPONENT=\
+ \
+
+########################################
+# unit tests
+
+
 TARGETS_TEST_UNIT=\
  \
 
+########################################
+# TARGETS
 
-############################################################
-# Third-party libraries
+TARGETS =\
+ $(TARGETS_LIBS)\
+ \
+ $(TARGETS_TESTS)\
+ $(TARGETS_EXAMPLES)\
+ $(TARGETS_SAMPLES)\
+ \
 
 ############################################################################
 # External Targets (invokable by make)
@@ -889,25 +1108,25 @@ check.bin.dir:				$(PROJ_MAKEFILE_NAME)
 
 # compile targets
 
-compile.libs.core:			$(PROJ_MAKEFILE_NAME)	$(OBJ_CORE)
+compile.libs.core:			$(PROJ_MAKEFILE_NAME)	$(OBJS_CORE)
 
 compile.libs:										compile.libs.core
 
-compile.libs.shwild:		$(PROJ_MAKEFILE_NAME)	$(OBJ_SHWILD)
+compile.libs.shwild:		$(PROJ_MAKEFILE_NAME)	$(OBJS_SHWILD)
 
 compile.libs.3pty:									compile.libs.shwild
 
 compile.libs.all:                                   compile.libs compile.libs.3pty
 
-compile.examples:			$(PROJ_MAKEFILE_NAME)	$(OBJ_EXAMPLE)
+compile.examples:			$(PROJ_MAKEFILE_NAME)	$(OBJS_EXAMPLE)
 
-compile.samples:			$(PROJ_MAKEFILE_NAME)	$(OBJ_SAMPLE)
+compile.samples:			$(PROJ_MAKEFILE_NAME)	$(OBJS_SAMPLE)
 
-compile.test.component:		$(PROJ_MAKEFILE_NAME)	$(OBJ_TEST_COMPONENT)
+compile.test.component:		$(PROJ_MAKEFILE_NAME)	$(OBJS_TEST_COMPONENT)
 
-compile.test.scratch:		$(PROJ_MAKEFILE_NAME)	$(OBJ_TEST_SCRATCH)
+compile.test.scratch:		$(PROJ_MAKEFILE_NAME)	$(OBJS_TEST_SCRATCH)
 
-compile.test.unit:			$(PROJ_MAKEFILE_NAME)	$(OBJ_TEST_UNIT)
+compile.test.unit:			$(PROJ_MAKEFILE_NAME)	$(OBJS_TEST_UNIT)
 
 compile.test:										compile.test.unit compile.test.component compile.test.scratch
 
@@ -987,11 +1206,19 @@ test-all:				test.all
 
 clean.libs.core:
 	@echo Cleaning Core libraries ...
+	@-if exist $(LIB_CORE_MT_D) $(RM) $(LIB_CORE_MT_D)
+	@-if exist $(LIB_CORE_UN_MT_D) $(RM) $(LIB_CORE_UN_MT_D)
+	@-if exist $(LIB_CORE_DLL_D) $(RM) $(LIB_CORE_DLL_D)
+	@-if exist $(LIB_CORE_UN_DLL_D) $(RM) $(LIB_CORE_UN_DLL_D)
+	@-if exist $(LIB_CORE_DLL_R) $(RM) $(LIB_CORE_DLL_R)
+	@-if exist $(LIB_CORE_UN_DLL_R) $(RM) $(LIB_CORE_UN_DLL_R)
+	@-if exist $(LIB_CORE_MT_R) $(RM) $(LIB_CORE_MT_R)
+	@-if exist $(LIB_CORE_UN_MT_R) $(RM) $(LIB_CORE_UN_MT_R)
 	@-if exist core.obj $(RM) core.obj
 	@-if exist core.*.obj $(RM) core.*.obj
 	@-if exist core.pdb $(RM) core.pdb
 	@-if exist core.*.pdb $(RM) core.*.pdb
-	@-if exist $(PROJ_LIB_DIR)\$(PROJ_TAG_VER).core.$(COMP_ARCH_OS_TAG)*.lib $(RM) $(PROJ_LIB_DIR)\$(PROJ_TAG_VER).core.$(COMP_ARCH_OS_TAG)*.lib
+	@-if exist $(PROJ_LIB_DIR)\$(PROJ_TAG_VER).$(COMP_ARCH_OS_TAG)*.lib $(RM) $(PROJ_LIB_DIR)\$(PROJ_TAG_VER).$(COMP_ARCH_OS_TAG)*.lib
 
 clean.libs.shwild:
 	@echo Cleaning shwild libraries ...
@@ -1014,7 +1241,7 @@ clean.test.scratch:
 	@-if exist $(PDB_TEST_SCRT_basics2_MT_D) $(RM) $(PDB_TEST_SCRT_basics2_MT_D)
 	@-if exist $(PDB_TEST_SCRT_failall1_MT_D) $(RM) $(PDB_TEST_SCRT_failall1_MT_D)
 	@-if exist test.*.pdb $(RM) test.*.pdb
-	@-if exist $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.*.$(COMP_ARCH_OS_TAG)*.exe $(RM) $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.*.$(COMP_ARCH_OS_TAG)*.exe
+	@-if exist $(PROJ_BIN_DIR)\$(PROJ_TAG).test.*.$(COMP_ARCH_OS_TAG)*.exe $(RM) $(PROJ_BIN_DIR)\$(PROJ_TAG).test.*.$(COMP_ARCH_OS_TAG)*.exe
 	@-if exist $(TARG_TEST_SCRT_basics1_DLL_D) $(RM) $(TARG_TEST_SCRT_basics1_DLL_D)
 	@-if exist $(OBJ_TEST_SCRT_basics1_DLL_D) $(RM) $(OBJ_TEST_SCRT_basics1_DLL_D)
 	@-if exist $(TARG_TEST_SCRT_basics2_DLL_D) $(RM) $(TARG_TEST_SCRT_basics2_DLL_D)
@@ -1025,7 +1252,7 @@ clean.test.scratch:
 	@-if exist $(PDB_TEST_SCRT_basics2_DLL_D) $(RM) $(PDB_TEST_SCRT_basics2_DLL_D)
 	@-if exist $(PDB_TEST_SCRT_failall1_DLL_D) $(RM) $(PDB_TEST_SCRT_failall1_DLL_D)
 	@-if exist test.*.pdb $(RM) test.*.pdb
-	@-if exist $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.*.$(COMP_ARCH_OS_TAG)*.exe $(RM) $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.*.$(COMP_ARCH_OS_TAG)*.exe
+	@-if exist $(PROJ_BIN_DIR)\$(PROJ_TAG).test.*.$(COMP_ARCH_OS_TAG)*.exe $(RM) $(PROJ_BIN_DIR)\$(PROJ_TAG).test.*.$(COMP_ARCH_OS_TAG)*.exe
 	@-if exist $(TARG_TEST_SCRT_basics1_DLL_R) $(RM) $(TARG_TEST_SCRT_basics1_DLL_R)
 	@-if exist $(OBJ_TEST_SCRT_basics1_DLL_R) $(RM) $(OBJ_TEST_SCRT_basics1_DLL_R)
 	@-if exist $(TARG_TEST_SCRT_basics2_DLL_R) $(RM) $(TARG_TEST_SCRT_basics2_DLL_R)
@@ -1033,7 +1260,7 @@ clean.test.scratch:
 	@-if exist $(TARG_TEST_SCRT_failall1_DLL_R) $(RM) $(TARG_TEST_SCRT_failall1_DLL_R)
 	@-if exist $(OBJ_TEST_SCRT_failall1_DLL_R) $(RM) $(OBJ_TEST_SCRT_failall1_DLL_R)
 	@-if exist test.*.pdb $(RM) test.*.pdb
-	@-if exist $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.*.$(COMP_ARCH_OS_TAG)*.exe $(RM) $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.*.$(COMP_ARCH_OS_TAG)*.exe
+	@-if exist $(PROJ_BIN_DIR)\$(PROJ_TAG).test.*.$(COMP_ARCH_OS_TAG)*.exe $(RM) $(PROJ_BIN_DIR)\$(PROJ_TAG).test.*.$(COMP_ARCH_OS_TAG)*.exe
 	@-if exist $(TARG_TEST_SCRT_basics1_MT_R) $(RM) $(TARG_TEST_SCRT_basics1_MT_R)
 	@-if exist $(OBJ_TEST_SCRT_basics1_MT_R) $(RM) $(OBJ_TEST_SCRT_basics1_MT_R)
 	@-if exist $(TARG_TEST_SCRT_basics2_MT_R) $(RM) $(TARG_TEST_SCRT_basics2_MT_R)
@@ -1041,7 +1268,7 @@ clean.test.scratch:
 	@-if exist $(TARG_TEST_SCRT_failall1_MT_R) $(RM) $(TARG_TEST_SCRT_failall1_MT_R)
 	@-if exist $(OBJ_TEST_SCRT_failall1_MT_R) $(RM) $(OBJ_TEST_SCRT_failall1_MT_R)
 	@-if exist test.*.pdb $(RM) test.*.pdb
-	@-if exist $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.*.$(COMP_ARCH_OS_TAG)*.exe $(RM) $(PROJ_BIN_DIR)\$(PROJ_TAG_VER).test.*.$(COMP_ARCH_OS_TAG)*.exe
+	@-if exist $(PROJ_BIN_DIR)\$(PROJ_TAG).test.*.$(COMP_ARCH_OS_TAG)*.exe $(RM) $(PROJ_BIN_DIR)\$(PROJ_TAG).test.*.$(COMP_ARCH_OS_TAG)*.exe
 
 clean.test.unit:
 	@echo cleaning Test:Unit programs ...
@@ -1066,14 +1293,14 @@ clean:					$(PROJ_MAKEFILE_NAME)	clean.libs.all clean.test clean.examples clean.
 # build targets
 
 ##################################################
-# Libraries
+# libraries
 
 ########################################
-# shwild library - 'shwild.X.pan.core.a'
+# shwild library - 'shwild.X.core.a'
 
-$(LIB_SHWILD_MT_D): $(OBJ_SHWILD_MT_D) $(PROJ_MAKEFILE_NAME)
+$(LIB_SHWILD_MT_D): $(OBJS_SHWILD_MT_D) $(PROJ_MAKEFILE_NAME)
 	@-if not exist $(PROJ_LIB_DIR)\NUL mkdir $(PROJ_LIB_DIR)
-	$(AR) $(AR_ARGS) -out:$@ $(OBJ_SHWILD_MT_D)
+	$(AR) $(AR_ARGS) -out:$@ $(OBJS_SHWILD_MT_D)
 
 $(OBJ_shw_api_MT_D): $(SHWILD_SRC_DIR)\api.cpp $(SHWILD_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CPPC) $(CPPC_ARGS_MT_D) $(CPPC_SHWILD_INCLUDES_MT_D) -Fo$@ $(SHWILD_SRC_DIR)\api.cpp
@@ -1082,9 +1309,9 @@ $(OBJ_shw_matches_MT_D): $(SHWILD_SRC_DIR)\matches.cpp $(SHWILD_HEADERS) $(PROJ_
 $(OBJ_shw_pattern_MT_D): $(SHWILD_SRC_DIR)\pattern.cpp $(SHWILD_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CPPC) $(CPPC_ARGS_MT_D) $(CPPC_SHWILD_INCLUDES_MT_D) -Fo$@ $(SHWILD_SRC_DIR)\pattern.cpp
 
-$(LIB_SHWILD_DLL_D): $(OBJ_SHWILD_DLL_D) $(PROJ_MAKEFILE_NAME)
+$(LIB_SHWILD_DLL_D): $(OBJS_SHWILD_DLL_D) $(PROJ_MAKEFILE_NAME)
 	@-if not exist $(PROJ_LIB_DIR)\NUL mkdir $(PROJ_LIB_DIR)
-	$(AR) $(AR_ARGS) -out:$@ $(OBJ_SHWILD_DLL_D)
+	$(AR) $(AR_ARGS) -out:$@ $(OBJS_SHWILD_DLL_D)
 
 $(OBJ_shw_api_DLL_D): $(SHWILD_SRC_DIR)\api.cpp $(SHWILD_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CPPC) $(CPPC_ARGS_DLL_D) $(CPPC_SHWILD_INCLUDES_DLL_D) -Fo$@ $(SHWILD_SRC_DIR)\api.cpp
@@ -1093,9 +1320,9 @@ $(OBJ_shw_matches_DLL_D): $(SHWILD_SRC_DIR)\matches.cpp $(SHWILD_HEADERS) $(PROJ
 $(OBJ_shw_pattern_DLL_D): $(SHWILD_SRC_DIR)\pattern.cpp $(SHWILD_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CPPC) $(CPPC_ARGS_DLL_D) $(CPPC_SHWILD_INCLUDES_DLL_D) -Fo$@ $(SHWILD_SRC_DIR)\pattern.cpp
 
-$(LIB_SHWILD_DLL_R): $(OBJ_SHWILD_DLL_R) $(PROJ_MAKEFILE_NAME)
+$(LIB_SHWILD_DLL_R): $(OBJS_SHWILD_DLL_R) $(PROJ_MAKEFILE_NAME)
 	@-if not exist $(PROJ_LIB_DIR)\NUL mkdir $(PROJ_LIB_DIR)
-	$(AR) $(AR_ARGS) -out:$@ $(OBJ_SHWILD_DLL_R)
+	$(AR) $(AR_ARGS) -out:$@ $(OBJS_SHWILD_DLL_R)
 
 $(OBJ_shw_api_DLL_R): $(SHWILD_SRC_DIR)\api.cpp $(SHWILD_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CPPC) $(CPPC_ARGS_DLL_R) $(CPPC_SHWILD_INCLUDES_DLL_R) -Fo$@ $(SHWILD_SRC_DIR)\api.cpp
@@ -1104,9 +1331,9 @@ $(OBJ_shw_matches_DLL_R): $(SHWILD_SRC_DIR)\matches.cpp $(SHWILD_HEADERS) $(PROJ
 $(OBJ_shw_pattern_DLL_R): $(SHWILD_SRC_DIR)\pattern.cpp $(SHWILD_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CPPC) $(CPPC_ARGS_DLL_R) $(CPPC_SHWILD_INCLUDES_DLL_R) -Fo$@ $(SHWILD_SRC_DIR)\pattern.cpp
 
-$(LIB_SHWILD_MT_R): $(OBJ_SHWILD_MT_R) $(PROJ_MAKEFILE_NAME)
+$(LIB_SHWILD_MT_R): $(OBJS_SHWILD_MT_R) $(PROJ_MAKEFILE_NAME)
 	@-if not exist $(PROJ_LIB_DIR)\NUL mkdir $(PROJ_LIB_DIR)
-	$(AR) $(AR_ARGS) -out:$@ $(OBJ_SHWILD_MT_R)
+	$(AR) $(AR_ARGS) -out:$@ $(OBJS_SHWILD_MT_R)
 
 $(OBJ_shw_api_MT_R): $(SHWILD_SRC_DIR)\api.cpp $(SHWILD_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CPPC) $(CPPC_ARGS_MT_R) $(CPPC_SHWILD_INCLUDES_MT_R) -Fo$@ $(SHWILD_SRC_DIR)\api.cpp
@@ -1118,347 +1345,307 @@ $(OBJ_shw_pattern_MT_R): $(SHWILD_SRC_DIR)\pattern.cpp $(SHWILD_HEADERS) $(PROJ_
 ########################################
 # Main library - 'xtests.X.core.a'
 
-$(LIB_CORE_MT_D): $(OBJ_CORE_MT_D) $(PROJ_MAKEFILE_NAME)
+$(LIB_CORE_MT_D): $(OBJS_CORE_MT_D) $(PROJ_MAKEFILE_NAME)
 	@-if not exist $(PROJ_LIB_DIR)\NUL mkdir $(PROJ_LIB_DIR)
-	$(AR) $(AR_ARGS) -out:$@ $(OBJ_CORE_MT_D)
+	$(AR) $(AR_ARGS) -out:$@ $(OBJS_CORE_MT_D)
 
 $(OBJ_lib_core_MT_D):	$(PROJ_MAKEFILE_NAME) $(PROJ_SRC_DIR)\xtests.core.cpp
-	$(CPPC) $(CPPC_ARGS_MT_D) $(CPPC_INCLUDES) -Fo$@ $(PROJ_SRC_DIR)\xtests.core.cpp
+	$(CPPC) $(CPPC_ARGS_MT_D) -Fo$@ $(PROJ_SRC_DIR)\xtests.core.cpp
 
-$(LIB_CORE_DLL_D): $(OBJ_CORE_DLL_D) $(PROJ_MAKEFILE_NAME)
+$(LIB_CORE_DLL_D): $(OBJS_CORE_DLL_D) $(PROJ_MAKEFILE_NAME)
 	@-if not exist $(PROJ_LIB_DIR)\NUL mkdir $(PROJ_LIB_DIR)
-	$(AR) $(AR_ARGS) -out:$@ $(OBJ_CORE_DLL_D)
+	$(AR) $(AR_ARGS) -out:$@ $(OBJS_CORE_DLL_D)
 
 $(OBJ_lib_core_DLL_D):	$(PROJ_MAKEFILE_NAME) $(PROJ_SRC_DIR)\xtests.core.cpp
-	$(CPPC) $(CPPC_ARGS_DLL_D) $(CPPC_INCLUDES) -Fo$@ $(PROJ_SRC_DIR)\xtests.core.cpp
+	$(CPPC) $(CPPC_ARGS_DLL_D) -Fo$@ $(PROJ_SRC_DIR)\xtests.core.cpp
 
-$(LIB_CORE_DLL_R): $(OBJ_CORE_DLL_R) $(PROJ_MAKEFILE_NAME)
+$(LIB_CORE_DLL_R): $(OBJS_CORE_DLL_R) $(PROJ_MAKEFILE_NAME)
 	@-if not exist $(PROJ_LIB_DIR)\NUL mkdir $(PROJ_LIB_DIR)
-	$(AR) $(AR_ARGS) -out:$@ $(OBJ_CORE_DLL_R)
+	$(AR) $(AR_ARGS) -out:$@ $(OBJS_CORE_DLL_R)
 
 $(OBJ_lib_core_DLL_R):	$(PROJ_MAKEFILE_NAME) $(PROJ_SRC_DIR)\xtests.core.cpp
-	$(CPPC) $(CPPC_ARGS_DLL_R) $(CPPC_INCLUDES) -Fo$@ $(PROJ_SRC_DIR)\xtests.core.cpp
+	$(CPPC) $(CPPC_ARGS_DLL_R) -Fo$@ $(PROJ_SRC_DIR)\xtests.core.cpp
 
-$(LIB_CORE_MT_R): $(OBJ_CORE_MT_R) $(PROJ_MAKEFILE_NAME)
+$(LIB_CORE_MT_R): $(OBJS_CORE_MT_R) $(PROJ_MAKEFILE_NAME)
 	@-if not exist $(PROJ_LIB_DIR)\NUL mkdir $(PROJ_LIB_DIR)
-	$(AR) $(AR_ARGS) -out:$@ $(OBJ_CORE_MT_R)
+	$(AR) $(AR_ARGS) -out:$@ $(OBJS_CORE_MT_R)
 
 $(OBJ_lib_core_MT_R):	$(PROJ_MAKEFILE_NAME) $(PROJ_SRC_DIR)\xtests.core.cpp
-	$(CPPC) $(CPPC_ARGS_MT_R) $(CPPC_INCLUDES) -Fo$@ $(PROJ_SRC_DIR)\xtests.core.cpp
+	$(CPPC) $(CPPC_ARGS_MT_R) -Fo$@ $(PROJ_SRC_DIR)\xtests.core.cpp
 
 ##################################################
-# Examples
+# examples
 
 $(TARG_EX_C_runner_MT_D):	\
 			$(OBJ_EX_C_runner_MT_D)\
-			$(LIB_CORE_MT_D)\
-			$(LIB_SHWILD_MT_D)\
+			$(LIBS_EXAMPLES_MT_D)\
 			$(PROJ_MAKEFILE_NAME)
 	$(LD) $(LD_ARGS_MT_D) -out:$@ \
 		$(OBJ_EX_C_runner_MT_D)\
-		$(LIB_CORE_MT_D)\
-		$(LIB_SHWILD_MT_D)\
-		$(LIBS_3PTY_TEST_SCRATCH)\
-		$(TARGET_LIB_MT_D)
+		$(LIBS_EXAMPLES_MT_D)\
+		$(LIBS_3PTY_MT_D_TEST)\
+		$(LIBS_EXPLICIT_MT_D)
 
 $(OBJ_EX_C_runner_MT_D):	$(PROJ_EXAMPLES_DIR)\c\example.c.runner\example.c.runner.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CC) $(CC_ARGS_MT_D) $(CC_INCLUDES) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.runner\example.c.runner.c
+	$(CC) $(CC_ARGS_MT_D) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.runner\example.c.runner.c
 
 $(TARG_EX_C_runner_DLL_D):	\
 			$(OBJ_EX_C_runner_DLL_D)\
-			$(LIB_CORE_DLL_D)\
-			$(LIB_SHWILD_DLL_D)\
+			$(LIBS_EXAMPLES_DLL_D)\
 			$(PROJ_MAKEFILE_NAME)
 	$(LD) $(LD_ARGS_DLL_D) -out:$@ \
 		$(OBJ_EX_C_runner_DLL_D)\
-		$(LIB_CORE_DLL_D)\
-		$(LIB_SHWILD_DLL_D)\
-		$(LIBS_3PTY_TEST_SCRATCH)\
-		$(TARGET_LIB_DLL_D)
+		$(LIBS_EXAMPLES_DLL_D)\
+		$(LIBS_3PTY_DLL_D_TEST)\
+		$(LIBS_EXPLICIT_DLL_D)
 
 $(OBJ_EX_C_runner_DLL_D):	$(PROJ_EXAMPLES_DIR)\c\example.c.runner\example.c.runner.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CC) $(CC_ARGS_DLL_D) $(CC_INCLUDES) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.runner\example.c.runner.c
+	$(CC) $(CC_ARGS_DLL_D) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.runner\example.c.runner.c
 
 $(TARG_EX_C_runner_DLL_R):	\
 			$(OBJ_EX_C_runner_DLL_R)\
-			$(LIB_CORE_DLL_R)\
-			$(LIB_SHWILD_DLL_R)\
+			$(LIBS_EXAMPLES_DLL_R)\
 			$(PROJ_MAKEFILE_NAME)
 	$(LD) $(LD_ARGS_DLL_R) -out:$@ \
 		$(OBJ_EX_C_runner_DLL_R)\
-		$(LIB_CORE_DLL_R)\
-		$(LIB_SHWILD_DLL_R)\
-		$(LIBS_3PTY_TEST_SCRATCH)\
-		$(TARGET_LIB_DLL_R)
+		$(LIBS_EXAMPLES_DLL_R)\
+		$(LIBS_3PTY_DLL_R_TEST)\
+		$(LIBS_EXPLICIT_DLL_R)
 
 $(OBJ_EX_C_runner_DLL_R):	$(PROJ_EXAMPLES_DIR)\c\example.c.runner\example.c.runner.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CC) $(CC_ARGS_DLL_R) $(CC_INCLUDES) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.runner\example.c.runner.c
+	$(CC) $(CC_ARGS_DLL_R) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.runner\example.c.runner.c
 
 $(TARG_EX_C_runner_MT_R):	\
 			$(OBJ_EX_C_runner_MT_R)\
-			$(LIB_CORE_MT_R)\
-			$(LIB_SHWILD_MT_R)\
+			$(LIBS_EXAMPLES_MT_R)\
 			$(PROJ_MAKEFILE_NAME)
 	$(LD) $(LD_ARGS_MT_R) -out:$@ \
 		$(OBJ_EX_C_runner_MT_R)\
-		$(LIB_CORE_MT_R)\
-		$(LIB_SHWILD_MT_R)\
-		$(LIBS_3PTY_TEST_SCRATCH)\
-		$(TARGET_LIB_MT_R)
+		$(LIBS_EXAMPLES_MT_R)\
+		$(LIBS_3PTY_MT_R_TEST)\
+		$(LIBS_EXPLICIT_MT_R)
 
 $(OBJ_EX_C_runner_MT_R):	$(PROJ_EXAMPLES_DIR)\c\example.c.runner\example.c.runner.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CC) $(CC_ARGS_MT_R) $(CC_INCLUDES) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.runner\example.c.runner.c
+	$(CC) $(CC_ARGS_MT_R) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.runner\example.c.runner.c
 
 $(TARG_EX_C_tests_MT_D):	\
 			$(OBJ_EX_C_tests_MT_D)\
-			$(LIB_CORE_MT_D)\
-			$(LIB_SHWILD_MT_D)\
+			$(LIBS_EXAMPLES_MT_D)\
 			$(PROJ_MAKEFILE_NAME)
 	$(LD) $(LD_ARGS_MT_D) -out:$@ \
 		$(OBJ_EX_C_tests_MT_D)\
-		$(LIB_CORE_MT_D)\
-		$(LIB_SHWILD_MT_D)\
-		$(LIBS_3PTY_TEST_SCRATCH)\
-		$(TARGET_LIB_MT_D)
+		$(LIBS_EXAMPLES_MT_D)\
+		$(LIBS_3PTY_MT_D_TEST)\
+		$(LIBS_EXPLICIT_MT_D)
 
 $(OBJ_EX_C_tests_MT_D):	$(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.tests.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CC) $(CC_ARGS_MT_D) $(CC_INCLUDES) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.tests.c
+	$(CC) $(CC_ARGS_MT_D) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.tests.c
 
 $(TARG_EX_C_tests_DLL_D):	\
 			$(OBJ_EX_C_tests_DLL_D)\
-			$(LIB_CORE_DLL_D)\
-			$(LIB_SHWILD_DLL_D)\
+			$(LIBS_EXAMPLES_DLL_D)\
 			$(PROJ_MAKEFILE_NAME)
 	$(LD) $(LD_ARGS_DLL_D) -out:$@ \
 		$(OBJ_EX_C_tests_DLL_D)\
-		$(LIB_CORE_DLL_D)\
-		$(LIB_SHWILD_DLL_D)\
-		$(LIBS_3PTY_TEST_SCRATCH)\
-		$(TARGET_LIB_DLL_D)
+		$(LIBS_EXAMPLES_DLL_D)\
+		$(LIBS_3PTY_DLL_D_TEST)\
+		$(LIBS_EXPLICIT_DLL_D)
 
 $(OBJ_EX_C_tests_DLL_D):	$(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.tests.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CC) $(CC_ARGS_DLL_D) $(CC_INCLUDES) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.tests.c
+	$(CC) $(CC_ARGS_DLL_D) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.tests.c
 
 $(TARG_EX_C_tests_DLL_R):	\
 			$(OBJ_EX_C_tests_DLL_R)\
-			$(LIB_CORE_DLL_R)\
-			$(LIB_SHWILD_DLL_R)\
+			$(LIBS_EXAMPLES_DLL_R)\
 			$(PROJ_MAKEFILE_NAME)
 	$(LD) $(LD_ARGS_DLL_R) -out:$@ \
 		$(OBJ_EX_C_tests_DLL_R)\
-		$(LIB_CORE_DLL_R)\
-		$(LIB_SHWILD_DLL_R)\
-		$(LIBS_3PTY_TEST_SCRATCH)\
-		$(TARGET_LIB_DLL_R)
+		$(LIBS_EXAMPLES_DLL_R)\
+		$(LIBS_3PTY_DLL_R_TEST)\
+		$(LIBS_EXPLICIT_DLL_R)
 
 $(OBJ_EX_C_tests_DLL_R):	$(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.tests.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CC) $(CC_ARGS_DLL_R) $(CC_INCLUDES) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.tests.c
+	$(CC) $(CC_ARGS_DLL_R) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.tests.c
 
 $(TARG_EX_C_tests_MT_R):	\
 			$(OBJ_EX_C_tests_MT_R)\
-			$(LIB_CORE_MT_R)\
-			$(LIB_SHWILD_MT_R)\
+			$(LIBS_EXAMPLES_MT_R)\
 			$(PROJ_MAKEFILE_NAME)
 	$(LD) $(LD_ARGS_MT_R) -out:$@ \
 		$(OBJ_EX_C_tests_MT_R)\
-		$(LIB_CORE_MT_R)\
-		$(LIB_SHWILD_MT_R)\
-		$(LIBS_3PTY_TEST_SCRATCH)\
-		$(TARGET_LIB_MT_R)
+		$(LIBS_EXAMPLES_MT_R)\
+		$(LIBS_3PTY_MT_R_TEST)\
+		$(LIBS_EXPLICIT_MT_R)
 
 $(OBJ_EX_C_tests_MT_R):	$(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.tests.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CC) $(CC_ARGS_MT_R) $(CC_INCLUDES) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.tests.c
+	$(CC) $(CC_ARGS_MT_R) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.tests.c
 
 ##################################################
-# Tests
+# tests
 
 ##############################
-# Component Tests
+# component tests
 
 ##############################
-# Scratch Tests
+# scratch tests
 
 $(TARG_TEST_SCRT_basics1_MT_D):	\
 			$(OBJ_TEST_SCRT_basics1_MT_D)\
-			$(LIB_CORE_MT_D)\
-			$(LIB_SHWILD_MT_D)\
+			$(LIBS_TESTS_MT_D)\
 			$(PROJ_MAKEFILE_NAME)
 	$(LD) $(LD_ARGS_MT_D) -out:$@ \
 		$(OBJ_TEST_SCRT_basics1_MT_D)\
-		$(LIB_CORE_MT_D)\
-		$(LIB_SHWILD_MT_D)\
-		$(LIBS_3PTY_TEST_SCRATCH)\
-		$(TARGET_LIB_MT_D)
+		$(LIBS_TESTS_MT_D)\
+		$(LIBS_3PTY_MT_D_TEST)\
+		$(LIBS_EXPLICIT_MT_D)
 
 $(OBJ_TEST_SCRT_basics1_MT_D):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics1\test.scratch.basics1.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CC) $(CC_ARGS_MT_D) $(CC_INCLUDES) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics1\test.scratch.basics1.c
+	$(CC) $(CC_ARGS_MT_D) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics1\test.scratch.basics1.c
 
 $(TARG_TEST_SCRT_basics1_DLL_D):	\
 			$(OBJ_TEST_SCRT_basics1_DLL_D)\
-			$(LIB_CORE_DLL_D)\
-			$(LIB_SHWILD_DLL_D)\
+			$(LIBS_TESTS_DLL_D)\
 			$(PROJ_MAKEFILE_NAME)
 	$(LD) $(LD_ARGS_DLL_D) -out:$@ \
 		$(OBJ_TEST_SCRT_basics1_DLL_D)\
-		$(LIB_CORE_DLL_D)\
-		$(LIB_SHWILD_DLL_D)\
-		$(LIBS_3PTY_TEST_SCRATCH)\
-		$(TARGET_LIB_DLL_D)
+		$(LIBS_TESTS_DLL_D)\
+		$(LIBS_3PTY_DLL_D_TEST)\
+		$(LIBS_EXPLICIT_DLL_D)
 
 $(OBJ_TEST_SCRT_basics1_DLL_D):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics1\test.scratch.basics1.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CC) $(CC_ARGS_DLL_D) $(CC_INCLUDES) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics1\test.scratch.basics1.c
+	$(CC) $(CC_ARGS_DLL_D) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics1\test.scratch.basics1.c
 
 $(TARG_TEST_SCRT_basics1_DLL_R):	\
 			$(OBJ_TEST_SCRT_basics1_DLL_R)\
-			$(LIB_CORE_DLL_R)\
-			$(LIB_SHWILD_DLL_R)\
+			$(LIBS_TESTS_DLL_R)\
 			$(PROJ_MAKEFILE_NAME)
 	$(LD) $(LD_ARGS_DLL_R) -out:$@ \
 		$(OBJ_TEST_SCRT_basics1_DLL_R)\
-		$(LIB_CORE_DLL_R)\
-		$(LIB_SHWILD_DLL_R)\
-		$(LIBS_3PTY_TEST_SCRATCH)\
-		$(TARGET_LIB_DLL_R)
+		$(LIBS_TESTS_DLL_R)\
+		$(LIBS_3PTY_DLL_R_TEST)\
+		$(LIBS_EXPLICIT_DLL_R)
 
 $(OBJ_TEST_SCRT_basics1_DLL_R):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics1\test.scratch.basics1.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CC) $(CC_ARGS_DLL_R) $(CC_INCLUDES) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics1\test.scratch.basics1.c
+	$(CC) $(CC_ARGS_DLL_R) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics1\test.scratch.basics1.c
 
 $(TARG_TEST_SCRT_basics1_MT_R):	\
 			$(OBJ_TEST_SCRT_basics1_MT_R)\
-			$(LIB_CORE_MT_R)\
-			$(LIB_SHWILD_MT_R)\
+			$(LIBS_TESTS_MT_R)\
 			$(PROJ_MAKEFILE_NAME)
 	$(LD) $(LD_ARGS_MT_R) -out:$@ \
 		$(OBJ_TEST_SCRT_basics1_MT_R)\
-		$(LIB_CORE_MT_R)\
-		$(LIB_SHWILD_MT_R)\
-		$(LIBS_3PTY_TEST_SCRATCH)\
-		$(TARGET_LIB_MT_R)
+		$(LIBS_TESTS_MT_R)\
+		$(LIBS_3PTY_MT_R_TEST)\
+		$(LIBS_EXPLICIT_MT_R)
 
 $(OBJ_TEST_SCRT_basics1_MT_R):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics1\test.scratch.basics1.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CC) $(CC_ARGS_MT_R) $(CC_INCLUDES) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics1\test.scratch.basics1.c
+	$(CC) $(CC_ARGS_MT_R) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics1\test.scratch.basics1.c
 
 $(TARG_TEST_SCRT_basics2_MT_D):	\
 			$(OBJ_TEST_SCRT_basics2_MT_D)\
-			$(LIB_CORE_MT_D)\
-			$(LIB_SHWILD_MT_D)\
+			$(LIBS_TESTS_MT_D)\
 			$(PROJ_MAKEFILE_NAME)
 	$(LD) $(LD_ARGS_MT_D) -out:$@ \
 		$(OBJ_TEST_SCRT_basics2_MT_D)\
-		$(LIB_CORE_MT_D)\
-		$(LIB_SHWILD_MT_D)\
-		$(LIBS_3PTY_TEST_SCRATCH)\
-		$(TARGET_LIB_MT_D)
+		$(LIBS_TESTS_MT_D)\
+		$(LIBS_3PTY_MT_D_TEST)\
+		$(LIBS_EXPLICIT_MT_D)
 
 $(OBJ_TEST_SCRT_basics2_MT_D):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics2\test.scratch.basics2.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CPPC) $(CPPC_ARGS_MT_D) $(CPPC_INCLUDES) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics2\test.scratch.basics2.cpp
+	$(CPPC) $(CPPC_ARGS_MT_D) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics2\test.scratch.basics2.cpp
 
 $(TARG_TEST_SCRT_basics2_DLL_D):	\
 			$(OBJ_TEST_SCRT_basics2_DLL_D)\
-			$(LIB_CORE_DLL_D)\
-			$(LIB_SHWILD_DLL_D)\
+			$(LIBS_TESTS_DLL_D)\
 			$(PROJ_MAKEFILE_NAME)
 	$(LD) $(LD_ARGS_DLL_D) -out:$@ \
 		$(OBJ_TEST_SCRT_basics2_DLL_D)\
-		$(LIB_CORE_DLL_D)\
-		$(LIB_SHWILD_DLL_D)\
-		$(LIBS_3PTY_TEST_SCRATCH)\
-		$(TARGET_LIB_DLL_D)
+		$(LIBS_TESTS_DLL_D)\
+		$(LIBS_3PTY_DLL_D_TEST)\
+		$(LIBS_EXPLICIT_DLL_D)
 
 $(OBJ_TEST_SCRT_basics2_DLL_D):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics2\test.scratch.basics2.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CPPC) $(CPPC_ARGS_DLL_D) $(CPPC_INCLUDES) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics2\test.scratch.basics2.cpp
+	$(CPPC) $(CPPC_ARGS_DLL_D) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics2\test.scratch.basics2.cpp
 
 $(TARG_TEST_SCRT_basics2_DLL_R):	\
 			$(OBJ_TEST_SCRT_basics2_DLL_R)\
-			$(LIB_CORE_DLL_R)\
-			$(LIB_SHWILD_DLL_R)\
+			$(LIBS_TESTS_DLL_R)\
 			$(PROJ_MAKEFILE_NAME)
 	$(LD) $(LD_ARGS_DLL_R) -out:$@ \
 		$(OBJ_TEST_SCRT_basics2_DLL_R)\
-		$(LIB_CORE_DLL_R)\
-		$(LIB_SHWILD_DLL_R)\
-		$(LIBS_3PTY_TEST_SCRATCH)\
-		$(TARGET_LIB_DLL_R)
+		$(LIBS_TESTS_DLL_R)\
+		$(LIBS_3PTY_DLL_R_TEST)\
+		$(LIBS_EXPLICIT_DLL_R)
 
 $(OBJ_TEST_SCRT_basics2_DLL_R):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics2\test.scratch.basics2.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CPPC) $(CPPC_ARGS_DLL_R) $(CPPC_INCLUDES) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics2\test.scratch.basics2.cpp
+	$(CPPC) $(CPPC_ARGS_DLL_R) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics2\test.scratch.basics2.cpp
 
 $(TARG_TEST_SCRT_basics2_MT_R):	\
 			$(OBJ_TEST_SCRT_basics2_MT_R)\
-			$(LIB_CORE_MT_R)\
-			$(LIB_SHWILD_MT_R)\
+			$(LIBS_TESTS_MT_R)\
 			$(PROJ_MAKEFILE_NAME)
 	$(LD) $(LD_ARGS_MT_R) -out:$@ \
 		$(OBJ_TEST_SCRT_basics2_MT_R)\
-		$(LIB_CORE_MT_R)\
-		$(LIB_SHWILD_MT_R)\
-		$(LIBS_3PTY_TEST_SCRATCH)\
-		$(TARGET_LIB_MT_R)
+		$(LIBS_TESTS_MT_R)\
+		$(LIBS_3PTY_MT_R_TEST)\
+		$(LIBS_EXPLICIT_MT_R)
 
 $(OBJ_TEST_SCRT_basics2_MT_R):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics2\test.scratch.basics2.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CPPC) $(CPPC_ARGS_MT_R) $(CPPC_INCLUDES) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics2\test.scratch.basics2.cpp
+	$(CPPC) $(CPPC_ARGS_MT_R) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics2\test.scratch.basics2.cpp
 
 $(TARG_TEST_SCRT_failall1_MT_D):	\
 			$(OBJ_TEST_SCRT_failall1_MT_D)\
-			$(LIB_CORE_MT_D)\
-			$(LIB_SHWILD_MT_D)\
+			$(LIBS_TESTS_MT_D)\
 			$(PROJ_MAKEFILE_NAME)
 	$(LD) $(LD_ARGS_MT_D) -out:$@ \
 		$(OBJ_TEST_SCRT_failall1_MT_D)\
-		$(LIB_CORE_MT_D)\
-		$(LIB_SHWILD_MT_D)\
-		$(LIBS_3PTY_TEST_SCRATCH)\
-		$(TARGET_LIB_MT_D)
+		$(LIBS_TESTS_MT_D)\
+		$(LIBS_3PTY_MT_D_TEST)\
+		$(LIBS_EXPLICIT_MT_D)
 
 $(OBJ_TEST_SCRT_failall1_MT_D):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.fail_all.1\test.scratch.fail_all.1.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CPPC) $(CPPC_ARGS_MT_D) $(CPPC_INCLUDES) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.fail_all.1\test.scratch.fail_all.1.cpp
+	$(CPPC) $(CPPC_ARGS_MT_D) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.fail_all.1\test.scratch.fail_all.1.cpp
 
 $(TARG_TEST_SCRT_failall1_DLL_D):	\
 			$(OBJ_TEST_SCRT_failall1_DLL_D)\
-			$(LIB_CORE_DLL_D)\
-			$(LIB_SHWILD_DLL_D)\
+			$(LIBS_TESTS_DLL_D)\
 			$(PROJ_MAKEFILE_NAME)
 	$(LD) $(LD_ARGS_DLL_D) -out:$@ \
 		$(OBJ_TEST_SCRT_failall1_DLL_D)\
-		$(LIB_CORE_DLL_D)\
-		$(LIB_SHWILD_DLL_D)\
-		$(LIBS_3PTY_TEST_SCRATCH)\
-		$(TARGET_LIB_DLL_D)
+		$(LIBS_TESTS_DLL_D)\
+		$(LIBS_3PTY_DLL_D_TEST)\
+		$(LIBS_EXPLICIT_DLL_D)
 
 $(OBJ_TEST_SCRT_failall1_DLL_D):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.fail_all.1\test.scratch.fail_all.1.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CPPC) $(CPPC_ARGS_DLL_D) $(CPPC_INCLUDES) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.fail_all.1\test.scratch.fail_all.1.cpp
+	$(CPPC) $(CPPC_ARGS_DLL_D) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.fail_all.1\test.scratch.fail_all.1.cpp
 
 $(TARG_TEST_SCRT_failall1_DLL_R):	\
 			$(OBJ_TEST_SCRT_failall1_DLL_R)\
-			$(LIB_CORE_DLL_R)\
-			$(LIB_SHWILD_DLL_R)\
+			$(LIBS_TESTS_DLL_R)\
 			$(PROJ_MAKEFILE_NAME)
 	$(LD) $(LD_ARGS_DLL_R) -out:$@ \
 		$(OBJ_TEST_SCRT_failall1_DLL_R)\
-		$(LIB_CORE_DLL_R)\
-		$(LIB_SHWILD_DLL_R)\
-		$(LIBS_3PTY_TEST_SCRATCH)\
-		$(TARGET_LIB_DLL_R)
+		$(LIBS_TESTS_DLL_R)\
+		$(LIBS_3PTY_DLL_R_TEST)\
+		$(LIBS_EXPLICIT_DLL_R)
 
 $(OBJ_TEST_SCRT_failall1_DLL_R):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.fail_all.1\test.scratch.fail_all.1.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CPPC) $(CPPC_ARGS_DLL_R) $(CPPC_INCLUDES) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.fail_all.1\test.scratch.fail_all.1.cpp
+	$(CPPC) $(CPPC_ARGS_DLL_R) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.fail_all.1\test.scratch.fail_all.1.cpp
 
 $(TARG_TEST_SCRT_failall1_MT_R):	\
 			$(OBJ_TEST_SCRT_failall1_MT_R)\
-			$(LIB_CORE_MT_R)\
-			$(LIB_SHWILD_MT_R)\
+			$(LIBS_TESTS_MT_R)\
 			$(PROJ_MAKEFILE_NAME)
 	$(LD) $(LD_ARGS_MT_R) -out:$@ \
 		$(OBJ_TEST_SCRT_failall1_MT_R)\
-		$(LIB_CORE_MT_R)\
-		$(LIB_SHWILD_MT_R)\
-		$(LIBS_3PTY_TEST_SCRATCH)\
-		$(TARGET_LIB_MT_R)
+		$(LIBS_TESTS_MT_R)\
+		$(LIBS_3PTY_MT_R_TEST)\
+		$(LIBS_EXPLICIT_MT_R)
 
 $(OBJ_TEST_SCRT_failall1_MT_R):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.fail_all.1\test.scratch.fail_all.1.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CPPC) $(CPPC_ARGS_MT_R) $(CPPC_INCLUDES) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.fail_all.1\test.scratch.fail_all.1.cpp
+	$(CPPC) $(CPPC_ARGS_MT_R) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.fail_all.1\test.scratch.fail_all.1.cpp
 
 ##############################
-# Unit Tests
+# unit tests
 
 ############################### end of file ################################

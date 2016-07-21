@@ -1,11 +1,15 @@
 xTests - News
 =============
 
-Updated:    1st March 2013
+Updated:    22nd July 2016
 
 
 
 News:
+
+  22nd July 2016        -   xTests 0.18.8 released
+
+  7th October 2015      -   xTests 0.18.4 released
 
   1st March 2013        -   xTests 0.17.1 released
 

@@ -4,7 +4,7 @@
  * Purpose:     Definition of the filesystem_exception class.
  *
  * Created:     1st October 2015
- * Updated:     7th October 2015
+ * Updated:     8th October 2015
  *
  * Home:        http://stlsoft.org/
  *
@@ -50,8 +50,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_MAJOR      0
 # define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_MINOR      1
-# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_REVISION   3
-# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_EDIT       5
+# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_REVISION   6
+# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_EDIT       8
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -137,12 +137,12 @@ protected:
         /// The string type
         typedef parent_class_type::string_type      string_type;
 
-    protected: // Construction
+    public: // Construction
         /// Constructs an instance of the type
         ///
         /// \param rc The result-code associated with the exceptional-condition
         explicit
-        class_type(
+        embedded_exception_type(
             result_code_type rc
         )
             : parent_class_type(rc)
@@ -151,7 +151,7 @@ protected:
         ///
         /// \param rc The result-code associated with the exceptional-condition
         /// \param message The human-readable message to be conveyed to the receiver of the exception
-        class_type(
+        embedded_exception_type(
             result_code_type    rc
         ,   char_type const*    message
         )
@@ -161,7 +161,7 @@ protected:
         ///
         /// \param rc The result-code associated with the exceptional-condition
         /// \param message The human-readable message to be conveyed to the receiver of the exception
-        class_type(
+        embedded_exception_type(
             result_code_type    rc
         ,   string_type const&  message
         )
@@ -241,6 +241,32 @@ filesystem_exception::filesystem_exception(
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
+ * shims
+ */
+
+#ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
+
+inline
+char const*
+c_str_ptr_a(
+    filesystem_exception const& x
+)
+{
+    return x.what();
+}
+
+inline
+char const*
+c_str_ptr(
+    filesystem_exception const& x
+)
+{
+    return x.what();
+}
+
+#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
+
+/* /////////////////////////////////////////////////////////////////////////
  * namespace
  */
 
@@ -254,8 +280,11 @@ filesystem_exception::filesystem_exception(
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
+# if !defined(_STLSOFT_NO_NAMESPACE) && \
+     !defined(STLSOFT_NO_NAMESPACE)
 namespace stlsoft
 {
+# endif
 
     inline
     char const*
@@ -272,10 +301,13 @@ namespace stlsoft
         ::xtests::cpp::util::filesystem_exception const& x
     )
     {
-        return c_str_ptr_a(x);
+        return x.what();
     }
 
+# if !defined(_STLSOFT_NO_NAMESPACE) && \
+    !defined(STLSOFT_NO_NAMESPACE)
 } /* namespace stlsoft */
+# endif
 
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 

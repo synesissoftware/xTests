@@ -4,7 +4,7 @@
  * Purpose:     Definition of the temp_file class.
  *
  * Created:     8th May 2014
- * Updated:     7th October 2015
+ * Updated:     4th November 2015
  *
  * Home:        http://stlsoft.org/
  *
@@ -50,8 +50,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MAJOR     0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     1
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  2
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      6
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  6
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      10
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -69,10 +69,6 @@
 #ifndef STLSOFT_CF_EXCEPTION_SUPPORT
 # error temp_file can only be used in a compilation unit in which exception support is enabled
 #endif /* !STLSOFT_CF_EXCEPTION_SUPPORT */
-
-#ifndef _WIN32
-# error Currently only defined for the Windows API
-#endif /* !_WIN32 */
 
 /* /////////////////////////////////////////////////////////////////////////
  * includes - 1
@@ -163,7 +159,7 @@ private:
     temp_file(class_type const&);
     class_type& operator =(class_type const&);
 public:
-    ~temp_file() stlsoft_throw_0();
+    ~temp_file() STLSOFT_NOEXCEPT;
 
 public: // Accessors
     /// Length of the path of the temporary file
@@ -294,7 +290,7 @@ temp_file::empty_file_(
 
     if(off_t(-1) == ::lseek(hFile, SEEK_SET, 0))
     {
-        return ::errno;
+        return errno;
     }
 
     return 0;
@@ -397,7 +393,7 @@ temp_file::create_file_(
         }
     }
 
-    int const e = ::errno;
+    int const e = errno;
 
     throw could_not_create_temporary_file_exception(e, "could not create file in any of the possible locations");
 
@@ -470,7 +466,7 @@ inline
 }
 
 inline
-temp_file::~temp_file() stlsoft_throw_0()
+temp_file::~temp_file() STLSOFT_NOEXCEPT
 {
     fs_traits_type_::close_file(m_hFile);
 
@@ -502,6 +498,69 @@ temp_file::c_str() const
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
+ * shims
+ */
+
+#ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
+
+inline
+size_t
+c_str_len_a(
+    temp_file const& t
+)
+{
+    return t.size();
+}
+
+inline
+char const*
+c_str_data_a(
+    temp_file const& t
+)
+{
+    return t.c_str();
+}
+
+inline
+char const*
+c_str_ptr_a(
+    temp_file const& t
+)
+{
+    return t.c_str();
+}
+
+
+inline
+size_t
+c_str_len(
+    temp_file const& t
+)
+{
+    return t.size();
+}
+
+inline
+char const*
+c_str_data(
+    temp_file const& t
+)
+{
+    return t.c_str();
+}
+
+inline
+char const*
+c_str_ptr(
+    temp_file const& t
+)
+{
+    return t.c_str();
+}
+
+#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
+
+/* /////////////////////////////////////////////////////////////////////////
  * namespace
  */
 
@@ -515,8 +574,11 @@ temp_file::c_str() const
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
+# if !defined(_STLSOFT_NO_NAMESPACE) && \
+     !defined(STLSOFT_NO_NAMESPACE)
 namespace stlsoft
 {
+# endif
 
     inline
     size_t
@@ -552,7 +614,7 @@ namespace stlsoft
         ::xtests::cpp::util::temp_file const& t
     )
     {
-        return c_str_len_a(t);
+        return t.size();
     }
 
     inline
@@ -561,7 +623,7 @@ namespace stlsoft
         ::xtests::cpp::util::temp_file const& t
     )
     {
-        return c_str_data_a(t);
+        return t.c_str();
     }
 
     inline
@@ -570,10 +632,13 @@ namespace stlsoft
         ::xtests::cpp::util::temp_file const& t
     )
     {
-        return c_str_ptr_a(t);
+        return t.c_str();
     }
 
+# if !defined(_STLSOFT_NO_NAMESPACE) && \
+    !defined(STLSOFT_NO_NAMESPACE)
 } /* namespace stlsoft */
+# endif
 
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 

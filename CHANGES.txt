@@ -1,7 +1,7 @@
 xTests - Changes
 ================
 
-Updated:    1st March 2013
+Updated:    22nd July 2016
 
 
     ************************************
@@ -13,6 +13,254 @@ Updated:    1st March 2013
     *  *  means a general bullet-point *
     *                                  *
     ************************************
+
+
+22nd July 2016 - 0.18.6
+=======================
+
+Summary:
+--------
+
+ * changed no-throw declaration from stlsoft_throw_0() to STLSOFT_NOEXCEPT
+ * support for Borland C++ 6.2x
+ * added makefiles for Borland 5.82, 6.1x, 6.2x
+ * significant refactoring of structure of makefiles
+ * strict C-compilation compatibility
+ * NOTE: requires STLSoft 1.9.128
+ * bundles shwild 0.10.1
+
+Details:
+--------
+
+General:
+
+ ~ include/xtests/xtests.h:
+    ~ substantially reworked makefile structure
+    ~ changed no-throw declaration from stlsoft_throw_0() to STLSOFT_NOEXCEPT
+    ~ strict C-compilation compatibility
+
+ ~ include/xtests/util/filesystem_exception.hpp:
+    ~ GCC compatibility
+    ~ Clang compatibility
+    ~ defect fix
+
+ ~ include/xtests/util/temp_directory.hpp:
+    ~ changed no-throw declaration from stlsoft_throw_0() to STLSOFT_NOEXCEPT
+    ~ GCC compatibility
+    ~ Clang compatibility
+    ~ UNIX compatibility
+
+ ~ include/xtests/util/temp_file.hpp:
+    ~ changed no-throw declaration from stlsoft_throw_0() to STLSOFT_NOEXCEPT
+    ~ GCC compatibility
+    ~ Clang compatibility
+    ~ UNIX compatibility
+
+Core:
+
+Distribution:
+
+Makefiles / Project-files:
+
+ ~ build/ar/makefile:
+ ~ build/bc56/makefile:
+ ~ build/bc582/makefile:
+    ~ substantially reworked makefile structure
+
+ + build/bc59x/makefile:
+ + build/bc61x/makefile:
+ + build/bc62x/makefile:
+    + added makefiles for Borland 5.82, 6.1x, 6.2x
+
+ ~ build/como433.unix/makefile:
+ ~ build/como433.win32/makefile:
+ ~ build/cw8.unix/makefile:
+ ~ build/cw8.win32/makefile:
+ ~ build/dm/makefile:
+ ~ build/gcc34.unix/makefile:
+ ~ build/gcc34.win32/makefile:
+ ~ build/gcc40.mac/makefile:
+ ~ build/gcc40.unix/makefile:
+ ~ build/gcc41.mac/makefile:
+ ~ build/gcc41.unix/makefile:
+ ~ build/gcc42.mac/makefile:
+ ~ build/gcc42.unix/makefile:
+ ~ build/gcc43.unix/makefile:
+ ~ build/gcc44.unix/makefile:
+ ~ build/gcc45.unix/makefile:
+ ~ build/gcc46.unix/makefile:
+ ~ build/gcc47.unix/makefile:
+ ~ build/icl8.win32/makefile:
+ ~ build/icl9.win32/makefile:
+ ~ build/vc10.unixem/makefile:
+ ~ build/vc10.x64/makefile:
+ ~ build/vc10/makefile:
+ ~ build/vc11.unixem/makefile:
+ ~ build/vc11.x64/makefile:
+ ~ build/vc11/makefile:
+ ~ build/vc12.unixem/makefile:
+ ~ build/vc12.x64/makefile:
+ ~ build/vc12/makefile:
+ ~ build/vc14.unixem/makefile:
+ ~ build/vc14.x64/makefile:
+ ~ build/vc14/makefile:
+ ~ build/vc6.unixem/makefile:
+ ~ build/vc6/makefile:
+ ~ build/vc71/makefile:
+ ~ build/vc8.unixem/makefile:
+ ~ build/vc8.x64/makefile:
+ ~ build/vc8/makefile:
+ ~ build/vc9.unixem/makefile:
+ ~ build/vc9.x64/makefile:
+ ~ build/vc9/makefile:
+    ~ substantially reworked makefile structure
+
+Examples:
+
+Test:
+
+Test.Unit:
+
+Test.Component:
+
+Test.Scratch:
+
+Depends on:
+
+ * STLSoft 1.9.121 or later
+   (http://stlsoft.org/)
+
+
+
+7th October 2015 - 0.18.4
+=========================
+
+Summary:
+--------
+
+ * added temp_directory and temp_file utility classes
+ * now supports test cases that have void* param (for setup param)
+ * support for cdecl and stdcall test cases
+ * support for Clang
+ * support for VC++ 11
+ * support for VC++ 12
+ * support for VC++ 14
+ * NOTE: requires STLSoft 1.9.121
+ * bundles shwild 0.10.1
+
+Details:
+--------
+
+General:
+
+ ~ include/xtests/xtests.h:
+    ~ handling cdecl and stdcall test cases
+    ~ Clang support
+    ~ changed namespaces, such that C++-only constructs are in xtests::cpp not xtests::c::cpp
+    ~ C test constructs now include (some semblance of) meaningful contextual message
+    + xtests_getSetupParam() for obtaining setup
+    + xtests_getSetupParam() for obtaining setup
+    + added XTESTS_COMMANDLINE_PARSEVERBOSITY_DEFAULT(), which parses command-line and allows a default verbosity to be specified programmatically
+
+ ~ include/xtests/implicit_link.h:
+    + added VC++ 11 support
+    + added VC++ 12 support
+    + added VC++ 14 support
+
+ + include/xtests/util/filesystem_exception.hpp:
+    + xtests::cpp::util::filesystem_exception
+
+ + include/xtests/util/temp_directory.hpp:
+    + xtests::cpp::util::temp_directory
+
+ + include/xtests/util/temp_file.hpp:
+    + xtests::cpp::util::temp_file
+
+Core:
+
+ ~ src/xtests.core.cpp:
+    ~ forward compatibility with STLSoft 1.12
+    ~ fixed nasty nested loop variable hiding (that Clang refused to chew)
+    + handlers for failure (such as by filesystem_exception thrown by temp_directory / temp_file) 
+
+ + src/xtests.internal.exception_macros.hpp:
+    ~ Clang compatibility
+
+Distribution:
+
+Makefiles / Project-files:
+
+ ~ build/ar/makefile:
+ ~ build/bc56/makefile:
+ ~ build/bc582/makefile:
+ ~ build/como433.unix/makefile:
+ ~ build/como433.win32/makefile:
+ ~ build/cw8.unix/makefile:
+ ~ build/cw8.win32/makefile:
+ ~ build/dm/makefile:
+ ~ build/gcc34.unix/makefile:
+ ~ build/gcc34.win32/makefile:
+ ~ build/gcc40.mac/makefile:
+ ~ build/gcc40.unix/makefile:
+ ~ build/gcc41.mac/makefile:
+ ~ build/gcc41.unix/makefile:
+ ~ build/gcc42.mac/makefile:
+ ~ build/gcc42.unix/makefile:
+ + build/gcc43.unix/makefile:
+ + build/gcc44.unix/makefile:
+ + build/gcc45.unix/makefile:
+ + build/gcc46.unix/makefile:
+ + build/gcc47.unix/makefile:
+ ~ build/icl8.win32/makefile:
+ ~ build/icl9.win32/makefile:
+ ~ build/vc10/makefile:
+ + build/vc10.unixem/makefile:
+ + build/vc10.x64/makefile:
+ + build/vc11.unixem/makefile:
+ + build/vc11.x64/makefile:
+ + build/vc11/makefile:
+ ~ build/vc6.unixem/makefile:
+ ~ build/vc6/makefile:
+ ~ build/vc71/makefile:
+ ~ build/vc8.unixem/makefile:
+ ~ build/vc8.x64/makefile:
+ ~ build/vc8/makefile:
+ ~ build/vc9.unixem/makefile:
+ ~ build/vc9.x64/makefile:
+ ~ build/vc9/makefile:
+    ~ now supports caller-defined/environment variable XTESTS_SHWILD_BASE_DIR to use non-bundled shwild
+
+ + build/vc12.unixem/makefile:
+ + build/vc12.x64/makefile:
+ + build/vc12/makefile:
+    + VC++ 12 makefile
+
+ + build/vc14.unixem/makefile:
+ + build/vc14.x64/makefile:
+ + build/vc14/makefile:
+    + VC++ 14 makefile
+
+ ~ projects/core/vc6/xtests.core.dsp:
+
+Examples:
+
+Test:
+
+Test.Unit:
+
+Test.Component:
+
+Test.Scratch:
+
+ + test/scratch/test.scratch.temp_directory
+
+ + test/scratch/test.scratch.temp_file
+
+Depends on:
+
+ * STLSoft 1.9.121 or later
+   (http://stlsoft.org/)
+
 
 
 1st March 2013 - 0.17.1

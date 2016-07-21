@@ -4,7 +4,7 @@
  * Purpose:     Definition of the temp_directory class.
  *
  * Created:     1st October 2015
- * Updated:     7th October 2015
+ * Updated:     4th November 2015
  *
  * Home:        http://stlsoft.org/
  *
@@ -50,8 +50,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MAJOR    0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MINOR    1
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_REVISION 3
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     5
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_REVISION 7
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     9
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -69,10 +69,6 @@
 #ifndef STLSOFT_CF_EXCEPTION_SUPPORT
 # error temp_directory can only be used in a compilation unit in which exception support is enabled
 #endif /* !STLSOFT_CF_EXCEPTION_SUPPORT */
-
-#ifndef _WIN32
-# error Currently only defined for the Windows API
-#endif /* !_WIN32 */
 
 /* /////////////////////////////////////////////////////////////////////////
  * includes - 1
@@ -156,7 +152,7 @@ private:
     temp_directory(class_type const&);
     class_type& operator =(class_type const&);
 public:
-    ~temp_directory() stlsoft_throw_0();
+    ~temp_directory() STLSOFT_NOEXCEPT;
 
 public: // Accessors
     /// Length of the path of the temporary directory
@@ -388,7 +384,7 @@ temp_directory::create_directory_(
 
     if(NULL == ::mkdtemp(tmp_path))
     {
-        int const e = ::errno;
+        int const e = errno;
 
         throw could_not_create_temporary_directory_exception(e, "could not create directory in any of the possible locations");
     }
@@ -447,7 +443,7 @@ inline
 }
 
 inline
-temp_directory::~temp_directory() stlsoft_throw_0()
+temp_directory::~temp_directory() STLSOFT_NOEXCEPT
 {
     bool removed_recursively = false;
 
@@ -480,6 +476,69 @@ temp_directory::c_str() const
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
+ * shims
+ */
+
+#ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
+
+inline
+size_t
+c_str_len_a(
+    temp_directory const& t
+)
+{
+    return t.size();
+}
+
+inline
+char const*
+c_str_data_a(
+    temp_directory const& t
+)
+{
+    return t.c_str();
+}
+
+inline
+char const*
+c_str_ptr_a(
+    temp_directory const& t
+)
+{
+    return t.c_str();
+}
+
+
+inline
+size_t
+c_str_len(
+    temp_directory const& t
+)
+{
+    return t.size();
+}
+
+inline
+char const*
+c_str_data(
+    temp_directory const& t
+)
+{
+    return t.c_str();
+}
+
+inline
+char const*
+c_str_ptr(
+    temp_directory const& t
+)
+{
+    return t.c_str();
+}
+
+#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
+
+/* /////////////////////////////////////////////////////////////////////////
  * namespace
  */
 
@@ -493,8 +552,11 @@ temp_directory::c_str() const
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
+# if !defined(_STLSOFT_NO_NAMESPACE) && \
+     !defined(STLSOFT_NO_NAMESPACE)
 namespace stlsoft
 {
+# endif
 
     inline
     size_t
@@ -530,7 +592,7 @@ namespace stlsoft
         ::xtests::cpp::util::temp_directory const& t
     )
     {
-        return c_str_len_a(t);
+        return t.size();
     }
 
     inline
@@ -539,7 +601,7 @@ namespace stlsoft
         ::xtests::cpp::util::temp_directory const& t
     )
     {
-        return c_str_data_a(t);
+        return t.c_str();
     }
 
     inline
@@ -548,10 +610,13 @@ namespace stlsoft
         ::xtests::cpp::util::temp_directory const& t
     )
     {
-        return c_str_ptr_a(t);
+        return t.c_str();
     }
 
+# if !defined(_STLSOFT_NO_NAMESPACE) && \
+    !defined(STLSOFT_NO_NAMESPACE)
 } /* namespace stlsoft */
+# endif
 
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 

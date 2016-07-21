@@ -5,11 +5,11 @@
  *              library.
  *
  * Created:     20th June 1999
- * Updated:     7th October 2015
+ * Updated:     22nd July 2016
  *
  * Home:        http://stlsoft.org/
  *
- * Copyright (c) 1999-2015, Matthew Wilson and Synesis Software
+ * Copyright (c) 1999-2016, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,8 +51,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       39
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    2
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        329
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    6
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        333
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -75,9 +75,9 @@
 
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       18
-#define _XTESTS_VER_REVISION    4
+#define _XTESTS_VER_REVISION    8
 
-#define _XTESTS_VER             0x001204ff
+#define _XTESTS_VER             0x001208ff
 
 /* /////////////////////////////////////////////////////////////////////////
  * Includes - 1
@@ -94,8 +94,8 @@
 #if defined(STLSOFT_VER) && \
     STLSOFT_VER >= 0x010c0000
 # define XTESTS_STLSOFT_1_12_OR_LATER
-#elif _STLSOFT_VER < 0x010979ff
-# error xTests requires version 1.9.121 (or later) of STLSoft; download from www.stlsoft.org
+#elif _STLSOFT_VER < 0x010980ff
+# error xTests requires version 1.9.128 (or later) of STLSoft; download from www.stlsoft.org
 #endif /* _STLSOFT_VER */
 
 #ifndef __cplusplus
@@ -3121,20 +3121,22 @@ namespace cpp
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # if defined(STLSOFT_CF_EXCEPTION_SUPPORT)
 
-// This exception class is used to bring an early end to a test case as a
-// result of a required test failing.
-//
-// NOTE: it is NOT derived from std::exception, because it has
-// to be proof from any catches created by the user.
+/* This exception class is used to bring an early end to a test case as a
+ * result of a required test failing.
+ *
+ * NOTE: it is NOT derived from std::exception, because it has
+ * to be proof from any catches created by the user.
+ */
 class requirement_failed_exception
 {
 };
 
-// This exception class is used to bring an early end to a test case as a
-// result of a prerequisite failing.
-//
-// NOTE: it is NOT derived from std::exception, because it has
-// to be proof from any catches created by the user
+/* This exception class is used to bring an early end to a test case as a
+ * result of a prerequisite failing.
+ *
+ * NOTE: it is NOT derived from std::exception, because it has
+ * to be proof from any catches created by the user
+ */
 class prerequisite_failed_exception
 {
 public:
@@ -3144,12 +3146,12 @@ public:
     explicit
     prerequisite_failed_exception()
     {}
-    virtual ~prerequisite_failed_exception() stlsoft_throw_0()
+    virtual ~prerequisite_failed_exception() STLSOFT_NOEXCEPT
     {}
 private:
     class_type& operator =(class_type const&);
 
-public: // Overrides
+public: /* Overrides */
     virtual char const* what() const = 0;
 };
 
@@ -3232,7 +3234,7 @@ public:
         : m_original(XTESTS_NS_C_QUAL(xtests_setFloatingPointCloseFactor)(factor, NULL))
     {}
     /** Resets the floating point close factor to the original value */
-    ~xtest_floatingpoint_factor_scope() stlsoft_throw_0()
+    ~xtest_floatingpoint_factor_scope() STLSOFT_NOEXCEPT
     {
         XTESTS_NS_C_QUAL(xtests_setFloatingPointCloseFactor)(m_original, NULL);
     }
@@ -4265,7 +4267,7 @@ xtests_commandLine_parseVerbosity(
                                                                                         \
     stlsoft_static_cast(void, XTESTS_NS_C_QUAL(xtests_commandLine_parseVerbosity)((argc), (argv), (pverbosity)))
 
-#ifndef XTESTS_DOCUMENTATION_SKIP_SECTION // The following seems to break Doxygen, so we don't document it :-(
+#ifndef XTESTS_DOCUMENTATION_SKIP_SECTION /* The following seems to break Doxygen, so we don't document it :-( */
 
 /** \def XTESTS_COMMANDLINE_PARSEVERBOSITY_DEFAULT(argc, argv, pverbosity, defaultVerbosity)
  *

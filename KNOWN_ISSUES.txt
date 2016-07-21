@@ -1,18 +1,18 @@
 xTests - Known Issues
 =====================
 
-Updated:    1st March 2013
+Updated:    7th October 2015
 
 
 
-xTests 0.17 Known Issues:
+xTests 0.18 Known Issues:
 ------------------------
 
  <none>
 
 
 
-xTests 0.17 Suspected Issues:
+xTests 0.18 Suspected Issues:
 ----------------------------
 
  <none>
