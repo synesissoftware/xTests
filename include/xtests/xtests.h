@@ -5,7 +5,7 @@
  *              library.
  *
  * Created:     20th June 1999
- * Updated:     22nd July 2016
+ * Updated:     11th November 2016
  *
  * Home:        http://stlsoft.org/
  *
@@ -51,8 +51,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       39
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    8
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        335
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    9
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        336
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -75,9 +75,9 @@
 
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       18
-#define _XTESTS_VER_REVISION    9
+#define _XTESTS_VER_REVISION    10
 
-#define _XTESTS_VER             0x001209ff
+#define _XTESTS_VER             0x00120aff
 
 /* /////////////////////////////////////////////////////////////////////////
  * Includes - 1
@@ -94,8 +94,8 @@
 #if defined(STLSOFT_VER) && \
     STLSOFT_VER >= 0x010c0000
 # define XTESTS_STLSOFT_1_12_OR_LATER
-#elif _STLSOFT_VER < 0x010980ff
-# error xTests requires version 1.9.128 (or later) of STLSoft; download from www.stlsoft.org
+#elif _STLSOFT_VER < 0x010983ff
+# error xTests requires version 1.9.131 (or later) of STLSoft; download from www.stlsoft.org
 #endif /* _STLSOFT_VER */
 
 #ifndef __cplusplus

@@ -4,7 +4,7 @@
  * Purpose: Implicit linking for the xTests API
  *
  * Created: 3rd March 2003
- * Updated: 22nd July 2016
+ * Updated: 29th September 2016
  *
  * Home:    http://xtests.org/
  *
@@ -61,8 +61,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MAJOR    1
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MINOR    12
-# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_REVISION 2
-# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_EDIT     35
+# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_REVISION 3
+# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_EDIT     36
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -103,6 +103,7 @@
 # if 0 || \
      defined(__MT__) || \
      defined(_REENTRANT) || \
+     defined(_MT) || \
      0
 #  define XTESTS_IMPLICIT_LINK_MT_
 # endif
