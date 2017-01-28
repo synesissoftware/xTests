@@ -33,9 +33,14 @@ x64/
 
 # files (by name)
 
+.update_deps
+
 list_changes.cmd
 
 prepare.cmd
+
+build/makefile.tmpl
+build/makefile.tools.xml
 
 # files (by pattern)
 
