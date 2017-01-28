@@ -4,13 +4,13 @@
  * Purpose:     Implementation file for the test.scratch.basics1 project.
  *
  * Created:     15th December 2007
- * Updated:     16th June 2009
+ * Updated:     10th January 2017
  *
  * Status:      Wizard-generated
  *
  * License:     (Licensed under the Synesis Software Open License)
  *
- *              Copyright (c) 2007-2009, Synesis Software Pty Ltd.
+ *              Copyright (c) 2007-2017, Synesis Software Pty Ltd.
  *              All rights reserved.
  *
  *              www:        http://www.synesis.com.au/software
@@ -36,7 +36,7 @@
 #endif /* _MSC_VER) && _DEBUG */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Forward declarations
+ * forward declarations
  */
 
 static void test_2(void);
@@ -123,7 +123,7 @@ int main(int argc, char** argv)
 }
 
 /* /////////////////////////////////////////////////////////////////////////
- * Test function definitions
+ * test function definitions
  */
 
 static void test_2(void)

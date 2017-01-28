@@ -4,13 +4,13 @@
  * Purpose:     Implementation file for the test.scratch.fail_all.1 project.
  *
  * Created:     26th January 2009
- * Updated:     23rd February 2013
+ * Updated:     10th January 2017
  *
  * Status:      Wizard-generated
  *
  * License:     (Licensed under the Synesis Software Open License)
  *
- *              Copyright (c) 2009-2013, Synesis Software Pty Ltd.
+ *              Copyright (c) 2009-2017, Synesis Software Pty Ltd.
  *              All rights reserved.
  *
  *              www:        http://www.synesis.com.au/software
@@ -43,7 +43,7 @@
 #include <xtests/test/util/compiler_warnings_suppression.last_include.h>
 
 /* /////////////////////////////////////////////////////////////////////////
- * Forward declarations
+ * forward declarations
  */
 
 namespace

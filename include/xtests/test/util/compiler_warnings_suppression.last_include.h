@@ -5,7 +5,7 @@
  *              list.
  *
  * Created:     20th February 2008
- * Updated:     13th August 2010
+ * Updated:     10th January 2017
  *
  * Author:      Matthew Wilson
  *
@@ -51,7 +51,7 @@
 #define XTESTS_INCL_XTESTS_TEST_UTIL_H_COMPILER_WARNINGS_SUPPRESSION_LAST_INCLUDE
 
 /* /////////////////////////////////////////////////////////////////////////
- * Includes
+ * includes
  */
 
 #ifndef XTESTS_INCL_XTESTS_TEST_UTIL_H_COMPILER_WARNINGS_SUPPRESSION_FIRST_INCLUDE
@@ -59,7 +59,7 @@
 #endif /* !XTESTS_INCL_XTESTS_TEST_UTIL_H_COMPILER_WARNINGS_SUPPRESSION_FIRST_INCLUDE */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Warning suppressions
+ * warning suppressions
  */
 
 #if defined(STLSOFT_COMPILER_IS_BORLAND)

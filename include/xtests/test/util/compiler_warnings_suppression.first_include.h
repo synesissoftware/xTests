@@ -5,7 +5,7 @@
  *              list.
  *
  * Created:     20th February 2008
- * Updated:     8th March 2008
+ * Updated:     10th January 2017
  *
  * Author:      Matthew Wilson
  *
@@ -51,7 +51,7 @@
 #define XTESTS_INCL_XTESTS_TEST_UTIL_H_COMPILER_WARNINGS_SUPPRESSION_FIRST_INCLUDE
 
 /* /////////////////////////////////////////////////////////////////////////
- * Includes
+ * includes
  */
 
 #ifndef STLSOFT_INCL_STLSOFT_H_STLSOFT
@@ -59,7 +59,7 @@
 #endif /* !STLSOFT_INCL_STLSOFT_H_STLSOFT */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Warning suppressions
+ * warning suppressions
  */
 
 #ifdef STLSOFT_CF_EXCEPTION_SUPPORT

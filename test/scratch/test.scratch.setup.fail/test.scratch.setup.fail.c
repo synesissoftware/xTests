@@ -4,13 +4,13 @@
  * Purpose:     Implementation file for the test.scratch.setup.fail project.
  *
  * Created:     31st January 2010
- * Updated:     31st January 2010
+ * Updated:     10th January 2017
  *
  * Status:      Wizard-generated
  *
  * License:     (Licensed under the Synesis Software Open License)
  *
- *              Copyright (c) 2007-2010, Synesis Software Pty Ltd.
+ *              Copyright (c) 2007-2017, Synesis Software Pty Ltd.
  *              All rights reserved.
  *
  *              www:        http://www.synesis.com.au/software
@@ -36,7 +36,7 @@
 #endif /* _MSC_VER) && _DEBUG */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Forward declarations
+ * forward declarations
  */
 
 static void test_1(void);
@@ -92,7 +92,7 @@ int main(int argc, char** argv)
 }
 
 /* /////////////////////////////////////////////////////////////////////////
- * Test function definitions
+ * test function definitions
  */
 
 static int setup(void* param)

@@ -97,7 +97,7 @@
 #include <string.h>
 
 /* /////////////////////////////////////////////////////////////////////////
- * Compatiblity tests
+ * compatiblity tests
  */
 
 /* Warning suppressions */
@@ -113,7 +113,7 @@
 #endif /* compiler */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Implementation
+ * implementation
  */
 
 #define XTESTS_VERBOSITY_VALID_MISSING_CASES    \
@@ -126,7 +126,7 @@
 
 
 /* /////////////////////////////////////////////////////////////////////////
- * Compatiblity
+ * compatiblity
  */
 
 /* Windows debugging support
@@ -198,7 +198,7 @@ static void xtests_OutputDebugStringA_(char const*);
 #endif /* XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_ */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Typedefs
+ * typedefs
  */
 
 namespace
@@ -231,7 +231,7 @@ namespace stlsoft
 #endif /* _STLSOFT_NO_NAMESPACE */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Namespace
+ * namespace
  */
 
 #ifndef _XTESTS_NO_NAMESPACE
@@ -242,7 +242,7 @@ namespace c
 #endif /* !_XTESTS_NO_NAMESPACE */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Typedefs
+ * typedefs
  */
 
 #ifdef STLSOFT_CF_NAMESPACE_SUPPORT
@@ -585,7 +585,7 @@ namespace
 #endif /* STLSOFT_CF_NAMESPACE_SUPPORT */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Helper functions
+ * helper functions
  */
 
 #ifdef STLSOFT_CF_NAMESPACE_SUPPORT
@@ -719,7 +719,7 @@ namespace
 #endif /* STLSOFT_CF_NAMESPACE_SUPPORT */
 
 /* /////////////////////////////////////////////////////////////////////////
- * API Implementation
+ * API implementation
  */
 
 XTESTS_CALL(int) xtests_startRunner(
@@ -1426,7 +1426,7 @@ XTESTS_CALL(int) xTests_hasRequiredConditionFailed(void)
 }
 
 /* /////////////////////////////////////////////////////////////////////////
- * Helper functions
+ * helper functions
  */
 
 XTESTS_CALL(int) xtests_commandLine_parseVerbosity(
@@ -1458,7 +1458,7 @@ XTESTS_CALL(int) xtests_commandLine_parseVerbosity(
 }
 
 /* /////////////////////////////////////////////////////////////////////////
- * Classes
+ * classes
  */
 
 xtests_variable_value_t::xtests_variable_value_t(bool b)
@@ -4555,7 +4555,7 @@ void RunnerInfo::Call_onTestFailed(
 #endif /* STLSOFT_CF_NAMESPACE_SUPPORT */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Namespace
+ * namespace
  */
 
 #ifndef _XTESTS_NO_NAMESPACE
@@ -4577,7 +4577,7 @@ static void xtests_OutputDebugStringA_(char const*s)
 #endif /* XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_ */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Implementation
+ * implementation
  */
 
 #include "xtests.internal.string.c"

@@ -56,7 +56,7 @@
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Version information
+ * version information
  */
 
 /**
@@ -88,7 +88,7 @@
 #endif /* !STLSOFT_INCL_STLSOFT_H_STLSOFT */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Compatibility
+ * compatibility
  */
 
 #if defined(STLSOFT_VER) && \
@@ -165,7 +165,7 @@
 #include <string.h>
 
 /* /////////////////////////////////////////////////////////////////////////
- * Namespace
+ * namespace
  */
 
 #if defined(_STLSOFT_NO_NAMESPACE)
@@ -182,7 +182,7 @@ namespace c
 #endif /* !_XTESTS_NO_NAMESPACE */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Features
+ * features
  */
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
@@ -439,7 +439,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 #define XTESTS_FP_APPROXIMATE_FACTOR                   (1.000001)
 
 /* /////////////////////////////////////////////////////////////////////////
- * Macros
+ * macros
  */
 
 /** \defgroup group__xtests__test_runner_functions Test Runner Functions
@@ -927,7 +927,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 
 
 /* /////////////////////////////////////////////////////////
- * Test enumerations
+ * test enumerations
  */
 
 /** \def XTESTS_TEST_ENUM_EQUAL(expected, actual)
@@ -964,7 +964,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 
 
 /* /////////////////////////////////////////////////////////
- * Test integers
+ * test integers
  */
 
 #ifndef _XTESTS_NO_CPP_API
@@ -1211,7 +1211,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 
 
 /* /////////////////////////////////////////////////////////
- * Test Booleans
+ * test booleans
  */
 
 /** \def XTESTS_TEST_BOOLEAN_EQUAL(expected, actual)
@@ -1282,7 +1282,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 
 
 /* /////////////////////////////////////////////////////////
- * Test characters
+ * test characters
  */
 
 /** \def XTESTS_TEST_CHARACTER_EQUAL_EXACT(expected, actual)
@@ -1537,7 +1537,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 
 
 /* /////////////////////////////////////////////////////////
- * Test integers
+ * test integers
  */
 
 /** \def XTESTS_TEST_INTEGER_EQUAL(expected, actual)
@@ -1599,7 +1599,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 
 
 /* /////////////////////////////////////////////////////////
- * Test multibyte strings
+ * test multibyte strings
  */
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_EQUAL(expected, actual)
@@ -1748,7 +1748,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 
 
 /* /////////////////////////////////////////////////////////
- * Test wide strings
+ * test wide strings
  */
 
 /** \def XTESTS_TEST_WIDE_STRING_EQUAL(expected, actual)
@@ -2039,7 +2039,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 
 
 /* /////////////////////////////////////////////////////////
- * Test string slices
+ * test string slices
  */
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL(expected, actual)
@@ -2079,7 +2079,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
     XTESTS_NS_C_QUAL(xtests_testWideStringSlice)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", XTESTS_GET_EXPECTED_SLICE_WIDE_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonEqual)))
 
 /* /////////////////////////////////////////////////////////
- * Test pointers
+ * test pointers
  */
 
 /** \def XTESTS_TEST_POINTER_EQUAL(expected, actual)
@@ -2190,7 +2190,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 
 
 /* /////////////////////////////////////////////////////////
- * Test function pointers
+ * test function pointers
  */
 
 /** \def XTESTS_TEST_FUNCTION_POINTER_EQUAL(expected, actual)
@@ -2231,7 +2231,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 
 
 /* /////////////////////////////////////////////////////////////////////////
- * Helper functions
+ * helper functions
  */
 
 #ifdef __cplusplus
@@ -4225,7 +4225,7 @@ XTESTS_CALL(int)
 xTests_hasRequiredConditionFailed(void);
 
 /* /////////////////////////////////////////////////////////////////////////
- * Helper functions
+ * helper functions
  */
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
@@ -4297,7 +4297,7 @@ xtests_commandLine_parseVerbosity(
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Obsolete names
+ * obsolete names
  */
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
@@ -4308,7 +4308,7 @@ xtests_commandLine_parseVerbosity(
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Namespace
+ * namespace
  */
 
 #ifndef _XTESTS_NO_NAMESPACE

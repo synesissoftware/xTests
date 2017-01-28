@@ -4,7 +4,7 @@
  * Purpose:     Handles detection of safe string library.
  *
  * Created:     9th February 2008
- * Updated:     8th March 2008
+ * Updated:     10th January 2017
  *
  * Author:      Matthew Wilson
  *
@@ -49,7 +49,7 @@
 #define XTESTS_INCL_XTESTS_INTERNAL_H_SAFESTR
 
 /* /////////////////////////////////////////////////////////////////////////
- * Includes
+ * includes
  */
 
 #ifndef XTESTS_INCL_XTESTS_H_XTESTS
@@ -83,7 +83,7 @@
 #endif /* XTESTS_SAFE_STR_USE_crtdefs_h_ */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Includes
+ * includes
  */
 
 #ifdef __STDC_SECURE_LIB__

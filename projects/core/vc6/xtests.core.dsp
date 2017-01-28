@@ -265,11 +265,11 @@ SOURCE=..\..\..\src\xtests.internal.string.c
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE="$(STLSOFT)\include\stlsoft\memory\allocator_features.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\memory\util\allocator_features.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT)\include\stlsoft\memory\allocator_selector.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\memory\util\allocator_selector.hpp"
 # End Source File
 # Begin Source File
 
@@ -313,7 +313,15 @@ SOURCE="$(STLSOFT)\include\stlsoft\util\constraints.hpp"
 # End Source File
 # Begin Source File
 
+SOURCE="$(STLSOFT)\include\stlsoft\quality\contract.h"
+# End Source File
+# Begin Source File
+
 SOURCE="$(STLSOFT)\include\stlsoft\error\conversion_error.hpp"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\stlsoft\quality\cover.h"
 # End Source File
 # Begin Source File
 
@@ -333,6 +341,14 @@ SOURCE="$(STLSOFT)\include\stlsoft\internal\head_version.h"
 # End Source File
 # Begin Source File
 
+SOURCE="$(STLSOFT)\include\stlsoft\limits\integral_format_width_limits.hpp"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\stlsoft\traits\integral_printf_format_traits.hpp"
+# End Source File
+# Begin Source File
+
 SOURCE="$(STLSOFT)\include\stlsoft\util\integral_printf_traits.hpp"
 # End Source File
 # Begin Source File
@@ -346,6 +362,10 @@ SOURCE="$(STLSOFT)\include\stlsoft\meta\is_pointer_type.hpp"
 # Begin Source File
 
 SOURCE="$(STLSOFT)\include\stlsoft\meta\is_same_type.hpp"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\stlsoft\meta\is_signed_type.hpp"
 # End Source File
 # Begin Source File
 
@@ -413,11 +433,23 @@ SOURCE="$(STLSOFT)\include\stlsoft\shims\access\string.hpp"
 # End Source File
 # Begin Source File
 
+SOURCE="$(STLSOFT)\include\stlsoft\string\string_slice.h"
+# End Source File
+# Begin Source File
+
 SOURCE="$(STLSOFT)\include\stlsoft\string\string_traits.hpp"
 # End Source File
 # Begin Source File
 
 SOURCE="$(STLSOFT)\include\stlsoft\string\string_traits_fwd.hpp"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\stlsoft\shims\access\string\std\time.hpp"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\stlsoft\shims\access\string\std\type_info.hpp"
 # End Source File
 # Begin Source File
 
@@ -427,6 +459,10 @@ SOURCE="$(STLSOFT)\include\stlsoft\meta\yesno.hpp"
 # Begin Group "PlatformSTL"
 
 # PROP Default_Filter ""
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\platformstl\filesystem\path_functions.h"
+# End Source File
 # Begin Source File
 
 SOURCE="$(STLSOFT)\include\platformstl\platformstl.h"
@@ -534,9 +570,5 @@ SOURCE="..\..\..\_internal\dist-src\README.txt"
 SOURCE="..\..\..\_internal\dist-src\TODO.txt"
 # End Source File
 # End Group
-# Begin Source File
-
-SOURCE=..\ideas.txt
-# End Source File
 # End Target
 # End Project
