@@ -4,11 +4,11 @@
  * Purpose:     Definition of the filesystem_exception class.
  *
  * Created:     1st October 2015
- * Updated:     8th October 2015
+ * Updated:     20th January 2017
  *
  * Home:        http://stlsoft.org/
  *
- * Copyright (c) 2015, Matthew Wilson and Synesis Software
+ * Copyright (c) 2015-2017, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,8 +50,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_MAJOR      0
 # define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_MINOR      1
-# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_REVISION   6
-# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_EDIT       8
+# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_REVISION   8
+# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_EDIT       10
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -77,12 +77,11 @@
 #include <stlsoft/stlsoft.h>
 
 #if defined(STLSOFT_LEAD_VER) && \
-    STLSOFT_LEAD_VER >= 0x010a0114
-# error Sort for 1.10 (alpha 20)+
+    STLSOFT_LEAD_VER > 0x010a0181
+# include <platformstl/exception/platformstl_exception.hpp>
 #else
+# include <platformstl/error/exceptions.hpp>
 #endif
-
-#include <platformstl/error/exceptions.hpp>
 #include <platformstl/system/system_traits.hpp>
 
 /* /////////////////////////////////////////////////////////////////////////
