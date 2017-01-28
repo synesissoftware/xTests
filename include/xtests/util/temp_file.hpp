@@ -4,11 +4,11 @@
  * Purpose:     Definition of the temp_file class.
  *
  * Created:     8th May 2014
- * Updated:     4th November 2015
+ * Updated:     10th January 2017
  *
  * Home:        http://stlsoft.org/
  *
- * Copyright (c) 2014-2015, Matthew Wilson and Synesis Software
+ * Copyright (c) 2014-2017, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,8 +50,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MAJOR     0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     1
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  6
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      10
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  9
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      14
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -94,9 +94,10 @@
 # error Operating system not discriminated
 #endif
 
+#include <stlsoft/conversion/truncation_cast.hpp>
 #include <stlsoft/memory/auto_buffer.hpp>
-
 #include <stlsoft/shims/access/string/fwd.h>
+#include <stlsoft/smartptr/scoped_handle.hpp>
 
 #include <string>
 
@@ -122,11 +123,11 @@ class temp_file
 {
 public: // Types
     /// The character type
-    typedef char                            char_type;
+    typedef char                                            char_type;
     /// The size type
-    typedef size_t                          size_type;
+    typedef size_t                                          size_type;
     /// This type
-    typedef temp_file                       class_type;
+    typedef temp_file                                       class_type;
 
     /// Flags that control behaviour of ctor and/or dtor
     enum Flags
@@ -135,6 +136,8 @@ public: // Types
         ,   DeleteOnClose   =   0x0002
         ,   EmptyOnOpen     =   0x0004
         ,   EmptyOnClose    =   0x0008
+        ,   DeleteOnOpen    =   0x0010
+        ,   CloseOnOpen     =   0x0020
     };
 
     class could_not_create_temporary_file_exception;
@@ -147,7 +150,8 @@ private:
 public: // Construction
     /// Establishes an empty temporary file according to the given
     /// flags
-    explicit temp_file(Flags flags);
+    explicit
+    temp_file(Flags flags);
     /// Establishes a non-empty temporary file according to the given
     /// flags
     temp_file(
@@ -156,8 +160,8 @@ public: // Construction
     ,   size_t      cb
     );
 private:
-    temp_file(class_type const&);
-    class_type& operator =(class_type const&);
+    temp_file(class_type const&);               // copy-construction proscribed
+    class_type& operator =(class_type const&);  // copy-assignment proscribed
 public:
     ~temp_file() STLSOFT_NOEXCEPT;
 
@@ -377,13 +381,23 @@ temp_file::create_file_(
     char tmp_path[] = "/tmp/xtests-temp-dir.XXXXXXXX";
 
 # ifdef _WIN32
-    char* const tmp_path_win_ = &tmp_path[0] + 4;
+    // Can't bank on "/tmp" directory existing, so just do it in "./"
+    char* const tmp_path_win_ = &tmp_path[0] + 3;
+    0[tmp_path_win_] = '.';
 #  define tmp_path  tmp_path_win_
 # endif
 
-    if(NULL != ::mkstemp(tmp_path))
+    int f;
+
+    if(-1 != (f = ::mkstemp(tmp_path)))
     {
         file_handle_type_ const hFile = fs_traits_type_::open_file(tmp_path, O_WRONLY | O_CREAT | O_TRUNC, S_IWRITE);
+
+        int const e = errno;
+
+        fs_traits_type_::close_file(f);
+
+        errno = e;
 
         if(fs_traits_type_::invalid_file_handle_value() != hFile)
         {
@@ -414,10 +428,13 @@ temp_file::create_(
 ,   size_t                      cb
 )
 {
+    STLSOFT_ASSERT(0 == cb || NULL != pv);
+
     // Algorithm:
     //
     // 1. Generate a unique, new file name
     // 2. Empty it, if required
+    // 3. Write the contents, if specified
 
 
     // 1. Generate a unique, new file name
@@ -425,7 +442,27 @@ temp_file::create_(
     file_handle_type_ const hFile = create_file_(path);
 
 
+    if(fs_traits_type_::invalid_file_handle_value() == hFile)
+    {
+        fs_traits_type_::result_code_type const rc = fs_traits_type_::get_last_error();
+
+        throw could_not_create_temporary_file_exception(rc, "could not create file");
+    }
+
+    if(0 != (DeleteOnOpen & flags))
+    {
+        fs_traits_type_::close_file(hFile);
+
+        fs_traits_type_::delete_file(path.c_str());
+
+        return fs_traits_type_::invalid_file_handle_value();
+    }
+
+
+    stlsoft::scoped_handle<fs_traits_type_::file_handle_type> scoper(hFile, fs_traits_type_::close_file, fs_traits_type_::invalid_file_handle_value());
+
     // 2. Empty it, if required
+
     if(0 != (EmptyOnOpen & flags))
     {
         fs_traits_type_::result_code_type const rc = empty_file_(hFile);
@@ -436,8 +473,43 @@ temp_file::create_(
         }
     }
 
+    // 3. Write the contents, if specified
 
-    return hFile;
+    if(0 != cb)
+    {
+# if 0
+# elif defined(PLATFORMSTL_OS_IS_UNIX)
+
+        int const r = write(hFile, pv, static_cast<unsigned int>(cb));
+
+        if(r < 0)
+        {
+            int const e = errno;
+
+            throw could_not_create_temporary_file_exception(e, "could not write file contents");
+        }
+
+# elif defined(PLATFORMSTL_OS_IS_WINDOWS)
+
+        DWORD numWritten;
+
+        if(!::WriteFile(hFile, pv, stlsoft::truncation_cast<DWORD>(cb), &numWritten, NULL))
+        {
+            DWORD const e = ::GetLastError();
+
+            throw could_not_create_temporary_file_exception(e, "could not write file contents");
+        }
+# else
+#  error Platform not discrminated
+# endif
+    }
+
+    if(0 != (CloseOnOpen & flags))
+    {
+        scoper.close();
+    }
+
+    return scoper.detach();
 }
 
 
@@ -449,7 +521,7 @@ inline
     , m_path()
     , m_hFile(create_(flags, m_path, NULL, 0))
 {
-    STLSOFT_ASSERT(fs_traits_type_::invalid_file_handle_value() != m_hFile);
+    STLSOFT_ASSERT(fs_traits_type_::invalid_file_handle_value() != m_hFile || 0 != (CloseOnOpen & m_flags) || 0 != (DeleteOnOpen & m_flags));
 }
 
 inline
@@ -462,20 +534,23 @@ inline
     , m_path()
     , m_hFile(create_(flags, m_path, pv, cb))
 {
-    STLSOFT_ASSERT(fs_traits_type_::invalid_file_handle_value() != m_hFile);
+    STLSOFT_ASSERT(fs_traits_type_::invalid_file_handle_value() != m_hFile || 0 != (CloseOnOpen & m_flags) || 0 != (DeleteOnOpen & m_flags));
 }
 
 inline
 temp_file::~temp_file() STLSOFT_NOEXCEPT
 {
-    fs_traits_type_::close_file(m_hFile);
+    if(0 != (EmptyOnClose & m_flags))
+    {
+        empty_file_(m_hFile);
+    }
+
+    if(fs_traits_type_::invalid_file_handle_value() != m_hFile)
+    {
+        fs_traits_type_::close_file(m_hFile);
+    }
 
     if(0 != (DeleteOnClose & m_flags))
-    {
-        fs_traits_type_::delete_file(m_path.c_str());
-    }
-    else
-    if(0 != (EmptyOnClose & m_flags))
     {
         fs_traits_type_::delete_file(m_path.c_str());
     }
