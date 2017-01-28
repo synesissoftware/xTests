@@ -5,7 +5,7 @@
 #           compiler, on Win32
 #
 # Created:  16th December 2007
-# Updated:  13th July 2016
+# Updated:  28th January 2017
 #
 ############################################################################
 
@@ -16,7 +16,6 @@
 !ifndef STLSOFT
 !error STLSOFT must be defined
 !endif # !STLSOFT
-
 
 ############################################################################
 # symbols
@@ -418,98 +417,98 @@ CPPC_FLAGS_ST_R =\
 
 CC_ARGS_MT_D=\
  $(CC_FLAGS_MT_D)\
- -D_DEBUG -UNDEBUG -tWM\
  $(CC_DEFS_MT_D)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
- $(CC_INCLUDES_MT_D)
+ $(CC_INCLUDES_MT_D)\
+ -tWM -D_DEBUG -UNDEBUG $(CC_CUSTOM_DEFS_DEBUG)
 CC_ARGS_MT_D_TEST=\
  $(CC_FLAGS_MT_D)\
- -D_DEBUG -UNDEBUG -tWM\
  $(CC_DEFS_MT_D)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
+ -tWM -D_DEBUG -UNDEBUG $(CC_CUSTOM_DEFS_DEBUG)\
  $(CC_INCLUDES_TEST)
 CC_ARGS_MT_R=\
  $(CC_FLAGS_MT_R)\
- -DNDEBUG -U_DEBUG -tWM $(CC_F_MAXIMUM_SPEED)\
  $(CC_DEFS_MT_R)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
- $(CC_INCLUDES_MT_R)
+ $(CC_INCLUDES_MT_R)\
+ -tWM -DNDEBUG -U_DEBUG $(CC_F_MAXIMUM_SPEED)   $(CC_CUSTOM_DEFS_RELEASE)
 CC_ARGS_MT_R_TEST=\
  $(CC_FLAGS_MT_R)\
- -DNDEBUG -U_DEBUG -tWM $(CC_F_MAXIMUM_SPEED)\
  $(CC_DEFS_MT_R)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
+ -tWM -DNDEBUG -U_DEBUG $(CC_F_MAXIMUM_SPEED)   $(CC_CUSTOM_DEFS_RELEASE)\
  $(CC_INCLUDES_TEST)
 CC_ARGS_ST_D=\
  $(CC_FLAGS_ST_D)\
- -D_DEBUG -UNDEBUG\
  $(CC_DEFS_ST_D)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
- $(CC_INCLUDES_ST_D)
+ $(CC_INCLUDES_ST_D)\
+ -D_DEBUG -UNDEBUG $(CC_CUSTOM_DEFS_DEBUG)
 CC_ARGS_ST_D_TEST=\
  $(CC_FLAGS_ST_D)\
- -D_DEBUG -UNDEBUG\
  $(CC_DEFS_ST_D)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
+ -D_DEBUG -UNDEBUG $(CC_CUSTOM_DEFS_DEBUG)\
  $(CC_INCLUDES_TEST)
 CC_ARGS_ST_R=\
  $(CC_FLAGS_ST_R)\
- -DNDEBUG -U_DEBUG $(CC_F_MAXIMUM_SPEED)\
  $(CC_DEFS_ST_R)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
- $(CC_INCLUDES_ST_R)
+ $(CC_INCLUDES_ST_R)\
+ -DNDEBUG -U_DEBUG $(CC_F_MAXIMUM_SPEED)   $(CC_CUSTOM_DEFS_RELEASE)
 CC_ARGS_ST_R_TEST=\
  $(CC_FLAGS_ST_R)\
- -DNDEBUG -U_DEBUG $(CC_F_MAXIMUM_SPEED)\
  $(CC_DEFS_ST_R)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
+ -DNDEBUG -U_DEBUG $(CC_F_MAXIMUM_SPEED)   $(CC_CUSTOM_DEFS_RELEASE)\
  $(CC_INCLUDES_TEST)
 
 # CPPC args (= flags + defines + includes)
 
 CPPC_ARGS_MT_D=\
  $(CPPC_FLAGS_MT_D)\
- -D_DEBUG -UNDEBUG -tWM\
  $(CPPC_DEFS_MT_D)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
- $(CPPC_INCLUDES_MT_D)
+ $(CPPC_INCLUDES_MT_D)\
+ -tWM -D_DEBUG -UNDEBUG $(CPPC_CUSTOM_DEFS_DEBUG)
 CPPC_ARGS_MT_D_TEST=\
  $(CPPC_FLAGS_MT_D)\
- -D_DEBUG -UNDEBUG -tWM\
  $(CPPC_DEFS_MT_D)\
+ -tWM -D_DEBUG -UNDEBUG $(CPPC_CUSTOM_DEFS_DEBUG)\
  $(CPPC_INCLUDES_TEST)
 CPPC_ARGS_MT_R=\
  $(CPPC_FLAGS_MT_R)\
- -DNDEBUG -U_DEBUG -tWM $(CPPC_F_MAXIMUM_SPEED)\
  $(CPPC_DEFS_MT_R)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
- $(CPPC_INCLUDES_MT_R)
+ $(CPPC_INCLUDES_MT_R)\
+ -tWM -DNDEBUG -U_DEBUG $(CPPC_F_MAXIMUM_SPEED) $(CPPC_CUSTOM_DEFS_RELEASE)
 CPPC_ARGS_MT_R_TEST=\
  $(CPPC_FLAGS_MT_R)\
- -DNDEBUG -U_DEBUG -tWM $(CPPC_F_MAXIMUM_SPEED)\
  $(CPPC_DEFS_MT_R)\
+ -tWM -DNDEBUG -U_DEBUG $(CPPC_F_MAXIMUM_SPEED) $(CPPC_CUSTOM_DEFS_RELEASE)\
  $(CPPC_INCLUDES_TEST)
 CPPC_ARGS_ST_D=\
  $(CPPC_FLAGS_ST_D)\
- -D_DEBUG -UNDEBUG\
  $(CPPC_DEFS_ST_D)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
- $(CPPC_INCLUDES_ST_D)
+ $(CPPC_INCLUDES_ST_D)\
+ -D_DEBUG -UNDEBUG $(CPPC_CUSTOM_DEFS_DEBUG)
 CPPC_ARGS_ST_D_TEST=\
  $(CPPC_FLAGS_ST_D)\
- -D_DEBUG -UNDEBUG\
  $(CPPC_DEFS_ST_D)\
+ -D_DEBUG -UNDEBUG $(CPPC_CUSTOM_DEFS_DEBUG)\
  $(CPPC_INCLUDES_TEST)
 CPPC_ARGS_ST_R=\
  $(CPPC_FLAGS_ST_R)\
- -DNDEBUG -U_DEBUG $(CPPC_F_MAXIMUM_SPEED)\
  $(CPPC_DEFS_ST_R)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
- $(CPPC_INCLUDES_ST_R)
+ $(CPPC_INCLUDES_ST_R)\
+ -DNDEBUG -U_DEBUG $(CPPC_F_MAXIMUM_SPEED) $(CPPC_CUSTOM_DEFS_RELEASE)
 CPPC_ARGS_ST_R_TEST=\
  $(CPPC_FLAGS_ST_R)\
- -DNDEBUG -U_DEBUG $(CPPC_F_MAXIMUM_SPEED)\
  $(CPPC_DEFS_ST_R)\
+ -DNDEBUG -U_DEBUG $(CPPC_F_MAXIMUM_SPEED) $(CPPC_CUSTOM_DEFS_RELEASE)\
  $(CPPC_INCLUDES_TEST)
 
 ############################################################
@@ -847,19 +846,19 @@ OBJS =\
 # libs
 
 LIBS_EXPLICIT_MT_D =\
- kernel32.lib user32.lib advapi32.lib uuid.lib wininet.lib ole32.lib oleaut32.lib \
+ advapi32.lib kernel32.lib ole32.lib oleaut32.lib user32.lib uuid.lib wininet.lib \
  \
 
 LIBS_EXPLICIT_MT_R =\
- kernel32.lib user32.lib advapi32.lib uuid.lib wininet.lib ole32.lib oleaut32.lib \
+ advapi32.lib kernel32.lib ole32.lib oleaut32.lib user32.lib uuid.lib wininet.lib \
  \
 
 LIBS_EXPLICIT_ST_D =\
- kernel32.lib user32.lib advapi32.lib uuid.lib wininet.lib ole32.lib oleaut32.lib \
+ advapi32.lib kernel32.lib ole32.lib oleaut32.lib user32.lib uuid.lib wininet.lib \
  \
 
 LIBS_EXPLICIT_ST_R =\
- kernel32.lib user32.lib advapi32.lib uuid.lib wininet.lib ole32.lib oleaut32.lib \
+ advapi32.lib kernel32.lib ole32.lib oleaut32.lib user32.lib uuid.lib wininet.lib \
  \
 
 
