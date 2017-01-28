@@ -108,6 +108,21 @@ Package=<4>
 
 ###############################################################################
 
+Project: "test.scratch.verbosity_levels"=.\test\scratch\test.scratch.verbosity_levels\vc6\test.scratch.verbosity_levels.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name xtests.core
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "xtests.core"=.\projects\core\vc6\xtests.core.dsp - Package Owner=<4>
 
 Package=<5>

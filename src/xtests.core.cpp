@@ -4,11 +4,11 @@
  * Purpose:     Implementation for xTests core library.
  *
  * Created:     20th June 1999
- * Updated:     6th October 2015
+ * Updated:     28th January 2017
  *
  * Home:        http://stlsoft.org/
  *
- * Copyright (c) 1999-2015, Matthew Wilson and Synesis Software
+ * Copyright (c) 1999-2017, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,6 +66,12 @@
 #endif /* XTESTS_USE_PANTHEIOS */
 
 /* STLSoft Header Files */
+#include <platformstl/platformstl.h>
+#if _STLSOFT_VER >= 0x010a0181 || \
+    (   defined(_STLSOFT_1_10_VER) && \
+        _STLSOFT_1_10_VER >= 0x010a0113)
+# include <platformstl/filesystem/path_functions.h>
+#endif
 #include <stlsoft/conversion/char_conversions.hpp>
 #include <stlsoft/memory/auto_buffer.hpp>
 #include <stlsoft/shims/access/string/std/c_string.h>
@@ -1429,7 +1435,8 @@ XTESTS_CALL(int) xTests_hasRequiredConditionFailed(void)
  * helper functions
  */
 
-XTESTS_CALL(int) xtests_commandLine_parseVerbosity(
+XTESTS_CALL(int)
+xtests_commandLine_parseVerbosity(
     int     argc
 ,   char**  argv
 ,   int*    verbosity
@@ -1455,6 +1462,62 @@ XTESTS_CALL(int) xtests_commandLine_parseVerbosity(
     }}
 
     return 0;
+}
+
+XTESTS_CALL(void)
+xtests_commandLine_parseHelp(
+    int     argc
+,   char**  argv
+,   FILE*   stm
+,   int     exitCode
+)
+{
+    static const char   s_verb[]    =   "--help";
+    static const size_t s_cchVerb   =   STLSOFT_NUM_ELEMENTS(s_verb) - 1;
+
+    { for(int i = 1; i < argc; ++i)
+    {
+        STLSOFT_ASSERT(NULL != argv[i]);
+
+        if(0 == ::strcmp(argv[i], s_verb))
+        {
+#ifdef PLATFORMSTL_INCL_PLATFORMSTL_FILESYSTEM_H_PATH_FUNCTIONS
+            STLSOFT_NS_USING(stlsoft_C_string_slice_a_t)
+            PLATFORMSTL_NS_USING(platformstl_C_get_executable_name_from_path)
+
+            stlsoft_C_string_slice_a_t const    exe_name    =   platformstl_C_get_executable_name_from_path(argv[0]);
+#else
+            struct
+            {
+                size_t      len;
+                char const* ptr;
+            } exe_name = { ::strlen(argv[0]), argv[0] };
+#endif
+
+            ::fprintf(
+                stm
+            ,   "USAGE: %.*s [ --help | --verbosity=<verbosity> ]\n"
+                "\n"
+                "where:\n"
+                "\t--help                  - displays this help and terminates\n"
+                "\t--verbosity=<verbosity> - executes the tests with the given\n"
+                "\t                          <verbosity>, which may be between\n"
+                "\t                          -1 and 4 (inclusive). The values\n"
+                "\t                          are interpreted as:\n"
+                "\n"
+                "\t                            -1 - no output\n"
+                "\t                             0 - summary only on fail\n"
+                "\t                             1 - summary only\n"
+                "\t                             2 - summary and first failed case\n"
+                "\t                             3 - summary and all failed cases\n"
+                "\t                             4 - summary and all cases\n"
+            ,   int(exe_name.len)
+            ,   exe_name.ptr
+            );
+
+            ::exit(exitCode);
+        }
+    }}
 }
 
 /* /////////////////////////////////////////////////////////////////////////

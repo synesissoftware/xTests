@@ -5,11 +5,11 @@
  *              library.
  *
  * Created:     20th June 1999
- * Updated:     11th November 2016
+ * Updated:     28th January 2017
  *
  * Home:        http://stlsoft.org/
  *
- * Copyright (c) 1999-2016, Matthew Wilson and Synesis Software
+ * Copyright (c) 1999-2017, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,9 +50,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
-# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       39
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    9
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        336
+# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       40
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        338
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -74,10 +74,10 @@
  */
 
 #define _XTESTS_VER_MAJOR       0
-#define _XTESTS_VER_MINOR       18
-#define _XTESTS_VER_REVISION    10
+#define _XTESTS_VER_MINOR       19
+#define _XTESTS_VER_REVISION    1
 
-#define _XTESTS_VER             0x00120aff
+#define _XTESTS_VER             0x001301ff
 
 /* /////////////////////////////////////////////////////////////////////////
  * Includes - 1
@@ -4240,9 +4240,20 @@ xtests_commandLine_parseVerbosity(
 ,   char**  argv
 ,   int*    verbosity
 );
+
+/**
+ *
+ */
+XTESTS_CALL(void)
+xtests_commandLine_parseHelp(
+    int     argc
+,   char**  argv
+,   FILE*   stm
+,   int     exitCode
+);
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
-/** \def XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, pverbosity)
+/** \def XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, pverbosity)
  *
  * \ingroup group__xtests__utiliy_functions
  *
@@ -4263,13 +4274,16 @@ xtests_commandLine_parseVerbosity(
  * \return The index of argument containing the verbosity, or 0 to indicate
  *   failure
  */
-#define XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, pverbosity)                       \
+#define XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, pverbosity)                      \
                                                                                         \
     stlsoft_static_cast(void, XTESTS_NS_C_QUAL(xtests_commandLine_parseVerbosity)((argc), (argv), (pverbosity)))
 
+#define XTESTS_COMMANDLINE_PARSEVERBOSITY                   XTESTS_COMMANDLINE_PARSE_VERBOSITY
+
+
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION /* The following seems to break Doxygen, so we don't document it :-( */
 
-/** \def XTESTS_COMMANDLINE_PARSEVERBOSITY_DEFAULT(argc, argv, pverbosity, defaultVerbosity)
+/** \def XTESTS_COMMANDLINE_PARSE_VERBOSITY_WITH_DEFAULT(argc, argv, pverbosity, defaultVerbosity)
  *
  * \ingroup group__xtests__utiliy_functions
  *
@@ -4291,10 +4305,31 @@ xtests_commandLine_parseVerbosity(
  *
  * \see XTESTS_COMMANDLINE_PARSEVERBOSITY()
  */
-#define XTESTS_COMMANDLINE_PARSEVERBOSITY_DEFAULT(argc, argv, pverbosity, defaultVerbosity)     \
-                                                                                                \
+# define XTESTS_COMMANDLINE_PARSE_VERBOSITY_WITH_DEFAULT(argc, argv, pverbosity, defaultVerbosity)  \
+                                                                                                    \
     stlsoft_static_cast(void, ((0 != XTESTS_NS_C_QUAL(xtests_commandLine_parseVerbosity)((argc), (argv), (pverbosity)))) ? 1 : ((*(pverbosity) = (defaultVerbosity)), 0))
+
+# define XTESTS_COMMANDLINE_PARSEVERBOSITY_DEFAULT          XTESTS_COMMANDLINE_PARSE_VERBOSITY_WITH_DEFAULT
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
+
+
+/** \def XTESTS_COMMANDLINE_PARSE_HELP(argc, argv)
+ *
+ * \ingroup group__xtests__utiliy_functions
+ *
+ * Parses the '--help' flag from the command-line, and exits the process if
+ * found
+ *
+ * \param argc The <code>argc</code> parameter passed into
+ *   <code>main()</code>
+ * \param argv The <code>argv</code> parameter passed into
+ *   <code>main()</code>
+ *
+ * \return nothing
+ */
+#define XTESTS_COMMANDLINE_PARSE_HELP(argc, argv)                                       \
+                                                                                        \
+    stlsoft_static_cast(void, XTESTS_NS_C_QUAL(xtests_commandLine_parseHelp)((argc), (argv), stdout, EXIT_SUCCESS))
 
 /* /////////////////////////////////////////////////////////////////////////
  * obsolete names
