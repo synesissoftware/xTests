@@ -4,11 +4,11 @@
  * Purpose:     Definition of the temp_file class.
  *
  * Created:     8th May 2014
- * Updated:     10th January 2017
+ * Updated:     16th March 2019
  *
  * Home:        http://stlsoft.org/
  *
- * Copyright (c) 2014-2017, Matthew Wilson and Synesis Software
+ * Copyright (c) 2014-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,9 +49,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MAJOR     0
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     1
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  9
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      14
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     2
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  1
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      15
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -140,24 +140,50 @@ public: // Types
         ,   CloseOnOpen     =   0x0020
     };
 
+    /// Exception type
     class could_not_create_temporary_file_exception;
 
 private:
     typedef std::basic_string<char_type>                string_type_;
-    typedef platformstl::filesystem_traits<char_type>   fs_traits_type_;
-    typedef fs_traits_type_::file_handle_type           file_handle_type_;
+public:
+    typedef platformstl::filesystem_traits<char_type>   fs_traits_type;
+    typedef fs_traits_type::file_handle_type            file_handle_type;
+
+private:
+    typedef fs_traits_type                              fs_traits_type_;
+    typedef file_handle_type                            file_handle_type_;
 
 public: // Construction
-    /// Establishes an empty temporary file according to the given
-    /// flags
+    /// Establishes an empty temporary file according to the given flags
+    ///
+    /// @param flags A combination of \c Flags
     explicit
     temp_file(Flags flags);
-    /// Establishes a non-empty temporary file according to the given
-    /// flags
+    /// Establishes a non-empty temporary file according to the given flags,
+    /// and with the given contents
+    ///
+    /// @param flags A combination of \c Flags
     temp_file(
         Flags       flags
     ,   void const* pv
     ,   size_t      cb
+    );
+    /// Establishes a non-empty temporary file according to the given flags,
+    /// with the contents obtained from the given callback
+    ///
+    /// @param flags A combination of \c Flags
+    /// @param pfn Caller-supplied function. It is called repeatedly until
+    ///   it returns 0
+    /// @param param Parameter that is passed back to the callback function
+    temp_file(
+        Flags       flags
+    ,   int       (*pfn)(
+
+            file_handle_type    h
+        ,   void*               param
+        ,   unsigned            num_calls
+        )
+    ,   void*       param
     );
 private:
     temp_file(class_type const&);               // copy-construction proscribed
@@ -185,6 +211,20 @@ private: // Implementation
     ,   string_type_&   path
     ,   void const*     pv
     ,   size_t          cb
+    );
+
+    static
+    file_handle_type_
+    create_by_fn_(
+        Flags           flags
+    ,   string_type_&   path
+    ,   int           (*pfn)(
+
+            file_handle_type    h
+        ,   void*               param
+        ,   unsigned            num_calls
+        )
+    ,   void*           param
     );
 
     static
@@ -512,6 +552,90 @@ temp_file::create_(
     return scoper.detach();
 }
 
+inline
+/* static */
+temp_file::file_handle_type_
+temp_file::create_by_fn_(
+    Flags           flags
+,   string_type_&   path
+,   int           (*pfn)(
+
+        file_handle_type    h
+    ,   void*               param
+    ,   unsigned            num_calls
+    )
+,   void*           param
+)
+{
+    STLSOFT_ASSERT(NULL != pfn);
+
+    // Algorithm:
+    //
+    // 1. Generate a unique, new file name
+    // 2. Empty it, if required
+    // 3. Write the contents, if specified
+
+
+    // 1. Generate a unique, new file name
+
+    file_handle_type_ const hFile = create_file_(path);
+
+
+    if(fs_traits_type_::invalid_file_handle_value() == hFile)
+    {
+        fs_traits_type_::result_code_type const rc = fs_traits_type_::get_last_error();
+
+        throw could_not_create_temporary_file_exception(rc, "could not create file");
+    }
+
+    if(0 != (DeleteOnOpen & flags))
+    {
+        fs_traits_type_::close_file(hFile);
+
+        fs_traits_type_::delete_file(path.c_str());
+
+        return fs_traits_type_::invalid_file_handle_value();
+    }
+
+
+    stlsoft::scoped_handle<fs_traits_type_::file_handle_type> scoper(hFile, fs_traits_type_::close_file, fs_traits_type_::invalid_file_handle_value());
+
+    // 2. Empty it, if required
+
+    if(0 != (EmptyOnOpen & flags))
+    {
+        fs_traits_type_::result_code_type const rc = empty_file_(hFile);
+
+        if(0 != rc)
+        {
+            throw could_not_create_temporary_file_exception(rc, "could not reset contents of temporary file");
+        }
+    }
+
+
+    // 3. Write the contents, if specified
+
+    if(NULL != pfn)
+    {
+        for(unsigned num_calls = 0;; ++num_calls)
+        {
+            int const r = (*pfn)(hFile, param, num_calls);
+
+            if(0 == r)
+            {
+                break;
+            }
+        }
+    }
+
+    if(0 != (CloseOnOpen & flags))
+    {
+        scoper.close();
+    }
+
+    return scoper.detach();
+}
+
 
 inline
 /* explicit */ temp_file::temp_file(
@@ -533,6 +657,24 @@ inline
     : m_flags(flags)
     , m_path()
     , m_hFile(create_(flags, m_path, pv, cb))
+{
+    STLSOFT_ASSERT(fs_traits_type_::invalid_file_handle_value() != m_hFile || 0 != (CloseOnOpen & m_flags) || 0 != (DeleteOnOpen & m_flags));
+}
+
+inline
+/* explicit */ temp_file::temp_file(
+    Flags       flags
+,   int       (*pfn)(
+
+        file_handle_type    h
+    ,   void*               param
+    ,   unsigned            num_calls
+    )
+,   void*       param
+)
+    : m_flags(flags)
+    , m_path()
+    , m_hFile(create_by_fn_(flags, m_path, pfn, param))
 {
     STLSOFT_ASSERT(fs_traits_type_::invalid_file_handle_value() != m_hFile || 0 != (CloseOnOpen & m_flags) || 0 != (DeleteOnOpen & m_flags));
 }

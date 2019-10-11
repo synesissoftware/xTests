@@ -1,7 +1,7 @@
 xTests - README
 ===============
 
-Updated:    4th April 2010
+Updated:    12th October 2019
 
 
 
@@ -34,4 +34,5 @@ For the FAQ, see the accompanying FAQ.txt file.
 
 For changes in the releases, see the accompanying CHANGES.txt file
 
-=============================== End of file ================================
+=============================== end of file ================================
+

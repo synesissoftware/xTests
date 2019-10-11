@@ -4,11 +4,11 @@
  * Purpose: Implicit linking for the xTests API
  *
  * Created: 3rd March 2003
- * Updated: 29th September 2016
+ * Updated: 11th October 2019
  *
  * Home:    http://xtests.org/
  *
- * Copyright (c) 2003-2016, Matthew Wilson and Synesis Software
+ * Copyright (c) 2003-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,7 +62,7 @@
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MAJOR    1
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MINOR    12
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_REVISION 3
-# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_EDIT     36
+# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_EDIT     37
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -102,8 +102,8 @@
 
 # if 0 || \
      defined(__MT__) || \
-     defined(_REENTRANT) || \
      defined(_MT) || \
+     defined(_REENTRANT) || \
      0
 #  define XTESTS_IMPLICIT_LINK_MT_
 # endif

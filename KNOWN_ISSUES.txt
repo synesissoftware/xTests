@@ -1,21 +1,22 @@
 xTests - Known Issues
 =====================
 
-Updated:    7th October 2015
+Updated:    12th October 2019
 
 
 
-xTests 0.18 Known Issues:
+xTests 0.20 Known Issues:
 ------------------------
 
  <none>
 
 
 
-xTests 0.18 Suspected Issues:
+xTests 0.20 Suspected Issues:
 ----------------------------
 
  <none>
 
 
-=============================== End of file ================================
+=============================== end of file ================================
+

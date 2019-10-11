@@ -1,7 +1,7 @@
 xTests - Changes
 ================
 
-Updated:    22nd July 2016
+Updated:    12th October 2019
 
 
     ************************************
@@ -13,6 +13,96 @@ Updated:    22nd July 2016
     *  *  means a general bullet-point *
     *                                  *
     ************************************
+
+
+12th October 2019 - 0.20.1
+==========================
+
+Summary:
+--------
+
+ * added xtests::cpp::util::temp_file ctor that takes a callback function that is used to provide initial contents of the file
+ * added VC++ 10 project and solution files
+ * fixed range comparison tests
+ * fixing up VC++-specific non-standard token-pasting
+ * removed dependency on/discrimination for STLSoft 1.10 delta (though now works perfectly well with STLSoft 1.10 proper)
+
+Details:
+--------
+
+General:
+
+ ~ include/xtests/xtests.h:
+    ~ fixing up VC++-specific non-standard token-pasting
+    ~ fixing range comparison
+
+Core:
+
+ ~ src/xtests.core.cpp:
+    ~ fixed defect (submitted in PR by Mikkoi https://github.com/synesissoftware/xTests/commit/02b6667c3090ce94de41a7a3c46a90e0f03c45aa)
+
+Util:
+
+ ~ include/xtests/util/temp_file.hpp:
+    + added callback writing constructor to temp_file
+
+Distribution:
+
+Makefiles / Project-files:
+
+ + projects/core/vc10/xtests.core.vcxproj:
+ + projects/core/vc10/xtests.core.vcxproj.filters:
+ + xtests.vc10.sln:
+    + added VC++ 10 project and solution files
+
+ ~ projects/core/vc6/xtests.core.dsp:
+ ~ test/scratch/test.scratch.basics1/vc6/test.scratch.basics1.dsp:
+ ~ test/scratch/test.scratch.basics2/vc6/test.scratch.basics2.dsp:
+ ~ test/scratch/test.scratch.fail_all.1/vc6/test.scratch.fail_all.1.dsp:
+ ~ test/scratch/test.scratch.setup.fail/vc6/test.scratch.setup.fail.dsp:
+ ~ test/scratch/test.scratch.string_slices.c/vc6/test.scratch.string_slices.c.dsp:
+ ~ test/scratch/test.scratch.temp_directory/vc6/test.scratch.temp_directory.dsp:
+ ~ test/scratch/test.scratch.temp_file/vc6/test.scratch.temp_file.dsp:
+ ~ test/scratch/test.scratch.verbosity_levels/vc6/test.scratch.verbosity_levels.dsp:
+    - removed dependency on/discrimination for STLSoft 1.10 delta (though now works perfectly well with STLSoft 1.10 proper)
+
+ + test/scratch/test.scratch.basics1/vc10/test.scratch.basics1.vcxproj:
+ + test/scratch/test.scratch.basics1/vc10/test.scratch.basics1.vcxproj.filters:
+ + test/scratch/test.scratch.basics2/vc10/test.scratch.basics2.vcxproj:
+ + test/scratch/test.scratch.basics2/vc10/test.scratch.basics2.vcxproj.filters:
+ + test/scratch/test.scratch.fail_all.1/vc10/test.scratch.fail_all.1.vcxproj:
+ + test/scratch/test.scratch.fail_all.1/vc10/test.scratch.fail_all.1.vcxproj.filters:
+ + test/scratch/test.scratch.setup.fail/vc10/test.scratch.setup.fail.vcxproj:
+ + test/scratch/test.scratch.setup.fail/vc10/test.scratch.setup.fail.vcxproj.filters:
+ + test/scratch/test.scratch.string_slices.c/vc10/test.scratch.string_slices.c.vcxproj:
+ + test/scratch/test.scratch.string_slices.c/vc10/test.scratch.string_slices.c.vcxproj.filters:
+ + test/scratch/test.scratch.temp_directory/vc10/test.scratch.temp_directory.vcxproj:
+ + test/scratch/test.scratch.temp_directory/vc10/test.scratch.temp_directory.vcxproj.filters:
+ + test/scratch/test.scratch.temp_file/vc10/test.scratch.temp_file.vcxproj:
+ + test/scratch/test.scratch.temp_file/vc10/test.scratch.temp_file.vcxproj.filters:
+ + test/scratch/test.scratch.verbosity_levels/vc10/test.scratch.verbosity_levels.vcxproj:
+ + test/scratch/test.scratch.verbosity_levels/vc10/test.scratch.verbosity_levels.vcxproj.filters:
+    + added VC++ 10 project and solution files
+
+Examples:
+
+Test:
+
+Test.Unit:
+
+Test.Component:
+
+Test.Scratch:
+
+ ~ test/scratch/test.scratch.temp_directory/test.scratch.temp_directory.cpp:
+ ~ test/scratch/test.scratch.temp_file/test.scratch.temp_file.cpp:
+    ~ warnings
+
+Depends on:
+
+ * STLSoft 1.9.121 or later
+   (http://stlsoft.org/)
+
 
 
 22nd July 2016 - 0.18.9
@@ -2710,6 +2800,5 @@ Depends on:
  * STLSoft 1.9.23 or later
    (http://stlsoft.org/)
 
+=============================== end of file ================================
 
-
-=============================== End of file ================================

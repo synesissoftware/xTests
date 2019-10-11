@@ -1,7 +1,18 @@
 xTests - History
 ================
 
-Updated:    22nd July 2016
+Updated:    12th October 2019
+
+
+12th October 2019 - 0.20.1
+--------------------------
+
+ * added xtests::cpp::util::temp_file ctor that takes a callback function that is used to provide initial contents of the file
+ * added VC++ 10 project and solution files
+ * fixed range comparison tests
+ * fixing up VC++-specific non-standard token-pasting
+ * removed dependency on/discrimination for STLSoft 1.10 delta (though now works perfectly well with STLSoft 1.10 proper)
+
 
 22nd July 2016 - 0.18.9
 -----------------------
@@ -387,5 +398,5 @@ Updated:    22nd July 2016
 
  All history before this day is moot!
 
+=============================== end of file ================================
 
-=============================== End of file ================================

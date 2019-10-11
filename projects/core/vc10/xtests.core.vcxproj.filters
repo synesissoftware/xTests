@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Module Files">
+      <UniqueIdentifier>{115E6387-3699-414f-89E3-A8DCD7CD1CD3}</UniqueIdentifier>
+      <Extensions>def;odl;idl;hpj;rc;xsd;</Extensions>
+    </Filter>
+    <Filter Include="Implementation Files">
+      <UniqueIdentifier>{D235CB96-B7A2-46ac-B7DC-310587E1D366}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;</Extensions>
+    </Filter>
+    <Filter Include="Header Files\include">
+      <UniqueIdentifier>{9a0deb90-4892-463b-bbf0-33834ff852b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\xTests">
+      <UniqueIdentifier>{0ec2391d-e2ba-469e-892c-7c5abc8f085c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\xTests\util">
+      <UniqueIdentifier>{1a57decf-3767-4468-9d5c-848a2a9a38fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation Files\src">
+      <UniqueIdentifier>{8167bf68-d629-473e-a532-0578d3d3ad94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\src">
+      <UniqueIdentifier>{03d42655-e6e2-4aa3-bee6-9fe87b407e14}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\xtests\implicit_link.h">
+      <Filter>Header Files\include\xTests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\xtests\xtests.h">
+      <Filter>Header Files\include\xTests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\xtests\util\filesystem_exception.hpp">
+      <Filter>Header Files\include\xTests\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\xtests\util\temp_directory.hpp">
+      <Filter>Header Files\include\xTests\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\xtests\util\temp_file.hpp">
+      <Filter>Header Files\include\xTests\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\xtests.internal.exception_macros.hpp">
+      <Filter>Header Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\xtests.internal.string.h">
+      <Filter>Header Files\src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\xtests.core.cpp">
+      <Filter>Implementation Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\xtests.internal.string.c">
+      <Filter>Implementation Files\src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

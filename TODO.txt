@@ -1,13 +1,14 @@
 xTests - TODO lists
 ===================
 
-Updated:    7th October 2015
+Updated:    12th October 2019
 
 
 
-xTests 0.18 TODOs:
+xTests 0.20 TODOs:
 =================
 
- <none>
+ * CMake support
 
-=============================== End of file ================================
+=============================== end of file ================================
+

@@ -42,7 +42,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /GR /GX /O2 /I "../../../../include" /I "$(STLSOFT_1_10)/include" /I "$(STLSOFT)/include" /D "WIN32" /D "NDEBUG" /D "STRICT" /D "_CONSOLE" /Fr /YX /FD /c
+# ADD CPP /nologo /W3 /GR /GX /O2 /I "../../../../include" /I "$(STLSOFT)/include" /D "WIN32" /D "NDEBUG" /D "STRICT" /D "_CONSOLE" /Fr /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0xc09 /d "NDEBUG"
@@ -68,7 +68,7 @@ LINK32=link.exe
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
-# ADD CPP /nologo /W3 /Gm /GR /GX /Zi /Od /I "../../../../include" /I "$(STLSOFT_1_10)/include" /I "$(STLSOFT)/include" /D "WIN32" /D "_DEBUG" /D "STRICT" /D "_CONSOLE" /YX /FD /GZ /c
+# ADD CPP /nologo /W3 /Gm /GR /GX /Zi /Od /I "../../../../include" /I "$(STLSOFT)/include" /D "WIN32" /D "_DEBUG" /D "STRICT" /D "_CONSOLE" /YX /FD /GZ /c
 # SUBTRACT CPP /Fr
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
@@ -107,159 +107,159 @@ SOURCE=..\test.scratch.verbosity_levels.cpp
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\memory\util\allocator_features.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\memory\util\allocator_features.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\memory\util\allocator_selector.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\memory\util\allocator_selector.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\algorithms\std\alt.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\algorithms\std\alt.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\memory\auto_buffer.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\memory\auto_buffer.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\shims\access\string\std\basic_string.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\shims\access\string\std\basic_string.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\shims\access\string\std\c_string.h"
+SOURCE="$(STLSOFT)\include\stlsoft\shims\access\string\std\c_string.h"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\meta\capabilities.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\meta\capabilities.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\string\char_traits.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\string\char_traits.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\collections\util\collections.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\collections\util\collections.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\util\constraints.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\util\constraints.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\quality\contract.h"
+SOURCE="$(STLSOFT)\include\stlsoft\quality\contract.h"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\error\conversion_error.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\error\conversion_error.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\quality\cover.h"
+SOURCE="$(STLSOFT)\include\stlsoft\quality\cover.h"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\shims\access\string\std\exception.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\shims\access\string\std\exception.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\shims\access\string\fwd.h"
+SOURCE="$(STLSOFT)\include\stlsoft\shims\access\string\fwd.h"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\internal\head_version.h"
+SOURCE="$(STLSOFT)\include\stlsoft\internal\head_version.h"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\meta\is_integral_type.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\meta\is_integral_type.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\meta\is_pointer_type.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\meta\is_pointer_type.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\meta\is_same_type.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\meta\is_same_type.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\util\std\iterator_helper.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\util\std\iterator_helper.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\internal\lead_version.h"
+SOURCE="$(STLSOFT)\include\stlsoft\internal\lead_version.h"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\util\std\library_discriminator.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\util\std\library_discriminator.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\meta\util\meta_.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\meta\util\meta_.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\internal\cccap\msvc.h"
+SOURCE="$(STLSOFT)\include\stlsoft\internal\cccap\msvc.h"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\meta\n_types.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\meta\n_types.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\internal\cccap\obsolete.h"
+SOURCE="$(STLSOFT)\include\stlsoft\internal\cccap\obsolete.h"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\algorithms\pod.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\algorithms\pod.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\internal\safestr.h"
+SOURCE="$(STLSOFT)\include\stlsoft\internal\safestr.h"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\meta\select_first_type_if.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\meta\select_first_type_if.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\string\shim_string.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\string\shim_string.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\util\sign_traits.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\util\sign_traits.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\meta\size_of.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\meta\size_of.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\util\size_traits.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\util\size_traits.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\util\std_swap.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\util\std_swap.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\stlsoft.h"
+SOURCE="$(STLSOFT)\include\stlsoft\stlsoft.h"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\shims\access\string.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\shims\access\string.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\shims\access\string\std\time.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\shims\access\string\std\time.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\shims\access\string\std\type_info.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\shims\access\string\std\type_info.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\meta\yesno.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\meta\yesno.hpp"
 # End Source File
 # End Group
 # Begin Group "PlatformSTL"
@@ -267,7 +267,7 @@ SOURCE="$(STLSOFT_1_10)\include\stlsoft\meta\yesno.hpp"
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\platformstl\platformstl.h"
+SOURCE="$(STLSOFT)\include\platformstl\platformstl.h"
 # End Source File
 # End Group
 # Begin Group "WinSTL"
@@ -275,7 +275,11 @@ SOURCE="$(STLSOFT_1_10)\include\platformstl\platformstl.h"
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\winstl\winstl.h"
+SOURCE="$(STLSOFT)\include\winstl\winstl.h"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\winstl\api\winstl_win32_winnt_.h"
 # End Source File
 # End Group
 # End Group
@@ -284,15 +288,15 @@ SOURCE="$(STLSOFT_1_10)\include\winstl\winstl.h"
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\..\..\..\include\xtests\test\util\compiler_warnings_suppression.first_include.h
+SOURCE="$(XTESTS_C_ROOT)\include\xtests\test\util\compiler_warnings_suppression.first_include.h"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\..\include\xtests\test\util\compiler_warnings_suppression.last_include.h
+SOURCE="$(XTESTS_C_ROOT)\include\xtests\test\util\compiler_warnings_suppression.last_include.h"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\..\include\xtests\xtests.h
+SOURCE="$(XTESTS_C_ROOT)\include\xtests\xtests.h"
 # End Source File
 # End Group
 # End Group

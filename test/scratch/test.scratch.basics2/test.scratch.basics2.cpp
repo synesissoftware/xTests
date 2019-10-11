@@ -4,13 +4,13 @@
  * Purpose:     Implementation file for the test.scratch.basics2 project.
  *
  * Created:     15th December 2007
- * Updated:     10th January 2017
+ * Updated:     11th October 2019
  *
  * Status:      Wizard-generated
  *
  * License:     (Licensed under the Synesis Software Open License)
  *
- *              Copyright (c) 2007-2017, Synesis Software Pty Ltd.
+ *              Copyright (c) 2007-2019, Synesis Software Pty Ltd.
  *              All rights reserved.
  *
  *              www:        http://www.synesis.com.au/software
@@ -25,7 +25,7 @@
 
 /* STLSoft Header Files */
 #include <stlsoft/stlsoft.h>
-#if _STLSOFT_VER >= 0x010a0000
+#if _STLSOFT_VER >= 0x010b0000
 # include <stlsoft/algorithm/literal_copy.hpp>
 #else
 namespace stlsoft{
@@ -519,7 +519,7 @@ static void test_5_3()
         std::vector<int>    ints;
 
         stlsoft::literal_copy(1, 2, 3, 4, std::back_inserter(ints));
-        
+
         std::vector<int>::const_iterator    from    =   ints.begin();
         std::vector<int>::const_iterator    to      =   ints.end();
 
@@ -535,7 +535,7 @@ static void test_5_3()
         std::list<int>  ints;
 
         stlsoft::literal_copy(1, 2, 3, 4, std::back_inserter(ints));
-        
+
         std::list<int>::const_iterator  from    =   ints.begin();
         std::list<int>::const_iterator  to      =   ints.end();
 
@@ -551,7 +551,7 @@ static void test_5_3()
         std::deque<int> ints;
 
         stlsoft::literal_copy(1, 2, 3, 4, std::back_inserter(ints));
-        
+
         std::deque<int>::const_iterator from    =   ints.begin();
         std::deque<int>::const_iterator to      =   ints.end();
 
@@ -560,6 +560,37 @@ static void test_5_3()
         XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(from, to, 2);
         XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(from, to, 3);
         XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(from, to, 4);
+        XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(from, to, 5);
+    }
+
+
+    {
+        std::list<int>  ints;
+
+        ints.push_back(3);
+
+        std::list<int>::const_iterator  from    =   ints.begin();
+        std::list<int>::const_iterator  to      =   ints.end();
+
+        XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(from, to, 0);
+        XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(from, to, 1);
+        XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(from, to, 2);
+        XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(from, to, 3);
+        XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(from, to, 4);
+        XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(from, to, 5);
+    }
+
+    {
+        std::deque<int> ints;
+
+        std::deque<int>::const_iterator from    =   ints.begin();
+        std::deque<int>::const_iterator to      =   ints.end();
+
+        XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(from, to, 0);
+        XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(from, to, 1);
+        XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(from, to, 2);
+        XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(from, to, 3);
+        XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(from, to, 4);
         XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(from, to, 5);
     }
 }

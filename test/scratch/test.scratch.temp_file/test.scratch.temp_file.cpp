@@ -4,13 +4,13 @@
  * Purpose:     Implementation file for the test.scratch.temp_file project.
  *
  * Created:     1st October 2015
- * Updated:     6th October 2015
+ * Updated:     12th October 2019
  *
  * Status:      Wizard-generated
  *
  * License:     (Licensed under the Synesis Software Open License)
  *
- *              Copyright (c) 2015, Synesis Software Pty Ltd.
+ *              Copyright (c) 2015-2019, Synesis Software Pty Ltd.
  *              All rights reserved.
  *
  *              www:        http://www.synesis.com.au/software
@@ -48,7 +48,7 @@ using xtests::cpp::util::temp_file;
 
 /* ////////////////////////////////////////////////////////////////////// */
 
-static int main_(int argc, char** argv)
+static int main_(int /*argc*/, char** /*argv*/)
 {
     temp_file   tf(temp_file::DeleteOnClose);
 

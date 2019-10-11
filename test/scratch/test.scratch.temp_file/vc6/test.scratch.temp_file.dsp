@@ -7,20 +7,20 @@
 CFG=test.scratch.temp_file - Win32 Debug pseudoUnix
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
-!MESSAGE 
+!MESSAGE
 !MESSAGE NMAKE /f "test.scratch.temp_file.mak".
-!MESSAGE 
+!MESSAGE
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
-!MESSAGE 
+!MESSAGE
 !MESSAGE NMAKE /f "test.scratch.temp_file.mak" CFG="test.scratch.temp_file - Win32 Debug pseudoUnix"
-!MESSAGE 
+!MESSAGE
 !MESSAGE Possible choices for configuration are:
-!MESSAGE 
+!MESSAGE
 !MESSAGE "test.scratch.temp_file - Win32 Release" (based on "Win32 (x86) Application")
 !MESSAGE "test.scratch.temp_file - Win32 Debug" (based on "Win32 (x86) Application")
 !MESSAGE "test.scratch.temp_file - Win32 Debug pseudoUnix" (based on "Win32 (x86) Application")
-!MESSAGE 
+!MESSAGE
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /I "../../../../include" /I "$(STLSOFT_1_10)/include" /I "$(STLSOFT)/include" /D "WIN32" /D "NDEBUG" /D "STRICT" /D "_CONSOLE" /YX /FD /c
+# ADD CPP /nologo /W3 /GX /O2 /I "../../../../include" /I "$(STLSOFT)/include" /D "WIN32" /D "NDEBUG" /D "STRICT" /D "_CONSOLE" /YX /FD /c
 # SUBTRACT CPP /Fr
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
@@ -54,7 +54,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /version:1.0 /subsystem:console /map /machine:I386 /out:"Release/test.scratch.temp_file.exe"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /version:1.0 /subsystem:console /map /machine:I386
 # SUBTRACT LINK32 /pdb:none
 
 !ELSEIF  "$(CFG)" == "test.scratch.temp_file - Win32 Debug"
@@ -70,7 +70,7 @@ LINK32=link.exe
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
-# ADD CPP /nologo /W3 /Gm /GR /GX /Zi /Od /I "../../../../include" /I "$(STLSOFT_1_10)/include" /I "$(STLSOFT)/include" /D "WIN32" /D "_DEBUG" /D "STRICT" /D "_CONSOLE" /YX /FD /GZ /c
+# ADD CPP /nologo /W3 /Gm /GR /GX /Zi /Od /I "../../../../include" /I "$(STLSOFT)/include" /D "WIN32" /D "_DEBUG" /D "STRICT" /D "_CONSOLE" /YX /FD /GZ /c
 # SUBTRACT CPP /Fr
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
@@ -96,8 +96,8 @@ LINK32=link.exe
 # PROP Output_Dir "DebugUnix"
 # PROP Intermediate_Dir "DebugUnix"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /W3 /Gm /GR /GX /Zi /Od /I "../../../../include" /I "$(STLSOFT_1_10)/include" /I "$(STLSOFT)/include" /D "WIN32" /D "_DEBUG" /D "STRICT" /D "_CONSOLE" /FR /YX /FD /GZ /c
-# ADD CPP /nologo /W3 /Gm /GR /GX /Zi /Od /I "../../../../include" /I "$(STLSOFT_1_10)/include" /I "$(STLSOFT)/include" /I "$(UNIXEM)/include" /D "UNIX" /D "_DEBUG" /D "STRICT" /D "_CONSOLE" /D "_STLSOFT_FORCE_ANY_COMPILER" /YX /FD /GZ /FIunixem/implicit_link.h /c
+# ADD BASE CPP /nologo /W3 /Gm /GR /GX /Zi /Od /I "../../../../include" /I "$(STLSOFT)/include" /D "WIN32" /D "_DEBUG" /D "STRICT" /D "_CONSOLE" /FR /YX /FD /GZ /c
+# ADD CPP /nologo /W3 /Gm /GR /GX /Zi /Od /I "../../../../include" /I "$(STLSOFT)/include" /I "$(UNIXEM)/include" /D "UNIX" /D "_DEBUG" /D "STRICT" /D "_CONSOLE" /D "_STLSOFT_FORCE_ANY_COMPILER" /YX /FD /GZ /FIunixem/implicit_link.h /c
 # SUBTRACT CPP /Fr
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
@@ -112,7 +112,7 @@ LINK32=link.exe
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /version:1.0 /subsystem:console /map /debug /machine:I386 /out:"Debug/test.scratch.temp_file.debug.exe" /pdbtype:sept /libpath:"$(UNIXEM)/lib"
 # SUBTRACT LINK32 /pdb:none
 
-!ENDIF 
+!ENDIF
 
 # Begin Target
 
@@ -142,19 +142,11 @@ SOURCE=..\test.scratch.temp_file.cpp
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\memory\allocator_features.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\memory\util\allocator_features.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\memory\util\allocator_features.hpp"
-# End Source File
-# Begin Source File
-
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\memory\allocator_selector.hpp"
-# End Source File
-# Begin Source File
-
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\memory\util\allocator_selector.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\memory\util\allocator_selector.hpp"
 # End Source File
 # Begin Source File
 
@@ -190,7 +182,7 @@ SOURCE="$(STLSOFT)\include\stlsoft\util\constraints.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\quality\contract.h"
+SOURCE="$(STLSOFT)\include\stlsoft\quality\contract.h"
 # End Source File
 # Begin Source File
 
@@ -198,7 +190,7 @@ SOURCE="$(STLSOFT)\include\stlsoft\error\conversion_error.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\quality\cover.h"
+SOURCE="$(STLSOFT)\include\stlsoft\quality\cover.h"
 # End Source File
 # Begin Source File
 
@@ -206,11 +198,11 @@ SOURCE="$(STLSOFT)\include\stlsoft\shims\access\string\std\exception.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\util\exception_string.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\util\exception_string.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT)\include\stlsoft\error\exceptions.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\util\exception_string_creator.hpp"
 # End Source File
 # Begin Source File
 
@@ -219,6 +211,22 @@ SOURCE="$(STLSOFT)\include\stlsoft\shims\access\string\fwd.h"
 # Begin Source File
 
 SOURCE="$(STLSOFT)\include\stlsoft\internal\head_version.h"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\stlsoft\conversion\integer_to_string\integer_to_decimal_string.hpp"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\stlsoft\limits\integral_format_width_limits.hpp"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\stlsoft\limits\integral_limits.h"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\stlsoft\limits\integral_limits.hpp"
 # End Source File
 # Begin Source File
 
@@ -234,15 +242,27 @@ SOURCE="$(STLSOFT)\include\stlsoft\meta\is_same_type.hpp"
 # End Source File
 # Begin Source File
 
+SOURCE="$(STLSOFT)\include\stlsoft\meta\is_signed_type.hpp"
+# End Source File
+# Begin Source File
+
 SOURCE="$(STLSOFT)\include\stlsoft\util\std\iterator_helper.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\internal\lead_version.h"
+SOURCE="$(STLSOFT)\include\stlsoft\internal\lead_version.h"
 # End Source File
 # Begin Source File
 
 SOURCE="$(STLSOFT)\include\stlsoft\util\std\library_discriminator.hpp"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\stlsoft\exception\library_identifier_provider.hpp"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\stlsoft\diagnostics\LibraryIdentifier.h"
 # End Source File
 # Begin Source File
 
@@ -262,7 +282,11 @@ SOURCE="$(STLSOFT)\include\stlsoft\internal\cccap\obsolete.h"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT)\include\stlsoft\error\os_exception.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\exception\os_exception.hpp"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\stlsoft\exception\out_of_memory_exception.hpp"
 # End Source File
 # Begin Source File
 
@@ -270,7 +294,19 @@ SOURCE="$(STLSOFT)\include\stlsoft\algorithms\pod.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT)\include\stlsoft\error\project_exception.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\exception\project_exception.hpp"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\stlsoft\exception\project_identifier_provider.hpp"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\stlsoft\diagnostics\ProjectIdentifier.h"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\stlsoft\exception\root_exception.hpp"
 # End Source File
 # Begin Source File
 
@@ -286,7 +322,7 @@ SOURCE="$(STLSOFT)\include\stlsoft\meta\select_first_type_if.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\string\shim_string.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\string\shim_string.hpp"
 # End Source File
 # Begin Source File
 
@@ -302,6 +338,14 @@ SOURCE="$(STLSOFT)\include\stlsoft\util\size_traits.hpp"
 # End Source File
 # Begin Source File
 
+SOURCE="$(STLSOFT)\include\stlsoft\exception\status_code_provider.hpp"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\stlsoft\exception\util\status_code_translating_exception_base.hpp"
+# End Source File
+# Begin Source File
+
 SOURCE="$(STLSOFT)\include\stlsoft\util\std_swap.hpp"
 # End Source File
 # Begin Source File
@@ -310,23 +354,15 @@ SOURCE="$(STLSOFT)\include\stlsoft\stlsoft.h"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\stlsoft_1_10.h"
+SOURCE="$(STLSOFT)\include\stlsoft\shims\access\string.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\shims\access\string.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\internal\warnings\pop\suppress_deprecation_.h"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\string\string_slice.h"
-# End Source File
-# Begin Source File
-
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\string\string_slice.hpp"
-# End Source File
-# Begin Source File
-
-SOURCE="$(STLSOFT)\include\stlsoft\error\throw_policies.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\internal\warnings\push\suppress_deprecation_.h"
 # End Source File
 # Begin Source File
 
@@ -334,7 +370,15 @@ SOURCE="$(STLSOFT)\include\stlsoft\shims\access\string\std\time.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\stlsoft\shims\access\string\std\type_info.hpp"
+SOURCE="$(STLSOFT)\include\stlsoft\conversion\truncation_cast.hpp"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\stlsoft\conversion\truncation_test.hpp"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\stlsoft\shims\access\string\std\type_info.hpp"
 # End Source File
 # Begin Source File
 
@@ -346,7 +390,7 @@ SOURCE="$(STLSOFT)\include\stlsoft\meta\yesno.hpp"
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\comstl\string\BSTR_functions.h"
+SOURCE="$(STLSOFT)\include\comstl\string\BSTR_functions.h"
 # End Source File
 # Begin Source File
 
@@ -354,7 +398,7 @@ SOURCE="$(STLSOFT)\include\comstl\comstl.h"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\comstl\comstl_1_10.h"
+SOURCE="$(STLSOFT)\include\comstl\exception\comstl_exception.hpp"
 # End Source File
 # Begin Source File
 
@@ -366,11 +410,7 @@ SOURCE="$(STLSOFT)\include\comstl\util\DECIMAL_functions.h"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT)\include\comstl\error\exceptions.hpp"
-# End Source File
-# Begin Source File
-
-SOURCE="$(STLSOFT_1_10)\include\comstl\shims\access\string\GUID.hpp"
+SOURCE="$(STLSOFT)\include\comstl\shims\access\string\GUID.hpp"
 # End Source File
 # Begin Source File
 
@@ -378,7 +418,11 @@ SOURCE="$(STLSOFT)\include\comstl\util\guid.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\comstl\util\GUID_functions.h"
+SOURCE="$(STLSOFT)\include\comstl\util\GUID_functions.h"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\comstl\exception\policy\HRESULT_to_string_translation_policy.hpp"
 # End Source File
 # Begin Source File
 
@@ -390,20 +434,16 @@ SOURCE="$(STLSOFT)\include\comstl\shims\access\string.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\comstl\shims\access\string\VARIANT.hpp"
+SOURCE="$(STLSOFT)\include\comstl\shims\access\string\VARIANT.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\comstl\util\VARIANT_functions.h"
+SOURCE="$(STLSOFT)\include\comstl\util\VARIANT_functions.h"
 # End Source File
 # End Group
 # Begin Group "PlatformSTL"
 
 # PROP Default_Filter ""
-# Begin Source File
-
-SOURCE="$(STLSOFT)\include\platformstl\error\exceptions.hpp"
-# End Source File
 # Begin Source File
 
 SOURCE="$(STLSOFT)\include\platformstl\filesystem\filesystem_traits.hpp"
@@ -418,31 +458,11 @@ SOURCE="$(STLSOFT)\include\platformstl\platformstl.hpp"
 # End Source File
 # Begin Source File
 
+SOURCE="$(STLSOFT)\include\platformstl\exception\platformstl_exception.hpp"
+# End Source File
+# Begin Source File
+
 SOURCE="$(STLSOFT)\include\platformstl\system\system_traits.hpp"
-# End Source File
-# End Group
-# Begin Group "UNIXSTL"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE="$(STLSOFT)\include\unixstl\error\exceptions.hpp"
-# End Source File
-# Begin Source File
-
-SOURCE="$(STLSOFT)\include\unixstl\synch\util\features.h"
-# End Source File
-# Begin Source File
-
-SOURCE="$(STLSOFT)\include\unixstl\filesystem\filesystem_traits.hpp"
-# End Source File
-# Begin Source File
-
-SOURCE="$(STLSOFT)\include\unixstl\system\system_traits.hpp"
-# End Source File
-# Begin Source File
-
-SOURCE="$(STLSOFT)\include\unixstl\unixstl.h"
 # End Source File
 # End Group
 # Begin Group "WinSTL"
@@ -450,7 +470,11 @@ SOURCE="$(STLSOFT)\include\unixstl\unixstl.h"
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\winstl\system\directory_functions.h"
+SOURCE="$(STLSOFT)\include\winstl\system\directory_functions.h"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\winstl\api\external\DynamicLinkLibrary.h"
 # End Source File
 # Begin Source File
 
@@ -458,61 +482,61 @@ SOURCE="$(STLSOFT)\include\winstl\error\error_functions.h"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT)\include\winstl\error\exceptions.hpp"
+SOURCE="$(STLSOFT)\include\winstl\api\external\ErrorHandling.h"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\winstl\filesystem\filesystem_traits.hpp"
+SOURCE="$(STLSOFT)\include\winstl\api\external\FileManagement.h"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT_1_10)\include\winstl\system\system_traits.hpp"
+SOURCE="$(STLSOFT)\include\winstl\filesystem\filesystem_traits.hpp"
 # End Source File
 # Begin Source File
 
-SOURCE="$(STLSOFT)\include\winstl\internal\windows_version.h"
+SOURCE="$(STLSOFT)\include\winstl\api\external\HandleAndObject.h"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\winstl\api\external\MemoryManagement.h"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\winstl\system\system_information_functions.h"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\winstl\system\system_traits.hpp"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\winstl\api\external\SystemInformation.h"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\winstl\api\external\UnicodeAndCharacterSet.h"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\winstl\exception\policy\windows_status_code_to_string_translation_policy.hpp"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\winstl\internal\windows_version_.h"
 # End Source File
 # Begin Source File
 
 SOURCE="$(STLSOFT)\include\winstl\winstl.h"
 # End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\winstl\exception\winstl_exception.hpp"
+# End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\winstl\api\winstl_win32_winnt_.h"
+# End Source File
 # End Group
-# End Group
-# Begin Group "UNIXem Header Files"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE="$(UNIXEM)\include\dirent.h"
-# End Source File
-# Begin Source File
-
-SOURCE="$(UNIXEM)\include\unixem\dirent.h"
-# End Source File
-# Begin Source File
-
-SOURCE="$(UNIXEM)\include\dlfcn.h"
-# End Source File
-# Begin Source File
-
-SOURCE="$(UNIXEM)\include\unixem\dlfcn.h"
-# End Source File
-# Begin Source File
-
-SOURCE="$(UNIXEM)\include\unixem\implicit_link.h"
-# End Source File
-# Begin Source File
-
-SOURCE="$(UNIXEM)\include\unistd.h"
-# End Source File
-# Begin Source File
-
-SOURCE="$(UNIXEM)\include\unixem\unistd.h"
-# End Source File
-# Begin Source File
-
-SOURCE="$(UNIXEM)\include\unixem\unixem.h"
-# End Source File
 # End Group
 # Begin Group "xTests Header Files"
 

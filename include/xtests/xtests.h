@@ -5,11 +5,11 @@
  *              library.
  *
  * Created:     20th June 1999
- * Updated:     28th January 2017
+ * Updated:     11th October 2019
  *
  * Home:        http://stlsoft.org/
  *
- * Copyright (c) 1999-2017, Matthew Wilson and Synesis Software
+ * Copyright (c) 1999-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,9 +50,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
-# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       40
+# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       41
 # define XTESTS_VER_XTESTS_H_XTESTS_REVISION    2
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        339
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        341
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -74,10 +74,10 @@
  */
 
 #define _XTESTS_VER_MAJOR       0
-#define _XTESTS_VER_MINOR       19
-#define _XTESTS_VER_REVISION    2
+#define _XTESTS_VER_MINOR       20
+#define _XTESTS_VER_REVISION    1
 
-#define _XTESTS_VER             0x001302ff
+#define _XTESTS_VER             0x001401ff
 
 /* /////////////////////////////////////////////////////////////////////////
  * Includes - 1
@@ -1097,7 +1097,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 # define XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(begin, end, actual)                     \
                                                                                         \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_integer_any_in_range(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(" ## #begin ## ", " ## #end ## ", " ## #actual ## ")", (begin), (end), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))))
+    XTESTS_NS_CPP_QUAL(xtests_test_integer_any_in_range(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(" #begin ", " #end ", " #actual ")", (begin), (end), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))))
 
 /** \def XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(begin, end, actual)
  *
@@ -1119,7 +1119,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 # define XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(begin, end, actual)                 \
                                                                                         \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_integer_any_in_range(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(" ## #begin ## ", " ## #end ## ", " ## #actual ## ")", (begin), (end), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual))))
+    XTESTS_NS_CPP_QUAL(xtests_test_integer_any_in_range(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(" #begin ", " #end ", " #actual ")", (begin), (end), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual))))
 
 
 #if 0
@@ -1135,18 +1135,18 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_INTEGER_EQUAL_ANY_OF(expected, actual)                                                                     \
-                                                                                                                                \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                                                                  \
-                                                                                                                                \
-    XTESTS_NS_CPP_QUAL(xtests_test_integer_one_of(                                                                              \
-        __FILE__                                                                                                                \
-    ,   __LINE__                                                                                                                \
-    ,   XTESTS_GET_FUNCTION_()                                                                                                  \
-    ,   "XTESTS_TEST_INTEGER_EQUAL_ANY_OF(" ## #expected ## ", " ## #actual ## ")"                                              \
-    ,   (expected)                                                                                                              \
-    ,   (actual)                                                                                                                \
-    , XTESTS_NS_C_QUAL(xtestsComparisonEqual)))                                                                                 \
+# define XTESTS_TEST_INTEGER_EQUAL_ANY_OF(expected, actual)                             \
+                                                                                        \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
+                                                                                        \
+    XTESTS_NS_CPP_QUAL(xtests_test_integer_one_of(                                      \
+        __FILE__                                                                        \
+    ,   __LINE__                                                                        \
+    ,   XTESTS_GET_FUNCTION_()                                                          \
+    ,   "XTESTS_TEST_INTEGER_EQUAL_ANY_OF(" #expected ", " #actual ")"                  \
+    ,   (expected)                                                                      \
+    ,   (actual)                                                                        \
+    , XTESTS_NS_C_QUAL(xtestsComparisonEqual)))                                         \
     )
 #endif /* 0 */
 
@@ -1163,19 +1163,19 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_INTEGER_EQUAL_ANY_OF2(expected0, expected1, actual)                                                        \
-                                                                                                                                \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                                                                  \
-                                                                                                                                \
-    XTESTS_NS_CPP_QUAL(xtests_test_integer_one_of(                                                                              \
-        __FILE__                                                                                                                \
-    ,   __LINE__                                                                                                                \
-    ,   XTESTS_GET_FUNCTION_()                                                                                                  \
-    ,   "XTESTS_TEST_INTEGER_EQUAL_ANY_OF(" ## #expected0 ## ", " ## #expected1 ## ", " ## #actual ## ")"                       \
-    ,   (actual)                                                                                                                \
-    ,   (expected0)                                                                                                             \
-    ,   (expected1)                                                                                                             \
-    , XTESTS_NS_C_QUAL(xtestsComparisonEqual)))                                                                                 \
+# define XTESTS_TEST_INTEGER_EQUAL_ANY_OF2(expected0, expected1, actual)                \
+                                                                                        \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
+                                                                                        \
+    XTESTS_NS_CPP_QUAL(xtests_test_integer_one_of(                                      \
+        __FILE__                                                                        \
+    ,   __LINE__                                                                        \
+    ,   XTESTS_GET_FUNCTION_()                                                          \
+    ,   "XTESTS_TEST_INTEGER_EQUAL_ANY_OF(" #expected0 ", " #expected1 ", " #actual ")" \
+    ,   (actual)                                                                        \
+    ,   (expected0)                                                                     \
+    ,   (expected1)                                                                     \
+    , XTESTS_NS_C_QUAL(xtestsComparisonEqual)))                                         \
     )
 
 /** \def XTESTS_TEST_INTEGER_EQUAL_ANY_OF3(expected0, expected1, expected2, actual)
@@ -1192,20 +1192,20 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_INTEGER_EQUAL_ANY_OF3(expected0, expected1, expected2, actual)                                             \
-                                                                                                                                \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                                                                  \
-                                                                                                                                \
-    XTESTS_NS_CPP_QUAL(xtests_test_integer_one_of(                                                                              \
-        __FILE__                                                                                                                \
-    ,   __LINE__                                                                                                                \
-    ,   XTESTS_GET_FUNCTION_()                                                                                                  \
-    ,   "XTESTS_TEST_INTEGER_EQUAL_ANY_OF(" ## #expected0 ## ", " ## #expected1 ## ", " ## #expected2 ## ", " ## #actual ## ")" \
-    ,   (actual)                                                                                                                \
-    ,   (expected0)                                                                                                             \
-    ,   (expected1)                                                                                                             \
-    ,   (expected2)                                                                                                             \
-    , XTESTS_NS_C_QUAL(xtestsComparisonEqual)))                                                                                 \
+# define XTESTS_TEST_INTEGER_EQUAL_ANY_OF3(expected0, expected1, expected2, actual)     \
+                                                                                        \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
+                                                                                        \
+    XTESTS_NS_CPP_QUAL(xtests_test_integer_one_of(                                      \
+        __FILE__                                                                        \
+    ,   __LINE__                                                                        \
+    ,   XTESTS_GET_FUNCTION_()                                                          \
+    ,   "XTESTS_TEST_INTEGER_EQUAL_ANY_OF(" #expected0 ", " #expected1 ", " #expected2 ", " #actual ")" \
+    ,   (actual)                                                                        \
+    ,   (expected0)                                                                     \
+    ,   (expected1)                                                                     \
+    ,   (expected2)                                                                     \
+    , XTESTS_NS_C_QUAL(xtestsComparisonEqual)))                                         \
     )
 
 
@@ -3623,59 +3623,53 @@ xtests_test_integer_compare_to_range_(
     using namespace ::xtests::c;
 #  endif /* _XTESTS_NO_NAMESPACE */
 
-    for(; begin != end; ++begin)
+    switch(comp)
     {
-        I const& expected = *begin;
+        case    xtestsComparisonEqual:
 
-        switch(comp)
-        {
-            case    xtestsComparisonEqual:
-            case    xtestsComparisonApproxEqual:
-                if(expected == actual)
+            for(; begin != end; ++begin)
+            {
+                I const& expected = *begin;
+
+                if (expected == actual)
                 {
                     return true;
                 }
-                break;
-            case    xtestsComparisonNotEqual:
-            case    xtestsComparisonApproxNotEqual:
-                if(expected != actual)
+            }
+
+            return false;
+        case    xtestsComparisonNotEqual:
+
+            for(; begin != end; ++begin)
+            {
+                I const& expected = *begin;
+
+                if (expected == actual)
                 {
-                    return true;
+                    return false;
                 }
-                break;
-            case    xtestsComparisonGreaterThan:
-                if(actual > expected)
-                {
-                    return true;
-                }
-                break;
-            case    xtestsComparisonLessThan:
-                if(actual < expected)
-                {
-                    return true;
-                }
-                break;
-            case    xtestsComparisonGreaterThanOrEqual:
-                if(actual >= expected)
-                {
-                    return true;
-                }
-                break;
-            case    xtestsComparisonLessThanOrEqual:
-                if(actual <= expected)
-                {
-                    return true;
-                }
-                break;
-            default:
-                STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
-            case    xtestsComparison_max_enumerator:
-                xtests_abend("invalid test comparison type: test framework may be out of date!");
-                break;
-        }
+            }
+
+            return true;
+        case    xtestsComparisonApproxEqual:
+        case    xtestsComparisonApproxNotEqual:
+        case    xtestsComparisonGreaterThan:
+        case    xtestsComparisonLessThan:
+        case    xtestsComparisonGreaterThanOrEqual:
+        case    xtestsComparisonLessThanOrEqual:
+
+            xtests_abend("invalid test comparison type: only == and != are valid when testing membership of ranges");
+            break;
+        default:
+            STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
+        case    xtestsComparison_max_enumerator:
+            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            break;
     }
 
-    return false;
+    xtests_abend("should not get here!");
+
+    return -1;
 }
 
 template<

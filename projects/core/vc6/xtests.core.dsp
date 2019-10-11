@@ -487,6 +487,10 @@ SOURCE="$(STLSOFT)\include\unixstl\unixstl.h"
 
 SOURCE="$(STLSOFT)\include\winstl\winstl.h"
 # End Source File
+# Begin Source File
+
+SOURCE="$(STLSOFT)\include\winstl\api\winstl_win32_winnt_.h"
+# End Source File
 # End Group
 # End Group
 # Begin Group "UNIXem Header Files"

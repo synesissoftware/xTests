@@ -4,11 +4,11 @@
  * Purpose:     Implementation for xTests core library.
  *
  * Created:     20th June 1999
- * Updated:     28th January 2017
+ * Updated:     12th October 2019
  *
  * Home:        http://stlsoft.org/
  *
- * Copyright (c) 1999-2017, Matthew Wilson and Synesis Software
+ * Copyright (c) 1999-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

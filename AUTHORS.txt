@@ -1,10 +1,10 @@
 xTests - Authors
 ================
 
-Updated:    15th April 2009
+Updated:    12th October 2019
 
 
-Authors:
+Major Contributors:
 
   Matthew Wilson
 
@@ -12,12 +12,14 @@ Authors:
 Bug reports, fixes and suggestions (for which we are very grateful):
 
   Garth Lancaster
-  Mark Ellis
-  Rowan Wilson
-  mis232
   Joe Mariadassou
+  Mark Ellis
+  Mikko Koivunalho (mikkoi)
+  mis232
+  Rowan Wilson
 
 
 Contributions are welcomed.
 
-=============================== End of file ================================
+=============================== end of file ================================
+
