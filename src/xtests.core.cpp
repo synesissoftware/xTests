@@ -2733,7 +2733,7 @@ namespace
             virtual void onDefect(void* /* reporterParam */, char const* message, char const* qualifier, int /* verbosity */)
             {
                 if( NULL != qualifier &&
-                    '\0' == qualifier)
+                    '\0' == *qualifier)
                 {
                     qualifier = NULL;
                 }
