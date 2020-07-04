@@ -5,10 +5,11 @@
  *              library.
  *
  * Created:     20th June 1999
- * Updated:     11th October 2019
+ * Updated:     4th July 2020
  *
  * Home:        http://stlsoft.org/
  *
+ * Copyright (c) 2019-2020, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 1999-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -51,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       41
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    2
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        341
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    3
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        342
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -75,9 +76,9 @@
 
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       20
-#define _XTESTS_VER_REVISION    1
+#define _XTESTS_VER_REVISION    2
 
-#define _XTESTS_VER             0x001401ff
+#define _XTESTS_VER             0x001402ff
 
 /* /////////////////////////////////////////////////////////////////////////
  * Includes - 1
@@ -4350,3 +4351,4 @@ xtests_commandLine_parseHelp(
 #endif /* !XTESTS_INCL_XTESTS_H_XTESTS */
 
 /* ///////////////////////////// end of file //////////////////////////// */
+

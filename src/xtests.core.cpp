@@ -4,10 +4,11 @@
  * Purpose:     Implementation for xTests core library.
  *
  * Created:     20th June 1999
- * Updated:     12th October 2019
+ * Updated:     4th July 2020
  *
  * Home:        http://stlsoft.org/
  *
+ * Copyright (c) 2019-2020, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 1999-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -1473,7 +1474,6 @@ xtests_commandLine_parseHelp(
 )
 {
     static const char   s_verb[]    =   "--help";
-    static const size_t s_cchVerb   =   STLSOFT_NUM_ELEMENTS(s_verb) - 1;
 
     { for(int i = 1; i < argc; ++i)
     {
@@ -4646,3 +4646,4 @@ static void xtests_OutputDebugStringA_(char const*s)
 #include "xtests.internal.string.c"
 
 /* ///////////////////////////// end of file //////////////////////////// */
+
