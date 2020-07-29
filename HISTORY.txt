@@ -1,7 +1,16 @@
 xTests - History
 ================
 
-Updated:    12th October 2019
+Updated:    30th July 2020
+
+
+30th July 2020 - 0.20.2
+-----------------------
+
+ * added implicit-link support for VC++ 15 and VC++16
+ * added makefile(s) for VC++ 15 and VC++16
+ * various makefile improvements
+ * GCC 8 compatibility
 
 
 12th October 2019 - 0.20.1

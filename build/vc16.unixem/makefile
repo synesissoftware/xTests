@@ -2,7 +2,7 @@
 # File:     makefile
 #
 # Purpose:  Makefile for the xTests:C project,
-#           for the Visual C++ 11.0 (x86 UNIXem) compiler,
+#           for the Visual C++ 16.0 (x86 UNIXem) compiler,
 #           on the UNIX platform
 #
 # Created:  16th December 2007
@@ -32,7 +32,7 @@
 ########################################
 # project & compiler version
 
-COMP_TAG            =   vc11
+COMP_TAG            =   vc16
 ARCH_TAG            =   
 OS_TAG              =   .unix
 PROJ_TAG			=	xtests

@@ -5,10 +5,11 @@
  *              library.
  *
  * Created:     20th June 1999
- * Updated:     11th October 2019
+ * Updated:     17th July 2020
  *
- * Home:        http://stlsoft.org/
+ * Home:        https://github.com/synesissoftware/xTests/
  *
+ * Copyright (c) 2019-2020, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 1999-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -21,9 +22,10 @@
  * - Redistributions in binary form must reproduce the above copyright
  *   notice, this list of conditions and the following disclaimer in the
  *   documentation and/or other materials provided with the distribution.
- * - Neither the name(s) of Matthew Wilson and Synesis Software nor the
- *   names of any contributors may be used to endorse or promote products
- *   derived from this software without specific prior written permission.
+ * - Neither the name(s) of Matthew Wilson and Synesis Information Systems
+ *   nor the names of any contributors may be used to endorse or promote
+ *   products derived from this software without specific prior written
+ *   permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -51,8 +53,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       41
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    2
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        341
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    4
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        344
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -75,9 +77,9 @@
 
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       20
-#define _XTESTS_VER_REVISION    1
+#define _XTESTS_VER_REVISION    2
 
-#define _XTESTS_VER             0x001401ff
+#define _XTESTS_VER             0x001402ff
 
 /* /////////////////////////////////////////////////////////////////////////
  * Includes - 1
@@ -94,8 +96,8 @@
 #if defined(STLSOFT_VER) && \
     STLSOFT_VER >= 0x010c0000
 # define XTESTS_STLSOFT_1_12_OR_LATER
-#elif _STLSOFT_VER < 0x010983ff
-# error xTests requires version 1.9.131 (or later) of STLSoft; download from www.stlsoft.org
+#elif _STLSOFT_VER < 0x010986ff
+# error xTests requires version 1.9.134 (or later) of STLSoft; download from www.stlsoft.org
 #endif /* _STLSOFT_VER */
 
 #ifndef __cplusplus
@@ -205,7 +207,23 @@ namespace c
 # endif /* !XTESTS_CALL */
 
 # ifdef STLSOFT_CF_FUNCTION_SYMBOL_SUPPORT
-#  define XTESTS_GET_FUNCTION_()            __FUNCTION__
+
+#  if 0
+#  elif 0 || \
+        defined(STLSOFT_COMPILER_IS_GCC) || \
+        0
+
+#   ifdef __cplusplus
+
+#    define XTESTS_GET_FUNCTION_()                          __FUNCTION__
+#   else /* ? __cplusplus */
+
+#    define XTESTS_GET_FUNCTION_()                          __func__
+#   endif /* __cplusplus */
+#  else
+
+#   define XTESTS_GET_FUNCTION_()                           __FUNCTION__
+#  endif
 # else /* ? STLSOFT_CF_FUNCTION_SYMBOL_SUPPORT */
 #  define XTESTS_GET_FUNCTION_()                            stlsoft_static_cast(char const*, 0)
 # endif /* STLSOFT_CF_FUNCTION_SYMBOL_SUPPORT */
@@ -4345,8 +4363,15 @@ xtests_commandLine_parseHelp(
 } /* namespace xtests */
 #endif /* !_XTESTS_NO_NAMESPACE */
 
-/* ////////////////////////////////////////////////////////////////////// */
+/* /////////////////////////////////////////////////////////////////////////
+ * inclusion
+ */
+
+#ifdef STLSOFT_CF_PRAGMA_ONCE_SUPPORT
+# pragma once
+#endif /* STLSOFT_CF_PRAGMA_ONCE_SUPPORT */
 
 #endif /* !XTESTS_INCL_XTESTS_H_XTESTS */
 
 /* ///////////////////////////// end of file //////////////////////////// */
+

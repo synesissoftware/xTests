@@ -4,7 +4,7 @@
  * Purpose:     Implementation for xTests core library.
  *
  * Created:     20th June 1999
- * Updated:     12th October 2019
+ * Updated:     14th October 2019
  *
  * Home:        http://stlsoft.org/
  *
@@ -1473,7 +1473,6 @@ xtests_commandLine_parseHelp(
 )
 {
     static const char   s_verb[]    =   "--help";
-    static const size_t s_cchVerb   =   STLSOFT_NUM_ELEMENTS(s_verb) - 1;
 
     { for(int i = 1; i < argc; ++i)
     {
@@ -1482,11 +1481,13 @@ xtests_commandLine_parseHelp(
         if(0 == ::strcmp(argv[i], s_verb))
         {
 #ifdef PLATFORMSTL_INCL_PLATFORMSTL_FILESYSTEM_H_PATH_FUNCTIONS
+
             STLSOFT_NS_USING(stlsoft_C_string_slice_a_t)
             PLATFORMSTL_NS_USING(platformstl_C_get_executable_name_from_path)
 
             stlsoft_C_string_slice_a_t const    exe_name    =   platformstl_C_get_executable_name_from_path(argv[0]);
 #else
+
             struct
             {
                 size_t      len;

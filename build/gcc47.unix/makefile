@@ -1,11 +1,12 @@
 ############################################################################
 # File:     makefile
 #
-# Purpose:  Makefile for the xTests:C project, for the GCC 4.7 (UNIX)
-#           compiler, on UNIX
+# Purpose:  Makefile for the xTests:C project,
+#           for the GCC 4.7 (UNIX) compiler,
+#           on the UNIX platform
 #
 # Created:  16th December 2007
-# Updated:  28th January 2017
+# Updated:  12th July 2020
 #
 ############################################################################
 
@@ -26,7 +27,7 @@ endif # !STLSOFT
 COMP_TAG            =   gcc47
 ARCH_TAG            =   
 OS_TAG              =   
-PROJ_TAG            =   xtests
+PROJ_TAG			=	xtests
 PROJ_VER_MAJOR      =   0
 PROJ_MOD_TAG        =   core
 PROJ_TAG_VER        =   $(PROJ_TAG).$(PROJ_VER_MAJOR).$(PROJ_MOD_TAG)
@@ -40,9 +41,6 @@ SHWILD_TAG_VER      =   shwild.$(SHWILD_VER_MAJOR)
 
 XCOVER_VER_MAJOR    =   0
 XCOVER_TAG_VER      =   xcover.$(SHWILD_VER_MAJOR)
-
-UNIXEM_VER_MAJOR    =   1
-UNIXEM_TAG_VER      =   unixem.$(XTESTS_VER_MAJOR)
 
 PROJ_MAKEFILE_NAME  =   makefile
 
@@ -432,12 +430,12 @@ CC_ARGS_MT_R=\
  $(CC_DEFS_MT_R)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
  $(CC_INCLUDES_MT_R)\
- -D_REENTRANT -DNDEBUG -U_DEBUG $(CC_F_MAXIMUM_SPEED)   $(CC_CUSTOM_DEFS_RELEASE)
+ -D_REENTRANT -DNDEBUG -U_DEBUG $(CC_F_MAXIMUM_SPEED) $(CC_CUSTOM_DEFS_RELEASE)
 CC_ARGS_MT_R_TEST=\
  $(CC_FLAGS_MT_R)\
  $(CC_DEFS_MT_R)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
- -D_REENTRANT -DNDEBUG -U_DEBUG $(CC_F_MAXIMUM_SPEED)   $(CC_CUSTOM_DEFS_RELEASE)\
+ -D_REENTRANT -DNDEBUG -U_DEBUG $(CC_F_MAXIMUM_SPEED) $(CC_CUSTOM_DEFS_RELEASE)\
  $(CC_INCLUDES_TEST)
 CC_ARGS_ST_D=\
  $(CC_FLAGS_ST_D)\
@@ -456,12 +454,12 @@ CC_ARGS_ST_R=\
  $(CC_DEFS_ST_R)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
  $(CC_INCLUDES_ST_R)\
- -DNDEBUG -U_DEBUG $(CC_F_MAXIMUM_SPEED)   $(CC_CUSTOM_DEFS_RELEASE)
+ -DNDEBUG -U_DEBUG $(CC_F_MAXIMUM_SPEED) $(CC_CUSTOM_DEFS_RELEASE)
 CC_ARGS_ST_R_TEST=\
  $(CC_FLAGS_ST_R)\
  $(CC_DEFS_ST_R)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
- -DNDEBUG -U_DEBUG $(CC_F_MAXIMUM_SPEED)   $(CC_CUSTOM_DEFS_RELEASE)\
+ -DNDEBUG -U_DEBUG $(CC_F_MAXIMUM_SPEED) $(CC_CUSTOM_DEFS_RELEASE)\
  $(CC_INCLUDES_TEST)
 
 # CPPC args (= flags + defines + includes)

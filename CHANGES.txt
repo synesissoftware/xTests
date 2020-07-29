@@ -1,7 +1,7 @@
 xTests - Changes
 ================
 
-Updated:    12th October 2019
+Updated:    30th July 2020
 
 
     ************************************
@@ -13,6 +13,66 @@ Updated:    12th October 2019
     *  *  means a general bullet-point *
     *                                  *
     ************************************
+
+
+30th July 2020 - 0.20.2
+=======================
+
+Summary:
+--------
+
+ * added implicit-link support for VC++ 15 and VC++16
+ * added makefile(s) for VC++ 15 and VC++16
+ * various makefile improvements
+ * GCC 8 compatibility
+
+Details:
+--------
+
+General:
+
+ ~ include/xtests/implicit_link.h:
+    + added implicit-link support for VC++ 15 and VC++16
+
+ ~ include/xtests/xtests.h:
+    ~ GCC 8 compatibility
+
+Core:
+
+ ~ src/xtests.core.cpp:
+    ~ GCC 8 compatibility
+
+Util:
+
+Distribution:
+
+Makefiles / Project-files:
+
+ + build/vc15.unixem/makefile:
+ + build/vc15.x64/makefile:
+ + build/vc15/makefile:
+    + added makefile(s) for VC++ 15 and VC++16
+
+ + build/vc16.unixem/makefile:
+ + build/vc16.x64/makefile:
+ + build/vc16/makefile:
+    + added makefile(s) for VC++ 15 and VC++16
+
+Examples:
+
+Test:
+
+Test.Unit:
+
+Test.Component:
+
+Test.Scratch:
+
+Depends on:
+
+ * STLSoft 1.9.134 or later
+   (http://stlsoft.org/)
+
 
 
 12th October 2019 - 0.20.1

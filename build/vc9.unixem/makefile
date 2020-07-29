@@ -1,11 +1,12 @@
 ############################################################################
 # File:     makefile
 #
-# Purpose:  Makefile for the xTests:C project, for the Visual C++ 9.0 (x86 UNIXem)
-#           compiler, on UNIX
+# Purpose:  Makefile for the xTests:C project,
+#           for the Visual C++ 9.0 (x86 UNIXem) compiler,
+#           on the UNIX platform
 #
 # Created:  16th December 2007
-# Updated:  28th January 2017
+# Updated:  12th July 2020
 #
 ############################################################################
 
@@ -34,7 +35,7 @@
 COMP_TAG            =   vc9
 ARCH_TAG            =   
 OS_TAG              =   .unix
-PROJ_TAG            =   xtests
+PROJ_TAG			=	xtests
 PROJ_VER_MAJOR      =   0
 PROJ_MOD_TAG        =   core
 PROJ_TAG_VER        =   $(PROJ_TAG).$(PROJ_VER_MAJOR).$(PROJ_MOD_TAG)
@@ -135,11 +136,11 @@ CC_INCLUDES_BASE =\
  $(THIRDPARTY_INCLUDES)\
  \
 
-CC_INCLUDES_MT_UX =\
+CC_INCLUDES_UX_MT_D =\
  $(CC_INCLUDES_BASE)\
  \
 
-CC_INCLUDES_MT_UX_DEBUG =\
+CC_INCLUDES_UX_MT_R =\
  $(CC_INCLUDES_BASE)\
  \
 
@@ -148,11 +149,11 @@ CC_SHWILD_INCLUDES_BASE =\
  $(CC_INCLUDES_BASE)\
  \
 
-CC_SHWILD_INCLUDES_MT_UX =\
+CC_SHWILD_INCLUDES_UX_MT_D =\
  $(CC_SHWILD_INCLUDES_BASE)\
  \
 
-CC_SHWILD_INCLUDES_MT_UX_DEBUG =\
+CC_SHWILD_INCLUDES_UX_MT_R =\
  $(CC_SHWILD_INCLUDES_BASE)\
  \
 
@@ -161,11 +162,11 @@ CC_XTESTS_INCLUDES_BASE =\
  $(CC_INCLUDES_BASE)\
  \
 
-CC_XTESTS_INCLUDES_MT_UX =\
+CC_XTESTS_INCLUDES_UX_MT_D =\
  $(CC_XTESTS_INCLUDES_BASE)\
  \
 
-CC_XTESTS_INCLUDES_MT_UX_DEBUG =\
+CC_XTESTS_INCLUDES_UX_MT_R =\
  $(CC_XTESTS_INCLUDES_BASE)\
  \
 
@@ -184,11 +185,11 @@ CPPC_INCLUDES_BASE =\
  $(THIRDPARTY_INCLUDES)\
  \
 
-CPPC_INCLUDES_MT_UX =\
+CPPC_INCLUDES_UX_MT_D =\
  $(CPPC_INCLUDES_BASE)\
  \
 
-CPPC_INCLUDES_MT_UX_DEBUG =\
+CPPC_INCLUDES_UX_MT_R =\
  $(CPPC_INCLUDES_BASE)\
  \
 
@@ -197,11 +198,11 @@ CPPC_SHWILD_INCLUDES_BASE =\
  $(CPPC_INCLUDES_BASE)\
  \
 
-CPPC_SHWILD_INCLUDES_MT_UX =\
+CPPC_SHWILD_INCLUDES_UX_MT_D =\
  $(CPPC_SHWILD_INCLUDES_BASE)\
  \
 
-CPPC_SHWILD_INCLUDES_MT_UX_DEBUG =\
+CPPC_SHWILD_INCLUDES_UX_MT_R =\
  $(CPPC_SHWILD_INCLUDES_BASE)\
  \
 
@@ -210,11 +211,11 @@ CPPC_XTESTS_INCLUDES_BASE =\
  $(CPPC_INCLUDES_BASE)\
  \
 
-CPPC_XTESTS_INCLUDES_MT_UX =\
+CPPC_XTESTS_INCLUDES_UX_MT_D =\
  $(CPPC_XTESTS_INCLUDES_BASE)\
  \
 
-CPPC_XTESTS_INCLUDES_MT_UX_DEBUG =\
+CPPC_XTESTS_INCLUDES_UX_MT_R =\
  $(CPPC_XTESTS_INCLUDES_BASE)\
  \
 
@@ -243,11 +244,11 @@ CC_DEFS_BASE =\
  $(COMMON_DEFS)\
  \
 
-CC_DEFS_MT_UX =\
+CC_DEFS_UX_MT_D =\
  $(CC_DEFS_BASE)\
  \
 
-CC_DEFS_MT_UX_DEBUG =\
+CC_DEFS_UX_MT_R =\
  $(CC_DEFS_BASE)\
  \
 
@@ -261,11 +262,11 @@ CPPC_DEFS_BASE =\
  $(COMMON_DEFS)\
  \
 
-CPPC_DEFS_MT_UX =\
+CPPC_DEFS_UX_MT_D =\
  $(CPPC_DEFS_BASE)\
  \
 
-CPPC_DEFS_MT_UX_DEBUG =\
+CPPC_DEFS_UX_MT_R =\
  $(CPPC_DEFS_BASE)\
  \
 
@@ -294,11 +295,11 @@ CC_FLAGS_BASE =\
  $(CC_F_WARNING_ERR)\
  \
 
-CC_FLAGS_MT_UX =\
+CC_FLAGS_UX_MT_D =\
  $(CC_FLAGS_BASE)\
  \
 
-CC_FLAGS_MT_UX_DEBUG =\
+CC_FLAGS_UX_MT_R =\
  $(CC_FLAGS_BASE)\
  \
 
@@ -331,11 +332,11 @@ CPPC_FLAGS_BASE =\
  $(CPPC_F_RTTI)\
  \
 
-CPPC_FLAGS_MT_UX =\
+CPPC_FLAGS_UX_MT_D =\
  $(CPPC_FLAGS_BASE)\
  \
 
-CPPC_FLAGS_MT_UX_DEBUG =\
+CPPC_FLAGS_UX_MT_R =\
  $(CPPC_FLAGS_BASE)\
  \
 
@@ -345,54 +346,54 @@ CPPC_FLAGS_MT_UX_DEBUG =\
 
 # CC args (= flags + defines + includes)
 
-CC_ARGS_MT_UX=\
- $(CC_FLAGS_MT_UX)\
- $(CC_DEFS_MT_UX)\
+CC_ARGS_UX_MT_D=\
+ $(CC_FLAGS_UX_MT_D)\
+ $(CC_DEFS_UX_MT_D)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
- $(CC_INCLUDES_MT_UX)\
- -MT -DNDEBUG -D_STLSOFT_FORCE_ANY_COMPILER                           $(CC_F_MAXIMUM_SPEED)   $(CC_CUSTOM_DEFS_RELEASE)
-CC_ARGS_MT_UX_TEST=\
- $(CC_FLAGS_MT_UX)\
- $(CC_DEFS_MT_UX)\
+ $(CC_INCLUDES_UX_MT_D)\
+  -MTd -Zi -Fd$*.pdb -D_STLSOFT_FORCE_ANY_COMPILER -D_DEBUG $(CC_CUSTOM_DEFS_DEBUG)
+CC_ARGS_UX_MT_D_TEST=\
+ $(CC_FLAGS_UX_MT_D)\
+ $(CC_DEFS_UX_MT_D)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
- -MT -DNDEBUG -D_STLSOFT_FORCE_ANY_COMPILER                           $(CC_F_MAXIMUM_SPEED)   $(CC_CUSTOM_DEFS_RELEASE)\
+  -MTd -Zi -Fd$*.pdb -D_STLSOFT_FORCE_ANY_COMPILER -D_DEBUG $(CC_CUSTOM_DEFS_DEBUG)\
  $(CC_INCLUDES_TEST)
-CC_ARGS_MT_UX_DEBUG=\
- $(CC_FLAGS_MT_UX_DEBUG)\
- $(CC_DEFS_MT_UX_DEBUG)\
+CC_ARGS_UX_MT_R=\
+ $(CC_FLAGS_UX_MT_R)\
+ $(CC_DEFS_UX_MT_R)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
- $(CC_INCLUDES_MT_UX_DEBUG)\
- -MTd -Zi -Fd$*.pdb -D_DEBUG -D_STLSOFT_FORCE_ANY_COMPILER                           $(CC_CUSTOM_DEFS_DEBUG)
-CC_ARGS_MT_UX_DEBUG_TEST=\
- $(CC_FLAGS_MT_UX_DEBUG)\
- $(CC_DEFS_MT_UX_DEBUG)\
+ $(CC_INCLUDES_UX_MT_R)\
+  -MT -D_STLSOFT_FORCE_ANY_COMPILER -DNDEBUG $(CC_F_MAXIMUM_SPEED) $(CC_CUSTOM_DEFS_RELEASE)
+CC_ARGS_UX_MT_R_TEST=\
+ $(CC_FLAGS_UX_MT_R)\
+ $(CC_DEFS_UX_MT_R)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
- -MTd -Zi -Fd$*.pdb -D_DEBUG -D_STLSOFT_FORCE_ANY_COMPILER                           $(CC_CUSTOM_DEFS_DEBUG)\
+  -MT -D_STLSOFT_FORCE_ANY_COMPILER -DNDEBUG $(CC_F_MAXIMUM_SPEED) $(CC_CUSTOM_DEFS_RELEASE)\
  $(CC_INCLUDES_TEST)
 
 # CPPC args (= flags + defines + includes)
 
-CPPC_ARGS_MT_UX=\
- $(CPPC_FLAGS_MT_UX)\
- $(CPPC_DEFS_MT_UX)\
+CPPC_ARGS_UX_MT_D=\
+ $(CPPC_FLAGS_UX_MT_D)\
+ $(CPPC_DEFS_UX_MT_D)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
- $(CPPC_INCLUDES_MT_UX)\
- -MT -DNDEBUG -D_STLSOFT_FORCE_ANY_COMPILER $(CPPC_F_WITH_EXCEPTIONS) $(CPPC_F_MAXIMUM_SPEED) $(CPPC_CUSTOM_DEFS_RELEASE)
-CPPC_ARGS_MT_UX_TEST=\
- $(CPPC_FLAGS_MT_UX)\
- $(CPPC_DEFS_MT_UX)\
- -MT -DNDEBUG -D_STLSOFT_FORCE_ANY_COMPILER $(CPPC_F_WITH_EXCEPTIONS) $(CPPC_F_MAXIMUM_SPEED) $(CPPC_CUSTOM_DEFS_RELEASE)\
+ $(CPPC_INCLUDES_UX_MT_D)\
+  -MTd -Zi -Fd$*.pdb -D_STLSOFT_FORCE_ANY_COMPILER -D_DEBUG $(CPPC_F_EXCEPTIONS_ON) $(CPPC_F_RTTI_ON) $(CPPC_CUSTOM_DEFS_DEBUG)
+CPPC_ARGS_UX_MT_D_TEST=\
+ $(CPPC_FLAGS_UX_MT_D)\
+ $(CPPC_DEFS_UX_MT_D)\
+  -MTd -Zi -Fd$*.pdb -D_STLSOFT_FORCE_ANY_COMPILER -D_DEBUG $(CPPC_F_EXCEPTIONS_ON) $(CPPC_F_RTTI_ON) $(CPPC_CUSTOM_DEFS_DEBUG)\
  $(CPPC_INCLUDES_TEST)
-CPPC_ARGS_MT_UX_DEBUG=\
- $(CPPC_FLAGS_MT_UX_DEBUG)\
- $(CPPC_DEFS_MT_UX_DEBUG)\
+CPPC_ARGS_UX_MT_R=\
+ $(CPPC_FLAGS_UX_MT_R)\
+ $(CPPC_DEFS_UX_MT_R)\
  $(CMN_DEF_NO_IMPLICIT_LINK)\
- $(CPPC_INCLUDES_MT_UX_DEBUG)\
- -MTd -Zi -Fd$*.pdb -D_DEBUG -D_STLSOFT_FORCE_ANY_COMPILER $(CPPC_F_WITH_EXCEPTIONS) $(CPPC_CUSTOM_DEFS_DEBUG)
-CPPC_ARGS_MT_UX_DEBUG_TEST=\
- $(CPPC_FLAGS_MT_UX_DEBUG)\
- $(CPPC_DEFS_MT_UX_DEBUG)\
- -MTd -Zi -Fd$*.pdb -D_DEBUG -D_STLSOFT_FORCE_ANY_COMPILER $(CPPC_F_WITH_EXCEPTIONS) $(CPPC_CUSTOM_DEFS_DEBUG)\
+ $(CPPC_INCLUDES_UX_MT_R)\
+  -MT -D_STLSOFT_FORCE_ANY_COMPILER -DNDEBUG $(CPPC_F_EXCEPTIONS_ON) $(CPPC_F_RTTI_ON) $(CPPC_F_MAXIMUM_SPEED) $(CPPC_CUSTOM_DEFS_RELEASE)
+CPPC_ARGS_UX_MT_R_TEST=\
+ $(CPPC_FLAGS_UX_MT_R)\
+ $(CPPC_DEFS_UX_MT_R)\
+  -MT -D_STLSOFT_FORCE_ANY_COMPILER -DNDEBUG $(CPPC_F_EXCEPTIONS_ON) $(CPPC_F_RTTI_ON) $(CPPC_F_MAXIMUM_SPEED) $(CPPC_CUSTOM_DEFS_RELEASE)\
  $(CPPC_INCLUDES_TEST)
 
 ############################################################
@@ -414,11 +415,11 @@ LD_FLAGS_BASE           =\
  $(LD_F_NOLOGO)\
  \
 
-LD_FLAGS_MT_UX =\
+LD_FLAGS_UX_MT_D =\
  $(LD_FLAGS_BASE)\
  \
 
-LD_FLAGS_MT_UX_DEBUG =\
+LD_FLAGS_UX_MT_R =\
  $(LD_FLAGS_BASE)\
  \
 
@@ -449,10 +450,10 @@ LIBPATHS_TEST =\
 ########################################
 # arguments
 
-LD_ARGS_MT_UX      =   libWinSysLog.$(COMP_TAG).mt.lib unixem.1.$(COMP_TAG).mt.lib -release $(LD_FLAGS_MT_UX) $(LIBPATHS)
-LD_ARGS_MT_UX_TEST =   libWinSysLog.$(COMP_TAG).mt.lib unixem.1.$(COMP_TAG).mt.lib -release $(LD_FLAGS_MT_UX) $(LIBPATHS_TEST)
-LD_ARGS_MT_UX_DEBUG      =   libWinSysLog.$(COMP_TAG).mt.debug.lib unixem.1.$(COMP_TAG).mt.debug.lib -debug $(LD_FLAGS_MT_UX_DEBUG) $(LIBPATHS)
-LD_ARGS_MT_UX_DEBUG_TEST =   libWinSysLog.$(COMP_TAG).mt.debug.lib unixem.1.$(COMP_TAG).mt.debug.lib -debug $(LD_FLAGS_MT_UX_DEBUG) $(LIBPATHS_TEST)
+LD_ARGS_UX_MT_D      =   libWinSysLog.$(COMP_TAG).mt.debug.lib unixem.1.$(COMP_TAG).mt.debug.lib -debug $(LD_FLAGS_UX_MT_D) $(LIBPATHS)
+LD_ARGS_UX_MT_D_TEST =   libWinSysLog.$(COMP_TAG).mt.debug.lib unixem.1.$(COMP_TAG).mt.debug.lib -debug $(LD_FLAGS_UX_MT_D) $(LIBPATHS_TEST)
+LD_ARGS_UX_MT_R      =   libWinSysLog.$(COMP_TAG).mt.lib unixem.1.$(COMP_TAG).mt.lib -release $(LD_FLAGS_UX_MT_R) $(LIBPATHS)
+LD_ARGS_UX_MT_R_TEST =   libWinSysLog.$(COMP_TAG).mt.lib unixem.1.$(COMP_TAG).mt.lib -release $(LD_FLAGS_UX_MT_R) $(LIBPATHS_TEST)
 
 ############################################################################
 # names
@@ -484,64 +485,64 @@ SHWILD_HEADERS=\
 
 # core
 
-OBJ_lib_core_MT_UX         =   $(PROJ_OBJ_DIR)\core.mt.obj
+OBJ_lib_core_UX_MT_D         =   $(PROJ_OBJ_DIR)\core.mt.debug.obj
+PDB_lib_core_UX_MT_D         =   $(PROJ_OBJ_DIR)\core.mt.debug.pdb
 
-OBJS_CORE_MT_UX=\
- $(OBJ_lib_core_MT_UX)\
+OBJS_CORE_UX_MT_D=\
+ $(OBJ_lib_core_UX_MT_D)\
  \
 
-OBJ_lib_core_MT_UX_DEBUG         =   $(PROJ_OBJ_DIR)\core.mt.debug.obj
-PDB_lib_core_MT_UX_DEBUG         =   $(PROJ_OBJ_DIR)\core.mt.debug.pdb
-
-OBJS_CORE_MT_UX_DEBUG=\
- $(OBJ_lib_core_MT_UX_DEBUG)\
+PDBS_CORE_UX_MT_D=\
+ $(PDB_lib_core_UX_MT_D)\
  \
 
-PDBS_CORE_MT_UX_DEBUG=\
- $(PDB_lib_core_MT_UX_DEBUG)\
+OBJ_lib_core_UX_MT_R         =   $(PROJ_OBJ_DIR)\core.mt.obj
+
+OBJS_CORE_UX_MT_R=\
+ $(OBJ_lib_core_UX_MT_R)\
  \
 
 
 OBJS_CORE=\
- $(OBJS_CORE_MT_UX)\
- $(OBJS_CORE_MT_UX_DEBUG)\
+ $(OBJS_CORE_UX_MT_D)\
+ $(OBJS_CORE_UX_MT_R)\
  \
 
 # shwild - testing only
 
-OBJ_shw_api_MT_UX          =   $(PROJ_OBJ_DIR)\shwild.api.mt.obj
-OBJ_shw_matches_MT_UX      =   $(PROJ_OBJ_DIR)\shwild.matches.mt.obj
-OBJ_shw_pattern_MT_UX      =   $(PROJ_OBJ_DIR)\shwild.pattern.mt.obj
+OBJ_shw_api_UX_MT_D          =   $(PROJ_OBJ_DIR)\shwild.api.mt.debug.obj
+OBJ_shw_matches_UX_MT_D      =   $(PROJ_OBJ_DIR)\shwild.matches.mt.debug.obj
+OBJ_shw_pattern_UX_MT_D      =   $(PROJ_OBJ_DIR)\shwild.pattern.mt.debug.obj
+PDB_shw_api_UX_MT_D          =   $(PROJ_OBJ_DIR)\shwild.api.mt.debug.pdb
+PDB_shw_matches_UX_MT_D      =   $(PROJ_OBJ_DIR)\shwild.matches.mt.debug.pdb
+PDB_shw_pattern_UX_MT_D      =   $(PROJ_OBJ_DIR)\shwild.pattern.mt.debug.pdb
 
-OBJS_SHWILD_MT_UX=\
- $(OBJ_shw_api_MT_UX)\
- $(OBJ_shw_matches_MT_UX)\
- $(OBJ_shw_pattern_MT_UX)\
+OBJS_SHWILD_UX_MT_D=\
+ $(OBJ_shw_api_UX_MT_D)\
+ $(OBJ_shw_matches_UX_MT_D)\
+ $(OBJ_shw_pattern_UX_MT_D)\
  \
 
-OBJ_shw_api_MT_UX_DEBUG          =   $(PROJ_OBJ_DIR)\shwild.api.mt.debug.obj
-OBJ_shw_matches_MT_UX_DEBUG      =   $(PROJ_OBJ_DIR)\shwild.matches.mt.debug.obj
-OBJ_shw_pattern_MT_UX_DEBUG      =   $(PROJ_OBJ_DIR)\shwild.pattern.mt.debug.obj
-PDB_shw_api_MT_UX_DEBUG          =   $(PROJ_OBJ_DIR)\shwild.api.mt.debug.pdb
-PDB_shw_matches_MT_UX_DEBUG      =   $(PROJ_OBJ_DIR)\shwild.matches.mt.debug.pdb
-PDB_shw_pattern_MT_UX_DEBUG      =   $(PROJ_OBJ_DIR)\shwild.pattern.mt.debug.pdb
-
-OBJS_SHWILD_MT_UX_DEBUG=\
- $(OBJ_shw_api_MT_UX_DEBUG)\
- $(OBJ_shw_matches_MT_UX_DEBUG)\
- $(OBJ_shw_pattern_MT_UX_DEBUG)\
+PDBS_SHWILD_UX_MT_D=\
+ $(PDB_shw_api_UX_MT_D)\
+ $(PDB_shw_matches_UX_MT_D)\
+ $(PDB_shw_pattern_UX_MT_D)\
  \
 
-PDBS_SHWILD_MT_UX_DEBUG=\
- $(PDB_shw_api_MT_UX_DEBUG)\
- $(PDB_shw_matches_MT_UX_DEBUG)\
- $(PDB_shw_pattern_MT_UX_DEBUG)\
+OBJ_shw_api_UX_MT_R          =   $(PROJ_OBJ_DIR)\shwild.api.mt.obj
+OBJ_shw_matches_UX_MT_R      =   $(PROJ_OBJ_DIR)\shwild.matches.mt.obj
+OBJ_shw_pattern_UX_MT_R      =   $(PROJ_OBJ_DIR)\shwild.pattern.mt.obj
+
+OBJS_SHWILD_UX_MT_R=\
+ $(OBJ_shw_api_UX_MT_R)\
+ $(OBJ_shw_matches_UX_MT_R)\
+ $(OBJ_shw_pattern_UX_MT_R)\
  \
 
 
 OBJS_SHWILD=\
- $(OBJS_SHWILD_MT_UX)\
- $(OBJS_SHWILD_MT_UX_DEBUG)\
+ $(OBJS_SHWILD_UX_MT_D)\
+ $(OBJS_SHWILD_UX_MT_R)\
  \
 
 # *
@@ -554,30 +555,30 @@ OBJS_LIBS =\
 ########################################
 # examples
 
-OBJ_EX_C_runner_MT_UX	=   $(PROJ_OBJ_DIR)\example.c.runner.mt.obj
-OBJ_EX_C_runner_MT_UX_DEBUG	=   $(PROJ_OBJ_DIR)\example.c.runner.mt.debug.obj
+OBJ_EX_C_runner_UX_MT_D	=   $(PROJ_OBJ_DIR)\example.c.runner.mt.debug.obj
+OBJ_EX_C_runner_UX_MT_R	=   $(PROJ_OBJ_DIR)\example.c.runner.mt.obj
 
-OBJ_EX_C_tests_MT_UX		=   $(PROJ_OBJ_DIR)\example.c.tests.mt.obj
-OBJ_EX_C_tests_MT_UX_DEBUG		=   $(PROJ_OBJ_DIR)\example.c.tests.mt.debug.obj
+OBJ_EX_C_tests_UX_MT_D		=   $(PROJ_OBJ_DIR)\example.c.tests.mt.debug.obj
+OBJ_EX_C_tests_UX_MT_R		=   $(PROJ_OBJ_DIR)\example.c.tests.mt.obj
 
 OBJS_EXAMPLES =\
- $(OBJ_EX_C_runner_MT_UX)\
- $(OBJ_EX_C_runner_MT_UX_DEBUG)\
- $(OBJ_EX_C_tests_MT_UX)\
- $(OBJ_EX_C_tests_MT_UX_DEBUG)\
+ $(OBJ_EX_C_runner_UX_MT_D)\
+ $(OBJ_EX_C_runner_UX_MT_R)\
+ $(OBJ_EX_C_tests_UX_MT_D)\
+ $(OBJ_EX_C_tests_UX_MT_R)\
  \
 
 ##############################
 # scratch tests
 
-OBJ_TEST_SCRT_basics1_MT_UX =   $(PROJ_OBJ_DIR)\test.scratch.basics1.mt.obj
-OBJ_TEST_SCRT_basics1_MT_UX_DEBUG =   $(PROJ_OBJ_DIR)\test.scratch.basics1.mt.debug.obj
+OBJ_TEST_SCRT_basics1_UX_MT_D =   $(PROJ_OBJ_DIR)\test.scratch.basics1.mt.debug.obj
+OBJ_TEST_SCRT_basics1_UX_MT_R =   $(PROJ_OBJ_DIR)\test.scratch.basics1.mt.obj
 
-OBJ_TEST_SCRT_basics2_MT_UX =   $(PROJ_OBJ_DIR)\test.scratch.basics2.mt.obj
-OBJ_TEST_SCRT_basics2_MT_UX_DEBUG =   $(PROJ_OBJ_DIR)\test.scratch.basics2.mt.debug.obj
+OBJ_TEST_SCRT_basics2_UX_MT_D =   $(PROJ_OBJ_DIR)\test.scratch.basics2.mt.debug.obj
+OBJ_TEST_SCRT_basics2_UX_MT_R =   $(PROJ_OBJ_DIR)\test.scratch.basics2.mt.obj
 
-OBJ_TEST_SCRT_failall1_MT_UX =   $(PROJ_OBJ_DIR)\test.scratch.fail_all.1.mt.obj
-OBJ_TEST_SCRT_failall1_MT_UX_DEBUG =   $(PROJ_OBJ_DIR)\test.scratch.fail_all.1.mt.debug.obj
+OBJ_TEST_SCRT_failall1_UX_MT_D =   $(PROJ_OBJ_DIR)\test.scratch.fail_all.1.mt.debug.obj
+OBJ_TEST_SCRT_failall1_UX_MT_R =   $(PROJ_OBJ_DIR)\test.scratch.fail_all.1.mt.obj
 
 ########################################
 # unit tests
@@ -595,10 +596,10 @@ OBJ_TEST_SCRT_failall1_MT_UX_DEBUG =   $(PROJ_OBJ_DIR)\test.scratch.fail_all.1.m
 
 # examples
 OBJS_EXAMPLE=\
- $(OBJ_EX_C_runner_MT_UX)\
- $(OBJ_EX_C_tests_MT_UX)\
- $(OBJ_EX_C_runner_MT_UX_DEBUG)\
- $(OBJ_EX_C_tests_MT_UX_DEBUG)\
+ $(OBJ_EX_C_runner_UX_MT_D)\
+ $(OBJ_EX_C_tests_UX_MT_D)\
+ $(OBJ_EX_C_runner_UX_MT_R)\
+ $(OBJ_EX_C_tests_UX_MT_R)\
  \
 
 # Component Tests
@@ -607,12 +608,12 @@ OBJS_TEST_COMPONENT=\
 
 # Scratch Tests
 OBJS_TEST_SCRATCH=\
- $(OBJ_TEST_SCRT_basics1_MT_UX)\
- $(OBJ_TEST_SCRT_basics2_MT_UX)\
- $(OBJ_TEST_SCRT_failall1_MT_UX)\
- $(OBJ_TEST_SCRT_basics1_MT_UX_DEBUG)\
- $(OBJ_TEST_SCRT_basics2_MT_UX_DEBUG)\
- $(OBJ_TEST_SCRT_failall1_MT_UX_DEBUG)\
+ $(OBJ_TEST_SCRT_basics1_UX_MT_D)\
+ $(OBJ_TEST_SCRT_basics2_UX_MT_D)\
+ $(OBJ_TEST_SCRT_failall1_UX_MT_D)\
+ $(OBJ_TEST_SCRT_basics1_UX_MT_R)\
+ $(OBJ_TEST_SCRT_basics2_UX_MT_R)\
+ $(OBJ_TEST_SCRT_failall1_UX_MT_R)\
  \
 
 # Unit Tests
@@ -633,59 +634,59 @@ OBJS =\
 ############################################################
 # libs
 
-LIBS_EXPLICIT_MT_UX =\
+LIBS_EXPLICIT_UX_MT_D =\
  pthreadVC.lib advapi32.lib kernel32.lib ole32.lib oleaut32.lib user32.lib uuid.lib wininet.lib ws2_32.lib \
  \
 
-LIBS_EXPLICIT_MT_UX_DEBUG =\
+LIBS_EXPLICIT_UX_MT_R =\
  pthreadVC.lib advapi32.lib kernel32.lib ole32.lib oleaut32.lib user32.lib uuid.lib wininet.lib ws2_32.lib \
  \
 
 
-LIBS_3PTY_MT_UX =\
+LIBS_3PTY_UX_MT_D =\
  \
 
-LIBS_3PTY_MT_UX_TEST =\
- $(LIBS_3PTY_MT_UX)\
+LIBS_3PTY_UX_MT_D_TEST =\
+ $(LIBS_3PTY_UX_MT_D)\
  \
 
-LIBS_3PTY_MT_UX_DEBUG =\
+LIBS_3PTY_UX_MT_R =\
  \
 
-LIBS_3PTY_MT_UX_DEBUG_TEST =\
- $(LIBS_3PTY_MT_UX_DEBUG)\
- \
-
-
-LIBS_EXAMPLES_MT_UX=\
- $(LIB_CORE_MT_UX)\
+LIBS_3PTY_UX_MT_R_TEST =\
+ $(LIBS_3PTY_UX_MT_R)\
  \
 
 
-LIBS_EXAMPLES_MT_UX_DEBUG=\
- $(LIB_CORE_MT_UX_DEBUG)\
+LIBS_EXAMPLES_UX_MT_D=\
+ $(LIB_CORE_UX_MT_D)\
  \
 
 
-LIBS_SAMPLES_MT_UX=\
- $(LIB_CORE_MT_UX)\
+LIBS_EXAMPLES_UX_MT_R=\
+ $(LIB_CORE_UX_MT_R)\
  \
 
 
-LIBS_SAMPLES_MT_UX_DEBUG=\
- $(LIB_CORE_MT_UX_DEBUG)\
+LIBS_SAMPLES_UX_MT_D=\
+ $(LIB_CORE_UX_MT_D)\
  \
 
 
-LIBS_TESTS_MT_UX=\
- $(LIB_CORE_MT_UX)\
- $(LIB_SHWILD_MT_UX)\
+LIBS_SAMPLES_UX_MT_R=\
+ $(LIB_CORE_UX_MT_R)\
  \
 
 
-LIBS_TESTS_MT_UX_DEBUG=\
- $(LIB_CORE_MT_UX_DEBUG)\
- $(LIB_SHWILD_MT_UX_DEBUG)\
+LIBS_TESTS_UX_MT_D=\
+ $(LIB_CORE_UX_MT_D)\
+ $(LIB_SHWILD_UX_MT_D)\
+ \
+
+
+LIBS_TESTS_UX_MT_R=\
+ $(LIB_CORE_UX_MT_R)\
+ $(LIB_SHWILD_UX_MT_R)\
  \
 
 
@@ -698,24 +699,24 @@ LIBS_TESTS_MT_UX_DEBUG=\
 
 # core
 
-LIB_CORE_MT_UX                 =   $(PROJ_LIB_DIR)\$(PROJ_TAG_VER).$(COMP_ARCH_OS_TAG).mt.lib
-LIB_CORE_UN_MT_UX				=	$(PROJ_LIB_DIR)\$(PROJ_TAG).$(COMP_TAG).mt.lib
-LIB_CORE_MT_UX_DEBUG                 =   $(PROJ_LIB_DIR)\$(PROJ_TAG_VER).$(COMP_ARCH_OS_TAG).mt.debug.lib
-LIB_CORE_UN_MT_UX_DEBUG				=	$(PROJ_LIB_DIR)\$(PROJ_TAG).$(COMP_TAG).mt.debug.lib
+LIB_CORE_UX_MT_D                 =   $(PROJ_LIB_DIR)\$(PROJ_TAG_VER).$(COMP_ARCH_OS_TAG).mt.debug.lib
+LIB_CORE_UN_UX_MT_D				=	$(PROJ_LIB_DIR)\$(PROJ_TAG).$(COMP_TAG).mt.debug.lib
+LIB_CORE_UX_MT_R                 =   $(PROJ_LIB_DIR)\$(PROJ_TAG_VER).$(COMP_ARCH_OS_TAG).mt.lib
+LIB_CORE_UN_UX_MT_R				=	$(PROJ_LIB_DIR)\$(PROJ_TAG).$(COMP_TAG).mt.lib
 
 TARGETS_LIB_CORE=\
- $(LIB_CORE_MT_UX)\
- $(LIB_CORE_MT_UX_DEBUG)\
+ $(LIB_CORE_UX_MT_D)\
+ $(LIB_CORE_UX_MT_R)\
  \
 
 # shwild - testing only
 
-LIB_SHWILD_MT_UX               =   $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).mt.lib
-LIB_SHWILD_MT_UX_DEBUG               =   $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).mt.debug.lib
+LIB_SHWILD_UX_MT_D               =   $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).mt.debug.lib
+LIB_SHWILD_UX_MT_R               =   $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).mt.lib
 
 TARGETS_LIB_SHWILD=\
- $(LIB_SHWILD_MT_UX)\
- $(LIB_SHWILD_MT_UX_DEBUG)\
+ $(LIB_SHWILD_UX_MT_D)\
+ $(LIB_SHWILD_UX_MT_R)\
  \
 
 # *
@@ -732,16 +733,16 @@ TARGETS_LIBS=\
 ########################################
 # examples
 
-TARG_EX_C_runner_MT_UX         =   $(PROJ_BIN_DIR)\$(PROJ_TAG).example.c.runner.$(COMP_ARCH_OS_TAG).mt.exe
-TARG_EX_C_tests_MT_UX          =   $(PROJ_BIN_DIR)\$(PROJ_TAG).example.c.tests.$(COMP_ARCH_OS_TAG).mt.exe
-TARG_EX_C_runner_MT_UX_DEBUG         =   $(PROJ_BIN_DIR)\$(PROJ_TAG).example.c.runner.$(COMP_ARCH_OS_TAG).mt.debug.exe
-TARG_EX_C_tests_MT_UX_DEBUG          =   $(PROJ_BIN_DIR)\$(PROJ_TAG).example.c.tests.$(COMP_ARCH_OS_TAG).mt.debug.exe
+TARG_EX_C_runner_UX_MT_D         =   $(PROJ_BIN_DIR)\$(PROJ_TAG).example.c.runner.$(COMP_ARCH_OS_TAG).mt.debug.exe
+TARG_EX_C_tests_UX_MT_D          =   $(PROJ_BIN_DIR)\$(PROJ_TAG).example.c.tests.$(COMP_ARCH_OS_TAG).mt.debug.exe
+TARG_EX_C_runner_UX_MT_R         =   $(PROJ_BIN_DIR)\$(PROJ_TAG).example.c.runner.$(COMP_ARCH_OS_TAG).mt.exe
+TARG_EX_C_tests_UX_MT_R          =   $(PROJ_BIN_DIR)\$(PROJ_TAG).example.c.tests.$(COMP_ARCH_OS_TAG).mt.exe
 
 TARGETS_EXAMPLE_C=\
- $(TARG_EX_C_runner_MT_UX)\
- $(TARG_EX_C_tests_MT_UX)\
- $(TARG_EX_C_runner_MT_UX_DEBUG)\
- $(TARG_EX_C_tests_MT_UX_DEBUG)\
+ $(TARG_EX_C_runner_UX_MT_D)\
+ $(TARG_EX_C_tests_UX_MT_D)\
+ $(TARG_EX_C_runner_UX_MT_R)\
+ $(TARG_EX_C_tests_UX_MT_R)\
  \
 
 TARGETS_EXAMPLE_CPP=\
@@ -761,20 +762,20 @@ TARGETS_SAMPLE=\
 ########################################
 # scratch tests
 
-TARG_TEST_SCRT_basics1_MT_UX   =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.basics1.$(COMP_ARCH_OS_TAG).mt.exe
-TARG_TEST_SCRT_basics2_MT_UX   =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.basics2.$(COMP_ARCH_OS_TAG).mt.exe
-TARG_TEST_SCRT_failall1_MT_UX  =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.fail_all.1.$(COMP_ARCH_OS_TAG).mt.exe
-TARG_TEST_SCRT_basics1_MT_UX_DEBUG   =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.basics1.$(COMP_ARCH_OS_TAG).mt.debug.exe
-TARG_TEST_SCRT_basics2_MT_UX_DEBUG   =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.basics2.$(COMP_ARCH_OS_TAG).mt.debug.exe
-TARG_TEST_SCRT_failall1_MT_UX_DEBUG  =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.fail_all.1.$(COMP_ARCH_OS_TAG).mt.debug.exe
+TARG_TEST_SCRT_basics1_UX_MT_D   =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.basics1.$(COMP_ARCH_OS_TAG).mt.debug.exe
+TARG_TEST_SCRT_basics2_UX_MT_D   =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.basics2.$(COMP_ARCH_OS_TAG).mt.debug.exe
+TARG_TEST_SCRT_failall1_UX_MT_D  =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.fail_all.1.$(COMP_ARCH_OS_TAG).mt.debug.exe
+TARG_TEST_SCRT_basics1_UX_MT_R   =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.basics1.$(COMP_ARCH_OS_TAG).mt.exe
+TARG_TEST_SCRT_basics2_UX_MT_R   =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.basics2.$(COMP_ARCH_OS_TAG).mt.exe
+TARG_TEST_SCRT_failall1_UX_MT_R  =   $(PROJ_BIN_DIR)\$(PROJ_TAG).test.scratch.fail_all.1.$(COMP_ARCH_OS_TAG).mt.exe
 
 TARGETS_TEST_SCRATCH=\
- $(TARG_TEST_SCRT_basics1_MT_UX)\
- $(TARG_TEST_SCRT_basics2_MT_UX)\
- $(TARG_TEST_SCRT_failall1_MT_UX)\
- $(TARG_TEST_SCRT_basics1_MT_UX_DEBUG)\
- $(TARG_TEST_SCRT_basics2_MT_UX_DEBUG)\
- $(TARG_TEST_SCRT_failall1_MT_UX_DEBUG)\
+ $(TARG_TEST_SCRT_basics1_UX_MT_D)\
+ $(TARG_TEST_SCRT_basics2_UX_MT_D)\
+ $(TARG_TEST_SCRT_failall1_UX_MT_D)\
+ $(TARG_TEST_SCRT_basics1_UX_MT_R)\
+ $(TARG_TEST_SCRT_basics2_UX_MT_R)\
+ $(TARG_TEST_SCRT_failall1_UX_MT_R)\
  \
 
 ########################################
@@ -889,12 +890,12 @@ test.component_:
 
 test.scratch_:
 	@echo Running Test:Scratch programs ...
-	-$(TARG_TEST_SCRT_failall1_MT_UX) --verbosity=$(TEST_VERBOSITY)
-	-$(TARG_TEST_SCRT_failall1_MT_UX_DEBUG) --verbosity=$(TEST_VERBOSITY)
-	$(TARG_TEST_SCRT_basics1_MT_UX) --verbosity=$(TEST_VERBOSITY)
-	$(TARG_TEST_SCRT_basics1_MT_UX_DEBUG) --verbosity=$(TEST_VERBOSITY)
-	$(TARG_TEST_SCRT_basics2_MT_UX) --verbosity=$(TEST_VERBOSITY)
-	$(TARG_TEST_SCRT_basics2_MT_UX_DEBUG) --verbosity=$(TEST_VERBOSITY)
+	-$(TARG_TEST_SCRT_failall1_UX_MT_D) --verbosity=$(TEST_VERBOSITY)
+	-$(TARG_TEST_SCRT_failall1_UX_MT_R) --verbosity=$(TEST_VERBOSITY)
+	$(TARG_TEST_SCRT_basics1_UX_MT_D) --verbosity=$(TEST_VERBOSITY)
+	$(TARG_TEST_SCRT_basics1_UX_MT_R) --verbosity=$(TEST_VERBOSITY)
+	$(TARG_TEST_SCRT_basics2_UX_MT_D) --verbosity=$(TEST_VERBOSITY)
+	$(TARG_TEST_SCRT_basics2_UX_MT_R) --verbosity=$(TEST_VERBOSITY)
 
 test.unit_:
 	@echo Running Test:Unit programs ...
@@ -915,48 +916,48 @@ test-all:				test.all
 
 clean.libs.core:
 	@echo Cleaning Core libraries ...
-	@-if exist $(LIB_CORE_MT_UX) $(RM) $(LIB_CORE_MT_UX)
-	@-if exist $(LIB_CORE_UN_MT_UX) $(RM) $(LIB_CORE_UN_MT_UX)
-	@-if exist $(LIB_CORE_MT_UX_DEBUG) $(RM) $(LIB_CORE_MT_UX_DEBUG)
-	@-if exist $(LIB_CORE_UN_MT_UX_DEBUG) $(RM) $(LIB_CORE_UN_MT_UX_DEBUG)
-	@-if exist $(OBJS_CORE_MT_UX) $(RM) $(OBJS_CORE_MT_UX)
-	@-if exist $(OBJS_CORE_MT_UX_DEBUG) $(RM) $(OBJS_CORE_MT_UX_DEBUG)
-	@-if exist $(PDBS_CORE_MT_UX_DEBUG) $(RM) $(PDBS_CORE_MT_UX_DEBUG)
+	@-if exist $(LIB_CORE_UX_MT_D) $(RM) $(LIB_CORE_UX_MT_D)
+	@-if exist $(LIB_CORE_UN_UX_MT_D) $(RM) $(LIB_CORE_UN_UX_MT_D)
+	@-if exist $(LIB_CORE_UX_MT_R) $(RM) $(LIB_CORE_UX_MT_R)
+	@-if exist $(LIB_CORE_UN_UX_MT_R) $(RM) $(LIB_CORE_UN_UX_MT_R)
+	@-if exist $(OBJS_CORE_UX_MT_D) $(RM) $(OBJS_CORE_UX_MT_D)
+	@-if exist $(PDBS_CORE_UX_MT_D) $(RM) $(PDBS_CORE_UX_MT_D)
+	@-if exist $(OBJS_CORE_UX_MT_R) $(RM) $(OBJS_CORE_UX_MT_R)
 
 clean.libs.shwild:
 	@echo Cleaning shwild libraries ...
-	@-if exist $(LIB_SHWILD_MT_UX) $(RM) $(LIB_SHWILD_MT_UX)
-	@-if exist $(LIB_SHWILD_MT_UX_DEBUG) $(RM) $(LIB_SHWILD_MT_UX_DEBUG)
-	@-if exist $(OBJ_shw_api_MT_UX) $(RM) $(OBJ_shw_api_MT_UX)
-	@-if exist $(OBJ_shw_matches_MT_UX) $(RM) $(OBJ_shw_matches_MT_UX)
-	@-if exist $(OBJ_shw_pattern_MT_UX) $(RM) $(OBJ_shw_pattern_MT_UX)
-	@-if exist $(OBJ_shw_api_MT_UX_DEBUG) $(RM) $(OBJ_shw_api_MT_UX_DEBUG)
-	@-if exist $(OBJ_shw_matches_MT_UX_DEBUG) $(RM) $(OBJ_shw_matches_MT_UX_DEBUG)
-	@-if exist $(OBJ_shw_pattern_MT_UX_DEBUG) $(RM) $(OBJ_shw_pattern_MT_UX_DEBUG)
-	@-if exist $(PDB_shw_api_MT_UX_DEBUG) $(RM) $(PDB_shw_api_MT_UX_DEBUG)
-	@-if exist $(PDB_shw_matches_MT_UX_DEBUG) $(RM) $(PDB_shw_matches_MT_UX_DEBUG)
-	@-if exist $(PDB_shw_pattern_MT_UX_DEBUG) $(RM) $(PDB_shw_pattern_MT_UX_DEBUG)
+	@-if exist $(LIB_SHWILD_UX_MT_D) $(RM) $(LIB_SHWILD_UX_MT_D)
+	@-if exist $(LIB_SHWILD_UX_MT_R) $(RM) $(LIB_SHWILD_UX_MT_R)
+	@-if exist $(OBJ_shw_api_UX_MT_D) $(RM) $(OBJ_shw_api_UX_MT_D)
+	@-if exist $(OBJ_shw_matches_UX_MT_D) $(RM) $(OBJ_shw_matches_UX_MT_D)
+	@-if exist $(OBJ_shw_pattern_UX_MT_D) $(RM) $(OBJ_shw_pattern_UX_MT_D)
+	@-if exist $(PDB_shw_api_UX_MT_D) $(RM) $(PDB_shw_api_UX_MT_D)
+	@-if exist $(PDB_shw_matches_UX_MT_D) $(RM) $(PDB_shw_matches_UX_MT_D)
+	@-if exist $(PDB_shw_pattern_UX_MT_D) $(RM) $(PDB_shw_pattern_UX_MT_D)
+	@-if exist $(OBJ_shw_api_UX_MT_R) $(RM) $(OBJ_shw_api_UX_MT_R)
+	@-if exist $(OBJ_shw_matches_UX_MT_R) $(RM) $(OBJ_shw_matches_UX_MT_R)
+	@-if exist $(OBJ_shw_pattern_UX_MT_R) $(RM) $(OBJ_shw_pattern_UX_MT_R)
 
 clean.test.component:
 	@echo cleaning Test:Component programs ...
 
 clean.test.scratch:
 	@echo cleaning Test:Scratch programs ...
-	@-if exist $(TARG_TEST_SCRT_basics1_MT_UX) $(RM) $(TARG_TEST_SCRT_basics1_MT_UX)
-	@-if exist $(OBJ_TEST_SCRT_basics1_MT_UX) $(RM) $(OBJ_TEST_SCRT_basics1_MT_UX)
-	@-if exist $(TARG_TEST_SCRT_basics2_MT_UX) $(RM) $(TARG_TEST_SCRT_basics2_MT_UX)
-	@-if exist $(OBJ_TEST_SCRT_basics2_MT_UX) $(RM) $(OBJ_TEST_SCRT_basics2_MT_UX)
-	@-if exist $(TARG_TEST_SCRT_failall1_MT_UX) $(RM) $(TARG_TEST_SCRT_failall1_MT_UX)
-	@-if exist $(OBJ_TEST_SCRT_failall1_MT_UX) $(RM) $(OBJ_TEST_SCRT_failall1_MT_UX)
-	@-if exist $(TARG_TEST_SCRT_basics1_MT_UX_DEBUG) $(RM) $(TARG_TEST_SCRT_basics1_MT_UX_DEBUG)
-	@-if exist $(OBJ_TEST_SCRT_basics1_MT_UX_DEBUG) $(RM) $(OBJ_TEST_SCRT_basics1_MT_UX_DEBUG)
-	@-if exist $(TARG_TEST_SCRT_basics2_MT_UX_DEBUG) $(RM) $(TARG_TEST_SCRT_basics2_MT_UX_DEBUG)
-	@-if exist $(OBJ_TEST_SCRT_basics2_MT_UX_DEBUG) $(RM) $(OBJ_TEST_SCRT_basics2_MT_UX_DEBUG)
-	@-if exist $(TARG_TEST_SCRT_failall1_MT_UX_DEBUG) $(RM) $(TARG_TEST_SCRT_failall1_MT_UX_DEBUG)
-	@-if exist $(OBJ_TEST_SCRT_failall1_MT_UX_DEBUG) $(RM) $(OBJ_TEST_SCRT_failall1_MT_UX_DEBUG)
-	@-if exist $(PDB_TEST_SCRT_basics1_MT_UX_DEBUG) $(RM) $(PDB_TEST_SCRT_basics1_MT_UX_DEBUG)
-	@-if exist $(PDB_TEST_SCRT_basics2_MT_UX_DEBUG) $(RM) $(PDB_TEST_SCRT_basics2_MT_UX_DEBUG)
-	@-if exist $(PDB_TEST_SCRT_failall1_MT_UX_DEBUG) $(RM) $(PDB_TEST_SCRT_failall1_MT_UX_DEBUG)
+	@-if exist $(TARG_TEST_SCRT_basics1_UX_MT_D) $(RM) $(TARG_TEST_SCRT_basics1_UX_MT_D)
+	@-if exist $(OBJ_TEST_SCRT_basics1_UX_MT_D) $(RM) $(OBJ_TEST_SCRT_basics1_UX_MT_D)
+	@-if exist $(TARG_TEST_SCRT_basics2_UX_MT_D) $(RM) $(TARG_TEST_SCRT_basics2_UX_MT_D)
+	@-if exist $(OBJ_TEST_SCRT_basics2_UX_MT_D) $(RM) $(OBJ_TEST_SCRT_basics2_UX_MT_D)
+	@-if exist $(TARG_TEST_SCRT_failall1_UX_MT_D) $(RM) $(TARG_TEST_SCRT_failall1_UX_MT_D)
+	@-if exist $(OBJ_TEST_SCRT_failall1_UX_MT_D) $(RM) $(OBJ_TEST_SCRT_failall1_UX_MT_D)
+	@-if exist $(PDB_TEST_SCRT_basics1_UX_MT_D) $(RM) $(PDB_TEST_SCRT_basics1_UX_MT_D)
+	@-if exist $(PDB_TEST_SCRT_basics2_UX_MT_D) $(RM) $(PDB_TEST_SCRT_basics2_UX_MT_D)
+	@-if exist $(PDB_TEST_SCRT_failall1_UX_MT_D) $(RM) $(PDB_TEST_SCRT_failall1_UX_MT_D)
+	@-if exist $(TARG_TEST_SCRT_basics1_UX_MT_R) $(RM) $(TARG_TEST_SCRT_basics1_UX_MT_R)
+	@-if exist $(OBJ_TEST_SCRT_basics1_UX_MT_R) $(RM) $(OBJ_TEST_SCRT_basics1_UX_MT_R)
+	@-if exist $(TARG_TEST_SCRT_basics2_UX_MT_R) $(RM) $(TARG_TEST_SCRT_basics2_UX_MT_R)
+	@-if exist $(OBJ_TEST_SCRT_basics2_UX_MT_R) $(RM) $(OBJ_TEST_SCRT_basics2_UX_MT_R)
+	@-if exist $(TARG_TEST_SCRT_failall1_UX_MT_R) $(RM) $(TARG_TEST_SCRT_failall1_UX_MT_R)
+	@-if exist $(OBJ_TEST_SCRT_failall1_UX_MT_R) $(RM) $(OBJ_TEST_SCRT_failall1_UX_MT_R)
 
 clean.test.unit:
 	@echo cleaning Test:Unit programs ...
@@ -986,99 +987,99 @@ clean:					$(PROJ_MAKEFILE_NAME)	clean.libs.all clean.test clean.examples clean.
 ########################################
 # shwild library - 'shwild.X.core.a'
 
-$(LIB_SHWILD_MT_UX): $(OBJS_SHWILD_MT_UX) $(PROJ_MAKEFILE_NAME)
+$(LIB_SHWILD_UX_MT_D): $(OBJS_SHWILD_UX_MT_D) $(PROJ_MAKEFILE_NAME)
 	@-if not exist $(PROJ_LIB_DIR)\NUL mkdir $(PROJ_LIB_DIR)
-	$(AR) $(AR_ARGS) -out:$@ $(OBJS_SHWILD_MT_UX)
+	$(AR) $(AR_ARGS) -out:$@ $(OBJS_SHWILD_UX_MT_D)
 
-$(OBJ_shw_api_MT_UX): $(SHWILD_SRC_DIR)\api.cpp $(SHWILD_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CPPC) $(CPPC_ARGS_MT_UX) $(CPPC_SHWILD_INCLUDES_MT_UX) -Fo$@ $(SHWILD_SRC_DIR)\api.cpp
-$(OBJ_shw_matches_MT_UX): $(SHWILD_SRC_DIR)\matches.cpp $(SHWILD_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CPPC) $(CPPC_ARGS_MT_UX) $(CPPC_SHWILD_INCLUDES_MT_UX) -Fo$@ $(SHWILD_SRC_DIR)\matches.cpp
-$(OBJ_shw_pattern_MT_UX): $(SHWILD_SRC_DIR)\pattern.cpp $(SHWILD_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CPPC) $(CPPC_ARGS_MT_UX) $(CPPC_SHWILD_INCLUDES_MT_UX) -Fo$@ $(SHWILD_SRC_DIR)\pattern.cpp
+$(OBJ_shw_api_UX_MT_D): $(SHWILD_SRC_DIR)\api.cpp $(SHWILD_HEADERS) $(PROJ_MAKEFILE_NAME)
+	$(CPPC) $(CPPC_ARGS_UX_MT_D) $(CPPC_SHWILD_INCLUDES_UX_MT_D) -Fo$@ $(SHWILD_SRC_DIR)\api.cpp
+$(OBJ_shw_matches_UX_MT_D): $(SHWILD_SRC_DIR)\matches.cpp $(SHWILD_HEADERS) $(PROJ_MAKEFILE_NAME)
+	$(CPPC) $(CPPC_ARGS_UX_MT_D) $(CPPC_SHWILD_INCLUDES_UX_MT_D) -Fo$@ $(SHWILD_SRC_DIR)\matches.cpp
+$(OBJ_shw_pattern_UX_MT_D): $(SHWILD_SRC_DIR)\pattern.cpp $(SHWILD_HEADERS) $(PROJ_MAKEFILE_NAME)
+	$(CPPC) $(CPPC_ARGS_UX_MT_D) $(CPPC_SHWILD_INCLUDES_UX_MT_D) -Fo$@ $(SHWILD_SRC_DIR)\pattern.cpp
 
-$(LIB_SHWILD_MT_UX_DEBUG): $(OBJS_SHWILD_MT_UX_DEBUG) $(PROJ_MAKEFILE_NAME)
+$(LIB_SHWILD_UX_MT_R): $(OBJS_SHWILD_UX_MT_R) $(PROJ_MAKEFILE_NAME)
 	@-if not exist $(PROJ_LIB_DIR)\NUL mkdir $(PROJ_LIB_DIR)
-	$(AR) $(AR_ARGS) -out:$@ $(OBJS_SHWILD_MT_UX_DEBUG)
+	$(AR) $(AR_ARGS) -out:$@ $(OBJS_SHWILD_UX_MT_R)
 
-$(OBJ_shw_api_MT_UX_DEBUG): $(SHWILD_SRC_DIR)\api.cpp $(SHWILD_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CPPC) $(CPPC_ARGS_MT_UX_DEBUG) $(CPPC_SHWILD_INCLUDES_MT_UX_DEBUG) -Fo$@ $(SHWILD_SRC_DIR)\api.cpp
-$(OBJ_shw_matches_MT_UX_DEBUG): $(SHWILD_SRC_DIR)\matches.cpp $(SHWILD_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CPPC) $(CPPC_ARGS_MT_UX_DEBUG) $(CPPC_SHWILD_INCLUDES_MT_UX_DEBUG) -Fo$@ $(SHWILD_SRC_DIR)\matches.cpp
-$(OBJ_shw_pattern_MT_UX_DEBUG): $(SHWILD_SRC_DIR)\pattern.cpp $(SHWILD_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CPPC) $(CPPC_ARGS_MT_UX_DEBUG) $(CPPC_SHWILD_INCLUDES_MT_UX_DEBUG) -Fo$@ $(SHWILD_SRC_DIR)\pattern.cpp
+$(OBJ_shw_api_UX_MT_R): $(SHWILD_SRC_DIR)\api.cpp $(SHWILD_HEADERS) $(PROJ_MAKEFILE_NAME)
+	$(CPPC) $(CPPC_ARGS_UX_MT_R) $(CPPC_SHWILD_INCLUDES_UX_MT_R) -Fo$@ $(SHWILD_SRC_DIR)\api.cpp
+$(OBJ_shw_matches_UX_MT_R): $(SHWILD_SRC_DIR)\matches.cpp $(SHWILD_HEADERS) $(PROJ_MAKEFILE_NAME)
+	$(CPPC) $(CPPC_ARGS_UX_MT_R) $(CPPC_SHWILD_INCLUDES_UX_MT_R) -Fo$@ $(SHWILD_SRC_DIR)\matches.cpp
+$(OBJ_shw_pattern_UX_MT_R): $(SHWILD_SRC_DIR)\pattern.cpp $(SHWILD_HEADERS) $(PROJ_MAKEFILE_NAME)
+	$(CPPC) $(CPPC_ARGS_UX_MT_R) $(CPPC_SHWILD_INCLUDES_UX_MT_R) -Fo$@ $(SHWILD_SRC_DIR)\pattern.cpp
 
 ########################################
 # Main library - 'xtests.X.core.a'
 
-$(LIB_CORE_MT_UX): $(OBJS_CORE_MT_UX) $(PROJ_MAKEFILE_NAME)
+$(LIB_CORE_UX_MT_D): $(OBJS_CORE_UX_MT_D) $(PROJ_MAKEFILE_NAME)
 	@-if not exist $(PROJ_LIB_DIR)\NUL mkdir $(PROJ_LIB_DIR)
-	$(AR) $(AR_ARGS) -out:$@ $(OBJS_CORE_MT_UX)
+	$(AR) $(AR_ARGS) -out:$@ $(OBJS_CORE_UX_MT_D)
 
-$(OBJ_lib_core_MT_UX):	$(PROJ_MAKEFILE_NAME) $(PROJ_SRC_DIR)\xtests.core.cpp
-	$(CPPC) $(CPPC_ARGS_MT_UX) -Fo$@ $(PROJ_SRC_DIR)\xtests.core.cpp
+$(OBJ_lib_core_UX_MT_D):	$(PROJ_MAKEFILE_NAME) $(PROJ_SRC_DIR)\xtests.core.cpp
+	$(CPPC) $(CPPC_ARGS_UX_MT_D) -Fo$@ $(PROJ_SRC_DIR)\xtests.core.cpp
 
-$(LIB_CORE_MT_UX_DEBUG): $(OBJS_CORE_MT_UX_DEBUG) $(PROJ_MAKEFILE_NAME)
+$(LIB_CORE_UX_MT_R): $(OBJS_CORE_UX_MT_R) $(PROJ_MAKEFILE_NAME)
 	@-if not exist $(PROJ_LIB_DIR)\NUL mkdir $(PROJ_LIB_DIR)
-	$(AR) $(AR_ARGS) -out:$@ $(OBJS_CORE_MT_UX_DEBUG)
+	$(AR) $(AR_ARGS) -out:$@ $(OBJS_CORE_UX_MT_R)
 
-$(OBJ_lib_core_MT_UX_DEBUG):	$(PROJ_MAKEFILE_NAME) $(PROJ_SRC_DIR)\xtests.core.cpp
-	$(CPPC) $(CPPC_ARGS_MT_UX_DEBUG) -Fo$@ $(PROJ_SRC_DIR)\xtests.core.cpp
+$(OBJ_lib_core_UX_MT_R):	$(PROJ_MAKEFILE_NAME) $(PROJ_SRC_DIR)\xtests.core.cpp
+	$(CPPC) $(CPPC_ARGS_UX_MT_R) -Fo$@ $(PROJ_SRC_DIR)\xtests.core.cpp
 
 ##################################################
 # examples
 
-$(TARG_EX_C_runner_MT_UX):	\
-			$(OBJ_EX_C_runner_MT_UX)\
-			$(LIBS_EXAMPLES_MT_UX)\
+$(TARG_EX_C_runner_UX_MT_D):	\
+			$(OBJ_EX_C_runner_UX_MT_D)\
+			$(LIBS_EXAMPLES_UX_MT_D)\
 			$(PROJ_MAKEFILE_NAME)
-	$(LD) $(LD_ARGS_MT_UX) -out:$@ \
-		$(OBJ_EX_C_runner_MT_UX)\
-		$(LIBS_EXAMPLES_MT_UX)\
-		$(LIBS_3PTY_MT_UX_TEST)\
-		$(LIBS_EXPLICIT_MT_UX)
+	$(LD) $(LD_ARGS_UX_MT_D) -out:$@ \
+		$(OBJ_EX_C_runner_UX_MT_D)\
+		$(LIBS_EXAMPLES_UX_MT_D)\
+		$(LIBS_3PTY_UX_MT_D_TEST)\
+		$(LIBS_EXPLICIT_UX_MT_D)
 
-$(OBJ_EX_C_runner_MT_UX):	$(PROJ_EXAMPLES_DIR)\c\example.c.runner\example.c.runner.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CC) $(CC_ARGS_MT_UX) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.runner\example.c.runner.c
+$(OBJ_EX_C_runner_UX_MT_D):	$(PROJ_EXAMPLES_DIR)\c\example.c.runner\example.c.runner.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
+	$(CC) $(CC_ARGS_UX_MT_D) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.runner\example.c.runner.c
 
-$(TARG_EX_C_runner_MT_UX_DEBUG):	\
-			$(OBJ_EX_C_runner_MT_UX_DEBUG)\
-			$(LIBS_EXAMPLES_MT_UX_DEBUG)\
+$(TARG_EX_C_runner_UX_MT_R):	\
+			$(OBJ_EX_C_runner_UX_MT_R)\
+			$(LIBS_EXAMPLES_UX_MT_R)\
 			$(PROJ_MAKEFILE_NAME)
-	$(LD) $(LD_ARGS_MT_UX_DEBUG) -out:$@ \
-		$(OBJ_EX_C_runner_MT_UX_DEBUG)\
-		$(LIBS_EXAMPLES_MT_UX_DEBUG)\
-		$(LIBS_3PTY_MT_UX_DEBUG_TEST)\
-		$(LIBS_EXPLICIT_MT_UX_DEBUG)
+	$(LD) $(LD_ARGS_UX_MT_R) -out:$@ \
+		$(OBJ_EX_C_runner_UX_MT_R)\
+		$(LIBS_EXAMPLES_UX_MT_R)\
+		$(LIBS_3PTY_UX_MT_R_TEST)\
+		$(LIBS_EXPLICIT_UX_MT_R)
 
-$(OBJ_EX_C_runner_MT_UX_DEBUG):	$(PROJ_EXAMPLES_DIR)\c\example.c.runner\example.c.runner.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CC) $(CC_ARGS_MT_UX_DEBUG) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.runner\example.c.runner.c
+$(OBJ_EX_C_runner_UX_MT_R):	$(PROJ_EXAMPLES_DIR)\c\example.c.runner\example.c.runner.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
+	$(CC) $(CC_ARGS_UX_MT_R) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.runner\example.c.runner.c
 
-$(TARG_EX_C_tests_MT_UX):	\
-			$(OBJ_EX_C_tests_MT_UX)\
-			$(LIBS_EXAMPLES_MT_UX)\
+$(TARG_EX_C_tests_UX_MT_D):	\
+			$(OBJ_EX_C_tests_UX_MT_D)\
+			$(LIBS_EXAMPLES_UX_MT_D)\
 			$(PROJ_MAKEFILE_NAME)
-	$(LD) $(LD_ARGS_MT_UX) -out:$@ \
-		$(OBJ_EX_C_tests_MT_UX)\
-		$(LIBS_EXAMPLES_MT_UX)\
-		$(LIBS_3PTY_MT_UX_TEST)\
-		$(LIBS_EXPLICIT_MT_UX)
+	$(LD) $(LD_ARGS_UX_MT_D) -out:$@ \
+		$(OBJ_EX_C_tests_UX_MT_D)\
+		$(LIBS_EXAMPLES_UX_MT_D)\
+		$(LIBS_3PTY_UX_MT_D_TEST)\
+		$(LIBS_EXPLICIT_UX_MT_D)
 
-$(OBJ_EX_C_tests_MT_UX):	$(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.tests.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CC) $(CC_ARGS_MT_UX) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.tests.c
+$(OBJ_EX_C_tests_UX_MT_D):	$(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.tests.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
+	$(CC) $(CC_ARGS_UX_MT_D) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.tests.c
 
-$(TARG_EX_C_tests_MT_UX_DEBUG):	\
-			$(OBJ_EX_C_tests_MT_UX_DEBUG)\
-			$(LIBS_EXAMPLES_MT_UX_DEBUG)\
+$(TARG_EX_C_tests_UX_MT_R):	\
+			$(OBJ_EX_C_tests_UX_MT_R)\
+			$(LIBS_EXAMPLES_UX_MT_R)\
 			$(PROJ_MAKEFILE_NAME)
-	$(LD) $(LD_ARGS_MT_UX_DEBUG) -out:$@ \
-		$(OBJ_EX_C_tests_MT_UX_DEBUG)\
-		$(LIBS_EXAMPLES_MT_UX_DEBUG)\
-		$(LIBS_3PTY_MT_UX_DEBUG_TEST)\
-		$(LIBS_EXPLICIT_MT_UX_DEBUG)
+	$(LD) $(LD_ARGS_UX_MT_R) -out:$@ \
+		$(OBJ_EX_C_tests_UX_MT_R)\
+		$(LIBS_EXAMPLES_UX_MT_R)\
+		$(LIBS_3PTY_UX_MT_R_TEST)\
+		$(LIBS_EXPLICIT_UX_MT_R)
 
-$(OBJ_EX_C_tests_MT_UX_DEBUG):	$(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.tests.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CC) $(CC_ARGS_MT_UX_DEBUG) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.tests.c
+$(OBJ_EX_C_tests_UX_MT_R):	$(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.tests.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
+	$(CC) $(CC_ARGS_UX_MT_R) -Fo$@ $(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.tests.c
 
 ##################################################
 # tests
@@ -1089,83 +1090,83 @@ $(OBJ_EX_C_tests_MT_UX_DEBUG):	$(PROJ_EXAMPLES_DIR)\c\example.c.tests\example.c.
 ##############################
 # scratch tests
 
-$(TARG_TEST_SCRT_basics1_MT_UX):	\
-			$(OBJ_TEST_SCRT_basics1_MT_UX)\
-			$(LIBS_TESTS_MT_UX)\
+$(TARG_TEST_SCRT_basics1_UX_MT_D):	\
+			$(OBJ_TEST_SCRT_basics1_UX_MT_D)\
+			$(LIBS_TESTS_UX_MT_D)\
 			$(PROJ_MAKEFILE_NAME)
-	$(LD) $(LD_ARGS_MT_UX) -out:$@ \
-		$(OBJ_TEST_SCRT_basics1_MT_UX)\
-		$(LIBS_TESTS_MT_UX)\
-		$(LIBS_3PTY_MT_UX_TEST)\
-		$(LIBS_EXPLICIT_MT_UX)
+	$(LD) $(LD_ARGS_UX_MT_D) -out:$@ \
+		$(OBJ_TEST_SCRT_basics1_UX_MT_D)\
+		$(LIBS_TESTS_UX_MT_D)\
+		$(LIBS_3PTY_UX_MT_D_TEST)\
+		$(LIBS_EXPLICIT_UX_MT_D)
 
-$(OBJ_TEST_SCRT_basics1_MT_UX):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics1\test.scratch.basics1.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CC) $(CC_ARGS_MT_UX) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics1\test.scratch.basics1.c
+$(OBJ_TEST_SCRT_basics1_UX_MT_D):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics1\test.scratch.basics1.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
+	$(CC) $(CC_ARGS_UX_MT_D) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics1\test.scratch.basics1.c
 
-$(TARG_TEST_SCRT_basics1_MT_UX_DEBUG):	\
-			$(OBJ_TEST_SCRT_basics1_MT_UX_DEBUG)\
-			$(LIBS_TESTS_MT_UX_DEBUG)\
+$(TARG_TEST_SCRT_basics1_UX_MT_R):	\
+			$(OBJ_TEST_SCRT_basics1_UX_MT_R)\
+			$(LIBS_TESTS_UX_MT_R)\
 			$(PROJ_MAKEFILE_NAME)
-	$(LD) $(LD_ARGS_MT_UX_DEBUG) -out:$@ \
-		$(OBJ_TEST_SCRT_basics1_MT_UX_DEBUG)\
-		$(LIBS_TESTS_MT_UX_DEBUG)\
-		$(LIBS_3PTY_MT_UX_DEBUG_TEST)\
-		$(LIBS_EXPLICIT_MT_UX_DEBUG)
+	$(LD) $(LD_ARGS_UX_MT_R) -out:$@ \
+		$(OBJ_TEST_SCRT_basics1_UX_MT_R)\
+		$(LIBS_TESTS_UX_MT_R)\
+		$(LIBS_3PTY_UX_MT_R_TEST)\
+		$(LIBS_EXPLICIT_UX_MT_R)
 
-$(OBJ_TEST_SCRT_basics1_MT_UX_DEBUG):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics1\test.scratch.basics1.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CC) $(CC_ARGS_MT_UX_DEBUG) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics1\test.scratch.basics1.c
+$(OBJ_TEST_SCRT_basics1_UX_MT_R):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics1\test.scratch.basics1.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
+	$(CC) $(CC_ARGS_UX_MT_R) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics1\test.scratch.basics1.c
 
-$(TARG_TEST_SCRT_basics2_MT_UX):	\
-			$(OBJ_TEST_SCRT_basics2_MT_UX)\
-			$(LIBS_TESTS_MT_UX)\
+$(TARG_TEST_SCRT_basics2_UX_MT_D):	\
+			$(OBJ_TEST_SCRT_basics2_UX_MT_D)\
+			$(LIBS_TESTS_UX_MT_D)\
 			$(PROJ_MAKEFILE_NAME)
-	$(LD) $(LD_ARGS_MT_UX) -out:$@ \
-		$(OBJ_TEST_SCRT_basics2_MT_UX)\
-		$(LIBS_TESTS_MT_UX)\
-		$(LIBS_3PTY_MT_UX_TEST)\
-		$(LIBS_EXPLICIT_MT_UX)
+	$(LD) $(LD_ARGS_UX_MT_D) -out:$@ \
+		$(OBJ_TEST_SCRT_basics2_UX_MT_D)\
+		$(LIBS_TESTS_UX_MT_D)\
+		$(LIBS_3PTY_UX_MT_D_TEST)\
+		$(LIBS_EXPLICIT_UX_MT_D)
 
-$(OBJ_TEST_SCRT_basics2_MT_UX):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics2\test.scratch.basics2.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CPPC) $(CPPC_ARGS_MT_UX) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics2\test.scratch.basics2.cpp
+$(OBJ_TEST_SCRT_basics2_UX_MT_D):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics2\test.scratch.basics2.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
+	$(CPPC) $(CPPC_ARGS_UX_MT_D) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics2\test.scratch.basics2.cpp
 
-$(TARG_TEST_SCRT_basics2_MT_UX_DEBUG):	\
-			$(OBJ_TEST_SCRT_basics2_MT_UX_DEBUG)\
-			$(LIBS_TESTS_MT_UX_DEBUG)\
+$(TARG_TEST_SCRT_basics2_UX_MT_R):	\
+			$(OBJ_TEST_SCRT_basics2_UX_MT_R)\
+			$(LIBS_TESTS_UX_MT_R)\
 			$(PROJ_MAKEFILE_NAME)
-	$(LD) $(LD_ARGS_MT_UX_DEBUG) -out:$@ \
-		$(OBJ_TEST_SCRT_basics2_MT_UX_DEBUG)\
-		$(LIBS_TESTS_MT_UX_DEBUG)\
-		$(LIBS_3PTY_MT_UX_DEBUG_TEST)\
-		$(LIBS_EXPLICIT_MT_UX_DEBUG)
+	$(LD) $(LD_ARGS_UX_MT_R) -out:$@ \
+		$(OBJ_TEST_SCRT_basics2_UX_MT_R)\
+		$(LIBS_TESTS_UX_MT_R)\
+		$(LIBS_3PTY_UX_MT_R_TEST)\
+		$(LIBS_EXPLICIT_UX_MT_R)
 
-$(OBJ_TEST_SCRT_basics2_MT_UX_DEBUG):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics2\test.scratch.basics2.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CPPC) $(CPPC_ARGS_MT_UX_DEBUG) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics2\test.scratch.basics2.cpp
+$(OBJ_TEST_SCRT_basics2_UX_MT_R):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics2\test.scratch.basics2.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
+	$(CPPC) $(CPPC_ARGS_UX_MT_R) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.basics2\test.scratch.basics2.cpp
 
-$(TARG_TEST_SCRT_failall1_MT_UX):	\
-			$(OBJ_TEST_SCRT_failall1_MT_UX)\
-			$(LIBS_TESTS_MT_UX)\
+$(TARG_TEST_SCRT_failall1_UX_MT_D):	\
+			$(OBJ_TEST_SCRT_failall1_UX_MT_D)\
+			$(LIBS_TESTS_UX_MT_D)\
 			$(PROJ_MAKEFILE_NAME)
-	$(LD) $(LD_ARGS_MT_UX) -out:$@ \
-		$(OBJ_TEST_SCRT_failall1_MT_UX)\
-		$(LIBS_TESTS_MT_UX)\
-		$(LIBS_3PTY_MT_UX_TEST)\
-		$(LIBS_EXPLICIT_MT_UX)
+	$(LD) $(LD_ARGS_UX_MT_D) -out:$@ \
+		$(OBJ_TEST_SCRT_failall1_UX_MT_D)\
+		$(LIBS_TESTS_UX_MT_D)\
+		$(LIBS_3PTY_UX_MT_D_TEST)\
+		$(LIBS_EXPLICIT_UX_MT_D)
 
-$(OBJ_TEST_SCRT_failall1_MT_UX):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.fail_all.1\test.scratch.fail_all.1.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CPPC) $(CPPC_ARGS_MT_UX) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.fail_all.1\test.scratch.fail_all.1.cpp
+$(OBJ_TEST_SCRT_failall1_UX_MT_D):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.fail_all.1\test.scratch.fail_all.1.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
+	$(CPPC) $(CPPC_ARGS_UX_MT_D) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.fail_all.1\test.scratch.fail_all.1.cpp
 
-$(TARG_TEST_SCRT_failall1_MT_UX_DEBUG):	\
-			$(OBJ_TEST_SCRT_failall1_MT_UX_DEBUG)\
-			$(LIBS_TESTS_MT_UX_DEBUG)\
+$(TARG_TEST_SCRT_failall1_UX_MT_R):	\
+			$(OBJ_TEST_SCRT_failall1_UX_MT_R)\
+			$(LIBS_TESTS_UX_MT_R)\
 			$(PROJ_MAKEFILE_NAME)
-	$(LD) $(LD_ARGS_MT_UX_DEBUG) -out:$@ \
-		$(OBJ_TEST_SCRT_failall1_MT_UX_DEBUG)\
-		$(LIBS_TESTS_MT_UX_DEBUG)\
-		$(LIBS_3PTY_MT_UX_DEBUG_TEST)\
-		$(LIBS_EXPLICIT_MT_UX_DEBUG)
+	$(LD) $(LD_ARGS_UX_MT_R) -out:$@ \
+		$(OBJ_TEST_SCRT_failall1_UX_MT_R)\
+		$(LIBS_TESTS_UX_MT_R)\
+		$(LIBS_3PTY_UX_MT_R_TEST)\
+		$(LIBS_EXPLICIT_UX_MT_R)
 
-$(OBJ_TEST_SCRT_failall1_MT_UX_DEBUG):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.fail_all.1\test.scratch.fail_all.1.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
-	$(CPPC) $(CPPC_ARGS_MT_UX_DEBUG) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.fail_all.1\test.scratch.fail_all.1.cpp
+$(OBJ_TEST_SCRT_failall1_UX_MT_R):	$(PROJ_TEST_SCRATCH_DIR)\test.scratch.fail_all.1\test.scratch.fail_all.1.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
+	$(CPPC) $(CPPC_ARGS_UX_MT_R) -Fo$@ $(PROJ_TEST_SCRATCH_DIR)\test.scratch.fail_all.1\test.scratch.fail_all.1.cpp
 
 ##############################
 # unit tests

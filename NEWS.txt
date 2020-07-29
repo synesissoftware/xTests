@@ -1,11 +1,13 @@
 xTests - News
 =============
 
-Updated:    12th October 2019
+Updated:    30th July 2020
 
 
 
 News:
+
+  30th July 2020        -   xTests 0.20.2 released
 
   12th October 2019     -   xTests 0.20.1 released
 
