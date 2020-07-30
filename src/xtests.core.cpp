@@ -4,10 +4,11 @@
  * Purpose:     Implementation for xTests core library.
  *
  * Created:     20th June 1999
- * Updated:     14th October 2019
+ * Updated:     4th July 2020
  *
  * Home:        http://stlsoft.org/
  *
+ * Copyright (c) 2019-2020, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 1999-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -4647,3 +4648,4 @@ static void xtests_OutputDebugStringA_(char const*s)
 #include "xtests.internal.string.c"
 
 /* ///////////////////////////// end of file //////////////////////////// */
+
