@@ -4,13 +4,13 @@
  * Purpose:     Implementation file for the test.scratch.basics1 project.
  *
  * Created:     15th December 2007
- * Updated:     10th January 2017
+ * Updated:     10th November 2020
  *
  * Status:      Wizard-generated
  *
  * License:     (Licensed under the Synesis Software Open License)
  *
- *              Copyright (c) 2007-2017, Synesis Software Pty Ltd.
+ *              Copyright (c) 2007-2020, Synesis Software Pty Ltd.
  *              All rights reserved.
  *
  *              www:        http://www.synesis.com.au/software
@@ -47,6 +47,7 @@ static void test_4_1(void);
 static void test_4_2(void);
 
 static void test_require(void);
+static void test_require_2(void);
 
 /* /////////////////////////////////////////////////////////////////////////
  * main()
@@ -87,6 +88,7 @@ static int main_(int argc, char **argv)
 
         /* test require */
         XTESTS_RUN_CASE_WITH_DESC(test_require, "illustrates use of XTESTS_REQUIRE");
+        XTESTS_RUN_CASE_WITH_DESC(test_require_2, "illustrates use of XTESTS_REQUIRE_*()");
 
 
 
@@ -145,6 +147,12 @@ static void test_4()
 
                 XTESTS_TEST_INTEGER_LESS_OR_EQUAL(j, i);
                 XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(j, i);
+
+                XTESTS_REQUIRE_INTEGER_EQUAL(i, j);
+                XTESTS_REQUIRE_INTEGER_EQUAL_EXACT(i, j);
+
+                XTESTS_REQUIRE_INTEGER_LESS_OR_EQUAL(j, i);
+                XTESTS_REQUIRE_INTEGER_GREATER_OR_EQUAL(j, i);
             }
             else
             {
@@ -154,11 +162,17 @@ static void test_4()
                 {
                     XTESTS_TEST_INTEGER_LESS(j, i);
                     XTESTS_TEST_INTEGER_LESS_OR_EQUAL(j, i);
+
+                    XTESTS_REQUIRE_INTEGER_LESS(j, i);
+                    XTESTS_REQUIRE_INTEGER_LESS_OR_EQUAL(j, i);
                 }
                 else
                 {
                     XTESTS_TEST_INTEGER_GREATER(j, i);
                     XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(j, i);
+
+                    XTESTS_REQUIRE_INTEGER_GREATER(j, i);
+                    XTESTS_REQUIRE_INTEGER_GREATER_OR_EQUAL(j, i);
                 }
             }
         }}
@@ -269,5 +283,13 @@ static void test_require(void)
     XTESTS_TEST_INTEGER_EQUAL(0, *pi);
 }
 
+static void test_require_2(void)
+{
+    int*    pi = NULL;
+
+    XTESTS_REQUIRE_POINTER_NOT_EQUAL(NULL, pi);
+
+    XTESTS_TEST_INTEGER_EQUAL(0, *pi);
+}
 
 /* ///////////////////////////// end of file //////////////////////////// */
