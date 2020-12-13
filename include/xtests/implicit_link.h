@@ -4,7 +4,7 @@
  * Purpose: Implicit linking for the xTests API
  *
  * Created: 3rd March 2003
- * Updated: 17th July 2020
+ * Updated: 13th December 2020
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -63,8 +63,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MAJOR    1
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MINOR    12
-# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_REVISION 5
-# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_EDIT     39
+# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_REVISION 7
+# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_EDIT     42
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -252,7 +252,7 @@
 #    if 0
 #    elif _MSC_VER < 1920
 #     define XTESTS_IMPL_LINK_COMPILER_NAME     "vc15"
-#    elif _MSC_VER <= 1926
+#    elif _MSC_VER <= 1928
 #     define XTESTS_IMPL_LINK_COMPILER_NAME     "vc16"
 #    else
 #     error Visual C++ version that is >= vc16 is not recognised
