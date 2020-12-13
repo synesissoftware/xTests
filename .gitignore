@@ -42,6 +42,8 @@ prepare.cmd
 build/makefile.tmpl
 build/makefile.tools.xml
 
+sh.exe.stackdump
+
 # files (by pattern)
 
 xtests-0.*-doc.chm
