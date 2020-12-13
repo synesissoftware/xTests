@@ -1,7 +1,14 @@
 xTests - History
 ================
 
-Updated:    30th July 2020
+Updated:    13th December 2020
+
+
+13th December 2020 - 0.20.3
+---------------------------
+
+ * fixed xtests::cpp::util::temp_directory dtor semantics for EmptyOnClose and RemoveOnClose
+ * compatibility with Visual Studio 2019 (16.8.2)
 
 
 30th July 2020 - 0.20.2

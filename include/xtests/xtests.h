@@ -5,7 +5,7 @@
  *              library.
  *
  * Created:     20th June 1999
- * Updated:     17th July 2020
+ * Updated:     13th December 2020
  *
  * Home:        https://github.com/synesissoftware/xTests/
  *
@@ -53,8 +53,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       41
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    4
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        344
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    5
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        345
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -77,9 +77,9 @@
 
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       20
-#define _XTESTS_VER_REVISION    2
+#define _XTESTS_VER_REVISION    3
 
-#define _XTESTS_VER             0x001402ff
+#define _XTESTS_VER             0x001403ff
 
 /* /////////////////////////////////////////////////////////////////////////
  * Includes - 1
@@ -96,8 +96,8 @@
 #if defined(STLSOFT_VER) && \
     STLSOFT_VER >= 0x010c0000
 # define XTESTS_STLSOFT_1_12_OR_LATER
-#elif _STLSOFT_VER < 0x010986ff
-# error xTests requires version 1.9.134 (or later) of STLSoft; download from www.stlsoft.org
+#elif _STLSOFT_VER < 0x010987ff
+# error xTests requires version 1.9.135 (or later) of STLSoft; download from www.stlsoft.org
 #endif /* _STLSOFT_VER */
 
 #ifndef __cplusplus
