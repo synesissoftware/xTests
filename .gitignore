@@ -1,46 +1,60 @@
 
 # directories (by name)
 
+.svn/
+
+/_build/
+/_internal/
+
+/include/shwild/
+/include/xcontract/
+/include/xcover/
+
+/src/shwild/
+/src/xcontract/
+/src/xcover/
+
+bin/
+ipch/
+lib/
+
 Debug/
+DebugDll/
 DebugMt/
-Debug Multithreaded/
-Debug Multithreaded Dll/
 DebugNox/
 DebugUnix/
+Debug Multithreaded/
+Debug Multithreaded Dll/
 Release/
+ReleaseDll/
 ReleaseMt/
-Release Multithreaded/
-Release Multithreaded Dll/
 ReleaseNox/
 ReleaseUnix/
+Release Multithreaded/
+Release Multithreaded Dll/
 
-_internal/
-
-doc/
-
-ideas/
-
-include/shwild/
-
-src/shwild/
-
-releases/
-
-Win32/
 x64/
+Win32/
+
+vc9/
 
 # directories (by pattern)
 
 # files (by name)
 
+.svnignore
+.svnignore-at-root
+
 .update_deps
-
-list_changes.cmd
-
-prepare.cmd
 
 build/makefile.tmpl
 build/makefile.tools.xml
+
+clasp.vc9.sln
+
+list_changes.cmd
+
+sh.exe.stackdump
 
 # files (by pattern)
 
@@ -49,6 +63,7 @@ xtests-0.*-doc.chm
 *~
 *.a
 *.app
+*.aps
 *.dll
 *.dylib
 *.exe
@@ -62,12 +77,15 @@ xtests-0.*-doc.chm
 *.out
 *.pch
 *.pdb
-*.sdf
+*.rar
 *.sbr
 *.scc
+*.sdf
 *.so
+*.suo
 *.swp
 *.tmp
 *.vcproj*.user
 *.vcxproj*.user
+*.zip
 
