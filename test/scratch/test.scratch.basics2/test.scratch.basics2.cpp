@@ -4,13 +4,13 @@
  * Purpose:     Implementation file for the test.scratch.basics2 project.
  *
  * Created:     15th December 2007
- * Updated:     11th October 2019
+ * Updated:     10th November 2020
  *
  * Status:      Wizard-generated
  *
  * License:     (Licensed under the Synesis Software Open License)
  *
- *              Copyright (c) 2007-2019, Synesis Software Pty Ltd.
+ *              Copyright (c) 2007-2020, Synesis Software Pty Ltd.
  *              All rights reserved.
  *
  *              www:        http://www.synesis.com.au/software
@@ -488,6 +488,10 @@ static void test_5_1()
     XTESTS_REQUIRE(XTESTS_TEST_INTEGER_EQUAL(2u, v.size()));
     XTESTS_TEST_INTEGER_EQUAL(0, v[0]);
     XTESTS_TEST_INTEGER_EQUAL(0, v[1]);
+
+    XTESTS_REQUIRE_INTEGER_EQUAL(2u, v.size());
+    XTESTS_REQUIRE_INTEGER_EQUAL(0, v[0]);
+    XTESTS_REQUIRE_INTEGER_EQUAL(0, v[1]);
 }
 
 static void test_5_2()

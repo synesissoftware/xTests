@@ -5,7 +5,7 @@
  *              library.
  *
  * Created:     20th June 1999
- * Updated:     17th July 2020
+ * Updated:     10th November 2020
  *
  * Home:        https://github.com/synesissoftware/xTests/
  *
@@ -52,9 +52,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
-# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       41
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    4
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        344
+# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       42
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        345
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -76,10 +76,10 @@
  */
 
 #define _XTESTS_VER_MAJOR       0
-#define _XTESTS_VER_MINOR       20
-#define _XTESTS_VER_REVISION    2
+#define _XTESTS_VER_MINOR       21
+#define _XTESTS_VER_REVISION    0
 
-#define _XTESTS_VER             0x001402ff
+#define _XTESTS_VER             0x001500ff
 
 /* /////////////////////////////////////////////////////////////////////////
  * Includes - 1
@@ -96,8 +96,8 @@
 #if defined(STLSOFT_VER) && \
     STLSOFT_VER >= 0x010c0000
 # define XTESTS_STLSOFT_1_12_OR_LATER
-#elif _STLSOFT_VER < 0x010986ff
-# error xTests requires version 1.9.134 (or later) of STLSoft; download from www.stlsoft.org
+#elif _STLSOFT_VER < 0x010987ff
+# error xTests requires version 1.9.135 (or later) of STLSoft; download from www.stlsoft.org
 #endif /* _STLSOFT_VER */
 
 #ifndef __cplusplus
@@ -1517,29 +1517,132 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 
 #else /* ? !_XTESTS_NO_CPP_API */
 
-# define XTESTS_TEST_INTEGER_EQUAL_EXACT(expected, actual)              XTESTS_TEST_WITH_MESSAGE((expected) == (actual), #expected " == " #actual)
-# define XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual)                XTESTS_TEST_WITH_MESSAGE((expected) != (actual), #expected " != " #actual)
-# define XTESTS_TEST_INTEGER_GREATER(expected, actual)                  XTESTS_TEST_WITH_MESSAGE((expected) < (actual), #expected " < " #actual)
-# define XTESTS_TEST_INTEGER_LESS(expected, actual)                     XTESTS_TEST_WITH_MESSAGE((expected) > (actual), #expected " > " #actual)
-# define XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual)         XTESTS_TEST_WITH_MESSAGE((expected) <= (actual), #expected " <= " #actual)
-# define XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual)            XTESTS_TEST_WITH_MESSAGE((expected) >= (actual), #expected " >= " #actual)
+# define XTESTS_TEST_INTEGER_EQUAL_EXACT(expected, actual)              (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) && XTESTS_TEST_WITH_MESSAGE((expected) == (actual), #expected " == " #actual))
+# define XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual)                (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) && XTESTS_TEST_WITH_MESSAGE((expected) != (actual), #expected " != " #actual))
+# define XTESTS_TEST_INTEGER_GREATER(expected, actual)                  (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) && XTESTS_TEST_WITH_MESSAGE((expected) < (actual), #expected " < " #actual))
+# define XTESTS_TEST_INTEGER_LESS(expected, actual)                     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) && XTESTS_TEST_WITH_MESSAGE((expected) > (actual), #expected " > " #actual))
+# define XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual)         (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) && XTESTS_TEST_WITH_MESSAGE((expected) <= (actual), #expected " <= " #actual))
+# define XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual)            (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) && XTESTS_TEST_WITH_MESSAGE((expected) >= (actual), #expected " >= " #actual))
 
-# define XTESTS_TEST_BOOLEAN_EQUAL(expected, actual)                    XTESTS_TEST_WITH_MESSAGE((expected) == (actual), #expected " == " #actual)
-# define XTESTS_TEST_BOOLEAN_NOT_EQUAL(expected, actual)                XTESTS_TEST_WITH_MESSAGE((expected) != (actual), #expected " != " #actual)
-# define XTESTS_TEST_BOOLEAN_TRUE(actual)                               XTESTS_TEST((actual))
-# define XTESTS_TEST_BOOLEAN_FALSE(actual)                              XTESTS_TEST(!(actual))
+# define XTESTS_TEST_INTEGER_EQUAL_ANY_OF2(expected0, expected1, actual)     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) && XTESTS_TEST_WITH_MESSAGE(((expected0) == (actual) || (expected1) == (actual)), #expected0 " != " #actual " && " #expected1 " != " #actual))
+# define XTESTS_TEST_INTEGER_EQUAL_ANY_OF3(expected0, expected1, expected2, actual)     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) && XTESTS_TEST_WITH_MESSAGE(((expected0) == (actual) || (expected1) == (actual) || (expected2) == (actual)), #expected0 " != " #actual " && " #expected1 " != " #actual " && " #expected2 " != " #actual))
 
-# define XTESTS_TEST_CHARACTER_EQUAL_EXACT(expected, actual)            XTESTS_TEST_WITH_MESSAGE((expected) == (actual), #expected " == " #actual)
-# define XTESTS_TEST_CHARACTER_NOT_EQUAL(expected, actual)              XTESTS_TEST_WITH_MESSAGE((expected) != (actual), #expected " != " #actual)
-# define XTESTS_TEST_CHARACTER_GREATER(expected, actual)                XTESTS_TEST_WITH_MESSAGE((expected) < (actual), #expected " < " #actual)
-# define XTESTS_TEST_CHARACTER_LESS(expected, actual)                   XTESTS_TEST_WITH_MESSAGE((expected) > (actual), #expected " > " #actual)
-# define XTESTS_TEST_CHARACTER_GREATER_OR_EQUAL(expected, actual)       XTESTS_TEST_WITH_MESSAGE((expected) <= (actual), #expected " <= " #actual)
-# define XTESTS_TEST_CHARACTER_LESS_OR_EQUAL(expected, actual)          XTESTS_TEST_WITH_MESSAGE((expected) >= (actual), #expected " >= " #actual)
+# define XTESTS_TEST_BOOLEAN_EQUAL(expected, actual)                    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) && XTESTS_TEST_WITH_MESSAGE((expected) == (actual), #expected " == " #actual))
+# define XTESTS_TEST_BOOLEAN_NOT_EQUAL(expected, actual)                (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) && XTESTS_TEST_WITH_MESSAGE((expected) != (actual), #expected " != " #actual))
+# define XTESTS_TEST_BOOLEAN_TRUE(actual)                               (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) && XTESTS_TEST((actual)))
+# define XTESTS_TEST_BOOLEAN_FALSE(actual)                              (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) && XTESTS_TEST(!(actual)))
 
-# define XTESTS_TEST_FLOATINGPOINT_EQUAL_APPROX(expected, actual)       XTESTS_TEST(xtests_floatingPointClose((expected), (actual)))
-# define XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_APPROX(expected, actual)   XTESTS_TEST(!xtests_floatingPointClose((expected), (actual)))
+# define XTESTS_TEST_CHARACTER_EQUAL_EXACT(expected, actual)            (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) && XTESTS_TEST_WITH_MESSAGE((expected) == (actual), #expected " == " #actual))
+# define XTESTS_TEST_CHARACTER_NOT_EQUAL(expected, actual)              (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) && XTESTS_TEST_WITH_MESSAGE((expected) != (actual), #expected " != " #actual))
+# define XTESTS_TEST_CHARACTER_GREATER(expected, actual)                (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) && XTESTS_TEST_WITH_MESSAGE((expected) < (actual), #expected " < " #actual))
+# define XTESTS_TEST_CHARACTER_LESS(expected, actual)                   (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) && XTESTS_TEST_WITH_MESSAGE((expected) > (actual), #expected " > " #actual))
+# define XTESTS_TEST_CHARACTER_GREATER_OR_EQUAL(expected, actual)       (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) && XTESTS_TEST_WITH_MESSAGE((expected) <= (actual), #expected " <= " #actual))
+# define XTESTS_TEST_CHARACTER_LESS_OR_EQUAL(expected, actual)          (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) && XTESTS_TEST_WITH_MESSAGE((expected) >= (actual), #expected " >= " #actual))
+
+# define XTESTS_TEST_FLOATINGPOINT_EQUAL_APPROX(expected, actual)       (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) && XTESTS_TEST(xtests_floatingPointClose((expected), (actual))))
+# define XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_APPROX(expected, actual)   (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) && XTESTS_TEST(!xtests_floatingPointClose((expected), (actual))))
 
 #endif /* !_XTESTS_NO_CPP_API */
+
+
+
+#ifdef XTESTS_TEST_INTEGER_EQUAL_EXACT
+# define XTESTS_REQUIRE_INTEGER_EQUAL_EXACT(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_INTEGER_EQUAL_EXACT(expected, actual))
+#endif /* XTESTS_TEST_INTEGER_EQUAL_EXACT */
+
+#ifdef XTESTS_TEST_INTEGER_NOT_EQUAL
+# define XTESTS_REQUIRE_INTEGER_NOT_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual))
+#endif /* XTESTS_TEST_INTEGER_NOT_EQUAL */
+
+#ifdef XTESTS_TEST_INTEGER_GREATER
+# define XTESTS_REQUIRE_INTEGER_GREATER(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_INTEGER_GREATER(expected, actual))
+#endif /* XTESTS_TEST_INTEGER_GREATER */
+
+#ifdef XTESTS_TEST_INTEGER_LESS
+# define XTESTS_REQUIRE_INTEGER_LESS(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_INTEGER_LESS(expected, actual))
+#endif /* XTESTS_TEST_INTEGER_LESS */
+
+#ifdef XTESTS_TEST_INTEGER_GREATER_OR_EQUAL
+# define XTESTS_REQUIRE_INTEGER_GREATER_OR_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual))
+#endif /* XTESTS_TEST_INTEGER_GREATER_OR_EQUAL */
+
+#ifdef XTESTS_TEST_INTEGER_LESS_OR_EQUAL
+# define XTESTS_REQUIRE_INTEGER_LESS_OR_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual))
+#endif /* XTESTS_TEST_INTEGER_LESS_OR_EQUAL */
+
+#ifdef XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE
+# define XTESTS_REQUIRE_INTEGER_EQUAL_ANY_IN_RANGE(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(expected, actual))
+#endif /* XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE */
+
+#ifdef XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE
+# define XTESTS_REQUIRE_INTEGER_EQUAL_ANY_NOT_IN_RANGE(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(expected, actual))
+#endif /* XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE */
+
+#ifdef XTESTS_TEST_INTEGER_EQUAL_ANY_OF2
+# define XTESTS_REQUIRE_INTEGER_EQUAL_ANY_OF2(expected0, expected1, actual)	XTESTS_REQUIRE(XTESTS_TEST_INTEGER_EQUAL_ANY_OF2(expected0, expected1, actual))
+#endif /* XTESTS_TEST_INTEGER_EQUAL_ANY_OF2 */
+
+#ifdef XTESTS_TEST_INTEGER_EQUAL_ANY_OF3
+# define XTESTS_REQUIRE_INTEGER_EQUAL_ANY_OF3(expected0, expected1, expected2, actual)	XTESTS_REQUIRE(XTESTS_TEST_INTEGER_EQUAL_ANY_OF3(expected0, expected1, expected2, actual))
+#endif /* XTESTS_TEST_INTEGER_EQUAL_ANY_OF3 */
+
+#ifdef XTESTS_TEST_BOOLEAN_EQUAL
+# define XTESTS_REQUIRE_BOOLEAN_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_BOOLEAN_EQUAL(expected, actual))
+#endif /* XTESTS_TEST_BOOLEAN_EQUAL */
+
+#ifdef XTESTS_TEST_BOOLEAN_NOT_EQUAL
+# define XTESTS_REQUIRE_BOOLEAN_NOT_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_BOOLEAN_NOT_EQUAL(expected, actual))
+#endif /* XTESTS_TEST_BOOLEAN_NOT_EQUAL */
+
+#ifdef XTESTS_TEST_BOOLEAN_TRUE
+# define XTESTS_REQUIRE_BOOLEAN_TRUE(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_BOOLEAN_TRUE(expected, actual))
+#endif /* XTESTS_TEST_BOOLEAN_TRUE */
+
+#ifdef XTESTS_TEST_BOOLEAN_FALSE
+# define XTESTS_REQUIRE_BOOLEAN_FALSE(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_BOOLEAN_FALSE(expected, actual))
+#endif /* XTESTS_TEST_BOOLEAN_FALSE */
+
+#ifdef XTESTS_TEST_CHARACTER_EQUAL_EXACT
+# define XTESTS_REQUIRE_CHARACTER_EQUAL_EXACT(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_CHARACTER_EQUAL_EXACT(expected, actual))
+#endif /* XTESTS_TEST_CHARACTER_EQUAL_EXACT */
+
+#ifdef XTESTS_TEST_CHARACTER_NOT_EQUAL
+# define XTESTS_REQUIRE_CHARACTER_NOT_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_CHARACTER_NOT_EQUAL(expected, actual))
+#endif /* XTESTS_TEST_CHARACTER_NOT_EQUAL */
+
+#ifdef XTESTS_TEST_CHARACTER_GREATER
+# define XTESTS_REQUIRE_CHARACTER_GREATER(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_CHARACTER_GREATER(expected, actual))
+#endif /* XTESTS_TEST_CHARACTER_GREATER */
+
+#ifdef XTESTS_TEST_CHARACTER_LESS
+# define XTESTS_REQUIRE_CHARACTER_LESS(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_CHARACTER_LESS(expected, actual))
+#endif /* XTESTS_TEST_CHARACTER_LESS */
+
+#ifdef XTESTS_TEST_CHARACTER_GREATER_OR_EQUAL
+# define XTESTS_REQUIRE_CHARACTER_GREATER_OR_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_CHARACTER_GREATER_OR_EQUAL(expected, actual))
+#endif /* XTESTS_TEST_CHARACTER_GREATER_OR_EQUAL */
+
+#ifdef XTESTS_TEST_CHARACTER_LESS_OR_EQUAL
+# define XTESTS_REQUIRE_CHARACTER_LESS_OR_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_CHARACTER_LESS_OR_EQUAL(expected, actual))
+#endif /* XTESTS_TEST_CHARACTER_LESS_OR_EQUAL */
+
+#ifdef XTESTS_TEST_FLOATINGPOINT_EQUAL_EXACT
+# define XTESTS_REQUIRE_FLOATINGPOINT_EQUAL_EXACT(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_FLOATINGPOINT_EQUAL_EXACT(expected, actual))
+#endif /* XTESTS_TEST_FLOATINGPOINT_EQUAL_EXACT */
+
+#ifdef XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_EXACT
+# define XTESTS_REQUIRE_FLOATINGPOINT_NOT_EQUAL_EXACT(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_EXACT(expected, actual))
+#endif /* XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_EXACT */
+
+#ifdef XTESTS_TEST_FLOATINGPOINT_EQUAL_APPROX
+# define XTESTS_REQUIRE_FLOATINGPOINT_EQUAL_APPROX(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_FLOATINGPOINT_EQUAL_APPROX(expected, actual))
+#endif /* XTESTS_TEST_FLOATINGPOINT_EQUAL_APPROX */
+
+#ifdef XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_APPROX
+# define XTESTS_REQUIRE_FLOATINGPOINT_NOT_EQUAL_APPROX(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_APPROX(expected, actual))
+#endif /* XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_APPROX */
+
+
 
 /** \def XTESTS_ARRAY_END_POST(ar)
  *
@@ -2247,6 +2350,158 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
     XTESTS_NS_C_QUAL(xtests_testFunctionPointers)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", XTESTS_VOID_FUNCTION_CAST_(expected), XTESTS_VOID_FUNCTION_CAST_(actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)))
 
+
+#ifdef XTESTS_TEST_INTEGER_EQUAL
+#  define XTESTS_REQUIRE_INTEGER_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_INTEGER_EQUAL(expected, actual))
+# endif /* XTESTS_TEST_INTEGER_EQUAL */
+
+#ifdef XTESTS_TEST_FLOATINGPOINT_EQUAL
+#  define XTESTS_REQUIRE_FLOATINGPOINT_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_FLOATINGPOINT_EQUAL(expected, actual))
+# endif /* XTESTS_TEST_FLOATINGPOINT_EQUAL */
+
+#ifdef XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL
+#  define XTESTS_REQUIRE_FLOATINGPOINT_NOT_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL(expected, actual))
+# endif /* XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL */
+
+#ifdef XTESTS_TEST_CHARACTER_EQUAL
+#  define XTESTS_REQUIRE_CHARACTER_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_CHARACTER_EQUAL(expected, actual))
+# endif /* XTESTS_TEST_CHARACTER_EQUAL */
+
+#ifdef XTESTS_TEST_MULTIBYTE_STRING_EQUAL
+#  define XTESTS_REQUIRE_MULTIBYTE_STRING_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_MULTIBYTE_STRING_EQUAL(expected, actual))
+# endif /* XTESTS_TEST_MULTIBYTE_STRING_EQUAL */
+
+#ifdef XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX
+#  define XTESTS_REQUIRE_MULTIBYTE_STRING_EQUAL_APPROX(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX(expected, actual))
+# endif /* XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX */
+
+#ifdef XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL
+#  define XTESTS_REQUIRE_MULTIBYTE_STRING_NOT_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL(expected, actual))
+# endif /* XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL */
+
+#ifdef XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_APPROX
+#  define XTESTS_REQUIRE_MULTIBYTE_STRING_NOT_EQUAL_APPROX(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_APPROX(expected, actual))
+# endif /* XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_APPROX */
+
+#ifdef XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N
+#  define XTESTS_REQUIRE_MULTIBYTE_STRING_EQUAL_N(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(expected, actual))
+# endif /* XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N */
+
+#ifdef XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N_APPROX
+#  define XTESTS_REQUIRE_MULTIBYTE_STRING_EQUAL_N_APPROX(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N_APPROX(expected, actual))
+# endif /* XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N_APPROX */
+
+#ifdef XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N
+#  define XTESTS_REQUIRE_MULTIBYTE_STRING_NOT_EQUAL_N(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N(expected, actual))
+# endif /* XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N */
+
+#ifdef XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N_APPROX
+#  define XTESTS_REQUIRE_MULTIBYTE_STRING_NOT_EQUAL_N_APPROX(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N_APPROX(expected, actual))
+# endif /* XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N_APPROX */
+
+#ifdef XTESTS_TEST_WIDE_STRING_EQUAL
+#  define XTESTS_REQUIRE_WIDE_STRING_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_WIDE_STRING_EQUAL(expected, actual))
+# endif /* XTESTS_TEST_WIDE_STRING_EQUAL */
+
+#ifdef XTESTS_TEST_WIDE_STRING_EQUAL_APPROX
+#  define XTESTS_REQUIRE_WIDE_STRING_EQUAL_APPROX(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_WIDE_STRING_EQUAL_APPROX(expected, actual))
+# endif /* XTESTS_TEST_WIDE_STRING_EQUAL_APPROX */
+
+#ifdef XTESTS_TEST_WIDE_STRING_NOT_EQUAL
+#  define XTESTS_REQUIRE_WIDE_STRING_NOT_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_WIDE_STRING_NOT_EQUAL(expected, actual))
+# endif /* XTESTS_TEST_WIDE_STRING_NOT_EQUAL */
+
+#ifdef XTESTS_TEST_WIDE_STRING_NOT_EQUAL_APPROX
+#  define XTESTS_REQUIRE_WIDE_STRING_NOT_EQUAL_APPROX(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_WIDE_STRING_NOT_EQUAL_APPROX(expected, actual))
+# endif /* XTESTS_TEST_WIDE_STRING_NOT_EQUAL_APPROX */
+
+#ifdef XTESTS_TEST_WIDE_STRING_EQUAL_N
+#  define XTESTS_REQUIRE_WIDE_STRING_EQUAL_N(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_WIDE_STRING_EQUAL_N(expected, actual))
+# endif /* XTESTS_TEST_WIDE_STRING_EQUAL_N */
+
+#ifdef XTESTS_TEST_WIDE_STRING_EQUAL_N_APPROX
+#  define XTESTS_REQUIRE_WIDE_STRING_EQUAL_N_APPROX(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_WIDE_STRING_EQUAL_N_APPROX(expected, actual))
+# endif /* XTESTS_TEST_WIDE_STRING_EQUAL_N_APPROX */
+
+#ifdef XTESTS_TEST_WIDE_STRING_NOT_EQUAL_N
+#  define XTESTS_REQUIRE_WIDE_STRING_NOT_EQUAL_N(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_WIDE_STRING_NOT_EQUAL_N(expected, actual))
+# endif /* XTESTS_TEST_WIDE_STRING_NOT_EQUAL_N */
+
+#ifdef XTESTS_TEST_WIDE_STRING_NOT_EQUAL_N_APPROX
+#  define XTESTS_REQUIRE_WIDE_STRING_NOT_EQUAL_N_APPROX(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_WIDE_STRING_NOT_EQUAL_N_APPROX(expected, actual))
+# endif /* XTESTS_TEST_WIDE_STRING_NOT_EQUAL_N_APPROX */
+
+#ifdef XTESTS_TEST_MULTIBYTE_STRING_CONTAIN
+#  define XTESTS_REQUIRE_MULTIBYTE_STRING_CONTAIN(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_MULTIBYTE_STRING_CONTAIN(expected, actual))
+# endif /* XTESTS_TEST_MULTIBYTE_STRING_CONTAIN */
+
+#ifdef XTESTS_TEST_MULTIBYTE_STRING_CONTAIN_APPROX
+#  define XTESTS_REQUIRE_MULTIBYTE_STRING_CONTAIN_APPROX(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_MULTIBYTE_STRING_CONTAIN_APPROX(expected, actual))
+# endif /* XTESTS_TEST_MULTIBYTE_STRING_CONTAIN_APPROX */
+
+#ifdef XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN
+#  define XTESTS_REQUIRE_MULTIBYTE_STRING_NOT_CONTAIN(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN(expected, actual))
+# endif /* XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN */
+
+#ifdef XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN_APPROX
+#  define XTESTS_REQUIRE_MULTIBYTE_STRING_NOT_CONTAIN_APPROX(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN_APPROX(expected, actual))
+# endif /* XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN_APPROX */
+
+#ifdef XTESTS_TEST_WIDE_STRING_CONTAIN
+#  define XTESTS_REQUIRE_WIDE_STRING_CONTAIN(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_WIDE_STRING_CONTAIN(expected, actual))
+# endif /* XTESTS_TEST_WIDE_STRING_CONTAIN */
+
+#ifdef XTESTS_TEST_WIDE_STRING_CONTAIN_APPROX
+#  define XTESTS_REQUIRE_WIDE_STRING_CONTAIN_APPROX(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_WIDE_STRING_CONTAIN_APPROX(expected, actual))
+# endif /* XTESTS_TEST_WIDE_STRING_CONTAIN_APPROX */
+
+#ifdef XTESTS_TEST_WIDE_STRING_NOT_CONTAIN
+#  define XTESTS_REQUIRE_WIDE_STRING_NOT_CONTAIN(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_WIDE_STRING_NOT_CONTAIN(expected, actual))
+# endif /* XTESTS_TEST_WIDE_STRING_NOT_CONTAIN */
+
+#ifdef XTESTS_TEST_WIDE_STRING_NOT_CONTAIN_APPROX
+#  define XTESTS_REQUIRE_WIDE_STRING_NOT_CONTAIN_APPROX(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_WIDE_STRING_NOT_CONTAIN_APPROX(expected, actual))
+# endif /* XTESTS_TEST_WIDE_STRING_NOT_CONTAIN_APPROX */
+
+#ifdef XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL
+#  define XTESTS_REQUIRE_MULTIBYTE_STRING_SLICE_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL(expected, actual))
+# endif /* XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL */
+
+#ifdef XTESTS_TEST_WIDE_STRING_SLICE_EQUAL
+#  define XTESTS_REQUIRE_WIDE_STRING_SLICE_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_WIDE_STRING_SLICE_EQUAL(expected, actual))
+# endif /* XTESTS_TEST_WIDE_STRING_SLICE_EQUAL */
+
+#ifdef XTESTS_TEST_POINTER_EQUAL
+#  define XTESTS_REQUIRE_POINTER_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_POINTER_EQUAL(expected, actual))
+# endif /* XTESTS_TEST_POINTER_EQUAL */
+
+#ifdef XTESTS_TEST_POINTER_NOT_EQUAL
+#  define XTESTS_REQUIRE_POINTER_NOT_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_POINTER_NOT_EQUAL(expected, actual))
+# endif /* XTESTS_TEST_POINTER_NOT_EQUAL */
+
+#ifdef XTESTS_TEST_POINTER_GREATER
+#  define XTESTS_REQUIRE_POINTER_GREATER(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_POINTER_GREATER(expected, actual))
+# endif /* XTESTS_TEST_POINTER_GREATER */
+
+#ifdef XTESTS_TEST_POINTER_LESS
+#  define XTESTS_REQUIRE_POINTER_LESS(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_POINTER_LESS(expected, actual))
+# endif /* XTESTS_TEST_POINTER_LESS */
+
+#ifdef XTESTS_TEST_POINTER_GREATER_OR_EQUAL
+#  define XTESTS_REQUIRE_POINTER_GREATER_OR_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_POINTER_GREATER_OR_EQUAL(expected, actual))
+# endif /* XTESTS_TEST_POINTER_GREATER_OR_EQUAL */
+
+#ifdef XTESTS_TEST_POINTER_LESS_OR_EQUAL
+#  define XTESTS_REQUIRE_POINTER_LESS_OR_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_POINTER_LESS_OR_EQUAL(expected, actual))
+# endif /* XTESTS_TEST_POINTER_LESS_OR_EQUAL */
+
+#ifdef XTESTS_TEST_FUNCTION_POINTER_EQUAL
+#  define XTESTS_REQUIRE_FUNCTION_POINTER_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_FUNCTION_POINTER_EQUAL(expected, actual))
+# endif /* XTESTS_TEST_FUNCTION_POINTER_EQUAL */
+
+#ifdef XTESTS_TEST_FUNCTION_POINTER_NOT_EQUAL
+#  define XTESTS_REQUIRE_FUNCTION_POINTER_NOT_EQUAL(expected, actual)	XTESTS_REQUIRE(XTESTS_TEST_FUNCTION_POINTER_NOT_EQUAL(expected, actual))
+# endif /* XTESTS_TEST_FUNCTION_POINTER_NOT_EQUAL */
 
 /* /////////////////////////////////////////////////////////////////////////
  * helper functions
