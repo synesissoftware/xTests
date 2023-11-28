@@ -1,6 +1,8 @@
 
 # directories (by name)
 
+/bin/
+
 Debug/
 DebugMt/
 Debug Multithreaded/
@@ -14,7 +16,8 @@ Release Multithreaded Dll/
 ReleaseNox/
 ReleaseUnix/
 
-_internal/
+/_build/
+/_internal/
 
 doc/
 
@@ -32,6 +35,8 @@ x64/
 # directories (by pattern)
 
 # files (by name)
+
+.DS_Store
 
 .update_deps
 
