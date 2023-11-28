@@ -41,10 +41,13 @@ using xtests::cpp::util::temp_file;
 
 static int main_(int /*argc*/, char** /*argv*/)
 {
+    fprintf(stderr, "creating temporary file ...\n");
+
     temp_file   tf(temp_file::DeleteOnClose);
 
     fprintf(stdout, "tf: '%s'\n", tf.c_str());
 
+    fprintf(stderr, "exiting ...\n");
 
     return EXIT_SUCCESS;
 }

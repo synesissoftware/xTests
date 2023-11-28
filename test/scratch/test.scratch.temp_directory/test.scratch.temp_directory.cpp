@@ -41,15 +41,21 @@ using xtests::cpp::util::temp_directory;
 
 static int main_(int /*argc*/, char** /*argv*/)
 {
+    fprintf(stderr, "creating temporary directory ...\n");
+
     temp_directory  td(temp_directory::RemoveOnClose | temp_directory::EmptyOnClose);
 
     fprintf(stdout, "td: '%s'\n", td.c_str());
 
+    fprintf(stderr, "creating sub-directory ...\n");
+
 #if defined(PLATFORMSTL_OS_IS_WINDOWS)
     ::CreateDirectoryA((std::string(td.c_str()) + "\\abc").c_str(), NULL);
 #else
-    ::mkdir((std::string(td.c_str()) + "/abc").c_str());
+    ::mkdir((std::string(td.c_str()) + "/abc").c_str(), S_IRWXU);
 #endif
+
+    fprintf(stderr, "exiting ...\n");
 
     return EXIT_SUCCESS;
 }
