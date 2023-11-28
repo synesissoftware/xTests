@@ -24,7 +24,7 @@ The following steps are required to install xTests:
 
     7. Open a command shell in the appropriate directory that matches your
        compiler:
-       
+
        * if you're compiling with Visual C++ 7.1 then cd to build/vc71
        * if you're compiling for UNIX with GCC 4.2, then cd
          to build/gcc42.unix

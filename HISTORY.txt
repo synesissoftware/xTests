@@ -297,7 +297,7 @@ Updated:    30th July 2020
 20th May 2008 - 0.7.3
 ---------------------
 
- * minor weakening of string comparison 
+ * minor weakening of string comparison
  * bundles shwild 0.9.17
 
 11th May 2008 - 0.7.2
@@ -313,7 +313,7 @@ Updated:    30th July 2020
 29th April 2008 - 0.6.5
 -----------------------
 
- * added compatibity with heterogeneous string types to 
+ * added compatibity with heterogeneous string types to
    xtests_writeFailMessage()
 
 25th April 2008 - 0.6.4

@@ -342,7 +342,7 @@ Core:
  ~ src/xtests.core.cpp:
     ~ forward compatibility with STLSoft 1.12
     ~ fixed nasty nested loop variable hiding (that Clang refused to chew)
-    + handlers for failure (such as by filesystem_exception thrown by temp_directory / temp_file) 
+    + handlers for failure (such as by filesystem_exception thrown by temp_directory / temp_file)
 
  + src/xtests.internal.exception_macros.hpp:
     ~ Clang compatibility
@@ -585,7 +585,7 @@ Makefiles / Project-files:
  + build/vc11.unixem/makefile:
  + build/vc11.x64/makefile:
  + build/vc11/makefile:
-    + VC++ 11 
+    + VC++ 11
 
 Examples:
 
