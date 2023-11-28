@@ -2,7 +2,7 @@
 
 
 
-/* 
+/*
  * macro:   XTESTS_EXCEPTION_TRY_
  *
  * purpose: starts a try block
@@ -19,7 +19,7 @@
 #endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
 
 
-/* 
+/*
  * macro:   XTESTS_EXCEPTION_CATCH_RETURN_int_
  *
  * purpose: has standard catches, return appropriate int values
@@ -47,7 +47,7 @@
 #endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
 
 
-/* 
+/*
  * macro:   XTESTS_EXCEPTION_CATCH_QUENCH_ALL_
  *
  * purpose: quenches all exceptions
@@ -65,7 +65,7 @@
 #endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
 
 
-/* 
+/*
  * macro:   XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_(oom_msg, stdx_msg)
  *
  * purpose: handles std::bad_alloc and std::exception, with differing messages for each

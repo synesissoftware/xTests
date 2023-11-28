@@ -355,7 +355,7 @@
                                                 XTESTS_IMPL_LINK_NOX_TAG \
                                                 XTESTS_IMPL_LINK_DEBUG_TAG \
                                                 XTESTS_IMPL_LINK_SUFFIX
-                                                        
+
 
 #  pragma message("lib: " XTESTS_IMPL_LINK_LIBRARY_NAME)
 
