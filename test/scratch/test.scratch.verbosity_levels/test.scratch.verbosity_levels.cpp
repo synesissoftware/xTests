@@ -153,3 +153,4 @@ static void test_exception_unexpected()
 #endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
 
 /* ///////////////////////////// end of file //////////////////////////// */
+

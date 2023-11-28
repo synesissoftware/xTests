@@ -625,3 +625,4 @@ namespace stlsoft
 #endif /* XTESTS_INCL_XTESTS_UTIL_HPP_TEMP_DIRECTORY */
 
 /* ///////////////////////////// end of file //////////////////////////// */
+

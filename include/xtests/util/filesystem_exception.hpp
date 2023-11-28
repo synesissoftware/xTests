@@ -315,3 +315,4 @@ namespace stlsoft
 #endif /* XTESTS_INCL_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION */
 
 /* ///////////////////////////// end of file //////////////////////////// */
+

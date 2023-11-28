@@ -864,3 +864,4 @@ namespace stlsoft
 #endif /* XTESTS_INCL_XTESTS_UTIL_HPP_TEMP_FILE */
 
 /* ///////////////////////////// end of file //////////////////////////// */
+

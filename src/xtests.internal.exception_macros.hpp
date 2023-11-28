@@ -101,3 +101,4 @@
 #endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
 
 /* ///////////////////////////// end of file //////////////////////////// */
+
