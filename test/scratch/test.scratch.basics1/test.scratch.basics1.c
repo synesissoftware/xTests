@@ -1,22 +1,12 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:        test.scratch.basics1.c
+ * File:    test.scratch.basics1.c
  *
- * Purpose:     Implementation file for the test.scratch.basics1 project.
+ * Purpose: Implementation file for the test.scratch.basics1 project.
  *
- * Created:     15th December 2007
- * Updated:     10th January 2017
- *
- * Status:      Wizard-generated
- *
- * License:     (Licensed under the Synesis Software Open License)
- *
- *              Copyright (c) 2007-2017, Synesis Software Pty Ltd.
- *              All rights reserved.
- *
- *              www:        http://www.synesis.com.au/software
+ * Created: 15th December 2007
+ * Updated: 29th November 2023
  *
  * ////////////////////////////////////////////////////////////////////// */
-
 
 
 /* xTests Header Files */
@@ -59,10 +49,10 @@ static int main_(int argc, char **argv)
 
     XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, &verbosity);
 
-    if(XTESTS_START_RUNNER("test.scratch.basics1", verbosity))
+    if (XTESTS_START_RUNNER("test.scratch.basics1", verbosity))
     {
         /* test 1 */
-        if(XTESTS_CASE_BEGIN("test-1", "checking integer values"))
+        if (XTESTS_CASE_BEGIN("test-1", "checking integer values"))
         {
             XTESTS_TEST(sizeof(char) <= sizeof(short));
             XTESTS_TEST(sizeof(short) <= sizeof(int));
@@ -138,7 +128,7 @@ static void test_4()
     {
         { int j; for(j = -1000; j != 1000; ++j)
         {
-            if(i == j)
+            if (i == j)
             {
                 XTESTS_TEST_INTEGER_EQUAL(i, j);
                 XTESTS_TEST_INTEGER_EQUAL_EXACT(i, j);
@@ -150,7 +140,7 @@ static void test_4()
             {
                 XTESTS_TEST_INTEGER_NOT_EQUAL(i, j);
 
-                if(i < j)
+                if (i < j)
                 {
                     XTESTS_TEST_INTEGER_LESS(j, i);
                     XTESTS_TEST_INTEGER_LESS_OR_EQUAL(j, i);

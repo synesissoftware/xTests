@@ -1,19 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:        test.scratch.setup.fail.c
+ * File:    test.scratch.setup.fail.c
  *
- * Purpose:     Implementation file for the test.scratch.setup.fail project.
+ * Purpose: Implementation file for the test.scratch.setup.fail project.
  *
- * Created:     31st January 2010
- * Updated:     10th January 2017
- *
- * Status:      Wizard-generated
- *
- * License:     (Licensed under the Synesis Software Open License)
- *
- *              Copyright (c) 2007-2017, Synesis Software Pty Ltd.
- *              All rights reserved.
- *
- *              www:        http://www.synesis.com.au/software
+ * Created: 31st January 2010
+ * Updated: 29th November 2023
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -55,7 +46,7 @@ static int main_(int argc, char **argv)
 
     XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, &verbosity);
 
-    if(XTESTS_START_RUNNER_WITH_SETUP_FNS("test.scratch.setup.fail", verbosity, setup, teardown, NULL))
+    if (XTESTS_START_RUNNER_WITH_SETUP_FNS("test.scratch.setup.fail", verbosity, setup, teardown, NULL))
     {
         XTESTS_RUN_CASE(test_1);
 

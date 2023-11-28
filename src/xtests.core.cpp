@@ -1,14 +1,14 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:        src/xtests.core.cpp (formerly part of Synesis' internal test codebase)
+ * File:    src/xtests.core.cpp (formerly part of Synesis' internal test codebase)
  *
- * Purpose:     Implementation for xTests core library.
+ * Purpose: Primary implementation file for xTests core library.
  *
- * Created:     20th June 1999
- * Updated:     4th July 2020
+ * Created: 20th June 1999
+ * Updated: 29th November 2023
  *
- * Home:        http://stlsoft.org/
+ * Home:    https://github.com/synesissoftware/xTests/
  *
- * Copyright (c) 2019-2020, Matthew Wilson and Synesis Information Systems
+ * Copyright (c) 2019-2023, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 1999-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -17,13 +17,13 @@
  * met:
  *
  * - Redistributions of source code must retain the above copyright notice,
- *   this list of conditions and the following disclaimer.
+ *   this list of conditions and the following disclaimer;
  * - Redistributions in binary form must reproduce the above copyright
  *   notice, this list of conditions and the following disclaimer in the
- *   documentation and/or other materials provided with the distribution.
- * - Neither the name(s) of Matthew Wilson and Synesis Software nor the
- *   names of any contributors may be used to endorse or promote products
- *   derived from this software without specific prior written permission.
+ *   documentation and/or other materials provided with the distribution;
+ * - Neither the name of the copyright holder nor the names of its
+ *   ontributors may be used to endorse or promote products derived from
+ *   this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -657,7 +657,7 @@ namespace
 
     int xtests_mxnprintf_(xtests_sink_t_ const* sinks, size_t numSinks, size_t requiredLen, char const* fmt, ...)
     {
-        if(requiredLen < 100)
+        if (requiredLen < 100)
         {
             requiredLen = 100;
         }
@@ -668,7 +668,7 @@ namespace
 
         { for(unsigned i = 0; i != 10; ++i)
         {
-            if(!buff.resize(1 + 1 + requiredLen)) // adds two to allow x and n to be different (required by VC++ "safe" fns)
+            if (!buff.resize(1 + 1 + requiredLen)) // adds two to allow x and n to be different (required by VC++ "safe" fns)
             {
                 { for(size_t j = 0; j != numSinks; ++j)
                 {
@@ -689,11 +689,11 @@ namespace
 
             va_end(args);
 
-            if(r < 0)
+            if (r < 0)
             {
                 requiredLen *= 1 + (1 + i); // adds 2 to avoid pointless first same-size repeat
             }
-            else if(r < int(buff.size() - 1))
+            else if (r < int(buff.size() - 1))
             {
                 break;
             }
@@ -703,7 +703,7 @@ namespace
             }
         }}
 
-        if(r >= 0)
+        if (r >= 0)
         {
             size_t n = static_cast<size_t>(r);
 
@@ -747,7 +747,7 @@ XTESTS_CALL(int) xtests_startRunner(
 
         s_runner = new RunnerInfo(name, verbosity, reporter, reporterParam, stm, flags, setup, teardown, setupParam);
 
-        if(NULL == s_runner)
+        if (NULL == s_runner)
         {
             return -2;
         }
@@ -769,14 +769,14 @@ XTESTS_CALL(int) xtests_endRunner(int *retCode)
 
     int retCode_ = EXIT_SUCCESS;
 
-    if(NULL == retCode)
+    if (NULL == retCode)
     {
         retCode = &retCode_;
     }
 
     s_runner->PrintEnd();
 
-    if( 0 != s_runner->NumberOfFailedTestCases() &&
+    if (0 != s_runner->NumberOfFailedTestCases() &&
         EXIT_SUCCESS == *retCode)
     {
         *retCode = EXIT_FAILURE;
@@ -800,7 +800,7 @@ XTESTS_CALL(void) xtests_abend(char const* message)
 {
     XTESTS_EXCEPTION_TRY_
 
-        if(NULL != s_runner)
+        if (NULL != s_runner)
         {
             s_runner->onAbend(message);
 
@@ -880,7 +880,7 @@ XTESTS_CALL(void) xtests_caseExcepted(
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
 
     // Remove leading "class "
-    if(exceptionType == ::strstr(exceptionType, "class "))
+    if (exceptionType == ::strstr(exceptionType, "class "))
     {
         exceptionType += 6;
     }
@@ -920,11 +920,11 @@ XTESTS_CALL(int) xtests_floatingPointClose(
 ,   double  actual
 )
 {
-    if(expected == actual)
+    if (expected == actual)
     {
         return 1;
     }
-    else if(0.0 == expected)
+    else if (0.0 == expected)
     {
         return 0;
     }
@@ -932,7 +932,7 @@ XTESTS_CALL(int) xtests_floatingPointClose(
     {
         double result = actual / expected;
 
-        if( result > (2.0 - s_fpApproximateFactor) &&
+        if (result > (2.0 - s_fpApproximateFactor) &&
             result < s_fpApproximateFactor)
         {
             return true;
@@ -954,7 +954,7 @@ XTESTS_CALL(double) xtests_setFloatingPointCloseFactor(
 
     s_fpApproximateFactor = factor;
 
-    if(NULL != old)
+    if (NULL != old)
     {
         *old = old_;
     }
@@ -1411,7 +1411,7 @@ XTESTS_CALL(int) xtests_require_C(
 
     XTESTS_EXCEPTION_TRY_
 
-        if(!success)
+        if (!success)
         {
             s_runner->OnRequireFailed();
         }
@@ -1454,7 +1454,7 @@ xtests_commandLine_parseVerbosity(
     {
         STLSOFT_ASSERT(NULL != argv[i]);
 
-        if(argv[i] == ::strstr(argv[i], s_verb))
+        if (argv[i] == ::strstr(argv[i], s_verb))
         {
             *verbosity = ::atoi(argv[i] + s_cchVerb);
 
@@ -1479,7 +1479,7 @@ xtests_commandLine_parseHelp(
     {
         STLSOFT_ASSERT(NULL != argv[i]);
 
-        if(0 == ::strcmp(argv[i], s_verb))
+        if (0 == ::strcmp(argv[i], s_verb))
         {
 #ifdef PLATFORMSTL_INCL_PLATFORMSTL_FILESYSTEM_H_PATH_FUNCTIONS
 
@@ -1725,9 +1725,9 @@ namespace
 # define adapt_OutputDebugStringA                       ::xtests::c::adapt_OutputDebugStringA
 #endif /* STLSOFT_COMPILER_IS_BORLAND */
 
-    if(NULL == reporter)
+    if (NULL == reporter)
     {
-        if(NULL == stm)
+        if (NULL == stm)
         {
             stm = stdout;
         }
@@ -1753,7 +1753,7 @@ namespace
                 m_sinks[0].param    =   stm;
 
 #if XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_
-                if(0 == (xtestsRunnerFlagsNoWindowsDebugString & m_flags))
+                if (0 == (xtestsRunnerFlagsNoWindowsDebugString & m_flags))
                 {
                     m_sinks[1].pfn      =   adapt_OutputDebugStringA;
                     m_sinks[1].param    =   NULL;
@@ -1811,14 +1811,14 @@ namespace
 
                 xtests_variable_type_t variableType = xtestsVariableNone;
 
-                if(NULL != expectedValue)
+                if (NULL != expectedValue)
                 {
                     variableType = expectedValue->variableType;
                 }
 
                 xtests_test_type_t testType = xtestsTestFullComparison;
 
-                if(NULL != expectedValue)
+                if (NULL != expectedValue)
                 {
                     testType = expectedValue->testType;
                 }
@@ -2010,7 +2010,7 @@ namespace
 
             virtual void onTestFailed_MultibyteString_(char const* file, int line, char const* function, char const* /* expr */, char const* expectedValue, size_t expectedValueLen, char const* actualValue, size_t actualValueLen, ptrdiff_t length, xtests_test_type_t testType, xtests_comparison_t comparison, int verbosity)
             {
-                if(xtestsTestFullComparison == testType)
+                if (xtestsTestFullComparison == testType)
                 {
                     // Eliminate NULL pointers
                     expectedValue   =   stlsoft::c_str_ptr_a(expectedValue);
@@ -2051,7 +2051,7 @@ namespace
                                 ,   fmt
                                 ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
                 }
-                else if(xtestsTestPartialComparison == testType)
+                else if (xtestsTestPartialComparison == testType)
                 {
                     // Eliminate NULL pointers
                     expectedValue   =   stlsoft::c_str_data_a(expectedValue);
@@ -2088,7 +2088,7 @@ namespace
                             break;
                     }
 
-                    if(length < 0)
+                    if (length < 0)
                     {
                         length = -length;
                     }
@@ -2097,7 +2097,7 @@ namespace
                                 ,   fmt
                                 ,   file, line, int(actualValueLen), actualValue, int(expectedValueLen), expectedValue, length, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
                 }
-                else if(xtestsTestContainment == testType)
+                else if (xtestsTestContainment == testType)
                 {
                     // Eliminate NULL pointers
                     expectedValue   =   stlsoft::c_str_ptr_a(expectedValue);
@@ -2606,16 +2606,16 @@ namespace
                         break;
 
                     case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                        if(!allTestsHavePassed)
+                        if (!allTestsHavePassed)
                         {
-                            if(0 == results[1].numFailedCases)
+                            if (0 == results[1].numFailedCases)
                             {
                                 level = 2;
                             }
                         }
                         break;
                     case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                        if(!allTestsHavePassed)
+                        if (!allTestsHavePassed)
                         {
                             level = 2;
                         }
@@ -2665,7 +2665,7 @@ namespace
                         level = 0;
                         break;
                     case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                        if(0 != results->numFailedCases)
+                        if (0 != results->numFailedCases)
                         {
                             level = 1;
                         }
@@ -2676,7 +2676,7 @@ namespace
                     case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
                     case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
                         level = 1;
-                        if(0 != results->numFailedCases)
+                        if (0 != results->numFailedCases)
                         {
                             level = 2;
                         }
@@ -2734,7 +2734,7 @@ namespace
 
             virtual void onDefect(void* /* reporterParam */, char const* message, char const* qualifier, int /* verbosity */)
             {
-                if( NULL != qualifier &&
+                if (NULL != qualifier &&
                     '\0' == *qualifier)
                 {
                     qualifier = NULL;
@@ -2827,7 +2827,7 @@ int RunnerInfo::BeginCase(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() != m_testCases.find(name))
+    if (m_testCases.end() != m_testCases.find(name))
     {
 #ifdef STLSOFT_CF_EXCEPTION_SUPPORT
         throw std::runtime_error("test case already exists");
@@ -2837,7 +2837,7 @@ int RunnerInfo::BeginCase(
         return -1;
 #endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
     }
-    else if(m_testCases.end() != m_currentCase)
+    else if (m_testCases.end() != m_currentCase)
     {
 #ifdef STLSOFT_CF_EXCEPTION_SUPPORT
         throw std::runtime_error("a test case is already in progress; call XTESTS_CASE_END() ?");
@@ -2853,7 +2853,7 @@ int RunnerInfo::BeginCase(
 
         m_currentCase = m_testCases.insert(std::make_pair(string_t(name), TestInfo(name, description))).first;
 
-        if(NULL != m_setup)
+        if (NULL != m_setup)
         {
 #ifdef STLSOFT_CF_EXCEPTION_SUPPORT
             try
@@ -2861,7 +2861,7 @@ int RunnerInfo::BeginCase(
 #endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
                 int r = (*m_setup)(m_setupParam);
 
-                if(0 != r)
+                if (0 != r)
                 {
                     m_reporter->onDefect(m_reporterParam, "setup function returned a non-zero value", NULL, m_verbosity);
 
@@ -2891,7 +2891,7 @@ int RunnerInfo::EndCase(char const* /* name */)
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -2926,7 +2926,7 @@ int RunnerInfo::EndCase(char const* /* name */)
         m_unexpectedExceptions  =   m_unexpectedExceptions + testInfo.unexpectedExceptions;
         m_expectedExceptions    =   m_expectedExceptions + testInfo.expectedExceptions;
 
-        if(NULL != m_teardown)
+        if (NULL != m_teardown)
         {
 #ifdef STLSOFT_CF_EXCEPTION_SUPPORT
             try
@@ -2946,7 +2946,7 @@ int RunnerInfo::EndCase(char const* /* name */)
 
         m_currentCase = m_testCases.end();
 
-        if( 0 != testInfo.totalConditions ||
+        if (0 != testInfo.totalConditions ||
             0 == (xtestsReportOnlyNonEmptyCases & m_flags))
         {
             m_reporter->onEndTestCase(m_reporterParam, results[0].name, &results[0], m_verbosity);
@@ -2973,7 +2973,7 @@ int RunnerInfo::RegisterSuccessfulCondition(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -3002,7 +3002,7 @@ int RunnerInfo::RegisterFailedCondition(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -3035,7 +3035,7 @@ int RunnerInfo::RegisterFailedCondition_long(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -3071,7 +3071,7 @@ int RunnerInfo::RegisterFailedCondition_ulong(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -3108,7 +3108,7 @@ int RunnerInfo::RegisterFailedCondition_sint64(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -3144,7 +3144,7 @@ int RunnerInfo::RegisterFailedCondition_uint64(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -3182,7 +3182,7 @@ int RunnerInfo::RegisterFailedCondition_boolean(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -3218,7 +3218,7 @@ int RunnerInfo::RegisterFailedCondition_double(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -3254,7 +3254,7 @@ int RunnerInfo::TestMultibyteStrings(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -3272,49 +3272,49 @@ int RunnerInfo::TestMultibyteStrings(
         switch(comp)
         {
             case    xtestsComparisonEqual:
-                if(0 == xtests_strcmp_a_(expected, actual))
+                if (0 == xtests_strcmp_a_(expected, actual))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonApproxEqual:
-                if(0 == xtests_stricmp_a_(expected, actual))
+                if (0 == xtests_stricmp_a_(expected, actual))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonNotEqual:
-                if(0 != xtests_strcmp_a_(expected, actual))
+                if (0 != xtests_strcmp_a_(expected, actual))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonApproxNotEqual:
-                if(0 != xtests_stricmp_a_(expected, actual))
+                if (0 != xtests_stricmp_a_(expected, actual))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonGreaterThan:
-                if(0 > xtests_strcmp_a_(expected, actual))
+                if (0 > xtests_strcmp_a_(expected, actual))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonLessThan:
-                if(0 < xtests_strcmp_a_(expected, actual))
+                if (0 < xtests_strcmp_a_(expected, actual))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonGreaterThanOrEqual:
-                if(0 >= xtests_strcmp_a_(expected, actual))
+                if (0 >= xtests_strcmp_a_(expected, actual))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonLessThanOrEqual:
-                if(0 <= xtests_strcmp_a_(expected, actual))
+                if (0 <= xtests_strcmp_a_(expected, actual))
                 {
                     comparisonSucceeded = true;
                 }
@@ -3324,7 +3324,7 @@ int RunnerInfo::TestMultibyteStrings(
                 break;
         }
 
-        if(comparisonSucceeded)
+        if (comparisonSucceeded)
         {
             return 1;
         }
@@ -3358,7 +3358,7 @@ int RunnerInfo::TestMultibyteStringsN(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -3374,7 +3374,7 @@ int RunnerInfo::TestMultibyteStringsN(
         int     comparisonSucceeded =   false;
         size_t  ncmp;
 
-        if(n >= 0)
+        if (n >= 0)
         {
             ncmp = static_cast<size_t>(n);
         }
@@ -3385,13 +3385,13 @@ int RunnerInfo::TestMultibyteStringsN(
 
             ncmp = static_cast<size_t>(-n);
 
-            if(ncmp > cchExpected)
+            if (ncmp > cchExpected)
             {
                 ncmp = cchExpected;
             }
         }
 
-        if( cchActual < ncmp ||
+        if (cchActual < ncmp ||
             cchExpected < ncmp)
         {
             // actual string is less than required length, so comparison
@@ -3422,49 +3422,49 @@ int RunnerInfo::TestMultibyteStringsN(
             switch(comp)
             {
                 case    xtestsComparisonEqual:
-                    if(0 == xtests_strncmp_a_(expected, actual, ncmp))
+                    if (0 == xtests_strncmp_a_(expected, actual, ncmp))
                     {
                         comparisonSucceeded = true;
                     }
                     break;
                 case    xtestsComparisonApproxEqual:
-                    if(0 == xtests_strnicmp_a_(expected, actual, ncmp))
+                    if (0 == xtests_strnicmp_a_(expected, actual, ncmp))
                     {
                         comparisonSucceeded = true;
                     }
                     break;
                 case    xtestsComparisonNotEqual:
-                    if(0 != xtests_strncmp_a_(expected, actual, ncmp))
+                    if (0 != xtests_strncmp_a_(expected, actual, ncmp))
                     {
                         comparisonSucceeded = true;
                     }
                     break;
                 case    xtestsComparisonApproxNotEqual:
-                    if(0 != xtests_strnicmp_a_(expected, actual, ncmp))
+                    if (0 != xtests_strnicmp_a_(expected, actual, ncmp))
                     {
                         comparisonSucceeded = true;
                     }
                     break;
                 case    xtestsComparisonGreaterThan:
-                    if(0 > xtests_strncmp_a_(expected, actual, ncmp))
+                    if (0 > xtests_strncmp_a_(expected, actual, ncmp))
                     {
                         comparisonSucceeded = true;
                     }
                     break;
                 case    xtestsComparisonLessThan:
-                    if(0 < xtests_strncmp_a_(expected, actual, ncmp))
+                    if (0 < xtests_strncmp_a_(expected, actual, ncmp))
                     {
                         comparisonSucceeded = true;
                     }
                     break;
                 case    xtestsComparisonGreaterThanOrEqual:
-                    if(0 >= xtests_strncmp_a_(expected, actual, ncmp))
+                    if (0 >= xtests_strncmp_a_(expected, actual, ncmp))
                     {
                         comparisonSucceeded = true;
                     }
                     break;
                 case    xtestsComparisonLessThanOrEqual:
-                    if(0 <= xtests_strncmp_a_(expected, actual, ncmp))
+                    if (0 <= xtests_strncmp_a_(expected, actual, ncmp))
                     {
                         comparisonSucceeded = true;
                     }
@@ -3475,7 +3475,7 @@ int RunnerInfo::TestMultibyteStringsN(
             }
         }
 
-        if(comparisonSucceeded)
+        if (comparisonSucceeded)
         {
             return 1;
         }
@@ -3507,7 +3507,7 @@ int RunnerInfo::TestWideStrings(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -3525,49 +3525,49 @@ int RunnerInfo::TestWideStrings(
         switch(comp)
         {
             case    xtestsComparisonEqual:
-                if(0 == xtests_strcmp_w_(expected, actual))
+                if (0 == xtests_strcmp_w_(expected, actual))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonApproxEqual:
-                if(0 == xtests_stricmp_w_(expected, actual))
+                if (0 == xtests_stricmp_w_(expected, actual))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonNotEqual:
-                if(0 != xtests_strcmp_w_(expected, actual))
+                if (0 != xtests_strcmp_w_(expected, actual))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonApproxNotEqual:
-                if(0 != xtests_stricmp_w_(expected, actual))
+                if (0 != xtests_stricmp_w_(expected, actual))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonGreaterThan:
-                if(0 > xtests_strcmp_w_(expected, actual))
+                if (0 > xtests_strcmp_w_(expected, actual))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonLessThan:
-                if(0 < xtests_strcmp_w_(expected, actual))
+                if (0 < xtests_strcmp_w_(expected, actual))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonGreaterThanOrEqual:
-                if(0 >= xtests_strcmp_w_(expected, actual))
+                if (0 >= xtests_strcmp_w_(expected, actual))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonLessThanOrEqual:
-                if(0 <= xtests_strcmp_w_(expected, actual))
+                if (0 <= xtests_strcmp_w_(expected, actual))
                 {
                     comparisonSucceeded = true;
                 }
@@ -3577,7 +3577,7 @@ int RunnerInfo::TestWideStrings(
                 break;
         }
 
-        if(comparisonSucceeded)
+        if (comparisonSucceeded)
         {
             return 1;
         }
@@ -3611,7 +3611,7 @@ int RunnerInfo::TestWideStringsN(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -3627,7 +3627,7 @@ int RunnerInfo::TestWideStringsN(
         int     comparisonSucceeded = false;
         size_t  ncmp;
 
-        if(n >= 0)
+        if (n >= 0)
         {
             ncmp = static_cast<size_t>(n);
         }
@@ -3638,13 +3638,13 @@ int RunnerInfo::TestWideStringsN(
 
             ncmp = static_cast<size_t>(-n);
 
-            if(ncmp > cchExpected)
+            if (ncmp > cchExpected)
             {
                 ncmp = cchExpected;
             }
         }
 
-        if( cchActual < ncmp ||
+        if (cchActual < ncmp ||
             cchExpected < ncmp)
         {
             // actual string is less than required length, so comparison
@@ -3673,49 +3673,49 @@ int RunnerInfo::TestWideStringsN(
             switch(comp)
             {
                 case    xtestsComparisonEqual:
-                    if(0 == xtests_strncmp_w_(expected, actual, ncmp))
+                    if (0 == xtests_strncmp_w_(expected, actual, ncmp))
                     {
                         comparisonSucceeded = true;
                     }
                     break;
                 case    xtestsComparisonApproxEqual:
-                    if(0 == xtests_strnicmp_w_(expected, actual, ncmp))
+                    if (0 == xtests_strnicmp_w_(expected, actual, ncmp))
                     {
                         comparisonSucceeded = true;
                     }
                     break;
                 case    xtestsComparisonNotEqual:
-                    if(0 != xtests_strncmp_w_(expected, actual, ncmp))
+                    if (0 != xtests_strncmp_w_(expected, actual, ncmp))
                     {
                         comparisonSucceeded = true;
                     }
                     break;
                 case    xtestsComparisonApproxNotEqual:
-                    if(0 != xtests_strnicmp_w_(expected, actual, ncmp))
+                    if (0 != xtests_strnicmp_w_(expected, actual, ncmp))
                     {
                         comparisonSucceeded = true;
                     }
                     break;
                 case    xtestsComparisonGreaterThan:
-                    if(0 > xtests_strncmp_w_(expected, actual, ncmp))
+                    if (0 > xtests_strncmp_w_(expected, actual, ncmp))
                     {
                         comparisonSucceeded = true;
                     }
                     break;
                 case    xtestsComparisonLessThan:
-                    if(0 < xtests_strncmp_w_(expected, actual, ncmp))
+                    if (0 < xtests_strncmp_w_(expected, actual, ncmp))
                     {
                         comparisonSucceeded = true;
                     }
                     break;
                 case    xtestsComparisonGreaterThanOrEqual:
-                    if(0 >= xtests_strncmp_w_(expected, actual, ncmp))
+                    if (0 >= xtests_strncmp_w_(expected, actual, ncmp))
                     {
                         comparisonSucceeded = true;
                     }
                     break;
                 case    xtestsComparisonLessThanOrEqual:
-                    if(0 <= xtests_strncmp_w_(expected, actual, ncmp))
+                    if (0 <= xtests_strncmp_w_(expected, actual, ncmp))
                     {
                         comparisonSucceeded = true;
                     }
@@ -3726,7 +3726,7 @@ int RunnerInfo::TestWideStringsN(
             }
         }
 
-        if(comparisonSucceeded)
+        if (comparisonSucceeded)
         {
             return 1;
         }
@@ -3758,7 +3758,7 @@ int RunnerInfo::TestMultibyteStringContains(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -3776,25 +3776,25 @@ int RunnerInfo::TestMultibyteStringContains(
         switch(comp)
         {
             case    xtestsComparisonEqual:
-                if(NULL != xtests_strstr_(actual, expected))
+                if (NULL != xtests_strstr_(actual, expected))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonApproxEqual:
-                if(NULL != xtests_stristr_(actual, expected))
+                if (NULL != xtests_stristr_(actual, expected))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonNotEqual:
-                if(NULL == xtests_strstr_(actual, expected))
+                if (NULL == xtests_strstr_(actual, expected))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonApproxNotEqual:
-                if(NULL == xtests_stristr_(actual, expected))
+                if (NULL == xtests_stristr_(actual, expected))
                 {
                     comparisonSucceeded = true;
                 }
@@ -3810,7 +3810,7 @@ int RunnerInfo::TestMultibyteStringContains(
                 break;
         }
 
-        if(comparisonSucceeded)
+        if (comparisonSucceeded)
         {
             return 1;
         }
@@ -3843,7 +3843,7 @@ int RunnerInfo::TestWideStringContains(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -3861,25 +3861,25 @@ int RunnerInfo::TestWideStringContains(
         switch(comp)
         {
             case    xtestsComparisonEqual:
-                if(NULL != xtests_strstr_w_(actual, expected))
+                if (NULL != xtests_strstr_w_(actual, expected))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonApproxEqual:
-                if(NULL != xtests_stristr_w_(actual, expected))
+                if (NULL != xtests_stristr_w_(actual, expected))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonNotEqual:
-                if(NULL == xtests_strstr_w_(actual, expected))
+                if (NULL == xtests_strstr_w_(actual, expected))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonApproxNotEqual:
-                if(NULL == xtests_stristr_w_(actual, expected))
+                if (NULL == xtests_stristr_w_(actual, expected))
                 {
                     comparisonSucceeded = true;
                 }
@@ -3895,7 +3895,7 @@ int RunnerInfo::TestWideStringContains(
                 break;
         }
 
-        if(comparisonSucceeded)
+        if (comparisonSucceeded)
         {
             return 1;
         }
@@ -3929,7 +3929,7 @@ int RunnerInfo::TestMultibyteStringSlice(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -3949,28 +3949,28 @@ int RunnerInfo::TestMultibyteStringSlice(
         switch(comp)
         {
             case    xtestsComparisonEqual:
-                if( sameLength &&
+                if (sameLength &&
                     0 == xtests_strncmp_a_(expectedPtr, actualPtr, expectedLen))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonApproxEqual:
-                if( sameLength &&
+                if (sameLength &&
                     0 == xtests_strnicmp_a_(expectedPtr, actualPtr, expectedLen))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonNotEqual:
-                if( !sameLength ||
+                if (!sameLength ||
                     0 != xtests_strncmp_a_(expectedPtr, actualPtr, expectedLen))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonApproxNotEqual:
-                if( !sameLength ||
+                if (!sameLength ||
                     0 != xtests_strnicmp_a_(expectedPtr, actualPtr, expectedLen))
                 {
                     comparisonSucceeded = true;
@@ -3986,7 +3986,7 @@ int RunnerInfo::TestMultibyteStringSlice(
                 break;
         }
 
-        if(comparisonSucceeded)
+        if (comparisonSucceeded)
         {
             return 1;
         }
@@ -4026,7 +4026,7 @@ int RunnerInfo::TestWideStringSlice(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -4046,28 +4046,28 @@ int RunnerInfo::TestWideStringSlice(
         switch(comp)
         {
             case    xtestsComparisonEqual:
-                if( sameLength &&
+                if (sameLength &&
                     0 == xtests_strncmp_w_(expectedPtr, actualPtr, expectedLen))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonApproxEqual:
-                if( sameLength &&
+                if (sameLength &&
                     0 == xtests_strnicmp_w_(expectedPtr, actualPtr, expectedLen))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonNotEqual:
-                if( !sameLength ||
+                if (!sameLength ||
                     0 != xtests_strncmp_w_(expectedPtr, actualPtr, expectedLen))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonApproxNotEqual:
-                if( !sameLength ||
+                if (!sameLength ||
                     0 != xtests_strnicmp_w_(expectedPtr, actualPtr, expectedLen))
                 {
                     comparisonSucceeded = true;
@@ -4083,7 +4083,7 @@ int RunnerInfo::TestWideStringSlice(
                 break;
         }
 
-        if(comparisonSucceeded)
+        if (comparisonSucceeded)
         {
             return 1;
         }
@@ -4121,7 +4121,7 @@ int RunnerInfo::TestPointers(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -4140,38 +4140,38 @@ int RunnerInfo::TestPointers(
         {
             case    xtestsComparisonEqual:
             case    xtestsComparisonApproxEqual:
-                if(expected == actual)
+                if (expected == actual)
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonNotEqual:
             case    xtestsComparisonApproxNotEqual:
-                if(expected != actual)
+                if (expected != actual)
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonGreaterThan:
-                if(actual > expected)
+                if (actual > expected)
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonLessThan:
-                if(actual < expected)
+                if (actual < expected)
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonGreaterThanOrEqual:
-                if(actual >= expected)
+                if (actual >= expected)
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonLessThanOrEqual:
-                if(actual <= expected)
+                if (actual <= expected)
                 {
                     comparisonSucceeded = true;
                 }
@@ -4181,7 +4181,7 @@ int RunnerInfo::TestPointers(
                 break;
         }
 
-        if(comparisonSucceeded)
+        if (comparisonSucceeded)
         {
             return 1;
         }
@@ -4248,7 +4248,7 @@ int RunnerInfo::TestCharacters(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -4266,49 +4266,49 @@ int RunnerInfo::TestCharacters(
         switch(comp)
         {
             case    xtestsComparisonEqual:
-                if(expected == actual)
+                if (expected == actual)
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonApproxEqual:
-                if(::toupper(expected) == ::toupper(actual))
+                if (::toupper(expected) == ::toupper(actual))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonNotEqual:
-                if(expected != actual)
+                if (expected != actual)
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonApproxNotEqual:
-                if(::toupper(expected) != ::toupper(actual))
+                if (::toupper(expected) != ::toupper(actual))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonGreaterThan:
-                if(actual > expected)
+                if (actual > expected)
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonLessThan:
-                if(actual < expected)
+                if (actual < expected)
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonGreaterThanOrEqual:
-                if(actual >= expected)
+                if (actual >= expected)
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonLessThanOrEqual:
-                if(actual <= expected)
+                if (actual <= expected)
                 {
                     comparisonSucceeded = true;
                 }
@@ -4318,7 +4318,7 @@ int RunnerInfo::TestCharacters(
                 break;
         }
 
-        if(comparisonSucceeded)
+        if (comparisonSucceeded)
         {
             return 1;
         }
@@ -4350,7 +4350,7 @@ int RunnerInfo::TestCharacters(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -4368,49 +4368,49 @@ int RunnerInfo::TestCharacters(
         switch(comp)
         {
             case    xtestsComparisonEqual:
-                if(expected == actual)
+                if (expected == actual)
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonApproxEqual:
-                if(::towupper(expected) == ::towupper(actual))
+                if (::towupper(expected) == ::towupper(actual))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonNotEqual:
-                if(expected != actual)
+                if (expected != actual)
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonApproxNotEqual:
-                if(::towupper(expected) != ::towupper(actual))
+                if (::towupper(expected) != ::towupper(actual))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonGreaterThan:
-                if(actual > expected)
+                if (actual > expected)
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonLessThan:
-                if(actual < expected)
+                if (actual < expected)
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonGreaterThanOrEqual:
-                if(actual >= expected)
+                if (actual >= expected)
                 {
                     comparisonSucceeded = true;
                 }
                 break;
             case    xtestsComparisonLessThanOrEqual:
-                if(actual <= expected)
+                if (actual <= expected)
                 {
                     comparisonSucceeded = true;
                 }
@@ -4420,7 +4420,7 @@ int RunnerInfo::TestCharacters(
                 break;
         }
 
-        if(comparisonSucceeded)
+        if (comparisonSucceeded)
         {
             return 1;
         }
@@ -4451,7 +4451,7 @@ int RunnerInfo::WriteFailMessage(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
 
@@ -4481,7 +4481,7 @@ void RunnerInfo::CaseExcepted(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
     }
@@ -4503,7 +4503,7 @@ void RunnerInfo::CaseExceptionExpected(
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if(m_testCases.end() == m_currentCase)
+    if (m_testCases.end() == m_currentCase)
     {
         report_unstartedCase_defect_();
     }
@@ -4569,7 +4569,7 @@ size_t RunnerInfo::NumberOfFailedTestCases() const
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
-    if( 0u == m_failedConditions &&
+    if (0u == m_failedConditions &&
         0u == m_unexpectedExceptions &&
         0u == m_expectedExceptions)
     {
@@ -4583,7 +4583,7 @@ size_t RunnerInfo::NumberOfFailedTestCases() const
         {
             TestInfo const& testInfo = (*b).second;
 
-            if(!testInfo.haveAllTestsPassed())
+            if (!testInfo.haveAllTestsPassed())
             {
                 ++numFailed;
             }
@@ -4607,7 +4607,7 @@ void RunnerInfo::Call_onTestFailed(
 ,   int                         verbosity
 )
 {
-    if( verbosity != XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR ||
+    if (verbosity != XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR ||
         0 == NumberOfFailedTestCases())
     {
         reporter->onTestFailed(reporterParam, file, line, function, expr, expectedValue, actualValue, length, comparison, verbosity);

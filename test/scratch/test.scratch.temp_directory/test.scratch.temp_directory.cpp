@@ -1,19 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:        test.scratch.temp_directory.cpp
+ * File:    test.scratch.temp_directory.cpp
  *
- * Purpose:     Implementation file for the test.scratch.temp_directory project.
+ * Purpose: Use of `xtests::cpp::util::temp_directory`.
  *
- * Created:     1st October 2015
- * Updated:     12th October 2019
- *
- * Status:      Wizard-generated
- *
- * License:     (Licensed under the Synesis Software Open License)
- *
- *              Copyright (c) 2015-2019, Synesis Software Pty Ltd.
- *              All rights reserved.
- *
- *              www:        http://www.synesis.com.au/software
+ * Created: 1st October 2015
+ * Updated: 29th November 2023
  *
  * ////////////////////////////////////////////////////////////////////// */
 

@@ -1,15 +1,15 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:        xtests/xtests.h (formerly part of Synesis' internal test codebase)
+ * File:    xtests/xtests.h (formerly part of Synesis' internal test codebase)
  *
- * Purpose:     Main header file for xTests, a simple unit/component-testing
- *              library.
+ * Purpose: Main header file for xTests, a simple unit/component-testing
+ *          library.
  *
- * Created:     20th June 1999
- * Updated:     17th July 2020
+ * Created: 20th June 1999
+ * Updated: 29th November 2023
  *
- * Home:        https://github.com/synesissoftware/xTests/
+ * Home:    https://github.com/synesissoftware/xTests/
  *
- * Copyright (c) 2019-2020, Matthew Wilson and Synesis Information Systems
+ * Copyright (c) 2019-2023, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 1999-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -18,14 +18,13 @@
  * met:
  *
  * - Redistributions of source code must retain the above copyright notice,
- *   this list of conditions and the following disclaimer.
+ *   this list of conditions and the following disclaimer;
  * - Redistributions in binary form must reproduce the above copyright
  *   notice, this list of conditions and the following disclaimer in the
- *   documentation and/or other materials provided with the distribution.
- * - Neither the name(s) of Matthew Wilson and Synesis Information Systems
- *   nor the names of any contributors may be used to endorse or promote
- *   products derived from this software without specific prior written
- *   permission.
+ *   documentation and/or other materials provided with the distribution;
+ * - Neither the name of the copyright holder nor the names of its
+ *   ontributors may be used to endorse or promote products derived from
+ *   this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -54,7 +53,7 @@
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       41
 # define XTESTS_VER_XTESTS_H_XTESTS_REVISION    4
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        344
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        345
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -341,7 +340,7 @@ namespace c
                                                                                         \
     do                                                                                  \
     {                                                                                   \
-        if(XTESTS_CASE_BEGIN(name, desc))                                               \
+        if (XTESTS_CASE_BEGIN(name, desc))                                              \
         {                                                                               \
             XTESTS_INVOKE_TEST_CASE_FN_THROWS_((file), (line), fn, name, type);         \
                                                                                         \
@@ -361,7 +360,7 @@ namespace c
                                                                                         \
     do                                                                                  \
     {                                                                                   \
-        if(XTESTS_CASE_BEGIN(name, desc))                                               \
+        if (XTESTS_CASE_BEGIN(name, desc))                                              \
         {                                                                               \
             XTESTS_INVOKE_TEST_CASE_FN_((file), (line), fn, name);                      \
                                                                                         \
@@ -3232,7 +3231,7 @@ inline
 void
 xtests_require(int success)
 {
-    if(!success)
+    if (!success)
     {
         throw requirement_failed_exception();
     }
@@ -3713,7 +3712,7 @@ xtests_test_integer_any_in_range(
 
     int comparisonSucceeded = xtests_test_integer_compare_to_range_(file, line, function, expr, begin, end, actual, comp);
 
-    if(comparisonSucceeded)
+    if (comparisonSucceeded)
     {
         xtests_testPassed(file, line, function, expr);
     }
@@ -3755,38 +3754,38 @@ xtests_test_integer(
     {
         case    xtestsComparisonEqual:
         case    xtestsComparisonApproxEqual:
-            if(expected == actual)
+            if (expected == actual)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonNotEqual:
         case    xtestsComparisonApproxNotEqual:
-            if(expected != actual)
+            if (expected != actual)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonGreaterThan:
-            if(actual > expected)
+            if (actual > expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonLessThan:
-            if(actual < expected)
+            if (actual < expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonGreaterThanOrEqual:
-            if(actual >= expected)
+            if (actual >= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonLessThanOrEqual:
-            if(actual <= expected)
+            if (actual <= expected)
             {
                 comparisonSucceeded = true;
             }
@@ -3798,7 +3797,7 @@ xtests_test_integer(
             break;
     }
 
-    if(comparisonSucceeded)
+    if (comparisonSucceeded)
     {
         xtests_testPassed(file, line, function, expr);
     }
@@ -4142,49 +4141,49 @@ xtests_test_floating_point(
     switch(comp)
     {
         case    xtestsComparisonEqual:
-            if(expected == actual)
+            if (expected == actual)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonApproxEqual:
-            if(xtests_floatingPointClose(expected, actual))
+            if (xtests_floatingPointClose(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonNotEqual:
-            if(expected != actual)
+            if (expected != actual)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonApproxNotEqual:
-            if(!xtests_floatingPointClose(expected, actual))
+            if (!xtests_floatingPointClose(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonGreaterThan:
-            if(actual > expected)
+            if (actual > expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonLessThan:
-            if(actual < expected)
+            if (actual < expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonGreaterThanOrEqual:
-            if(actual >= expected)
+            if (actual >= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonLessThanOrEqual:
-            if(actual <= expected)
+            if (actual <= expected)
             {
                 comparisonSucceeded = true;
             }
@@ -4196,7 +4195,7 @@ xtests_test_floating_point(
             break;
     }
 
-    if(comparisonSucceeded)
+    if (comparisonSucceeded)
     {
         stlsoft_static_cast(void, xtests_testPassed(file, line, function, expr));
     }

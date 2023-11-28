@@ -1,19 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:        examples/c/example.c.runner/example.c.runner.c
+ * File:    examples/c/example.c.runner/example.c.runner.c
  *
- * Purpose:     Implementation file for the example.c.runner project.
+ * Purpose: Example of in-runner test cases.
  *
- * Created:     20th February 2008
- * Updated:     20th February 2008
- *
- * Status:      Wizard-generated
- *
- * License:     (Licensed under the Synesis Software Open License)
- *
- *              Copyright (c) 2008, Synesis Software Pty Ltd.
- *              All rights reserved.
- *
- *              www:        http://www.synesis.com.au/software
+ * Created: 20th February 2008
+ * Updated: 29th November 2023
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -36,10 +27,10 @@ int main(int argc, char **argv)
 
     XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, &verbosity);
 
-    if(XTESTS_START_RUNNER("example.c.runner", verbosity))
+    if (XTESTS_START_RUNNER("example.c.runner", verbosity))
     {
         /* test case 1 */
-        if(XTESTS_CASE_BEGIN("test-case-1", "checking sizes of different integer types"))
+        if (XTESTS_CASE_BEGIN("test-case-1", "checking sizes of different integer types"))
         {
             XTESTS_TEST_INTEGER_LESS_OR_EQUAL(sizeof(char), sizeof(short));
             XTESTS_TEST_INTEGER_LESS_OR_EQUAL(sizeof(short), sizeof(int));
@@ -49,7 +40,7 @@ int main(int argc, char **argv)
         }
 
         /* test case 2 */
-        if(XTESTS_CASE_BEGIN("test-case-2", "checking equality of sizes of signed and unsigned integer types"))
+        if (XTESTS_CASE_BEGIN("test-case-2", "checking equality of sizes of signed and unsigned integer types"))
         {
             XTESTS_TEST_INTEGER_EQUAL_EXACT(sizeof(signed char), sizeof(unsigned char));
             XTESTS_TEST_INTEGER_EQUAL_EXACT(sizeof(signed short), sizeof(unsigned short));
@@ -60,7 +51,7 @@ int main(int argc, char **argv)
         }
 
         /* test case 3 */
-        if(XTESTS_CASE_BEGIN("test-case-3", "tests that always pass"))
+        if (XTESTS_CASE_BEGIN("test-case-3", "tests that always pass"))
         {
             XTESTS_TEST_PASSED();
 

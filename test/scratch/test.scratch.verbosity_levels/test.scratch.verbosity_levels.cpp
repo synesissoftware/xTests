@@ -1,19 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:        test.scratch.verbosity_levels.cpp
+ * File:    test.scratch.verbosity_levels.cpp
  *
- * Purpose:     Implementation file for the test.scratch.verbosity_levels project.
+ * Purpose: Implementation file for the test.scratch.verbosity_levels project.
  *
- * Created:     28th January 2017
- * Updated:     28th January 2017
- *
- * Status:      Wizard-generated
- *
- * License:     (Licensed under the Synesis Software Open License)
- *
- *              Copyright (c) 2017, Synesis Software Pty Ltd.
- *              All rights reserved.
- *
- *              www:        http://www.synesis.com.au/software
+ * Created: 28th January 2017
+ * Updated: 29th November 2023
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -64,7 +55,7 @@ static int main_(int argc, char** argv)
     XTESTS_COMMANDLINE_PARSE_HELP(argc, argv);
     XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, &verbosity);
 
-    if(XTESTS_START_RUNNER("test.scratch.basics1.runner-1", verbosity))
+    if (XTESTS_START_RUNNER("test.scratch.basics1.runner-1", verbosity))
     {
         XTESTS_RUN_CASE(test_succeeded);
         XTESTS_RUN_CASE(test_integer_failed);
