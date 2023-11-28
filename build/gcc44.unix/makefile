@@ -6,7 +6,7 @@
 #           on the UNIX platform
 #
 # Created:  16th December 2007
-# Updated:  12th July 2020
+# Updated:  29th November 2023
 #
 ############################################################################
 
@@ -40,7 +40,7 @@ SHWILD_VER_MAJOR    =   0
 SHWILD_TAG_VER      =   shwild.$(SHWILD_VER_MAJOR)
 
 XCOVER_VER_MAJOR    =   0
-XCOVER_TAG_VER      =   xcover.$(SHWILD_VER_MAJOR)
+XCOVER_TAG_VER      =   xcover.$(XCOVER_VER_MAJOR)
 
 PROJ_MAKEFILE_NAME  =   makefile
 
