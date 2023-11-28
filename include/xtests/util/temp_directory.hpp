@@ -51,8 +51,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MAJOR    0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MINOR    1
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_REVISION 7
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     10
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_REVISION 8
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     11
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -132,10 +132,10 @@ public: // Types
     enum Flags
     {
             None                    =   0
-        ,   EmptyOnOpen             =   0x0001
-        ,   EmptyOnClose            =   0x0002
-        ,   RemoveOnOpen            =   0x0004
-        ,   RemoveOnClose           =   0x0008
+        ,   EmptyOnOpen             =   0x0001  /*!< causes the directory to be cleared upon construction */
+        ,   EmptyOnClose            =   0x0002  /*!< causes the directory to be cleared upon destruction */
+        ,   RemoveOnOpen            =   0x0004  /*!< causes the directory to be removed upon construction */
+        ,   RemoveOnClose           =   0x0008  /*!< causes the directory to be removed upon destruction */
     };
 
     class could_not_create_temporary_directory_exception;

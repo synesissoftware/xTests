@@ -42,8 +42,7 @@
 
 /** \file xtests/test/util/compiler_warnings_suppression.last_include.h
  *
- * [C, C++] \#include file to go at the end of a test file's \#include
- *   list.
+ * [C, C++] \#include file to go at the end of a test file's \#include list.
  */
 
 #ifndef XTESTS_INCL_XTESTS_TEST_UTIL_H_COMPILER_WARNINGS_SUPPRESSION_LAST_INCLUDE

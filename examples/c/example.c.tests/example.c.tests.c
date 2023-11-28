@@ -8,6 +8,9 @@
  *
  * ////////////////////////////////////////////////////////////////////// */
 
+/** \file example.c.tests.c
+ */
+
 
 /* xTests Header Files */
 #include <xtests/xtests.h>

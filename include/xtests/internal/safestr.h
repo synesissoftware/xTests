@@ -42,7 +42,7 @@
 
 /** \file xtests/internal/safestr.h
  *
- * \brief [C, C++] Handles detection of safe string library.
+ * [C, C++] Handles detection of safe string library.
  */
 
 #ifndef XTESTS_INCL_XTESTS_INTERNAL_H_SAFESTR

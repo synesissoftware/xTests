@@ -19,7 +19,8 @@ ReleaseUnix/
 /_build/
 /_internal/
 
-doc/
+/doc/
+/dox/
 
 ideas/
 

@@ -221,6 +221,8 @@ namespace stlsoft
 {
 #endif /* _STLSOFT_NO_NAMESPACE */
 
+# ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
+
     STLSOFT_TEMPLATE_SPECIALISATION
     struct string_traits< char_buffer_t_>
     {
@@ -232,6 +234,8 @@ namespace stlsoft
     {
         typedef char_buffer_w_t_::value_type    char_type;
     };
+
+# endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 #ifndef _STLSOFT_NO_NAMESPACE
 } /* namespace stlsoft */
@@ -266,6 +270,8 @@ namespace
 
     typedef std::string                         string_t;
 
+#ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
+
     struct TestInfo
     {
         string_t    name;
@@ -289,10 +295,13 @@ namespace
             return (0 == failedConditions && 0 ==  unexpectedExceptions && 0 == expectedExceptions);
         }
     };
+#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
     typedef std::map<string_t, TestInfo>        test_map_t;
 
+
+#ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
     class RunnerInfo
     {
@@ -580,6 +589,7 @@ namespace
     private:
         RunnerInfo &operator =(RunnerInfo const&);
     };
+#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
     ////////////////////////////////////////////////////////////////////////
     // Non-local variables
@@ -649,11 +659,14 @@ namespace
 
     typedef void (*sink_pfn_t_)(char const* s, size_t n, void* param);
 
+#ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
+
     struct xtests_sink_t_
     {
         sink_pfn_t_ pfn;
         void*       param;
     };
+#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
     int xtests_mxnprintf_(xtests_sink_t_ const* sinks, size_t numSinks, size_t requiredLen, char const* fmt, ...)
     {

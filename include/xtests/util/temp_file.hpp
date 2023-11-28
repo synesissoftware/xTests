@@ -134,11 +134,11 @@ public: // Types
     enum Flags
     {
             None            =   0
-        ,   DeleteOnClose   =   0x0002
-        ,   EmptyOnOpen     =   0x0004
-        ,   EmptyOnClose    =   0x0008
-        ,   DeleteOnOpen    =   0x0010
-        ,   CloseOnOpen     =   0x0020
+        ,   DeleteOnClose   =   0x0002  /*!< causes the file to be deleted upon destruction */
+        ,   EmptyOnOpen     =   0x0004  /*!< causes the file to be emptied upon construction */
+        ,   EmptyOnClose    =   0x0008  /*!< causes the file to be emptied upon destruction */
+        ,   DeleteOnOpen    =   0x0010  /*!< causes the file to be deletec upon construction */
+        ,   CloseOnOpen     =   0x0020  /*!< causes the file to be closed upon construction */
     };
 
     /// Exception type

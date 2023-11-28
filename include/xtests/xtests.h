@@ -52,7 +52,7 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       41
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    4
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    5
 # define XTESTS_VER_XTESTS_H_XTESTS_EDIT        345
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
@@ -62,23 +62,27 @@
 
 /**
  * \def _XTESTS_VER_MAJOR
+ *
  * The Major version number of the xTests library
  *
  * \def _XTESTS_VER_MINOR
+ *
  * Minor version number of the xTests library
  *
  * \def _XTESTS_VER_REVISION
+ *
  * The revision number of the xTests library
  *
  * \def _XTESTS_VER
+ *
  * The composite version of the xTests library
  */
 
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       20
-#define _XTESTS_VER_REVISION    2
+#define _XTESTS_VER_REVISION    3
 
-#define _XTESTS_VER             0x001402ff
+#define _XTESTS_VER             0x001403ff
 
 /* /////////////////////////////////////////////////////////////////////////
  * Includes - 1
@@ -450,6 +454,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 #endif /* !__cplusplus */
 
 /** \def XTESTS_FP_APPROXIMATE_FACTOR
+ *
  * The factor within which floating point numbers are deemed to be
  * approximately equal.
  */
@@ -3241,7 +3246,7 @@ xtests_require(int success)
 # endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /** Scoping class that sets the floating-point close factor for a
- *   controlled period
+ *   controlled scope
  */
 class xtest_floatingpoint_factor_scope
 {
@@ -4289,7 +4294,11 @@ xtests_commandLine_parseHelp(
                                                                                         \
     stlsoft_static_cast(void, XTESTS_NS_C_QUAL(xtests_commandLine_parseVerbosity)((argc), (argv), (pverbosity)))
 
-#define XTESTS_COMMANDLINE_PARSEVERBOSITY                   XTESTS_COMMANDLINE_PARSE_VERBOSITY
+
+#ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
+
+# define XTESTS_COMMANDLINE_PARSEVERBOSITY                  XTESTS_COMMANDLINE_PARSE_VERBOSITY
+#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION /* The following seems to break Doxygen, so we don't document it :-( */
