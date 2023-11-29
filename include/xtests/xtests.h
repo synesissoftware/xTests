@@ -100,7 +100,7 @@
     STLSOFT_VER >= 0x010c0000
 # define XTESTS_STLSOFT_1_12_OR_LATER
 #elif _STLSOFT_VER < 0x010986ff
-# error xTests requires version 1.9.134 (or later) of STLSoft; download from www.stlsoft.org
+# error xTests requires version 1.9.134 (or later) of STLSoft; download from https://github.com/synesissoftware/
 #endif /* _STLSOFT_VER */
 
 #ifndef __cplusplus

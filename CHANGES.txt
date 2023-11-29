@@ -1,7 +1,7 @@
 xTests - Changes
 ================
 
-Updated:    30th July 2020
+Updated:    30th November 2023
 
 
     ************************************
@@ -13,6 +13,20 @@ Updated:    30th July 2020
     *  *  means a general bullet-point *
     *                                  *
     ************************************
+
+
+30th November 2023 - 0.20.3
+===========================
+
+Summary:
+--------
+
+ * added CMake support
+ * added Doxygen
+ * added makefile(s) for GCC generic version
+ * fix to xtests::cpp::util::temp_directory
+ * fix defect in example
+
 
 
 30th July 2020 - 0.20.2

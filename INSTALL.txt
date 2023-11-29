@@ -1,13 +1,13 @@
 xTests - Install
 ================
 
-Updated:    30th July 2020
+Updated:    30th November 2023
 
 
 The following steps are required to install xTests:
 
-    1. Download the latest distribution of xTests, from
-       http://xtests.org/
+    1. Obtain the latest distribution of xTests, from
+       https://github.com/synesissoftware/xTests/
 
     2. Unzip it to a directory of your choice, e.g ~/3pty/xtests-0.20.1
 
@@ -15,12 +15,12 @@ The following steps are required to install xTests:
        value is the directory in which you unzipped
        it, e.g. XTESTS_C_ROOT=~/3pty/xtests-0.20.1
 
-    4. Download the latest distribution of STLSoft, from http://stlsoft.org/
+    4. Download the latest distribution of STLSoft (see NOTE below)
 
-    5. Unzip it to a directory of your choice, e.g ~/3pty/stlsoft-1.9.134
+    5. Unzip it to a directory of your choice, e.g ~/3pty/stlsoft-1.10
 
     6. Define an environment variable STLSOFT, whose value is the directory
-       in which you unzipped it, e.g. STLSOFT=~/3pty/stlsoft-1.9.134
+       in which you unzipped it, e.g. STLSOFT=~/3pty/stlsoft-1.10
 
     7. Open a command shell in the appropriate directory that matches your
        compiler:
