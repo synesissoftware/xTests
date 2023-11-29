@@ -49,6 +49,10 @@ add_subdirectory(./test/scratch/test.scratch.verbosity_levels)
 
 
 install(
+	TARGETS xTests
+	)
+
+install(
     DIRECTORY ${CMAKE_SOURCE_DIR}/include/
     DESTINATION include
     FILES_MATCHING PATTERN "*.h*"
