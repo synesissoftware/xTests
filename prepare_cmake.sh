@@ -7,12 +7,23 @@ CMakePath=$Dir/_build
 
 
 CmakeVerboseMakefile=0
+Configuration=Release
 RunMake=0
+# STLSoftDirEnvVar=${STLSOFT}
+STLSoftDirGiven=
+
 
 while [[ $# -gt 0 ]]; do
     case $1 in
+        -d|--debug-configuration)
+            Configuration=Debug
+            ;;
         -m|--run-make)
             RunMake=1
+            ;;
+        -s|--stlsoft-root-dir)
+            shift
+            STLSoftDirGiven=$1
             ;;
         -v|--cmake-verbose-makefile)
             CmakeVerboseMakefile=1
@@ -29,9 +40,19 @@ Flags/options:
 
     behaviour:
 
+    -d
+    --debug-configuration
+        uses Debug configuration. Default is to use Release
+
     -m
     --run-make
         runs make after a successful running of Cmake
+
+    -s <dir>
+    --stlsoft-root-dir <dir>
+        specifies the STLSoft root-directory, which will be passed to CMake
+        as the variable STLSOFT, and which will override the environment
+        variable STLSOFT (if present)
 
     -v
     --cmake-verbose-makefile
@@ -70,8 +91,9 @@ cd $CMakePath
 echo "Executing CMake"
 
 if [ $CmakeVerboseMakefile -eq 0 ]; then CmakeVerboseMakefileFlag="OFF" ; else CmakeVerboseMakefileFlag="ON" ; fi
+if [ -z $STLSoftDirGiven ]; then CmakeSTLSoftVariable="" ; else CmakeSTLSoftVariable="-DSTLSOFT=$STLSoftDirGiven/" ; fi
 
-cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=$CmakeVerboseMakefileFlag .. || (cd ->/dev/null ; exit 1)
+cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=$CmakeVerboseMakefileFlag -DCMAKE_BUILD_TYPE=$Configuration $CmakeSTLSoftVariable .. || (cd ->/dev/null ; exit 1)
 
 if [ $RunMake -ne 0 ]; then
 

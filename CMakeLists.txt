@@ -4,19 +4,25 @@ cmake_minimum_required(VERSION 3.20)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-include_directories(include)
-
 project(xTests)
 
-# TODO: should change this to depend on an STLSoft CMake-project
-if(NOT DEFINED ENV{STLSOFT})
 
-	message(FATAL_ERROR "This build requires the environment variable STLSOFT be defined")
+include_directories(include)
+
+if(NOT DEFINED STLSOFT AND NOT DEFINED ENV{STLSOFT})
+
+	message(FATAL_ERROR "This build requires STLSOFT be defined as a CMake variable or an environment variable")
 else()
 
-	set(STLSOFT_INCLUDE_DIR $ENV{STLSOFT}/include)
+	if(DEFINED STLSOFT)
+		message("-- STLSOFT provided as CMake variable with value ${STLSOFT}")
 
-	message("including \$STLSOFT/include - '${STLSOFT_INCLUDE_DIR}'")
+		set(STLSOFT_INCLUDE_DIR ${STLSOFT}/include)
+	else()
+		message("-- STLSOFT provided as environment variable with value $ENV{STLSOFT}")
+
+		set(STLSOFT_INCLUDE_DIR $ENV{STLSOFT}/include)
+	endif()
 endif()
 
 include_directories(${STLSOFT_INCLUDE_DIR})

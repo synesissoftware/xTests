@@ -10,9 +10,9 @@ mkdir -p $CMakePath || exit 1
 
 cd $CMakePath
 
-echo "Executing CMake"
 
-cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON .. || (cd ->/dev/null ; exit 1)
+
+
 
 echo "Executing make"
 
