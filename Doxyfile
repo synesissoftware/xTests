@@ -946,6 +946,7 @@ WARN_LOGFILE           =
 INPUT                  = \
     examples/descriptors.cpp \
     include/xtests \
+    include/xtests/util \
     \
 
 # This tag can be used to specify the character encoding of the source files

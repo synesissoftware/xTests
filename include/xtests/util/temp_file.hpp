@@ -147,9 +147,10 @@ public: // Types
 private:
     typedef std::basic_string<char_type>                string_type_;
 public:
+    /// The traits type
     typedef platformstl::filesystem_traits<char_type>   fs_traits_type;
+    /// The file handle type
     typedef fs_traits_type::file_handle_type            file_handle_type;
-
 private:
     typedef fs_traits_type                              fs_traits_type_;
     typedef file_handle_type                            file_handle_type_;
@@ -164,6 +165,8 @@ public: // Construction
     /// and with the given contents
     ///
     /// @param flags A combination of \c Flags
+    /// @param pv Pointer to first byte in contents
+    /// @param cb Number of bytes in contents
     temp_file(
         Flags       flags
     ,   void const* pv
