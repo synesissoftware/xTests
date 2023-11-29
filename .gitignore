@@ -19,7 +19,8 @@ ReleaseUnix/
 /_build/
 /_internal/
 
-doc/
+/doc/
+/dox/
 
 ideas/
 
@@ -75,4 +76,5 @@ xtests-0.*-doc.chm
 *.tmp
 *.vcproj*.user
 *.vcxproj*.user
+*.zip
 
