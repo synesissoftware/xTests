@@ -65,9 +65,6 @@ Flags/options:
     --help
         displays this help and terminates
 
-    --version
-        displays version information and terminates
-
 EOF
 
             exit 0

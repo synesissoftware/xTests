@@ -182,7 +182,6 @@ public: // Construction
     temp_file(
         Flags       flags
     ,   int       (*pfn)(
-
             file_handle_type    h
         ,   void*               param
         ,   unsigned            num_calls
@@ -223,7 +222,6 @@ private: // Implementation
         Flags           flags
     ,   string_type_&   path
     ,   int           (*pfn)(
-
             file_handle_type    h
         ,   void*               param
         ,   unsigned            num_calls
@@ -563,7 +561,6 @@ temp_file::create_by_fn_(
     Flags           flags
 ,   string_type_&   path
 ,   int           (*pfn)(
-
         file_handle_type    h
     ,   void*               param
     ,   unsigned            num_calls
@@ -604,6 +601,7 @@ temp_file::create_by_fn_(
 
     stlsoft::scoped_handle<fs_traits_type_::file_handle_type> scoper(hFile, fs_traits_type_::close_file, fs_traits_type_::invalid_file_handle_value());
 
+
     // 2. Empty it, if required
 
     if (0 != (EmptyOnOpen & flags))
@@ -632,10 +630,12 @@ temp_file::create_by_fn_(
         }
     }
 
+
     if (0 != (CloseOnOpen & flags))
     {
         scoper.close();
     }
+
 
     return scoper.detach();
 }
@@ -669,7 +669,6 @@ inline
 /* explicit */ temp_file::temp_file(
     Flags       flags
 ,   int       (*pfn)(
-
         file_handle_type    h
     ,   void*               param
     ,   unsigned            num_calls

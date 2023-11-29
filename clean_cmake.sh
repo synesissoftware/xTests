@@ -14,9 +14,9 @@ echo "Executing make (clean)"
 
 make clean
 
-echo "Executing CMake"
 
-STLSOFT=${STLSOFT:-.} cmake -DCMAKE_BUILD_TYPE=Release .. || (cd ->/dev/null ; exit 1)
+
+
 
 cd ->/dev/null
 
