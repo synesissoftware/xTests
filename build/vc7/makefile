@@ -71,7 +71,7 @@ RC						=   rc
 
 # Includes
 
-INCLUDES_LEADER 	=	
+INCLUDES_LEADER 	=
 
 PROJ_INCLUDE		=	-I$(PROJ_INCLUDE_DIR)
 
@@ -172,7 +172,7 @@ $(CPPC_XTESTS_INCLUDES_BASE)\
 
 # Lib
 
-LIBS_LEADER 			=	
+LIBS_LEADER 			=
 
 # lib paths
 
@@ -217,7 +217,7 @@ CC_F_NOLOGO 			=	-nologo
 CC_F_COMPILE_ONLY		=	-c
 CC_F_WARNING_MAX		=	-W4
 CC_F_WARNING_ERR		=	-WX
-CC_F_WARNINGS_LIMIT		=	
+CC_F_WARNINGS_LIMIT		=
 CC_F_MINIMUM_SIZE		=	-O1
 #CC_F_MAXIMUM_SPEED		=	-O2
 CC_APP_F_WARNING_MAX	=	$(CC_F_WARNING_MAX)
@@ -229,10 +229,10 @@ CPPC_F_NOLOGO			=   -nologo
 CPPC_F_COMPILE_ONLY		=   -c
 CPPC_F_WARNING_MAX		=   -W4
 CPPC_F_WARNING_ERR		=   -WX
-CPPC_F_WARNINGS_LIMIT	=	
+CPPC_F_WARNINGS_LIMIT	=
 CPPC_F_MINIMUM_SIZE 	=	-O1
 #CPPC_F_MAXIMUM_SPEED	=	-O2
-CPPC_F_EXCEPTIONS		=	
+CPPC_F_EXCEPTIONS		=
 CPPC_F_NO_EXCEPTIONS	=	-wd4530
 CPPC_F_WITH_EXCEPTIONS	=	-EHsc
 CPPC_F_RTTI				=   -GR
@@ -1016,13 +1016,13 @@ test-all:				test.all
 # clean targets
 
 clean.libs.core:
-	@echo Cleaning Core libraries ...
+	@echo cleaning Core libraries ...
 	@-if exist core.*.obj $(RM) core.*.obj
 	@-if exist core.*.pdb $(RM) core.*.pdb
 	@-if exist $(PROJ_LIB_DIR)\$(PROJ_TAG_VER).core.$(COMP_TAG)*.lib $(RM) $(PROJ_LIB_DIR)\$(PROJ_TAG_VER).core.$(COMP_TAG)*.lib
 
 clean.libs.shwild:
-	@echo Cleaning shwild libraries ...
+	@echo cleaning shwild libraries ...
 	@-if exist shwild.*.obj $(RM) shwild.*.obj
 	@-if exist shwild.*.pdb $(RM) shwild.*.pdb
 	@-if exist $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_TAG)*.lib $(RM) $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_TAG)*.lib

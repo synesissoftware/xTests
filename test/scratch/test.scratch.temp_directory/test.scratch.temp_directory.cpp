@@ -1,19 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:        test.scratch.temp_directory.cpp
+ * File:    test.scratch.temp_directory.cpp
  *
- * Purpose:     Implementation file for the test.scratch.temp_directory project.
+ * Purpose: Use of `xtests::cpp::util::temp_directory`.
  *
- * Created:     1st October 2015
- * Updated:     12th October 2019
- *
- * Status:      Wizard-generated
- *
- * License:     (Licensed under the Synesis Software Open License)
- *
- *              Copyright (c) 2015-2019, Synesis Software Pty Ltd.
- *              All rights reserved.
- *
- *              www:        http://www.synesis.com.au/software
+ * Created: 1st October 2015
+ * Updated: 29th November 2023
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -50,15 +41,21 @@ using xtests::cpp::util::temp_directory;
 
 static int main_(int /*argc*/, char** /*argv*/)
 {
+    fprintf(stderr, "creating temporary directory ...\n");
+
     temp_directory  td(temp_directory::RemoveOnClose | temp_directory::EmptyOnClose);
 
     fprintf(stdout, "td: '%s'\n", td.c_str());
 
+    fprintf(stderr, "creating sub-directory ...\n");
+
 #if defined(PLATFORMSTL_OS_IS_WINDOWS)
     ::CreateDirectoryA((std::string(td.c_str()) + "\\abc").c_str(), NULL);
 #else
-    ::mkdir((std::string(td.c_str()) + "/abc").c_str());
+    ::mkdir((std::string(td.c_str()) + "/abc").c_str(), S_IRWXU);
 #endif
+
+    fprintf(stderr, "exiting ...\n");
 
     return EXIT_SUCCESS;
 }
@@ -115,3 +112,4 @@ int main(int argc, char** argv)
 }
 
 /* ///////////////////////////// end of file //////////////////////////// */
+

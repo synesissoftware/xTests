@@ -59,11 +59,11 @@ AR						=   ar
 LD						=   g++
 RM						=   rm -f
 CP						=   cp
-RC						=   
+RC						=
 
 # Includes
 
-INCLUDES_LEADER 	=	
+INCLUDES_LEADER 	=
 
 PROJ_INCLUDE		=	-I$(PROJ_INCLUDE_DIR)
 
@@ -148,7 +148,7 @@ $(CPPC_XTESTS_INCLUDES_BASE)\
 
 # Lib
 
-LIBS_LEADER 			=	
+LIBS_LEADER 			=
 
 # lib paths
 
@@ -166,10 +166,10 @@ LIBPATHS=\
 
 # lib names
 
-TARGET_LIB_MT_D	= 
-TARGET_LIB_MT_R	= 
-TARGET_LIB_ST_D	= 
-TARGET_LIB_ST_R	= 
+TARGET_LIB_MT_D	=
+TARGET_LIB_MT_R	=
+TARGET_LIB_ST_D	=
+TARGET_LIB_ST_R	=
 
 # #defines
 
@@ -187,11 +187,11 @@ CPPC_DEFS			=	$(COMMON_DEFS) $(CPPC_CUSTOM_DEFS)
 
 # CC flags
 
-CC_F_NOLOGO 			=	
+CC_F_NOLOGO 			=
 CC_F_COMPILE_ONLY		=	-c
 CC_F_WARNING_MAX		=	-Wall -pedantic -Wno-long-long -Wno-long-double -Wno-unused-value -Wno-unused-function -Wundef -Wendif-labels -Wshadow
 CC_F_WARNING_ERR		=	-Werror
-CC_F_WARNINGS_LIMIT		=	
+CC_F_WARNINGS_LIMIT		=
 CC_F_MINIMUM_SIZE		=	-O1
 #CC_F_MAXIMUM_SPEED		=	-O3
 CC_APP_F_WARNING_MAX	=	-Wall           -Wno-long-long -Wno-long-double -Wno-unused-value -Wno-unused-function -Wundef -Wendif-labels -Wshadow
@@ -199,17 +199,17 @@ CC_APP_F_WARNING_ERR	=	$(CC_F_WARNING_ERR)
 
 # CPPC flags
 
-CPPC_F_NOLOGO			=   
+CPPC_F_NOLOGO			=
 CPPC_F_COMPILE_ONLY		=   -c
 CPPC_F_WARNING_MAX		=   -Wall -pedantic -Wno-long-long -Wno-long-double -Wno-unused-value -Wno-unused-function
 CPPC_F_WARNING_ERR		=   -Werror
-CPPC_F_WARNINGS_LIMIT	=	
+CPPC_F_WARNINGS_LIMIT	=
 CPPC_F_MINIMUM_SIZE 	=	-O1
 #CPPC_F_MAXIMUM_SPEED	=	-O3
-CPPC_F_EXCEPTIONS		=	
-CPPC_F_NO_EXCEPTIONS	=	
-CPPC_F_WITH_EXCEPTIONS	=	
-CPPC_F_RTTI				=   
+CPPC_F_EXCEPTIONS		=
+CPPC_F_NO_EXCEPTIONS	=
+CPPC_F_WITH_EXCEPTIONS	=
+CPPC_F_RTTI				=
 CPPC_APP_F_WARNING_MAX	=	-Wall           -Wno-long-long -Wno-long-double -Wno-unused-value -Wno-unused-function
 CPPC_APP_F_WARNING_ERR	=	$(CPPC_F_WARNING_ERR)
 
@@ -393,12 +393,12 @@ CPPC_TEST_UNIT_ARGS_ST_R			=	$(CPPC_TEST_UNIT_FLAGS) -DNDEBUG -U_DEBUG  $(CPPC_D
 
 # AR args
 
-AR_ARGS 			=	
+AR_ARGS 			=
 
 
 # LD flags
 
-LD_F_NOLOGO				=   
+LD_F_NOLOGO				=
 
 # LD args
 
@@ -843,7 +843,7 @@ test-all:				test.all
 # clean targets
 
 clean.libs.core:
-	@echo Cleaning Core libraries ...
+	@echo cleaning Core libraries ...
 	@-$(RM) $(LIB_CORE_MT_D)
 	@-$(RM) $(LIB_UTIL_MT_D)
 	@-$(RM) $(LIB_CORE_MT_R)
@@ -862,7 +862,7 @@ clean.libs.core:
 	@-$(RM) $(OBJ_UTIL_ST_R)
 
 clean.libs.shwild:
-	@echo Cleaning shwild libraries ...
+	@echo cleaning shwild libraries ...
 	@-$(RM) $(LIB_SHWILD_MT_D)
 	@-$(RM) $(LIB_SHWILD_MT_R)
 	@-$(RM) $(LIB_SHWILD_ST_D)

@@ -1,7 +1,7 @@
 xTests - Changes
 ================
 
-Updated:    30th July 2020
+Updated:    30th November 2023
 
 
     ************************************
@@ -13,6 +13,20 @@ Updated:    30th July 2020
     *  *  means a general bullet-point *
     *                                  *
     ************************************
+
+
+30th November 2023 - 0.20.3
+===========================
+
+Summary:
+--------
+
+ * added CMake support
+ * added Doxygen
+ * added makefile(s) for GCC generic version
+ * fix to xtests::cpp::util::temp_directory
+ * fix defect in example
+
 
 
 30th July 2020 - 0.20.2
@@ -342,7 +356,7 @@ Core:
  ~ src/xtests.core.cpp:
     ~ forward compatibility with STLSoft 1.12
     ~ fixed nasty nested loop variable hiding (that Clang refused to chew)
-    + handlers for failure (such as by filesystem_exception thrown by temp_directory / temp_file) 
+    + handlers for failure (such as by filesystem_exception thrown by temp_directory / temp_file)
 
  + src/xtests.internal.exception_macros.hpp:
     ~ Clang compatibility
@@ -585,7 +599,7 @@ Makefiles / Project-files:
  + build/vc11.unixem/makefile:
  + build/vc11.x64/makefile:
  + build/vc11/makefile:
-    + VC++ 11 
+    + VC++ 11
 
 Examples:
 
@@ -846,9 +860,9 @@ Details:
 General:
 
  ~ include/xtests/xtests.h:
-	+ XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE
+   + XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE
     + XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE
-	+ XTESTS_ARRAY_END_POST
+   + XTESTS_ARRAY_END_POST
     ~ VC6 compatibility for signed __int16, unsigned __int16, & signed __int1632
 
 Core:

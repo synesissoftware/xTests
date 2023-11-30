@@ -1,13 +1,14 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:        xtests/util/temp_file.hpp
+ * File:    xtests/util/temp_file.hpp
  *
- * Purpose:     Definition of the temp_file class.
+ * Purpose: Definition of the temp_file class.
  *
- * Created:     8th May 2014
- * Updated:     16th March 2019
+ * Created: 8th May 2014
+ * Updated: 29th November 2023
  *
- * Home:        http://stlsoft.org/
+ * Home:    https://github.com/synesissoftware/xTests/
  *
+ * Copyright (c) 2019-2023, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 2014-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -16,13 +17,13 @@
  * met:
  *
  * - Redistributions of source code must retain the above copyright notice,
- *   this list of conditions and the following disclaimer.
+ *   this list of conditions and the following disclaimer;
  * - Redistributions in binary form must reproduce the above copyright
  *   notice, this list of conditions and the following disclaimer in the
- *   documentation and/or other materials provided with the distribution.
- * - Neither the name(s) of Matthew Wilson and Synesis Software nor the
- *   names of any contributors may be used to endorse or promote products
- *   derived from this software without specific prior written permission.
+ *   documentation and/or other materials provided with the distribution;
+ * - Neither the name of the copyright holder nor the names of its
+ *   ontributors may be used to endorse or promote products derived from
+ *   this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -51,7 +52,7 @@
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MAJOR     0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     2
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  1
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      15
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      16
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -133,11 +134,11 @@ public: // Types
     enum Flags
     {
             None            =   0
-        ,   DeleteOnClose   =   0x0002
-        ,   EmptyOnOpen     =   0x0004
-        ,   EmptyOnClose    =   0x0008
-        ,   DeleteOnOpen    =   0x0010
-        ,   CloseOnOpen     =   0x0020
+        ,   DeleteOnClose   =   0x0002  /*!< causes the file to be deleted upon destruction */
+        ,   EmptyOnOpen     =   0x0004  /*!< causes the file to be emptied upon construction */
+        ,   EmptyOnClose    =   0x0008  /*!< causes the file to be emptied upon destruction */
+        ,   DeleteOnOpen    =   0x0010  /*!< causes the file to be deletec upon construction */
+        ,   CloseOnOpen     =   0x0020  /*!< causes the file to be closed upon construction */
     };
 
     /// Exception type
@@ -146,9 +147,10 @@ public: // Types
 private:
     typedef std::basic_string<char_type>                string_type_;
 public:
+    /// The traits type
     typedef platformstl::filesystem_traits<char_type>   fs_traits_type;
+    /// The file handle type
     typedef fs_traits_type::file_handle_type            file_handle_type;
-
 private:
     typedef fs_traits_type                              fs_traits_type_;
     typedef file_handle_type                            file_handle_type_;
@@ -163,6 +165,8 @@ public: // Construction
     /// and with the given contents
     ///
     /// @param flags A combination of \c Flags
+    /// @param pv Pointer to first byte in contents
+    /// @param cb Number of bytes in contents
     temp_file(
         Flags       flags
     ,   void const* pv
@@ -178,7 +182,6 @@ public: // Construction
     temp_file(
         Flags       flags
     ,   int       (*pfn)(
-
             file_handle_type    h
         ,   void*               param
         ,   unsigned            num_calls
@@ -219,7 +222,6 @@ private: // Implementation
         Flags           flags
     ,   string_type_&   path
     ,   int           (*pfn)(
-
             file_handle_type    h
         ,   void*               param
         ,   unsigned            num_calls
@@ -321,7 +323,7 @@ temp_file::empty_file_(
 {
 #if defined(PLATFORMSTL_OS_IS_WINDOWS)
 
-    if( INVALID_SET_FILE_POINTER == ::SetFilePointer(hFile, 0, NULL, SEEK_SET) ||
+    if (INVALID_SET_FILE_POINTER == ::SetFilePointer(hFile, 0, NULL, SEEK_SET) ||
         !::SetEndOfFile(hFile))
     {
         DWORD const e = ::GetLastError();
@@ -332,7 +334,7 @@ temp_file::empty_file_(
     return ERROR_SUCCESS;
 #else
 
-    if(off_t(-1) == ::lseek(hFile, SEEK_SET, 0))
+    if (off_t(-1) == ::lseek(hFile, SEEK_SET, 0))
     {
         return errno;
     }
@@ -377,15 +379,15 @@ temp_file::create_file_(
 
         size_t n1 = fs_traits_type_::expand_environment_strings(root, NULL, 0);
 
-        if(0 != n1)
+        if (0 != n1)
         {
-            if(buff.resize(n1))
+            if (buff.resize(n1))
             {
                 size_t const n2 = fs_traits_type_::expand_environment_strings(root, &buff[0], buff.size() + (1 + comstl::COMSTL_CCH_GUID));
 
-                if(0 != n2)
+                if (0 != n2)
                 {
-                    if(n2 < buff.size() - (1 + comstl::COMSTL_CCH_GUID))
+                    if (n2 < buff.size() - (1 + comstl::COMSTL_CCH_GUID))
                     {
                         fs_traits_type_::ensure_dir_end(&buff[0] + (n2 - 2));
 
@@ -397,7 +399,7 @@ temp_file::create_file_(
 
                         file_handle_type_ const hFile = fs_traits_type_::create_file(buff.data(), GENERIC_WRITE, 0, NULL, CREATE_NEW, 0, NULL);
 
-                        if(fs_traits_type_::invalid_file_handle_value() != hFile)
+                        if (fs_traits_type_::invalid_file_handle_value() != hFile)
                         {
                             path.assign(buff.data(), n3 + comstl::COMSTL_CCH_GUID);
 
@@ -429,7 +431,7 @@ temp_file::create_file_(
 
     int f;
 
-    if(-1 != (f = ::mkstemp(tmp_path)))
+    if (-1 != (f = ::mkstemp(tmp_path)))
     {
         file_handle_type_ const hFile = fs_traits_type_::open_file(tmp_path, O_WRONLY | O_CREAT | O_TRUNC, S_IWRITE);
 
@@ -439,7 +441,7 @@ temp_file::create_file_(
 
         errno = e;
 
-        if(fs_traits_type_::invalid_file_handle_value() != hFile)
+        if (fs_traits_type_::invalid_file_handle_value() != hFile)
         {
             path = tmp_path;
 
@@ -482,14 +484,14 @@ temp_file::create_(
     file_handle_type_ const hFile = create_file_(path);
 
 
-    if(fs_traits_type_::invalid_file_handle_value() == hFile)
+    if (fs_traits_type_::invalid_file_handle_value() == hFile)
     {
         fs_traits_type_::result_code_type const rc = fs_traits_type_::get_last_error();
 
         throw could_not_create_temporary_file_exception(rc, "could not create file");
     }
 
-    if(0 != (DeleteOnOpen & flags))
+    if (0 != (DeleteOnOpen & flags))
     {
         fs_traits_type_::close_file(hFile);
 
@@ -503,11 +505,11 @@ temp_file::create_(
 
     // 2. Empty it, if required
 
-    if(0 != (EmptyOnOpen & flags))
+    if (0 != (EmptyOnOpen & flags))
     {
         fs_traits_type_::result_code_type const rc = empty_file_(hFile);
 
-        if(0 != rc)
+        if (0 != rc)
         {
             throw could_not_create_temporary_file_exception(rc, "could not reset contents of temporary file");
         }
@@ -515,14 +517,14 @@ temp_file::create_(
 
     // 3. Write the contents, if specified
 
-    if(0 != cb)
+    if (0 != cb)
     {
 # if 0
 # elif defined(PLATFORMSTL_OS_IS_UNIX)
 
         int const r = write(hFile, pv, static_cast<unsigned int>(cb));
 
-        if(r < 0)
+        if (r < 0)
         {
             int const e = errno;
 
@@ -533,7 +535,7 @@ temp_file::create_(
 
         DWORD numWritten;
 
-        if(!::WriteFile(hFile, pv, stlsoft::truncation_cast<DWORD>(cb), &numWritten, NULL))
+        if (!::WriteFile(hFile, pv, stlsoft::truncation_cast<DWORD>(cb), &numWritten, NULL))
         {
             DWORD const e = ::GetLastError();
 
@@ -544,7 +546,7 @@ temp_file::create_(
 # endif
     }
 
-    if(0 != (CloseOnOpen & flags))
+    if (0 != (CloseOnOpen & flags))
     {
         scoper.close();
     }
@@ -559,7 +561,6 @@ temp_file::create_by_fn_(
     Flags           flags
 ,   string_type_&   path
 ,   int           (*pfn)(
-
         file_handle_type    h
     ,   void*               param
     ,   unsigned            num_calls
@@ -581,14 +582,14 @@ temp_file::create_by_fn_(
     file_handle_type_ const hFile = create_file_(path);
 
 
-    if(fs_traits_type_::invalid_file_handle_value() == hFile)
+    if (fs_traits_type_::invalid_file_handle_value() == hFile)
     {
         fs_traits_type_::result_code_type const rc = fs_traits_type_::get_last_error();
 
         throw could_not_create_temporary_file_exception(rc, "could not create file");
     }
 
-    if(0 != (DeleteOnOpen & flags))
+    if (0 != (DeleteOnOpen & flags))
     {
         fs_traits_type_::close_file(hFile);
 
@@ -600,13 +601,14 @@ temp_file::create_by_fn_(
 
     stlsoft::scoped_handle<fs_traits_type_::file_handle_type> scoper(hFile, fs_traits_type_::close_file, fs_traits_type_::invalid_file_handle_value());
 
+
     // 2. Empty it, if required
 
-    if(0 != (EmptyOnOpen & flags))
+    if (0 != (EmptyOnOpen & flags))
     {
         fs_traits_type_::result_code_type const rc = empty_file_(hFile);
 
-        if(0 != rc)
+        if (0 != rc)
         {
             throw could_not_create_temporary_file_exception(rc, "could not reset contents of temporary file");
         }
@@ -615,23 +617,25 @@ temp_file::create_by_fn_(
 
     // 3. Write the contents, if specified
 
-    if(NULL != pfn)
+    if (NULL != pfn)
     {
         for(unsigned num_calls = 0;; ++num_calls)
         {
             int const r = (*pfn)(hFile, param, num_calls);
 
-            if(0 == r)
+            if (0 == r)
             {
                 break;
             }
         }
     }
 
-    if(0 != (CloseOnOpen & flags))
+
+    if (0 != (CloseOnOpen & flags))
     {
         scoper.close();
     }
+
 
     return scoper.detach();
 }
@@ -665,7 +669,6 @@ inline
 /* explicit */ temp_file::temp_file(
     Flags       flags
 ,   int       (*pfn)(
-
         file_handle_type    h
     ,   void*               param
     ,   unsigned            num_calls
@@ -682,17 +685,17 @@ inline
 inline
 temp_file::~temp_file() STLSOFT_NOEXCEPT
 {
-    if(0 != (EmptyOnClose & m_flags))
+    if (0 != (EmptyOnClose & m_flags))
     {
         empty_file_(m_hFile);
     }
 
-    if(fs_traits_type_::invalid_file_handle_value() != m_hFile)
+    if (fs_traits_type_::invalid_file_handle_value() != m_hFile)
     {
         fs_traits_type_::close_file(m_hFile);
     }
 
-    if(0 != (DeleteOnClose & m_flags))
+    if (0 != (DeleteOnClose & m_flags))
     {
         fs_traits_type_::delete_file(m_path.c_str());
     }
@@ -864,3 +867,4 @@ namespace stlsoft
 #endif /* XTESTS_INCL_XTESTS_UTIL_HPP_TEMP_FILE */
 
 /* ///////////////////////////// end of file //////////////////////////// */
+

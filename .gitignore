@@ -1,6 +1,8 @@
 
 # directories (by name)
 
+/bin/
+
 Debug/
 DebugMt/
 Debug Multithreaded/
@@ -14,9 +16,11 @@ Release Multithreaded Dll/
 ReleaseNox/
 ReleaseUnix/
 
-_internal/
+/_build/
+/_internal/
 
-doc/
+/doc/
+/dox/
 
 ideas/
 
@@ -32,6 +36,8 @@ x64/
 # directories (by pattern)
 
 # files (by name)
+
+.DS_Store
 
 .update_deps
 
@@ -70,4 +76,5 @@ xtests-0.*-doc.chm
 *.tmp
 *.vcproj*.user
 *.vcxproj*.user
+*.zip
 

@@ -1,7 +1,17 @@
-xTests - History
-================
+# xTests - History
 
-Updated:    30th July 2020
+
+Updated:    30th November 2023
+
+
+30th November 2023 - 0.20.3
+---------------------------
+
+ * added CMake support
+ * added Doxygen
+ * added makefile(s) for GCC generic version
+ * fix to xtests::cpp::util::temp_directory
+ * fix defect in example
 
 
 30th July 2020 - 0.20.2
@@ -297,7 +307,7 @@ Updated:    30th July 2020
 20th May 2008 - 0.7.3
 ---------------------
 
- * minor weakening of string comparison 
+ * minor weakening of string comparison
  * bundles shwild 0.9.17
 
 11th May 2008 - 0.7.2
@@ -313,7 +323,7 @@ Updated:    30th July 2020
 29th April 2008 - 0.6.5
 -----------------------
 
- * added compatibity with heterogeneous string types to 
+ * added compatibity with heterogeneous string types to
    xtests_writeFailMessage()
 
 25th April 2008 - 0.6.4
