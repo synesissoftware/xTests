@@ -1,14 +1,5 @@
-xTests - TODO lists
-===================
+# xTests - TODO list
 
-Updated:    30th November 2023
-
-
-
-xTests 0.20 TODOs:
-=================
-
-<none>
-
-=============================== end of file ================================
+* **CMake** build setup should be able to infer **STLSoft** if available via
+  a **CMake** find mechanism (e.g. `find_package()`)
 
