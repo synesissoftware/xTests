@@ -6,7 +6,7 @@
 #           on the UNIX platform
 #
 # Created:  16th December 2007
-# Updated:  29th November 2023
+# Updated:  30th November 2023
 #
 ############################################################################
 
@@ -33,7 +33,7 @@
 # project & compiler version
 
 COMP_TAG            =   vc9
-ARCH_TAG            =   
+ARCH_TAG            =
 OS_TAG              =   .unix
 PROJ_TAG			=	xtests
 PROJ_VER_MAJOR      =   0
@@ -43,12 +43,6 @@ COMP_ARCH_OS_TAG    =   $(COMP_TAG)$(OS_TAG)$(ARCH_TAG)
 
 ########################################
 # dependencies
-
-SHWILD_VER_MAJOR    =   0
-SHWILD_TAG_VER      =   shwild.$(SHWILD_VER_MAJOR)
-
-XCOVER_VER_MAJOR    =   0
-XCOVER_TAG_VER      =   xcover.$(XCOVER_VER_MAJOR)
 
 UNIXEM_VER_MAJOR    =   1
 UNIXEM_TAG_VER      =   unixem.$(XTESTS_VER_MAJOR)
@@ -83,7 +77,7 @@ PROJ_TEST_UNIT_DIR      =   $(PROJ_TEST_ROOT_DIR)\unit
 ########################################
 # 3rd-party directories
 
-SHWILD_PROJ_INCLUDE		=	
+SHWILD_PROJ_INCLUDE		=
 !ifdef XTESTS_SHWILD_BASE_DIR
 SHWILD_INCLUDE_DIR		=   $(XTESTS_SHWILD_BASE_DIR)\include
 SHWILD_SRC_DIR			=   $(XTESTS_SHWILD_BASE_DIR)\src
@@ -110,7 +104,7 @@ RC                      =   rc
 ########################################
 # includes
 
-INCLUDES_LEADER         =   
+INCLUDES_LEADER         =
 
 PROJ_INCLUDE            =   -I$(PROJ_INCLUDE_DIR)
 
@@ -278,13 +272,13 @@ CPPC_DEFS_UX_MT_R =\
 
 CC_F_NOLOGO             =   -nologo
 CC_F_COMPILE_ONLY       =   -c
-CC_F_FORCE_INCLUDE      =   
+CC_F_FORCE_INCLUDE      =
 CC_F_WARNING_MAX        =   -W4
 CC_F_WARNING_ERR        =   -WX
 CC_F_MINIMUM_SIZE       =   -O1
 CC_F_MAXIMUM_SPEED      =   -O2
 
-CC_TOOL_FLAGS           =   
+CC_TOOL_FLAGS           =
 
 CC_FLAGS_BASE =\
  $(CC_TOOL_FLAGS)\
@@ -307,19 +301,19 @@ CC_FLAGS_UX_MT_R =\
 
 CPPC_F_NOLOGO           =   -nologo
 CPPC_F_COMPILE_ONLY     =   -c
-CPPC_F_FORCE_INCLUDE    =   
+CPPC_F_FORCE_INCLUDE    =
 CPPC_F_WARNING_MAX      =   -W4
 CPPC_F_WARNING_ERR      =   -WX
 CPPC_F_EXCEPTIONS_ON    =   -EHsc
 CPPC_F_EXCEPTIONS_OFF   =   -wd4530
-CPPC_F_EXCEPTIONS       =   
+CPPC_F_EXCEPTIONS       =
 CPPC_F_RTTI_ON          =   -GR
 CPPC_F_RTTI_OFF         =   -GR-
-CPPC_F_RTTI             =   
+CPPC_F_RTTI             =
 CPPC_F_MINIMUM_SIZE     =   -O1
 CPPC_F_MAXIMUM_SPEED    =   -O2
 
-CPPC_TOOL_FLAGS         =   
+CPPC_TOOL_FLAGS         =
 
 CPPC_FLAGS_BASE =\
  $(CPPC_TOOL_FLAGS)\
@@ -429,7 +423,7 @@ LD_FLAGS_UX_MT_R =\
 
 LIBPATHS_ENV            =
 
-LIBPATHS_COMMON         =   -libpath:$(SYNESIS_DEV)/lib 
+LIBPATHS_COMMON         =   -libpath:$(SYNESIS_DEV)/lib
 
 LIBPATHS_3PTY           =\
  -libpath:"$(PTHREADS_WIN32)\lib"\
@@ -506,43 +500,6 @@ OBJS_CORE_UX_MT_R=\
 OBJS_CORE=\
  $(OBJS_CORE_UX_MT_D)\
  $(OBJS_CORE_UX_MT_R)\
- \
-
-# shwild - testing only
-
-OBJ_shw_api_UX_MT_D          =   $(PROJ_OBJ_DIR)\shwild.api.mt.debug.obj
-OBJ_shw_matches_UX_MT_D      =   $(PROJ_OBJ_DIR)\shwild.matches.mt.debug.obj
-OBJ_shw_pattern_UX_MT_D      =   $(PROJ_OBJ_DIR)\shwild.pattern.mt.debug.obj
-PDB_shw_api_UX_MT_D          =   $(PROJ_OBJ_DIR)\shwild.api.mt.debug.pdb
-PDB_shw_matches_UX_MT_D      =   $(PROJ_OBJ_DIR)\shwild.matches.mt.debug.pdb
-PDB_shw_pattern_UX_MT_D      =   $(PROJ_OBJ_DIR)\shwild.pattern.mt.debug.pdb
-
-OBJS_SHWILD_UX_MT_D=\
- $(OBJ_shw_api_UX_MT_D)\
- $(OBJ_shw_matches_UX_MT_D)\
- $(OBJ_shw_pattern_UX_MT_D)\
- \
-
-PDBS_SHWILD_UX_MT_D=\
- $(PDB_shw_api_UX_MT_D)\
- $(PDB_shw_matches_UX_MT_D)\
- $(PDB_shw_pattern_UX_MT_D)\
- \
-
-OBJ_shw_api_UX_MT_R          =   $(PROJ_OBJ_DIR)\shwild.api.mt.obj
-OBJ_shw_matches_UX_MT_R      =   $(PROJ_OBJ_DIR)\shwild.matches.mt.obj
-OBJ_shw_pattern_UX_MT_R      =   $(PROJ_OBJ_DIR)\shwild.pattern.mt.obj
-
-OBJS_SHWILD_UX_MT_R=\
- $(OBJ_shw_api_UX_MT_R)\
- $(OBJ_shw_matches_UX_MT_R)\
- $(OBJ_shw_pattern_UX_MT_R)\
- \
-
-
-OBJS_SHWILD=\
- $(OBJS_SHWILD_UX_MT_D)\
- $(OBJS_SHWILD_UX_MT_R)\
  \
 
 # *
@@ -707,16 +664,6 @@ LIB_CORE_UN_UX_MT_R				=	$(PROJ_LIB_DIR)\$(PROJ_TAG).$(COMP_TAG).mt.lib
 TARGETS_LIB_CORE=\
  $(LIB_CORE_UX_MT_D)\
  $(LIB_CORE_UX_MT_R)\
- \
-
-# shwild - testing only
-
-LIB_SHWILD_UX_MT_D               =   $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).mt.debug.lib
-LIB_SHWILD_UX_MT_R               =   $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).mt.lib
-
-TARGETS_LIB_SHWILD=\
- $(LIB_SHWILD_UX_MT_D)\
- $(LIB_SHWILD_UX_MT_R)\
  \
 
 # *
@@ -915,7 +862,7 @@ test-all:				test.all
 # clean targets
 
 clean.libs.core:
-	@echo Cleaning Core libraries ...
+	@echo cleaning Core libraries ...
 	@-if exist $(LIB_CORE_UX_MT_D) $(RM) $(LIB_CORE_UX_MT_D)
 	@-if exist $(LIB_CORE_UN_UX_MT_D) $(RM) $(LIB_CORE_UN_UX_MT_D)
 	@-if exist $(LIB_CORE_UX_MT_R) $(RM) $(LIB_CORE_UX_MT_R)
@@ -925,7 +872,7 @@ clean.libs.core:
 	@-if exist $(OBJS_CORE_UX_MT_R) $(RM) $(OBJS_CORE_UX_MT_R)
 
 clean.libs.shwild:
-	@echo Cleaning shwild libraries ...
+	@echo cleaning shwild libraries ...
 	@-if exist $(LIB_SHWILD_UX_MT_D) $(RM) $(LIB_SHWILD_UX_MT_D)
 	@-if exist $(LIB_SHWILD_UX_MT_R) $(RM) $(LIB_SHWILD_UX_MT_R)
 	@-if exist $(OBJ_shw_api_UX_MT_D) $(RM) $(OBJ_shw_api_UX_MT_D)

@@ -6,7 +6,7 @@
 #           on the Win32 platform
 #
 # Created:  16th December 2007
-# Updated:  29th November 2023
+# Updated:  30th November 2023
 #
 ############################################################################
 
@@ -25,8 +25,8 @@ endif # !STLSOFT
 # project & compiler version
 
 COMP_TAG            =   gcc34
-ARCH_TAG            =   
-OS_TAG              =   
+ARCH_TAG            =
+OS_TAG              =
 PROJ_TAG			=	xtests
 PROJ_VER_MAJOR      =   0
 PROJ_MOD_TAG        =   core
@@ -35,12 +35,6 @@ COMP_ARCH_OS_TAG    =   $(COMP_TAG)$(OS_TAG)$(ARCH_TAG)
 
 ########################################
 # dependencies
-
-SHWILD_VER_MAJOR    =   0
-SHWILD_TAG_VER      =   shwild.$(SHWILD_VER_MAJOR)
-
-XCOVER_VER_MAJOR    =   0
-XCOVER_TAG_VER      =   xcover.$(XCOVER_VER_MAJOR)
 
 PROJ_MAKEFILE_NAME  =   makefile
 
@@ -72,7 +66,7 @@ PROJ_TEST_UNIT_DIR      =   $(PROJ_TEST_ROOT_DIR)\unit
 ########################################
 # 3rd-party directories
 
-SHWILD_PROJ_INCLUDE		=	
+SHWILD_PROJ_INCLUDE		=
 ifdef XTESTS_SHWILD_BASE_DIR
 SHWILD_INCLUDE_DIR		=   $(XTESTS_SHWILD_BASE_DIR)\include
 SHWILD_SRC_DIR			=   $(XTESTS_SHWILD_BASE_DIR)\src
@@ -99,7 +93,7 @@ RC                      =   rc
 ########################################
 # includes
 
-INCLUDES_LEADER         =   
+INCLUDES_LEADER         =
 
 PROJ_INCLUDE            =   -I$(PROJ_INCLUDE_DIR)
 
@@ -327,15 +321,15 @@ CPPC_DEFS_ST_R =\
 
 # CC
 
-CC_F_NOLOGO             =   
+CC_F_NOLOGO             =
 CC_F_COMPILE_ONLY       =   -c
-CC_F_FORCE_INCLUDE      =   
+CC_F_FORCE_INCLUDE      =
 CC_F_WARNING_MAX        =   -Wall -pedantic -Wno-long-long -Wno-unused-value -Wundef -Wshadow
 CC_F_WARNING_ERR        =   -Werror
 CC_F_MINIMUM_SIZE       =   -O1
 CC_F_MAXIMUM_SPEED      =   -O3
 
-CC_TOOL_FLAGS           =   
+CC_TOOL_FLAGS           =
 
 CC_FLAGS_BASE =\
  $(CC_TOOL_FLAGS)\
@@ -364,21 +358,21 @@ CC_FLAGS_ST_R =\
 
 #CPPC
 
-CPPC_F_NOLOGO           =   
+CPPC_F_NOLOGO           =
 CPPC_F_COMPILE_ONLY     =   -c
-CPPC_F_FORCE_INCLUDE    =   
+CPPC_F_FORCE_INCLUDE    =
 CPPC_F_WARNING_MAX      =   -Wall -pedantic -Wno-long-long -Wno-unused-value -Wno-non-virtual-dtor
 CPPC_F_WARNING_ERR      =   -Werror
-CPPC_F_EXCEPTIONS_ON    =   
-CPPC_F_EXCEPTIONS_OFF   =   
+CPPC_F_EXCEPTIONS_ON    =
+CPPC_F_EXCEPTIONS_OFF   =
 CPPC_F_EXCEPTIONS       =   $(CPPC_F_EXCEPTIONS_ON)
-CPPC_F_RTTI_ON          =   
-CPPC_F_RTTI_OFF         =   
+CPPC_F_RTTI_ON          =
+CPPC_F_RTTI_OFF         =
 CPPC_F_RTTI             =   $(CPPC_F_RTTI_ON)
 CPPC_F_MINIMUM_SIZE     =   -O1
 CPPC_F_MAXIMUM_SPEED    =   -O3
 
-CPPC_TOOL_FLAGS         =   
+CPPC_TOOL_FLAGS         =
 
 CPPC_FLAGS_BASE =\
  $(CPPC_TOOL_FLAGS)\
@@ -512,9 +506,9 @@ CPPC_ARGS_ST_R_TEST=\
 ############################################################
 # archiver
 
-AR_F_NOLOGO             =   
+AR_F_NOLOGO             =
 
-AR_ARGS                 =   
+AR_ARGS                 =
 
 ############################################################
 # linker
@@ -522,7 +516,7 @@ AR_ARGS                 =
 ########################################
 # flags
 
-LD_F_NOLOGO             =   
+LD_F_NOLOGO             =
 
 LD_FLAGS_BASE           =\
  $(LD_F_NOLOGO)\
@@ -638,56 +632,6 @@ OBJS_CORE=\
  $(OBJS_CORE_MT_R)\
  $(OBJS_CORE_ST_D)\
  $(OBJS_CORE_ST_R)\
- \
-
-# shwild - testing only
-
-OBJ_shw_api_MT_D          =   $(PROJ_OBJ_DIR)\shwild.api.mt.debug.obj
-OBJ_shw_matches_MT_D      =   $(PROJ_OBJ_DIR)\shwild.matches.mt.debug.obj
-OBJ_shw_pattern_MT_D      =   $(PROJ_OBJ_DIR)\shwild.pattern.mt.debug.obj
-
-OBJS_SHWILD_MT_D=\
- $(OBJ_shw_api_MT_D)\
- $(OBJ_shw_matches_MT_D)\
- $(OBJ_shw_pattern_MT_D)\
- \
-
-OBJ_shw_api_MT_R          =   $(PROJ_OBJ_DIR)\shwild.api.mt.obj
-OBJ_shw_matches_MT_R      =   $(PROJ_OBJ_DIR)\shwild.matches.mt.obj
-OBJ_shw_pattern_MT_R      =   $(PROJ_OBJ_DIR)\shwild.pattern.mt.obj
-
-OBJS_SHWILD_MT_R=\
- $(OBJ_shw_api_MT_R)\
- $(OBJ_shw_matches_MT_R)\
- $(OBJ_shw_pattern_MT_R)\
- \
-
-OBJ_shw_api_ST_D          =   $(PROJ_OBJ_DIR)\shwild.api.debug.obj
-OBJ_shw_matches_ST_D      =   $(PROJ_OBJ_DIR)\shwild.matches.debug.obj
-OBJ_shw_pattern_ST_D      =   $(PROJ_OBJ_DIR)\shwild.pattern.debug.obj
-
-OBJS_SHWILD_ST_D=\
- $(OBJ_shw_api_ST_D)\
- $(OBJ_shw_matches_ST_D)\
- $(OBJ_shw_pattern_ST_D)\
- \
-
-OBJ_shw_api_ST_R          =   $(PROJ_OBJ_DIR)\shwild.api.obj
-OBJ_shw_matches_ST_R      =   $(PROJ_OBJ_DIR)\shwild.matches.obj
-OBJ_shw_pattern_ST_R      =   $(PROJ_OBJ_DIR)\shwild.pattern.obj
-
-OBJS_SHWILD_ST_R=\
- $(OBJ_shw_api_ST_R)\
- $(OBJ_shw_matches_ST_R)\
- $(OBJ_shw_pattern_ST_R)\
- \
-
-
-OBJS_SHWILD=\
- $(OBJS_SHWILD_MT_D)\
- $(OBJS_SHWILD_MT_R)\
- $(OBJS_SHWILD_ST_D)\
- $(OBJS_SHWILD_ST_R)\
  \
 
 # *
@@ -938,20 +882,6 @@ TARGETS_LIB_CORE=\
  $(LIB_CORE_ST_R)\
  \
 
-# shwild - testing only
-
-LIB_SHWILD_MT_D               =   $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).mt.debug.lib
-LIB_SHWILD_MT_R               =   $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).mt.lib
-LIB_SHWILD_ST_D               =   $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).debug.lib
-LIB_SHWILD_ST_R               =   $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).lib
-
-TARGETS_LIB_SHWILD=\
- $(LIB_SHWILD_MT_D)\
- $(LIB_SHWILD_MT_R)\
- $(LIB_SHWILD_ST_D)\
- $(LIB_SHWILD_ST_R)\
- \
-
 # *
 
 TARGETS_LIB_ALL=\
@@ -1174,7 +1104,7 @@ test-all:				test.all
 # clean targets
 
 clean.libs.core:
-	@echo Cleaning Core libraries ...
+	@echo cleaning Core libraries ...
 	@-if exist $(LIB_CORE_MT_D) $(RM) $(LIB_CORE_MT_D)
 	@-if exist $(LIB_CORE_UN_MT_D) $(RM) $(LIB_CORE_UN_MT_D)
 	@-if exist $(LIB_CORE_MT_R) $(RM) $(LIB_CORE_MT_R)
@@ -1188,7 +1118,7 @@ clean.libs.core:
 	@-if exist $(PROJ_LIB_DIR)\$(PROJ_TAG_VER).$(COMP_ARCH_OS_TAG)*.lib $(RM) $(PROJ_LIB_DIR)\$(PROJ_TAG_VER).$(COMP_ARCH_OS_TAG)*.lib
 
 clean.libs.shwild:
-	@echo Cleaning shwild libraries ...
+	@echo cleaning shwild libraries ...
 	@-if exist shwild.*.obj $(RM) shwild.*.obj
 	@-if exist $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG)*.lib $(RM) $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG)*.lib
 

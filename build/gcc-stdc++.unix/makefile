@@ -5,8 +5,8 @@
 #           for the GCC compiler assuming generic C++ support,
 #           on the UNIX platform
 #
-# Created:  29th November 2023
-# Updated:  29th November 2023
+# Created:  30th November 2023
+# Updated:  30th November 2023
 #
 ############################################################################
 
@@ -35,9 +35,6 @@ COMP_ARCH_OS_TAG    =   $(COMP_TAG)$(OS_TAG)$(ARCH_TAG)
 
 ########################################
 # dependencies
-
-XCOVER_VER_MAJOR    =   0
-XCOVER_TAG_VER      =   xcover.$(XCOVER_VER_MAJOR)
 
 PROJ_MAKEFILE_NAME  =   makefile
 
@@ -1036,7 +1033,7 @@ test-all:				test.all
 # clean targets
 
 clean.libs.core:
-	@echo Cleaning Core libraries ...
+	@echo cleaning Core libraries ...
 	@-$(RM) $(LIB_CORE_MT_D)
 	@-$(RM) $(LIB_CORE_UN_MT_D)
 	@-$(RM) $(LIB_CORE_MT_R)
