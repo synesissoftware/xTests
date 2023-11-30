@@ -860,9 +860,9 @@ Details:
 General:
 
  ~ include/xtests/xtests.h:
-	+ XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE
+   + XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE
     + XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE
-	+ XTESTS_ARRAY_END_POST
+   + XTESTS_ARRAY_END_POST
     ~ VC6 compatibility for signed __int16, unsigned __int16, & signed __int1632
 
 Core:

@@ -9,10 +9,10 @@ add_library(xTests ${CORE_SRCS})
 
 target_compile_options(xTests PRIVATE
     $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
-		-Werror -Wall -Wextra -pedantic
-	>
+        -Werror -Wall -Wextra -pedantic
+    >
     $<$<CXX_COMPILER_ID:MSVC>:
-		/WX /W4
-	>
+        /WX /W4
+    >
 )
 
