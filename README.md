@@ -138,7 +138,7 @@ file.
 
 </details>
 <details>
-<summary markdown="span">String - Wide</summary>
+<summary markdown="span">String - Wide Macros</summary>
 
 | Category |Test Item                                                              |
 |:---------|:----------------------------------------------------------------------|
@@ -158,7 +158,7 @@ file.
 
 </details>
 <details>
-<summary markdown="span">String - MBCS</summary>
+<summary markdown="span">String - MBCS Macros</summary>
 
 | Category |Test Item                                                              |
 |:---------|:----------------------------------------------------------------------|
