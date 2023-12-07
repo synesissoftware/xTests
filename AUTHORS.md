@@ -2,7 +2,7 @@
 
 Bug reports, fixes and suggestions (for which we are very grateful):
 
-  * **Garth Lancaster** ([gjlanc65](https://github.com/gjlanc65))
+  * **Garth Lancaster** ([garthjl1965](https://github.com/garthjl1965))
   * **Joe Mariadassou**
   * **Mark Ellis**
   * **Matt Wilson** ([mwsis](https://github.com/mwsis))

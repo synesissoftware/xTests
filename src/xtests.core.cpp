@@ -1499,7 +1499,7 @@ xtests_commandLine_parseHelp(
             STLSOFT_NS_USING(stlsoft_C_string_slice_a_t)
             PLATFORMSTL_NS_USING(platformstl_C_get_executable_name_from_path)
 
-            stlsoft_C_string_slice_a_t const    exe_name    =   platformstl_C_get_executable_name_from_path(argv[0]);
+            stlsoft_C_string_slice_a_t const exe_name = platformstl_C_get_executable_name_from_path(argv[0]);
 #else
 
             struct
