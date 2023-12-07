@@ -42,6 +42,7 @@ endif()
 
 add_subdirectory(./projects/core)
 
+add_subdirectory(./examples/c/example.c.factorial)
 add_subdirectory(./examples/c/example.c.runner)
 add_subdirectory(./examples/c/example.c.tests)
 

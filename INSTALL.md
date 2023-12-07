@@ -112,7 +112,7 @@ The primary choice for installation is by use of **CMake**.
          int retCode = EXIT_SUCCESS;
          int verbosity;
 
-         XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, &verbosity);
+         XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, &verbosity);
 
          fprintf(stderr, "verbosity=%d\n", verbosity);
 
@@ -247,7 +247,7 @@ use one of the custom makefiles provided with the project, as follows:
          int retCode = EXIT_SUCCESS;
          int verbosity;
 
-         XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, &verbosity);
+         XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, &verbosity);
 
          fprintf(stderr, "verbosity=%d\n", verbosity);
 

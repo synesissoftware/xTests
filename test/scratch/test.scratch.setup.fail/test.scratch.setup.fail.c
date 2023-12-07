@@ -44,7 +44,7 @@ static int main_(int argc, char **argv)
     int retCode = EXIT_SUCCESS;
     int verbosity;
 
-    XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, &verbosity);
+    XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, &verbosity);
 
     if (XTESTS_START_RUNNER_WITH_SETUP_FNS("test.scratch.setup.fail", verbosity, setup, teardown, NULL))
     {

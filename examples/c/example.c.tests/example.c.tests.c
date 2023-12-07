@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
  * File:    examples/c/example.c.tests/example.c.tests.c
  *
- * Purpose: Example of separate test-case functions.
+ * Purpose: Example of use of separate test-case functions.
  *
  * Created: 20th February 2008
- * Updated: 29th November 2023
+ * Updated: 7th December 2023
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -35,7 +35,7 @@ int main(int argc, char **argv)
     int retCode = EXIT_SUCCESS;
     int verbosity;
 
-    XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, &verbosity);
+    XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, &verbosity);
 
     if (XTESTS_START_RUNNER("example.c.tests", verbosity))
     {
