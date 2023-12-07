@@ -14,10 +14,15 @@ cd $CMakePath
 
 
 
-echo "Executing make"
+echo "Executing make and then running all test programs"
 
-# NOTE: we do not break on fail, because, this being a unit-testing library, the scratch-tests actually fail
-make && for f in $(find . -type f -name 'test.*' -perm +111 -print) ; do echo ; echo "executing $f:" ; $f ; done
+make && for f in $(find . -type f -perm +111 -print -name 'test_*' -o -name 'test.*')
+do
+	echo
+	echo "executing $f:"
+	# NOTE: we do not break on fail, because, this being a unit-testing library, the scratch-tests actually fail
+	$f
+done
 
 cd ->/dev/null
 

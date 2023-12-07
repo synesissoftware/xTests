@@ -48,6 +48,7 @@ The primary choice for installation is by use of **CMake**.
 
    ```bash
    # Assuming step-2 cloned into ~/open-source/STLSoft-1.10
+   $ cd ~/open-source/xTests
    $ ./prepare_cmake.sh --stlsoft-root-dir ~/open-source/STLSoft-1.10 -v
    ```
 
@@ -97,6 +98,58 @@ The primary choice for installation is by use of **CMake**.
    $ sudo cmake --install ./_build --config Release
    ```
 
+7. Then to use the library, it is a simple matter as follows:
+
+   1. Assuming a simplest possible program to verify the installation:
+
+      ```cpp
+      // main.cpp
+      #include <xtests/xtests.h>
+      #include <stdio.h>
+
+      int main(int argc, char* argv[])
+      {
+         int retCode = EXIT_SUCCESS;
+         int verbosity;
+
+         XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, &verbosity);
+
+         fprintf(stderr, "verbosity=%d\n", verbosity);
+
+         return 0;
+      }
+      ```
+
+   2. Compile your project against **xTests**:
+
+      Due to the installation step (Step 6 above) there is no requirement
+      for an explicit include directory for **xTests**:
+
+      ```bash
+      $ g++ -c -I ${STLSOFT}/include -std=c++11 main.cpp
+      ```
+
+      (**NOTE**: the need to specify the **STLSoft** include explicitly will
+      be removed with a forthcoming release of the **STLSoft** libraries
+      that will also do installation via **CMake**.)
+
+   3. Link your project against **xTests**:
+
+      Due to the installation step (Step 6 above) there is no requirement
+      for an explicit library directory for **xTests**:
+
+      ```bash
+      $ g++ main.o -lxtests
+      ```
+
+   4. Test your project:
+
+      Then you can run this with the argument `--verbosity=4` as in:
+
+      ```bash
+      $ ./a.out --verbosity=4
+      verbosity=4
+      ```
 
 ## Custom makefile (as peer project)
 
@@ -104,7 +157,7 @@ Before support for **CMake** was provided, the recommended approach was to
 use one of the custom makefiles provided with the project, as follows:
 
 1. Obtain the latest distribution of **xTests**, from
-   https://github.com/synesissoftware/xTests/, e.g.
+   https://github.com/synesissoftware/xTests/, as in:
 
    ```bash
    $ mkdir -p ~/open-source
@@ -113,7 +166,7 @@ use one of the custom makefiles provided with the project, as follows:
    ```
 
 2. Obtain the latest distribution of **STLSoft**, from
-   https://github.com/synesissoftware/STLSoft-1.10/, e.g.
+   https://github.com/synesissoftware/STLSoft-1.10/, as in:
 
    ```bash
    $ mkdir -p ~/open-source
@@ -129,16 +182,19 @@ use one of the custom makefiles provided with the project, as follows:
    project is available - via https://github.com/synesissoftware/STLSoft -
    you are advised to prefer **1.10**.)
 
-3. Determine the custom makefile appropriate for your compiler. For example,
-   if running on **UNIX** and using **GCC v4.2.1** then the requisite
-   **makefile** will reside in **build/gcc42.unix**;
+3. Determine the custom makefile appropriate for your compiler:
+
+   For example, if running on **UNIX** and using **GCC v4.2.1** then the
+   requisite **makefile** will reside in **build/gcc42.unix**.
 
    ```bash
    $ ls -al build/gcc42.unix/makefile
    ```
 
-4. Execute a test build, passing the target `clean`. For this to succeed the
-   environment variable `STLSOFT` must exist or be provided, hence:
+4. Execute a test build, passing the target `clean`:
+
+   For this to succeed the environment variable `STLSOFT` must exist or be
+   provided, hence:
 
    ```bash
    # from within build/gcc42.unix
@@ -179,45 +235,7 @@ use one of the custom makefiles provided with the project, as follows:
 6. Then to use the library, it was customary practice to make available the
    **xTests** header files and built files as follows:
 
-   1. make a link to the appropriate archive (aka static-library) file.
-      Given the above main steps, examining the **lib** directory:
-
-      ```bash
-      $ ls -al lib
-      ```
-
-      should show a bunch of files, including:
-
-      ```
-      . . .
-      -rw-r--r--   1 mwan  staff   110K 30 Nov 12:24 libxtests.0.core.gcc42.a
-      -rw-r--r--   1 mwan  staff   262K 30 Nov 12:24 libxtests.0.core.gcc42.debug.a
-      -rw-r--r--   1 mwan  staff   110K 30 Nov 12:24 libxtests.0.core.gcc42.mt.a
-      -rw-r--r--   1 mwan  staff   262K 30 Nov 12:24 libxtests.0.core.gcc42.mt.debug.a
-      ```
-
-      The best choice is `libxtests.0.core.gcc42.mt.a`, which is the archive
-      for Release configuration and compiled with `_REENTRANT` to be
-      suitable for multithreaded programs. So, all we need to do is
-      designate this as the "default" library, via:
-
-      ```bash
-      $ cp lib/libxtests.0.core.gcc42.mt.a lib/libxtests.a
-      ```
-
-   2. create an environment variable `XTESTS_C_ROOT` with the value of the
-      root directory of the **xTests** project, as in:
-
-      ```bash
-      $ export XTESTS_C_ROOT=~/open-source/xTests
-      ```
-
-   3. compile and link your project against **xTests** via the environment
-      variable `XTESTS_C_ROOT` (and the environment variable `STLSOFT`
-      discussed above).
-
-      Assuming you have the following (trivial) implementation file, called
-      **main.cpp**:
+   1. Assuming a simplest possible program to verify the installation:
 
       ```cpp
       // main.cpp
@@ -237,29 +255,60 @@ use one of the custom makefiles provided with the project, as follows:
       }
       ```
 
-      This can be compiled against the environment variable as in:
+   2. Create an environment variable `XTESTS_C_ROOT` with the value of the
+      root directory of the **xTests** project, as in:
 
       ```bash
-      $ g++ -I ${XTESTS_C_ROOT}/include -I ${STLSOFT}/include -std=c++11 main.cpp
+      $ export XTESTS_C_ROOT=~/open-source/xTests
       ```
 
-      And can be linked against **libxtests.a** (step 6.1) as in:
+   3. Compile your project against **xTests**:
+
+      This requires explicit use of the environment variable `XTESTS_C_ROOT`
+      (and the environment variable `STLSOFT` discussed above).
 
       ```bash
-      $ g++ main.o -L ${XTESTS_C_ROOT}/lib -lxtests
+      $ g++ -c -I ${XTESTS_C_ROOT}/include -I ${STLSOFT}/include -std=c++11 main.cpp
       ```
 
-      Then you can run this with the argument `--verbosity=4` as in:
+   4. Link your project against **xTests**:
+
+      Given the above main step to build the library, examining the **lib**
+      directory:
+
+      ```bash
+      $ ls -al lib
+      ```
+
+      should show a bunch of files, including:
+
+      ```
+      . . .
+      -rw-r--r--   1 mwan  staff   110K 30 Nov 12:24 libxtests.0.core.gcc42.a
+      -rw-r--r--   1 mwan  staff   262K 30 Nov 12:24 libxtests.0.core.gcc42.debug.a
+      -rw-r--r--   1 mwan  staff   110K 30 Nov 12:24 libxtests.0.core.gcc42.mt.a
+      -rw-r--r--   1 mwan  staff   262K 30 Nov 12:24 libxtests.0.core.gcc42.mt.debug.a
+      ```
+
+      The best choice is `libxtests.0.core.gcc42.a`, which is the archive
+      for Release configuration and compiled without `_REENTRANT` as we
+      don't care about multithreaded program support in this example. So,
+      all we need to do is designate this as the "default" library, via:
+
+      So, we link to **xTests** via:
+
+      ```bash
+      $ g++ main.o -L ${XTESTS_C_ROOT}/lib -lxtests.0.core.gcc42
+      ```
+
+   5. Test your project:
+
+      Run the resulting program with the argument `--verbosity=4` as in:
 
       ```bash
       $ ./a.out --verbosity=4
       verbosity=4
       ```
-
-
-
-
-
 
 
 ## Bundled
@@ -452,5 +501,5 @@ Hence, to build, say, **recls**, using this form, can be done as follows:
 
 Once again, this is an advanced technique and quite messy, so work is
 currently underway to enable **xTests** (and other related open-source
-projects - see [README.md](./README.md)) to obtain their **CMAke**
+projects - see [README.md](./README.md)) to obtain their **CMake**
 dependencies automatically.
