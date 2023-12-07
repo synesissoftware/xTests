@@ -31,6 +31,7 @@ include_directories(${STLSOFT_INCLUDE_DIR})
 if(UNIX)
 
     add_definitions(-DUNIX)
+    add_definitions(-Dunix)
 endif()
 
 if(WIN32)
