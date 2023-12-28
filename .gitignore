@@ -1,7 +1,14 @@
 
 # directories (by name)
 
+/_build/
+/_internal/
+
 /bin/
+/doc/
+/dox/
+/ideas/
+/releases/
 
 Debug/
 DebugMt/
@@ -16,20 +23,6 @@ Release Multithreaded Dll/
 ReleaseNox/
 ReleaseUnix/
 
-/_build/
-/_internal/
-
-/doc/
-/dox/
-
-ideas/
-
-include/shwild/
-
-src/shwild/
-
-releases/
-
 Win32/
 x64/
 
@@ -38,12 +31,11 @@ x64/
 # files (by name)
 
 .DS_Store
-
 .update_deps
 
 list_changes.cmd
-
 prepare.cmd
+sh.exe.stackdump
 
 build/makefile.tmpl
 build/makefile.tools.xml
