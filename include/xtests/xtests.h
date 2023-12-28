@@ -1,15 +1,15 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:        xtests/xtests.h (formerly part of Synesis' internal test codebase)
+ * File:    xtests/xtests.h (formerly part of Synesis' internal test codebase)
  *
- * Purpose:     Main header file for xTests, a simple unit/component-testing
- *              library.
+ * Purpose: Main header file for xTests, a simple unit/component-testing
+ *          library.
  *
- * Created:     20th June 1999
- * Updated:     17th July 2020
+ * Created: 20th June 1999
+ * Updated: 29th November 2023
  *
- * Home:        https://github.com/synesissoftware/xTests/
+ * Home:    https://github.com/synesissoftware/xTests/
  *
- * Copyright (c) 2019-2020, Matthew Wilson and Synesis Information Systems
+ * Copyright (c) 2019-2023, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 1999-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -18,14 +18,13 @@
  * met:
  *
  * - Redistributions of source code must retain the above copyright notice,
- *   this list of conditions and the following disclaimer.
+ *   this list of conditions and the following disclaimer;
  * - Redistributions in binary form must reproduce the above copyright
  *   notice, this list of conditions and the following disclaimer in the
- *   documentation and/or other materials provided with the distribution.
- * - Neither the name(s) of Matthew Wilson and Synesis Information Systems
- *   nor the names of any contributors may be used to endorse or promote
- *   products derived from this software without specific prior written
- *   permission.
+ *   documentation and/or other materials provided with the distribution;
+ * - Neither the name of the copyright holder nor the names of its
+ *   ontributors may be used to endorse or promote products derived from
+ *   this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -53,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       41
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    4
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        344
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    5
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        345
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -63,23 +62,27 @@
 
 /**
  * \def _XTESTS_VER_MAJOR
+ *
  * The Major version number of the xTests library
  *
  * \def _XTESTS_VER_MINOR
+ *
  * Minor version number of the xTests library
  *
  * \def _XTESTS_VER_REVISION
+ *
  * The revision number of the xTests library
  *
  * \def _XTESTS_VER
+ *
  * The composite version of the xTests library
  */
 
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       20
-#define _XTESTS_VER_REVISION    2
+#define _XTESTS_VER_REVISION    3
 
-#define _XTESTS_VER             0x001402ff
+#define _XTESTS_VER             0x001403ff
 
 /* /////////////////////////////////////////////////////////////////////////
  * Includes - 1
@@ -97,7 +100,7 @@
     STLSOFT_VER >= 0x010c0000
 # define XTESTS_STLSOFT_1_12_OR_LATER
 #elif _STLSOFT_VER < 0x010986ff
-# error xTests requires version 1.9.134 (or later) of STLSoft; download from www.stlsoft.org
+# error xTests requires version 1.9.134 (or later) of STLSoft; download from https://github.com/synesissoftware/
 #endif /* _STLSOFT_VER */
 
 #ifndef __cplusplus
@@ -341,7 +344,7 @@ namespace c
                                                                                         \
     do                                                                                  \
     {                                                                                   \
-        if(XTESTS_CASE_BEGIN(name, desc))                                               \
+        if (XTESTS_CASE_BEGIN(name, desc))                                              \
         {                                                                               \
             XTESTS_INVOKE_TEST_CASE_FN_THROWS_((file), (line), fn, name, type);         \
                                                                                         \
@@ -361,7 +364,7 @@ namespace c
                                                                                         \
     do                                                                                  \
     {                                                                                   \
-        if(XTESTS_CASE_BEGIN(name, desc))                                               \
+        if (XTESTS_CASE_BEGIN(name, desc))                                              \
         {                                                                               \
             XTESTS_INVOKE_TEST_CASE_FN_((file), (line), fn, name);                      \
                                                                                         \
@@ -451,6 +454,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 #endif /* !__cplusplus */
 
 /** \def XTESTS_FP_APPROXIMATE_FACTOR
+ *
  * The factor within which floating point numbers are deemed to be
  * approximately equal.
  */
@@ -3232,7 +3236,7 @@ inline
 void
 xtests_require(int success)
 {
-    if(!success)
+    if (!success)
     {
         throw requirement_failed_exception();
     }
@@ -3242,7 +3246,7 @@ xtests_require(int success)
 # endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /** Scoping class that sets the floating-point close factor for a
- *   controlled period
+ *   controlled scope
  */
 class xtest_floatingpoint_factor_scope
 {
@@ -3713,7 +3717,7 @@ xtests_test_integer_any_in_range(
 
     int comparisonSucceeded = xtests_test_integer_compare_to_range_(file, line, function, expr, begin, end, actual, comp);
 
-    if(comparisonSucceeded)
+    if (comparisonSucceeded)
     {
         xtests_testPassed(file, line, function, expr);
     }
@@ -3755,38 +3759,38 @@ xtests_test_integer(
     {
         case    xtestsComparisonEqual:
         case    xtestsComparisonApproxEqual:
-            if(expected == actual)
+            if (expected == actual)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonNotEqual:
         case    xtestsComparisonApproxNotEqual:
-            if(expected != actual)
+            if (expected != actual)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonGreaterThan:
-            if(actual > expected)
+            if (actual > expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonLessThan:
-            if(actual < expected)
+            if (actual < expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonGreaterThanOrEqual:
-            if(actual >= expected)
+            if (actual >= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonLessThanOrEqual:
-            if(actual <= expected)
+            if (actual <= expected)
             {
                 comparisonSucceeded = true;
             }
@@ -3798,7 +3802,7 @@ xtests_test_integer(
             break;
     }
 
-    if(comparisonSucceeded)
+    if (comparisonSucceeded)
     {
         xtests_testPassed(file, line, function, expr);
     }
@@ -4142,49 +4146,49 @@ xtests_test_floating_point(
     switch(comp)
     {
         case    xtestsComparisonEqual:
-            if(expected == actual)
+            if (expected == actual)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonApproxEqual:
-            if(xtests_floatingPointClose(expected, actual))
+            if (xtests_floatingPointClose(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonNotEqual:
-            if(expected != actual)
+            if (expected != actual)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonApproxNotEqual:
-            if(!xtests_floatingPointClose(expected, actual))
+            if (!xtests_floatingPointClose(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonGreaterThan:
-            if(actual > expected)
+            if (actual > expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonLessThan:
-            if(actual < expected)
+            if (actual < expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonGreaterThanOrEqual:
-            if(actual >= expected)
+            if (actual >= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonLessThanOrEqual:
-            if(actual <= expected)
+            if (actual <= expected)
             {
                 comparisonSucceeded = true;
             }
@@ -4196,7 +4200,7 @@ xtests_test_floating_point(
             break;
     }
 
-    if(comparisonSucceeded)
+    if (comparisonSucceeded)
     {
         stlsoft_static_cast(void, xtests_testPassed(file, line, function, expr));
     }
@@ -4290,7 +4294,11 @@ xtests_commandLine_parseHelp(
                                                                                         \
     stlsoft_static_cast(void, XTESTS_NS_C_QUAL(xtests_commandLine_parseVerbosity)((argc), (argv), (pverbosity)))
 
-#define XTESTS_COMMANDLINE_PARSEVERBOSITY                   XTESTS_COMMANDLINE_PARSE_VERBOSITY
+
+#ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
+
+# define XTESTS_COMMANDLINE_PARSEVERBOSITY                  XTESTS_COMMANDLINE_PARSE_VERBOSITY
+#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION /* The following seems to break Doxygen, so we don't document it :-( */
