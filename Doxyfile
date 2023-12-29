@@ -157,7 +157,7 @@ ABBREVIATE_BRIEF       = "The $name class" \
 # description.
 # The default value is: NO.
 
-ALWAYS_DETAILED_SEC    = NO
+ALWAYS_DETAILED_SEC    = YES
 
 # If the INLINE_INHERITED_MEMB tag is set to YES, doxygen will show all
 # inherited members of a class in the documentation of that class as if those
@@ -2406,6 +2406,7 @@ INCLUDE_FILE_PATTERNS  =
 PREDEFINED             = \
     __cplusplus \
     XTESTS_DOCUMENTATION_SKIP_SECTION \
+    STLSOFT_CF_EXCEPTION_SUPPORT \
     \
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this

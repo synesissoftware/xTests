@@ -31,6 +31,7 @@ include_directories(${STLSOFT_INCLUDE_DIR})
 if(UNIX)
 
     add_definitions(-DUNIX)
+    add_definitions(-Dunix)
 endif()
 
 if(WIN32)
@@ -41,6 +42,7 @@ endif()
 
 add_subdirectory(./projects/core)
 
+add_subdirectory(./examples/c/example.c.factorial)
 add_subdirectory(./examples/c/example.c.runner)
 add_subdirectory(./examples/c/example.c.tests)
 
