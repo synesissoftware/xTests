@@ -4,7 +4,7 @@
 Updated:    30th November 2023
 
 
-30th November 2023 - 0.20.3
+30th November 2023 - 0.20.4
 ---------------------------
 
  * added CMake support
@@ -12,6 +12,13 @@ Updated:    30th November 2023
  * added makefile(s) for GCC generic version
  * fix to xtests::cpp::util::temp_directory
  * fix defect in example
+
+
+13th December 2020 - 0.20.3
+---------------------------
+
+ * fixed xtests::cpp::util::temp_directory dtor semantics for EmptyOnClose and RemoveOnClose
+ * compatibility with Visual Studio 2019 (16.8.2)
 
 
 30th July 2020 - 0.20.2

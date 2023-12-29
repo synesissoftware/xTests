@@ -51,8 +51,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MAJOR     0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     2
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  1
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      16
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  2
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      17
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -103,6 +103,19 @@
 #include <string>
 
 #include <stdio.h>
+
+/* /////////////////////////////////////////////////////////////////////////
+ * compatibility
+ */
+
+#if 0
+#elif defined(STLSOFT_COMPILER_IS_MSVC)
+
+# pragma warning(push)
+# pragma warning(disable : 4996)
+#else
+
+#endif
 
 /* /////////////////////////////////////////////////////////////////////////
  * namespace
@@ -321,7 +334,8 @@ temp_file::empty_file_(
     temp_file::file_handle_type_ hFile
 )
 {
-#if defined(PLATFORMSTL_OS_IS_WINDOWS)
+#if 0
+#elif defined(PLATFORMSTL_OS_IS_WINDOWS)
 
     if (INVALID_SET_FILE_POINTER == ::SetFilePointer(hFile, 0, NULL, SEEK_SET) ||
         !::SetEndOfFile(hFile))
@@ -357,7 +371,8 @@ temp_file::create_file_(
     // - getting a unique path name
     //
 
-#if defined(PLATFORMSTL_OS_IS_WINDOWS)
+#if 0
+#elif defined(PLATFORMSTL_OS_IS_WINDOWS)
 
     // On Windows, we'll work in one of %TEMP%, %TMP%, %USERPROFILE%, or
 
@@ -787,6 +802,18 @@ c_str_ptr(
 } /* namespace util */
 } /* namespace cpp */
 } /* namespace xtests */
+
+/* /////////////////////////////////////////////////////////////////////////
+ * compatibility
+ */
+
+#if 0
+#elif defined(STLSOFT_COMPILER_IS_MSVC)
+
+# pragma warning(pop)
+#else
+
+#endif
 
 /* /////////////////////////////////////////////////////////////////////////
  * shims

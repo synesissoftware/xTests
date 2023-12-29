@@ -15,7 +15,7 @@ Updated:    30th November 2023
     ************************************
 
 
-30th November 2023 - 0.20.3
+30th November 2023 - 0.20.4
 ===========================
 
 Summary:
@@ -26,6 +26,50 @@ Summary:
  * added makefile(s) for GCC generic version
  * fix to xtests::cpp::util::temp_directory
  * fix defect in example
+
+
+13th December 2020 - 0.20.3
+===========================
+
+Summary:
+--------
+
+ * fixed xtests::cpp::util::temp_directory dtor semantics for EmptyOnClose and RemoveOnClose
+ * compatibility with Visual Studio 2019 (16.8.2)
+
+Details:
+--------
+
+General:
+
+ ~ include/xtests/implicit_link.h:
+    ~ compatibility with Visual Studio 2019 (16.8.2)
+
+ ~ include/xtests/util/temp_directory.hpp:
+    ~ fixed dtor semantics for EmptyOnClose and RemoveOnClose
+
+Core:
+
+Util:
+
+Distribution:
+
+Makefiles / Project-files:
+
+Examples:
+
+Test:
+
+Test.Unit:
+
+Test.Component:
+
+Test.Scratch:
+
+Depends on:
+
+ * STLSoft 1.9.135 or later
+   (http://stlsoft.org/)
 
 
 
