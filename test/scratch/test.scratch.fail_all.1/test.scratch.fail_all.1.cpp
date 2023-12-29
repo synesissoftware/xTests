@@ -1,19 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:        test.scratch.fail_all.1.cpp
+ * File:    test.scratch.fail_all.1.cpp
  *
- * Purpose:     Implementation file for the test.scratch.fail_all.1 project.
+ * Purpose: Implementation file for the test.scratch.fail_all.1 project.
  *
- * Created:     26th January 2009
- * Updated:     10th January 2017
- *
- * Status:      Wizard-generated
- *
- * License:     (Licensed under the Synesis Software Open License)
- *
- *              Copyright (c) 2009-2017, Synesis Software Pty Ltd.
- *              All rights reserved.
- *
- *              www:        http://www.synesis.com.au/software
+ * Created: 26th January 2009
+ * Updated: 29th November 2023
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -70,7 +61,7 @@ static int main_(int argc, char** argv)
 
     XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, &verbosity);
 
-    if(XTESTS_START_RUNNER("test.scratch.fail_all.1", verbosity))
+    if (XTESTS_START_RUNNER("test.scratch.fail_all.1", verbosity))
     {
         XTESTS_RUN_CASE_WITH_DESC(test_int_comparison_failures, "expects failures in integer comparisons");
         XTESTS_RUN_CASE_WITH_DESC(test_multibyte_string_comparison_failures, "expects failures in multibyte string comparisons");
@@ -249,3 +240,4 @@ namespace
 } /* anonymous namespace */
 
 /* ///////////////////////////// end of file //////////////////////////// */
+

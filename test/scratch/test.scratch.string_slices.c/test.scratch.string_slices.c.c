@@ -1,19 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:        test.scratch.string_slices.c.c
+ * File:    test.scratch.string_slices.c.c
  *
- * Purpose:     Implementation file for the test.scratch.string_slices.c project.
+ * Purpose: Implementation file for the test.scratch.string_slices.c project.
  *
- * Created:     16th February 2013
- * Updated:     10th January 2017
- *
- * Status:      Wizard-generated
- *
- * License:     (Licensed under the Synesis Software Open License)
- *
- *              Copyright (c) 2013, Synesis Software Pty Ltd.
- *              All rights reserved.
- *
- *              www:        http://www.synesis.com.au/software
+ * Created: 16th February 2013
+ * Updated: 29th November 2023
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -67,10 +58,10 @@ static int main_(int argc, char** argv)
 
     XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, &verbosity);
 
-    if(XTESTS_START_RUNNER("test.scratch.string_slices.c.runner-1", verbosity))
+    if (XTESTS_START_RUNNER("test.scratch.string_slices.c.runner-1", verbosity))
     {
         /* test 0.0 */
-        if(XTESTS_CASE_BEGIN("test-0", "always passes"))
+        if (XTESTS_CASE_BEGIN("test-0", "always passes"))
         {
             XTESTS_TEST_PASSED();
 
@@ -78,7 +69,7 @@ static int main_(int argc, char** argv)
         }
 
         /* test 1.0 */
-        if(XTESTS_CASE_BEGIN("test-1", "checking integer values"))
+        if (XTESTS_CASE_BEGIN("test-1", "checking integer values"))
         {
             XTESTS_TEST(sizeof(char) <= sizeof(short));
             XTESTS_TEST(sizeof(short) <= sizeof(int));
@@ -98,7 +89,7 @@ static int main_(int argc, char** argv)
         XTESTS_END_RUNNER_UPDATE_EXITCODE(&retCode);
     }
 
-    if(XTESTS_START_RUNNER("test.scratch.string_slices.c.runner-2", verbosity))
+    if (XTESTS_START_RUNNER("test.scratch.string_slices.c.runner-2", verbosity))
     {
         /* test 2.1 */
         XTESTS_RUN_CASE(test_2_1);
@@ -129,7 +120,7 @@ static int main_(int argc, char** argv)
         XTESTS_END_RUNNER_UPDATE_EXITCODE(&retCode);
     }
 
-    if(XTESTS_START_RUNNER("test.scratch.string_slices.c.runner-3", verbosity))
+    if (XTESTS_START_RUNNER("test.scratch.string_slices.c.runner-3", verbosity))
     {
         /* test 3.1 */
         XTESTS_RUN_CASE(test_3_1);
@@ -139,7 +130,7 @@ static int main_(int argc, char** argv)
         XTESTS_END_RUNNER_UPDATE_EXITCODE(&retCode);
     }
 
-    if(XTESTS_START_RUNNER("test.scratch.string_slices.c.runner-4", verbosity))
+    if (XTESTS_START_RUNNER("test.scratch.string_slices.c.runner-4", verbosity))
     {
         /* test 4.1 */
         XTESTS_RUN_CASE(test_4_1);
@@ -152,7 +143,7 @@ static int main_(int argc, char** argv)
         XTESTS_END_RUNNER_UPDATE_EXITCODE(&retCode);
     }
 
-    if(XTESTS_START_RUNNER("test.scratch.string_slices.c.runner-5", verbosity))
+    if (XTESTS_START_RUNNER("test.scratch.string_slices.c.runner-5", verbosity))
     {
         XTESTS_RUN_CASE(test_5_1);
         XTESTS_RUN_CASE(test_5_2);
@@ -289,3 +280,4 @@ static void test_5_3()
 }
 
 /* ///////////////////////////// end of file //////////////////////////// */
+

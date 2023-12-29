@@ -1,14 +1,15 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:        xtests/util/filesystem_exception.hpp
+ * File:    xtests/util/filesystem_exception.hpp
  *
- * Purpose:     Definition of the filesystem_exception class.
+ * Purpose: Definition of the filesystem_exception class.
  *
- * Created:     1st October 2015
- * Updated:     20th January 2017
+ * Created: 1st October 2015
+ * Updated: 29th November 2023
  *
- * Home:        http://stlsoft.org/
+ * Home:    https://github.com/synesissoftware/xTests/
  *
- * Copyright (c) 2015-2017, Matthew Wilson and Synesis Software
+ * Copyright (c) 2019-2023, Matthew Wilson and Synesis Information Systems
+ * Copyright (c) 2015-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -16,13 +17,13 @@
  * met:
  *
  * - Redistributions of source code must retain the above copyright notice,
- *   this list of conditions and the following disclaimer.
+ *   this list of conditions and the following disclaimer;
  * - Redistributions in binary form must reproduce the above copyright
  *   notice, this list of conditions and the following disclaimer in the
- *   documentation and/or other materials provided with the distribution.
- * - Neither the name(s) of Matthew Wilson and Synesis Software nor the
- *   names of any contributors may be used to endorse or promote products
- *   derived from this software without specific prior written permission.
+ *   documentation and/or other materials provided with the distribution;
+ * - Neither the name of the copyright holder nor the names of its
+ *   ontributors may be used to endorse or promote products derived from
+ *   this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -51,7 +52,7 @@
 # define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_MAJOR      0
 # define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_MINOR      1
 # define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_REVISION   8
-# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_EDIT       10
+# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_EDIT       11
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -315,3 +316,4 @@ namespace stlsoft
 #endif /* XTESTS_INCL_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION */
 
 /* ///////////////////////////// end of file //////////////////////////// */
+

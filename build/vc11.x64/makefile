@@ -6,7 +6,7 @@
 #           on the Win64 platform
 #
 # Created:  16th December 2007
-# Updated:  12th July 2020
+# Updated:  30th November 2023
 #
 ############################################################################
 
@@ -26,7 +26,7 @@
 
 COMP_TAG            =   vc11
 ARCH_TAG            =   .x64
-OS_TAG              =   
+OS_TAG              =
 PROJ_TAG			=	xtests
 PROJ_VER_MAJOR      =   0
 PROJ_MOD_TAG        =   core
@@ -35,12 +35,6 @@ COMP_ARCH_OS_TAG    =   $(COMP_TAG)$(OS_TAG)$(ARCH_TAG)
 
 ########################################
 # dependencies
-
-SHWILD_VER_MAJOR    =   0
-SHWILD_TAG_VER      =   shwild.$(SHWILD_VER_MAJOR)
-
-XCOVER_VER_MAJOR    =   0
-XCOVER_TAG_VER      =   xcover.$(SHWILD_VER_MAJOR)
 
 PROJ_MAKEFILE_NAME  =   makefile
 
@@ -72,7 +66,7 @@ PROJ_TEST_UNIT_DIR      =   $(PROJ_TEST_ROOT_DIR)\unit
 ########################################
 # 3rd-party directories
 
-SHWILD_PROJ_INCLUDE		=	
+SHWILD_PROJ_INCLUDE		=
 !ifdef XTESTS_SHWILD_BASE_DIR
 SHWILD_INCLUDE_DIR		=   $(XTESTS_SHWILD_BASE_DIR)\include
 SHWILD_SRC_DIR			=   $(XTESTS_SHWILD_BASE_DIR)\src
@@ -99,7 +93,7 @@ RC                      =   rc
 ########################################
 # includes
 
-INCLUDES_LEADER         =   
+INCLUDES_LEADER         =
 
 PROJ_INCLUDE            =   -I$(PROJ_INCLUDE_DIR)
 
@@ -268,7 +262,7 @@ CMN_DEF_NO_IMPLICIT_LINK =\
 
 COMMON_DEFS             =   -DWIN64
 
-CUSTOM_DEFS             =   
+CUSTOM_DEFS             =
 
 # CC
 
@@ -329,13 +323,13 @@ CPPC_DEFS_MT_R =\
 
 CC_F_NOLOGO             =   -nologo
 CC_F_COMPILE_ONLY       =   -c
-CC_F_FORCE_INCLUDE      =   
+CC_F_FORCE_INCLUDE      =
 CC_F_WARNING_MAX        =   -W4
 CC_F_WARNING_ERR        =   -WX
 CC_F_MINIMUM_SIZE       =   -O1
 CC_F_MAXIMUM_SPEED      =   -O2
 
-CC_TOOL_FLAGS           =   
+CC_TOOL_FLAGS           =
 
 CC_FLAGS_BASE =\
  $(CC_TOOL_FLAGS)\
@@ -366,19 +360,19 @@ CC_FLAGS_MT_R =\
 
 CPPC_F_NOLOGO           =   -nologo
 CPPC_F_COMPILE_ONLY     =   -c
-CPPC_F_FORCE_INCLUDE    =   
+CPPC_F_FORCE_INCLUDE    =
 CPPC_F_WARNING_MAX      =   -W4 -wd4800
 CPPC_F_WARNING_ERR      =   -WX
 CPPC_F_EXCEPTIONS_ON    =   -EHsc
 CPPC_F_EXCEPTIONS_OFF   =   -wd4530
-CPPC_F_EXCEPTIONS       =   
+CPPC_F_EXCEPTIONS       =
 CPPC_F_RTTI_ON          =   -GR
 CPPC_F_RTTI_OFF         =   -GR-
-CPPC_F_RTTI             =   
+CPPC_F_RTTI             =
 CPPC_F_MINIMUM_SIZE     =   -O1
 CPPC_F_MAXIMUM_SPEED    =   -O2
 
-CPPC_TOOL_FLAGS         =   
+CPPC_TOOL_FLAGS         =
 
 CPPC_FLAGS_BASE =\
  $(CPPC_TOOL_FLAGS)\
@@ -650,74 +644,6 @@ OBJS_CORE=\
  $(OBJS_CORE_MT_R)\
  \
 
-# shwild - testing only
-
-OBJ_shw_api_DLL_D          =   $(PROJ_OBJ_DIR)\shwild.api.dll.debug.obj
-OBJ_shw_matches_DLL_D      =   $(PROJ_OBJ_DIR)\shwild.matches.dll.debug.obj
-OBJ_shw_pattern_DLL_D      =   $(PROJ_OBJ_DIR)\shwild.pattern.dll.debug.obj
-PDB_shw_api_DLL_D          =   $(PROJ_OBJ_DIR)\shwild.api.dll.debug.pdb
-PDB_shw_matches_DLL_D      =   $(PROJ_OBJ_DIR)\shwild.matches.dll.debug.pdb
-PDB_shw_pattern_DLL_D      =   $(PROJ_OBJ_DIR)\shwild.pattern.dll.debug.pdb
-
-OBJS_SHWILD_DLL_D=\
- $(OBJ_shw_api_DLL_D)\
- $(OBJ_shw_matches_DLL_D)\
- $(OBJ_shw_pattern_DLL_D)\
- \
-
-PDBS_SHWILD_DLL_D=\
- $(PDB_shw_api_DLL_D)\
- $(PDB_shw_matches_DLL_D)\
- $(PDB_shw_pattern_DLL_D)\
- \
-
-OBJ_shw_api_DLL_R          =   $(PROJ_OBJ_DIR)\shwild.api.dll.obj
-OBJ_shw_matches_DLL_R      =   $(PROJ_OBJ_DIR)\shwild.matches.dll.obj
-OBJ_shw_pattern_DLL_R      =   $(PROJ_OBJ_DIR)\shwild.pattern.dll.obj
-
-OBJS_SHWILD_DLL_R=\
- $(OBJ_shw_api_DLL_R)\
- $(OBJ_shw_matches_DLL_R)\
- $(OBJ_shw_pattern_DLL_R)\
- \
-
-OBJ_shw_api_MT_D          =   $(PROJ_OBJ_DIR)\shwild.api.mt.debug.obj
-OBJ_shw_matches_MT_D      =   $(PROJ_OBJ_DIR)\shwild.matches.mt.debug.obj
-OBJ_shw_pattern_MT_D      =   $(PROJ_OBJ_DIR)\shwild.pattern.mt.debug.obj
-PDB_shw_api_MT_D          =   $(PROJ_OBJ_DIR)\shwild.api.mt.debug.pdb
-PDB_shw_matches_MT_D      =   $(PROJ_OBJ_DIR)\shwild.matches.mt.debug.pdb
-PDB_shw_pattern_MT_D      =   $(PROJ_OBJ_DIR)\shwild.pattern.mt.debug.pdb
-
-OBJS_SHWILD_MT_D=\
- $(OBJ_shw_api_MT_D)\
- $(OBJ_shw_matches_MT_D)\
- $(OBJ_shw_pattern_MT_D)\
- \
-
-PDBS_SHWILD_MT_D=\
- $(PDB_shw_api_MT_D)\
- $(PDB_shw_matches_MT_D)\
- $(PDB_shw_pattern_MT_D)\
- \
-
-OBJ_shw_api_MT_R          =   $(PROJ_OBJ_DIR)\shwild.api.mt.obj
-OBJ_shw_matches_MT_R      =   $(PROJ_OBJ_DIR)\shwild.matches.mt.obj
-OBJ_shw_pattern_MT_R      =   $(PROJ_OBJ_DIR)\shwild.pattern.mt.obj
-
-OBJS_SHWILD_MT_R=\
- $(OBJ_shw_api_MT_R)\
- $(OBJ_shw_matches_MT_R)\
- $(OBJ_shw_pattern_MT_R)\
- \
-
-
-OBJS_SHWILD=\
- $(OBJS_SHWILD_DLL_D)\
- $(OBJS_SHWILD_DLL_R)\
- $(OBJS_SHWILD_MT_D)\
- $(OBJS_SHWILD_MT_R)\
- \
-
 # *
 
 OBJS_LIBS =\
@@ -966,20 +892,6 @@ TARGETS_LIB_CORE=\
  $(LIB_CORE_MT_R)\
  \
 
-# shwild - testing only
-
-LIB_SHWILD_DLL_D               =   $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).dll.debug.lib
-LIB_SHWILD_DLL_R               =   $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).dll.lib
-LIB_SHWILD_MT_D               =   $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).mt.debug.lib
-LIB_SHWILD_MT_R               =   $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG).mt.lib
-
-TARGETS_LIB_SHWILD=\
- $(LIB_SHWILD_DLL_D)\
- $(LIB_SHWILD_DLL_R)\
- $(LIB_SHWILD_MT_D)\
- $(LIB_SHWILD_MT_R)\
- \
-
 # *
 
 TARGETS_LIB_ALL=\
@@ -1202,7 +1114,7 @@ test-all:				test.all
 # clean targets
 
 clean.libs.core:
-	@echo Cleaning Core libraries ...
+	@echo cleaning Core libraries ...
 	@-if exist $(LIB_CORE_DLL_D) $(RM) $(LIB_CORE_DLL_D)
 	@-if exist $(LIB_CORE_UN_DLL_D) $(RM) $(LIB_CORE_UN_DLL_D)
 	@-if exist $(LIB_CORE_DLL_R) $(RM) $(LIB_CORE_DLL_R)
@@ -1218,7 +1130,7 @@ clean.libs.core:
 	@-if exist $(PROJ_LIB_DIR)\$(PROJ_TAG_VER).$(COMP_ARCH_OS_TAG)*.lib $(RM) $(PROJ_LIB_DIR)\$(PROJ_TAG_VER).$(COMP_ARCH_OS_TAG)*.lib
 
 clean.libs.shwild:
-	@echo Cleaning shwild libraries ...
+	@echo cleaning shwild libraries ...
 	@-if exist shwild.*.obj $(RM) shwild.*.obj
 	@-if exist shwild.*.pdb $(RM) shwild.*.pdb
 	@-if exist $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG)*.lib $(RM) $(PROJ_LIB_DIR)\$(SHWILD_TAG_VER).xt.$(COMP_ARCH_OS_TAG)*.lib

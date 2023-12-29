@@ -1,21 +1,15 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:        examples/c/example.c.tests/example.c.tests.c
+ * File:    examples/c/example.c.tests/example.c.tests.c
  *
- * Purpose:     Implementation file for the example.c.tests project.
+ * Purpose: Example of separate test-case functions.
  *
- * Created:     20th February 2008
- * Updated:     23rd February 2008
- *
- * Status:      Wizard-generated
- *
- * License:     (Licensed under the Synesis Software Open License)
- *
- *              Copyright (c) 2008, Synesis Software Pty Ltd.
- *              All rights reserved.
- *
- *              www:        http://www.synesis.com.au/software
+ * Created: 20th February 2008
+ * Updated: 29th November 2023
  *
  * ////////////////////////////////////////////////////////////////////// */
+
+/** \file example.c.tests.c
+ */
 
 
 /* xTests Header Files */
@@ -43,7 +37,7 @@ int main(int argc, char **argv)
 
     XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, &verbosity);
 
-    if(XTESTS_START_RUNNER("example.c.tests", verbosity))
+    if (XTESTS_START_RUNNER("example.c.tests", verbosity))
     {
         XTESTS_RUN_CASE_WITH_DESC(test_1, "checking sizes of different integer types");
         XTESTS_RUN_CASE_WITH_DESC(test_2, "checking equality of sizes of signed and unsigned integer types");
@@ -86,7 +80,7 @@ static void test_4(void)
     {
         { int j; for(j = -1000; j != 1000; ++j)
         {
-            if(i == j)
+            if (i == j)
             {
                 XTESTS_TEST_INTEGER_EQUAL(i, j);
                 XTESTS_TEST_INTEGER_EQUAL_EXACT(i, j);
@@ -98,7 +92,7 @@ static void test_4(void)
             {
                 XTESTS_TEST_INTEGER_NOT_EQUAL(i, j);
 
-                if(i < j)
+                if (i < j)
                 {
                     XTESTS_TEST_INTEGER_LESS(j, i);
                     XTESTS_TEST_INTEGER_LESS_OR_EQUAL(j, i);
@@ -113,4 +107,5 @@ static void test_4(void)
     }}
 }
 
-/* //////////////////////////// end of file ///////////////////////////// */
+/* ///////////////////////////// end of file //////////////////////////// */
+

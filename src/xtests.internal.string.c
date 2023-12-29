@@ -44,7 +44,7 @@ xtests_strncpy_(
 ,   size_t          l
 )
 {
-    if(l < n)
+    if (l < n)
     {
         ::memcpy(d, s, sizeof(char) * l);
         d[l] = '\0';
@@ -63,7 +63,7 @@ xtests_wcsncpy_(
 ,   size_t          l
 )
 {
-    if(l < n)
+    if (l < n)
     {
         ::memcpy(d, s, sizeof(wchar_t) * l);
         d[l] = '\0';
@@ -108,17 +108,17 @@ xtests_strcmp_a_(
 ,   char const*     str2
 )
 {
-    if(str1 == str2)
+    if (str1 == str2)
     {
         return 0;
     }
-    else if(NULL == str1)
+    else if (NULL == str1)
     {
         STLSOFT_ASSERT(NULL != str2);
 
         return ('\0' == *str2) ? 0 : -1;
     }
-    else if(NULL == str2)
+    else if (NULL == str2)
     {
         STLSOFT_ASSERT(NULL != str1);
 
@@ -136,17 +136,17 @@ xtests_strcmp_w_(
 ,   wchar_t const*  str2
 )
 {
-    if(str1 == str2)
+    if (str1 == str2)
     {
         return 0;
     }
-    else if(NULL == str1)
+    else if (NULL == str1)
     {
         STLSOFT_ASSERT(NULL != str2);
 
         return ('\0' == *str2) ? 0 : -1;
     }
-    else if(NULL == str2)
+    else if (NULL == str2)
     {
         STLSOFT_ASSERT(NULL != str1);
 
@@ -164,17 +164,17 @@ xtests_stricmp_a_(
 ,   char const*     str2
 )
 {
-    if(str1 == str2)
+    if (str1 == str2)
     {
         return 0;
     }
-    else if(NULL == str1)
+    else if (NULL == str1)
     {
         STLSOFT_ASSERT(NULL != str2);
 
         return -1;
     }
-    else if(NULL == str2)
+    else if (NULL == str2)
     {
         STLSOFT_ASSERT(NULL != str1);
 
@@ -188,7 +188,7 @@ xtests_stricmp_a_(
         char_buffer_t_  str2_(1 + len2);
 
 #ifndef STLSOFT_CF_EXCEPTION_SUPPORT
-        if( str1_.empty() ||
+        if (str1_.empty() ||
             str2_.empty())
         {
             return 1;
@@ -211,17 +211,17 @@ xtests_stricmp_w_(
 ,   wchar_t const*  str2
 )
 {
-    if(str1 == str2)
+    if (str1 == str2)
     {
         return 0;
     }
-    else if(NULL == str1)
+    else if (NULL == str1)
     {
         STLSOFT_ASSERT(NULL != str2);
 
         return ('\0' == *str2) ? 0 : -1;
     }
-    else if(NULL == str2)
+    else if (NULL == str2)
     {
         STLSOFT_ASSERT(NULL != str1);
 
@@ -235,7 +235,7 @@ xtests_stricmp_w_(
         char_buffer_w_t_    str2_(1 + len2);
 
 #ifndef STLSOFT_CF_EXCEPTION_SUPPORT
-        if( str1_.empty() ||
+        if (str1_.empty() ||
             str2_.empty())
         {
             return 1;
@@ -259,21 +259,21 @@ xtests_strncmp_a_(
 ,   size_t          n
 )
 {
-    if(str1 == str2)
+    if (str1 == str2)
     {
         return 0;
     }
-    else if(0 == n)
+    else if (0 == n)
     {
         return 0;
     }
-    else if(NULL == str1)
+    else if (NULL == str1)
     {
         STLSOFT_ASSERT(NULL != str2);
 
         return ('\0' == *str2) ? 0 : -1;
     }
-    else if(NULL == str2)
+    else if (NULL == str2)
     {
         STLSOFT_ASSERT(NULL != str1);
 
@@ -292,21 +292,21 @@ xtests_strncmp_w_(
 ,   size_t          n
 )
 {
-    if(str1 == str2)
+    if (str1 == str2)
     {
         return 0;
     }
-    else if(0 == n)
+    else if (0 == n)
     {
         return 0;
     }
-    else if(NULL == str1)
+    else if (NULL == str1)
     {
         STLSOFT_ASSERT(NULL != str2);
 
         return ('\0' == *str2) ? 0 : -1;
     }
-    else if(NULL == str2)
+    else if (NULL == str2)
     {
         STLSOFT_ASSERT(NULL != str1);
 
@@ -325,19 +325,19 @@ xtests_strnicmp_a_(
 ,   size_t          n
 )
 {
-    if(str1 == str2)
+    if (str1 == str2)
     {
         return 0;
     }
-    else if(0 == n)
+    else if (0 == n)
     {
         return 0;
     }
-    else if(NULL == str1)
+    else if (NULL == str1)
     {
         return (NULL == str2 || '\0' == *str2) ? 0 : -1;
     }
-    else if(NULL == str2)
+    else if (NULL == str2)
     {
         STLSOFT_ASSERT(NULL != str1);
 
@@ -351,7 +351,7 @@ xtests_strnicmp_a_(
         char_buffer_t_  str2_(len2);
 
 #ifndef STLSOFT_CF_EXCEPTION_SUPPORT
-        if( str1_.empty() ||
+        if (str1_.empty() ||
             str2_.empty())
         {
             return 1;
@@ -375,19 +375,19 @@ xtests_strnicmp_w_(
 ,   size_t          n
 )
 {
-    if(str1 == str2)
+    if (str1 == str2)
     {
         return 0;
     }
-    else if(0 == n)
+    else if (0 == n)
     {
         return 0;
     }
-    else if(NULL == str1)
+    else if (NULL == str1)
     {
         return (NULL == str2 || '\0' == *str2) ? 0 : -1;
     }
-    else if(NULL == str2)
+    else if (NULL == str2)
     {
         STLSOFT_ASSERT(NULL != str1);
 
@@ -401,7 +401,7 @@ xtests_strnicmp_w_(
         char_buffer_w_t_    str2_(len2);
 
 #ifndef STLSOFT_CF_EXCEPTION_SUPPORT
-        if( str1_.empty() ||
+        if (str1_.empty() ||
             str2_.empty())
         {
             return 1;
@@ -424,11 +424,11 @@ xtests_strstr_(
 ,   char const*     str2
 )
 {
-    if(NULL == str1)
+    if (NULL == str1)
     {
         return NULL;
     }
-    else if(NULL == str2)
+    else if (NULL == str2)
     {
         return str1;
     }
@@ -444,11 +444,11 @@ xtests_strstr_w_(
 ,   wchar_t const*  str2
 )
 {
-    if(NULL == str1)
+    if (NULL == str1)
     {
         return NULL;
     }
-    else if(NULL == str2)
+    else if (NULL == str2)
     {
         return str1;
     }
@@ -464,11 +464,11 @@ xtests_stristr_(
 ,   char const*     str2
 )
 {
-    if(NULL == str1)
+    if (NULL == str1)
     {
         return NULL;
     }
-    else if(NULL == str2)
+    else if (NULL == str2)
     {
         return str1;
     }
@@ -480,7 +480,7 @@ xtests_stristr_(
         char_buffer_t_  str2_(1 + len2);
 
 #ifndef STLSOFT_CF_EXCEPTION_SUPPORT
-        if( str1_.empty() ||
+        if (str1_.empty() ||
             str2_.empty())
         {
             return NULL;
@@ -503,11 +503,11 @@ xtests_stristr_w_(
 ,   wchar_t const*  str2
 )
 {
-    if(NULL == str1)
+    if (NULL == str1)
     {
         return NULL;
     }
-    else if(NULL == str2)
+    else if (NULL == str2)
     {
         return str1;
     }
@@ -519,7 +519,7 @@ xtests_stristr_w_(
         char_buffer_w_t_    str2_(1 + len2);
 
 #ifndef STLSOFT_CF_EXCEPTION_SUPPORT
-        if( str1_.empty() ||
+        if (str1_.empty() ||
             str2_.empty())
         {
             return NULL;
@@ -541,3 +541,4 @@ xtests_stristr_w_(
 #endif /* __cplusplus */
 
 /* ///////////////////////////// end of file //////////////////////////// */
+
