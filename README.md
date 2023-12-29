@@ -39,7 +39,7 @@ file.
 (Click :arrow_forward: to expand/contract the sections)
 
 <details>
-<summary markdown="span">Test-runner and test-case functions that are used to set up the test context</summary>
+<summary markdown="span">Test-runner and Test-case functions that are used to set up the test context</summary>
 <blockquote>
  <details>
  <summary markdown="span">Test runner functions</summary>

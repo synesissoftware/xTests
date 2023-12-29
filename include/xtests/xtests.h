@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       41
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    8
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        348
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    10
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        350
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@
 #define _XTESTS_VER_MINOR       21
 #define _XTESTS_VER_REVISION    0
 
-#define _XTESTS_VER             0x00150001
+#define _XTESTS_VER             0x00150002
 
 /* /////////////////////////////////////////////////////////////////////////
  * includes - 1
@@ -511,6 +511,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  */
 
 
+/* ///////////////////////////////////////////////////////////////////
+ * test runner functions
+ */
+
 /** \def XTESTS_START_RUNNER(name, verbosity)
  *
  * \ingroup group__xtests__test_runner_functions
@@ -716,6 +720,11 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 #define XTESTS_END_RUNNER_UPDATE_EXITCODE(retCode)          \
     stlsoft_static_cast(void, XTESTS_NS_C_QUAL(xtests_endRunner)(retCode))
 
+
+/* ///////////////////////////////////////////////////////////////////
+ * test case functions
+ */
+
 /** \def XTESTS_CASE_BEGIN(name, desc)
  *
  * \ingroup group__xtests__test_case_functions
@@ -854,6 +863,15 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
     XTESTS_RUN_CASE_THAT_THROWS_WITH_NAME_AND_DESC_(__FILE__, __LINE__, #fn, "", fn, type)
 
 #endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
+
+
+/* ///////////////////////////////////////////////////////////////////
+ * test assertion functions
+ */
+
+/* /////////////////////////////////////////////////////////
+ * directed-result assertions
+ */
 
 /** \def XTESTS_TEST_FAIL_WITH_QUALIFIER(msg, qualifier)
  *
@@ -1495,21 +1513,9 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 
 #endif /* !_XTESTS_NO_CPP_API */
 
-/** \def XTESTS_ARRAY_END_POST(ar)
- *
- * \ingroup group__xtests__utiliy_functions
- *
- * Evaluates the end-point of an array, based on its static array size.
- */
-#ifdef __DMC__
-# define XTESTS_ARRAY_END_POST(ar)                          (&(ar)[0] + STLSOFT_NUM_ELEMENTS(ar))
-#else /* ? compiler */
-# define XTESTS_ARRAY_END_POST(ar)                          (&0[(ar)] + STLSOFT_NUM_ELEMENTS(ar))
-#endif /* compiler */
-
 
 /* /////////////////////////////////////////////////////////
- * test macros simplified
+ * test numeric macros simplified
  */
 
 /** \def XTESTS_TEST_INTEGER_EQUAL(expected, actual)
@@ -4214,8 +4220,9 @@ xtests_require_C(
 XTESTS_CALL(int)
 xTests_hasRequiredConditionFailed(void);
 
-/* /////////////////////////////////////////////////////////////////////////
- * helper functions
+
+/* ///////////////////////////////////////////////////////////////////
+ * utility functions
  */
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
@@ -4267,7 +4274,6 @@ xtests_commandLine_parseHelp(
 #define XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, pverbosity)                      \
     stlsoft_static_cast(void, XTESTS_NS_C_QUAL(xtests_commandLine_parseVerbosity)((argc), (argv), (pverbosity)))
 
-
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
 # define XTESTS_COMMANDLINE_PARSEVERBOSITY                  XTESTS_COMMANDLINE_PARSE_VERBOSITY
@@ -4304,7 +4310,6 @@ xtests_commandLine_parseHelp(
 # define XTESTS_COMMANDLINE_PARSEVERBOSITY_DEFAULT          XTESTS_COMMANDLINE_PARSE_VERBOSITY_WITH_DEFAULT
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
-
 /** \def XTESTS_COMMANDLINE_PARSE_HELP(argc, argv)
  *
  * \ingroup group__xtests__utiliy_functions
@@ -4322,6 +4327,24 @@ xtests_commandLine_parseHelp(
  */
 #define XTESTS_COMMANDLINE_PARSE_HELP(argc, argv)                                       \
     stlsoft_static_cast(void, XTESTS_NS_C_QUAL(xtests_commandLine_parseHelp)((argc), (argv), stdout, EXIT_SUCCESS))
+
+/** \def XTESTS_ARRAY_END_POST(ar)
+ *
+ * \ingroup group__xtests__utiliy_functions
+ *
+ * Evaluates the end-point of an array, based on its static array size.
+ */
+#ifdef __DMC__
+# define XTESTS_ARRAY_END_POST(ar)                          (&(ar)[0] + STLSOFT_NUM_ELEMENTS(ar))
+#else /* ? compiler */
+# define XTESTS_ARRAY_END_POST(ar)                          (&0[(ar)] + STLSOFT_NUM_ELEMENTS(ar))
+#endif /* compiler */
+
+
+/* ///////////////////////////////////////////////////////////////////
+ * miscellaneous constructs
+ */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * obsolete names
