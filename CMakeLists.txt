@@ -1,13 +1,78 @@
 
-cmake_minimum_required(VERSION 3.20)
+# ######################################################################## #
+# File:     /CMakeLists.txt
+#
+# Purpose:  Top-level CMake lists file for xTests
+#
+# Created:  9th October 2019
+# Updated:  14th December 2023
+#
+# ######################################################################## #
 
+
+# ##########################################################
+# CMake
+
+cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
+
+# require out-of-source builds
+file(TO_CMAKE_PATH "${CMAKE_CURRENT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
+if(EXISTS "${LOC_PATH}")
+    message(FATAL_ERROR "You cannot build in a source directory (or any directory with a CMakeLists.txt file). Please make a build subdirectory. Feel free to remove CMakeCache.txt and CMakeFiles.")
+endif()
+
+
+# directory for CMake specific extensions and source files.
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
+
+
+# ##########################################################
+# project
+
+project(xTests
+    DESCRIPTION "xTests is a small, lightweight, portable, simple unit- and component-test framework suitable for exercising C and C++ libraries."
+    HOMEPAGE_URL "https://github.com/synesissoftware/xTests"
+    LANGUAGES C CXX
+)
+
+# handle version number
+set(RX_WS "[ \t]")
+set(RX_PROJ_TAG "XTESTS")
+file(READ "${CMAKE_SOURCE_DIR}/include/xtests/xtests.h" _header_file)
+string(REGEX MATCH "#${RX_WS}*define${RX_WS}+_?${RX_PROJ_TAG}_VER_MAJOR${RX_WS}+([0-9]+)" MAJOR_DUMMY ${_header_file})
+set(_VERSION_MAJOR ${CMAKE_MATCH_1})
+string(REGEX MATCH "#${RX_WS}*define${RX_WS}+_?${RX_PROJ_TAG}_VER_MINOR${RX_WS}+([0-9]+)" MINOR_DUMMY ${_header_file})
+set(_VERSION_MINOR ${CMAKE_MATCH_1})
+string(REGEX MATCH "#${RX_WS}*define${RX_WS}+_?${RX_PROJ_TAG}_VER_REVISION${RX_WS}+([0-9]+)" PATCH_DUMMY ${_header_file})
+set(_VERSION_PATCH ${CMAKE_MATCH_1})
+
+# set project version number here
+set(PROJECT_VERSION_MAJOR ${_VERSION_MAJOR})
+set(PROJECT_VERSION_MINOR ${_VERSION_MINOR})
+set(PROJECT_VERSION_PATCH ${_VERSION_PATCH})
+set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
+
+# adhere strictly to C and C++ standards plus extensions. These are actually
+# useless since we do not compile anything; they merely state our intention.
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS ON) # GNU extensions and POSIX standard
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS ON)
 
-project(xTests)
+
+# ##########################################################
+# install
+
+# provides install directory variables as defined by the GNU Coding Standards.
+include(GNUInstallDirs)
 
 
-include_directories(include)
+# ##########################################################
+# STLSoft
+
+find_package(STLSoft 1.10.1 REQUIRED)
 
 if(NOT DEFINED STLSOFT AND NOT DEFINED ENV{STLSOFT})
 
@@ -28,43 +93,99 @@ endif()
 include_directories(${STLSOFT_INCLUDE_DIR})
 
 
-if(UNIX)
+# ##########################################################
+# build
 
-    add_definitions(-DUNIX)
-    add_definitions(-Dunix)
+# load/default `CMAKE_BUILD_TYPE`
+include(BuildType)
+
+add_subdirectory(src)
+
+
+# ##########################################################
+# test
+
+include(CTest)
+
+if(BUILD_TESTING)
+    add_subdirectory(test)
 endif()
 
-if(WIN32)
 
-    message(FATAL_ERROR "Use of CMake on Windows not currently supported")
+# ##########################################################
+# examples
+
+option(BUILD_EXAMPLES "Build examples" ON)
+if(BUILD_EXAMPLES)
+    add_subdirectory(examples)
 endif()
 
 
-add_subdirectory(./projects/core)
+# ##########################################################
+# install
 
-add_subdirectory(./examples/c/example.c.factorial)
-add_subdirectory(./examples/c/example.c.runner)
-add_subdirectory(./examples/c/example.c.tests)
 
-add_subdirectory(./test/scratch/test.scratch.basics1)
-add_subdirectory(./test/scratch/test.scratch.basics2)
-add_subdirectory(./test/scratch/test.scratch.fail_all.1)
-add_subdirectory(./test/scratch/test.scratch.setup.fail)
-add_subdirectory(./test/scratch/test.scratch.string_slices.c)
-add_subdirectory(./test/scratch/test.scratch.temp_directory)
-add_subdirectory(./test/scratch/test.scratch.temp_file)
-add_subdirectory(./test/scratch/test.scratch.verbosity_levels)
+
+
+
+
 
 
 install(
     TARGETS xTests
 )
 
+# install the xtests/*/ subdirectories here, as do not (yet) know how to do so via src/CMakeLists.txt's PUBLIC_HEADER property
 install(
-    DIRECTORY ${CMAKE_SOURCE_DIR}/include/
-    DESTINATION include
+    DIRECTORY ${CMAKE_SOURCE_DIR}/include/xtests/util
+    DESTINATION include/xtests/util
     FILES_MATCHING
     PATTERN "*.h*"
-    PATTERN "internal" EXCLUDE
 )
+
+
+# ##########################################################
+# export
+
+include(CMakePackageConfigHelpers)
+
+string(TOLOWER ${PROJECT_NAME} EXPORT_NAME)
+
+configure_package_config_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EXPORT_NAME}-config.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/cmake/${EXPORT_NAME}-config.cmake
+    INSTALL_DESTINATION ${LIB_INSTALL_DIR}/${EXPORT_NAME}/cmake
+)
+
+write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/cmake/${EXPORT_NAME}-config-version.cmake
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY AnyNewerVersion
+)
+
+#[====[
+]====]
+export(EXPORT project-targets
+    FILE "${CMAKE_CURRENT_BINARY_DIR}/cmake/${EXPORT_NAME}-targets.cmake"
+    NAMESPACE "${PROJECT_NAME}::"
+)
+
+install(EXPORT project-targets
+    NAMESPACE "${PROJECT_NAME}::"
+    FILE "${EXPORT_NAME}-targets.cmake"
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${EXPORT_NAME}
+)
+
+install( FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake/${EXPORT_NAME}-config.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake/${EXPORT_NAME}-config-version.cmake"
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${EXPORT_NAME}
+)
+
+#[====[
+export(PACKAGE "${PROJECT_NAME}")
+]====]
+
+
+# ############################## end of file ############################# #
 

@@ -7,14 +7,20 @@ CMakePath=$Dir/_build
 
 Directories=(
     CMakeFiles
+    Testing
+    cmake
     examples
     projects
+    src
     test
 )
 Files=(
     CMakeCache.txt
+    CTestTestfile.cmake
+    DartConfiguration.tcl
     Makefile
     cmake_install.cmake
+    install_manifest.txt
 )
 
 
