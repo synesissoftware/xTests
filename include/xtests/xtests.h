@@ -79,10 +79,10 @@
  */
 
 #define _XTESTS_VER_MAJOR       0
-#define _XTESTS_VER_MINOR       20
-#define _XTESTS_VER_REVISION    4
+#define _XTESTS_VER_MINOR       21
+#define _XTESTS_VER_REVISION    0
 
-#define _XTESTS_VER             0x001404ff
+#define _XTESTS_VER             0x00150001
 
 /* /////////////////////////////////////////////////////////////////////////
  * includes - 1
@@ -164,6 +164,23 @@
 
 # include <algorithm>
 #endif /* __cplusplus */
+
+#ifdef SHWILD_VER
+# ifndef XTESTS_USE_SHWILD
+#  define XTESTS_USE_SHWILD
+# endif /* !XTESTS_USE_SHWILD */
+#endif /* SHWILD_VER */
+
+#ifdef XTESTS_USE_SHWILD
+# ifndef _XTESTS_NO_CPP_API
+#  include <shwild/shwild.hpp>
+#  if _STLSOFT_VER >= 0x010a01a2
+#   ifndef STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING
+#    include <stlsoft/string/sas_to_string.hpp>
+#   endif /* !STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING */
+#  endif /* _STLSOFT_VER */
+# endif /* !_XTESTS_NO_CPP_API */
+#endif /* XTESTS_USE_SHWILD */
 
 #include <stddef.h>
 #include <stdio.h>
@@ -1782,6 +1799,56 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
                                                                                         \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
     XTESTS_NS_C_QUAL(xtests_testMultibyteStringSlice)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", XTESTS_GET_EXPECTED_SLICE_MB_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonEqual)))
+
+#ifdef XTESTS_USE_SHWILD
+
+/** \def XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)
+ *
+ * \ingroup group__xtests__test_functions
+ *
+ * Tests that a (multibyte) string matches a given pattern.
+ *
+ * \param pattern The pattern constraining the expected values of the string
+ * \param value The value to be evaluated
+ *
+ * \note This macro will be defined only given prior inclusion of one of
+ *   **shwild**'s headers (**shwild/shwild.h** or **shwild/shwild.hpp**).
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+# ifndef _XTESTS_NO_CPP_API
+
+#  ifdef STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING
+
+#   define XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)                         \
+                                                                                        \
+    (                                                                                   \
+        (0 == shwild::match((pattern), stlsoft::c_str_ptr_a((value)), 0))               \
+            ?   XTESTS_TEST_PASSED()                                                    \
+            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(stlsoft::c_str_ptr_a("actual value (given in qualifier) did not match pattern '" + stlsoft::sas_to_string_m((pattern)) + "'"), stlsoft::c_str_ptr_a((value)))   \
+    )
+#  else /* !STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING */
+
+#   define XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)                         \
+                                                                                        \
+    (                                                                                   \
+        (0 == shwild::match((pattern), stlsoft::c_str_ptr_a((value)), 0))               \
+            ?   XTESTS_TEST_PASSED()                                                    \
+            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(stlsoft::c_str_ptr_a("actual value (given in qualifier) did not match pattern '" + std::string(stlsoft::c_str_data_a((pattern)), stlsoft::c_str_len_a((pattern))) + "'"), stlsoft::c_str_ptr_a((value)))    \
+    )
+#  endif /* STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING */
+# else /* ? _XTESTS_NO_CPP_API */
+
+#  define XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)                          \
+                                                                                        \
+    (                                                                                   \
+        (0 == shwild_match((pattern), (value), 0))                                      \
+            ?   XTESTS_TEST_PASSED()                                                    \
+            :   XTESTS_TEST_FAIL_WITH_QUALIFIER("actual value (given in qualifier) did not match the pattern", (value))   \
+    )
+# endif /* !_XTESTS_NO_CPP_API */
+#endif /* XTESTS_USE_SHWILD */
 
 
 /* /////////////////////////////////////////////////////////
