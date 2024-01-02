@@ -6,7 +6,7 @@
 #           on the UNIX platform
 #
 # Created:  16th December 2007
-# Updated:  30th November 2023
+# Updated:  2nd January 2024
 #
 ############################################################################
 
@@ -26,9 +26,9 @@ endif # !STLSOFT
 ############################################################################
 # symbols
 
-COMP_TAG            =   gcc44
+COMP_TAG                =   gcc44
 
-CPPC_F_CXX_STD_VER	=
+CPPC_F_CXX_STD_VER      =
 
 ############################################################################
 # includes - 2

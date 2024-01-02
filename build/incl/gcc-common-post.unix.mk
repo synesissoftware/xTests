@@ -4,7 +4,7 @@
 # Purpose:  Makefile common includes (post) for GCC
 #
 # Created:  30th November 2023
-# Updated:  30th November 2023
+# Updated:  2nd January 2024
 #
 ############################################################################
 
@@ -15,23 +15,23 @@
 ########################################
 # project & compiler version
 
-ARCH_TAG            =
-OS_TAG              =
-PROJ_TAG			=	xtests
-PROJ_VER_MAJOR      =   0
-PROJ_MOD_TAG        =   core
-PROJ_TAG_VER        =   $(PROJ_TAG).$(PROJ_VER_MAJOR).$(PROJ_MOD_TAG)
-COMP_ARCH_OS_TAG    =   $(COMP_TAG)$(OS_TAG)$(ARCH_TAG)
+ARCH_TAG                =
+OS_TAG                  =
+PROJ_TAG                =   xtests
+PROJ_VER_MAJOR          =   0
+PROJ_MOD_TAG            =   core
+PROJ_TAG_VER            =   $(PROJ_TAG).$(PROJ_VER_MAJOR).$(PROJ_MOD_TAG)
+COMP_ARCH_OS_TAG        =   $(COMP_TAG)$(OS_TAG)$(ARCH_TAG)
 
 ########################################
 # dependencies
 
-PROJ_MAKEFILE_NAME  =   makefile
+PROJ_MAKEFILE_NAME      =   makefile
 
 ########################################
 # testing verbosity
 
-TEST_VERBOSITY      =   2
+TEST_VERBOSITY          =   2
 
 
 ############################################################################
@@ -80,11 +80,11 @@ PROJ_INCLUDE            =   -I$(PROJ_INCLUDE_DIR)
 
 COMMON_INCLUDES         =
 
-STLSOFT_INCLUDES		=\
+STLSOFT_INCLUDES        =\
  -I"$(STLSOFT)/include"\
  \
 
-THIRDPARTY_INCLUDES		=\
+THIRDPARTY_INCLUDES     =\
  \
 
 # CC
