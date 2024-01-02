@@ -1581,6 +1581,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 #define XTESTS_TEST_CHARACTER_EQUAL(expected, actual)       \
     XTESTS_TEST_CHARACTER_EQUAL_EXACT(expected, actual)
 
+
 /* /////////////////////////////////////////////////////////
  * test multibyte strings
  */
