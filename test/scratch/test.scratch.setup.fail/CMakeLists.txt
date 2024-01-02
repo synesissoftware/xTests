@@ -4,7 +4,7 @@ add_executable(test.scratch.setup.fail
 )
 
 target_link_libraries(test.scratch.setup.fail
-    xTests
+    xTests.core
 )
 
 target_compile_options(test.scratch.setup.fail PRIVATE

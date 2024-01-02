@@ -3,7 +3,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 
 if (APPLE)
 
-message("-- -- adding '/usr/local/include' to include-directories for 'test'")
+    message("-- -- adding '/usr/local/include' to include-directories for 'test'")
 
     include_directories("/usr/local/include")
 endif()

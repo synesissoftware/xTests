@@ -4,7 +4,7 @@ add_executable(example.c.tests
 )
 
 target_link_libraries(example.c.tests
-    xTests
+    xTests.core
 )
 
 target_compile_options(example.c.tests PRIVATE

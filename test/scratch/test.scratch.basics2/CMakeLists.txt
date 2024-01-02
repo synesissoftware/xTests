@@ -4,7 +4,7 @@ add_executable(test.scratch.basics2
 )
 
 target_link_libraries(test.scratch.basics2
-    xTests
+    xTests.core
 )
 
 target_compile_options(test.scratch.basics2 PRIVATE

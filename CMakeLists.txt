@@ -86,26 +86,26 @@ include(GNUInstallDirs)
 
 if(NOT DEFINED STLSOFT AND NOT DEFINED ENV{STLSOFT})
 
-	set(STLSoft_REQUIRED_VERSION_ 1.10.2)
+    set(STLSoft_REQUIRED_VERSION_ 1.10.2)
 
-	find_package(STLSoft ${STLSoft_REQUIRED_VERSION_} REQUIRED)
+    find_package(STLSoft ${STLSoft_REQUIRED_VERSION_} REQUIRED)
 
-	message("-- CMake package STLSoft found (version ${STLSoft_VERSION}; ${STLSoft_REQUIRED_VERSION_} requested)")
+    message("-- CMake package STLSoft found (version ${STLSoft_VERSION}; ${STLSoft_REQUIRED_VERSION_} requested)")
 else()
 
-	if(DEFINED STLSOFT)
+    if(DEFINED STLSOFT)
 
-		message("-- STLSOFT provided as CMake variable with value ${STLSOFT}")
+        message("-- STLSOFT provided as CMake variable with value ${STLSOFT}")
 
-		set(STLSOFT_INCLUDE_DIR ${STLSOFT}/include)
-	else()
+        set(STLSOFT_INCLUDE_DIR ${STLSOFT}/include)
+    else()
 
-		message("-- STLSOFT provided as environment variable with value $ENV{STLSOFT}")
+        message("-- STLSOFT provided as environment variable with value $ENV{STLSOFT}")
 
-		set(STLSOFT_INCLUDE_DIR $ENV{STLSOFT}/include)
-	endif()
+        set(STLSOFT_INCLUDE_DIR $ENV{STLSOFT}/include)
+    endif()
 
-	include_directories(${STLSOFT_INCLUDE_DIR})
+    include_directories(${STLSOFT_INCLUDE_DIR})
 endif()
 
 
@@ -143,7 +143,7 @@ endif()
 # install
 
 install(
-    TARGETS xTests
+    TARGETS xTests.core
 )
 
 # install the xtests/*/ subdirectories here, as do not (yet) know how to do so via src/CMakeLists.txt's PUBLIC_HEADER property
