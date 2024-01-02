@@ -1,10 +1,7 @@
 # xTests - History
 
 
-Updated:    30th November 2023
-
-
-30th November 2023 - 0.20.4
+14th December 2023 - 0.20.4
 ---------------------------
 
  * added CMake support
@@ -424,5 +421,6 @@ Updated:    30th November 2023
 
  All history before this day is moot!
 
-=============================== end of file ================================
+
+<!-- ########################### end of file ########################### -->
 

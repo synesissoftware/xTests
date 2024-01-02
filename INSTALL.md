@@ -1,4 +1,4 @@
-# xTests - Installation and Use
+# xTests - Installation and Use <!-- omit in toc -->
 
 Fundamentally, **xTests** is a classic-form C/C++ library, insofar as it has
 implementation files in its **src** directory and header files in its
@@ -6,10 +6,10 @@ implementation files in its **src** directory and header files in its
 include **xtests/xtests.h** (or one of the utility headers), and compile-in
 or link-in the implementation. There are several ways to do this:
 
-* [CMake](#cmake) - recommended
-* [Custom makefile (as peer project)](#custom-makefile-as-peer-project) - previously recommended approach
-* [Bundled](#bundled)
-* [Custom makefile parameters](#custom-makefile-parameters)
+- [CMake](#cmake)
+- [Custom makefile (as peer project)](#custom-makefile-as-peer-project)
+- [Bundled](#bundled)
+- [Custom makefile parameters](#custom-makefile-parameters)
 
 
 ## CMake
@@ -503,3 +503,7 @@ Once again, this is an advanced technique and quite messy, so work is
 currently underway to enable **xTests** (and other related open-source
 projects - see [README.md](./README.md)) to obtain their **CMake**
 dependencies automatically.
+
+
+<!-- ########################### end of file ########################### -->
+

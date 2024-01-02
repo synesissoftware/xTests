@@ -1,21 +1,30 @@
-xTests - FAQ
-============
-
-Updated:    12th October 2019
-
-
+# xTests - FAQ <!-- omit in toc -->
 
 The FAQ list is under (constant) development. If you post a question on the
-Tutorials forum (https://sourceforge.net/forum/forum.php?forum_id=787790)
+Issues forum (https://github.com/synesissoftware/xTests/issues)
 it will be used to create one.
 
-FAQs:
-=====
+- [Q1: "How do I build xTests?"](#q1-how-do-i-build-xtests)
+- [Q2: "Does xTests have its own unit-tests?"](#q2-does-xtests-have-its-own-unit-tests)
+- [Q3: "Why are the macros so verbose?"](#q3-why-are-the-macros-so-verbose)
 
-Q1: "What happens if the I ask a question on the forum?"   [20th February 2008]
 
-A1:
-  It'll be added to the FAQ.
+# FAQs: <!-- omit in toc -->
 
-=============================== end of file ================================
+## Q1: "How do I build xTests?"
+
+See instructions in [INSTALL.md](./INSTALL.md).
+
+## Q2: "Does xTests have its own unit-tests?"
+
+Yes, but because it is a unit-test library itself, those tests failed deliberately in order to illustrate the outputs given when you use **xTests** in your own work.
+
+## Q3: "Why are the macros so verbose?"
+
+Because **xTests** is deliberately targeted at both C and C++. When the library was created there weren't that many unit-test libraries available for C++, and there were many fewer available that supported C.
+
+If you are starting a new project that is entirely C++, we recommend that you instead use a more sophisticated and full-featured library, such as [**Catch2**](https://github.com/catchorg/Catch2).
+
+
+<!-- ########################### end of file ########################### -->
 

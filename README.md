@@ -1,12 +1,17 @@
-# xTests
+# xTests <!-- omit in toc -->
 
-## Table of Contents
+## Table of Contents <!-- omit in toc -->
 
-1. [Introduction](#introduction)
-2. [Installation](#installation)
-3. [Components](#components)
-4. [Examples](#examples)
-5. [Project Information](#project-information)
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Components](#components)
+- [Examples](#examples)
+- [Project Information](#project-information)
+  - [Where to get help](#where-to-get-help)
+  - [Contribution guidelines](#contribution-guidelines)
+  - [Dependencies](#dependencies)
+  - [Related projects](#related-projects)
+  - [License](#license)
 
 ## Introduction
 
@@ -25,7 +30,7 @@ scripting languages. It doesn't use macros to create secret classes that
 use Schwarz counters to register test cases. It relies on you to simply
 code what you want, and nothing that you don't want.
 
-xTests is completely free and includes source released under a BSD-style
+**xTests** is completely free and includes source released under a BSD-style
 license.
 
 ## Installation
@@ -271,7 +276,7 @@ file.
 
 ## Examples
 
-Extensive examples are provided in the ```examples``` directory, along with a markdown description for each. Here, it is worth just providing a simplest-useful example, as shown below:
+Extensive examples are provided in the ```examples``` directory, along with a markdown description for each. Here, it is worth just providing a simplest-possible useful example, as shown below:
 
 ```c
 /* file: example.c.factorial.c */
@@ -349,9 +354,9 @@ If you'd like to help out with the project, please raise an issue via [GitHub Pa
 
 ### Dependencies
 
-#### STLSoft
+#### STLSoft <!-- omit in toc -->
 
-**xTests** depends on the STLSoft libraries, version 1.9.134 (or later). Version 1.10.1 beta19 (or later) is recommended.
+**xTests** depends on the **STLSoft** libraries, version 1.9.134 (or later). Version 1.10.1 (or later) is recommended.
 
 * [STLSoft 1.9](http://github.com/synesissoftware/STLSoft-1.9/)
 * [STLSoft 1.10](http://github.com/synesissoftware/STLSoft-1.10/) (Recommended)
@@ -372,4 +377,7 @@ Projects in which **xTests** is used for testing include:
 ### License
 
 **xTests** is released under the 3-clause BSD license. See [LICENSE](./LICENSE) for details.
+
+
+<!-- ########################### end of file ########################### -->
 

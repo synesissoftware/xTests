@@ -13,6 +13,9 @@ RunMake=0
 STLSoftDirGiven=
 
 
+# ##########################################################
+# command-line handling
+
 while [[ $# -gt 0 ]]; do
     case $1 in
         -d|--debug-configuration)
@@ -30,7 +33,7 @@ while [[ $# -gt 0 ]]; do
             ;;
         --help)
             cat << EOF
-xTests - Simple Unit-testing for C and C++
+xTests is a small, lightweight, portable, simple unit- and component-test framework suitable for exercising C and C++ libraries
 Copyright (c) 2023 Synesis Information Systems
 Causes the creation/reinitialisation of the CMake build script(s)
 
@@ -68,10 +71,9 @@ Flags/options:
 EOF
 
             exit 0
-
             ;;
         *)
-            echo -e "$ScriptPath: unrecognised argument '$1'; use --help for usage"
+            >&2 echo "$ScriptPath: unrecognised argument '$1'; use --help for usage"
 
             exit 1
             ;;
@@ -80,6 +82,9 @@ EOF
     shift
 done
 
+
+# ##########################################################
+# main()
 
 mkdir -p $CMakePath || exit 1
 
@@ -106,3 +111,7 @@ if [ $CmakeVerboseMakefile -ne 0 ]; then
     echo -e "contents of $CMakePath:"
     ls -al $CMakePath
 fi
+
+
+# ############################## end of file ############################# #
+
