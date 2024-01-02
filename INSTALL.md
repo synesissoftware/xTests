@@ -69,6 +69,14 @@ The primary choice for installation is by use of **CMake**.
    $ STLSOFT=~/open-source/STLSoft-1.10 ./prepare_cmake.sh -v
    ```
 
+   As of version **0.20.5**, if you have already obtained **STLSoft** and
+   installed it via its **CMake** scripts then you need not specify any
+   further details related to **STLSoft**, as in:
+
+   ```bash
+   $ ./prepare_cmake.sh -v
+   ```
+
 4. Run a build of the generated **CMake**-derived build files via the
    **build_cmake.sh** script, as in:
 
