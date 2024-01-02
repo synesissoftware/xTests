@@ -44,7 +44,7 @@ file.
 (Click :arrow_forward: to expand/contract the sections)
 
 <details>
-<summary markdown="span">Test-runner and test-case functions that are used to set up the test context</summary>
+<summary markdown="span">Test-runner and Test-case functions that are used to set up the test context</summary>
 <blockquote>
  <details>
  <summary markdown="span">Test runner functions</summary>
@@ -314,7 +314,7 @@ int main(int argc, char* argv[])
 
     if (XTESTS_START_RUNNER("example.factorial.runner", verbosity))
     {
-        /* runs test case "test_factorial_edge_cases" */
+        /* runs test case function "test_factorial_edge_cases" */
         XTESTS_RUN_CASE_WITH_DESC(test_factorial_edge_cases, "checking edge cases");
 
         /* runs test case "test-case-range" */

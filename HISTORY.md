@@ -1,6 +1,18 @@
 # xTests - History
 
 
+2nd January 2024 - 0.21.0
+-------------------------
+
+ * added `XTESTS_TEST_MULTIBYTE_STRING_MATCHES()` that, in the presence of the shwild library, provides pattern matching
+
+
+2nd January 2024 - 0.20.5
+-------------------------
+
+ * completed CMake support, with flexible mechanism to select STLSoft dependency
+
+
 14th December 2023 - 0.20.4
 ---------------------------
 

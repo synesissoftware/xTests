@@ -9,7 +9,7 @@
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
- * Copyright (c) 2019-2023, Matthew Wilson and Synesis Information Systems
+ * Copyright (c) 2019-2024, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 1999-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       41
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    9
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        349
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    10
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        350
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -79,13 +79,13 @@
  */
 
 #define _XTESTS_VER_MAJOR       0
-#define _XTESTS_VER_MINOR       20
-#define _XTESTS_VER_REVISION    5
+#define _XTESTS_VER_MINOR       21
+#define _XTESTS_VER_REVISION    0
 
-#define _XTESTS_VER             0x001405ff
+#define _XTESTS_VER             0x00150002
 
 /* /////////////////////////////////////////////////////////////////////////
- * Includes - 1
+ * includes - 1
  */
 
 #ifndef STLSOFT_INCL_STLSOFT_H_STLSOFT
@@ -116,7 +116,7 @@
 #endif /* compiler */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Includes - 2
+ * includes - 2
  */
 
 #ifdef __cplusplus
@@ -164,6 +164,23 @@
 
 # include <algorithm>
 #endif /* __cplusplus */
+
+#ifdef SHWILD_VER
+# ifndef XTESTS_USE_SHWILD
+#  define XTESTS_USE_SHWILD
+# endif /* !XTESTS_USE_SHWILD */
+#endif /* SHWILD_VER */
+
+#ifdef XTESTS_USE_SHWILD
+# ifndef _XTESTS_NO_CPP_API
+#  include <shwild/shwild.hpp>
+#  if _STLSOFT_VER >= 0x010a01a2
+#   ifndef STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING
+#    include <stlsoft/string/sas_to_string.hpp>
+#   endif /* !STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING */
+#  endif /* _STLSOFT_VER */
+# endif /* !_XTESTS_NO_CPP_API */
+#endif /* XTESTS_USE_SHWILD */
 
 #include <stddef.h>
 #include <stdio.h>
@@ -430,7 +447,7 @@ namespace c
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
- * Constants & definitions
+ * constants & definitions
  */
 
 /** Flags to be passed to xtests_startRunner
@@ -494,6 +511,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  */
 
 
+/* ///////////////////////////////////////////////////////////////////
+ * test runner functions
+ */
+
 /** \def XTESTS_START_RUNNER(name, verbosity)
  *
  * \ingroup group__xtests__test_runner_functions
@@ -508,7 +529,6 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  */
 #define XTESTS_START_RUNNER(name, verbosity)                \
     (0 == XTESTS_NS_C_QUAL(xtests_startRunner)((name), (verbosity), NULL, NULL, NULL, 0, NULL, NULL, NULL))
-
 
 /** \def XTESTS_START_RUNNER_WITH_SETUP_FNS(name, verbosity, setup, teardown, setupParam)
  *
@@ -532,7 +552,6 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 #define XTESTS_START_RUNNER_WITH_SETUP_FNS(name, verbosity, setup, teardown, setupParam)    \
     (0 == XTESTS_NS_C_QUAL(xtests_startRunner)((name), (verbosity), NULL, NULL, NULL, 0, (setup), (teardown), (setupParam)))
 
-
 /** \def XTESTS_START_RUNNER_WITH_STREAM(name, verbosity, stm)
  *
  * \ingroup group__xtests__test_runner_functions
@@ -548,7 +567,6 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  */
 #define XTESTS_START_RUNNER_WITH_STREAM(name, verbosity, stm)                       \
     (0 == XTESTS_NS_C_QUAL(xtests_startRunner)((name), (verbosity), NULL, NULL, stm, 0, NULL, NULL, NULL))
-
 
 /** \def XTESTS_START_RUNNER_WITH_REPORTER(name, verbosity, reporter, reporterParam)
  *
@@ -568,7 +586,6 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 #define XTESTS_START_RUNNER_WITH_REPORTER(name, verbosity, reporter, reporterParam) \
     (0 == XTESTS_NS_C_QUAL(xtests_startRunner)((name), (verbosity), (reporter), (reporterParam), NULL, 0, NULL, NULL, NULL))
 
-
 /** \def XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM(name, verbosity, reporter, reporterParam, stm)
  *
  * \ingroup group__xtests__test_runner_functions
@@ -587,7 +604,6 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  */
 #define XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM(name, verbosity, reporter, reporterParam, stm) \
     (0 == XTESTS_NS_C_QUAL(xtests_startRunner)((name), (verbosity), (reporter), (reporterParam), stm, 0, NULL, NULL, NULL))
-
 
 /** \def XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS(name, verbosity, reporter, reporterParam, stm, flags)
  *
@@ -609,7 +625,6 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  */
 #define XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS(name, verbosity, reporter, reporterParam, stm, flags)    \
     (0 == XTESTS_NS_C_QUAL(xtests_startRunner)((name), (verbosity), (reporter), (reporterParam), (stm), (flags), NULL, NULL, NULL))
-
 
 /** \def XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS_AND_SETUP_FNS(name, verbosity, reporter, reporterParam, stm, flags, setup, teardown, setupParam)
  *
@@ -636,7 +651,6 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 #define XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS_AND_SETUP_FNS(name, verbosity, reporter, reporterParam, stm, flags, setup, teardown, setupParam) \
     (0 == XTESTS_NS_C_QUAL(xtests_startRunner)((name), (verbosity), (reporter), (reporterParam), (stm), (flags), (setup), (teardown), (setupParam)))
 
-
 /** \def XTESTS_START_RUNNER_WITH_FLAGS(name, verbosity, flags)
  *
  * \ingroup group__xtests__test_runner_functions
@@ -654,7 +668,6 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 #define XTESTS_START_RUNNER_WITH_FLAGS(name, verbosity, flags)                          \
     (0 == XTESTS_NS_C_QUAL(xtests_startRunner)((name), (verbosity), NULL, NULL, NULL, (flags), NULL, NULL, NULL))
 
-
 /** \def XTESTS_PRINT_RESULTS()
  *
  * \ingroup group__xtests__test_runner_functions
@@ -669,7 +682,6 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 #define XTESTS_PRINT_RESULTS()                              \
     XTESTS_NS_C_QUAL(xtests_printRunnerResults)()
 
-
 /** \def XTESTS_END_RUNNER()
  *
  * \ingroup group__xtests__test_runner_functions
@@ -678,7 +690,6 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  */
 #define XTESTS_END_RUNNER()                                 \
     XTESTS_NS_C_QUAL(xtests_endRunner)(NULL)
-
 
 /** \def XTESTS_ABEND(terminationMessage)
  *
@@ -690,7 +701,6 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  */
 #define XTESTS_ABEND(terminationMessage)                    \
     XTESTS_NS_C_QUAL(xtests_abend)(terminationMessage)
-
 
 /** \def XTESTS_END_RUNNER_UPDATE_EXITCODE()
  *
@@ -711,7 +721,9 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
     stlsoft_static_cast(void, XTESTS_NS_C_QUAL(xtests_endRunner)(retCode))
 
 
-
+/* ///////////////////////////////////////////////////////////////////
+ * test case functions
+ */
 
 /** \def XTESTS_CASE_BEGIN(name, desc)
  *
@@ -726,7 +738,6 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 #define XTESTS_CASE_BEGIN(name, desc)                       \
     (0 == XTESTS_NS_C_QUAL(xtests_beginTestCase)((name), (desc)))
 
-
 /** \def XTESTS_CASE_END(name, desc)
  *
  * \ingroup group__xtests__test_case_functions
@@ -740,7 +751,6 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  */
 #define XTESTS_CASE_END(name)                               \
     stlsoft_static_cast(void, XTESTS_NS_C_QUAL(xtests_endTestCase)((name)))
-
 
 /** \def XTESTS_RUN_CASE_WITH_NAME_AND_DESC(name, desc, fn)
  *
@@ -759,7 +769,6 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  */
 #define XTESTS_RUN_CASE_WITH_NAME_AND_DESC(name, desc, fn)  \
     XTESTS_RUN_CASE_WITH_NAME_AND_DESC_(__FILE__, __LINE__, name, desc, fn)
-
 
 /** \def XTESTS_RUN_CASE_WITH_DESC(fn, desc)
  *
@@ -793,7 +802,6 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  */
 #define XTESTS_RUN_CASE(fn)                                 \
     XTESTS_RUN_CASE_WITH_NAME_AND_DESC_(__FILE__, __LINE__, #fn, "", fn)
-
 
 #ifdef STLSOFT_CF_EXCEPTION_SUPPORT
 
@@ -856,6 +864,14 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 
 #endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
 
+
+/* ///////////////////////////////////////////////////////////////////
+ * test assertion functions
+ */
+
+/* /////////////////////////////////////////////////////////
+ * directed-result assertions
+ */
 
 /** \def XTESTS_TEST_FAIL_WITH_QUALIFIER(msg, qualifier)
  *
@@ -951,7 +967,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_ENUM_EQUAL(expected, actual)            \
+#define XTESTS_TEST_ENUM_EQUAL(expected, actual) \
     XTESTS_TEST_INTEGER_EQUAL_EXACT(stlsoft_static_cast(int, (expected)), stlsoft_static_cast(int, (actual)))
 
 /** \def XTESTS_TEST_ENUM_NOT_EQUAL(expected, actual)
@@ -968,7 +984,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_ENUM_NOT_EQUAL(expected, actual)        \
+#define XTESTS_TEST_ENUM_NOT_EQUAL(expected, actual) \
     XTESTS_TEST_INTEGER_NOT_EQUAL(stlsoft_static_cast(int, (expected)), stlsoft_static_cast(int, (actual)))
 
 
@@ -1121,7 +1137,6 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 # define XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(begin, end, actual)                 \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
     XTESTS_NS_CPP_QUAL(xtests_test_integer_any_in_range(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(" #begin ", " #end ", " #actual ")", (begin), (end), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual))))
-
 
 #if 0
 /** \def XTESTS_TEST_INTEGER_EQUAL_ANY_OF(expected, actual)
@@ -1449,8 +1464,8 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
     XTESTS_NS_CPP_QUAL(xtests_test_floating_point(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual))))
 
 
-
-/* Requiring tests
+/* /////////////////////////////////////////////////////////
+ * requiring tests
  *
  * These cause an exception of type XXXXX to be thrown if the condition
  * fails, thereby preventing the execution of any further tests that
@@ -1501,21 +1516,9 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 
 #endif /* !_XTESTS_NO_CPP_API */
 
-/** \def XTESTS_ARRAY_END_POST(ar)
- *
- * \ingroup group__xtests__utiliy_functions
- *
- * Evaluates the end-point of an array, based on its static array size.
- */
-#ifdef __DMC__
-# define XTESTS_ARRAY_END_POST(ar)                          (&(ar)[0] + STLSOFT_NUM_ELEMENTS(ar))
-#else /* ? compiler */
-# define XTESTS_ARRAY_END_POST(ar)                          (&0[(ar)] + STLSOFT_NUM_ELEMENTS(ar))
-#endif /* compiler */
-
 
 /* /////////////////////////////////////////////////////////
- * test macros simplified
+ * test numeric macros simplified
  */
 
 /** \def XTESTS_TEST_INTEGER_EQUAL(expected, actual)
@@ -1719,6 +1722,136 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
     XTESTS_NS_C_QUAL(xtests_testMultibyteStringsN)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)))
 
+/** \def XTESTS_TEST_MULTIBYTE_STRING_CONTAIN(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that the string contains the expected sub-sequence.
+ *
+ * \param expected The substring to find with the actual string
+ * \param actual The actual value of the string
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_MULTIBYTE_STRING_CONTAIN(expected, actual)                          \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
+    XTESTS_NS_C_QUAL(xtests_testMultibyteStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual)))
+
+/** \def XTESTS_TEST_MULTIBYTE_STRING_CONTAIN_APPROX(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that the string contains the expected sub-sequence (disregarding
+ * case).
+ *
+ * \param expected The substring to find with the actual string
+ * \param actual The actual value of the string
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_MULTIBYTE_STRING_CONTAIN_APPROX(expected, actual)                   \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
+    XTESTS_NS_C_QUAL(xtests_testMultibyteStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)))
+
+/** \def XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that the string does not contain the expected sub-sequence.
+ *
+ * \param expected The substring to find with the actual string
+ * \param actual The actual value of the string
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN(expected, actual)                      \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
+    XTESTS_NS_C_QUAL(xtests_testMultibyteStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)))
+
+/** \def XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN_APPROX(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that the string does not contain the expected sub-sequence
+ * (disregarding case).
+ *
+ * \param expected The substring to find with the actual string
+ * \param actual The actual value of the string
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN_APPROX(expected, actual)               \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
+    XTESTS_NS_C_QUAL(xtests_testMultibyteStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)))
+
+/** \def XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a (multibyte) string slice is the same length
+ * and has the same contents as an expected value.
+ *
+ * \param expected The expected value of the string
+ * \param actual The string slice to be evaluated
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL(expected, actual)                      \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
+    XTESTS_NS_C_QUAL(xtests_testMultibyteStringSlice)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", XTESTS_GET_EXPECTED_SLICE_MB_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonEqual)))
+
+#ifdef XTESTS_USE_SHWILD
+
+/** \def XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a (multibyte) string matches a given pattern.
+ *
+ * \param pattern The pattern constraining the expected values of the string
+ * \param value The value to be evaluated
+ *
+ * \note This macro will be defined only given prior inclusion of one of
+ *   **shwild**'s headers (**shwild/shwild.h** or **shwild/shwild.hpp**).
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+# ifndef _XTESTS_NO_CPP_API
+
+#  ifdef STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING
+
+#   define XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)                         \
+    (                                                                                   \
+        (0 == shwild::match((pattern), stlsoft::c_str_ptr_a((value)), 0))               \
+            ?   XTESTS_TEST_PASSED()                                                    \
+            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(stlsoft::c_str_ptr_a("actual value (given in qualifier) did not match pattern '" + stlsoft::sas_to_string_m((pattern)) + "'"), stlsoft::c_str_ptr_a((value)))   \
+    )
+#  else /* !STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING */
+
+#   define XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)                         \
+    (                                                                                   \
+        (0 == shwild::match((pattern), stlsoft::c_str_ptr_a((value)), 0))               \
+            ?   XTESTS_TEST_PASSED()                                                    \
+            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(stlsoft::c_str_ptr_a("actual value (given in qualifier) did not match pattern '" + std::string(stlsoft::c_str_data_a((pattern)), stlsoft::c_str_len_a((pattern))) + "'"), stlsoft::c_str_ptr_a((value)))    \
+    )
+#  endif /* STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING */
+# else /* ? _XTESTS_NO_CPP_API */
+
+#  define XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)                          \
+    (                                                                                   \
+        (0 == shwild_match((pattern), (value), 0))                                      \
+            ?   XTESTS_TEST_PASSED()                                                    \
+            :   XTESTS_TEST_FAIL_WITH_QUALIFIER("actual value (given in qualifier) did not match the pattern", (value))   \
+    )
+# endif /* !_XTESTS_NO_CPP_API */
+#endif /* XTESTS_USE_SHWILD */
+
 
 /* /////////////////////////////////////////////////////////
  * test wide strings
@@ -1858,74 +1991,6 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
     XTESTS_NS_C_QUAL(xtests_testWideStringsN)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)))
 
-
-/** \def XTESTS_TEST_MULTIBYTE_STRING_CONTAIN(expected, actual)
- *
- * \ingroup group__xtests__test_assertion_functions
- *
- * Tests that the string contains the expected sub-sequence.
- *
- * \param expected The substring to find with the actual string
- * \param actual The actual value of the string
- *
- * \note This can only be invoked after a successful invocation of
- *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
- */
-#define XTESTS_TEST_MULTIBYTE_STRING_CONTAIN(expected, actual)                          \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testMultibyteStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual)))
-
-/** \def XTESTS_TEST_MULTIBYTE_STRING_CONTAIN_APPROX(expected, actual)
- *
- * \ingroup group__xtests__test_assertion_functions
- *
- * Tests that the string contains the expected sub-sequence (disregarding
- * case).
- *
- * \param expected The substring to find with the actual string
- * \param actual The actual value of the string
- *
- * \note This can only be invoked after a successful invocation of
- *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
- */
-#define XTESTS_TEST_MULTIBYTE_STRING_CONTAIN_APPROX(expected, actual)                   \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testMultibyteStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)))
-
-/** \def XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN(expected, actual)
- *
- * \ingroup group__xtests__test_assertion_functions
- *
- * Tests that the string does not contain the expected sub-sequence.
- *
- * \param expected The substring to find with the actual string
- * \param actual The actual value of the string
- *
- * \note This can only be invoked after a successful invocation of
- *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
- */
-#define XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN(expected, actual)                      \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testMultibyteStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)))
-
-/** \def XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN_APPROX(expected, actual)
- *
- * \ingroup group__xtests__test_assertion_functions
- *
- * Tests that the string does not contain the expected sub-sequence
- * (disregarding case).
- *
- * \param expected The substring to find with the actual string
- * \param actual The actual value of the string
- *
- * \note This can only be invoked after a successful invocation of
- *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
- */
-#define XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN_APPROX(expected, actual)               \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testMultibyteStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)))
-
-
 /** \def XTESTS_TEST_WIDE_STRING_CONTAIN(expected, actual)
  *
  * \ingroup group__xtests__test_assertion_functions
@@ -1990,28 +2055,6 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 #define XTESTS_TEST_WIDE_STRING_NOT_CONTAIN_APPROX(expected, actual)                    \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
     XTESTS_NS_C_QUAL(xtests_testWideStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)))
-
-
-/* /////////////////////////////////////////////////////////
- * test string slices
- */
-
-/** \def XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL(expected, actual)
- *
- * \ingroup group__xtests__test_assertion_functions
- *
- * Tests that a (multibyte) string slice is the same length
- * and has the same contents as an expected value.
- *
- * \param expected The expected value of the string
- * \param actual The string slice to be evaluated
- *
- * \note This can only be invoked after a successful invocation of
- *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
- */
-#define XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL(expected, actual)                      \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testMultibyteStringSlice)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", XTESTS_GET_EXPECTED_SLICE_MB_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonEqual)))
 
 /** \def XTESTS_TEST_WIDE_STRING_SLICE_EQUAL(expected, actual)
  *
@@ -4165,8 +4208,9 @@ xtests_require_C(
 XTESTS_CALL(int)
 xTests_hasRequiredConditionFailed(void);
 
-/* /////////////////////////////////////////////////////////////////////////
- * helper functions
+
+/* ///////////////////////////////////////////////////////////////////
+ * utility functions
  */
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
@@ -4218,7 +4262,6 @@ xtests_commandLine_parseHelp(
 #define XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, pverbosity)                      \
     stlsoft_static_cast(void, XTESTS_NS_C_QUAL(xtests_commandLine_parseVerbosity)((argc), (argv), (pverbosity)))
 
-
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
 # define XTESTS_COMMANDLINE_PARSEVERBOSITY                  XTESTS_COMMANDLINE_PARSE_VERBOSITY
@@ -4255,7 +4298,6 @@ xtests_commandLine_parseHelp(
 # define XTESTS_COMMANDLINE_PARSEVERBOSITY_DEFAULT          XTESTS_COMMANDLINE_PARSE_VERBOSITY_WITH_DEFAULT
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
-
 /** \def XTESTS_COMMANDLINE_PARSE_HELP(argc, argv)
  *
  * \ingroup group__xtests__utiliy_functions
@@ -4274,15 +4316,33 @@ xtests_commandLine_parseHelp(
 #define XTESTS_COMMANDLINE_PARSE_HELP(argc, argv)                                       \
     stlsoft_static_cast(void, XTESTS_NS_C_QUAL(xtests_commandLine_parseHelp)((argc), (argv), stdout, EXIT_SUCCESS))
 
+/** \def XTESTS_ARRAY_END_POST(ar)
+ *
+ * \ingroup group__xtests__utiliy_functions
+ *
+ * Evaluates the end-point of an array, based on its static array size.
+ */
+#ifdef __DMC__
+# define XTESTS_ARRAY_END_POST(ar)                          (&(ar)[0] + STLSOFT_NUM_ELEMENTS(ar))
+#else /* ? compiler */
+# define XTESTS_ARRAY_END_POST(ar)                          (&0[(ar)] + STLSOFT_NUM_ELEMENTS(ar))
+#endif /* compiler */
+
+
+/* ///////////////////////////////////////////////////////////////////
+ * miscellaneous constructs
+ */
+
+
 /* /////////////////////////////////////////////////////////////////////////
  * obsolete names
  */
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
-# define XTESTS_FAIL_WITH_QUALIFIER(msg, qualifier)     XTESTS_TEST_FAIL_WITH_QUALIFIER(msg, qualifier)
-# define XTESTS_FAIL(msg)                               XTESTS_TEST_FAIL(msg)
-# define XTESTS_PASSED()                                XTESTS_TEST_PASSED()
-# define XTESTS_TEST_MULTIBYTE_STRINGS_EQUAL            XTESTS_TEST_MULTIBYTE_STRING_EQUAL
+# define XTESTS_FAIL_WITH_QUALIFIER(msg, qualifier)         XTESTS_TEST_FAIL_WITH_QUALIFIER(msg, qualifier)
+# define XTESTS_FAIL(msg)                                   XTESTS_TEST_FAIL(msg)
+# define XTESTS_PASSED()                                    XTESTS_TEST_PASSED()
+# define XTESTS_TEST_MULTIBYTE_STRINGS_EQUAL                XTESTS_TEST_MULTIBYTE_STRING_EQUAL
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
