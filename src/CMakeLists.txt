@@ -1,6 +1,13 @@
 
 add_library(xTests xtests.core.cpp)
 
+if (APPLE)
+
+message("-- -- adding '/usr/local/include' to include-directories for 'src'")
+
+    include_directories("/usr/local/include")
+endif()
+
 #[====[
 target_link_libraries(xTests STLSoft::STLSoft)
 ]====]

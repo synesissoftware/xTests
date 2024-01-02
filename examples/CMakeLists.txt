@@ -1,6 +1,13 @@
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
+if (APPLE)
+
+    message("-- -- adding '/usr/local/include' to include-directories for 'examples'")
+
+    include_directories("/usr/local/include")
+endif()
+
 if(UNIX)
 
     add_definitions(-DUNIX)
