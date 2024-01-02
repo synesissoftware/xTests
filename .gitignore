@@ -27,7 +27,12 @@ Release Multithreaded Dll/
 ReleaseNox/
 ReleaseUnix/
 
+/include/shwild/
+
+/src/shwild/
+
 Win32/
+ipch/
 x64/
 
 # directories (by pattern)
