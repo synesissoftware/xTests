@@ -796,13 +796,13 @@ LIBS_TESTS_ST_R=\
 # core
 
 LIB_CORE_MT_D                 =   $(PROJ_LIB_DIR)/lib$(PROJ_TAG_VER).$(COMP_ARCH_OS_TAG).mt.debug.a
-LIB_CORE_UN_MT_D				=	$(PROJ_LIB_DIR)/lib$(PROJ_TAG).$(COMP_TAG).mt.debug.a
+LIB_CORE_UN_MT_D              =   $(PROJ_LIB_DIR)/lib$(PROJ_TAG).$(COMP_TAG).mt.debug.a
 LIB_CORE_MT_R                 =   $(PROJ_LIB_DIR)/lib$(PROJ_TAG_VER).$(COMP_ARCH_OS_TAG).mt.a
-LIB_CORE_UN_MT_R				=	$(PROJ_LIB_DIR)/lib$(PROJ_TAG).$(COMP_TAG).mt.a
+LIB_CORE_UN_MT_R              =   $(PROJ_LIB_DIR)/lib$(PROJ_TAG).$(COMP_TAG).mt.a
 LIB_CORE_ST_D                 =   $(PROJ_LIB_DIR)/lib$(PROJ_TAG_VER).$(COMP_ARCH_OS_TAG).debug.a
-LIB_CORE_UN_ST_D				=	$(PROJ_LIB_DIR)/lib$(PROJ_TAG).$(COMP_TAG).debug.a
+LIB_CORE_UN_ST_D              =   $(PROJ_LIB_DIR)/lib$(PROJ_TAG).$(COMP_TAG).debug.a
 LIB_CORE_ST_R                 =   $(PROJ_LIB_DIR)/lib$(PROJ_TAG_VER).$(COMP_ARCH_OS_TAG).a
-LIB_CORE_UN_ST_R				=	$(PROJ_LIB_DIR)/lib$(PROJ_TAG).$(COMP_TAG).a
+LIB_CORE_UN_ST_R              =   $(PROJ_LIB_DIR)/lib$(PROJ_TAG).$(COMP_TAG).a
 
 TARGETS_LIB_CORE=\
  $(LIB_CORE_MT_D)\
@@ -919,45 +919,55 @@ TARGETS =\
 
 # primary
 
-_default:					build
+_default:                   build
 
 usage:
 	@echo "make [usage | compile | build | test | clean] - default is 'build'"
 
 # infrastructure
 
-check.lib.dir:				$(PROJ_MAKEFILE_NAME)
+check.lib.dir:              $(PROJ_MAKEFILE_NAME)
 	@-mkdir -p $(PROJ_LIB_DIR)
 
-check.bin.dir:				$(PROJ_MAKEFILE_NAME)
+check.bin.dir:              $(PROJ_MAKEFILE_NAME)
 	@-mkdir -p $(PROJ_BIN_DIR)
 
 
 # compile targets
 
-compile.libs.core:			$(PROJ_MAKEFILE_NAME)	$(OBJS_CORE)
+compile.libs.core:          $(PROJ_MAKEFILE_NAME)   $(OBJS_CORE)
 
-compile.libs:										compile.libs.core
+compile.libs:                                       compile.libs.core
 
 compile.libs.3pty:
 
 compile.libs.all:                                   compile.libs compile.libs.3pty
 
-compile.examples:			$(PROJ_MAKEFILE_NAME)	$(OBJS_EXAMPLE)
+compile.examples:           $(PROJ_MAKEFILE_NAME)   $(OBJS_EXAMPLE)
 
-compile.samples:			$(PROJ_MAKEFILE_NAME)	$(OBJS_SAMPLE)
+compile.samples:            $(PROJ_MAKEFILE_NAME)   $(OBJS_SAMPLE)
 
-compile.test.component:		$(PROJ_MAKEFILE_NAME)	$(OBJS_TEST_COMPONENT)
+compile.test.component:     $(PROJ_MAKEFILE_NAME)   $(OBJS_TEST_COMPONENT)
 
-compile.test.scratch:		$(PROJ_MAKEFILE_NAME)	$(OBJS_TEST_SCRATCH)
+compile.test.scratch:       $(PROJ_MAKEFILE_NAME)   $(OBJS_TEST_SCRATCH)
 
-compile.test.unit:			$(PROJ_MAKEFILE_NAME)	$(OBJS_TEST_UNIT)
+compile.test.unit:          $(PROJ_MAKEFILE_NAME)   $(OBJS_TEST_UNIT)
 
-compile.test:										compile.test.unit compile.test.component compile.test.scratch
+compile.test: \
+ compile.test.unit\
+ compile.test.component\
+ compile.test.scratch\
+ \
 
-compile:											compile.libs compile.libs.3pty compile.test compile.examples compile.samples
+compile: \
+ compile.libs\
+ compile.libs.3pty\
+ compile.test\
+ compile.examples\
+ compile.samples\
+ \
 
-compile.all:										compile
+compile.all:                                        compile
 
 
 
@@ -1148,7 +1158,7 @@ $(OBJ_lib_core_ST_R):	$(PROJ_MAKEFILE_NAME) $(PROJ_SRC_DIR)/xtests.core.cpp
 ##################################################
 # examples
 
-$(TARG_EX_C_runner_MT_D):	\
+$(TARG_EX_C_runner_MT_D): \
 			$(OBJ_EX_C_runner_MT_D)\
 			$(LIBS_EXAMPLES_MT_D)\
 			$(PROJ_MAKEFILE_NAME)
@@ -1161,7 +1171,7 @@ $(TARG_EX_C_runner_MT_D):	\
 $(OBJ_EX_C_runner_MT_D):	$(PROJ_EXAMPLES_DIR)/c/example.c.runner/example.c.runner.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CC) $(CC_ARGS_MT_D) -o $@ $(PROJ_EXAMPLES_DIR)/c/example.c.runner/example.c.runner.c
 
-$(TARG_EX_C_runner_MT_R):	\
+$(TARG_EX_C_runner_MT_R): \
 			$(OBJ_EX_C_runner_MT_R)\
 			$(LIBS_EXAMPLES_MT_R)\
 			$(PROJ_MAKEFILE_NAME)
@@ -1174,7 +1184,7 @@ $(TARG_EX_C_runner_MT_R):	\
 $(OBJ_EX_C_runner_MT_R):	$(PROJ_EXAMPLES_DIR)/c/example.c.runner/example.c.runner.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CC) $(CC_ARGS_MT_R) -o $@ $(PROJ_EXAMPLES_DIR)/c/example.c.runner/example.c.runner.c
 
-$(TARG_EX_C_runner_ST_D):	\
+$(TARG_EX_C_runner_ST_D): \
 			$(OBJ_EX_C_runner_ST_D)\
 			$(LIBS_EXAMPLES_ST_D)\
 			$(PROJ_MAKEFILE_NAME)
@@ -1187,7 +1197,7 @@ $(TARG_EX_C_runner_ST_D):	\
 $(OBJ_EX_C_runner_ST_D):	$(PROJ_EXAMPLES_DIR)/c/example.c.runner/example.c.runner.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CC) $(CC_ARGS_ST_D) -o $@ $(PROJ_EXAMPLES_DIR)/c/example.c.runner/example.c.runner.c
 
-$(TARG_EX_C_runner_ST_R):	\
+$(TARG_EX_C_runner_ST_R): \
 			$(OBJ_EX_C_runner_ST_R)\
 			$(LIBS_EXAMPLES_ST_R)\
 			$(PROJ_MAKEFILE_NAME)
@@ -1200,7 +1210,7 @@ $(TARG_EX_C_runner_ST_R):	\
 $(OBJ_EX_C_runner_ST_R):	$(PROJ_EXAMPLES_DIR)/c/example.c.runner/example.c.runner.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CC) $(CC_ARGS_ST_R) -o $@ $(PROJ_EXAMPLES_DIR)/c/example.c.runner/example.c.runner.c
 
-$(TARG_EX_C_tests_MT_D):	\
+$(TARG_EX_C_tests_MT_D): \
 			$(OBJ_EX_C_tests_MT_D)\
 			$(LIBS_EXAMPLES_MT_D)\
 			$(PROJ_MAKEFILE_NAME)
@@ -1213,7 +1223,7 @@ $(TARG_EX_C_tests_MT_D):	\
 $(OBJ_EX_C_tests_MT_D):	$(PROJ_EXAMPLES_DIR)/c/example.c.tests/example.c.tests.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CC) $(CC_ARGS_MT_D) -o $@ $(PROJ_EXAMPLES_DIR)/c/example.c.tests/example.c.tests.c
 
-$(TARG_EX_C_tests_MT_R):	\
+$(TARG_EX_C_tests_MT_R): \
 			$(OBJ_EX_C_tests_MT_R)\
 			$(LIBS_EXAMPLES_MT_R)\
 			$(PROJ_MAKEFILE_NAME)
@@ -1226,7 +1236,7 @@ $(TARG_EX_C_tests_MT_R):	\
 $(OBJ_EX_C_tests_MT_R):	$(PROJ_EXAMPLES_DIR)/c/example.c.tests/example.c.tests.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CC) $(CC_ARGS_MT_R) -o $@ $(PROJ_EXAMPLES_DIR)/c/example.c.tests/example.c.tests.c
 
-$(TARG_EX_C_tests_ST_D):	\
+$(TARG_EX_C_tests_ST_D): \
 			$(OBJ_EX_C_tests_ST_D)\
 			$(LIBS_EXAMPLES_ST_D)\
 			$(PROJ_MAKEFILE_NAME)
@@ -1239,7 +1249,7 @@ $(TARG_EX_C_tests_ST_D):	\
 $(OBJ_EX_C_tests_ST_D):	$(PROJ_EXAMPLES_DIR)/c/example.c.tests/example.c.tests.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CC) $(CC_ARGS_ST_D) -o $@ $(PROJ_EXAMPLES_DIR)/c/example.c.tests/example.c.tests.c
 
-$(TARG_EX_C_tests_ST_R):	\
+$(TARG_EX_C_tests_ST_R): \
 			$(OBJ_EX_C_tests_ST_R)\
 			$(LIBS_EXAMPLES_ST_R)\
 			$(PROJ_MAKEFILE_NAME)
@@ -1261,7 +1271,7 @@ $(OBJ_EX_C_tests_ST_R):	$(PROJ_EXAMPLES_DIR)/c/example.c.tests/example.c.tests.c
 ##############################
 # scratch tests
 
-$(TARG_TEST_SCRT_basics1_MT_D):	\
+$(TARG_TEST_SCRT_basics1_MT_D): \
 			$(OBJ_TEST_SCRT_basics1_MT_D)\
 			$(LIBS_TESTS_MT_D)\
 			$(PROJ_MAKEFILE_NAME)
@@ -1274,7 +1284,7 @@ $(TARG_TEST_SCRT_basics1_MT_D):	\
 $(OBJ_TEST_SCRT_basics1_MT_D):	$(PROJ_TEST_SCRATCH_DIR)/test.scratch.basics1/test.scratch.basics1.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CC) $(CC_ARGS_MT_D) -o $@ $(PROJ_TEST_SCRATCH_DIR)/test.scratch.basics1/test.scratch.basics1.c
 
-$(TARG_TEST_SCRT_basics1_MT_R):	\
+$(TARG_TEST_SCRT_basics1_MT_R): \
 			$(OBJ_TEST_SCRT_basics1_MT_R)\
 			$(LIBS_TESTS_MT_R)\
 			$(PROJ_MAKEFILE_NAME)
@@ -1287,7 +1297,7 @@ $(TARG_TEST_SCRT_basics1_MT_R):	\
 $(OBJ_TEST_SCRT_basics1_MT_R):	$(PROJ_TEST_SCRATCH_DIR)/test.scratch.basics1/test.scratch.basics1.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CC) $(CC_ARGS_MT_R) -o $@ $(PROJ_TEST_SCRATCH_DIR)/test.scratch.basics1/test.scratch.basics1.c
 
-$(TARG_TEST_SCRT_basics1_ST_D):	\
+$(TARG_TEST_SCRT_basics1_ST_D): \
 			$(OBJ_TEST_SCRT_basics1_ST_D)\
 			$(LIBS_TESTS_ST_D)\
 			$(PROJ_MAKEFILE_NAME)
@@ -1300,7 +1310,7 @@ $(TARG_TEST_SCRT_basics1_ST_D):	\
 $(OBJ_TEST_SCRT_basics1_ST_D):	$(PROJ_TEST_SCRATCH_DIR)/test.scratch.basics1/test.scratch.basics1.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CC) $(CC_ARGS_ST_D) -o $@ $(PROJ_TEST_SCRATCH_DIR)/test.scratch.basics1/test.scratch.basics1.c
 
-$(TARG_TEST_SCRT_basics1_ST_R):	\
+$(TARG_TEST_SCRT_basics1_ST_R): \
 			$(OBJ_TEST_SCRT_basics1_ST_R)\
 			$(LIBS_TESTS_ST_R)\
 			$(PROJ_MAKEFILE_NAME)
@@ -1313,7 +1323,7 @@ $(TARG_TEST_SCRT_basics1_ST_R):	\
 $(OBJ_TEST_SCRT_basics1_ST_R):	$(PROJ_TEST_SCRATCH_DIR)/test.scratch.basics1/test.scratch.basics1.c $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CC) $(CC_ARGS_ST_R) -o $@ $(PROJ_TEST_SCRATCH_DIR)/test.scratch.basics1/test.scratch.basics1.c
 
-$(TARG_TEST_SCRT_basics2_MT_D):	\
+$(TARG_TEST_SCRT_basics2_MT_D): \
 			$(OBJ_TEST_SCRT_basics2_MT_D)\
 			$(LIBS_TESTS_MT_D)\
 			$(PROJ_MAKEFILE_NAME)
@@ -1326,7 +1336,7 @@ $(TARG_TEST_SCRT_basics2_MT_D):	\
 $(OBJ_TEST_SCRT_basics2_MT_D):	$(PROJ_TEST_SCRATCH_DIR)/test.scratch.basics2/test.scratch.basics2.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CPPC) $(CPPC_ARGS_MT_D) -o $@ $(PROJ_TEST_SCRATCH_DIR)/test.scratch.basics2/test.scratch.basics2.cpp
 
-$(TARG_TEST_SCRT_basics2_MT_R):	\
+$(TARG_TEST_SCRT_basics2_MT_R): \
 			$(OBJ_TEST_SCRT_basics2_MT_R)\
 			$(LIBS_TESTS_MT_R)\
 			$(PROJ_MAKEFILE_NAME)
@@ -1339,7 +1349,7 @@ $(TARG_TEST_SCRT_basics2_MT_R):	\
 $(OBJ_TEST_SCRT_basics2_MT_R):	$(PROJ_TEST_SCRATCH_DIR)/test.scratch.basics2/test.scratch.basics2.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CPPC) $(CPPC_ARGS_MT_R) -o $@ $(PROJ_TEST_SCRATCH_DIR)/test.scratch.basics2/test.scratch.basics2.cpp
 
-$(TARG_TEST_SCRT_basics2_ST_D):	\
+$(TARG_TEST_SCRT_basics2_ST_D): \
 			$(OBJ_TEST_SCRT_basics2_ST_D)\
 			$(LIBS_TESTS_ST_D)\
 			$(PROJ_MAKEFILE_NAME)
@@ -1352,7 +1362,7 @@ $(TARG_TEST_SCRT_basics2_ST_D):	\
 $(OBJ_TEST_SCRT_basics2_ST_D):	$(PROJ_TEST_SCRATCH_DIR)/test.scratch.basics2/test.scratch.basics2.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CPPC) $(CPPC_ARGS_ST_D) -o $@ $(PROJ_TEST_SCRATCH_DIR)/test.scratch.basics2/test.scratch.basics2.cpp
 
-$(TARG_TEST_SCRT_basics2_ST_R):	\
+$(TARG_TEST_SCRT_basics2_ST_R): \
 			$(OBJ_TEST_SCRT_basics2_ST_R)\
 			$(LIBS_TESTS_ST_R)\
 			$(PROJ_MAKEFILE_NAME)
@@ -1365,7 +1375,7 @@ $(TARG_TEST_SCRT_basics2_ST_R):	\
 $(OBJ_TEST_SCRT_basics2_ST_R):	$(PROJ_TEST_SCRATCH_DIR)/test.scratch.basics2/test.scratch.basics2.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CPPC) $(CPPC_ARGS_ST_R) -o $@ $(PROJ_TEST_SCRATCH_DIR)/test.scratch.basics2/test.scratch.basics2.cpp
 
-$(TARG_TEST_SCRT_failall1_MT_D):	\
+$(TARG_TEST_SCRT_failall1_MT_D): \
 			$(OBJ_TEST_SCRT_failall1_MT_D)\
 			$(LIBS_TESTS_MT_D)\
 			$(PROJ_MAKEFILE_NAME)
@@ -1378,7 +1388,7 @@ $(TARG_TEST_SCRT_failall1_MT_D):	\
 $(OBJ_TEST_SCRT_failall1_MT_D):	$(PROJ_TEST_SCRATCH_DIR)/test.scratch.fail_all.1/test.scratch.fail_all.1.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CPPC) $(CPPC_ARGS_MT_D) -o $@ $(PROJ_TEST_SCRATCH_DIR)/test.scratch.fail_all.1/test.scratch.fail_all.1.cpp
 
-$(TARG_TEST_SCRT_failall1_MT_R):	\
+$(TARG_TEST_SCRT_failall1_MT_R): \
 			$(OBJ_TEST_SCRT_failall1_MT_R)\
 			$(LIBS_TESTS_MT_R)\
 			$(PROJ_MAKEFILE_NAME)
@@ -1391,7 +1401,7 @@ $(TARG_TEST_SCRT_failall1_MT_R):	\
 $(OBJ_TEST_SCRT_failall1_MT_R):	$(PROJ_TEST_SCRATCH_DIR)/test.scratch.fail_all.1/test.scratch.fail_all.1.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CPPC) $(CPPC_ARGS_MT_R) -o $@ $(PROJ_TEST_SCRATCH_DIR)/test.scratch.fail_all.1/test.scratch.fail_all.1.cpp
 
-$(TARG_TEST_SCRT_failall1_ST_D):	\
+$(TARG_TEST_SCRT_failall1_ST_D): \
 			$(OBJ_TEST_SCRT_failall1_ST_D)\
 			$(LIBS_TESTS_ST_D)\
 			$(PROJ_MAKEFILE_NAME)
@@ -1404,7 +1414,7 @@ $(TARG_TEST_SCRT_failall1_ST_D):	\
 $(OBJ_TEST_SCRT_failall1_ST_D):	$(PROJ_TEST_SCRATCH_DIR)/test.scratch.fail_all.1/test.scratch.fail_all.1.cpp $(TEST_CPP_HEADERS) $(PROJ_MAKEFILE_NAME)
 	$(CPPC) $(CPPC_ARGS_ST_D) -o $@ $(PROJ_TEST_SCRATCH_DIR)/test.scratch.fail_all.1/test.scratch.fail_all.1.cpp
 
-$(TARG_TEST_SCRT_failall1_ST_R):	\
+$(TARG_TEST_SCRT_failall1_ST_R): \
 			$(OBJ_TEST_SCRT_failall1_ST_R)\
 			$(LIBS_TESTS_ST_R)\
 			$(PROJ_MAKEFILE_NAME)
