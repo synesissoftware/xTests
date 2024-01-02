@@ -36,10 +36,8 @@ target_compile_options(xTests PRIVATE
     >
 )
 
-#[====[
-message("CMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}")
-message("CMAKE_INSTALL_INCLUDEDIR=${CMAKE_INSTALL_INCLUDEDIR}")
-]====]
+# ##########################################################
+# install
 
 install(TARGETS xTests
     EXPORT project-targets
@@ -48,4 +46,6 @@ install(TARGETS xTests
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/xtests
 )
+
+# ############################## end of file ############################# #
 
