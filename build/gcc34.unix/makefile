@@ -28,7 +28,7 @@ endif # !STLSOFT
 
 COMP_TAG            =   gcc34
 
-CPPC_F_CXX_STD_VER	=
+CPPC_F_CXX_STD_VER  =
 
 ############################################################################
 # includes - 2

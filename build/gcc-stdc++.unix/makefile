@@ -6,7 +6,7 @@
 #           on the UNIX platform
 #
 # Created:  30th November 2023
-# Updated:  30th November 2023
+# Updated:  2nd January 2024
 #
 ############################################################################
 
@@ -26,7 +26,7 @@ endif # !STLSOFT
 ############################################################################
 # symbols
 
-COMP_TAG            	=   gcc-stdc++
+COMP_TAG                =   gcc-stdc++
 
 CPPC_F_CXX_STD_VER      =   -std=c++11
 

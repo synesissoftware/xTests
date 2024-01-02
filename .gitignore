@@ -1,6 +1,9 @@
 
 # directories (by name)
 
+/.git-old/
+/.vs/
+
 /_build/
 /_internal/
 
@@ -9,6 +12,7 @@
 /dox/
 /ideas/
 /releases/
+/temp/
 
 Debug/
 DebugMt/
@@ -23,14 +27,22 @@ Release Multithreaded Dll/
 ReleaseNox/
 ReleaseUnix/
 
+/include/shwild/
+
+/src/shwild/
+
 Win32/
+ipch/
 x64/
 
 # directories (by pattern)
 
+/include-*/
+
 # files (by name)
 
 .DS_Store
+.ruby-version
 .update_deps
 
 list_changes.cmd
@@ -47,25 +59,35 @@ xtests-0.*-doc.chm
 *~
 *.a
 *.app
+*.b64
+*.bak
 *.dll
 *.dylib
 *.exe
 *.gch
+*.idb
+*.ilk
 *.lib
+*.log
 *.ncb
 *.o
 *.obj
 *.opensdf
 *.opt
+*.org
 *.out
 *.pch
 *.pdb
-*.sdf
+*.res
 *.sbr
 *.scc
+*.sdf
 *.so
+*.suo
 *.swp
+*.tlog
 *.tmp
+*.unsuccessfulbuild
 *.vcproj*.user
 *.vcxproj*.user
 *.zip
