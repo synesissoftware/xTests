@@ -2,7 +2,7 @@ xTests - Changes
 ================
 
 Created:    22nd February 2008
-Updated:    14th December 2023
+Updated:    2nd January 2024
 
 
     ************************************
@@ -14,6 +14,24 @@ Updated:    14th December 2023
     *  *  means a general bullet-point *
     *                                  *
     ************************************
+
+
+2nd January 2024 - 0.21.0
+===========================
+
+Summary:
+--------
+
+ * added `XTESTS_TEST_MULTIBYTE_STRING_MATCHES()` that, in the presence of the shwild library, provides pattern matching
+
+
+2nd January 2024 - 0.20.5
+===========================
+
+Summary:
+--------
+
+ * completed CMake support, with flexible mechanism to select STLSoft dependency
 
 
 14th December 2023 - 0.20.4
