@@ -1,6 +1,12 @@
 # xTests - History
 
 
+11th January 2024 - 0.21.1
+--------------------------
+
+ * fixed include of **STLSoft** header-file in presence of **shwild**
+
+
 2nd January 2024 - 0.21.0
 -------------------------
 

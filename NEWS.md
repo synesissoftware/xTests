@@ -2,6 +2,8 @@
 
 | Date                  | News Item                   |
 | --------------------- | --------------------------- |
+| 11th January 2024     |   xTests 0.21.1 released    |
+| 2nd January 2024      |   xTests 0.21.0 released    |
 | 14th December 2023    |   xTests 0.20.4 released    |
 | 13th December 2020    |   xTests 0.20.3 released    |
 | 30th July 2020        |   xTests 0.20.2 released    |

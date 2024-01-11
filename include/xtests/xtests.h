@@ -5,7 +5,7 @@
  *          library.
  *
  * Created: 20th June 1999
- * Updated: 2nd January 2024
+ * Updated: 11th January 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       41
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    10
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        350
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    11
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        351
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -80,9 +80,9 @@
 
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       21
-#define _XTESTS_VER_REVISION    0
+#define _XTESTS_VER_REVISION    1
 
-#define _XTESTS_VER             0x00150002
+#define _XTESTS_VER             0x00150141
 
 /* /////////////////////////////////////////////////////////////////////////
  * includes - 1
@@ -175,9 +175,7 @@
 # ifndef _XTESTS_NO_CPP_API
 #  include <shwild/shwild.hpp>
 #  if _STLSOFT_VER >= 0x010a01a2
-#   ifndef STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING
-#    include <stlsoft/string/sas_to_string.hpp>
-#   endif /* !STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING */
+#   include <stlsoft/conversion/sas_to_string.hpp>
 #  endif /* _STLSOFT_VER */
 # endif /* !_XTESTS_NO_CPP_API */
 #endif /* XTESTS_USE_SHWILD */
