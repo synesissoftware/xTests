@@ -5,7 +5,7 @@
 # Purpose:  Top-level CMake lists file for xTests
 #
 # Created:  9th October 2019
-# Updated:  2nd January 2024
+# Updated:  10th January 2024
 #
 # ######################################################################## #
 
@@ -55,7 +55,7 @@ set(PROJECT_VERSION_MINOR ${_VERSION_MINOR})
 set(PROJECT_VERSION_PATCH ${_VERSION_PATCH})
 set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
 
-message(NOTICE "Generating CMake build scripts for ${PROJECT_NAME} ${PROJECT_VERSION}.")
+message(NOTICE "Generating CMake build scripts for ${PROJECT_NAME} ${PROJECT_VERSION}")
 
 
 # adhere strictly to C and C++ standards plus extensions. These are actually
@@ -148,8 +148,8 @@ install(
 
 # install the xtests/*/ subdirectories here, as do not (yet) know how to do so via src/CMakeLists.txt's PUBLIC_HEADER property
 install(
-    DIRECTORY ${CMAKE_SOURCE_DIR}/include/xtests/util
-    DESTINATION include/xtests/util
+    DIRECTORY ${CMAKE_SOURCE_DIR}/include/xtests/
+    DESTINATION include/xtests
     FILES_MATCHING
     PATTERN "*.h*"
 )

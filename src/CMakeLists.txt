@@ -14,7 +14,12 @@ target_link_libraries(xTests.core STLSoft::STLSoft)
 
 # for now, we just include xtests.h, as it's not clear how to use the PUBLIC_HEADER mechanism to install files into subdirectories (such as xtests/util/temp_file.hpp)
 set(XTESTS_PUBLIC_HEADERS
-    "${CMAKE_SOURCE_DIR}/include/xtests/xtests.h"
+    # "${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME_LOWER}/${PROJECT_NAME_LOWER}.h"
+    # "${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME_LOWER}/test/util/compiler_warnings_suppression.first_include.h"
+    # "${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME_LOWER}/test/util/compiler_warnings_suppression.last_include.h"
+    # "${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME_LOWER}/util/filesystem_exception.hpp"
+    # "${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME_LOWER}/util/temp_directory.hpp"
+    # "${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME_LOWER}/util/temp_file.hpp"
 )
 
 set_target_properties(xTests.core PROPERTIES
