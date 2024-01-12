@@ -174,8 +174,13 @@
 # define xtests_wcscpy_(d, n, s)                    ::wcscpy(d, s)
 //# define xtests_strncpy_(d, n, s, l)                ::strncpy(d, s, l)
 //# define xtests_wcsncpy_(d, n, s, l)                ::wcsncpy(d, s, l)
-# define xtests_sprintf_2_(s, n, fmt, a0, a1)       ::sprintf(s, fmt, a0, a1)
-# define xtests_sprintf_3_(s, n, fmt, a0, a1, a2)   ::sprintf(s, fmt, a0, a1, a2)
+# if defined(__clang__) && __clang_major__ >= 14
+#  define xtests_sprintf_2_(s, n, fmt, a0, a1)      ::snprintf(s, n, fmt, a0, a1)
+#  define xtests_sprintf_3_(s, n, fmt, a0, a1, a2)  ::snprintf(s, n, fmt, a0, a1, a2)
+# else
+#  define xtests_sprintf_2_(s, n, fmt, a0, a1)      ::sprintf(s, fmt, a0, a1)
+#  define xtests_sprintf_3_(s, n, fmt, a0, a1, a2)  ::sprintf(s, fmt, a0, a1, a2)
+# endif
 # if defined(STLSOFT_COMPILER_IS_DMC) || \
      (   (   defined(WIN32) || \
              defined(WIN64)) && \
