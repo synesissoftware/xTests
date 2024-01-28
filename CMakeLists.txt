@@ -5,7 +5,7 @@
 # Purpose:  Top-level CMake lists file for xTests
 #
 # Created:  9th October 2019
-# Updated:  10th January 2024
+# Updated:  28th January 2024
 #
 # ######################################################################## #
 
@@ -60,10 +60,10 @@ message(NOTICE "Generating CMake build scripts for ${PROJECT_NAME} ${PROJECT_VER
 
 # adhere strictly to C and C++ standards plus extensions. These are actually
 # useless since we do not compile anything; they merely state our intention.
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS ON) # GNU extensions and POSIX standard
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
@@ -86,7 +86,7 @@ include(GNUInstallDirs)
 
 if(NOT DEFINED STLSOFT AND NOT DEFINED ENV{STLSOFT})
 
-    set(STLSoft_REQUIRED_VERSION_ 1.10.2)
+    set(STLSoft_REQUIRED_VERSION_ 1.10.6)
 
     find_package(STLSoft ${STLSoft_REQUIRED_VERSION_} REQUIRED)
 
@@ -142,25 +142,13 @@ endif()
 # ##########################################################
 # install
 
-install(
-    TARGETS xTests.core
-)
-
-# install the xtests/*/ subdirectories here, as do not (yet) know how to do so via src/CMakeLists.txt's PUBLIC_HEADER property
-install(
-    DIRECTORY ${CMAKE_SOURCE_DIR}/include/xtests/
-    DESTINATION include/xtests
-    FILES_MATCHING
-    PATTERN "*.h*"
-)
-
 
 # ##########################################################
 # export
 
 include(CMakePackageConfigHelpers)
 
-string(TOLOWER ${PROJECT_NAME} EXPORT_NAME)
+set(EXPORT_NAME ${PROJECT_NAME_LOWER})
 
 configure_package_config_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EXPORT_NAME}-config.cmake.in
@@ -174,8 +162,6 @@ write_basic_package_version_file(
     COMPATIBILITY AnyNewerVersion
 )
 
-#[====[
-]====]
 export(EXPORT project-targets
     FILE "${CMAKE_CURRENT_BINARY_DIR}/cmake/${EXPORT_NAME}-targets.cmake"
     NAMESPACE "${PROJECT_NAME}::"
@@ -192,10 +178,6 @@ install( FILES
     "${CMAKE_CURRENT_BINARY_DIR}/cmake/${EXPORT_NAME}-config-version.cmake"
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${EXPORT_NAME}
 )
-
-#[====[
-export(PACKAGE "${PROJECT_NAME}")
-]====]
 
 
 # ############################## end of file ############################# #

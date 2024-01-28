@@ -4,11 +4,11 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 29th November 2023
+ * Updated: 28th January 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
- * Copyright (c) 2019-2023, Matthew Wilson and Synesis Information Systems
+ * Copyright (c) 2019-2024, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 1999-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -174,8 +174,14 @@
 # define xtests_wcscpy_(d, n, s)                    ::wcscpy(d, s)
 //# define xtests_strncpy_(d, n, s, l)                ::strncpy(d, s, l)
 //# define xtests_wcsncpy_(d, n, s, l)                ::wcsncpy(d, s, l)
-# define xtests_sprintf_2_(s, n, fmt, a0, a1)       ::sprintf(s, fmt, a0, a1)
-# define xtests_sprintf_3_(s, n, fmt, a0, a1, a2)   ::sprintf(s, fmt, a0, a1, a2)
+# if defined(__clang__) && \
+     __clang_major__ >= 14
+#  define xtests_sprintf_2_(s, n, fmt, a0, a1)      ::snprintf(s, n, fmt, a0, a1)
+#  define xtests_sprintf_3_(s, n, fmt, a0, a1, a2)  ::snprintf(s, n, fmt, a0, a1, a2)
+# else
+#  define xtests_sprintf_2_(s, n, fmt, a0, a1)      ::sprintf(s, fmt, a0, a1)
+#  define xtests_sprintf_3_(s, n, fmt, a0, a1, a2)  ::sprintf(s, fmt, a0, a1, a2)
+# endif
 # if defined(STLSOFT_COMPILER_IS_DMC) || \
      (   (   defined(WIN32) || \
              defined(WIN64)) && \
