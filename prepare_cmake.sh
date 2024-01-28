@@ -49,7 +49,7 @@ Flags/options:
 
     -m
     --run-make
-        runs make after a successful running of Cmake
+        runs make after a successful running of CMake
 
     -s <dir>
     --stlsoft-root-dir <dir>

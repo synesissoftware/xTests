@@ -356,7 +356,7 @@ If you'd like to help out with the project, please raise an issue via [GitHub Pa
 
 #### STLSoft <!-- omit in toc -->
 
-**xTests** depends on the **STLSoft** libraries, version 1.9.134 (or later). Version 1.10.1 (or later) is recommended.
+**xTests** depends on the **STLSoft** libraries, version 1.9.136 (or later). Version 1.10.5 (or later) is recommended.
 
 * [STLSoft 1.9](http://github.com/synesissoftware/STLSoft-1.9/)
 * [STLSoft 1.10](http://github.com/synesissoftware/STLSoft-1.10/) (Recommended)
