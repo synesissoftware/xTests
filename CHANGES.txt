@@ -2,7 +2,7 @@ xTests - Changes
 ================
 
 Created:    22nd February 2008
-Updated:    2nd January 2024
+Updated:    28th January 2024
 
 
     ************************************
@@ -14,6 +14,25 @@ Updated:    2nd January 2024
     *  *  means a general bullet-point *
     *                                  *
     ************************************
+
+
+28th January 2024 - 0.21.3
+==========================
+
+Summary:
+--------
+
+ * Clang 14+ compatibility
+
+
+28th January 2024 - 0.21.2
+==========================
+
+Summary:
+--------
+
+ *  CMake support minor improvements;
+
 
 
 11th January 2024 - 0.21.1

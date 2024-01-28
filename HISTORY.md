@@ -1,6 +1,18 @@
 # xTests - History
 
 
+28th January 2024 - 0.21.3
+--------------------------
+
+ * Clang 14+ compatibility
+
+
+28th January 2024 - 0.21.2
+--------------------------
+
+ * **CMake** support minor improvements;
+
+
 11th January 2024 - 0.21.1
 --------------------------
 

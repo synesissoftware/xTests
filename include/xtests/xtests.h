@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       41
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    12
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        352
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    13
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        353
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -80,9 +80,9 @@
 
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       21
-#define _XTESTS_VER_REVISION    2
+#define _XTESTS_VER_REVISION    3
 
-#define _XTESTS_VER             0x001502ff
+#define _XTESTS_VER             0x001503ff
 
 /* /////////////////////////////////////////////////////////////////////////
  * includes - 1
