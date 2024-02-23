@@ -4,7 +4,7 @@
  * Purpose: Implementation file for the test.scratch.basics2 project.
  *
  * Created: 15th December 2007
- * Updated: 29th November 2023
+ * Updated: 23rd February 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -16,7 +16,7 @@
 
 /* STLSoft Header Files */
 #include <stlsoft/stlsoft.h>
-#if _STLSOFT_VER >= 0x010b0000
+#if _STLSOFT_VER >= 0x010c0000
 # include <stlsoft/algorithm/literal_copy.hpp>
 #else
 namespace stlsoft{
@@ -47,6 +47,7 @@ namespace stlsoft{
 
 #include <xtests/test/util/compiler_warnings_suppression.last_include.h>
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * forward declarations
  */
@@ -69,6 +70,7 @@ static void test_4_2();
 static void test_5_1();
 static void test_5_2();
 static void test_5_3();
+
 
 /* ////////////////////////////////////////////////////////////////////// */
 
@@ -224,6 +226,7 @@ int main(int argc, char** argv)
 
     return res;
 }
+
 
 /* ////////////////////////////////////////////////////////////////////// */
 
@@ -585,6 +588,7 @@ static void test_5_3()
         XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(from, to, 5);
     }
 }
+
 
 /* ///////////////////////////// end of file //////////////////////////// */
 
