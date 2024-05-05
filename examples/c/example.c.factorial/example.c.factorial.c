@@ -5,7 +5,7 @@
  *          test case(s).
  *
  * Created: 7th December 2023
- * Updated: 7th December 2023
+ * Updated: 5th May 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -33,7 +33,7 @@ int factorial(int v)
     }
 }
 
-void test_factorial_edge_cases()
+void test_factorial_edge_cases(void)
 {
     XTESTS_TEST_INTEGER_EQUAL(1, factorial(0));
     XTESTS_TEST_INTEGER_EQUAL(1, factorial(1));
@@ -69,6 +69,7 @@ int main(int argc, char* argv[])
 
     return retCode;
 }
+
 
 /* ///////////////////////////// end of file //////////////////////////// */
 

@@ -4,11 +4,11 @@
  * Purpose: Definition of the filesystem_exception class.
  *
  * Created: 1st October 2015
- * Updated: 29th November 2023
+ * Updated: 5th May 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
- * Copyright (c) 2019-2023, Matthew Wilson and Synesis Information Systems
+ * Copyright (c) 2019-2024, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 2015-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -52,8 +52,9 @@
 # define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_MAJOR      0
 # define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_MINOR      1
 # define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_REVISION   8
-# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_EDIT       11
+# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_EDIT       12
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * includes - 0
@@ -63,6 +64,7 @@
 # include <xtests/xtests.h>
 #endif /* !XTESTS_INCL_XTESTS_H_XTESTS */
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * compatibility
  */
@@ -70,6 +72,7 @@
 #ifndef STLSOFT_CF_EXCEPTION_SUPPORT
 # error filesystem_exception can only be used in a compilation unit in which exception support is enabled
 #endif /* !STLSOFT_CF_EXCEPTION_SUPPORT */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * includes - 1
@@ -85,6 +88,7 @@
 #endif
 #include <platformstl/system/system_traits.hpp>
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * namespace
  */
@@ -96,9 +100,11 @@ namespace cpp
 namespace util
 {
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * helpers
  */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * classes
@@ -209,6 +215,7 @@ private: // Fields
     embedded_exception_type const   m_embedded;
 };
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * implementation
  */
@@ -240,6 +247,7 @@ filesystem_exception::filesystem_exception(
 
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * shims
  */
@@ -266,6 +274,7 @@ c_str_ptr(
 
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * namespace
  */
@@ -273,6 +282,7 @@ c_str_ptr(
 } /* namespace util */
 } /* namespace cpp */
 } /* namespace xtests */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * shims
@@ -311,7 +321,10 @@ namespace stlsoft
 
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
-/* ////////////////////////////////////////////////////////////////////// */
+
+/* /////////////////////////////////////////////////////////////////////////
+ * inclusion control
+ */
 
 #endif /* XTESTS_INCL_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION */
 

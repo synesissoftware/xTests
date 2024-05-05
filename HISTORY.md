@@ -1,6 +1,13 @@
 # xTests - History
 
 
+28th January 2024 - 0.21.4
+--------------------------
+
+ * Clang 14+ compatibility
+ * CMake scripts improvements
+ * now depends on STLSoft 1.10.6
+
 28th January 2024 - 0.21.3
 --------------------------
 

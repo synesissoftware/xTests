@@ -4,11 +4,11 @@
  * Purpose: Definition of the temp_directory class.
  *
  * Created: 1st October 2015
- * Updated: 29th November 2023
+ * Updated: 5th May 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
- * Copyright (c) 2019-2023, Matthew Wilson and Synesis Information Systems
+ * Copyright (c) 2019-2024, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 2015-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -52,8 +52,9 @@
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MAJOR    0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MINOR    1
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_REVISION 8
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     11
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     12
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * includes - 0
@@ -63,6 +64,7 @@
 # include <xtests/xtests.h>
 #endif /* !XTESTS_INCL_XTESTS_H_XTESTS */
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * compatibility
  */
@@ -70,6 +72,7 @@
 #ifndef STLSOFT_CF_EXCEPTION_SUPPORT
 # error temp_directory can only be used in a compilation unit in which exception support is enabled
 #endif /* !STLSOFT_CF_EXCEPTION_SUPPORT */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * includes - 1
@@ -102,6 +105,7 @@
 
 #include <string>
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * namespace
  */
@@ -112,6 +116,7 @@ namespace cpp
 {
 namespace util
 {
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * classes
@@ -186,6 +191,7 @@ private: // Fields
     string_type_    m_path;
 };
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * operators
  */
@@ -201,8 +207,8 @@ operator |(
 {
     return static_cast<temp_directory::Flags>(int(lhs) | int(rhs));
 }
-
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * implementation
@@ -473,8 +479,8 @@ temp_directory::c_str() const
 {
     return m_path.c_str();
 }
-
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * shims
@@ -539,6 +545,7 @@ c_str_ptr(
 
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * namespace
  */
@@ -546,6 +553,7 @@ c_str_ptr(
 } /* namespace util */
 } /* namespace cpp */
 } /* namespace xtests */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * shims
@@ -621,7 +629,10 @@ namespace stlsoft
 
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
-/* ////////////////////////////////////////////////////////////////////// */
+
+/* /////////////////////////////////////////////////////////////////////////
+ * inclusion control
+ */
 
 #endif /* XTESTS_INCL_XTESTS_UTIL_HPP_TEMP_DIRECTORY */
 

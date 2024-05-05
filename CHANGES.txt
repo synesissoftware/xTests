@@ -1,8 +1,8 @@
 xTests - Changes
 ================
 
-Created:    22nd February 2008
-Updated:    28th January 2024
+Created: 22nd February 2008
+Updated: 5th May 2024
 
 
     ************************************
@@ -14,6 +14,33 @@ Updated:    28th January 2024
     *  *  means a general bullet-point *
     *                                  *
     ************************************
+
+
+28th January 2024 - 0.21.4
+==========================
+
+Summary:
+--------
+
+ * Clang 14+ compatibility
+ * CMake scripts improvements
+ * now depends on STLSoft 1.10.6
+
+Details:
+--------
+
+ STLSoft dependency:
+ * CMakeLists.txt
+
+ CMake scripts improvements
+ * build_cmake.sh,
+ * prepare_cmake.sh
+ * run_all_unit_tests.sh
+
+ Clang 14+ compatibility:
+ * test/scratch/test.scratch.temp_directory/CMakeLists.txt
+ * test/scratch/test.scratch.temp_file/CMakeLists.txt
+
 
 
 28th January 2024 - 0.21.3

@@ -4,7 +4,7 @@
  * Purpose: Implementation file for the test.scratch.basics1 project.
  *
  * Created: 15th December 2007
- * Updated: 29th November 2023
+ * Updated: 5th May 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -25,6 +25,7 @@
 # include <crtdbg.h>
 #endif /* _MSC_VER) && _DEBUG */
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * forward declarations
  */
@@ -37,6 +38,7 @@ static void test_4_1(void);
 static void test_4_2(void);
 
 static void test_require(void);
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * main()
@@ -112,6 +114,7 @@ int main(int argc, char** argv)
     return res;
 }
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * test function definitions
  */
@@ -122,7 +125,7 @@ static void test_2(void)
     XTESTS_TEST(sizeof(double) <= sizeof(long double));
 }
 
-static void test_4()
+static void test_4(void)
 {
     { int i; for(i = -1000; i != 1000; ++i)
     {
@@ -176,7 +179,7 @@ static void test_5(void)
     XTESTS_TEST_INTEGER_EQUAL(i8, i8);
 }
 
-static void test_4_1()
+static void test_4_1(void)
 {
     char    s1[]    =   "abc";
     char    s2[]    =   "abcdef";
@@ -213,7 +216,7 @@ static void test_4_1()
     XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N_APPROX(s1, s3, -8);
 }
 
-static void test_4_2()
+static void test_4_2(void)
 {
     wchar_t s1[]    =   L"abc";
     wchar_t s2[]    =   L"abcdef";

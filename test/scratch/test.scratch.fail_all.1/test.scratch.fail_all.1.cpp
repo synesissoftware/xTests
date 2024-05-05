@@ -4,7 +4,7 @@
  * Purpose: Implementation file for the test.scratch.fail_all.1 project.
  *
  * Created: 26th January 2009
- * Updated: 29th November 2023
+ * Updated: 5th May 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -33,6 +33,7 @@
 
 #include <xtests/test/util/compiler_warnings_suppression.last_include.h>
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * forward declarations
  */
@@ -52,7 +53,10 @@ namespace
 
 } /* anonymous namespace */
 
-/* ////////////////////////////////////////////////////////////////////// */
+
+/* /////////////////////////////////////////////////////////////////////////
+ * main()
+ */
 
 static int main_(int argc, char** argv)
 {
@@ -132,7 +136,10 @@ int main(int argc, char** argv)
     return res;
 }
 
-/* ////////////////////////////////////////////////////////////////////// */
+
+/* /////////////////////////////////////////////////////////////////////////
+ * test function implementations
+ */
 
 namespace
 {
@@ -236,8 +243,8 @@ namespace
     {
         throw std::runtime_error("<this was not expected!>");
     }
-
 } /* anonymous namespace */
+
 
 /* ///////////////////////////// end of file //////////////////////////// */
 

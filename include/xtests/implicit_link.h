@@ -4,11 +4,11 @@
  * Purpose: Implicit linking for the xTests API
  *
  * Created: 3rd March 2003
- * Updated: 29th November 2023
+ * Updated: 5th May 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
- * Copyright (c) 2019-2023, Matthew Wilson and Synesis Information Systems
+ * Copyright (c) 2019-2024, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 2003-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -55,6 +55,7 @@
 #ifndef XTESTS_INCL_XTESTS_H_IMPLICIT_LINK
 #define XTESTS_INCL_XTESTS_H_IMPLICIT_LINK
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * version information
  */
@@ -63,8 +64,9 @@
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MAJOR    1
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MINOR    12
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_REVISION 7
-# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_EDIT     42
+# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_EDIT     43
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * includes
@@ -75,6 +77,7 @@
 #endif /* !XTESTS_INCL_XTESTS_H_XTESTS */
 
 #include <platformstl/platformstl.h>
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * helper macros
@@ -87,15 +90,16 @@
 
 # if defined(__BORLANDC__) || \
      defined(__SUNPRO_C)
+
 #  define XTESTS_IL_STRINGIZE_w_(x)         L"" ## XTESTS_IL_STRINGIZE_a(x)
 # else /* ? compiler */
+
 #  define XTESTS_IL_STRINGIZE_w_(x)         L ## #x
 # endif /* compiler */
 # define XTESTS_IL_STRINGIZE_w(x)           XTESTS_IL_STRINGIZE_w_(x)
-
 # define XTESTS_IL_STRINGIZE_(x)            XTESTS_IL_STRINGIZE_a(x)
-
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * feature detection
@@ -106,6 +110,7 @@
      defined(_MT) || \
      defined(_REENTRANT) || \
      0
+
 #  define XTESTS_IMPLICIT_LINK_MT_
 # endif
 
@@ -113,7 +118,9 @@
      defined(_DLL) || \
      defined(__DLL) || \
      0
+
 #  if !defined(__BORLANDC__)
+
 #   define XTESTS_IMPLICIT_LINK_DLL_
 #  endif
 # endif
@@ -122,8 +129,10 @@
      !defined(NDEBUG) && \
      defined(_DEBUG) && \
      1
+
 #  define XTESTS_IMPLICIT_LINK_DEBUG_
 # endif
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * implicit linking
@@ -137,13 +146,16 @@
      defined(__INTEL_COMPILER) || \
      defined(__MWERKS__) || \
      defined(_MSC_VER)
+
 #  if !defined(__COMO__)
+
 #   define XTESTS_IMPLICIT_LINK_SUPPORT
 #  endif /* compiler */
 # endif /* compiler */
 
 # if defined(XTESTS_IMPLICIT_LINK_SUPPORT) && \
      defined(XTESTS_NO_IMPLICIT_LINK)
+
 #  undef XTESTS_IMPLICIT_LINK_SUPPORT
 # endif /* XTESTS_IMPLICIT_LINK_SUPPORT && XTESTS_NO_IMPLICIT_LINK */
 
@@ -364,8 +376,9 @@
 
 #endif /* Win-32 || Win-64 */
 
+
 /* /////////////////////////////////////////////////////////////////////////
- * inclusion
+ * inclusion control
  */
 
 #ifdef STLSOFT_CF_PRAGMA_ONCE_SUPPORT
