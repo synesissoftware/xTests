@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       41
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    14
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        355
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    15
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        356
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -179,7 +179,9 @@
 # ifndef _XTESTS_NO_CPP_API
 #  include <shwild/shwild.hpp>
 #  if _STLSOFT_VER >= 0x010a01a2
-#   include <stlsoft/conversion/sas_to_string.hpp>
+#   ifndef STLSOFT_INCL_STLSOFT_CONVERSION_HPP_SAS_TO_STRING
+#    include <stlsoft/conversion/sas_to_string.hpp>
+#   endif /* !STLSOFT_INCL_STLSOFT_CONVERSION_HPP_SAS_TO_STRING */
 #  endif /* _STLSOFT_VER */
 # endif /* !_XTESTS_NO_CPP_API */
 #endif /* XTESTS_USE_SHWILD */
