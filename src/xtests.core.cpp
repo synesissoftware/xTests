@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 28th January 2024
+ * Updated: 5th May 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -103,6 +103,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * compatiblity tests
  */
@@ -118,6 +119,7 @@
 #  pragma warning(default : 4541)
 # endif /* STLSOFT_CF_RTTI_SUPPORT */
 #endif /* compiler */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * implementation
@@ -201,6 +203,7 @@
 # define RETURN_UNUSED(x)
 #endif /* compiler */
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * Windows debugging support
  */
@@ -209,6 +212,7 @@
 static void xtests_OutputDebugStringA_(char const*);
 # define OutputDebugStringA     xtests_OutputDebugStringA_
 #endif /* XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_ */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * typedefs
@@ -247,6 +251,7 @@ namespace stlsoft
 } /* namespace stlsoft */
 #endif /* _STLSOFT_NO_NAMESPACE */
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * namespace
  */
@@ -257,6 +262,7 @@ namespace xtests
 namespace c
 {
 #endif /* !_XTESTS_NO_NAMESPACE */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * typedefs
@@ -607,6 +613,7 @@ namespace
 } // anonymous namespace
 #endif /* STLSOFT_CF_NAMESPACE_SUPPORT */
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * helper functions
  */
@@ -743,6 +750,7 @@ namespace
 #ifdef STLSOFT_CF_NAMESPACE_SUPPORT
 } // anonymous namespace
 #endif /* STLSOFT_CF_NAMESPACE_SUPPORT */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * API implementation
@@ -1451,6 +1459,7 @@ XTESTS_CALL(int) xTests_hasRequiredConditionFailed(void)
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * helper functions
  */
@@ -1540,6 +1549,7 @@ xtests_commandLine_parseHelp(
         }
     }}
 }
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * classes
@@ -4638,6 +4648,7 @@ void RunnerInfo::Call_onTestFailed(
 } // anonymous namespace
 #endif /* STLSOFT_CF_NAMESPACE_SUPPORT */
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * namespace
  */
@@ -4646,6 +4657,7 @@ void RunnerInfo::Call_onTestFailed(
 } /* namespace c */
 } /* namespace xtests */
 #endif /* !_XTESTS_NO_NAMESPACE */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * Windows debugging support
@@ -4659,6 +4671,7 @@ static void xtests_OutputDebugStringA_(char const*s)
     OutputDebugStringA(s);
 }
 #endif /* XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_ */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * implementation

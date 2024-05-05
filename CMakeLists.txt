@@ -5,7 +5,7 @@
 # Purpose:  Top-level CMake lists file for xTests
 #
 # Created:  9th October 2019
-# Updated:  28th January 2024
+# Updated:  5th May 2024
 #
 # ######################################################################## #
 
@@ -19,7 +19,7 @@ cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
 file(TO_CMAKE_PATH "${CMAKE_CURRENT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
 if(EXISTS "${LOC_PATH}")
 
-    message(FATAL_ERROR "You cannot build in a source directory (or any directory with a CMakeLists.txt file). Please make a build subdirectory. Feel free to remove CMakeCache.txt and CMakeFiles.")
+	message(FATAL_ERROR "You cannot build in a source directory (or any directory with a CMakeLists.txt file). Please make a build subdirectory. Feel free to remove CMakeCache.txt and CMakeFiles.")
 endif()
 
 # directory for CMake specific extensions and source files.
@@ -30,9 +30,9 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 # project
 
 project(xTests
-    DESCRIPTION "xTests is a small, lightweight, portable, simple unit- and component-test framework suitable for exercising C and C++ libraries."
-    HOMEPAGE_URL "https://github.com/synesissoftware/xTests"
-    LANGUAGES C CXX
+	DESCRIPTION "xTests is a small, lightweight, portable, simple unit- and component-test framework suitable for exercising C and C++ libraries."
+	HOMEPAGE_URL "https://github.com/synesissoftware/xTests"
+	LANGUAGES C CXX
 )
 
 string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
@@ -86,26 +86,26 @@ include(GNUInstallDirs)
 
 if(NOT DEFINED STLSOFT AND NOT DEFINED ENV{STLSOFT})
 
-    set(STLSoft_REQUIRED_VERSION_ 1.10.6)
+	set(STLSoft_REQUIRED_VERSION_ 1.10.6)
 
-    find_package(STLSoft ${STLSoft_REQUIRED_VERSION_} REQUIRED)
+	find_package(STLSoft ${STLSoft_REQUIRED_VERSION_} REQUIRED)
 
-    message("-- CMake package STLSoft found (version ${STLSoft_VERSION}; ${STLSoft_REQUIRED_VERSION_} requested)")
+	message("-- CMake package STLSoft found (version ${STLSoft_VERSION}; ${STLSoft_REQUIRED_VERSION_} requested)")
 else()
 
-    if(DEFINED STLSOFT)
+	if(DEFINED STLSOFT)
 
-        message("-- STLSOFT provided as CMake variable with value ${STLSOFT}")
+		message("-- STLSOFT provided as CMake variable with value ${STLSOFT}")
 
-        set(STLSOFT_INCLUDE_DIR ${STLSOFT}/include)
-    else()
+		set(STLSOFT_INCLUDE_DIR ${STLSOFT}/include)
+	else()
 
-        message("-- STLSOFT provided as environment variable with value $ENV{STLSOFT}")
+		message("-- STLSOFT provided as environment variable with value $ENV{STLSOFT}")
 
-        set(STLSOFT_INCLUDE_DIR $ENV{STLSOFT}/include)
-    endif()
+		set(STLSOFT_INCLUDE_DIR $ENV{STLSOFT}/include)
+	endif()
 
-    include_directories(${STLSOFT_INCLUDE_DIR})
+	include_directories(${STLSOFT_INCLUDE_DIR})
 endif()
 
 
@@ -125,7 +125,7 @@ include(CTest)
 
 if(BUILD_TESTING)
 
-    add_subdirectory(test)
+	add_subdirectory(test)
 endif()
 
 
@@ -135,7 +135,7 @@ endif()
 option(BUILD_EXAMPLES "Build examples" ON)
 if(BUILD_EXAMPLES)
 
-    add_subdirectory(examples)
+	add_subdirectory(examples)
 endif()
 
 
@@ -151,32 +151,32 @@ include(CMakePackageConfigHelpers)
 set(EXPORT_NAME ${PROJECT_NAME_LOWER})
 
 configure_package_config_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EXPORT_NAME}-config.cmake.in
-    ${CMAKE_CURRENT_BINARY_DIR}/cmake/${EXPORT_NAME}-config.cmake
-    INSTALL_DESTINATION ${LIB_INSTALL_DIR}/${EXPORT_NAME}/cmake
+	${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EXPORT_NAME}-config.cmake.in
+	${CMAKE_CURRENT_BINARY_DIR}/cmake/${EXPORT_NAME}-config.cmake
+	INSTALL_DESTINATION ${LIB_INSTALL_DIR}/${EXPORT_NAME}/cmake
 )
 
 write_basic_package_version_file(
-    ${CMAKE_CURRENT_BINARY_DIR}/cmake/${EXPORT_NAME}-config-version.cmake
-    VERSION ${PROJECT_VERSION}
-    COMPATIBILITY AnyNewerVersion
+	${CMAKE_CURRENT_BINARY_DIR}/cmake/${EXPORT_NAME}-config-version.cmake
+	VERSION ${PROJECT_VERSION}
+	COMPATIBILITY AnyNewerVersion
 )
 
 export(EXPORT project-targets
-    FILE "${CMAKE_CURRENT_BINARY_DIR}/cmake/${EXPORT_NAME}-targets.cmake"
-    NAMESPACE "${PROJECT_NAME}::"
+	FILE "${CMAKE_CURRENT_BINARY_DIR}/cmake/${EXPORT_NAME}-targets.cmake"
+	NAMESPACE "${PROJECT_NAME}::"
 )
 
 install(EXPORT project-targets
-    NAMESPACE "${PROJECT_NAME}::"
-    FILE "${EXPORT_NAME}-targets.cmake"
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${EXPORT_NAME}
+	NAMESPACE "${PROJECT_NAME}::"
+	FILE "${EXPORT_NAME}-targets.cmake"
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${EXPORT_NAME}
 )
 
 install( FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/cmake/${EXPORT_NAME}-config.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}/cmake/${EXPORT_NAME}-config-version.cmake"
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${EXPORT_NAME}
+	"${CMAKE_CURRENT_BINARY_DIR}/cmake/${EXPORT_NAME}-config.cmake"
+	"${CMAKE_CURRENT_BINARY_DIR}/cmake/${EXPORT_NAME}-config-version.cmake"
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${EXPORT_NAME}
 )
 
 

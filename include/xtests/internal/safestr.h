@@ -4,11 +4,11 @@
  * Purpose: Handles detection of safe string library.
  *
  * Created: 9th February 2008
- * Updated: 29th November 2023
+ * Updated: 5th May 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
- * Copyright (c) 2019-2023, Matthew Wilson and Synesis Information Systems
+ * Copyright (c) 2019-2024, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 2008-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -48,6 +48,7 @@
 #ifndef XTESTS_INCL_XTESTS_INTERNAL_H_SAFESTR
 #define XTESTS_INCL_XTESTS_INTERNAL_H_SAFESTR
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * includes
  */
@@ -82,8 +83,9 @@
 # include <crtdefs.h>
 #endif /* XTESTS_SAFE_STR_USE_crtdefs_h_ */
 
+
 /* /////////////////////////////////////////////////////////////////////////
- * includes
+ * macros
  */
 
 #ifdef __STDC_SECURE_LIB__
@@ -93,7 +95,10 @@
 # endif /* __STDC_WANT_SECURE_LIB__ */
 #endif /* __STDC_SECURE_LIB__ */
 
-/* ////////////////////////////////////////////////////////////////////// */
+
+/* /////////////////////////////////////////////////////////////////////////
+ * inclusion control
+ */
 
 #endif /* XTESTS_INCL_XTESTS_INTERNAL_H_SAFESTR */
 

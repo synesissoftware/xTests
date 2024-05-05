@@ -4,7 +4,7 @@
  * Purpose: Implementation file for the test.scratch.string_slices.c project.
  *
  * Created: 16th February 2013
- * Updated: 29th November 2023
+ * Updated: 5th May 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -28,28 +28,32 @@
 
 #include <xtests/test/util/compiler_warnings_suppression.last_include.h>
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * forward declarations
  */
 
-static void test_1_2();
-static void test_1_3();
-static void test_2_1();
-static void test_2_2();
-static void test_2_3();
-static void test_2_4();
-static void test_2_5();
-static void test_2_6();
-static void test_2_7();
-static void test_2_8();
-static void test_3_1();
-static void test_4_1();
-static void test_4_2();
-static void test_5_1();
-static void test_5_2();
-static void test_5_3();
+static void test_1_2(void);
+static void test_1_3(void);
+static void test_2_1(void);
+static void test_2_2(void);
+static void test_2_3(void);
+static void test_2_4(void);
+static void test_2_5(void);
+static void test_2_6(void);
+static void test_2_7(void);
+static void test_2_8(void);
+static void test_3_1(void);
+static void test_4_1(void);
+static void test_4_2(void);
+static void test_5_1(void);
+static void test_5_2(void);
+static void test_5_3(void);
 
-/* ////////////////////////////////////////////////////////////////////// */
+
+/* /////////////////////////////////////////////////////////////////////////
+ * main()
+ */
 
 static int main_(int argc, char** argv)
 {
@@ -202,17 +206,20 @@ int main(int argc, char** argv)
     return res;
 }
 
-/* ////////////////////////////////////////////////////////////////////// */
 
-static void test_1_2()
+/* /////////////////////////////////////////////////////////////////////////
+ * test function implementations
+ */
+
+static void test_1_2(void)
 {
 }
 
-static void test_1_3()
+static void test_1_3(void)
 {
 }
 
-static void test_2_1()
+static void test_2_1(void)
 {
     /* test that a slice differs from a c-style string */
 
@@ -227,57 +234,58 @@ static void test_2_1()
     XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL("abcdef", slice);
 }
 
-static void test_2_2()
+static void test_2_2(void)
 {
 }
 
-static void test_2_3()
+static void test_2_3(void)
 {
 }
 
-static void test_2_4()
+static void test_2_4(void)
 {
 }
 
-static void test_2_5()
+static void test_2_5(void)
 {
 }
 
-static void test_2_6()
+static void test_2_6(void)
 {
 }
 
-static void test_2_7()
+static void test_2_7(void)
 {
 }
 
-static void test_2_8()
+static void test_2_8(void)
 {
 }
 
-static void test_3_1()
+static void test_3_1(void)
 {
 }
 
-static void test_4_1()
+static void test_4_1(void)
 {
 }
 
-static void test_4_2()
+static void test_4_2(void)
 {
 }
 
-static void test_5_1()
+static void test_5_1(void)
 {
 }
 
-static void test_5_2()
+static void test_5_2(void)
 {
 }
 
-static void test_5_3()
+static void test_5_3(void)
 {
 }
+
 
 /* ///////////////////////////// end of file //////////////////////////// */
 

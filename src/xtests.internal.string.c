@@ -540,5 +540,6 @@ xtests_stristr_w_(
 } /* extern "C" */
 #endif /* __cplusplus */
 
+
 /* ///////////////////////////// end of file //////////////////////////// */
 

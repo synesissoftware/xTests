@@ -4,7 +4,7 @@
  * Purpose: Implementation file for the test.scratch.setup.fail project.
  *
  * Created: 31st January 2010
- * Updated: 29th November 2023
+ * Updated: 5th May 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -26,6 +26,7 @@
 # include <crtdbg.h>
 #endif /* _MSC_VER) && _DEBUG */
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * forward declarations
  */
@@ -34,6 +35,7 @@ static void test_1(void);
 
 static int setup(void*);
 static int teardown(void*);
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * main()
@@ -82,6 +84,7 @@ int main(int argc, char** argv)
     return res;
 }
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * test function definitions
  */
@@ -104,6 +107,7 @@ static void test_1(void)
 {
     XTESTS_TEST_FAIL("should not get here");
 }
+
 
 /* ///////////////////////////// end of file //////////////////////////// */
 

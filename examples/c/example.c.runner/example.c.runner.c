@@ -4,7 +4,7 @@
  * Purpose: Example of in-runner test cases.
  *
  * Created: 20th February 2008
- * Updated: 7th December 2023
+ * Updated: 5th May 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -21,7 +21,10 @@
 /* Standard C Header Files */
 #include <stdlib.h>
 
-/* ////////////////////////////////////////////////////////////////////// */
+
+/* /////////////////////////////////////////////////////////////////////////
+ * main()
+ */
 
 int main(int argc, char **argv)
 {
@@ -68,6 +71,7 @@ int main(int argc, char **argv)
 
     return retCode;
 }
+
 
 /* ///////////////////////////// end of file //////////////////////////// */
 

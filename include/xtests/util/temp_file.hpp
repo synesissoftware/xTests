@@ -4,7 +4,7 @@
  * Purpose: Definition of the temp_file class.
  *
  * Created: 8th May 2014
- * Updated: 29th November 2023
+ * Updated: 5th May 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,7 +52,7 @@
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MAJOR     0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     2
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  2
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      17
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      18
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -63,6 +63,7 @@
 # include <xtests/xtests.h>
 #endif /* !XTESTS_INCL_XTESTS_H_XTESTS */
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * compatibility
  */
@@ -70,6 +71,7 @@
 #ifndef STLSOFT_CF_EXCEPTION_SUPPORT
 # error temp_file can only be used in a compilation unit in which exception support is enabled
 #endif /* !STLSOFT_CF_EXCEPTION_SUPPORT */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * includes - 1
@@ -104,6 +106,7 @@
 
 #include <stdio.h>
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * compatibility
  */
@@ -114,8 +117,8 @@
 # pragma warning(push)
 # pragma warning(disable : 4996)
 #else
-
 #endif
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * namespace
@@ -127,6 +130,7 @@ namespace cpp
 {
 namespace util
 {
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * classes
@@ -254,6 +258,7 @@ private: // Fields
     file_handle_type_ const m_hFile;
 };
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * operators
  */
@@ -269,8 +274,8 @@ operator |(
 {
     return static_cast<temp_file::Flags>(int(lhs) | int(rhs));
 }
-
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * implementation
@@ -729,8 +734,8 @@ temp_file::c_str() const
 {
     return m_path.c_str();
 }
-
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * shims
@@ -792,8 +797,8 @@ c_str_ptr(
 {
     return t.c_str();
 }
-
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * namespace
@@ -802,6 +807,7 @@ c_str_ptr(
 } /* namespace util */
 } /* namespace cpp */
 } /* namespace xtests */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * compatibility
@@ -812,8 +818,8 @@ c_str_ptr(
 
 # pragma warning(pop)
 #else
-
 #endif
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * shims
@@ -889,7 +895,10 @@ namespace stlsoft
 
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
-/* ////////////////////////////////////////////////////////////////////// */
+
+/* /////////////////////////////////////////////////////////////////////////
+ * inclusion control
+ */
 
 #endif /* XTESTS_INCL_XTESTS_UTIL_HPP_TEMP_FILE */
 
