@@ -5,16 +5,49 @@ Dir=$(cd $(dirname "$ScriptPath"); pwd)
 Basename=$(basename "$ScriptPath")
 CMakePath=$Dir/_build
 
+IgnoreRemainingFlagsAndOptions=0
+Targets=()
+
+
+# ##########################################################
+# functions
+
+function join_by { local IFS="$1"; shift; echo "$*"; }
+
 
 # ##########################################################
 # command-line handling
 
 while [[ $# -gt 0 ]]; do
+
+    if [ $IgnoreRemainingFlagsAndOptions -ne 0 ]; then
+
+        Targets+=($1)
+
+        shift
+
+        continue
+    else
+
+        if [ ! ${1:0:1} = '-' ]; then
+
+            Targets+=($1)
+
+            shift
+
+            continue
+        fi
+    fi
+
     case $1 in
+        --)
+
+            IgnoreRemainingFlagsAndOptions=1
+            ;;
         --help)
             cat << EOF
 xTests is a small, lightweight, portable, simple unit- and component-test framework suitable for exercising C and C++ libraries
-Copyright (c) 2019-2021, Matthew Wilson and Synesis Information Systems
+Copyright (c) 2019-2024, Matthew Wilson and Synesis Information Systems
 Copyright (c) 2008-2019, Matthew Wilson and Synesis Software
 Executes CMake-generated artefacts to (re)build project
 
@@ -64,10 +97,15 @@ else
         exit 1
     else
 
-        echo "Executing build (via command \`make\`)"
+        if [ -z "$Targets" ]; then
 
-        make
+            echo "Executing build (via command \`make\`)"
+        else
 
+            echo "Executing build (via command \`make\`) with specific target(s) $(join_by , "${Targets[@]}")"
+        fi
+
+        make ${Targets[*]}
         status=$?
 
         cd ->/dev/null
