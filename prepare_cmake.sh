@@ -39,7 +39,7 @@ while [[ $# -gt 0 ]]; do
 
             cat << EOF
 xTests is a small, lightweight, portable, simple unit- and component-test framework suitable for exercising C and C++ libraries
-Copyright (c) 2023 Synesis Information Systems
+Copyright (c) 2023-2024 Synesis Information Systems
 Creates/reinitialises the CMake build script(s)
 
 $ScriptPath [ ... flags/options ... ]
@@ -101,7 +101,11 @@ echo "Executing CMake"
 if [ $CmakeVerboseMakefile -eq 0 ]; then CmakeVerboseMakefileFlag="OFF" ; else CmakeVerboseMakefileFlag="ON" ; fi
 if [ -z $STLSoftDirGiven ]; then CmakeSTLSoftVariable="" ; else CmakeSTLSoftVariable="-DSTLSOFT=$STLSoftDirGiven/" ; fi
 
-cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=$CmakeVerboseMakefileFlag -DCMAKE_BUILD_TYPE=$Configuration $CmakeSTLSoftVariable .. || (cd ->/dev/null ; exit 1)
+cmake \
+    $CmakeSTLSoftVariable \
+    -DCMAKE_BUILD_TYPE=$Configuration \
+    -DCMAKE_VERBOSE_MAKEFILE:BOOL=$CmakeVerboseMakefileFlag \
+    .. || (cd ->/dev/null ; exit 1)
 
 status=0
 
