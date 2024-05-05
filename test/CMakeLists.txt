@@ -19,6 +19,7 @@ if(WIN32)
 	message(FATAL_ERROR "Use of CMake on Windows not currently supported")
 endif()
 
+add_subdirectory(component)
 add_subdirectory(scratch)
 
 
