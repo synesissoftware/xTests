@@ -4,7 +4,7 @@
  * Purpose: Implementation file for the test.scratch.verbosity_levels project.
  *
  * Created: 28th January 2017
- * Updated: 29th November 2023
+ * Updated: 5th May 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -36,6 +36,7 @@
 
 #include <xtests/test/util/compiler_warnings_suppression.last_include.h>
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * forward declarations
  */
@@ -45,7 +46,10 @@ static void test_integer_failed();
 static void test_exception_expected_runtime_error();
 static void test_exception_unexpected();
 
-/* ////////////////////////////////////////////////////////////////////// */
+
+/* /////////////////////////////////////////////////////////////////////////
+ * main()
+ */
 
 static int main_(int argc, char** argv)
 {
@@ -115,7 +119,10 @@ int main(int argc, char** argv)
     return res;
 }
 
-/* ////////////////////////////////////////////////////////////////////// */
+
+/* /////////////////////////////////////////////////////////////////////////
+ * test function implementations
+ */
 
 static void test_succeeded()
 {
@@ -142,6 +149,7 @@ static void test_exception_unexpected()
     throw std::runtime_error("an error");
 }
 #endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
+
 
 /* ///////////////////////////// end of file //////////////////////////// */
 

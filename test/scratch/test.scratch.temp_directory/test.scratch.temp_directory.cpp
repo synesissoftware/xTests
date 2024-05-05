@@ -4,7 +4,7 @@
  * Purpose: Use of `xtests::cpp::util::temp_directory`.
  *
  * Created: 1st October 2015
- * Updated: 11th January 2024
+ * Updated: 5th May 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -31,13 +31,17 @@
 
 #include <xtests/test/util/compiler_warnings_suppression.last_include.h>
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * namespace
  */
 
 using xtests::cpp::util::temp_directory;
 
-/* ////////////////////////////////////////////////////////////////////// */
+
+/* /////////////////////////////////////////////////////////////////////////
+ * main()
+ */
 
 static int main_(int /*argc*/, char** /*argv*/)
 {
@@ -110,6 +114,7 @@ int main(int argc, char** argv)
 
     return res;
 }
+
 
 /* ///////////////////////////// end of file //////////////////////////// */
 

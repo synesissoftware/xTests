@@ -4,7 +4,7 @@
  * Purpose: #include file to go at the end of a test file's #include list.
  *
  * Created: 20th February 2008
- * Updated: 29th November 2023
+ * Updated: 5th May 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -48,6 +48,7 @@
 #ifndef XTESTS_INCL_XTESTS_TEST_UTIL_H_COMPILER_WARNINGS_SUPPRESSION_LAST_INCLUDE
 #define XTESTS_INCL_XTESTS_TEST_UTIL_H_COMPILER_WARNINGS_SUPPRESSION_LAST_INCLUDE
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * includes
  */
@@ -55,6 +56,7 @@
 #ifndef XTESTS_INCL_XTESTS_TEST_UTIL_H_COMPILER_WARNINGS_SUPPRESSION_FIRST_INCLUDE
 # error This file cannot be included unless xtests/test/util/compiler_warnings_suppression.first_include.h has already been included
 #endif /* !XTESTS_INCL_XTESTS_TEST_UTIL_H_COMPILER_WARNINGS_SUPPRESSION_FIRST_INCLUDE */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * warning suppressions
@@ -72,7 +74,10 @@
 # endif /* !STLSOFT_CF_EXCEPTION_SUPPORT */
 #endif /* compiler */
 
-/* ////////////////////////////////////////////////////////////////////// */
+
+/* /////////////////////////////////////////////////////////////////////////
+ * inclusion control
+ */
 
 #endif /* !XTESTS_INCL_XTESTS_TEST_UTIL_H_COMPILER_WARNINGS_SUPPRESSION_LAST_INCLUDE */
 

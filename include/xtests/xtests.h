@@ -5,7 +5,7 @@
  *          library.
  *
  * Created: 20th June 1999
- * Updated: 28th January 2024
+ * Updated: 5th May 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,9 +52,10 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       41
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    14
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        354
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    15
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        356
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * version information
@@ -84,6 +85,7 @@
 
 #define _XTESTS_VER             0x001504ff
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * includes - 1
  */
@@ -91,6 +93,7 @@
 #ifndef STLSOFT_INCL_STLSOFT_H_STLSOFT
 # include <stlsoft/stlsoft.h>
 #endif /* !STLSOFT_INCL_STLSOFT_H_STLSOFT */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * compatibility
@@ -114,6 +117,7 @@
 #  define _XTESTS_NO_CPP_API
 # endif /* !_XTESTS_NO_CPP_API */
 #endif /* compiler */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * includes - 2
@@ -175,7 +179,9 @@
 # ifndef _XTESTS_NO_CPP_API
 #  include <shwild/shwild.hpp>
 #  if _STLSOFT_VER >= 0x010a01a2
-#   include <stlsoft/conversion/sas_to_string.hpp>
+#   ifndef STLSOFT_INCL_STLSOFT_CONVERSION_HPP_SAS_TO_STRING
+#    include <stlsoft/conversion/sas_to_string.hpp>
+#   endif /* !STLSOFT_INCL_STLSOFT_CONVERSION_HPP_SAS_TO_STRING */
 #  endif /* _STLSOFT_VER */
 # endif /* !_XTESTS_NO_CPP_API */
 #endif /* XTESTS_USE_SHWILD */
@@ -183,6 +189,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * namespace
@@ -201,6 +208,7 @@ namespace c
 {
 #endif /* !_XTESTS_NO_NAMESPACE */
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * features
  */
@@ -209,7 +217,7 @@ namespace c
 
     STLSOFT_INLINE
     int
-    xtests_internal_while_0_()
+    xtests_internal_while_0_(void)
     {
         return 0;
     }
@@ -440,9 +448,8 @@ namespace c
  /* function pointer casts */
 # define XTESTS_VOID_FUNCTION_CAST_(f)                      stlsoft_c_cast(  void(*)(void),    f  )
 
-
-
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * constants & definitions
@@ -476,6 +483,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * approximately equal.
  */
 #define XTESTS_FP_APPROXIMATE_FACTOR                        (1.000001)
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * macros
@@ -2293,6 +2301,7 @@ c_str_len_n_w(
 # endif /* !_XTESTS_NO_CPP_API */
 #endif /* __cplusplus */
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * API functions
  */
@@ -3091,6 +3100,7 @@ xtests_setFloatingPointCloseFactor(
 );
 
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * C++-only functionality
@@ -4343,6 +4353,7 @@ xtests_commandLine_parseHelp(
 # define XTESTS_TEST_MULTIBYTE_STRINGS_EQUAL                XTESTS_TEST_MULTIBYTE_STRING_EQUAL
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
+
 /* /////////////////////////////////////////////////////////////////////////
  * namespace
  */
@@ -4352,8 +4363,9 @@ xtests_commandLine_parseHelp(
 } /* namespace xtests */
 #endif /* !_XTESTS_NO_NAMESPACE */
 
+
 /* /////////////////////////////////////////////////////////////////////////
- * inclusion
+ * inclusion control
  */
 
 #ifdef STLSOFT_CF_PRAGMA_ONCE_SUPPORT

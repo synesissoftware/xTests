@@ -100,5 +100,6 @@
 #define XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_(oom_msg, stdx_msg)
 #endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
 
+
 /* ///////////////////////////// end of file //////////////////////////// */
 
