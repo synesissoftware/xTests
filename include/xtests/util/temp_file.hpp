@@ -50,9 +50,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MAJOR     0
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     2
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  2
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      18
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     3
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  1
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      19
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -274,6 +274,21 @@ operator |(
 {
     return static_cast<temp_file::Flags>(int(lhs) | int(rhs));
 }
+
+template <
+    ss_typename_param_k T_stream
+>
+inline
+T_stream&
+operator <<(
+    T_stream&           stm
+,   temp_file const&    tf
+)
+{
+    stm << tf.c_str();
+
+    return stm;
+}
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -440,7 +455,7 @@ temp_file::create_file_(
     throw could_not_create_temporary_file_exception(e, "could not create file in any of the possible locations");
 #else
 
-    char tmp_path[] = "/tmp/xtests-temp-dir.XXXXXXXX";
+    char tmp_path[] = "/tmp/xtests-temp-file.XXXXXXXX";
 
 # ifdef _WIN32
     // Can't bank on "/tmp" directory existing, so just do it in "./"

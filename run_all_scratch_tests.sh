@@ -16,7 +16,7 @@ while [[ $# -gt 0 ]]; do
 xTests is a small, lightweight, portable, simple unit- and component-test framework suitable for exercising C and C++ libraries
 Copyright (c) 2019-2023, Matthew Wilson and Synesis Information Systems
 Copyright (c) 2008-2019, Matthew Wilson and Synesis Software
-Runs all (matching) unit-test programs
+Runs all (matching) scratch-test programs
 
 $ScriptPath [ ... flags/options ... ]
 
@@ -58,21 +58,14 @@ status=0
 
 if make; then
 
-    for f in $(find $Dir -type f -perm +111 '(' -name 'test_unit*' -o -name 'test.unit.*' ')') $(find $Dir -type f -perm +111 '(' -name 'test_component*' -o -name 'test.component.*' ')')
+    for f in $(find $Dir -type f -perm +111 '(' -name 'test_scratch*' -o -name 'test.scratch.*' ')') $(find $Dir -type f -perm +111 '(' -name 'test_performance*' -o -name 'test.performance.*' ')')
     do
 
         echo
         echo "executing $f:"
 
-        if $f; then
-
-            :
-        else
-
-            status=$?
-
-            break 1
-        fi
+        # NOTE: we do not break on fail, because, this being a unit-testing library, the scratch-tests actually fail
+        $f
     done
 else
 
