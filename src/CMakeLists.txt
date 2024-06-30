@@ -71,9 +71,17 @@ install(TARGETS xTests.core
 
 
 # additional headers into specific sub-directories
+
 install(
 	DIRECTORY ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME_LOWER}/util
 	DESTINATION include/${PROJECT_NAME_LOWER}
+	FILES_MATCHING
+	PATTERN "*.h*"
+)
+
+install(
+	DIRECTORY ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME_LOWER}/test/util
+	DESTINATION include/${PROJECT_NAME_LOWER}/test
 	FILES_MATCHING
 	PATTERN "*.h*"
 )
