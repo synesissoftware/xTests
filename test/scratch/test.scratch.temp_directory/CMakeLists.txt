@@ -4,7 +4,9 @@ add_executable(test.scratch.temp_directory
 )
 
 target_link_libraries(test.scratch.temp_directory
-	xTests.core
+	PRIVATE
+		STLSoft::STLSoft
+		xTests.core
 )
 
 target_compile_options(test.scratch.temp_directory PRIVATE
@@ -14,6 +16,8 @@ target_compile_options(test.scratch.temp_directory PRIVATE
 		-Wno-unknown-warning-option # -Wno-unused-but-set-variable not recognised until Clang 13.1
 		-Wno-unused-but-set-variable
 	>
-	$<$<CXX_COMPILER_ID:MSVC>: /WX /W4>
+	$<$<CXX_COMPILER_ID:MSVC>:
+		/WX /W4
+	>
 )
 
