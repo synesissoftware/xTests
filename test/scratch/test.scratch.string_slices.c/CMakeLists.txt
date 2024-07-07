@@ -5,7 +5,6 @@ add_executable(test.scratch.string_slices.c
 
 target_link_libraries(test.scratch.string_slices.c
 	PRIVATE
-		STLSoft::STLSoft
 		xTests.core
 )
 

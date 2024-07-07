@@ -5,7 +5,6 @@ add_executable(example.c.factorial
 
 target_link_libraries(example.c.factorial
 	PRIVATE
-		STLSoft::STLSoft
 		xTests.core
 )
 

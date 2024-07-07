@@ -5,7 +5,6 @@ add_executable(test.component.temp_file
 
 target_link_libraries(test.component.temp_file
 	PRIVATE
-		STLSoft::STLSoft
 		xTests.core
 )
 

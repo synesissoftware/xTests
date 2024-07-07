@@ -5,7 +5,6 @@ add_executable(test.scratch.verbosity_levels
 
 target_link_libraries(test.scratch.verbosity_levels
 	PRIVATE
-		STLSoft::STLSoft
 		xTests.core
 )
 

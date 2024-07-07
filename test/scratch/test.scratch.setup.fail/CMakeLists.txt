@@ -5,7 +5,6 @@ add_executable(test.scratch.setup.fail
 
 target_link_libraries(test.scratch.setup.fail
 	PRIVATE
-		STLSoft::STLSoft
 		xTests.core
 )
 

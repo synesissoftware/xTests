@@ -57,7 +57,7 @@ target_include_directories(xTests.core PUBLIC
 )
 
 target_link_libraries(xTests.core
-	PRIVATE
+	PUBLIC
 		STLSoft::STLSoft
 )
 

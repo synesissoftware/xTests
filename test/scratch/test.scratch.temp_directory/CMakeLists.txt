@@ -5,7 +5,6 @@ add_executable(test.scratch.temp_directory
 
 target_link_libraries(test.scratch.temp_directory
 	PRIVATE
-		STLSoft::STLSoft
 		xTests.core
 )
 

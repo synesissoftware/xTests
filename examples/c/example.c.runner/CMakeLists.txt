@@ -5,7 +5,6 @@ add_executable(example.c.runner
 
 target_link_libraries(example.c.runner
 	PRIVATE
-		STLSoft::STLSoft
 		xTests.core
 )
 

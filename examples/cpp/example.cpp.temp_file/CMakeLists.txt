@@ -5,7 +5,6 @@ add_executable(example.cpp.temp_file
 
 target_link_libraries(example.cpp.temp_file
 	PRIVATE
-		STLSoft::STLSoft
 		xTests.core
 )
 
