@@ -3,7 +3,7 @@
 ScriptPath=$0
 Dir=$(cd $(dirname "$ScriptPath"); pwd)
 Basename=$(basename "$ScriptPath")
-CMakePath=$Dir/_build
+CMakeDir=$Dir/_build
 
 Directories=(
     CMakeFiles
@@ -32,7 +32,7 @@ while [[ $# -gt 0 ]]; do
         --help)
             cat << EOF
 xTests is a small, lightweight, portable, simple unit- and component-test framework suitable for exercising C and C++ libraries
-Copyright (c) 2019-2023, Matthew Wilson and Synesis Information Systems
+Copyright (c) 2019-2024, Matthew Wilson and Synesis Information Systems
 Copyright (c) 2008-2019, Matthew Wilson and Synesis Software
 Removes all known CMake artefacts
 
@@ -66,21 +66,21 @@ done
 # ##########################################################
 # main()
 
-if [ ! -d "$CMakePath" ]; then
+if [ ! -d "$CMakeDir" ]; then
 
-    echo "$ScriptPath: CMake build directory '$CMakePath' not found so nothing to do; use script 'prepare_cmake.sh' if you wish to prepare CMake artefacts"
+    echo "$ScriptPath: CMake build directory '$CMakeDir' not found so nothing to do; use script 'prepare_cmake.sh' if you wish to prepare CMake artefacts"
 
     exit 0
 else
 
-    echo "Removing all cmake artefacts in '$CMakePath'"
+    echo "Removing all cmake artefacts in '$CMakeDir'"
 
     num_dirs_removed=0
     num_files_removed=0
 
     for d in ${Directories[@]}
     do
-        fq_dir_path="$CMakePath/$d"
+        fq_dir_path="$CMakeDir/$d"
 
         [ -d "$fq_dir_path" ] || continue
 
@@ -93,7 +93,7 @@ else
 
     for f in ${Files[@]}
     do
-        fq_file_path="$CMakePath/$f"
+        fq_file_path="$CMakeDir/$f"
 
         [ -f "$fq_file_path" ] || continue
 
