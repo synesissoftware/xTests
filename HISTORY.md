@@ -1,6 +1,15 @@
 # xTests - History
 
 
+7th July 2024 - 0.22.1
+----------------------
+
+ * Visual C++ 17 (2022) compatibility
+ * CMake Windows compatibility
+ * Small improvements for `temp_directory` and `temp_file`
+ * now depends on STLSoft 1.11
+
+
 28th January 2024 - 0.21.4
 --------------------------
 
