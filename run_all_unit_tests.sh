@@ -58,7 +58,7 @@ status=0
 
 if make; then
 
-    for f in $(find $Dir -type f -perm +111 '(' -name 'test_unit*' -o -name 'test.unit.*' ')') $(find $Dir -type f -perm +111 '(' -name 'test_component*' -o -name 'test.component.*' ')')
+    for f in $(find $Dir -type f -exec test -x {} \; '(' -name 'test_unit*' -o -name 'test.unit.*' ')' -print) $(find $Dir -type f -exec test -x {} \; '(' -name 'test_component*' -o -name 'test.component.*' ')' -print)
     do
 
         echo
