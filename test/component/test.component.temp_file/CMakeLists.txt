@@ -4,7 +4,8 @@ add_executable(test.component.temp_file
 )
 
 target_link_libraries(test.component.temp_file
-	xTests.core
+	PRIVATE
+		xTests.core
 )
 
 target_compile_options(test.component.temp_file PRIVATE
@@ -13,5 +14,7 @@ target_compile_options(test.component.temp_file PRIVATE
 	>
 	$<$<CXX_COMPILER_ID:MSVC>:
 		/WX /W4
+
+		/wd4459
 	>
 )
