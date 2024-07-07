@@ -3,7 +3,7 @@
 ScriptPath=$0
 Dir=$(cd $(dirname "$ScriptPath"); pwd)
 Basename=$(basename "$ScriptPath")
-CMakePath=$Dir/_build
+CMakeDir=$Dir/_build
 
 
 CmakeVerboseMakefile=0
@@ -17,27 +17,27 @@ STLSoftDirGiven=
 # command-line handling
 
 while [[ $# -gt 0 ]]; do
-    case $1 in
-        -d|--debug-configuration)
+  case $1 in
+    -d|--debug-configuration)
 
-            Configuration=Debug
-            ;;
-        -m|--run-make)
+      Configuration=Debug
+      ;;
+    -m|--run-make)
 
-            RunMake=1
-            ;;
-        -s|--stlsoft-root-dir)
+      RunMake=1
+      ;;
+    -s|--stlsoft-root-dir)
 
-            shift
-            STLSoftDirGiven=$1
-            ;;
-        -v|--cmake-verbose-makefile)
+      shift
+      STLSoftDirGiven=$1
+      ;;
+    -v|--cmake-verbose-makefile)
 
-            CmakeVerboseMakefile=1
-            ;;
-        --help)
+      CmakeVerboseMakefile=1
+      ;;
+    --help)
 
-            cat << EOF
+      cat << EOF
 xTests is a small, lightweight, portable, simple unit- and component-test framework suitable for exercising C and C++ libraries
 Copyright (c) 2023-2024 Synesis Information Systems
 Creates/reinitialises the CMake build script(s)
@@ -75,26 +75,26 @@ Flags/options:
 
 EOF
 
-            exit 0
-            ;;
-        *)
+      exit 0
+      ;;
+    *)
 
-            >&2 echo "$ScriptPath: unrecognised argument '$1'; use --help for usage"
+      >&2 echo "$ScriptPath: unrecognised argument '$1'; use --help for usage"
 
-            exit 1
-            ;;
-    esac
+      exit 1
+      ;;
+  esac
 
-    shift
+  shift
 done
 
 
 # ##########################################################
 # main()
 
-mkdir -p $CMakePath || exit 1
+mkdir -p $CMakeDir || exit 1
 
-cd $CMakePath
+cd $CMakeDir
 
 echo "Executing CMake"
 
@@ -102,28 +102,28 @@ if [ $CmakeVerboseMakefile -eq 0 ]; then CmakeVerboseMakefileFlag="OFF" ; else C
 if [ -z $STLSoftDirGiven ]; then CmakeSTLSoftVariable="" ; else CmakeSTLSoftVariable="-DSTLSOFT=$STLSoftDirGiven/" ; fi
 
 cmake \
-    $CmakeSTLSoftVariable \
-    -DCMAKE_BUILD_TYPE=$Configuration \
-    -DCMAKE_VERBOSE_MAKEFILE:BOOL=$CmakeVerboseMakefileFlag \
-    .. || (cd ->/dev/null ; exit 1)
+  $CmakeSTLSoftVariable \
+  -DCMAKE_BUILD_TYPE=$Configuration \
+  -DCMAKE_VERBOSE_MAKEFILE:BOOL=$CmakeVerboseMakefileFlag \
+  .. || (cd ->/dev/null ; exit 1)
 
 status=0
 
 if [ $RunMake -ne 0 ]; then
 
-    echo "Executing make"
+  echo "Executing make"
 
-    make
+  make
 
-    status=$?
+  status=$?
 fi
 
 cd ->/dev/null
 
 if [ $CmakeVerboseMakefile -ne 0 ]; then
 
-    echo -e "contents of $CMakePath:"
-    ls -al $CMakePath
+  echo -e "contents of $CMakeDir:"
+  ls -al $CMakeDir
 fi
 
 exit $status

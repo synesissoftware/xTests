@@ -1,7 +1,7 @@
 # xTests - History
 
 
-7th July 2024 - 0.22.1
+8th July 2024 - 0.22.1
 ----------------------
 
  * Visual C++ 17 (2022) compatibility
