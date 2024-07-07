@@ -11,13 +11,14 @@ RunMake=1
 # command-line handling
 
 while [[ $# -gt 0 ]]; do
-    case $1 in
-        -M|--no-make)
+  case $1 in
+    -M|--no-make)
 
-          RunMake=0
-          ;;
-        --help)
-            cat << EOF
+      RunMake=0
+      ;;
+    --help)
+
+      cat << EOF
 xTests is a small, lightweight, portable, simple unit- and component-test framework suitable for exercising C and C++ libraries
 Copyright (c) 2019-2024, Matthew Wilson and Synesis Information Systems
 Copyright (c) 2008-2019, Matthew Wilson and Synesis Software
@@ -41,16 +42,17 @@ Flags/options:
 
 EOF
 
-            exit 0
-            ;;
-        *)
-            >&2 echo "$ScriptPath: unrecognised argument '$1'; use --help for usage"
+      exit 0
+      ;;
+    *)
 
-            exit 1
-            ;;
-    esac
+      >&2 echo "$ScriptPath: unrecognised argument '$1'; use --help for usage"
 
-    shift
+      exit 1
+      ;;
+  esac
+
+  shift
 done
 
 
@@ -89,22 +91,22 @@ fi
 
 if [ $status -eq 0 ]; then
 
-    for f in $(find $Dir -type f '(' -name 'test_unit*' -o -name 'test.unit.*' -o -name 'test_component*' -o -name 'test.component.*' ')' -exec test -x {} \; -print)
-    do
+  for f in $(find $Dir -type f '(' -name 'test_unit*' -o -name 'test.unit.*' -o -name 'test_component*' -o -name 'test.component.*' ')' -exec test -x {} \; -print)
+  do
 
-        echo
-        echo "executing $f:"
+    echo
+    echo "executing $f:"
 
-        if $f; then
+    if $f; then
 
-            :
-        else
+        :
+    else
 
-            status=$?
+        status=$?
 
-            break 1
-        fi
-    done
+        break 1
+    fi
+  done
 fi
 
 cd ->/dev/null
