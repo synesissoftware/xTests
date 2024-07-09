@@ -51,7 +51,7 @@ target_include_directories(xTests.core PUBLIC
 
 target_link_libraries(xTests.core
 	PUBLIC
-		STLSoft::STLSoft
+		$<$<STREQUAL:${STLSOFT_INCLUDE_DIR},>:STLSoft::STLSoft>
 )
 
 target_compile_options(xTests.core PRIVATE
