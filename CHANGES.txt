@@ -16,6 +16,41 @@ Updated: 5th May 2024
     ************************************
 
 
+9th July 2024 - 0.22.1
+======================
+
+Summary:
+--------
+
+ * Visual C++ 17 (2022) compatibility
+ * CMake Windows compatibility
+ * Small improvements for `temp_directory` and `temp_file`
+ * now depends on STLSoft 1.11
+
+Details:
+--------
+
+ Visual C++ 17 (2022) compatibility:
+ ~ full Windows / VC++ 17 support;
+
+ CMake Windows compatibility:
+ ~ ensuring all headers are installed by CMake;
+ ~ Windows 32-bit and 64-bit compatibility;
+
+ Small improvements for `temp_directory` and `temp_file`:
+ + added stream insertion operator(s) for `xtests::cpp::util::temp_directory` and `xtests::cpp::util::temp_file`
+ ~ fixed minor defect in `temp_file` to have it use `""/tmp/xtests-temp-file.*"`;
+ + added **example.cpp.temp_directory**;
+ + added **example.cpp.temp_file**;
+ + added **test.component.temp_file**;
+
+ Misc. other fixes:
+ ~ adjusted dependency on as-yet-unreleased STLSoft functionality forward to 1.12;
+ + added run_all_scratch_tests.sh, which executes scratch and performance test programs;
+ ~ modified run_all_unit_tests.sh to execute unit and component test programs;
+ ~ build_cmake.sh can now take multiple build-target argument(s);
+
+
 28th January 2024 - 0.21.4
 ==========================
 

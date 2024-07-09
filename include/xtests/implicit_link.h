@@ -4,7 +4,7 @@
  * Purpose: Implicit linking for the xTests API
  *
  * Created: 3rd March 2003
- * Updated: 5th May 2024
+ * Updated: 30th June 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -85,19 +85,19 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
-# define XTESTS_IL_STRINGIZE_a_(x)          #x
-# define XTESTS_IL_STRINGIZE_a(x)           XTESTS_IL_STRINGIZE_a_(x)
+# define XTESTS_IL_STRINGIZE_a_(x)                          #x
+# define XTESTS_IL_STRINGIZE_a(x)                           XTESTS_IL_STRINGIZE_a_(x)
 
 # if defined(__BORLANDC__) || \
      defined(__SUNPRO_C)
 
-#  define XTESTS_IL_STRINGIZE_w_(x)         L"" ## XTESTS_IL_STRINGIZE_a(x)
+#  define XTESTS_IL_STRINGIZE_w_(x)                         L"" ## XTESTS_IL_STRINGIZE_a(x)
 # else /* ? compiler */
 
-#  define XTESTS_IL_STRINGIZE_w_(x)         L ## #x
+#  define XTESTS_IL_STRINGIZE_w_(x)                         L ## #x
 # endif /* compiler */
-# define XTESTS_IL_STRINGIZE_w(x)           XTESTS_IL_STRINGIZE_w_(x)
-# define XTESTS_IL_STRINGIZE_(x)            XTESTS_IL_STRINGIZE_a(x)
+# define XTESTS_IL_STRINGIZE_w(x)                           XTESTS_IL_STRINGIZE_w_(x)
+# define XTESTS_IL_STRINGIZE_(x)                            XTESTS_IL_STRINGIZE_a(x)
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -168,103 +168,103 @@
 
   /* library basename */
 
-#  define XTESTS_IMPL_LINK_LIBRARY_BASENAME     "xtests"
+#  define XTESTS_IMPL_LINK_LIBRARY_BASENAME                 "xtests"
 
   /* major version */
 
-#  define XTESTS_IMPL_LINK_MAJOR_VERSION        "." XTESTS_IL_STRINGIZE_(_XTESTS_VER_MAJOR)
+#  define XTESTS_IMPL_LINK_MAJOR_VERSION                    "." XTESTS_IL_STRINGIZE_(_XTESTS_VER_MAJOR)
 
   /* module name */
 
-#  define XTESTS_IMPL_LINK_MODULE_NAME          ".core"
+#  define XTESTS_IMPL_LINK_MODULE_NAME                      ".core"
 
   /* compiler tag */
 
 #  if defined(__BORLANDC__)
 #   if __BORLANDC__ == 0x0550
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "bc55"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "bc55"
 #   elif (__BORLANDC__ == 0x0551)
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "bc551"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "bc551"
 #   elif (__BORLANDC__ == 0x0560)
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "bc56"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "bc56"
 #   elif (__BORLANDC__ == 0x0564)
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "bc564"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "bc564"
 #   elif (__BORLANDC__ == 0x0582)
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "bc582"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "bc582"
 #   elif (0x0590 == (__BORLANDC__ & 0xfff0))
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "bc59x"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "bc59x"
 #   elif (0x0610 == (__BORLANDC__ & 0xfff0))
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "bc61x"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "bc61x"
 #   elif (0x0620 == (__BORLANDC__ & 0xfff0))
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "bc62x"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "bc62x"
 #   else /* ? __BORLANDC__ */
 #    error Unrecognised value of __BORLANDC__
 #   endif /* __BORLANDC__ */
 
 /*
 #  elif defined(__DMC__)
-#   define XTESTS_IMPL_LINK_COMPILER_NAME       "dm"
+#   define XTESTS_IMPL_LINK_COMPILER_NAME                   "dm"
  */
 
 #  elif defined(__INTEL_COMPILER)
 #   if __INTEL_COMPILER == 600
-#    define   XTESTS_IMPL_LINK_COMPILER_NAME    "icl6"
+#    define   XTESTS_IMPL_LINK_COMPILER_NAME                "icl6"
 #   elif __INTEL_COMPILER == 700
-#    define   XTESTS_IMPL_LINK_COMPILER_NAME    "icl7"
+#    define   XTESTS_IMPL_LINK_COMPILER_NAME                "icl7"
 #   elif __INTEL_COMPILER == 800
-#    define   XTESTS_IMPL_LINK_COMPILER_NAME    "icl8"
+#    define   XTESTS_IMPL_LINK_COMPILER_NAME                "icl8"
 #   elif __INTEL_COMPILER == 900
-#    define   XTESTS_IMPL_LINK_COMPILER_NAME    "icl9"
+#    define   XTESTS_IMPL_LINK_COMPILER_NAME                "icl9"
 #   elif __INTEL_COMPILER == 1000
-#    define   XTESTS_IMPL_LINK_COMPILER_NAME    "icl10"
+#    define   XTESTS_IMPL_LINK_COMPILER_NAME                "icl10"
 #   elif __INTEL_COMPILER == 1100
-#    define   XTESTS_IMPL_LINK_COMPILER_NAME    "icl11"
+#    define   XTESTS_IMPL_LINK_COMPILER_NAME                "icl11"
 #   else /* ? __INTEL_COMPILER */
 #    error Intel C/C++ version not supported
 #   endif /* __INTEL_COMPILER */
 
 #  elif defined(__MWERKS__)
 #   if ((__MWERKS__ & 0xFF00) == 0x2400)
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "cw7"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "cw7"
 #   elif ((__MWERKS__ & 0xFF00) == 0x3000)
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "cw8"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "cw8"
 #   elif ((__MWERKS__ & 0xFF00) == 0x3200)
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "cw9"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "cw9"
 #   else /* ? __MWERKS__ */
 #    error Unrecognised value of __MWERKS__
 #   endif /* __MWERKS__ */
 
 #  elif defined(_MSC_VER)
 #   if _MSC_VER == 1000
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "vc4"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "vc4"
 #   elif _MSC_VER == 1020
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "vc42"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "vc42"
 #   elif _MSC_VER == 1100
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "vc5"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "vc5"
 #   elif _MSC_VER == 1200
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "vc6"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "vc6"
 #   elif _MSC_VER == 1300
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "vc7"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "vc7"
 #   elif _MSC_VER == 1310
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "vc71"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "vc71"
 #   elif _MSC_VER == 1400
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "vc8"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "vc8"
 #   elif _MSC_VER == 1500
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "vc9"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "vc9"
 #   elif _MSC_VER == 1600
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "vc10"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "vc10"
 #   elif _MSC_VER == 1700
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "vc11"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "vc11"
 #   elif _MSC_VER == 1800
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "vc12"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "vc12"
 #   elif _MSC_VER == 1900
-#    define XTESTS_IMPL_LINK_COMPILER_NAME      "vc14"
+#    define XTESTS_IMPL_LINK_COMPILER_NAME                  "vc14"
 #   elif _MSC_VER >= 1910
 #    if 0
 #    elif _MSC_VER < 1920
-#     define XTESTS_IMPL_LINK_COMPILER_NAME     "vc15"
+#     define XTESTS_IMPL_LINK_COMPILER_NAME                 "vc15"
 #    elif _MSC_VER < 1930
-#     define XTESTS_IMPL_LINK_COMPILER_NAME     "vc16"
+#     define XTESTS_IMPL_LINK_COMPILER_NAME                 "vc16"
 #    else
 #     error Visual C++ version that is >= vc16 is not recognised
 #    endif
@@ -281,35 +281,35 @@
 #  if defined(_STLSOFT_FORCE_ANY_COMPILER) && \
       defined(PLATFORMSTL_OS_IS_UNIX) && \
       defined(_WIN32)
-#   define XTESTS_IMPL_LINK_OS_TAG              ".unix"
+#   define XTESTS_IMPL_LINK_OS_TAG                          ".unix"
 #  endif /* pseudo UNIX */
 
 #  if !defined(XTESTS_IMPL_LINK_OS_TAG)
-#   define XTESTS_IMPL_LINK_OS_TAG              ""
+#   define XTESTS_IMPL_LINK_OS_TAG                          ""
 #  endif /* !XTESTS_IMPL_LINK_OS_TAG */
 
 
   /* architecture tag */
 
 #  if defined(PLATFORMSTL_ARCH_IS_X86)
-#   define XTESTS_IMPL_LINK_ARCH_TAG            ""
+#   define XTESTS_IMPL_LINK_ARCH_TAG                        ""
 #  elif defined(PLATFORMSTL_ARCH_IS_X64)
-#   define XTESTS_IMPL_LINK_ARCH_TAG            ".x64"
+#   define XTESTS_IMPL_LINK_ARCH_TAG                        ".x64"
 #  elif defined(PLATFORMSTL_ARCH_IS_IA64)
-#   define XTESTS_IMPL_LINK_ARCH_TAG            ".ia64"
+#   define XTESTS_IMPL_LINK_ARCH_TAG                        ".ia64"
 #  endif /* arch */
 
 #  if !defined(XTESTS_IMPL_LINK_ARCH_TAG)
-#   define XTESTS_IMPL_LINK_ARCH_TAG            ""
+#   define XTESTS_IMPL_LINK_ARCH_TAG                        ""
 #  endif /* !XTESTS_IMPL_LINK_ARCH_TAG */
 
 
   /* encoding tag */
 
 #  if defined(XTESTS_USE_WIDE_STRINGS)
-#   define XTESTS_IMPL_LINK_ENCODING_TAG        ".widestring"
+#   define XTESTS_IMPL_LINK_ENCODING_TAG                    ".widestring"
 #  else /* ? XTESTS_USE_WIDE_STRINGS */
-#   define XTESTS_IMPL_LINK_ENCODING_TAG        ""
+#   define XTESTS_IMPL_LINK_ENCODING_TAG                    ""
 #  endif /* XTESTS_USE_WIDE_STRINGS */
 
 
@@ -317,36 +317,36 @@
 
 #  ifdef XTESTS_IMPLICIT_LINK_MT_
 #   ifdef XTESTS_IMPLICIT_LINK_DLL_
-#    define XTESTS_IMPL_LINK_THREADING_TAG      ".dll"
+#    define XTESTS_IMPL_LINK_THREADING_TAG                  ".dll"
 #   else /* ? dll */
-#    define XTESTS_IMPL_LINK_THREADING_TAG      ".mt"
+#    define XTESTS_IMPL_LINK_THREADING_TAG                  ".mt"
 #   endif /* dll */
 #  else /* ? mt */
-#    define XTESTS_IMPL_LINK_THREADING_TAG      ""
+#    define XTESTS_IMPL_LINK_THREADING_TAG                  ""
 #  endif /* mt */
 
 
   /* NoX */
 
 #  if defined(XTESTS_CF_NOX)
-#   define XTESTS_IMPL_LINK_NOX_TAG             ".nox"
+#   define XTESTS_IMPL_LINK_NOX_TAG                         ".nox"
 #  else /* ? XTESTS_CF_NOX */
-#   define XTESTS_IMPL_LINK_NOX_TAG             ""
+#   define XTESTS_IMPL_LINK_NOX_TAG                         ""
 #  endif /* XTESTS_CF_NOX */
 
 
   /* debug tag */
 
 #  ifdef XTESTS_IMPLICIT_LINK_DEBUG_
-#   define XTESTS_IMPL_LINK_DEBUG_TAG           ".debug"
+#   define XTESTS_IMPL_LINK_DEBUG_TAG                       ".debug"
 #  else /* ? _DEBUG */
-#   define XTESTS_IMPL_LINK_DEBUG_TAG           ""
+#   define XTESTS_IMPL_LINK_DEBUG_TAG                       ""
 #  endif /* _DEBUG */
 
 
   /* suffix */
 
-#  define XTESTS_IMPL_LINK_SUFFIX               ".lib"
+#  define XTESTS_IMPL_LINK_SUFFIX                           ".lib"
 
 
    /* Library name is:
@@ -354,18 +354,20 @@
     * [lib]<library-basename>.<major-version>.<module-name>.<compiler-name>[.<os-arch-tag>][.<char-encoding-tag>][.<threading-tag>][.<nox-tag>][.<debug-tag>].{a|lib}
     */
 
-#  define XTESTS_IMPL_LINK_LIBRARY_NAME         XTESTS_IMPL_LINK_PREFIX \
-                                                XTESTS_IMPL_LINK_LIBRARY_BASENAME \
-                                                XTESTS_IMPL_LINK_MAJOR_VERSION \
-                                                XTESTS_IMPL_LINK_MODULE_NAME \
-                                                "." XTESTS_IMPL_LINK_COMPILER_NAME \
-                                                XTESTS_IMPL_LINK_OS_TAG \
-                                                XTESTS_IMPL_LINK_ARCH_TAG \
-                                                XTESTS_IMPL_LINK_ENCODING_TAG \
-                                                XTESTS_IMPL_LINK_THREADING_TAG \
-                                                XTESTS_IMPL_LINK_NOX_TAG \
-                                                XTESTS_IMPL_LINK_DEBUG_TAG \
-                                                XTESTS_IMPL_LINK_SUFFIX
+#  define XTESTS_IMPL_LINK_LIBRARY_NAME                     \
+                                                            \
+            XTESTS_IMPL_LINK_PREFIX                         \
+            XTESTS_IMPL_LINK_LIBRARY_BASENAME               \
+            XTESTS_IMPL_LINK_MAJOR_VERSION                  \
+            XTESTS_IMPL_LINK_MODULE_NAME                    \
+            "." XTESTS_IMPL_LINK_COMPILER_NAME              \
+            XTESTS_IMPL_LINK_OS_TAG                         \
+            XTESTS_IMPL_LINK_ARCH_TAG                       \
+            XTESTS_IMPL_LINK_ENCODING_TAG                   \
+            XTESTS_IMPL_LINK_THREADING_TAG                  \
+            XTESTS_IMPL_LINK_NOX_TAG                        \
+            XTESTS_IMPL_LINK_DEBUG_TAG                      \
+            XTESTS_IMPL_LINK_SUFFIX
 
 
 #  pragma message("lib: " XTESTS_IMPL_LINK_LIBRARY_NAME)

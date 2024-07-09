@@ -7,13 +7,6 @@ add_library(xTests.core
 	${CORE_SRCS}
 )
 
-if (APPLE)
-
-	message("-- -- adding '/usr/local/include' to include-directories for 'src'")
-
-	include_directories("/usr/local/include")
-endif()
-
 if(UNIX)
 
 	add_definitions(-DUNIX)
@@ -22,7 +15,17 @@ endif(UNIX)
 
 if(WIN32)
 
-	message(FATAL_ERROR "Use of CMake on Windows not currently supported")
+	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+
+		message (STATUS "Compiling for 64-bit Windows")
+
+		add_definitions(-DWIN64)
+	else()
+
+		message (STATUS "Compiling for 32-bit Windows")
+
+		add_definitions(-DWIN32)
+	endif()
 endif(WIN32)
 
 
@@ -44,6 +47,11 @@ set_target_properties(xTests.core PROPERTIES
 target_include_directories(xTests.core PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
 	$<INSTALL_INTERFACE:include>
+)
+
+target_link_libraries(xTests.core
+	PUBLIC
+		$<$<STREQUAL:${STLSOFT_INCLUDE_DIR},>:STLSoft::STLSoft>
 )
 
 target_compile_options(xTests.core PRIVATE
@@ -71,9 +79,17 @@ install(TARGETS xTests.core
 
 
 # additional headers into specific sub-directories
+
 install(
 	DIRECTORY ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME_LOWER}/util
 	DESTINATION include/${PROJECT_NAME_LOWER}
+	FILES_MATCHING
+	PATTERN "*.h*"
+)
+
+install(
+	DIRECTORY ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME_LOWER}/test/util
+	DESTINATION include/${PROJECT_NAME_LOWER}/test
 	FILES_MATCHING
 	PATTERN "*.h*"
 )

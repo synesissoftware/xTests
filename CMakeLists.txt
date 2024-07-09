@@ -5,7 +5,7 @@
 # Purpose:  Top-level CMake lists file for xTests
 #
 # Created:  9th October 2019
-# Updated:  5th May 2024
+# Updated:  9th July 2024
 #
 # ######################################################################## #
 
@@ -86,7 +86,7 @@ include(GNUInstallDirs)
 
 if(NOT DEFINED STLSOFT AND NOT DEFINED ENV{STLSOFT})
 
-	set(STLSoft_REQUIRED_VERSION_ 1.10.6)
+	set(STLSoft_REQUIRED_VERSION_ 1.11)
 
 	find_package(STLSoft ${STLSoft_REQUIRED_VERSION_} REQUIRED)
 
