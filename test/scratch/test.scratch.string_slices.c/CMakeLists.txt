@@ -5,7 +5,7 @@ add_executable(test.scratch.string_slices.c
 
 target_link_libraries(test.scratch.string_slices.c
 	PRIVATE
-		xTests.core
+		core
 )
 
 target_compile_options(test.scratch.string_slices.c PRIVATE

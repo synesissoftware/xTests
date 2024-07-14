@@ -3,7 +3,7 @@ set(CORE_SRCS
 	xtests.core.cpp
 )
 
-add_library(xTests.core
+add_library(core
 	${CORE_SRCS}
 )
 
@@ -39,22 +39,22 @@ set(CORE_PUBLIC_HEADERS
 	"${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME_LOWER}/${PROJECT_NAME_LOWER}.h"
 )
 
-set_target_properties(xTests.core PROPERTIES
+set_target_properties(core PROPERTIES
 	OUTPUT_NAME "xtests.core"
 	PUBLIC_HEADER "${CORE_PUBLIC_HEADERS}"
 )
 
-target_include_directories(xTests.core PUBLIC
+target_include_directories(core PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
 	$<INSTALL_INTERFACE:include>
 )
 
-target_link_libraries(xTests.core
+target_link_libraries(core
 	PUBLIC
 		$<$<STREQUAL:${STLSOFT_INCLUDE_DIR},>:STLSoft::STLSoft>
 )
 
-target_compile_options(xTests.core PRIVATE
+target_compile_options(core PRIVATE
 	$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
 		-Werror -Wall -Wextra -pedantic
 	>
@@ -66,7 +66,7 @@ target_compile_options(xTests.core PRIVATE
 # ##########################################################
 # install
 
-install(TARGETS xTests.core
+install(TARGETS core
 	EXPORT project-targets
 	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

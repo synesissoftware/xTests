@@ -5,7 +5,7 @@ add_executable(example.cpp.temp_directory
 
 target_link_libraries(example.cpp.temp_directory
 	PRIVATE
-		xTests.core
+		core
 )
 
 target_compile_options(example.cpp.temp_directory PRIVATE

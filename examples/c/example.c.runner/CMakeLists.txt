@@ -5,7 +5,7 @@ add_executable(example.c.runner
 
 target_link_libraries(example.c.runner
 	PRIVATE
-		xTests.core
+		core
 )
 
 target_compile_options(example.c.runner PRIVATE

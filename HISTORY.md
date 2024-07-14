@@ -1,6 +1,12 @@
 # xTests - History
 
 
+14th July 2024 - 0.23.1
+-----------------------
+
+ * Various CMake standardisations and simplifications
+
+
 9th July 2024 - 0.22.1
 ----------------------
 

@@ -5,7 +5,7 @@ add_executable(test.component.temp_file
 
 target_link_libraries(test.component.temp_file
 	PRIVATE
-		xTests.core
+		core
 )
 
 target_compile_options(test.component.temp_file PRIVATE

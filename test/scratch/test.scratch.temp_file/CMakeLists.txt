@@ -5,7 +5,7 @@ add_executable(test.scratch.temp_file
 
 target_link_libraries(test.scratch.temp_file
 	PRIVATE
-		xTests.core
+		core
 )
 
 target_compile_options(test.scratch.temp_file PRIVATE

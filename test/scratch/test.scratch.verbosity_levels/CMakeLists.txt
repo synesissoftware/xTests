@@ -5,7 +5,7 @@ add_executable(test.scratch.verbosity_levels
 
 target_link_libraries(test.scratch.verbosity_levels
 	PRIVATE
-		xTests.core
+		core
 )
 
 target_compile_options(test.scratch.verbosity_levels PRIVATE

@@ -5,7 +5,7 @@ add_executable(example.c.factorial
 
 target_link_libraries(example.c.factorial
 	PRIVATE
-		xTests.core
+		core
 )
 
 target_compile_options(example.c.factorial PRIVATE
