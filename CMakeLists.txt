@@ -5,7 +5,7 @@
 # Purpose:  Top-level CMake lists file for xTests
 #
 # Created:  9th October 2019
-# Updated:  9th July 2024
+# Updated:  17th July 2024
 #
 # ######################################################################## #
 
@@ -125,6 +125,8 @@ include(CTest)
 
 if(BUILD_TESTING)
 
+	message("-- enabled building of tests ...")
+
 	add_subdirectory(test)
 endif()
 
@@ -134,6 +136,8 @@ endif()
 
 option(BUILD_EXAMPLES "Build examples" ON)
 if(BUILD_EXAMPLES)
+
+	message("-- enabled building of examples ...")
 
 	add_subdirectory(examples)
 endif()
