@@ -4,7 +4,7 @@
  * Purpose: Implementation file for the test.scratch.basics1 project.
  *
  * Created: 15th December 2007
- * Updated: 5th May 2024
+ * Updated: 3rd August 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -51,7 +51,7 @@ static int main_(int argc, char **argv)
 
     XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, &verbosity);
 
-    if (XTESTS_START_RUNNER("test.scratch.basics1", verbosity))
+    if (XTESTS_START_RUNNER("test.scratch.basics1.c", verbosity))
     {
         /* test 1 */
         if (XTESTS_CASE_BEGIN("test-1", "checking integer values"))
@@ -255,7 +255,7 @@ static void test_4_2(void)
 
 static void test_require(void)
 {
-    int*    pi = NULL;
+    int* const pi = NULL;
 
     XTESTS_REQUIRE(XTESTS_TEST_POINTER_NOT_EQUAL(NULL, pi));
 

@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 5th May 2024
+ * Updated: 3rd August 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -151,38 +151,38 @@
 
 #if defined(WIN32) || \
     defined(WIN64)
-# define XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_  1
+# define XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_          1
 #elif (   defined(STLSOFT_COMPILER_IS_MSVC) || \
           defined(STLSOFT_COMPILER_IS_UNKNOWN)) && \
       defined(_MSC_VER) && \
       !defined(WIN32) && \
       defined(UNIX) && \
       defined(_WIN32)
-# define XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_  2
+# define XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_          2
 #else
-# define XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_  0
+# define XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_          0
 #endif
 
 #ifdef XTESTS_USING_SAFE_STR_FUNCTIONS
-# define xtests_strcpy_(d, n, s)                    ::strcpy_s(d, n, s)
-# define xtests_wcscpy_(d, n, s)                    ::wcscpy_s(d, n, s)
-//# define xtests_strncpy_(d, n, s, l)                ::strncpy_s(d, n, s, l)
-//# define xtests_wcsncpy_(d, n, s, l)                ::wcsncpy_s(d, n, s, l)
-# define xtests_sprintf_2_(s, n, fmt, a0, a1)       ::sprintf_s(s, n, fmt, a0, a1)
-# define xtests_sprintf_3_(s, n, fmt, a0, a1, a2)   ::sprintf_s(s, n, fmt, a0, a1, a2)
-# define xtests_vsnprintf_(s, z, n, fmt, args)      ::vsnprintf_s(s, z, n, fmt, args)
+# define xtests_strcpy_(d, n, s)                            ::strcpy_s(d, n, s)
+# define xtests_wcscpy_(d, n, s)                            ::wcscpy_s(d, n, s)
+//# define xtests_strncpy_(d, n, s, l)                        ::strncpy_s(d, n, s, l)
+//# define xtests_wcsncpy_(d, n, s, l)                        ::wcsncpy_s(d, n, s, l)
+# define xtests_sprintf_2_(s, n, fmt, a0, a1)               ::sprintf_s(s, n, fmt, a0, a1)
+# define xtests_sprintf_3_(s, n, fmt, a0, a1, a2)           ::sprintf_s(s, n, fmt, a0, a1, a2)
+# define xtests_vsnprintf_(s, z, n, fmt, args)              ::vsnprintf_s(s, z, n, fmt, args)
 #else /* ? XTESTS_USING_SAFE_STR_FUNCTIONS */
-# define xtests_strcpy_(d, n, s)                    ::strcpy(d, s)
-# define xtests_wcscpy_(d, n, s)                    ::wcscpy(d, s)
-//# define xtests_strncpy_(d, n, s, l)                ::strncpy(d, s, l)
-//# define xtests_wcsncpy_(d, n, s, l)                ::wcsncpy(d, s, l)
+# define xtests_strcpy_(d, n, s)                            ::strcpy(d, s)
+# define xtests_wcscpy_(d, n, s)                            ::wcscpy(d, s)
+//# define xtests_strncpy_(d, n, s, l)                        ::strncpy(d, s, l)
+//# define xtests_wcsncpy_(d, n, s, l)                        ::wcsncpy(d, s, l)
 # if defined(__clang__) && \
      __clang_major__ >= 14
-#  define xtests_sprintf_2_(s, n, fmt, a0, a1)      ::snprintf(s, n, fmt, a0, a1)
-#  define xtests_sprintf_3_(s, n, fmt, a0, a1, a2)  ::snprintf(s, n, fmt, a0, a1, a2)
+#  define xtests_sprintf_2_(s, n, fmt, a0, a1)              ::snprintf(s, n, fmt, a0, a1)
+#  define xtests_sprintf_3_(s, n, fmt, a0, a1, a2)          ::snprintf(s, n, fmt, a0, a1, a2)
 # else
-#  define xtests_sprintf_2_(s, n, fmt, a0, a1)      ::sprintf(s, fmt, a0, a1)
-#  define xtests_sprintf_3_(s, n, fmt, a0, a1, a2)  ::sprintf(s, fmt, a0, a1, a2)
+#  define xtests_sprintf_2_(s, n, fmt, a0, a1)              ::sprintf(s, fmt, a0, a1)
+#  define xtests_sprintf_3_(s, n, fmt, a0, a1, a2)          ::sprintf(s, fmt, a0, a1, a2)
 # endif
 # if defined(STLSOFT_COMPILER_IS_DMC) || \
      (   (   defined(WIN32) || \
@@ -191,14 +191,14 @@
              (   defined(STLSOFT_COMPILER_IS_COMO) && \
                  defined(_MSC_VER)))) || \
      defined(STLSOFT_COMPILER_IS_MSVC)
-#  define xtests_vsnprintf_(s, z, n, fmt, args)     ::_vsnprintf(s, n, fmt, args)
+#  define xtests_vsnprintf_(s, z, n, fmt, args)             ::_vsnprintf(s, n, fmt, args)
 # else /* ? compiler / OS */
-#  define xtests_vsnprintf_(s, z, n, fmt, args)     ::vsnprintf(s, n, fmt, args)
+#  define xtests_vsnprintf_(s, z, n, fmt, args)             ::vsnprintf(s, n, fmt, args)
 # endif /* compiler / OS */
 #endif /* XTESTS_USING_SAFE_STR_FUNCTIONS */
 
 #if defined(STLSOFT_COMPILER_IS_DMC)
-# define RETURN_UNUSED(x)                           return x
+# define RETURN_UNUSED(x)                                   return x
 #else /* ? compiler */
 # define RETURN_UNUSED(x)
 #endif /* compiler */
@@ -210,7 +210,7 @@
 
 #if XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_
 static void xtests_OutputDebugStringA_(char const*);
-# define OutputDebugStringA     xtests_OutputDebugStringA_
+# define OutputDebugStringA                                 xtests_OutputDebugStringA_
 #endif /* XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_ */
 
 
@@ -221,8 +221,8 @@ static void xtests_OutputDebugStringA_(char const*);
 namespace
 {
 
-    typedef stlsoft::auto_buffer<char>      char_buffer_t_;
-    typedef stlsoft::auto_buffer<wchar_t>   char_buffer_w_t_;
+    typedef stlsoft::auto_buffer<char>                      char_buffer_t_;
+    typedef stlsoft::auto_buffer<wchar_t>                   char_buffer_w_t_;
 
 } // anonymous namespace
 
@@ -236,13 +236,13 @@ namespace stlsoft
     STLSOFT_TEMPLATE_SPECIALISATION
     struct string_traits< char_buffer_t_>
     {
-        typedef char_buffer_t_::value_type      char_type;
+        typedef char_buffer_t_::value_type                  char_type;
     };
 
     STLSOFT_TEMPLATE_SPECIALISATION
     struct string_traits< char_buffer_w_t_>
     {
-        typedef char_buffer_w_t_::value_type    char_type;
+        typedef char_buffer_w_t_::value_type                char_type;
     };
 
 # endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
@@ -273,14 +273,14 @@ namespace
 {
 #endif /* STLSOFT_CF_NAMESPACE_SUPPORT */
 
-    typedef stlsoft::ss_sint32_t                sint32_t;
-    typedef stlsoft::ss_uint32_t                uint32_t;
+    typedef stlsoft::ss_sint32_t                            sint32_t;
+    typedef stlsoft::ss_uint32_t                            uint32_t;
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
-    typedef stlsoft::ss_sint64_t                sint64_t;
-    typedef stlsoft::ss_uint64_t                uint64_t;
+    typedef stlsoft::ss_sint64_t                            sint64_t;
+    typedef stlsoft::ss_uint64_t                            uint64_t;
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
-    typedef std::string                         string_t;
+    typedef std::string                                     string_t;
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
@@ -310,7 +310,7 @@ namespace
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
-    typedef std::map<string_t, TestInfo>        test_map_t;
+    typedef std::map<string_t, TestInfo>                    test_map_t;
 
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
@@ -551,11 +551,11 @@ namespace
 
     private:
 #if defined(STLSOFT_INCL_STLSOFT_UTIL_HPP_MUST_INIT)
-        typedef stlsoft::must_init<int>             int_type;
-        typedef stlsoft::must_init<uint32_t>        unsigned_type;
+        typedef stlsoft::must_init<int>                     int_type;
+        typedef stlsoft::must_init<uint32_t>                unsigned_type;
 #else /* ? STLSOFT_INCL_STLSOFT_UTIL_HPP_MUST_INIT */
-        typedef int                                 int_type;
-        typedef uint32_t                            unsigned_type;
+        typedef int                                         int_type;
+        typedef uint32_t                                    unsigned_type;
 #endif /* STLSOFT_INCL_STLSOFT_UTIL_HPP_MUST_INIT */
 
     private:
@@ -661,7 +661,9 @@ namespace
 
     void adapt_fputs(char const* s, size_t /* n */, void* param)
     {
-        stlsoft_static_cast(void, ::fputs(s, stlsoft_static_cast(FILE*, param)));
+        FILE* const stm = stlsoft_static_cast(FILE*, param);
+
+        stlsoft_static_cast(void, ::fputs(s, stm));
     }
 #if XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_
     void adapt_OutputDebugStringA(char const* s, size_t /* n */, void* /* param */)
@@ -745,7 +747,6 @@ namespace
 
         return r;
     }
-
 
 #ifdef STLSOFT_CF_NAMESPACE_SUPPORT
 } // anonymous namespace
@@ -1703,55 +1704,56 @@ namespace
 /* static */ xTests_Reporter_t* RunnerInfo::get_reporter_(xTests_Reporter_t* reporter, FILE* stm, int flags)
 {
 #ifdef STLSOFT_COMPILER_IS_BORLAND
-# define XTESTS_VERBOSITY_SILENT                        ::xtests::c::XTESTS_VERBOSITY_SILENT
-# define XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR       ::xtests::c::XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR
-# define XTESTS_VERBOSITY_RUNNER_SUMMARY                ::xtests::c::XTESTS_VERBOSITY_RUNNER_SUMMARY
-# define XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR   ::xtests::c::XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR
-# define XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR         ::xtests::c::XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR
-# define XTESTS_VERBOSITY_CASE_SUMMARY                  ::xtests::c::XTESTS_VERBOSITY_CASE_SUMMARY
-# define XTESTS_VERBOSITY_VERBOSE                       ::xtests::c::XTESTS_VERBOSITY_VERBOSE
-# define xtestsRunnerFlagsNoWindowsDebugString          ::xtests::c::xtestsRunnerFlagsNoWindowsDebugString
-# define xtests_variable_type_t                         ::xtests::c::xtests_variable_type_t
-# define xtests_test_type_t                             ::xtests::c::xtests_test_type_t
 
-# define xtestsComparisonEqual                          ::xtests::c::xtestsComparisonEqual
-# define xtestsComparisonNotEqual                       ::xtests::c::xtestsComparisonNotEqual
-# define xtestsComparisonGreaterThan                    ::xtests::c::xtestsComparisonGreaterThan
-# define xtestsComparisonLessThan                       ::xtests::c::xtestsComparisonLessThan
-# define xtestsComparisonGreaterThanOrEqual             ::xtests::c::xtestsComparisonGreaterThanOrEqual
-# define xtestsComparisonLessThanOrEqual                ::xtests::c::xtestsComparisonLessThanOrEqual
-# define xtestsComparisonApproxEqual                    ::xtests::c::xtestsComparisonApproxEqual
-# define xtestsComparisonApproxNotEqual                 ::xtests::c::xtestsComparisonApproxNotEqual
-# define xtestsComparison_max_enumerator                ::xtests::c::xtestsComparison_max_enumerator
+# define XTESTS_VERBOSITY_SILENT                            ::xtests::c::XTESTS_VERBOSITY_SILENT
+# define XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR           ::xtests::c::XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR
+# define XTESTS_VERBOSITY_RUNNER_SUMMARY                    ::xtests::c::XTESTS_VERBOSITY_RUNNER_SUMMARY
+# define XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR       ::xtests::c::XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR
+# define XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR             ::xtests::c::XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR
+# define XTESTS_VERBOSITY_CASE_SUMMARY                      ::xtests::c::XTESTS_VERBOSITY_CASE_SUMMARY
+# define XTESTS_VERBOSITY_VERBOSE                           ::xtests::c::XTESTS_VERBOSITY_VERBOSE
+# define xtestsRunnerFlagsNoWindowsDebugString              ::xtests::c::xtestsRunnerFlagsNoWindowsDebugString
+# define xtests_variable_type_t                             ::xtests::c::xtests_variable_type_t
+# define xtests_test_type_t                                 ::xtests::c::xtests_test_type_t
 
-# define xtestsTestFullComparison                       ::xtests::c::xtestsTestFullComparison
-# define xtestsTestPartialComparison                    ::xtests::c::xtestsTestPartialComparison
-# define xtestsTestContainment                          ::xtests::c::xtestsTestContainment
+# define xtestsComparisonEqual                              ::xtests::c::xtestsComparisonEqual
+# define xtestsComparisonNotEqual                           ::xtests::c::xtestsComparisonNotEqual
+# define xtestsComparisonGreaterThan                        ::xtests::c::xtestsComparisonGreaterThan
+# define xtestsComparisonLessThan                           ::xtests::c::xtestsComparisonLessThan
+# define xtestsComparisonGreaterThanOrEqual                 ::xtests::c::xtestsComparisonGreaterThanOrEqual
+# define xtestsComparisonLessThanOrEqual                    ::xtests::c::xtestsComparisonLessThanOrEqual
+# define xtestsComparisonApproxEqual                        ::xtests::c::xtestsComparisonApproxEqual
+# define xtestsComparisonApproxNotEqual                     ::xtests::c::xtestsComparisonApproxNotEqual
+# define xtestsComparison_max_enumerator                    ::xtests::c::xtestsComparison_max_enumerator
 
-# define xtestsVariableNone                             ::xtests::c::xtestsVariableNone
-# define xtestsVariableNone                             ::xtests::c::xtestsVariableNone
-# define xtestsVariableBoolean                          ::xtests::c::xtestsVariableBoolean
-# define xtestsVariableOpaquePointer                    ::xtests::c::xtestsVariableOpaquePointer
-# define xtestsVariableMultibyteCharacter               ::xtests::c::xtestsVariableMultibyteCharacter
-# define xtestsVariableWideCharacter                    ::xtests::c::xtestsVariableWideCharacter
-# define xtestsVariableMultibyteString                  ::xtests::c::xtestsVariableMultibyteString
-# define xtestsVariableWideString                       ::xtests::c::xtestsVariableWideString
-# define xtestsVariableSignedChar                       ::xtests::c::xtestsVariableSignedChar
-# define xtestsVariableUnsignedChar                     ::xtests::c::xtestsVariableUnsignedChar
-# define xtestsVariableShort                            ::xtests::c::xtestsVariableShort
-# define xtestsVariableUnsignedShort                    ::xtests::c::xtestsVariableUnsignedShort
-# define xtestsVariableInt                              ::xtests::c::xtestsVariableInt
-# define xtestsVariableUnsignedInt                      ::xtests::c::xtestsVariableUnsignedInt
-# define xtestsVariableLong                             ::xtests::c::xtestsVariableLong
-# define xtestsVariableUnsignedLong                     ::xtests::c::xtestsVariableUnsignedLong
+# define xtestsTestFullComparison                           ::xtests::c::xtestsTestFullComparison
+# define xtestsTestPartialComparison                        ::xtests::c::xtestsTestPartialComparison
+# define xtestsTestContainment                              ::xtests::c::xtestsTestContainment
+
+# define xtestsVariableNone                                 ::xtests::c::xtestsVariableNone
+# define xtestsVariableNone                                 ::xtests::c::xtestsVariableNone
+# define xtestsVariableBoolean                              ::xtests::c::xtestsVariableBoolean
+# define xtestsVariableOpaquePointer                        ::xtests::c::xtestsVariableOpaquePointer
+# define xtestsVariableMultibyteCharacter                   ::xtests::c::xtestsVariableMultibyteCharacter
+# define xtestsVariableWideCharacter                        ::xtests::c::xtestsVariableWideCharacter
+# define xtestsVariableMultibyteString                      ::xtests::c::xtestsVariableMultibyteString
+# define xtestsVariableWideString                           ::xtests::c::xtestsVariableWideString
+# define xtestsVariableSignedChar                           ::xtests::c::xtestsVariableSignedChar
+# define xtestsVariableUnsignedChar                         ::xtests::c::xtestsVariableUnsignedChar
+# define xtestsVariableShort                                ::xtests::c::xtestsVariableShort
+# define xtestsVariableUnsignedShort                        ::xtests::c::xtestsVariableUnsignedShort
+# define xtestsVariableInt                                  ::xtests::c::xtestsVariableInt
+# define xtestsVariableUnsignedInt                          ::xtests::c::xtestsVariableUnsignedInt
+# define xtestsVariableLong                                 ::xtests::c::xtestsVariableLong
+# define xtestsVariableUnsignedLong                         ::xtests::c::xtestsVariableUnsignedLong
 # ifdef STLSOFT_CF_64BIT_INT_SUPPORT
-#  define xtestsVariableLongLong                        ::xtests::c::xtestsVariableLongLong
-#  define xtestsVariableUnsignedLongLong                ::xtests::c::xtestsVariableUnsignedLongLong
+#  define xtestsVariableLongLong                            ::xtests::c::xtestsVariableLongLong
+#  define xtestsVariableUnsignedLongLong                    ::xtests::c::xtestsVariableUnsignedLongLong
 # endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
-# define xtestsVariableDouble                           ::xtests::c::xtestsVariableDouble
+# define xtestsVariableDouble                               ::xtests::c::xtestsVariableDouble
 
-# define adapt_fputs                                    ::xtests::c::adapt_fputs
-# define adapt_OutputDebugStringA                       ::xtests::c::adapt_OutputDebugStringA
+# define adapt_fputs                                        ::xtests::c::adapt_fputs
+# define adapt_OutputDebugStringA                           ::xtests::c::adapt_OutputDebugStringA
 #endif /* STLSOFT_COMPILER_IS_BORLAND */
 
     if (NULL == reporter)
@@ -1769,7 +1771,7 @@ namespace
         class fprintf_reporter
             : public xTests_Reporter_t
         {
-        public: // Construction
+        public: // construction
             explicit fprintf_reporter(FILE* stm, int flags)
                 : m_flags(flags)
 #if XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_
@@ -1782,18 +1784,26 @@ namespace
                 m_sinks[0].param    =   stm;
 
 #if XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_
+
                 if (0 == (xtestsRunnerFlagsNoWindowsDebugString & m_flags))
                 {
                     m_sinks[1].pfn      =   adapt_OutputDebugStringA;
                     m_sinks[1].param    =   NULL;
                 }
 #else
+
                 STLSOFT_SUPPRESS_UNUSED(m_flags);
 #endif /* XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_ */
             }
+        private:
+            void operator =(fprintf_reporter const&); // copy-assignment proscribed
 
-        private: // Overrides
-            virtual void onStartRunner(void* /* reporterParam */, char const* name, int verbosity)
+        private: // overrides
+            virtual void onStartRunner(
+                void* /* reporterParam */
+            ,   char const* name
+            ,   int verbosity
+            ) ss_override_k
             {
                 switch(verbosity)
                 {
@@ -1814,11 +1824,24 @@ namespace
                 }
             }
 
-            virtual void onBeginTestCase(void* /* reporterParam */, char const* /* name */, char const* /* desc */, int /* verbosity */)
+            virtual void onBeginTestCase(
+                void* /* reporterParam */
+            ,   char const* /* name */
+            ,   char const* /* desc */
+            ,   int /* verbosity */
+            ) ss_override_k
             {
             }
 
-            virtual void onTestPassed(void* /* reporterParam */, char const* /* file */, int /* line */, char const* /* function */, char const* /* expr */, xtests_comparison_t /* comparison */, int /* verbosity */)
+            virtual void onTestPassed(
+                void* /* reporterParam */
+            ,   char const* /* file */
+            ,   int /* line */
+            ,   char const* /* function */
+            ,   char const* /* expr */
+            ,   xtests_comparison_t /* comparison */
+            ,   int /* verbosity */
+            ) ss_override_k
             {
             }
 
@@ -1833,7 +1856,7 @@ namespace
             ,   ptrdiff_t                   length
             ,   xtests_comparison_t         comparison
             ,   int                         verbosity
-            )
+            ) ss_override_k
             {
                 STLSOFT_MESSAGE_ASSERT("values must have same variable type", NULL == expectedValue || NULL == actualValue || actualValue->variableType == expectedValue->variableType);
                 STLSOFT_MESSAGE_ASSERT("values must have same test type", NULL == expectedValue || NULL == actualValue || actualValue->testType == expectedValue->testType);
@@ -1897,7 +1920,7 @@ namespace
                 }
             }
 
-            virtual void onTestFailed_Boolean_(char const* file, int line, char const* function, char const* /* expr */, bool expectedValue, bool actualValue, xtests_comparison_t comparison, int verbosity)
+            void onTestFailed_Boolean_(char const* file, int line, char const* function, char const* /* expr */, bool expectedValue, bool actualValue, xtests_comparison_t comparison, int verbosity)
             {
                 char const* fmt = "%s(%d): test condition failed: actual value %s should %sequal the expected value %s%s%s\n";
 
@@ -1923,7 +1946,7 @@ namespace
                                 ,   file, line, (actualValue ? "true" : "false"), (xtestsComparisonEqual == comparison) ? "" : "not ", (expectedValue ? "true" : "false"), (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
             }
 
-            virtual void onTestFailed_Double_(char const* file, int line, char const* function, char const* /* expr */, double const& expectedValue, double const& actualValue, xtests_comparison_t comparison, int verbosity)
+            void onTestFailed_Double_(char const* file, int line, char const* function, char const* /* expr */, double const& expectedValue, double const& actualValue, xtests_comparison_t comparison, int verbosity)
             {
                 static char const*  s_fmts[] =
                 {
@@ -1961,7 +1984,7 @@ namespace
                                 ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
             }
 
-            virtual void onTestFailed_MultibyteCharacter_(char const* file, int line, char const* function, char const* /* expr */, char expectedValue, char actualValue, xtests_comparison_t comparison, int verbosity)
+            void onTestFailed_MultibyteCharacter_(char const* file, int line, char const* function, char const* /* expr */, char expectedValue, char actualValue, xtests_comparison_t comparison, int verbosity)
             {
                 static char const*  s_fmts[] =
                 {
@@ -1999,7 +2022,7 @@ namespace
                                 ,   file, line, actualValue, actualValue, expectedValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
             }
 
-            virtual void onTestFailed_WideCharacter_(char const* file, int line, char const* function, char const* /* expr */, char expectedValue, char actualValue, xtests_comparison_t comparison, int verbosity)
+            void onTestFailed_WideCharacter_(char const* file, int line, char const* function, char const* /* expr */, char expectedValue, char actualValue, xtests_comparison_t comparison, int verbosity)
             {
                 static char const*  s_fmts[] =
                 {
@@ -2037,7 +2060,7 @@ namespace
                                 ,   file, line, static_cast<char>(actualValue), actualValue, static_cast<char>(expectedValue), expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
             }
 
-            virtual void onTestFailed_MultibyteString_(char const* file, int line, char const* function, char const* /* expr */, char const* expectedValue, size_t expectedValueLen, char const* actualValue, size_t actualValueLen, ptrdiff_t length, xtests_test_type_t testType, xtests_comparison_t comparison, int verbosity)
+            void onTestFailed_MultibyteString_(char const* file, int line, char const* function, char const* /* expr */, char const* expectedValue, size_t expectedValueLen, char const* actualValue, size_t actualValueLen, ptrdiff_t length, xtests_test_type_t testType, xtests_comparison_t comparison, int verbosity)
             {
                 if (xtestsTestFullComparison == testType)
                 {
@@ -2173,7 +2196,7 @@ namespace
                 }
             }
 
-            virtual void onTestFailed_WideString_(char const* file, int line, char const* function, char const* expr, wchar_t const* expectedValue, size_t expectedValueLen, wchar_t const* actualValue, size_t actualValueLen, ptrdiff_t length, xtests_test_type_t testType, xtests_comparison_t comparison, int verbosity)
+            void onTestFailed_WideString_(char const* file, int line, char const* function, char const* expr, wchar_t const* expectedValue, size_t expectedValueLen, wchar_t const* actualValue, size_t actualValueLen, ptrdiff_t length, xtests_test_type_t testType, xtests_comparison_t comparison, int verbosity)
             {
                 stlsoft::w2a    expected(expectedValue, expectedValueLen);
                 stlsoft::w2a    actual(actualValue, actualValueLen);
@@ -2181,7 +2204,7 @@ namespace
                 onTestFailed_MultibyteString_(file, line, function, expr, expected, expected.size(), actual, actual.size(), length, testType, comparison, verbosity);
             }
 
-            virtual void onTestFailed_OpaquePointer_(char const* file, int line, char const* function, char const* /* expr */, void const volatile* expectedValue, void const volatile* actualValue, xtests_comparison_t comparison, int verbosity)
+            void onTestFailed_OpaquePointer_(char const* file, int line, char const* function, char const* /* expr */, void const volatile* expectedValue, void const volatile* actualValue, xtests_comparison_t comparison, int verbosity)
             {
                 static char const*  s_fmts_[] =
                 {
@@ -2225,7 +2248,7 @@ namespace
                                 ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
             }
 
-            virtual void onTestFailed_SignedLong_(char const* file, int line, char const* function, char const* /* expr */, signed long expectedValue, signed long actualValue, xtests_comparison_t comparison, int verbosity)
+            void onTestFailed_SignedLong_(char const* file, int line, char const* function, char const* /* expr */, signed long expectedValue, signed long actualValue, xtests_comparison_t comparison, int verbosity)
             {
                 static char const*  s_fmts_[] =
                 {
@@ -2269,7 +2292,7 @@ namespace
                                 ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
             }
 
-            virtual void onTestFailed_UnsignedLong_(char const* file, int line, char const* function, char const* /* expr */, unsigned long expectedValue, unsigned long actualValue, xtests_comparison_t comparison, int verbosity)
+            void onTestFailed_UnsignedLong_(char const* file, int line, char const* function, char const* /* expr */, unsigned long expectedValue, unsigned long actualValue, xtests_comparison_t comparison, int verbosity)
             {
                 static char const*  s_fmts_[] =
                 {
@@ -2313,14 +2336,13 @@ namespace
             }
 
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
-            virtual void onTestFailed_sint64_(char const* file, int line, char const* function, char const* /* expr */, sint64_t expectedValue, sint64_t actualValue, xtests_comparison_t comparison, int verbosity)
+            void onTestFailed_sint64_(char const* file, int line, char const* function, char const* /* expr */, sint64_t expectedValue, sint64_t actualValue, xtests_comparison_t comparison, int verbosity)
             {
 # if defined(STLSOFT_COMPILER_IS_BORLAND)
 #  define static
 # endif /* compiler */
 
                 // Note: The following code has a race condition, but it is entirely benign, so does not matter
-
 
                 static char const*  s_fmts_[] =
                 {
@@ -2396,7 +2418,7 @@ namespace
                 STLSOFT_SUPPRESS_UNUSED(s_len);
             }
 
-            virtual void onTestFailed_uint64_(char const* file, int line, char const* function, char const* /* expr */, uint64_t expectedValue, uint64_t actualValue, xtests_comparison_t comparison, int verbosity)
+            void onTestFailed_uint64_(char const* file, int line, char const* function, char const* /* expr */, uint64_t expectedValue, uint64_t actualValue, xtests_comparison_t comparison, int verbosity)
             {
 # if defined(STLSOFT_COMPILER_IS_BORLAND)
 #  define static
@@ -2480,7 +2502,7 @@ namespace
             }
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
-            virtual void onTestFailed_(char const* file, int line, char const* function, char const* expr, xtests_comparison_t /* comparison */, int verbosity)
+            void onTestFailed_(char const* file, int line, char const* function, char const* expr, xtests_comparison_t /* comparison */, int verbosity)
             {
                 static const char*  s_fmts[] =
                 {
@@ -2511,7 +2533,7 @@ namespace
                                 ,   file, line, expr, function);
             }
 
-            virtual void onWriteFailMessage(void* /* reporterParam */, char const* file, int line, char const* function, char const* message, char const* qualifyingInformation, int verbosity)
+            virtual void onWriteFailMessage(void* /* reporterParam */, char const* file, int line, char const* function, char const* message, char const* qualifyingInformation, int verbosity) ss_override_k
             {
                 static const char  s_fmt[] = "%s(%d): %s%s%s%s%s\n";
 
@@ -2535,7 +2557,7 @@ namespace
                 }
             }
 
-            virtual void onCaseExcepted(void* /* reporterParam */, char const* file, int line, char const* caseName, char const* exceptionType, char const* exceptionMessage, int verbosity)
+            virtual void onCaseExcepted(void* /* reporterParam */, char const* file, int line, char const* caseName, char const* exceptionType, char const* exceptionMessage, int verbosity) ss_override_k
             {
                 int level = 0;
 
@@ -2574,7 +2596,7 @@ namespace
                                 ,   caseName, exceptionType, exceptionMessage);
             }
 
-            virtual void onCaseExceptionExpected(void* /* reporterParam */, char const* file, int line, char const* caseName, char const* exceptionType, int verbosity)
+            virtual void onCaseExceptionExpected(void* /* reporterParam */, char const* file, int line, char const* caseName, char const* exceptionType, int verbosity) ss_override_k
             {
                 int level = 0;
 
@@ -2614,11 +2636,11 @@ namespace
             }
 
             virtual void onEndTestCase(
-                void*                           /* reporterParam */
-            ,   char const*                     /* name */
+                void*                        /* reporterParam */
+            ,   char const*                  /* name */
             ,   xTests_runner_results_t const*  results
             ,   int                             verbosity
-            )
+            ) ss_override_k
             {
                 int level = 0;
                 int allTestsHavePassed =
@@ -2684,7 +2706,11 @@ namespace
                                 );
             }
 
-            virtual void onPrintRunnerResults(void* /* reporterParam */, xTests_runner_results_t const* results, int verbosity)
+            virtual void onPrintRunnerResults(
+                void*                        /* reporterParam */
+            ,   xTests_runner_results_t const*  results
+            ,   int                             verbosity
+            ) ss_override_k
             {
                 int level = 0;
 
@@ -2757,11 +2783,20 @@ namespace
                                 );
             }
 
-            virtual void onAbend(void* /* reporterParam */, char const* /* message */, int /* verbosity */)
+            virtual void onAbend(
+                void*        /* reporterParam */
+            ,   char const*  /* message */
+            ,   int          /* verbosity */
+            ) ss_override_k
             {
             }
 
-            virtual void onDefect(void* /* reporterParam */, char const* message, char const* qualifier, int /* verbosity */)
+            virtual void onDefect(
+                void*    /* reporterParam */
+            ,   char const* message
+            ,   char const* qualifier
+            ,   int      /* verbosity */
+            ) ss_override_k
             {
                 if (NULL != qualifier &&
                     '\0' == *qualifier)
@@ -2775,18 +2810,18 @@ namespace
                                 ,   qualifier);
             }
 
-            virtual void onEndRunner(void* /* reporterParam */, char const* /* name */, int /* verbosity */)
+            virtual void onEndRunner(
+                void*        /* reporterParam */
+            ,   char const*  /* name */
+            ,   int          /* verbosity */
+            ) ss_override_k
             {
             }
 
-        private: // Member variables
+        private: // fields
             const int       m_flags;
             const size_t    m_numSinks;
             xtests_sink_t_  m_sinks[2];
-
-        private: // Not to be implemented
-            void operator =(fprintf_reporter const&)
-            {}
         };
 
 #if defined(STLSOFT_COMPILER_IS_BORLAND) && \

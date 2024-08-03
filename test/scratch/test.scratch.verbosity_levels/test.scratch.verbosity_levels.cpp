@@ -4,7 +4,7 @@
  * Purpose: Implementation file for the test.scratch.verbosity_levels project.
  *
  * Created: 28th January 2017
- * Updated: 5th May 2024
+ * Updated: 3rd August 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -59,7 +59,7 @@ static int main_(int argc, char** argv)
     XTESTS_COMMANDLINE_PARSE_HELP(argc, argv);
     XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, &verbosity);
 
-    if (XTESTS_START_RUNNER("test.scratch.basics1.runner-1", verbosity))
+    if (XTESTS_START_RUNNER("test.scratch.verbosity_levels", verbosity))
     {
         XTESTS_RUN_CASE(test_succeeded);
         XTESTS_RUN_CASE(test_integer_failed);

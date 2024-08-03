@@ -4,7 +4,7 @@
  * Purpose: Conmponent-tests for `xtests::cpp::util::temp_file`.
  *
  * Created: 5th May 2024
- * Updated: 5th May 2024
+ * Updated: 3rd August 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 
     XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, &verbosity);
 
-    if (XTESTS_START_RUNNER("test.unit.stlsoft.container.pod_vector", verbosity))
+    if (XTESTS_START_RUNNER("test.component.temp_file", verbosity))
     {
         XTESTS_RUN_CASE(test_None);
         XTESTS_RUN_CASE(test_DeleteOnClose);

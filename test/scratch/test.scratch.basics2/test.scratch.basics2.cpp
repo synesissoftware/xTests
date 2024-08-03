@@ -4,7 +4,7 @@
  * Purpose: Implementation file for the test.scratch.basics2 project.
  *
  * Created: 15th December 2007
- * Updated: 5th May 2024
+ * Updated: 3rd August 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -83,7 +83,7 @@ static int main_(int argc, char** argv)
 
     XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, &verbosity);
 
-    if (XTESTS_START_RUNNER("test.scratch.basics1.runner-1", verbosity))
+    if (XTESTS_START_RUNNER("test.scratch.basics2.runner-1", verbosity))
     {
         /* test 0.0 */
         if (XTESTS_CASE_BEGIN("test-0", "always passes"))
@@ -114,7 +114,7 @@ static int main_(int argc, char** argv)
         XTESTS_END_RUNNER_UPDATE_EXITCODE(&retCode);
     }
 
-    if (XTESTS_START_RUNNER("test.scratch.basics1.runner-2", verbosity))
+    if (XTESTS_START_RUNNER("test.scratch.basics2.runner-2", verbosity))
     {
         /* test 2.1 */
 #ifdef STLSOFT_CF_EXCEPTION_SUPPORT
@@ -147,7 +147,7 @@ static int main_(int argc, char** argv)
         XTESTS_END_RUNNER_UPDATE_EXITCODE(&retCode);
     }
 
-    if (XTESTS_START_RUNNER("test.scratch.basics1.runner-3", verbosity))
+    if (XTESTS_START_RUNNER("test.scratch.basics2.runner-3", verbosity))
     {
         /* test 3.1 */
         XTESTS_RUN_CASE(test_3_1);
@@ -157,7 +157,7 @@ static int main_(int argc, char** argv)
         XTESTS_END_RUNNER_UPDATE_EXITCODE(&retCode);
     }
 
-    if (XTESTS_START_RUNNER("test.scratch.basics1.runner-4", verbosity))
+    if (XTESTS_START_RUNNER("test.scratch.basics2.runner-4", verbosity))
     {
         /* test 4.1 */
         XTESTS_RUN_CASE(test_4_1);
@@ -170,7 +170,7 @@ static int main_(int argc, char** argv)
         XTESTS_END_RUNNER_UPDATE_EXITCODE(&retCode);
     }
 
-    if (XTESTS_START_RUNNER("test.scratch.basics1.runner-5", verbosity))
+    if (XTESTS_START_RUNNER("test.scratch.basics2.runner-5", verbosity))
     {
         XTESTS_RUN_CASE(test_5_1);
         XTESTS_RUN_CASE(test_5_2);

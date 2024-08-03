@@ -5,7 +5,7 @@
  *          library.
  *
  * Created: 20th June 1999
- * Updated: 14th July 2024
+ * Updated: 3rd August 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -51,9 +51,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
-# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       41
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    18
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        361
+# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       42
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        363
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -80,10 +80,10 @@
  */
 
 #define _XTESTS_VER_MAJOR       0
-#define _XTESTS_VER_MINOR       23
-#define _XTESTS_VER_REVISION    1
+#define _XTESTS_VER_MINOR       24
+#define _XTESTS_VER_REVISION    0
 
-#define _XTESTS_VER             0x001701ff
+#define _XTESTS_VER             0x00180001
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -226,8 +226,10 @@ namespace c
 
 # ifndef XTESTS_CALL
 #  ifdef __cplusplus
+
 #   define XTESTS_CALL(x)                                   extern "C" x
 #  else /* ? __cplusplus */
+
 #   define XTESTS_CALL(x)                                   extern x
 #  endif /* __cplusplus */
 # endif /* !XTESTS_CALL */
@@ -251,12 +253,15 @@ namespace c
 #   define XTESTS_GET_FUNCTION_()                           __FUNCTION__
 #  endif
 # else /* ? STLSOFT_CF_FUNCTION_SYMBOL_SUPPORT */
+
 #  define XTESTS_GET_FUNCTION_()                            stlsoft_static_cast(char const*, 0)
 # endif /* STLSOFT_CF_FUNCTION_SYMBOL_SUPPORT */
 
 # ifndef _XTESTS_NO_NAMESPACE
+
 #  define XTESTS_NS_QUAL(ns, sym)                           ns::sym
 # else /* ? _XTESTS_NO_NAMESPACE */
+
 #  define XTESTS_NS_QUAL(ns, sym)                           sym
 # endif /* _XTESTS_NO_NAMESPACE */
 
@@ -266,8 +271,10 @@ namespace c
 # if defined(STLSOFT_CF_RTTI_SUPPORT) && \
      (  !defined(STLSOFT_COMPILER_IS_MSVC) || \
         _MSC_VER >= 1310)
+
 #  define XTESTS_REPORT_EXCEPTION_(f, l, x)                 XTESTS_NS_C_QUAL(xtests_caseExcepted)((f), (l), typeid(x).name(), x.what())
 # else /* ? STLSOFT_CF_RTTI_SUPPORT */
+
 #  define XTESTS_REPORT_EXCEPTION_(f, l, x)                 XTESTS_NS_C_QUAL(xtests_caseExcepted)((f), (l), "<exception-type unknown: rtti not available>", x.what())
 # endif /* STLSOFT_CF_RTTI_SUPPORT */
 
@@ -277,14 +284,17 @@ namespace c
 # define XTESTS_GET_SETUPPARAM_()                           XTESTS_NS_C_QUAL(xtests_getSetupParam)()
 
 # ifdef __cplusplus
+
 #  define XTESTS_TEST_FUNCTION_INVOKE_(fn, param)           XTESTS_NS_CPP_QUAL(test_function_invoker)::invoke(fn, param)
 # else /* ? __cplusplus */
+
 #  define XTESTS_TEST_FUNCTION_INVOKE_(fn, param)           (*fn)()
 # endif /* __cplusplus */
 
 # if defined(STLSOFT_CF_EXCEPTION_SUPPORT)
 
 #  if defined(STLSOFT_COMPILER_IS_GCC)
+
     /* GCC 4.2 on Mac has a strange defect whereby the thrown exception
      * doesn't get caught. When placed in a try-catch-throw, it works.
      * Smells like a code generation defect - particularly likely when
@@ -293,6 +303,7 @@ namespace c
      */
 #   define XTESTS_INVOKE_TEST_CASE_FN_INNER_(fn, param)     do { try { XTESTS_TEST_FUNCTION_INVOKE_(fn, param); } catch(...) { throw; } } while(XTESTS_WHILE_0_CLAUSE())
 #  else /* ? compiler */
+
 #   define XTESTS_INVOKE_TEST_CASE_FN_INNER_(fn, param)     XTESTS_TEST_FUNCTION_INVOKE_(fn, param)
 #  endif /* compiler */
 
@@ -375,11 +386,9 @@ namespace c
         }                                                                               \
                                                                                         \
     } while(XTESTS_WHILE_0_CLAUSE())
-
 # else /* ? STLSOFT_CF_EXCEPTION_SUPPORT */
 
 #  define XTESTS_INVOKE_TEST_CASE_FN_(file, line, fn, name)  (*fn)()
-
 # endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
 
 
@@ -399,6 +408,7 @@ namespace c
 
 
 # if defined(STLSOFT_COMPILER_IS_DMC)
+
 #  define XTESTS_INVOKE_c_str_data_a_(x)                    stlsoft_ns_qual(c_str_data_a)(x)
 #  define XTESTS_INVOKE_c_str_data_w_(x)                    stlsoft_ns_qual(c_str_data_w)(x)
 #  define XTESTS_INVOKE_c_str_len_a_(x)                     stlsoft_ns_qual(c_str_len_a)(x)
@@ -406,6 +416,7 @@ namespace c
 #  define XTESTS_INVOKE_c_str_ptr_a_(x)                     stlsoft_ns_qual(c_str_ptr_a)(x)
 #  define XTESTS_INVOKE_c_str_ptr_w_(x)                     stlsoft_ns_qual(c_str_ptr_w)(x)
 # elif defined(STLSOFT_COMPILER_IS_GCC)
+
 #  define XTESTS_INVOKE_c_str_data_a_(x)                    c_str_data_a(x)
 #  define XTESTS_INVOKE_c_str_data_w_(x)                    c_str_data_w(x)
 #  define XTESTS_INVOKE_c_str_len_a_(x)                     c_str_len_a(x)
@@ -413,6 +424,7 @@ namespace c
 #  define XTESTS_INVOKE_c_str_ptr_a_(x)                     c_str_ptr_a(x)
 #  define XTESTS_INVOKE_c_str_ptr_w_(x)                     c_str_ptr_w(x)
 # else /* ? compiler */
+
 #  define XTESTS_INVOKE_c_str_data_a_(x)                    c_str_data_a(x)
 #  define XTESTS_INVOKE_c_str_data_w_(x)                    c_str_data_w(x)
 #  define XTESTS_INVOKE_c_str_len_a_(x)                     c_str_len_a(x)
@@ -423,9 +435,11 @@ namespace c
 
 
 # ifdef __cplusplus
+
 #  define XTESTS_GET_EXPECTED_SLICE_MB_(expected)           stlsoft_ns_qual(c_str_len_a)(expected), stlsoft_ns_qual(c_str_data_a)(expected)
 #  define XTESTS_GET_EXPECTED_SLICE_WIDE_(expected)         stlsoft_ns_qual(c_str_len_w)(expected), stlsoft_ns_qual(c_str_data_w)(expected)
 # else /* ? __cplusplus */
+
 #  define XTESTS_GET_EXPECTED_SLICE_MB_(expected)           ((NULL) == expected ? 0u : strlen((expected))), (expected)
 #  define XTESTS_GET_EXPECTED_SLICE_WIDE_(expected)         ((NULL) == expected ? 0u : wcslen((expected))), (expected)
 # endif /* __cplusplus */
@@ -436,18 +450,18 @@ namespace c
          (   _MSC_VER >= 1400 && \
              defined(_MSC_FULL_VER) && \
              _MSC_FULL_VER >= 140050320))
+
 #  define XTESTS_DECLARE_DEPRECATION(symtype, oldfn, newfn) __declspec(deprecated("The " symtype " " STLSOFT_STRINGIZE(oldfn) " is deprecated and will be removed from a future version of xTests; use " STLSOFT_STRINGIZE(newfn) " instead"))
 #  define XTESTS_CALL_DEPRECATED(rt, oldfn, newfn)          XTESTS_DECLARE_DEPRECATION("function", oldfn, newfn) XTESTS_CALL(rt)
 # else /* ? compiler */
+
 #  define XTESTS_DECLARE_DEPRECATION(symtype, oldfn, newfn)
 #  define XTESTS_CALL_DEPRECATED(rt, oldfn, newfn)          XTESTS_CALL(rt)
 # endif /* compiler */
 
 
-
  /* function pointer casts */
 # define XTESTS_VOID_FUNCTION_CAST_(f)                      stlsoft_c_cast(  void(*)(void),    f  )
-
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -867,7 +881,6 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  */
 # define XTESTS_RUN_CASE_THAT_THROWS(fn, type)              \
     XTESTS_RUN_CASE_THAT_THROWS_WITH_NAME_AND_DESC_(__FILE__, __LINE__, #fn, "", fn, type)
-
 #endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
 
 
@@ -1491,19 +1504,88 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This is only available in C++ compilation units
  */
 # if defined(STLSOFT_CF_EXCEPTION_SUPPORT)
+
 #  define XTESTS_REQUIRE(test)                              XTESTS_NS_CPP_QUAL(xtests_require)(!(!(test)))
 # else /* STLSOFT_CF_EXCEPTION_SUPPORT */
+
 #  define XTESTS_REQUIRE(test)                              XTESTS_NS_C_QUAL(xtests_require_C)(!(!(test)))
 # endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
-
 #else /* ? !_XTESTS_NO_CPP_API */
 
-# define XTESTS_TEST_INTEGER_EQUAL_EXACT(expected, actual)              XTESTS_TEST_WITH_MESSAGE((expected) == (actual), #expected " == " #actual)
-# define XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual)                XTESTS_TEST_WITH_MESSAGE((expected) != (actual), #expected " != " #actual)
-# define XTESTS_TEST_INTEGER_GREATER(expected, actual)                  XTESTS_TEST_WITH_MESSAGE((expected) < (actual), #expected " < " #actual)
-# define XTESTS_TEST_INTEGER_LESS(expected, actual)                     XTESTS_TEST_WITH_MESSAGE((expected) > (actual), #expected " > " #actual)
-# define XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual)         XTESTS_TEST_WITH_MESSAGE((expected) <= (actual), #expected " <= " #actual)
-# define XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual)            XTESTS_TEST_WITH_MESSAGE((expected) >= (actual), #expected " >= " #actual)
+# if 0 ||\
+     defined(STLSOFT_CF__Generic_KEYWORD_SUPPORT) ||\
+     (1 &&\
+        defined(__STDC__) &&\
+        __STDC__==1 &&\
+        __STDC_VERSION__ >= 201112L &&\
+     1) ||\
+     0
+
+#  define xtests_testFailed_llx(expected)                   _Generic(expected, unsigned long long: xtests_testFailed_ulonglong, default: xtests_testFailed_longlong)
+
+#  define XTESTS_TEST_INTEGER_EQUAL_EXACT(expected, actual)                 \
+    (                                                                       \
+        XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())               \
+            ? xtests_internal_while_0_()                                    \
+            : ((expected) == (actual))                                      \
+                ? xtests_testPassed(__FILE__, __LINE__, __FUNCTION__, #expected " == " #actual) \
+                : xtests_testFailed_llx((expected))                         \
+                    (__FILE__, __LINE__, __FUNCTION__, #expected " == " #actual, expected, actual, xtestsComparisonEqual)   \
+    )
+#  define XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual)                   \
+    (                                                                       \
+        XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())               \
+            ? xtests_internal_while_0_()                                    \
+            : ((expected) != (actual))                                      \
+                ? xtests_testPassed(__FILE__, __LINE__, __FUNCTION__, #expected " != " #actual) \
+                : xtests_testFailed_llx((expected))                         \
+                    (__FILE__, __LINE__, __FUNCTION__, #expected " != " #actual, expected, actual, xtestsComparisonNotEqual)   \
+    )
+#  define XTESTS_TEST_INTEGER_GREATER(expected, actual)                     \
+    (                                                                       \
+        XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())               \
+            ? xtests_internal_while_0_()                                    \
+            : ((expected) < (actual))                                       \
+                ? xtests_testPassed(__FILE__, __LINE__, __FUNCTION__, #expected " < " #actual) \
+                : xtests_testFailed_llx((expected))                         \
+                    (__FILE__, __LINE__, __FUNCTION__, #expected " < " #actual, expected, actual, xtestsComparisonGreaterThan)   \
+    )
+#  define XTESTS_TEST_INTEGER_LESS(expected, actual)                        \
+    (                                                                       \
+        XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())               \
+            ? xtests_internal_while_0_()                                    \
+            : ((expected) > (actual))                                       \
+                ? xtests_testPassed(__FILE__, __LINE__, __FUNCTION__, #expected " > " #actual) \
+                : xtests_testFailed_llx((expected))                         \
+                    (__FILE__, __LINE__, __FUNCTION__, #expected " > " #actual, expected, actual, xtestsComparisonLessThan)   \
+    )
+#  define XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual)            \
+    (                                                                       \
+        XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())               \
+            ? xtests_internal_while_0_()                                    \
+            : ((expected) <= (actual))                                      \
+                ? xtests_testPassed(__FILE__, __LINE__, __FUNCTION__, #expected " <= " #actual) \
+                : xtests_testFailed_llx((expected))                         \
+                    (__FILE__, __LINE__, __FUNCTION__, #expected " <= " #actual, expected, actual, xtestsComparisonGreaterThanOrEqual)   \
+    )
+#  define XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual)               \
+    (                                                                       \
+        XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())               \
+            ? xtests_internal_while_0_()                                    \
+            : ((expected) >= (actual))                                      \
+                ? xtests_testPassed(__FILE__, __LINE__, __FUNCTION__, #expected " >= " #actual) \
+                : xtests_testFailed_llx((expected))                         \
+                    (__FILE__, __LINE__, __FUNCTION__, #expected " >= " #actual, expected, actual, xtestsComparisonLessThanOrEqual)   \
+    )
+# else
+
+#  define XTESTS_TEST_INTEGER_EQUAL_EXACT(expected, actual)             XTESTS_TEST_WITH_MESSAGE((expected) == (actual), #expected " == " #actual)
+#  define XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual)               XTESTS_TEST_WITH_MESSAGE((expected) != (actual), #expected " != " #actual)
+#  define XTESTS_TEST_INTEGER_GREATER(expected, actual)                 XTESTS_TEST_WITH_MESSAGE((expected) < (actual), #expected " < " #actual)
+#  define XTESTS_TEST_INTEGER_LESS(expected, actual)                    XTESTS_TEST_WITH_MESSAGE((expected) > (actual), #expected " > " #actual)
+#  define XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual)        XTESTS_TEST_WITH_MESSAGE((expected) <= (actual), #expected " <= " #actual)
+#  define XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual)           XTESTS_TEST_WITH_MESSAGE((expected) >= (actual), #expected " >= " #actual)
+# endif
 
 # define XTESTS_TEST_BOOLEAN_EQUAL(expected, actual)                    XTESTS_TEST_WITH_MESSAGE((expected) == (actual), #expected " == " #actual)
 # define XTESTS_TEST_BOOLEAN_NOT_EQUAL(expected, actual)                XTESTS_TEST_WITH_MESSAGE((expected) != (actual), #expected " != " #actual)
@@ -1519,7 +1601,6 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 
 # define XTESTS_TEST_FLOATINGPOINT_EQUAL_APPROX(expected, actual)       XTESTS_TEST(xtests_floatingPointClose((expected), (actual)))
 # define XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_APPROX(expected, actual)   XTESTS_TEST(!xtests_floatingPointClose((expected), (actual)))
-
 #endif /* !_XTESTS_NO_CPP_API */
 
 
@@ -3497,13 +3578,11 @@ xtests_reportFailedIntegerComparison(
 #  if defined(STLSOFT_COMPILER_IS_BORLAND)
 
     xtests_integer_failure_reporter_selector<I1, I2>::type::xtests_report_failure_equal(file, line, function, expr, expected, actual, comp);
-
 #  else /* ? compiler */
 
     typedef typename xtests_integer_failure_reporter_selector<I1, I2>::type    failure_reporter_t;
 
     failure_reporter_t::xtests_report_failure_equal(file, line, function, expr, expected, actual, comp);
-
 #  endif /* compiler */
 }
 
@@ -3554,13 +3633,11 @@ xtests_reportFailedIntegerComparison(
 #  if defined(STLSOFT_COMPILER_IS_BORLAND)
 
     xtests_integer_failure_reporter_selector<bool, bool>::type::xtests_report_failure_equal(file, line, function, expr, expected, actual, comp);
-
 #  else /* ? compiler */
 
     typedef xtests_integer_failure_reporter_selector<bool, bool>::type    failure_reporter_t;
 
     failure_reporter_t::xtests_report_failure_equal(file, line, function, expr, expected, actual, comp);
-
 #  endif /* compiler */
 }
 
@@ -3700,8 +3777,10 @@ xtests_test_integer_any_in_range(
     else
     {
 #if 0
+
         xtests_reportFailedIntegerComparison(file, line, function, expr, expected, actual, comp);
 #else /* ? 0 */
+
         xtests_testFailed(file, line, function, expr);
 #endif /* 0 */
     }
@@ -3858,7 +3937,6 @@ xtests_test_boolean(
 
     return xtests_test_boolean_(file, line, function, expr, expected, !!actual, comp, yesno_t());
 }
-
 
 
 template<
@@ -4201,7 +4279,6 @@ namespace c
 #ifdef _XTESTS_NO_CPP_API
 
 # define XTESTS_REQUIRE(test)                               XTESTS_NS_C_QUAL(xtests_require_C)(!(!(test)))
-
 #endif /* _XTESTS_NO_CPP_API */
 
 /** [INTERNAL] Worker function for XTESTS_REQUIRE() (in C compilation units)
