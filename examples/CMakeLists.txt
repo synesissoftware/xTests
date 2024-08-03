@@ -20,7 +20,19 @@ if(WIN32)
 
 		add_definitions(-DWIN32)
 	endif()
+
+	# suppress implicit-link file
+	add_definitions(-DXTESTS_INCL_XTESTS_H_IMPLICIT_LINK)
 endif(WIN32)
+
+if ((MSVC) AND (MSVC_VERSION GREATER_EQUAL 1914))
+
+	target_compile_definitions(core
+		PRIVATE
+			"/Zc:__cplusplus"
+	)
+endif()
+
 
 add_subdirectory(c)
 add_subdirectory(cpp)

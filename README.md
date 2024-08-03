@@ -13,6 +13,7 @@
   - [Related projects](#related-projects)
   - [License](#license)
 
+
 ## Introduction
 
 **xTests** is a testing library for C and C++. Specifically, it is a small,
@@ -33,11 +34,13 @@ code what you want, and nothing that you don't want.
 **xTests** is completely free and includes source released under a BSD-style
 license.
 
+
 ## Installation
 
 Detailed instructions - via **CMake**, via bundling, via custom makefile
 parameters - are provided in the accompanying [INSTALL.md](./INSTALL.md)
 file.
+
 
 ## Components
 
@@ -274,6 +277,7 @@ file.
 </blockquote>
 </details>
 
+
 ## Examples
 
 Extensive examples are provided in the ```examples``` directory, along with a markdown description for each. Here, it is worth just providing a simplest-possible useful example, as shown below:
@@ -342,9 +346,11 @@ int main(int argc, char* argv[])
 
 ## Project Information
 
+
 ### Where to get help
 
 [GitHub Page](https://github.com/synesissoftware/xTests "GitHub Page")
+
 
 ### Contribution guidelines
 
@@ -352,7 +358,9 @@ Defect reports, feature requests, and pull requests are welcome on https://githu
 
 If you'd like to help out with the project, please raise an issue via [GitHub Page](https://github.com/synesissoftware/xTests/issues "GitHub Page") - you'll be very welcome!
 
+
 ### Dependencies
+
 
 #### STLSoft <!-- omit in toc -->
 
@@ -360,6 +368,7 @@ If you'd like to help out with the project, please raise an issue via [GitHub Pa
 
 * [STLSoft 1.9](http://github.com/synesissoftware/STLSoft-1.9/)
 * [STLSoft 1.10](http://github.com/synesissoftware/STLSoft-1.10/) (Recommended)
+
 
 ### Related projects
 
@@ -373,6 +382,7 @@ Projects in which **xTests** is used for testing include:
 * [**recls**](https://github.com/synesissoftware/recls)
 * [**shwild**](https://github.com/synesissoftware/shwild)
 * [**UNIXem**](https://github.com/synesissoftware/UNIXem)
+
 
 ### License
 

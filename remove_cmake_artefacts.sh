@@ -4,7 +4,6 @@ ScriptPath=$0
 Dir=$(cd $(dirname "$ScriptPath"); pwd)
 Basename=$(basename "$ScriptPath")
 CMakeDir=$Dir/_build
-OsIsWindows=0
 
 Directories=(
   CMakeFiles
@@ -52,6 +51,7 @@ esac
 # command-line handling
 
 while [[ $# -gt 0 ]]; do
+
   case $1 in
     --help)
 
@@ -106,6 +106,7 @@ else
 
   for d in ${Directories[@]}
   do
+
     fq_dir_path="$CMakeDir/$d"
 
     [ -d "$fq_dir_path" ] || continue
@@ -121,8 +122,10 @@ else
 
   for f in ${Files[@]}
   do
+
     for fq_file_path in $f
     do
+
       [ -f "$fq_file_path" ] || continue
 
       echo "removing file '$fq_file_path'"

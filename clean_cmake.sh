@@ -10,6 +10,7 @@ CMakeDir=$Dir/_build
 # command-line handling
 
 while [[ $# -gt 0 ]]; do
+
   case $1 in
     --help)
 

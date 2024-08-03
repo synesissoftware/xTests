@@ -11,6 +11,7 @@ RunMake=1
 # command-line handling
 
 while [[ $# -gt 0 ]]; do
+
   case $1 in
     -M|--no-make)
 

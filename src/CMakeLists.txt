@@ -1,12 +1,4 @@
 
-set(CORE_SRCS
-	xtests.core.cpp
-)
-
-add_library(core
-	${CORE_SRCS}
-)
-
 if(UNIX)
 
 	add_definitions(-DUNIX)
@@ -28,6 +20,22 @@ if(WIN32)
 	endif()
 endif(WIN32)
 
+if ((MSVC) AND (MSVC_VERSION GREATER_EQUAL 1914))
+
+	target_compile_definitions(core
+		PRIVATE
+			"/Zc:__cplusplus"
+	)
+endif()
+
+
+set(CORE_SRCS
+	xtests.core.cpp
+)
+
+add_library(core
+	${CORE_SRCS}
+)
 
 # specify the primary public headers for the library, which controls whether
 # they'll be installed
@@ -62,6 +70,7 @@ target_compile_options(core PRIVATE
 		/WX /W4
 	>
 )
+
 
 # ##########################################################
 # install

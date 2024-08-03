@@ -17,6 +17,7 @@ STLSoftDirGiven=
 # command-line handling
 
 while [[ $# -gt 0 ]]; do
+
   case $1 in
     -d|--debug-configuration)
 

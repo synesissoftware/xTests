@@ -5,7 +5,7 @@
 # Purpose:  Top-level CMake lists file for xTests
 #
 # Created:  9th October 2019
-# Updated:  9th July 2024
+# Updated:  27th July 2024
 #
 # ######################################################################## #
 
@@ -69,13 +69,9 @@ set(CMAKE_CXX_EXTENSIONS ON)
 
 
 # ##########################################################
-# install
+# dependencies
 
-# provides install directory variables as defined by the GNU Coding Standards.
-include(GNUInstallDirs)
-
-
-# ##########################################################
+# ################################################
 # STLSoft
 #
 # We provide flexibility here, as in:
@@ -95,18 +91,25 @@ else()
 
 	if(DEFINED STLSOFT)
 
-		message("-- STLSOFT provided as CMake variable with value ${STLSOFT}")
+		message("-- STLSOFT provided as CMake variable with value '${STLSOFT}'")
 
 		set(STLSOFT_INCLUDE_DIR ${STLSOFT}/include)
 	else()
 
-		message("-- STLSOFT provided as environment variable with value $ENV{STLSOFT}")
+		message("-- STLSOFT provided as environment variable with value '$ENV{STLSOFT}'")
 
 		set(STLSOFT_INCLUDE_DIR $ENV{STLSOFT}/include)
 	endif()
 
 	include_directories(${STLSOFT_INCLUDE_DIR})
 endif()
+
+
+# ##########################################################
+# install
+
+# provides install directory variables as defined by the GNU Coding Standards.
+include(GNUInstallDirs)
 
 
 # ##########################################################
@@ -125,6 +128,8 @@ include(CTest)
 
 if(BUILD_TESTING)
 
+	message("-- enabled building of tests ...")
+
 	add_subdirectory(test)
 endif()
 
@@ -134,6 +139,8 @@ endif()
 
 option(BUILD_EXAMPLES "Build examples" ON)
 if(BUILD_EXAMPLES)
+
+	message("-- enabled building of examples ...")
 
 	add_subdirectory(examples)
 endif()
