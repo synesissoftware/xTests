@@ -49,7 +49,8 @@ while [[ $# -gt 0 ]]; do
       cat << EOF
 xTests is a small, lightweight, portable, simple unit- and component-test framework suitable for exercising C and C++ libraries
 Copyright (c) 2019-2024, Matthew Wilson and Synesis Information Systems
-Copyright (c) 2008-2019, Matthew Wilson and Synesis Software
+Copyright (c) 2002-2019, Matthew Wilson and Synesis Software
+Copyright (c) 1999-2002 Matthew Wilson
 Executes CMake-generated artefacts to (re)build project
 
 $ScriptPath [ ... flags/options ... ]
