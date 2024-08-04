@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 3rd August 2024
+ * Updated: 4th August 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -2778,9 +2778,11 @@ namespace
                                 ,   static_cast<unsigned>(results->numFailedTests)
                                 ,   static_cast<unsigned>(results->numUnexpectedExceptions)
                                 ,   static_cast<unsigned>(results->numMissingExpectedExceptions)
-                                ,   (   0u == results->numFailedTests &&
+                                ,   (
+                                        0u == results->numFailedTests &&
                                         0u == results->numUnexpectedExceptions &&
-                                        0u == results->numMissingExpectedExceptions) ? "SUCCESS" : "FAILURE"
+                                        0u == results->numMissingExpectedExceptions
+                                    ) ? "SUCCESS" : "FAILURE"
                                 );
             }
 
