@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 3rd August 2024
+ * Updated: 4th August 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -103,6 +103,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#if 0
+#elif defined(PLATFORMSTL_OS_IS_UNIX)
+# include <unistd.h>
+#elif defined(PLATFORMSTL_OS_IS_WINDOWS)
+# include <io.h>
+#endif
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * compatiblity tests
@@ -197,11 +204,55 @@
 # endif /* compiler / OS */
 #endif /* XTESTS_USING_SAFE_STR_FUNCTIONS */
 
+
+#if 0
+#elif defined(PLATFORMSTL_OS_IS_UNIX)
+# define xtests_fileno_                                     ::fileno
+# define xtests_isatty_                                     ::isatty
+#elif defined(PLATFORMSTL_OS_IS_WINDOWS)
+# define xtests_fileno_                                     ::_fileno
+# define xtests_isatty_                                     ::_isatty
+#endif
+
 #if defined(STLSOFT_COMPILER_IS_DMC)
 # define RETURN_UNUSED(x)                                   return x
 #else /* ? compiler */
 # define RETURN_UNUSED(x)
 #endif /* compiler */
+
+#define XTESTS_ANSI_BG_BLACK_                               (40)
+#define XTESTS_ANSI_BG_RED_                                 (41)
+#define XTESTS_ANSI_BG_GREEN_                               (42)
+#define XTESTS_ANSI_BG_YELLOW_                              (43)
+#define XTESTS_ANSI_BG_BLUE_                                (44)
+#define XTESTS_ANSI_BG_MAGENTA_                             (45)
+#define XTESTS_ANSI_BG_CYAN_                                (46)
+#define XTESTS_ANSI_BG_WHITE_                               (47)
+#define XTESTS_ANSI_BG_BRIGHT_BLACK_                        (100)
+#define XTESTS_ANSI_BG_BRIGHT_RED_                          (101)
+#define XTESTS_ANSI_BG_BRIGHT_GREEN_                        (102)
+#define XTESTS_ANSI_BG_BRIGHT_YELLOW_                       (103)
+#define XTESTS_ANSI_BG_BRIGHT_BLUE_                         (104)
+#define XTESTS_ANSI_BG_BRIGHT_MAGENTA_                      (105)
+#define XTESTS_ANSI_BG_BRIGHT_CYAN_                         (106)
+#define XTESTS_ANSI_BG_BRIGHT_WHITE_                        (107)
+
+#define XTESTS_ANSI_FG_BLACK_                               (30)
+#define XTESTS_ANSI_FG_RED_                                 (31)
+#define XTESTS_ANSI_FG_GREEN_                               (32)
+#define XTESTS_ANSI_FG_YELLOW_                              (33)
+#define XTESTS_ANSI_FG_BLUE_                                (34)
+#define XTESTS_ANSI_FG_MAGENTA_                             (35)
+#define XTESTS_ANSI_FG_CYAN_                                (36)
+#define XTESTS_ANSI_FG_WHITE_                               (37)
+#define XTESTS_ANSI_FG_BRIGHT_BLACK_                        (90)
+#define XTESTS_ANSI_FG_BRIGHT_RED_                          (91)
+#define XTESTS_ANSI_FG_BRIGHT_GREEN_                        (92)
+#define XTESTS_ANSI_FG_BRIGHT_YELLOW_                       (93)
+#define XTESTS_ANSI_FG_BRIGHT_BLUE_                         (94)
+#define XTESTS_ANSI_FG_BRIGHT_MAGENTA_                      (95)
+#define XTESTS_ANSI_FG_BRIGHT_CYAN_                         (96)
+#define XTESTS_ANSI_FG_BRIGHT_WHITE_                        (97)
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -746,6 +797,27 @@ namespace
         }
 
         return r;
+    }
+
+    char const*
+    xtests_success_or_failure_(
+        int             succeeded
+    ,   char            (&buff)[101]
+    )
+    {
+        char const* const response = succeeded ? "SUCCESS" : "FAILURE";
+
+
+        if (xtests_isatty_(xtests_fileno_(stdout)))
+        {
+            sprintf(&buff[0], "\x1B[%dm%s\033[0m]", succeeded ? XTESTS_ANSI_FG_GREEN_ : XTESTS_ANSI_FG_RED_, response);
+        }
+        else
+        {
+            strcpy(&buff[0], response);
+        }
+
+        return &buff[0];
     }
 
 #ifdef STLSOFT_CF_NAMESPACE_SUPPORT
@@ -2694,6 +2766,7 @@ namespace
                     ,   "\tTest case '%s': %u assertions; %u succeeded; %u failed; %u unexpected exceptions; %u missing expected exceptions; result=%s\n"
                 };
                 char const*         fmt = s_fmts[level];
+                char                success_or_failure[101];
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
@@ -2703,7 +2776,7 @@ namespace
                                 ,   results->numFailedTests
                                 ,   results->numUnexpectedExceptions
                                 ,   results->numMissingExpectedExceptions
-                                ,   allTestsHavePassed ? "SUCCESS" : "FAILURE"
+                                ,   xtests_success_or_failure_(allTestsHavePassed, success_or_failure)
                                 );
             }
 
@@ -2768,6 +2841,7 @@ namespace
                         "\n"
                 };
                 char const*         fmt = s_fmts[level];
+                char                success_or_failure[101];
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
@@ -2778,9 +2852,12 @@ namespace
                                 ,   static_cast<unsigned>(results->numFailedTests)
                                 ,   static_cast<unsigned>(results->numUnexpectedExceptions)
                                 ,   static_cast<unsigned>(results->numMissingExpectedExceptions)
-                                ,   (   0u == results->numFailedTests &&
+                                ,   xtests_success_or_failure_(
+                                        0u == results->numFailedTests &&
                                         0u == results->numUnexpectedExceptions &&
-                                        0u == results->numMissingExpectedExceptions) ? "SUCCESS" : "FAILURE"
+                                        0u == results->numMissingExpectedExceptions
+                                    ,   success_or_failure
+                                    )
                                 );
             }
 

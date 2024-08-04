@@ -1,6 +1,12 @@
 # xTests - History
 
 
+4th August 2024 - 0.24.0-alpha3
+-------------------------------
+
+ * minimal coloured console output;
+
+
 4th August 2024 - 0.24.0-alpha2
 -------------------------------
 
