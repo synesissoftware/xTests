@@ -71,13 +71,8 @@ if [ $RunMake -ne 0 ]; then
 
   cd $CMakeDir
 
-  if make; then
-
-    :
-  else
-
-    status=$?
-  fi
+  make
+  status=$?
 else
 
   if [ ! -d "$CMakeDir" ] || [ ! -f "$CMakeDir/CMakeCache.txt" ] || [ ! -d "$CMakeDir/CMakeFiles" ]; then

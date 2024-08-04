@@ -62,7 +62,7 @@ Flags/options:
 
     -m
     --run-make
-        runs make after a successful running of CMake
+        executes make after a successful running of CMake
 
     -s <dir>
     --stlsoft-root-dir <dir>
@@ -102,6 +102,7 @@ cd $CMakeDir
 echo "Executing CMake"
 
 if [ $CMakeVerboseMakefile -eq 0 ]; then CMakeVerboseMakefileFlag="OFF" ; else CMakeVerboseMakefileFlag="ON" ; fi
+
 if [ -z $STLSoftDirGiven ]; then CMakeSTLSoftVariable="" ; else CMakeSTLSoftVariable="-DSTLSOFT=$STLSoftDirGiven/" ; fi
 
 cmake \
@@ -117,7 +118,6 @@ if [ $RunMake -ne 0 ]; then
   echo "Executing make"
 
   make
-
   status=$?
 fi
 

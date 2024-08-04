@@ -71,8 +71,11 @@ else
     echo "Cleaning build (via command \`make clean\`)"
 
     make clean
+    status=$?
 
     cd ->/dev/null
+
+    exit $status
   fi
 fi
 
