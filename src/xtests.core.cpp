@@ -91,6 +91,7 @@
 #else /* ? STLSoft 1.12+ */
 # include <stlsoft/util/integral_printf_traits.hpp>
 #endif /* STLSoft 1.12+ */
+#include <stlsoft/util/string/snprintf.h>
 
 /* Standard C++ Header Files */
 #include <map>
@@ -807,10 +808,9 @@ namespace
     {
         char const* const response = succeeded ? "SUCCESS" : "FAILURE";
 
-
         if (xtests_isatty_(xtests_fileno_(stdout)))
         {
-            sprintf(&buff[0], "\x1B[%dm%s\033[0m]", succeeded ? XTESTS_ANSI_FG_GREEN_ : XTESTS_ANSI_FG_RED_, response);
+            stlsoft::snprintf(&buff[0], 101, "\x1B[%dm%s\033[0m", succeeded ? XTESTS_ANSI_FG_GREEN_ : XTESTS_ANSI_FG_RED_, response);
         }
         else
         {
