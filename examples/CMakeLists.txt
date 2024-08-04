@@ -27,10 +27,7 @@ endif(WIN32)
 
 if ((MSVC) AND (MSVC_VERSION GREATER_EQUAL 1914))
 
-	target_compile_definitions(core
-		PRIVATE
-			"/Zc:__cplusplus"
-	)
+	add_compile_options("/Zc:__cplusplus")
 endif()
 
 

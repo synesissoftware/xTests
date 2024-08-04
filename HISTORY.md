@@ -1,6 +1,12 @@
 # xTests - History
 
 
+4th August 2024 - 0.24.0-alpha2
+-------------------------------
+
+ * fixed VC++ / CMake configuration;
+
+
 3rd August 2024 - 0.24.0-alpha1
 -------------------------------
 

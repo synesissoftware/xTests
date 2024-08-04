@@ -10,6 +10,7 @@
 
 * coloured console output, for `"SUCCESS"` and `"FAILURE"` reports;
 * ~~enhance C-form of macros using `_Generic`~~ - this provided as of version 0.24.0;
+* simplified (shorter) macros, via opt-in header(s);
 
 
 ## xTests 0.20.x TODOs:

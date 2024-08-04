@@ -1796,7 +1796,8 @@ namespace
 #endif /* XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_ */
             }
         private:
-            void operator =(fprintf_reporter const&); // copy-assignment proscribed
+            void operator =(fprintf_reporter const&) // copy-assignment proscribed
+            {}
 
         private: // overrides
             virtual void onStartRunner(

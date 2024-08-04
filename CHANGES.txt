@@ -16,12 +16,17 @@ Updated: 14th July 2024
     ************************************
 
 
+4th August 2024 - 0.24.0-alpha2
+===============================
+
+ * fixed VC++ / CMake configuration;
+
+
 3rd August 2024 - 0.24.0-alpha1
 ===============================
 
  * `XTESTS_TEST_INTEGER_EQUAL_EXACT()`, `XTESTS_TEST_INTEGER_NOT_EQUAL()`, `XTESTS_TEST_INTEGER_GREATER()`, `XTESTS_TEST_INTEGER_GREATER_OR_EQUAL()`, `XTESTS_TEST_INTEGER_LESS()`, `XTESTS_TEST_INTEGER_LESS_OR_EQUAL()` are all implemented in terms of `_Generic` (where supported) in C compilation units in order to be able to report the expected and actual values upon failure (as is done in C++ compilation units)
  * general tidying
-
 
 
 14th July 2024 - 0.23.1
