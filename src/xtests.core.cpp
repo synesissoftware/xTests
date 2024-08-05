@@ -73,6 +73,9 @@
         _STLSOFT_1_10_VER >= 0x010a0113)
 # include <platformstl/filesystem/path_functions.h>
 #endif
+#if _STLSOFT_VER >= 0x010b014d
+# include <platformstl/system/console_functions.h>
+#endif
 #include <stlsoft/conversion/char_conversions.hpp>
 #include <stlsoft/memory/auto_buffer.hpp>
 #include <stlsoft/shims/access/string/std/c_string.h>
@@ -91,6 +94,7 @@
 #else /* ? STLSoft 1.12+ */
 # include <stlsoft/util/integral_printf_traits.hpp>
 #endif /* STLSoft 1.12+ */
+#include <stlsoft/util/string/snprintf.h>
 
 /* Standard C++ Header Files */
 #include <map>
@@ -104,6 +108,7 @@
 #include <string.h>
 
 #if 0
+#elif _STLSOFT_VER >= 0x010b014d
 #elif defined(PLATFORMSTL_OS_IS_UNIX)
 # include <unistd.h>
 #elif defined(PLATFORMSTL_OS_IS_WINDOWS)
@@ -206,6 +211,7 @@
 
 
 #if 0
+#elif _STLSOFT_VER >= 0x010b014d
 #elif defined(PLATFORMSTL_OS_IS_UNIX)
 # define xtests_fileno_                                     ::fileno
 # define xtests_isatty_                                     ::isatty
@@ -807,10 +813,13 @@ namespace
     {
         char const* const response = succeeded ? "SUCCESS" : "FAILURE";
 
-
+#if _STLSOFT_VER >= 0x010b014d
+        if (platformstl::isatty(stdout))
+#else
         if (xtests_isatty_(xtests_fileno_(stdout)))
+#endif
         {
-            sprintf(&buff[0], "\x1B[%dm%s\033[0m]", succeeded ? XTESTS_ANSI_FG_GREEN_ : XTESTS_ANSI_FG_RED_, response);
+            stlsoft::snprintf(&buff[0], 101, "\x1B[%dm%s\033[0m", succeeded ? XTESTS_ANSI_FG_GREEN_ : XTESTS_ANSI_FG_RED_, response);
         }
         else
         {
