@@ -1,6 +1,12 @@
 # xTests - History
 
 
+5th August 2024 - 0.24.0-alpha4
+-------------------------------
+
+ * compatibility with STLSoft 1.11.1-alpha13 or later;
+
+
 4th August 2024 - 0.24.0-alpha3
 -------------------------------
 
