@@ -5,10 +5,14 @@
  *          implementations in terms of `_Generic`.
  *
  * Created: 3rd August 2024
- * Updated: 3rd August 2024
+ * Updated: 28th September 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
+
+/* /////////////////////////////////////////////////////////////////////////
+ * includes
+ */
 
 /* xTests Header Files */
 #include <xtests/xtests.h>
@@ -16,10 +20,7 @@
 /* Standard C Header Files */
 #include <limits.h>
 
-#if defined(_MSC_VER) && \
-    defined(_DEBUG)
-# include <crtdbg.h>
-#endif /* _MSC_VER) && _DEBUG */
+#include <xtests/internal/checked_main.h>
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -34,7 +35,7 @@ static void test_fails(void);
  * main()
  */
 
-static int main_(int argc, char **argv)
+int main(int argc, char* argv[])
 {
     int retCode = EXIT_SUCCESS;
     int verbosity;
@@ -53,30 +54,6 @@ static int main_(int argc, char **argv)
     }
 
     return retCode;
-}
-
-int main(int argc, char** argv)
-{
-    int             res;
-
-#if defined(_MSC_VER) && \
-    defined(_DEBUG)
-    _CrtMemState    memState;
-#endif /* _MSC_VER && _MSC_VER */
-
-#if defined(_MSC_VER) && \
-    defined(_DEBUG)
-    _CrtMemCheckpoint(&memState);
-#endif /* _MSC_VER && _MSC_VER */
-
-    res = main_(argc, argv);
-
-#if defined(_MSC_VER) && \
-    defined(_DEBUG)
-    _CrtMemDumpAllObjectsSince(&memState);
-#endif /* _MSC_VER) && _DEBUG */
-
-    return res;
 }
 
 

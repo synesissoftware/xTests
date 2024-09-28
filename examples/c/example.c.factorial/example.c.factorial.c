@@ -5,7 +5,7 @@
  *          test case(s).
  *
  * Created: 7th December 2023
- * Updated: 5th May 2024
+ * Updated: 28th September 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -17,6 +17,13 @@
 
 #include <stdio.h>
 #include <assert.h>
+
+#include <xtests/internal/checked_main.h>
+
+
+/* /////////////////////////////////////////////////////////////////////////
+ * function(s) to tests
+ */
 
 /* a somewhat-flaky factorial function */
 int factorial(int v)
@@ -33,11 +40,20 @@ int factorial(int v)
     }
 }
 
+/* /////////////////////////////////////////////////////////////////////////
+ * test casse functions
+ */
+
 void test_factorial_edge_cases(void)
 {
     XTESTS_TEST_INTEGER_EQUAL(1, factorial(0));
     XTESTS_TEST_INTEGER_EQUAL(1, factorial(1));
 }
+
+
+/* /////////////////////////////////////////////////////////////////////////
+ * main()
+ */
 
 int main(int argc, char* argv[])
 {

@@ -21,6 +21,8 @@
 /* Standard C Header Files */
 #include <stdlib.h>
 
+#include <xtests/internal/checked_main.h>
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * test function declarations
@@ -36,7 +38,7 @@ static void test_4(void);
  * main()
  */
 
-int main(int argc, char **argv)
+int main(int argc, char* argv[])
 {
     int retCode = EXIT_SUCCESS;
     int verbosity;

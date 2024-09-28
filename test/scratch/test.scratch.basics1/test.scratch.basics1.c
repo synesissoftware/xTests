@@ -9,6 +9,10 @@
  * ////////////////////////////////////////////////////////////////////// */
 
 
+/* /////////////////////////////////////////////////////////////////////////
+ * includes
+ */
+
 /* xTests Header Files */
 #include <xtests/xtests.h>
 
@@ -20,10 +24,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#if defined(_MSC_VER) && \
-    defined(_DEBUG)
-# include <crtdbg.h>
-#endif /* _MSC_VER) && _DEBUG */
+#include <xtests/internal/checked_main.h>
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -44,7 +45,7 @@ static void test_require(void);
  * main()
  */
 
-static int main_(int argc, char **argv)
+int main(int argc, char* argv[])
 {
     int retCode = EXIT_SUCCESS;
     int verbosity;
@@ -88,30 +89,6 @@ static int main_(int argc, char **argv)
     }
 
     return retCode;
-}
-
-int main(int argc, char** argv)
-{
-    int             res;
-
-#if defined(_MSC_VER) && \
-    defined(_DEBUG)
-    _CrtMemState    memState;
-#endif /* _MSC_VER && _MSC_VER */
-
-#if defined(_MSC_VER) && \
-    defined(_DEBUG)
-    _CrtMemCheckpoint(&memState);
-#endif /* _MSC_VER && _MSC_VER */
-
-    res = main_(argc, argv);
-
-#if defined(_MSC_VER) && \
-    defined(_DEBUG)
-    _CrtMemDumpAllObjectsSince(&memState);
-#endif /* _MSC_VER) && _DEBUG */
-
-    return res;
 }
 
 

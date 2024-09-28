@@ -4,7 +4,7 @@
  * Purpose: Example of in-runner test cases.
  *
  * Created: 20th February 2008
- * Updated: 5th May 2024
+ * Updated: 28th September 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -21,12 +21,14 @@
 /* Standard C Header Files */
 #include <stdlib.h>
 
+#include <xtests/internal/checked_main.h>
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * main()
  */
 
-int main(int argc, char **argv)
+int main(int argc, char* argv[])
 {
     int retCode = EXIT_SUCCESS;
     int verbosity;
