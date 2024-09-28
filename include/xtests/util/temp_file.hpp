@@ -4,7 +4,7 @@
  * Purpose: Definition of the temp_file class.
  *
  * Created: 8th May 2014
- * Updated: 5th May 2024
+ * Updated: 28th September 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,7 +52,7 @@
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MAJOR     0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     3
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  1
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      19
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      20
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -408,7 +408,7 @@ temp_file::create_file_(
     DWORD                       e = ERROR_SUCCESS;
     stlsoft::auto_buffer<char>  buff(1);
 
-    { for(size_t i = 0; i != STLSOFT_NUM_ELEMENTS(s_roots); )
+    { for (size_t i = 0; i != STLSOFT_NUM_ELEMENTS(s_roots); )
     {
         LPCSTR const root = s_roots[i];
 
@@ -654,7 +654,7 @@ temp_file::create_by_fn_(
 
     if (NULL != pfn)
     {
-        for(unsigned num_calls = 0;; ++num_calls)
+        for (unsigned num_calls = 0;; ++num_calls)
         {
             int const r = (*pfn)(hFile, param, num_calls);
 

@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 4th August 2024
+ * Updated: 28th September 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -751,11 +751,11 @@ namespace
         int             r = -1;
         char_buffer_t_  buff(1);
 
-        { for(unsigned i = 0; i != 10; ++i)
+        { for (unsigned i = 0; i != 10; ++i)
         {
             if (!buff.resize(1 + 1 + requiredLen)) // adds two to allow x and n to be different (required by VC++ "safe" fns)
             {
-                { for(size_t j = 0; j != numSinks; ++j)
+                { for (size_t j = 0; j != numSinks; ++j)
                 {
                     xtests_sink_t_ const&   sink = sinks[j];
                     static const char       oom[] = "out of memory\n";
@@ -794,7 +794,7 @@ namespace
 
             buff[n] = '\0';
 
-            { for(size_t i = 0; i != numSinks; ++i)
+            { for (size_t i = 0; i != numSinks; ++i)
             {
                 xtests_sink_t_ const& sink = sinks[i];
 
@@ -1560,7 +1560,7 @@ xtests_commandLine_parseVerbosity(
     static const char   s_verb[]    =   "--verbosity=";
     static const size_t s_cchVerb   =   STLSOFT_NUM_ELEMENTS(s_verb) - 1;
 
-    { for(int i = 1; i < argc; ++i)
+    { for (int i = 1; i < argc; ++i)
     {
         STLSOFT_ASSERT(NULL != argv[i]);
 
@@ -1585,7 +1585,7 @@ xtests_commandLine_parseHelp(
 {
     static const char   s_verb[]    =   "--help";
 
-    { for(int i = 1; i < argc; ++i)
+    { for (int i = 1; i < argc; ++i)
     {
         STLSOFT_ASSERT(NULL != argv[i]);
 
@@ -1887,7 +1887,7 @@ namespace
             ,   int verbosity
             ) ss_override_k
             {
-                switch(verbosity)
+                switch (verbosity)
                 {
                     case    XTESTS_VERBOSITY_SILENT:
                     case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
@@ -1957,7 +1957,7 @@ namespace
                     testType = expectedValue->testType;
                 }
 
-                switch(variableType)
+                switch (variableType)
                 {
                     case    xtestsVariableBoolean:
                         onTestFailed_Boolean_(file, line, function, expr, static_cast<bool>(0 != expectedValue->value.booleanValue), static_cast<bool>(0 != actualValue->value.booleanValue), comparison, verbosity);
@@ -2006,7 +2006,7 @@ namespace
             {
                 char const* fmt = "%s(%d): test condition failed: actual value %s should %sequal the expected value %s%s%s\n";
 
-                switch(verbosity)
+                switch (verbosity)
                 {
                     case    XTESTS_VERBOSITY_SILENT:
                     case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
@@ -2044,7 +2044,7 @@ namespace
                 STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                 char const*         fmt = s_fmts[comparison];
 
-                switch(verbosity)
+                switch (verbosity)
                 {
                     case    XTESTS_VERBOSITY_SILENT:
                     case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
@@ -2082,7 +2082,7 @@ namespace
                 STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                 char const*         fmt = s_fmts[comparison];
 
-                switch(verbosity)
+                switch (verbosity)
                 {
                     case    XTESTS_VERBOSITY_SILENT:
                     case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
@@ -2120,7 +2120,7 @@ namespace
                 STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                 char const*         fmt = s_fmts[comparison];
 
-                switch(verbosity)
+                switch (verbosity)
                 {
                     case    XTESTS_VERBOSITY_SILENT:
                     case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
@@ -2164,7 +2164,7 @@ namespace
                     STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                     char const*         fmt = s_fmts[comparison];
 
-                    switch(verbosity)
+                    switch (verbosity)
                     {
                         case    XTESTS_VERBOSITY_SILENT:
                         case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
@@ -2205,7 +2205,7 @@ namespace
                     STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                     char const*         fmt = s_fmts[comparison];
 
-                    switch(verbosity)
+                    switch (verbosity)
                     {
                         case    XTESTS_VERBOSITY_SILENT:
                         case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
@@ -2251,7 +2251,7 @@ namespace
                     STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                     char const*         fmt = s_fmts[comparison];
 
-                    switch(verbosity)
+                    switch (verbosity)
                     {
                         case    XTESTS_VERBOSITY_SILENT:
                         case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
@@ -2308,7 +2308,7 @@ namespace
                 STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                 char const*         fmt = s_fmts[comparison];
 
-                switch(verbosity)
+                switch (verbosity)
                 {
                     case    XTESTS_VERBOSITY_SILENT:
                     case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
@@ -2352,7 +2352,7 @@ namespace
                 STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                 char const*         fmt = s_fmts[comparison];
 
-                switch(verbosity)
+                switch (verbosity)
                 {
                     case    XTESTS_VERBOSITY_SILENT:
                     case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
@@ -2395,7 +2395,7 @@ namespace
                 STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                 char const*         fmt = s_fmts[comparison];
 
-                switch(verbosity)
+                switch (verbosity)
                 {
                     case    XTESTS_VERBOSITY_SILENT:
                     case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
@@ -2476,7 +2476,7 @@ namespace
 
                 char const*         fmt = s_fmts[comparison];
 
-                switch(verbosity)
+                switch (verbosity)
                 {
                     case    XTESTS_VERBOSITY_SILENT:
                     case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
@@ -2559,7 +2559,7 @@ namespace
 
                 char const*         fmt = s_fmts[comparison];
 
-                switch(verbosity)
+                switch (verbosity)
                 {
                     case    XTESTS_VERBOSITY_SILENT:
                     case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
@@ -2593,7 +2593,7 @@ namespace
                 };
                 char const*         fmt = s_fmts[NULL != function];
 
-                switch(verbosity)
+                switch (verbosity)
                 {
                     case    XTESTS_VERBOSITY_SILENT:
                     case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
@@ -2619,7 +2619,7 @@ namespace
             {
                 static const char  s_fmt[] = "%s(%d): %s%s%s%s%s\n";
 
-                switch(verbosity)
+                switch (verbosity)
                 {
                     case    XTESTS_VERBOSITY_SILENT:
                     case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
@@ -2643,7 +2643,7 @@ namespace
             {
                 int level = 0;
 
-                switch(verbosity)
+                switch (verbosity)
                 {
                     case    XTESTS_VERBOSITY_SILENT:
                     case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
@@ -2682,7 +2682,7 @@ namespace
             {
                 int level = 0;
 
-                switch(verbosity)
+                switch (verbosity)
                 {
                     case    XTESTS_VERBOSITY_SILENT:
                     case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
@@ -2730,7 +2730,7 @@ namespace
                       0 == results->numUnexpectedExceptions &&
                       0 == results->numMissingExpectedExceptions);
 
-                switch(verbosity)
+                switch (verbosity)
                 {
                     case    XTESTS_VERBOSITY_SILENT:
                     case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
@@ -2797,7 +2797,7 @@ namespace
             {
                 int level = 0;
 
-                switch(verbosity)
+                switch (verbosity)
                 {
                     case    XTESTS_VERBOSITY_SILENT:
                         level = 0;
@@ -3023,7 +3023,7 @@ int RunnerInfo::BeginCase(
                 }
 #ifdef STLSOFT_CF_EXCEPTION_SUPPORT
             }
-            catch(XTESTS_NS_CPP_QUAL(prerequisite_failed_exception)& x)
+            catch (XTESTS_NS_CPP_QUAL(prerequisite_failed_exception)& x)
             {
                 m_reporter->onDefect(m_reporterParam, "setup function failed", x.what(), m_verbosity);
 
@@ -3086,7 +3086,7 @@ int RunnerInfo::EndCase(char const* /* name */)
                 (*m_teardown)(m_setupParam);
 #ifdef STLSOFT_CF_EXCEPTION_SUPPORT
             }
-            catch(XTESTS_NS_CPP_QUAL(prerequisite_failed_exception)& x)
+            catch (XTESTS_NS_CPP_QUAL(prerequisite_failed_exception)& x)
             {
                 m_reporter->onDefect(m_reporterParam, "teardown function failed", x.what(), m_verbosity);
 
@@ -3420,7 +3420,7 @@ int RunnerInfo::TestMultibyteStrings(
         // Now do test, taking into account NULL pointers
         int comparisonSucceeded = false;
 
-        switch(comp)
+        switch (comp)
         {
             case    xtestsComparisonEqual:
                 if (0 == xtests_strcmp_a_(expected, actual))
@@ -3547,7 +3547,7 @@ int RunnerInfo::TestMultibyteStringsN(
         {
             // actual string is less than required length, so comparison
             // fails
-            switch(comp)
+            switch (comp)
             {
                 case    xtestsComparisonEqual:
                 case    xtestsComparisonApproxEqual:
@@ -3570,7 +3570,7 @@ int RunnerInfo::TestMultibyteStringsN(
         }
         else
         {
-            switch(comp)
+            switch (comp)
             {
                 case    xtestsComparisonEqual:
                     if (0 == xtests_strncmp_a_(expected, actual, ncmp))
@@ -3673,7 +3673,7 @@ int RunnerInfo::TestWideStrings(
         // Now do test, taking into account NULL pointers
         int comparisonSucceeded = false;
 
-        switch(comp)
+        switch (comp)
         {
             case    xtestsComparisonEqual:
                 if (0 == xtests_strcmp_w_(expected, actual))
@@ -3800,7 +3800,7 @@ int RunnerInfo::TestWideStringsN(
         {
             // actual string is less than required length, so comparison
             // fails
-            switch(comp)
+            switch (comp)
             {
                 case    xtestsComparisonEqual:
                 case    xtestsComparisonApproxEqual:
@@ -3821,7 +3821,7 @@ int RunnerInfo::TestWideStringsN(
         }
         else
         {
-            switch(comp)
+            switch (comp)
             {
                 case    xtestsComparisonEqual:
                     if (0 == xtests_strncmp_w_(expected, actual, ncmp))
@@ -3924,7 +3924,7 @@ int RunnerInfo::TestMultibyteStringContains(
         // Now do test, taking into account NULL pointers
         int comparisonSucceeded = false;
 
-        switch(comp)
+        switch (comp)
         {
             case    xtestsComparisonEqual:
                 if (NULL != xtests_strstr_(actual, expected))
@@ -4009,7 +4009,7 @@ int RunnerInfo::TestWideStringContains(
         // Now do test, taking into account NULL pointers
         int comparisonSucceeded = false;
 
-        switch(comp)
+        switch (comp)
         {
             case    xtestsComparisonEqual:
                 if (NULL != xtests_strstr_w_(actual, expected))
@@ -4097,7 +4097,7 @@ int RunnerInfo::TestMultibyteStringSlice(
         int             comparisonSucceeded =   false;
         bool const      sameLength          =   (expectedLen == actualLen);
 
-        switch(comp)
+        switch (comp)
         {
             case    xtestsComparisonEqual:
                 if (sameLength &&
@@ -4194,7 +4194,7 @@ int RunnerInfo::TestWideStringSlice(
         int             comparisonSucceeded =   false;
         bool const      sameLength          =   (expectedLen == actualLen);
 
-        switch(comp)
+        switch (comp)
         {
             case    xtestsComparisonEqual:
                 if (sameLength &&
@@ -4287,7 +4287,7 @@ int RunnerInfo::TestPointers(
         // Now do test, taking into account NULL pointers
         int comparisonSucceeded = false;
 
-        switch(comp)
+        switch (comp)
         {
             case    xtestsComparisonEqual:
             case    xtestsComparisonApproxEqual:
@@ -4414,7 +4414,7 @@ int RunnerInfo::TestCharacters(
         // Now do test, taking into account NULL pointers
         int comparisonSucceeded = false;
 
-        switch(comp)
+        switch (comp)
         {
             case    xtestsComparisonEqual:
                 if (expected == actual)
@@ -4516,7 +4516,7 @@ int RunnerInfo::TestCharacters(
         // Now do test, taking into account NULL pointers
         int comparisonSucceeded = false;
 
-        switch(comp)
+        switch (comp)
         {
             case    xtestsComparisonEqual:
                 if (expected == actual)
@@ -4730,7 +4730,7 @@ size_t RunnerInfo::NumberOfFailedTestCases() const
     {
         size_t numFailed = 0;
 
-        { for(test_map_t::const_iterator b = m_testCases.begin(); b != m_testCases.end(); ++b)
+        { for (test_map_t::const_iterator b = m_testCases.begin(); b != m_testCases.end(); ++b)
         {
             TestInfo const& testInfo = (*b).second;
 

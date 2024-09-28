@@ -4,7 +4,7 @@
  * Purpose: Example of use of separate test-case functions.
  *
  * Created: 20th February 2008
- * Updated: 5th May 2024
+ * Updated: 28th September 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -85,9 +85,9 @@ static void test_3(void)
 
 static void test_4(void)
 {
-    { int i; for(i = -1000; i != 1000; ++i)
+    { int i; for (i = -1000; i != 1000; ++i)
     {
-        { int j; for(j = -1000; j != 1000; ++j)
+        { int j; for (j = -1000; j != 1000; ++j)
         {
             if (i == j)
             {

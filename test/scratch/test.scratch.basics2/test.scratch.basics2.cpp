@@ -4,7 +4,7 @@
  * Purpose: Implementation file for the test.scratch.basics2 project.
  *
  * Created: 15th December 2007
- * Updated: 3rd August 2024
+ * Updated: 28th September 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -207,13 +207,13 @@ int main(int argc, char** argv)
 
 #ifdef STLSOFT_CF_EXCEPTION_SUPPORT
     }
-    catch(std::exception &x)
+    catch (std::exception &x)
     {
         ::fprintf(stderr, "Unhandled error: %s\n", x.what());
 
         res = EXIT_FAILURE;
     }
-    catch(...)
+    catch (...)
     {
         ::fprintf(stderr, "Unhandled unknown error\n");
 
@@ -265,9 +265,9 @@ static void test_2_2()
     const int max_  =   +1000;
 #endif /* _DEBUG */
 
-    { int i; for(i = min_; i != max_; ++i)
+    { int i; for (i = min_; i != max_; ++i)
     {
-        { int j; for(j = min_; j != max_; ++j)
+        { int j; for (j = min_; j != max_; ++j)
         {
             if (i == j)
             {

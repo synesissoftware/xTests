@@ -5,7 +5,7 @@
  *          library.
  *
  * Created: 20th June 1999
- * Updated: 5th August 2024
+ * Updated: 28th September 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -53,7 +53,7 @@
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       42
 # define XTESTS_VER_XTESTS_H_XTESTS_REVISION    4
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        366
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        367
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -83,7 +83,7 @@
 #define _XTESTS_VER_MINOR       24
 #define _XTESTS_VER_REVISION    0
 
-#define _XTESTS_VER             0x00180004
+#define _XTESTS_VER             0x00180005
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -301,7 +301,7 @@ namespace c
      * only some of the FF build configuration variants experience it -
      * and this workaround seems effective.
      */
-#   define XTESTS_INVOKE_TEST_CASE_FN_INNER_(fn, param)     do { try { XTESTS_TEST_FUNCTION_INVOKE_(fn, param); } catch(...) { throw; } } while(XTESTS_WHILE_0_CLAUSE())
+#   define XTESTS_INVOKE_TEST_CASE_FN_INNER_(fn, param)     do { try { XTESTS_TEST_FUNCTION_INVOKE_(fn, param); } catch (...) { throw; } } while (XTESTS_WHILE_0_CLAUSE())
 #  else /* ? compiler */
 
 #   define XTESTS_INVOKE_TEST_CASE_FN_INNER_(fn, param)     XTESTS_TEST_FUNCTION_INVOKE_(fn, param)
@@ -319,24 +319,24 @@ namespace c
                                                                                         \
             XTESTS_INVOKE_TEST_CASE_FN_INNER_(fn, param);                               \
         }                                                                               \
-        catch(XTESTS_NS_CPP_QUAL(prerequisite_failed_exception)& x)                     \
+        catch (XTESTS_NS_CPP_QUAL(prerequisite_failed_exception)& x)                    \
         {                                                                               \
             XTESTS_REPORT_PREREQ_FAIL_((file), (line), XTESTS_GET_FUNCTION_(), "test prerequisite failed", x.what());   \
         }                                                                               \
-        catch(XTESTS_NS_CPP_QUAL(requirement_failed_exception)& /* x */)                \
+        catch (XTESTS_NS_CPP_QUAL(requirement_failed_exception)& /* x */)               \
         {                                                                               \
         }                                                                               \
-        catch(std::bad_alloc& x)                                                        \
+        catch (std::bad_alloc& x)                                                       \
         {                                                                               \
             XTESTS_REPORT_EXCEPTION_((file), (line), x);                                \
                                                                                         \
             throw;                                                                      \
         }                                                                               \
-        catch(std::exception& x)                                                        \
+        catch (std::exception& x)                                                       \
         {                                                                               \
             XTESTS_REPORT_EXCEPTION_((file), (line), x);                                \
         }                                                                               \
-    } while(XTESTS_WHILE_0_CLAUSE())
+    } while (XTESTS_WHILE_0_CLAUSE())
 
 #  define XTESTS_INVOKE_TEST_CASE_FN_THROWS_(file, line, fn, name, type)                \
                                                                                         \
@@ -350,28 +350,28 @@ namespace c
                                                                                         \
             XTESTS_NS_C_QUAL(xtests_caseExceptionExpected)((file), (line), #type);      \
         }                                                                               \
-        catch(XTESTS_NS_CPP_QUAL(prerequisite_failed_exception)& x)                     \
+        catch (XTESTS_NS_CPP_QUAL(prerequisite_failed_exception)& x)                    \
         {                                                                               \
             XTESTS_REPORT_PREREQ_FAIL_((file), (line), XTESTS_GET_FUNCTION_(), "test prerequisite failed", x.what());   \
         }                                                                               \
-        catch(XTESTS_NS_CPP_QUAL(requirement_failed_exception)& /* x */)                \
+        catch (XTESTS_NS_CPP_QUAL(requirement_failed_exception)& /* x */)               \
         {                                                                               \
         }                                                                               \
-        catch(type& /* x */)                                                            \
+        catch (type& /* x */)                                                           \
         {                                                                               \
             XTESTS_TEST_PASSED();                                                       \
         }                                                                               \
-        catch(std::bad_alloc& x)                                                        \
+        catch (std::bad_alloc& x)                                                       \
         {                                                                               \
             XTESTS_REPORT_EXCEPTION_((file), (line), x);                                \
                                                                                         \
             throw;                                                                      \
         }                                                                               \
-        catch(std::exception& x)                                                        \
+        catch (std::exception& x)                                                       \
         {                                                                               \
             XTESTS_REPORT_EXCEPTION_((file), (line), x);                                \
         }                                                                               \
-    } while(XTESTS_WHILE_0_CLAUSE())
+    } while (XTESTS_WHILE_0_CLAUSE())
 
 
 #  define XTESTS_RUN_CASE_THAT_THROWS_WITH_NAME_AND_DESC_(file, line, name, desc, fn, type) \
@@ -385,7 +385,7 @@ namespace c
             XTESTS_CASE_END(name);                                                      \
         }                                                                               \
                                                                                         \
-    } while(XTESTS_WHILE_0_CLAUSE())
+    } while (XTESTS_WHILE_0_CLAUSE())
 # else /* ? STLSOFT_CF_EXCEPTION_SUPPORT */
 
 #  define XTESTS_INVOKE_TEST_CASE_FN_(file, line, fn, name)  (*fn)()
@@ -403,7 +403,7 @@ namespace c
             XTESTS_CASE_END(name);                                                      \
         }                                                                               \
                                                                                         \
-    } while(XTESTS_WHILE_0_CLAUSE())
+    } while (XTESTS_WHILE_0_CLAUSE())
 
 
 
@@ -2327,7 +2327,7 @@ c_str_len_n_a(
 {
     size_t len = 0;
 
-    for(; '\0' != *s && len != n; ++s, ++len)
+    for (; '\0' != *s && len != n; ++s, ++len)
     {}
 
     return len;
@@ -2342,7 +2342,7 @@ c_str_len_n_w(
 {
     size_t len = 0;
 
-    for(; '\0' != *s && len != n; ++s, ++len)
+    for (; '\0' != *s && len != n; ++s, ++len)
     {}
 
     return len;
@@ -3698,11 +3698,11 @@ xtests_test_integer_compare_to_range_(
     using namespace ::xtests::c;
 #  endif /* _XTESTS_NO_NAMESPACE */
 
-    switch(comp)
+    switch (comp)
     {
         case    xtestsComparisonEqual:
 
-            for(; begin != end; ++begin)
+            for (; begin != end; ++begin)
             {
                 I const& expected = *begin;
 
@@ -3715,7 +3715,7 @@ xtests_test_integer_compare_to_range_(
             return false;
         case    xtestsComparisonNotEqual:
 
-            for(; begin != end; ++begin)
+            for (; begin != end; ++begin)
             {
                 I const& expected = *begin;
 
@@ -3810,7 +3810,7 @@ xtests_test_integer(
 
     int comparisonSucceeded = false;
 
-    switch(comp)
+    switch (comp)
     {
         case    xtestsComparisonEqual:
         case    xtestsComparisonApproxEqual:
@@ -4197,7 +4197,7 @@ xtests_test_floating_point(
 
     int comparisonSucceeded = false;
 
-    switch(comp)
+    switch (comp)
     {
         case    xtestsComparisonEqual:
             if (expected == actual)

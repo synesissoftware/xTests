@@ -4,7 +4,7 @@
  * Purpose: Implementation file for the test.scratch.verbosity_levels project.
  *
  * Created: 28th January 2017
- * Updated: 3rd August 2024
+ * Updated: 28th September 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -97,13 +97,13 @@ int main(int argc, char** argv)
 
 #ifdef STLSOFT_CF_EXCEPTION_SUPPORT
     }
-    catch(std::exception &x)
+    catch (std::exception &x)
     {
         ::fprintf(stderr, "Unhandled error: %s\n", x.what());
 
         res = EXIT_FAILURE;
     }
-    catch(...)
+    catch (...)
     {
         ::fprintf(stderr, "Unhandled unknown error\n");
 

@@ -4,7 +4,7 @@
  * Purpose: Implementation file for the test.scratch.string_slices.c project.
  *
  * Created: 16th February 2013
- * Updated: 5th May 2024
+ * Updated: 28th September 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -184,13 +184,13 @@ int main(int argc, char** argv)
 
 #ifdef STLSOFT_CF_EXCEPTION_SUPPORT
     }
-    catch(std::exception &x)
+    catch (std::exception &x)
     {
         ::fprintf(stderr, "Unhandled error: %s\n", x.what());
 
         res = EXIT_FAILURE;
     }
-    catch(...)
+    catch (...)
     {
         ::fprintf(stderr, "Unhandled unknown error\n");
 
