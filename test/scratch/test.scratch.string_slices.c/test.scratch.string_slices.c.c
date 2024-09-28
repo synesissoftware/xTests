@@ -1,7 +1,7 @@
 /* /////////////////////////////////////////////////////////////////////////
  * File:    test.scratch.string_slices.c.c
  *
- * Purpose: Implementation file for the test.scratch.string_slices.c project.
+ * Purpose: Illustrates xTests string slice comparison macros (C code).
  *
  * Created: 16th February 2013
  * Updated: 28th September 2024

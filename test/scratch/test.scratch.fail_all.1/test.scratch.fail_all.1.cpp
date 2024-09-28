@@ -1,7 +1,7 @@
 /* /////////////////////////////////////////////////////////////////////////
  * File:    test.scratch.fail_all.1.cpp
  *
- * Purpose: Implementation file for the test.scratch.fail_all.1 project.
+ * Purpose: Illustrates various test failures.
  *
  * Created: 26th January 2009
  * Updated: 28th September 2024

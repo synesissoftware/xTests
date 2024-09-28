@@ -1,7 +1,7 @@
 /* /////////////////////////////////////////////////////////////////////////
  * File:    test.scratch.verbosity_levels.cpp
  *
- * Purpose: Implementation file for the test.scratch.verbosity_levels project.
+ * Purpose: Illustrates some canonical failures (C++ code).
  *
  * Created: 28th January 2017
  * Updated: 28th September 2024
@@ -139,6 +139,7 @@ static void test_integer_failed()
 }
 
 #ifdef STLSOFT_CF_EXCEPTION_SUPPORT
+
 static void test_exception_expected_runtime_error()
 {
     throw std::runtime_error("an error");

@@ -1,7 +1,7 @@
 /* /////////////////////////////////////////////////////////////////////////
  * File:    test.scratch.basics1.c
  *
- * Purpose: Implementation file for the test.scratch.basics1 project.
+ * Purpose: Illustrates various xTests facilities available to C code.
  *
  * Created: 15th December 2007
  * Updated: 28th September 2024

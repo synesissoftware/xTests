@@ -1,7 +1,7 @@
 /* /////////////////////////////////////////////////////////////////////////
  * File:    test.scratch.setup.fail.c
  *
- * Purpose: Implementation file for the test.scratch.setup.fail project.
+ * Purpose: Illustrates failure of setup function.
  *
  * Created: 31st January 2010
  * Updated: 5th May 2024
