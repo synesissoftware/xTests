@@ -31,7 +31,7 @@
  * forward declarations
  */
 
-static void test_1(void);
+static void test_never_visited(void);
 
 static int setup(void*);
 static int teardown(void*);
@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
 
     if (XTESTS_START_RUNNER_WITH_SETUP_FNS("test.scratch.setup.fail", verbosity, setup, teardown, NULL))
     {
-        XTESTS_RUN_CASE(test_1);
+        XTESTS_RUN_CASE(test_never_visited);
 
         XTESTS_PRINT_RESULTS();
 
@@ -79,7 +79,7 @@ static int teardown(void* param)
     return 0;
 }
 
-static void test_1(void)
+static void test_never_visited(void)
 {
     XTESTS_TEST_FAIL("should not get here");
 }
