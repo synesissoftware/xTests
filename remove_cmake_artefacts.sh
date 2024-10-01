@@ -23,6 +23,8 @@ Files=(
   install_manifest.txt
 )
 
+OsIsWindows=0
+
 
 # ##########################################################
 # operating environment detection
