@@ -4,7 +4,7 @@
  * Purpose: Illustrates various xTests facilities available to C code.
  *
  * Created: 15th December 2007
- * Updated: 28th September 2024
+ * Updated: 29th September 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -32,7 +32,8 @@
  */
 
 static void test_2(void);
-static void test_4(void);
+static void test_3(void);
+static void test_3_any_of(void);
 static void test_5(void);
 
 static void test_4_1(void);
@@ -67,8 +68,9 @@ int main(int argc, char* argv[])
         /* test 2 */
         XTESTS_RUN_CASE(test_2);
 
-        /* test 4 */
-        XTESTS_RUN_CASE_WITH_DESC(test_4, "evaluating relationships between numbers");
+        /* test 3 */
+        XTESTS_RUN_CASE_WITH_DESC(test_3, "evaluating relationships between numbers");
+        XTESTS_RUN_CASE_WITH_DESC(test_3_any_of, "evaluating matching groups of numbers");
 
         /* test 5 */
         XTESTS_RUN_CASE_WITH_DESC(test_5, "ensuring all integral types are supported");
@@ -102,7 +104,7 @@ static void test_2(void)
     XTESTS_TEST(sizeof(double) <= sizeof(long double));
 }
 
-static void test_4(void)
+static void test_3(void)
 {
     { int i; for (i = -1000; i != 1000; ++i)
     {
@@ -133,6 +135,15 @@ static void test_4(void)
             }
         }}
     }}
+}
+
+static void test_3_any_of(void)
+{
+    {
+        int const actual = 123;
+
+        XTESTS_TEST_INTEGER_EQUAL_ANY_OF3(122, 123, 124, actual);
+    }
 }
 
 static void test_5(void)
