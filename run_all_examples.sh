@@ -4,6 +4,7 @@ ScriptPath=$0
 Dir=$(cd $(dirname "$ScriptPath"); pwd)
 Basename=$(basename "$ScriptPath")
 CMakeDir=${SIS_CMAKE_BUILD_DIR:-$Dir/_build}
+
 RunMake=1
 
 
@@ -79,7 +80,7 @@ else
     >&2 echo "$ScriptPath: cannot run in '--no-make' mode without a previous successful build step"
   else
 
-    echo "Running all test programs"
+    echo "Running all example programs"
   fi
 
   cd $CMakeDir
@@ -87,7 +88,7 @@ fi
 
 if [ $status -eq 0 ]; then
 
-    for f in $(find $Dir -type f '(' -name 'example.c.*' -o -name 'example.cpp.*' ')' -exec test -x {} \; -print)
+    for f in $(find $CMakeDir -type f '(' -name 'example.c.*' -o -name 'example.cpp.*' ')' -exec test -x {} \; -print)
     do
 
         echo
