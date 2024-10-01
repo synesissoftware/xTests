@@ -1,4 +1,9 @@
 {
+	"[shellscript]": {
+		"editor.insertSpaces": true,
+		"editor.rulers": [ 60, 76 ],
+		"editor.tabSize": 2,
+	},
 	"[c]": {
 		"editor.insertSpaces": true,
 		"editor.rulers": [ 60, 76 ],
