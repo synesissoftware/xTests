@@ -4,12 +4,12 @@ ScriptPath=$0
 Dir=$(cd $(dirname "$ScriptPath"); pwd)
 Basename=$(basename "$ScriptPath")
 CMakeDir=${SIS_CMAKE_BUILD_DIR:-$Dir/_build}
-
+MakeCmd=${SIS_CMAKE_COMMAND:-make}
 
 CMakeVerboseMakefile=0
 Configuration=Release
+MinGW=0
 RunMake=0
-# STLSoftDirEnvVar=${STLSOFT}
 STLSoftDirGiven=
 
 
@@ -30,6 +30,10 @@ while [[ $# -gt 0 ]]; do
     -m|--run-make)
 
       RunMake=1
+      ;;
+    --mingw)
+
+      MinGW=1
       ;;
     -s|--stlsoft-root-dir)
 
@@ -59,6 +63,9 @@ Flags/options:
     -d
     --debug-configuration
         uses Debug configuration. Default is to use Release
+
+    --mingw
+        uses explicitly the "MinGW Makefiles" generator
 
     -m
     --run-make
@@ -99,27 +106,39 @@ mkdir -p $CMakeDir || exit 1
 
 cd $CMakeDir
 
-echo "Executing CMake"
+echo "Executing CMake (in ${CMakeDir})"
 
 if [ $CMakeVerboseMakefile -eq 0 ]; then CMakeVerboseMakefileFlag="OFF" ; else CMakeVerboseMakefileFlag="ON" ; fi
 
 if [ -z $STLSoftDirGiven ]; then CMakeSTLSoftVariable="" ; else CMakeSTLSoftVariable="-DSTLSOFT=$STLSoftDirGiven/" ; fi
 
-cmake \
-  $CMakeSTLSoftVariable \
-  -DCMAKE_BUILD_TYPE=$Configuration \
-  -DCMAKE_VERBOSE_MAKEFILE:BOOL=$CMakeVerboseMakefileFlag \
-  -S $Dir \
-  -B $CMakeDir \
-  || (cd ->/dev/null ; exit 1)
+if [ $MinGW -ne 0 ]; then
+
+  cmake \
+    $CMakeSTLSoftVariable \
+    -DCMAKE_BUILD_TYPE=$Configuration \
+    -G "MinGW Makefiles" \
+    -S $Dir \
+    -B $CMakeDir \
+    || (cd ->/dev/null ; exit 1)
+else
+
+  cmake \
+    $CMakeSTLSoftVariable \
+    -DCMAKE_BUILD_TYPE=$Configuration \
+    -DCMAKE_VERBOSE_MAKEFILE:BOOL=$CMakeVerboseMakefileFlag \
+    -S $Dir \
+    -B $CMakeDir \
+    || (cd ->/dev/null ; exit 1)
+fi
 
 status=0
 
 if [ $RunMake -ne 0 ]; then
 
-  echo "Executing make"
+  echo "Executing build (via command \`$MakeCmd\`)"
 
-  make
+  $MakeCmd
   status=$?
 fi
 

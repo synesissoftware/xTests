@@ -241,14 +241,28 @@ static void test_4_2(void)
     XTESTS_TEST_WIDE_STRING_EQUAL_N_APPROX(s1, s3, -8);
 }
 
+#if defined(_MSC_VER) &&\
+    _MSC_VER >= 1935
+
+# pragma warning(push)
+# pragma warning(disable : 6011)
+#endif
+
 static void test_require(void)
 {
     int* const pi = NULL;
 
     XTESTS_REQUIRE(XTESTS_TEST_POINTER_NOT_EQUAL(NULL, pi));
 
+    /* should not get here */
     XTESTS_TEST_INTEGER_EQUAL(0, *pi);
 }
+
+#if defined(_MSC_VER) &&\
+    _MSC_VER >= 1935
+
+# pragma warning(pop)
+#endif
 
 
 /* ///////////////////////////// end of file //////////////////////////// */

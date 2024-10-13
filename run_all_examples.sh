@@ -4,6 +4,7 @@ ScriptPath=$0
 Dir=$(cd $(dirname "$ScriptPath"); pwd)
 Basename=$(basename "$ScriptPath")
 CMakeDir=${SIS_CMAKE_BUILD_DIR:-$Dir/_build}
+MakeCmd=${SIS_CMAKE_COMMAND:-make}
 
 RunMake=1
 
@@ -65,13 +66,13 @@ status=0
 
 if [ $RunMake -ne 0 ]; then
 
-  echo "Executing make and then running all test programs"
+  echo "Executing build (via command \`$MakeCmd\`) and then running all example programs"
 
   mkdir -p $CMakeDir || exit 1
 
   cd $CMakeDir
 
-  make
+  $MakeCmd
   status=$?
 else
 

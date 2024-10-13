@@ -5,7 +5,7 @@
  *          library.
  *
  * Created: 20th June 1999
- * Updated: 1st October 2024
+ * Updated: 13th October 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       42
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    5
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        368
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    6
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        369
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -256,6 +256,50 @@ namespace c
 
 #  define XTESTS_GET_FUNCTION_()                            stlsoft_static_cast(char const*, 0)
 # endif /* STLSOFT_CF_FUNCTION_SYMBOL_SUPPORT */
+
+/* FALLTHROUGH
+ *
+ * Options:
+ *
+ * 1 - C++17 (or later) -> `[[fallthrough]]`;
+ * 2 - C++11 (or later) AND GCC -> `[[gnu::fallthrough]]`;
+ * 3 - C23 (or later) -> `[[fallthrough]]`;
+ * 4 - GCC -> `__attribute__ ((fallthrough))`;
+ * 5 - otherwise -> stub statement
+ */
+# if 0
+# elif 1 &&\
+       defined(__cplusplus) &&\
+       __cplusplus >= 201702L &&\
+       1
+
+   /* C++17 (or later) */
+#  define XTESTS_FALLTHROUGH_()                             [[fallthrough]]
+# elif 1 &&\
+       defined(__cplusplus) &&\
+       __cplusplus >= 201103L &&\
+       (    0 ||\
+            defined(STLSOFT_COMPILER_IS_GCC) ||\
+            0) &&\
+       1
+
+#  define XTESTS_FALLTHROUGH_()                             [[gnu::fallthrough]]
+# elif 1 &&\
+       defined(__STDC_VERSION__) &&\
+       __STDC_VERSION__ >= 202311L &&\
+       1
+
+   /* C23 (or later) */
+#  define XTESTS_FALLTHROUGH_()                             [[fallthrough]]
+# elif 0 || \
+       defined(STLSOFT_COMPILER_IS_GCC) ||\
+       0
+
+#  define XTESTS_FALLTHROUGH_()                             __attribute__ ((fallthrough))
+# else
+
+#  define XTESTS_FALLTHROUGH_()                             do {} while (XTESTS_WHILE_0_CLAUSE())
+# endif
 
 # ifndef _XTESTS_NO_NAMESPACE
 
@@ -3798,6 +3842,7 @@ xtests_test_integer_compare_to_range_(
             xtests_abend("invalid test comparison type: only == and != are valid when testing membership of ranges");
             break;
         default:
+
             STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
         case    xtestsComparison_max_enumerator:
             xtests_abend("invalid test comparison type: test framework may be out of date!");
@@ -3876,6 +3921,7 @@ xtests_test_integer(
     {
         case    xtestsComparisonEqual:
         case    xtestsComparisonApproxEqual:
+
             if (expected == actual)
             {
                 comparisonSucceeded = true;
@@ -3883,38 +3929,45 @@ xtests_test_integer(
             break;
         case    xtestsComparisonNotEqual:
         case    xtestsComparisonApproxNotEqual:
+
             if (expected != actual)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonGreaterThan:
+
             if (actual > expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonLessThan:
+
             if (actual < expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonGreaterThanOrEqual:
+
             if (actual >= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonLessThanOrEqual:
+
             if (actual <= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         default:
+
             STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
         case    xtestsComparison_max_enumerator:
+
             xtests_abend("invalid test comparison type: test framework may be out of date!");
             break;
     }
@@ -4262,56 +4315,66 @@ xtests_test_floating_point(
     switch (comp)
     {
         case    xtestsComparisonEqual:
+
             if (expected == actual)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonApproxEqual:
+
             if (xtests_floatingPointClose(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonNotEqual:
+
             if (expected != actual)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonApproxNotEqual:
+
             if (!xtests_floatingPointClose(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonGreaterThan:
+
             if (actual > expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonLessThan:
+
             if (actual < expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonGreaterThanOrEqual:
+
             if (actual >= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonLessThanOrEqual:
+
             if (actual <= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         default:
+
             STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
         case    xtestsComparison_max_enumerator:
+
             xtests_abend("invalid test comparison type: test framework may be out of date!");
             break;
     }

@@ -5,7 +5,7 @@
  *          test case(s).
  *
  * Created: 7th December 2023
- * Updated: 28th September 2024
+ * Updated: 13th October 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -34,14 +34,16 @@ int factorial(int v)
     {
         case 0:
         case 1:
+
             return 1;
         default:
+
             return v * factorial(v - 1);
     }
 }
 
 /* /////////////////////////////////////////////////////////////////////////
- * test casse functions
+ * test case functions
  */
 
 void test_factorial_edge_cases(void)

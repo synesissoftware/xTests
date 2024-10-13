@@ -34,6 +34,7 @@ case "${OsName}" in
   CYGWIN*|MINGW*|MSYS_NT*)
 
     Directories+=(
+      ARM64
       Win32
       x64
     )
