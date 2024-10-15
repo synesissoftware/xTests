@@ -5,7 +5,7 @@
  *          library.
  *
  * Created: 20th June 1999
- * Updated: 5th August 2024
+ * Updated: 15th October 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       42
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    4
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        366
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    7
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        370
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -83,7 +83,7 @@
 #define _XTESTS_VER_MINOR       24
 #define _XTESTS_VER_REVISION    0
 
-#define _XTESTS_VER             0x00180004
+#define _XTESTS_VER             0x00180005
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -257,6 +257,50 @@ namespace c
 #  define XTESTS_GET_FUNCTION_()                            stlsoft_static_cast(char const*, 0)
 # endif /* STLSOFT_CF_FUNCTION_SYMBOL_SUPPORT */
 
+/* FALLTHROUGH
+ *
+ * Options:
+ *
+ * 1 - C++17 (or later) -> `[[fallthrough]]`;
+ * 2 - C++11 (or later) AND GCC -> `[[gnu::fallthrough]]`;
+ * 3 - C23 (or later) -> `[[fallthrough]]`;
+ * 4 - GCC -> `__attribute__ ((fallthrough))`;
+ * 5 - otherwise -> stub statement
+ */
+# if 0
+# elif 1 &&\
+       defined(__cplusplus) &&\
+       __cplusplus >= 201702L &&\
+       1
+
+   /* C++17 (or later) */
+#  define XTESTS_FALLTHROUGH_()                             [[fallthrough]]
+# elif 1 &&\
+       defined(__cplusplus) &&\
+       __cplusplus >= 201103L &&\
+       (    0 ||\
+            defined(STLSOFT_COMPILER_IS_GCC) ||\
+            0) &&\
+       1
+
+#  define XTESTS_FALLTHROUGH_()                             [[gnu::fallthrough]]
+# elif 1 &&\
+       defined(__STDC_VERSION__) &&\
+       __STDC_VERSION__ >= 202311L &&\
+       1
+
+   /* C23 (or later) */
+#  define XTESTS_FALLTHROUGH_()                             [[fallthrough]]
+# elif 0 || \
+       defined(STLSOFT_COMPILER_IS_GCC) ||\
+       0
+
+#  define XTESTS_FALLTHROUGH_()                             __attribute__ ((fallthrough))
+# else
+
+#  define XTESTS_FALLTHROUGH_()                             do {} while (XTESTS_WHILE_0_CLAUSE())
+# endif
+
 # ifndef _XTESTS_NO_NAMESPACE
 
 #  define XTESTS_NS_QUAL(ns, sym)                           ns::sym
@@ -301,7 +345,7 @@ namespace c
      * only some of the FF build configuration variants experience it -
      * and this workaround seems effective.
      */
-#   define XTESTS_INVOKE_TEST_CASE_FN_INNER_(fn, param)     do { try { XTESTS_TEST_FUNCTION_INVOKE_(fn, param); } catch(...) { throw; } } while(XTESTS_WHILE_0_CLAUSE())
+#   define XTESTS_INVOKE_TEST_CASE_FN_INNER_(fn, param)     do { try { XTESTS_TEST_FUNCTION_INVOKE_(fn, param); } catch (...) { throw; } } while (XTESTS_WHILE_0_CLAUSE())
 #  else /* ? compiler */
 
 #   define XTESTS_INVOKE_TEST_CASE_FN_INNER_(fn, param)     XTESTS_TEST_FUNCTION_INVOKE_(fn, param)
@@ -319,24 +363,24 @@ namespace c
                                                                                         \
             XTESTS_INVOKE_TEST_CASE_FN_INNER_(fn, param);                               \
         }                                                                               \
-        catch(XTESTS_NS_CPP_QUAL(prerequisite_failed_exception)& x)                     \
+        catch (XTESTS_NS_CPP_QUAL(prerequisite_failed_exception)& x)                    \
         {                                                                               \
             XTESTS_REPORT_PREREQ_FAIL_((file), (line), XTESTS_GET_FUNCTION_(), "test prerequisite failed", x.what());   \
         }                                                                               \
-        catch(XTESTS_NS_CPP_QUAL(requirement_failed_exception)& /* x */)                \
+        catch (XTESTS_NS_CPP_QUAL(requirement_failed_exception)& /* x */)               \
         {                                                                               \
         }                                                                               \
-        catch(std::bad_alloc& x)                                                        \
+        catch (std::bad_alloc& x)                                                       \
         {                                                                               \
             XTESTS_REPORT_EXCEPTION_((file), (line), x);                                \
                                                                                         \
             throw;                                                                      \
         }                                                                               \
-        catch(std::exception& x)                                                        \
+        catch (std::exception& x)                                                       \
         {                                                                               \
             XTESTS_REPORT_EXCEPTION_((file), (line), x);                                \
         }                                                                               \
-    } while(XTESTS_WHILE_0_CLAUSE())
+    } while (XTESTS_WHILE_0_CLAUSE())
 
 #  define XTESTS_INVOKE_TEST_CASE_FN_THROWS_(file, line, fn, name, type)                \
                                                                                         \
@@ -350,28 +394,28 @@ namespace c
                                                                                         \
             XTESTS_NS_C_QUAL(xtests_caseExceptionExpected)((file), (line), #type);      \
         }                                                                               \
-        catch(XTESTS_NS_CPP_QUAL(prerequisite_failed_exception)& x)                     \
+        catch (XTESTS_NS_CPP_QUAL(prerequisite_failed_exception)& x)                    \
         {                                                                               \
             XTESTS_REPORT_PREREQ_FAIL_((file), (line), XTESTS_GET_FUNCTION_(), "test prerequisite failed", x.what());   \
         }                                                                               \
-        catch(XTESTS_NS_CPP_QUAL(requirement_failed_exception)& /* x */)                \
+        catch (XTESTS_NS_CPP_QUAL(requirement_failed_exception)& /* x */)               \
         {                                                                               \
         }                                                                               \
-        catch(type& /* x */)                                                            \
+        catch (type& /* x */)                                                           \
         {                                                                               \
             XTESTS_TEST_PASSED();                                                       \
         }                                                                               \
-        catch(std::bad_alloc& x)                                                        \
+        catch (std::bad_alloc& x)                                                       \
         {                                                                               \
             XTESTS_REPORT_EXCEPTION_((file), (line), x);                                \
                                                                                         \
             throw;                                                                      \
         }                                                                               \
-        catch(std::exception& x)                                                        \
+        catch (std::exception& x)                                                       \
         {                                                                               \
             XTESTS_REPORT_EXCEPTION_((file), (line), x);                                \
         }                                                                               \
-    } while(XTESTS_WHILE_0_CLAUSE())
+    } while (XTESTS_WHILE_0_CLAUSE())
 
 
 #  define XTESTS_RUN_CASE_THAT_THROWS_WITH_NAME_AND_DESC_(file, line, name, desc, fn, type) \
@@ -385,7 +429,7 @@ namespace c
             XTESTS_CASE_END(name);                                                      \
         }                                                                               \
                                                                                         \
-    } while(XTESTS_WHILE_0_CLAUSE())
+    } while (XTESTS_WHILE_0_CLAUSE())
 # else /* ? STLSOFT_CF_EXCEPTION_SUPPORT */
 
 #  define XTESTS_INVOKE_TEST_CASE_FN_(file, line, fn, name)  (*fn)()
@@ -403,7 +447,7 @@ namespace c
             XTESTS_CASE_END(name);                                                      \
         }                                                                               \
                                                                                         \
-    } while(XTESTS_WHILE_0_CLAUSE())
+    } while (XTESTS_WHILE_0_CLAUSE())
 
 
 
@@ -947,11 +991,12 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_WITH_MESSAGE(expr, msg)                                                     \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                                  \
-    ((expr)                                                                                     \
-        ? XTESTS_NS_C_QUAL(xtests_testPassed)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), msg)  \
-        : XTESTS_NS_C_QUAL(xtests_testFailed)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), msg)))
+#define XTESTS_TEST_WITH_MESSAGE(expr, msg)                                                         \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                                         \
+        ? ((expr)                                                                                   \
+            ? XTESTS_NS_C_QUAL(xtests_testPassed)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), msg)  \
+            : XTESTS_NS_C_QUAL(xtests_testFailed)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), msg)) \
+    : (0))
 
 /** \def XTESTS_TEST(expr)
  *
@@ -1027,9 +1072,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_INTEGER_EQUAL_EXACT(expected, actual)                              \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_integer(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))))
+# define XTESTS_TEST_INTEGER_EQUAL_EXACT(expected, actual)                  \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_integer(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))) \
+        : (0))
 
 /** \def XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual)
  *
@@ -1045,9 +1091,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual)                                \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_integer(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual))))
+# define XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual)                    \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_integer(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual))) \
+        : (0))
 
 /** \def XTESTS_TEST_INTEGER_GREATER(expected, actual)
  *
@@ -1061,9 +1108,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_INTEGER_GREATER(expected, actual)                                  \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_integer(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThan))))
+# define XTESTS_TEST_INTEGER_GREATER(expected, actual)                      \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_integer(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThan))) \
+        : (0))
 
 /** \def XTESTS_TEST_INTEGER_LESS(expected, actual)
  *
@@ -1077,9 +1125,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_INTEGER_LESS(expected, actual)                                     \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_integer(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThan))))
+# define XTESTS_TEST_INTEGER_LESS(expected, actual)                         \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_integer(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThan))) \
+        : (0))
 
 /** \def XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual)
  *
@@ -1094,9 +1143,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual)                         \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_integer(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThanOrEqual))))
+# define XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual)             \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_integer(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThanOrEqual))) \
+        : (0))
 
 /** \def XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual)
  *
@@ -1111,9 +1161,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual)                            \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_integer(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThanOrEqual))))
+# define XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual)                \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_integer(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThanOrEqual))) \
+        : (0))
 
 /** \def XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(begin, end, actual)
  *
@@ -1132,9 +1183,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(begin, end, actual)                     \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_integer_any_in_range(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(" #begin ", " #end ", " #actual ")", (begin), (end), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))))
+# define XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(begin, end, actual)         \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_integer_any_in_range(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(" #begin ", " #end ", " #actual ")", (begin), (end), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))) \
+        : (0))
 
 /** \def XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(begin, end, actual)
  *
@@ -1153,9 +1205,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(begin, end, actual)                 \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_integer_any_in_range(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(" #begin ", " #end ", " #actual ")", (begin), (end), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual))))
+# define XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(begin, end, actual)     \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_integer_any_in_range(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(" #begin ", " #end ", " #actual ")", (begin), (end), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual))) \
+        : (0))
 
 #if 0
 /** \def XTESTS_TEST_INTEGER_EQUAL_ANY_OF(expected, actual)
@@ -1171,16 +1224,16 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
 # define XTESTS_TEST_INTEGER_EQUAL_ANY_OF(expected, actual)                             \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_integer_one_of(                                      \
-        __FILE__                                                                        \
-    ,   __LINE__                                                                        \
-    ,   XTESTS_GET_FUNCTION_()                                                          \
-    ,   "XTESTS_TEST_INTEGER_EQUAL_ANY_OF(" #expected ", " #actual ")"                  \
-    ,   (expected)                                                                      \
-    ,   (actual)                                                                        \
-    , XTESTS_NS_C_QUAL(xtestsComparisonEqual)))                                         \
-    )
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                             \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_integer_one_of(                                \
+            __FILE__                                                                    \
+        ,   __LINE__                                                                    \
+        ,   XTESTS_GET_FUNCTION_()                                                      \
+        ,   "XTESTS_TEST_INTEGER_EQUAL_ANY_OF(" #expected ", " #actual ")"              \
+        ,   (expected)                                                                  \
+        ,   (actual)                                                                    \
+        , XTESTS_NS_C_QUAL(xtestsComparisonEqual)))                                     \
+        : (0))
 #endif /* 0 */
 
 /** \def XTESTS_TEST_INTEGER_EQUAL_ANY_OF2(expected0, expected1, actual)
@@ -1197,17 +1250,17 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
 # define XTESTS_TEST_INTEGER_EQUAL_ANY_OF2(expected0, expected1, actual)                \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_integer_one_of(                                      \
-        __FILE__                                                                        \
-    ,   __LINE__                                                                        \
-    ,   XTESTS_GET_FUNCTION_()                                                          \
-    ,   "XTESTS_TEST_INTEGER_EQUAL_ANY_OF(" #expected0 ", " #expected1 ", " #actual ")" \
-    ,   (actual)                                                                        \
-    ,   (expected0)                                                                     \
-    ,   (expected1)                                                                     \
-    , XTESTS_NS_C_QUAL(xtestsComparisonEqual)))                                         \
-    )
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                             \
+        ?  XTESTS_NS_CPP_QUAL(xtests_test_integer_one_of(                               \
+            __FILE__                                                                    \
+        ,   __LINE__                                                                    \
+        ,   XTESTS_GET_FUNCTION_()                                                      \
+        ,   "XTESTS_TEST_INTEGER_EQUAL_ANY_OF2(" #expected0 ", " #expected1 ", " #actual ")" \
+        ,   (actual)                                                                    \
+        ,   (expected0)                                                                 \
+        ,   (expected1)                                                                 \
+        , XTESTS_NS_C_QUAL(xtestsComparisonEqual)))                                     \
+        : (0))
 
 /** \def XTESTS_TEST_INTEGER_EQUAL_ANY_OF3(expected0, expected1, expected2, actual)
  *
@@ -1224,18 +1277,18 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
 # define XTESTS_TEST_INTEGER_EQUAL_ANY_OF3(expected0, expected1, expected2, actual)     \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_integer_one_of(                                      \
-        __FILE__                                                                        \
-    ,   __LINE__                                                                        \
-    ,   XTESTS_GET_FUNCTION_()                                                          \
-    ,   "XTESTS_TEST_INTEGER_EQUAL_ANY_OF(" #expected0 ", " #expected1 ", " #expected2 ", " #actual ")" \
-    ,   (actual)                                                                        \
-    ,   (expected0)                                                                     \
-    ,   (expected1)                                                                     \
-    ,   (expected2)                                                                     \
-    , XTESTS_NS_C_QUAL(xtestsComparisonEqual)))                                         \
-    )
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                             \
+     ?  XTESTS_NS_CPP_QUAL(xtests_test_integer_one_of(                                  \
+            __FILE__                                                                    \
+        ,   __LINE__                                                                    \
+        ,   XTESTS_GET_FUNCTION_()                                                      \
+        ,   "XTESTS_TEST_INTEGER_EQUAL_ANY_OF3(" #expected0 ", " #expected1 ", " #expected2 ", " #actual ")" \
+        ,   (actual)                                                                    \
+        ,   (expected0)                                                                 \
+        ,   (expected1)                                                                 \
+        ,   (expected2)                                                                 \
+        , XTESTS_NS_C_QUAL(xtestsComparisonEqual)))                                     \
+        : (0))
 
 
 /* /////////////////////////////////////////////////////////
@@ -1254,9 +1307,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_BOOLEAN_EQUAL(expected, actual)                                    \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_boolean(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))))
+# define XTESTS_TEST_BOOLEAN_EQUAL(expected, actual)                        \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_boolean(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))) \
+        : (0))
 
 /** \def XTESTS_TEST_BOOLEAN_NOT_EQUAL(expected, actual)
  *
@@ -1270,9 +1324,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_BOOLEAN_NOT_EQUAL(expected, actual)                                \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_boolean(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual))))
+# define XTESTS_TEST_BOOLEAN_NOT_EQUAL(expected, actual)                    \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_boolean(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual))) \
+        : (0))
 
 /** \def XTESTS_TEST_BOOLEAN_TRUE(actual)
  *
@@ -1285,9 +1340,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_BOOLEAN_TRUE(actual)                                               \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_boolean(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", true, (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))))
+# define XTESTS_TEST_BOOLEAN_TRUE(actual)                                   \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_boolean(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", true, (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))) \
+        : (0))
 
 /** \def XTESTS_TEST_BOOLEAN_FALSE(actual)
  *
@@ -1300,9 +1356,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_BOOLEAN_FALSE(actual)                                              \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_boolean(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", false, (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))))
+# define XTESTS_TEST_BOOLEAN_FALSE(actual)                                  \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_boolean(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", false, (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))) \
+        : (0))
 
 
 /* /////////////////////////////////////////////////////////
@@ -1323,9 +1380,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_CHARACTER_EQUAL_EXACT(expected, actual)                            \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_character(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))))
+# define XTESTS_TEST_CHARACTER_EQUAL_EXACT(expected, actual)                \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_character(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))) \
+        : (0))
 
 /** \def XTESTS_TEST_CHARACTER_NOT_EQUAL(expected, actual)
  *
@@ -1341,9 +1399,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_CHARACTER_NOT_EQUAL(expected, actual)                              \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_character(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual))))
+# define XTESTS_TEST_CHARACTER_NOT_EQUAL(expected, actual)                  \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_character(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual))) \
+        : (0))
 
 /** \def XTESTS_TEST_CHARACTER_GREATER(expected, actual)
  *
@@ -1357,9 +1416,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_CHARACTER_GREATER(expected, actual)                                \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_character(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThan))))
+# define XTESTS_TEST_CHARACTER_GREATER(expected, actual)                    \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_character(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThan))) \
+        : (0))
 
 /** \def XTESTS_TEST_CHARACTER_LESS(expected, actual)
  *
@@ -1373,9 +1433,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_CHARACTER_LESS(expected, actual)                                   \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_character(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThan))))
+# define XTESTS_TEST_CHARACTER_LESS(expected, actual)                       \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_character(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThan))) \
+        : (0))
 
 /** \def XTESTS_TEST_CHARACTER_GREATER_OR_EQUAL(expected, actual)
  *
@@ -1390,9 +1451,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_CHARACTER_GREATER_OR_EQUAL(expected, actual)                       \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_character(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThanOrEqual))))
+# define XTESTS_TEST_CHARACTER_GREATER_OR_EQUAL(expected, actual)           \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_character(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThanOrEqual))) \
+        : (0))
 
 /** \def XTESTS_TEST_CHARACTER_LESS_OR_EQUAL(expected, actual)
  *
@@ -1407,9 +1469,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_CHARACTER_LESS_OR_EQUAL(expected, actual)                          \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_character(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThanOrEqual))))
+# define XTESTS_TEST_CHARACTER_LESS_OR_EQUAL(expected, actual)              \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_character(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThanOrEqual))) \
+        : (0))
 
 
 /* /////////////////////////////////////////////////////////
@@ -1428,9 +1491,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_FLOATINGPOINT_EQUAL_EXACT(expected, actual)                        \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_floating_point(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))))
+# define XTESTS_TEST_FLOATINGPOINT_EQUAL_EXACT(expected, actual)            \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_floating_point(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))) \
+        : (0))
 
 /** \def XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_EXACT(expected, actual)
  *
@@ -1444,9 +1508,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_EXACT(expected, actual)                    \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_floating_point(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual))))
+# define XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_EXACT(expected, actual)        \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_floating_point(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual))) \
+        : (0))
 
 /** \def XTESTS_TEST_FLOATINGPOINT_EQUAL_APPROX(expected, actual)
  *
@@ -1461,9 +1526,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_FLOATINGPOINT_EQUAL_APPROX(expected, actual)                       \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_floating_point(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual))))
+# define XTESTS_TEST_FLOATINGPOINT_EQUAL_APPROX(expected, actual)           \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_floating_point(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual))) \
+        : (0))
 
 /** \def XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_APPROX(expected, actual)
  *
@@ -1478,9 +1544,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-# define XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_APPROX(expected, actual)                   \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_CPP_QUAL(xtests_test_floating_point(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual))))
+# define XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_APPROX(expected, actual)       \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_floating_point(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual))) \
+        : (0))
 
 
 /* /////////////////////////////////////////////////////////
@@ -1528,54 +1595,54 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
         XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())               \
             ? xtests_internal_while_0_()                                    \
             : ((expected) == (actual))                                      \
-                ? xtests_testPassed(__FILE__, __LINE__, __FUNCTION__, #expected " == " #actual) \
+                ? xtests_testPassed(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), #expected " == " #actual) \
                 : xtests_testFailed_llx((expected))                         \
-                    (__FILE__, __LINE__, __FUNCTION__, #expected " == " #actual, expected, actual, xtestsComparisonEqual)   \
+                    (__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), #expected " == " #actual, expected, actual, xtestsComparisonEqual)   \
     )
 #  define XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual)                   \
     (                                                                       \
         XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())               \
             ? xtests_internal_while_0_()                                    \
             : ((expected) != (actual))                                      \
-                ? xtests_testPassed(__FILE__, __LINE__, __FUNCTION__, #expected " != " #actual) \
+                ? xtests_testPassed(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), #expected " != " #actual) \
                 : xtests_testFailed_llx((expected))                         \
-                    (__FILE__, __LINE__, __FUNCTION__, #expected " != " #actual, expected, actual, xtestsComparisonNotEqual)   \
+                    (__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), #expected " != " #actual, expected, actual, xtestsComparisonNotEqual)   \
     )
 #  define XTESTS_TEST_INTEGER_GREATER(expected, actual)                     \
     (                                                                       \
         XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())               \
             ? xtests_internal_while_0_()                                    \
             : ((expected) < (actual))                                       \
-                ? xtests_testPassed(__FILE__, __LINE__, __FUNCTION__, #expected " < " #actual) \
+                ? xtests_testPassed(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), #expected " < " #actual) \
                 : xtests_testFailed_llx((expected))                         \
-                    (__FILE__, __LINE__, __FUNCTION__, #expected " < " #actual, expected, actual, xtestsComparisonGreaterThan)   \
+                    (__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), #expected " < " #actual, expected, actual, xtestsComparisonGreaterThan)   \
     )
 #  define XTESTS_TEST_INTEGER_LESS(expected, actual)                        \
     (                                                                       \
         XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())               \
             ? xtests_internal_while_0_()                                    \
             : ((expected) > (actual))                                       \
-                ? xtests_testPassed(__FILE__, __LINE__, __FUNCTION__, #expected " > " #actual) \
+                ? xtests_testPassed(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), #expected " > " #actual) \
                 : xtests_testFailed_llx((expected))                         \
-                    (__FILE__, __LINE__, __FUNCTION__, #expected " > " #actual, expected, actual, xtestsComparisonLessThan)   \
+                    (__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), #expected " > " #actual, expected, actual, xtestsComparisonLessThan)   \
     )
 #  define XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual)            \
     (                                                                       \
         XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())               \
             ? xtests_internal_while_0_()                                    \
             : ((expected) <= (actual))                                      \
-                ? xtests_testPassed(__FILE__, __LINE__, __FUNCTION__, #expected " <= " #actual) \
+                ? xtests_testPassed(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), #expected " <= " #actual) \
                 : xtests_testFailed_llx((expected))                         \
-                    (__FILE__, __LINE__, __FUNCTION__, #expected " <= " #actual, expected, actual, xtestsComparisonGreaterThanOrEqual)   \
+                    (__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), #expected " <= " #actual, expected, actual, xtestsComparisonGreaterThanOrEqual)   \
     )
 #  define XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual)               \
     (                                                                       \
         XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())               \
             ? xtests_internal_while_0_()                                    \
             : ((expected) >= (actual))                                      \
-                ? xtests_testPassed(__FILE__, __LINE__, __FUNCTION__, #expected " >= " #actual) \
+                ? xtests_testPassed(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), #expected " >= " #actual) \
                 : xtests_testFailed_llx((expected))                         \
-                    (__FILE__, __LINE__, __FUNCTION__, #expected " >= " #actual, expected, actual, xtestsComparisonLessThanOrEqual)   \
+                    (__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), #expected " >= " #actual, expected, actual, xtestsComparisonLessThanOrEqual)   \
     )
 # else
 
@@ -1586,6 +1653,11 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 #  define XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual)        XTESTS_TEST_WITH_MESSAGE((expected) <= (actual), #expected " <= " #actual)
 #  define XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual)           XTESTS_TEST_WITH_MESSAGE((expected) >= (actual), #expected " >= " #actual)
 # endif
+
+# define XTESTS_TEST_INTEGER_EQUAL_ANY_OF2(expected0, expected1, actual)                \
+    XTESTS_TEST_WITH_MESSAGE(((expected0) == (actual)) || ((expected1) == (actual)), #actual " should be equal to either of " #expected0 " or " #expected1)
+# define XTESTS_TEST_INTEGER_EQUAL_ANY_OF3(expected0, expected1, expected2, actual)     \
+    XTESTS_TEST_WITH_MESSAGE(((expected0) == (actual)) || ((expected1) == (actual)) || ((expected2) == (actual)), #actual " should be equal to one of " #expected0 " or " #expected1 " or " #expected2)
 
 # define XTESTS_TEST_BOOLEAN_EQUAL(expected, actual)                    XTESTS_TEST_WITH_MESSAGE((expected) == (actual), #expected " == " #actual)
 # define XTESTS_TEST_BOOLEAN_NOT_EQUAL(expected, actual)                XTESTS_TEST_WITH_MESSAGE((expected) != (actual), #expected " != " #actual)
@@ -1685,9 +1757,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_MULTIBYTE_STRING_EQUAL(expected, actual)                            \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testMultibyteStrings)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual)))
+#define XTESTS_TEST_MULTIBYTE_STRING_EQUAL(expected, actual)                \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStrings)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX(expected, actual)
  *
@@ -1702,9 +1775,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX(expected, actual)                     \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testMultibyteStrings)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)))
+#define XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX(expected, actual)         \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStrings)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL(expected, actual)
  *
@@ -1718,9 +1792,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL(expected, actual)                        \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testMultibyteStrings)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)))
+#define XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL(expected, actual)            \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStrings)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_APPROX(expected, actual)
  *
@@ -1735,9 +1810,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_APPROX(expected, actual)                 \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testMultibyteStrings)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)))
+#define XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_APPROX(expected, actual)     \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStrings)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(expected, actual, n)
  *
@@ -1752,9 +1828,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(expected, actual, n)                       \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testMultibyteStringsN)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonEqual)))
+#define XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(expected, actual, n)           \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStringsN)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N_APPROX(expected, actual, n)
  *
@@ -1770,9 +1847,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N_APPROX(expected, actual, n)                \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testMultibyteStringsN)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)))
+#define XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N_APPROX(expected, actual, n)    \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStringsN)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N(expected, actual, n)
  *
@@ -1787,9 +1865,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N(expected, actual, n)                   \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testMultibyteStringsN)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)))
+#define XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N(expected, actual, n)       \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStringsN)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N_APPROX(expected, actual, n)
  *
@@ -1805,9 +1884,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N_APPROX(expected, actual, n)            \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testMultibyteStringsN)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)))
+#define XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N_APPROX(expected, actual, n)    \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                     \
+        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStringsN)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_CONTAIN(expected, actual)
  *
@@ -1821,9 +1901,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_MULTIBYTE_STRING_CONTAIN(expected, actual)                          \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testMultibyteStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual)))
+#define XTESTS_TEST_MULTIBYTE_STRING_CONTAIN(expected, actual)              \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_CONTAIN_APPROX(expected, actual)
  *
@@ -1838,9 +1919,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_MULTIBYTE_STRING_CONTAIN_APPROX(expected, actual)                   \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testMultibyteStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)))
+#define XTESTS_TEST_MULTIBYTE_STRING_CONTAIN_APPROX(expected, actual)       \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN(expected, actual)
  *
@@ -1854,9 +1936,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN(expected, actual)                      \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testMultibyteStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)))
+#define XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN(expected, actual)          \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN_APPROX(expected, actual)
  *
@@ -1871,9 +1954,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN_APPROX(expected, actual)               \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testMultibyteStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)))
+#define XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN_APPROX(expected, actual)   \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL(expected, actual)
  *
@@ -1889,8 +1973,9 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
 #define XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL(expected, actual)                      \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testMultibyteStringSlice)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", XTESTS_GET_EXPECTED_SLICE_MB_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonEqual)))
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                             \
+     ?  XTESTS_NS_C_QUAL(xtests_testMultibyteStringSlice)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", XTESTS_GET_EXPECTED_SLICE_MB_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+     : (0))
 
 #ifdef XTESTS_USE_SHWILD
 
@@ -1956,9 +2041,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_WIDE_STRING_EQUAL(expected, actual)                                 \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testWideStrings)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual)))
+#define XTESTS_TEST_WIDE_STRING_EQUAL(expected, actual)                     \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testWideStrings)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_EQUAL_APPROX(expected, actual)
  *
@@ -1972,9 +2058,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_WIDE_STRING_EQUAL_APPROX(expected, actual)                          \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testWideStrings)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)))
+#define XTESTS_TEST_WIDE_STRING_EQUAL_APPROX(expected, actual)              \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testWideStrings)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_NOT_EQUAL(expected, actual)
  *
@@ -1988,9 +2075,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_WIDE_STRING_NOT_EQUAL(expected, actual)                             \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testWideStrings)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)))
+#define XTESTS_TEST_WIDE_STRING_NOT_EQUAL(expected, actual)                 \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testWideStrings)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_NOT_EQUAL_APPROX(expected, actual)
  *
@@ -2005,9 +2093,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_WIDE_STRING_NOT_EQUAL_APPROX(expected, actual)                      \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testWideStrings)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)))
+#define XTESTS_TEST_WIDE_STRING_NOT_EQUAL_APPROX(expected, actual)          \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testWideStrings)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_EQUAL_N(expected, actual, n)
  *
@@ -2022,9 +2111,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_WIDE_STRING_EQUAL_N(expected, actual, n)                            \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testWideStringsN)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonEqual)))
+#define XTESTS_TEST_WIDE_STRING_EQUAL_N(expected, actual, n)                \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testWideStringsN)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_EQUAL_N_APPROX(expected, actual, n)
  *
@@ -2040,9 +2130,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_WIDE_STRING_EQUAL_N_APPROX(expected, actual, n)                     \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testWideStringsN)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)))
+#define XTESTS_TEST_WIDE_STRING_EQUAL_N_APPROX(expected, actual, n)         \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testWideStringsN)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_NOT_EQUAL_N(expected, actual, n)
  *
@@ -2057,9 +2148,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_WIDE_STRING_NOT_EQUAL_N(expected, actual, n)                        \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testWideStringsN)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)))
+#define XTESTS_TEST_WIDE_STRING_NOT_EQUAL_N(expected, actual, n)            \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testWideStringsN)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_NOT_EQUAL_N_APPROX(expected, actual, n)
  *
@@ -2074,9 +2166,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_WIDE_STRING_NOT_EQUAL_N_APPROX(expected, actual, n)                 \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testWideStringsN)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)))
+#define XTESTS_TEST_WIDE_STRING_NOT_EQUAL_N_APPROX(expected, actual, n)     \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testWideStringsN)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_CONTAIN(expected, actual)
  *
@@ -2090,9 +2183,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_WIDE_STRING_CONTAIN(expected, actual)                               \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testWideStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual)))
+#define XTESTS_TEST_WIDE_STRING_CONTAIN(expected, actual)                   \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testWideStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_CONTAIN_APPROX(expected, actual)
  *
@@ -2107,9 +2201,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_WIDE_STRING_CONTAIN_APPROX(expected, actual)                        \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testWideStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)))
+#define XTESTS_TEST_WIDE_STRING_CONTAIN_APPROX(expected, actual)            \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testWideStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_NOT_CONTAIN(expected, actual)
  *
@@ -2123,9 +2218,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_WIDE_STRING_NOT_CONTAIN(expected, actual)                           \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testWideStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)))
+#define XTESTS_TEST_WIDE_STRING_NOT_CONTAIN(expected, actual)               \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testWideStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_NOT_CONTAIN_APPROX(expected, actual)
  *
@@ -2139,9 +2235,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_WIDE_STRING_NOT_CONTAIN_APPROX(expected, actual)                    \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testWideStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)))
+#define XTESTS_TEST_WIDE_STRING_NOT_CONTAIN_APPROX(expected, actual)        \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testWideStringContains)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_SLICE_EQUAL(expected, actual)
  *
@@ -2156,9 +2253,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_WIDE_STRING_SLICE_EQUAL(expected, actual)                           \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testWideStringSlice)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", XTESTS_GET_EXPECTED_SLICE_WIDE_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonEqual)))
+#define XTESTS_TEST_WIDE_STRING_SLICE_EQUAL(expected, actual)               \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testWideStringSlice)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", XTESTS_GET_EXPECTED_SLICE_WIDE_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+        : (0))
 
 
 /* /////////////////////////////////////////////////////////
@@ -2177,9 +2275,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_POINTER_EQUAL(expected, actual)                                     \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testPointers)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual)))
+#define XTESTS_TEST_POINTER_EQUAL(expected, actual)                         \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testPointers)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_POINTER_NOT_EQUAL(expected, actual)
  *
@@ -2195,9 +2294,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_POINTER_NOT_EQUAL(expected, actual)                                 \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testPointers)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)))
+#define XTESTS_TEST_POINTER_NOT_EQUAL(expected, actual)                     \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testPointers)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_POINTER_GREATER(expected, actual)
  *
@@ -2211,9 +2311,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_POINTER_GREATER(expected, actual)                                   \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testPointers)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThan)))
+#define XTESTS_TEST_POINTER_GREATER(expected, actual)                       \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testPointers)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThan)) \
+        : (0))
 
 /** \def XTESTS_TEST_POINTER_LESS(expected, actual)
  *
@@ -2227,9 +2328,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_POINTER_LESS(expected, actual)                                      \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testPointers)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThan)))
+#define XTESTS_TEST_POINTER_LESS(expected, actual)                          \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testPointers)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThan)) \
+        : (0))
 
 /** \def XTESTS_TEST_POINTER_GREATER_OR_EQUAL(expected, actual)
  *
@@ -2244,9 +2346,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_POINTER_GREATER_OR_EQUAL(expected, actual)                          \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testPointers)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThanOrEqual)))
+#define XTESTS_TEST_POINTER_GREATER_OR_EQUAL(expected, actual)              \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testPointers)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThanOrEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_POINTER_LESS_OR_EQUAL(expected, actual)
  *
@@ -2261,9 +2364,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_POINTER_LESS_OR_EQUAL(expected, actual)                             \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testPointers)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThanOrEqual)))
+#define XTESTS_TEST_POINTER_LESS_OR_EQUAL(expected, actual)                 \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testPointers)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThanOrEqual)) \
+        : (0))
 
 
 /* /////////////////////////////////////////////////////////
@@ -2282,9 +2386,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_FUNCTION_POINTER_EQUAL(expected, actual)                            \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testFunctionPointers)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", XTESTS_VOID_FUNCTION_CAST_(expected), XTESTS_VOID_FUNCTION_CAST_(actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual)))
+#define XTESTS_TEST_FUNCTION_POINTER_EQUAL(expected, actual)                \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testFunctionPointers)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", XTESTS_VOID_FUNCTION_CAST_(expected), XTESTS_VOID_FUNCTION_CAST_(actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+        : (0))
 
 /** \def XTESTS_TEST_FUNCTION_POINTER_NOT_EQUAL(expected, actual)
  *
@@ -2300,9 +2405,10 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
-#define XTESTS_TEST_FUNCTION_POINTER_NOT_EQUAL(expected, actual)                        \
-    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed()) &&                          \
-    XTESTS_NS_C_QUAL(xtests_testFunctionPointers)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", XTESTS_VOID_FUNCTION_CAST_(expected), XTESTS_VOID_FUNCTION_CAST_(actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)))
+#define XTESTS_TEST_FUNCTION_POINTER_NOT_EQUAL(expected, actual)            \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testFunctionPointers)(__FILE__, __LINE__, XTESTS_GET_FUNCTION_(), "", XTESTS_VOID_FUNCTION_CAST_(expected), XTESTS_VOID_FUNCTION_CAST_(actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)) \
+        : (0))
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -2327,7 +2433,7 @@ c_str_len_n_a(
 {
     size_t len = 0;
 
-    for(; '\0' != *s && len != n; ++s, ++len)
+    for (; '\0' != *s && len != n; ++s, ++len)
     {}
 
     return len;
@@ -2342,7 +2448,7 @@ c_str_len_n_w(
 {
     size_t len = 0;
 
-    for(; '\0' != *s && len != n; ++s, ++len)
+    for (; '\0' != *s && len != n; ++s, ++len)
     {}
 
     return len;
@@ -3698,11 +3804,11 @@ xtests_test_integer_compare_to_range_(
     using namespace ::xtests::c;
 #  endif /* _XTESTS_NO_NAMESPACE */
 
-    switch(comp)
+    switch (comp)
     {
         case    xtestsComparisonEqual:
 
-            for(; begin != end; ++begin)
+            for (; begin != end; ++begin)
             {
                 I const& expected = *begin;
 
@@ -3715,7 +3821,7 @@ xtests_test_integer_compare_to_range_(
             return false;
         case    xtestsComparisonNotEqual:
 
-            for(; begin != end; ++begin)
+            for (; begin != end; ++begin)
             {
                 I const& expected = *begin;
 
@@ -3736,6 +3842,7 @@ xtests_test_integer_compare_to_range_(
             xtests_abend("invalid test comparison type: only == and != are valid when testing membership of ranges");
             break;
         default:
+
             STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
         case    xtestsComparison_max_enumerator:
             xtests_abend("invalid test comparison type: test framework may be out of date!");
@@ -3810,10 +3917,11 @@ xtests_test_integer(
 
     int comparisonSucceeded = false;
 
-    switch(comp)
+    switch (comp)
     {
         case    xtestsComparisonEqual:
         case    xtestsComparisonApproxEqual:
+
             if (expected == actual)
             {
                 comparisonSucceeded = true;
@@ -3821,38 +3929,45 @@ xtests_test_integer(
             break;
         case    xtestsComparisonNotEqual:
         case    xtestsComparisonApproxNotEqual:
+
             if (expected != actual)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonGreaterThan:
+
             if (actual > expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonLessThan:
+
             if (actual < expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonGreaterThanOrEqual:
+
             if (actual >= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonLessThanOrEqual:
+
             if (actual <= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         default:
+
             STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
         case    xtestsComparison_max_enumerator:
+
             xtests_abend("invalid test comparison type: test framework may be out of date!");
             break;
     }
@@ -4197,59 +4312,69 @@ xtests_test_floating_point(
 
     int comparisonSucceeded = false;
 
-    switch(comp)
+    switch (comp)
     {
         case    xtestsComparisonEqual:
+
             if (expected == actual)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonApproxEqual:
+
             if (xtests_floatingPointClose(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonNotEqual:
+
             if (expected != actual)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonApproxNotEqual:
+
             if (!xtests_floatingPointClose(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonGreaterThan:
+
             if (actual > expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonLessThan:
+
             if (actual < expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonGreaterThanOrEqual:
+
             if (actual >= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         case    xtestsComparisonLessThanOrEqual:
+
             if (actual <= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
         default:
+
             STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
         case    xtestsComparison_max_enumerator:
+
             xtests_abend("invalid test comparison type: test framework may be out of date!");
             break;
     }

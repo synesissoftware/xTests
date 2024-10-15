@@ -1,3 +1,16 @@
+/* /////////////////////////////////////////////////////////////////////////
+ * File:    examples/cpp/example.cpp.temp_directory/example.cpp.temp_directory.cpp
+ *
+ * Purpose: Example use of `xtests::cpp::util::temp_directory`.
+ *
+ * Created: ... mid 2010s ...
+ * Updated: 28th September 2024
+ *
+ * ////////////////////////////////////////////////////////////////////// */
+
+/** \file example.cpp.temp_directory.cpp
+ */
+
 
 #include <xtests/util/temp_directory.hpp>
 
@@ -9,6 +22,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <xtests/internal/checked_main.hpp>
+
+
+/* /////////////////////////////////////////////////////////////////////////
+ * types
+ */
 
 using xtests::cpp::util::temp_directory;
 

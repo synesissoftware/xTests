@@ -16,6 +16,31 @@ Updated: 14th July 2024
     ************************************
 
 
+15th October 2024 - 0.24.0-alpha5
+=================================
+
+General:
+--------
+ * Refactored common aspects of example and test `main()` functions;
+ * Language/compiler compatibility fixes, including **MinGW-W64** compatibility;
+ * CMake build scripts enhancements;
+
+Changes:
+--------
+
+Refactored common aspects of example and test `main()` functions:
+ * added **xtests/internal/checked_main.h** and **xtests/internal/checked_main.hpp** and reduced all example and test programs;
+
+Language/compiler compatibility fixes:
+ * added and applied `XTESTS_FALLTHROUGH_()`;
+ * MinGW-W64 compatibility;
+
+CMake build scripts enhancements:
+ * CMake (Bash) build scripts now recognise environment variable `SIS_CMAKE_BUILD_DIR` to build in a custom directory, defaulting to stock directory **./_build**;
+ * CMake (Bash) build scripts now recognise environment variable `SIS_CMAKE_COMMAND` as make command, defaulting to **make**;
+ * added **run_all_examples.sh**;
+
+
 5th August 2024 - 0.24.0-alpha4
 ===============================
 

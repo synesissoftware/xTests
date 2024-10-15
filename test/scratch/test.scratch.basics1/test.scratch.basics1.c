@@ -1,13 +1,17 @@
 /* /////////////////////////////////////////////////////////////////////////
  * File:    test.scratch.basics1.c
  *
- * Purpose: Implementation file for the test.scratch.basics1 project.
+ * Purpose: Illustrates various xTests facilities available to C code.
  *
  * Created: 15th December 2007
- * Updated: 3rd August 2024
+ * Updated: 29th September 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
+
+/* /////////////////////////////////////////////////////////////////////////
+ * includes
+ */
 
 /* xTests Header Files */
 #include <xtests/xtests.h>
@@ -20,10 +24,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#if defined(_MSC_VER) && \
-    defined(_DEBUG)
-# include <crtdbg.h>
-#endif /* _MSC_VER) && _DEBUG */
+#include <xtests/internal/checked_main.h>
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -31,7 +32,8 @@
  */
 
 static void test_2(void);
-static void test_4(void);
+static void test_3(void);
+static void test_3_any_of(void);
 static void test_5(void);
 
 static void test_4_1(void);
@@ -44,7 +46,7 @@ static void test_require(void);
  * main()
  */
 
-static int main_(int argc, char **argv)
+int main(int argc, char* argv[])
 {
     int retCode = EXIT_SUCCESS;
     int verbosity;
@@ -66,8 +68,9 @@ static int main_(int argc, char **argv)
         /* test 2 */
         XTESTS_RUN_CASE(test_2);
 
-        /* test 4 */
-        XTESTS_RUN_CASE_WITH_DESC(test_4, "evaluating relationships between numbers");
+        /* test 3 */
+        XTESTS_RUN_CASE_WITH_DESC(test_3, "evaluating relationships between numbers");
+        XTESTS_RUN_CASE_WITH_DESC(test_3_any_of, "evaluating matching groups of numbers");
 
         /* test 5 */
         XTESTS_RUN_CASE_WITH_DESC(test_5, "ensuring all integral types are supported");
@@ -90,30 +93,6 @@ static int main_(int argc, char **argv)
     return retCode;
 }
 
-int main(int argc, char** argv)
-{
-    int             res;
-
-#if defined(_MSC_VER) && \
-    defined(_DEBUG)
-    _CrtMemState    memState;
-#endif /* _MSC_VER && _MSC_VER */
-
-#if defined(_MSC_VER) && \
-    defined(_DEBUG)
-    _CrtMemCheckpoint(&memState);
-#endif /* _MSC_VER && _MSC_VER */
-
-    res = main_(argc, argv);
-
-#if defined(_MSC_VER) && \
-    defined(_DEBUG)
-    _CrtMemDumpAllObjectsSince(&memState);
-#endif /* _MSC_VER) && _DEBUG */
-
-    return res;
-}
-
 
 /* /////////////////////////////////////////////////////////////////////////
  * test function definitions
@@ -125,11 +104,11 @@ static void test_2(void)
     XTESTS_TEST(sizeof(double) <= sizeof(long double));
 }
 
-static void test_4(void)
+static void test_3(void)
 {
-    { int i; for(i = -1000; i != 1000; ++i)
+    { int i; for (i = -1000; i != 1000; ++i)
     {
-        { int j; for(j = -1000; j != 1000; ++j)
+        { int j; for (j = -1000; j != 1000; ++j)
         {
             if (i == j)
             {
@@ -156,6 +135,15 @@ static void test_4(void)
             }
         }}
     }}
+}
+
+static void test_3_any_of(void)
+{
+    {
+        int const actual = 123;
+
+        XTESTS_TEST_INTEGER_EQUAL_ANY_OF3(122, 123, 124, actual);
+    }
 }
 
 static void test_5(void)
@@ -253,14 +241,28 @@ static void test_4_2(void)
     XTESTS_TEST_WIDE_STRING_EQUAL_N_APPROX(s1, s3, -8);
 }
 
+#if defined(_MSC_VER) &&\
+    _MSC_VER >= 1935
+
+# pragma warning(push)
+# pragma warning(disable : 6011)
+#endif
+
 static void test_require(void)
 {
     int* const pi = NULL;
 
     XTESTS_REQUIRE(XTESTS_TEST_POINTER_NOT_EQUAL(NULL, pi));
 
+    /* should not get here */
     XTESTS_TEST_INTEGER_EQUAL(0, *pi);
 }
+
+#if defined(_MSC_VER) &&\
+    _MSC_VER >= 1935
+
+# pragma warning(pop)
+#endif
 
 
 /* ///////////////////////////// end of file //////////////////////////// */

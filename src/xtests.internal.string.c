@@ -12,7 +12,7 @@ xtests_strnlen_(
 {
     size_t n = 0;
 
-    for(; 0 != limit && '\0' != *s; --limit, ++s)
+    for (; 0 != limit && '\0' != *s; --limit, ++s)
     {
         ++n;
     }
@@ -28,7 +28,7 @@ xtests_wcsnlen_(
 {
     size_t n = 0;
 
-    for(; 0 != limit && L'\0' != *s; --limit, ++s)
+    for (; 0 != limit && L'\0' != *s; --limit, ++s)
     {
         ++n;
     }
@@ -82,7 +82,7 @@ xtests_strnlen_a_(
 {
     size_t  n = 0;
 
-    for(; '\0' != *s && n != limit; ++n, ++s)
+    for (; '\0' != *s && n != limit; ++n, ++s)
     {}
 
     return n;
@@ -96,7 +96,7 @@ xtests_strnlen_w_(
 {
     size_t  n = 0;
 
-    for(; '\0' != *s && n != limit; ++n, ++s)
+    for (; '\0' != *s && n != limit; ++n, ++s)
     {}
 
     return n;

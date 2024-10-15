@@ -29,15 +29,15 @@
 #define XTESTS_EXCEPTION_CATCH_RETURN_int_              \
                                                         \
     }                                                   \
-    catch(std::bad_alloc&)                              \
+    catch (std::bad_alloc&)                             \
     {                                                   \
         return -2;                                      \
     }                                                   \
-    catch(std::exception&)                              \
+    catch (std::exception&)                             \
     {                                                   \
         return -1;                                      \
     }                                                   \
-    catch(...)                                          \
+    catch (...)                                         \
     {                                                   \
         return -3;                                      \
     }
@@ -57,7 +57,7 @@
 #define XTESTS_EXCEPTION_CATCH_QUENCH_ALL_              \
                                                         \
     }                                                   \
-    catch(...)                                          \
+    catch (...)                                         \
     {}
 
 #else /* ? STLSOFT_CF_EXCEPTION_SUPPORT */
@@ -75,13 +75,13 @@
 #define XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_(oom_msg, stdx_msg)          \
                                                                                     \
     }                                                                               \
-    catch(std::bad_alloc& /* x */)                                                  \
+    catch (std::bad_alloc& /* x */)                                                 \
     {                                                                               \
         xtests_output_(xtestsCritical, oom_msg " due to memory exhaustion\n");      \
                                                                                     \
         return 1;                                                                   \
     }                                                                               \
-    catch(std::exception& x)                                                        \
+    catch (std::exception& x)                                                       \
     {                                                                               \
         std::string msg;                                                            \
                                                                                     \

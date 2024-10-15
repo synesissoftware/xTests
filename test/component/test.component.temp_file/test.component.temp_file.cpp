@@ -4,7 +4,7 @@
  * Purpose: Conmponent-tests for `xtests::cpp::util::temp_file`.
  *
  * Created: 5th May 2024
- * Updated: 3rd August 2024
+ * Updated: 28th September 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -20,6 +20,8 @@
 
 #include <platformstl/filesystem/filesystem_traits.hpp>
 #include <platformstl/filesystem/FILE_stream.hpp>
+
+#include <xtests/internal/checked_main.hpp>
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -40,7 +42,7 @@ namespace
  * main()
  */
 
-int main(int argc, char **argv)
+int main(int argc, char* argv[])
 {
     int retCode = EXIT_SUCCESS;
     int verbosity = 2;
