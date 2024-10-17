@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 13th October 2024
+ * Updated: 18th October 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -824,7 +824,7 @@ namespace
         {
             buff.resize(10 + cchName);
 
-            int const n = stlsoft::snprintf(&buff[0], buff.size(), "\x1B[%dm%s\033[0m", XTESTS_ANSI_FG_BLUE_, name);
+            int const n = stlsoft::snprintf(&buff[0], buff.size(), "\x1B[1;%dm%s\033[0m", XTESTS_ANSI_FG_BLUE_, name);
 
             return stlsoft::string_view(buff.data(), static_cast<size_t>(n));
         }
@@ -848,7 +848,7 @@ namespace
         if (xtests_isatty_(xtests_fileno_(stdout)))
 #endif
         {
-            stlsoft::snprintf(&buff[0], 101, "\x1B[%dm%s\033[0m", succeeded ? XTESTS_ANSI_FG_GREEN_ : XTESTS_ANSI_FG_RED_, response);
+            stlsoft::snprintf(&buff[0], 101, "\x1B[1;%dm%s\033[0m", succeeded ? XTESTS_ANSI_FG_GREEN_ : XTESTS_ANSI_FG_RED_, response);
         }
         else
         {
