@@ -5,7 +5,7 @@
  *          library.
  *
  * Created: 20th June 1999
- * Updated: 15th October 2024
+ * Updated: 17th October 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -51,9 +51,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
-# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       42
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    7
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        370
+# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       43
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        371
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -83,7 +83,7 @@
 #define _XTESTS_VER_MINOR       24
 #define _XTESTS_VER_REVISION    0
 
-#define _XTESTS_VER             0x00180005
+#define _XTESTS_VER             0x00180006
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -169,7 +169,11 @@
 # include <algorithm>
 #endif /* __cplusplus */
 
-#ifdef SHWILD_VER
+#if 0 ||\
+    defined(SHWILD_VER) /* shwild is already included */ ||\
+    defined(XTESTS_HAS_SHWILD) /* shwild detected in CMake */ ||\
+    0
+
 # ifndef XTESTS_USE_SHWILD
 #  define XTESTS_USE_SHWILD
 # endif /* !XTESTS_USE_SHWILD */
@@ -1994,6 +1998,23 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
+
+/** \def XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH(pattern, value)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a (multibyte) string does not match a given pattern.
+ *
+ * \param pattern The pattern constraining the expected values of the string
+ * \param value The value to be evaluated
+ *
+ * \note This macro will be defined only given prior inclusion of one of
+ *   **shwild**'s headers (**shwild/shwild.h** or **shwild/shwild.hpp**).
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+
 # ifndef _XTESTS_NO_CPP_API
 
 #  ifdef STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING
@@ -2004,6 +2025,12 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
             ?   XTESTS_TEST_PASSED()                                                    \
             :   XTESTS_TEST_FAIL_WITH_QUALIFIER(stlsoft::c_str_ptr_a("actual value (given in qualifier) did not match pattern '" + stlsoft::sas_to_string_m((pattern)) + "'"), stlsoft::c_str_ptr_a((value)))   \
     )
+#   define XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH(pattern, value)                  \
+    (                                                                                   \
+        (0 != shwild::match((pattern), stlsoft::c_str_ptr_a((value)), 0))               \
+            ?   XTESTS_TEST_PASSED()                                                    \
+            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(stlsoft::c_str_ptr_a("actual value (given in qualifier) matches unexpectedly the pattern '" + stlsoft::sas_to_string_m((pattern)) + "'"), stlsoft::c_str_ptr_a((value)))   \
+    )
 #  else /* !STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING */
 
 #   define XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)                         \
@@ -2011,6 +2038,12 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
         (0 == shwild::match((pattern), stlsoft::c_str_ptr_a((value)), 0))               \
             ?   XTESTS_TEST_PASSED()                                                    \
             :   XTESTS_TEST_FAIL_WITH_QUALIFIER(stlsoft::c_str_ptr_a("actual value (given in qualifier) did not match pattern '" + std::string(stlsoft::c_str_data_a((pattern)), stlsoft::c_str_len_a((pattern))) + "'"), stlsoft::c_str_ptr_a((value)))    \
+    )
+#   define XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH(pattern, value)                  \
+    (                                                                                   \
+        (0 != shwild::match((pattern), stlsoft::c_str_ptr_a((value)), 0))               \
+            ?   XTESTS_TEST_PASSED()                                                    \
+            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(stlsoft::c_str_ptr_a("actual value (given in qualifier) matches unexpectedly the pattern '" + std::string(stlsoft::c_str_data_a((pattern)), stlsoft::c_str_len_a((pattern))) + "'"), stlsoft::c_str_ptr_a((value)))    \
     )
 #  endif /* STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING */
 # else /* ? _XTESTS_NO_CPP_API */
@@ -2020,6 +2053,12 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
         (0 == shwild_match((pattern), (value), 0))                                      \
             ?   XTESTS_TEST_PASSED()                                                    \
             :   XTESTS_TEST_FAIL_WITH_QUALIFIER("actual value (given in qualifier) did not match the pattern", (value))   \
+    )
+#  define XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH(pattern, value)                   \
+    (                                                                                   \
+        (0 != shwild_match((pattern), (value), 0))                                      \
+            ?   XTESTS_TEST_PASSED()                                                    \
+            :   XTESTS_TEST_FAIL_WITH_QUALIFIER("actual value (given in qualifier) matches unexpectedly the pattern", (value))   \
     )
 # endif /* !_XTESTS_NO_CPP_API */
 #endif /* XTESTS_USE_SHWILD */

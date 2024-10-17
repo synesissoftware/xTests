@@ -101,6 +101,7 @@ option(BUILD_TESTING "Build tests" ON)
 # - STLSoft - required, both for implementation and interface;
 #
 # optional:
+# - shwild - for enhanced match constructs
 
 # ############################
 # STLSoft (required)
@@ -134,6 +135,21 @@ else()
 
 	include_directories(${STLSOFT_INCLUDE_DIR})
 endif()
+
+# ############################
+# shwild (optional)
+
+if(BUILD_TESTING)
+
+	find_package(shwild QUIET)
+
+	if(shwild_FOUND)
+
+		message("-- CMake package shwild found (version ${shwild_VERSION})")
+
+		add_compile_definitions(XTESTS_HAS_SHWILD)
+	endif(shwild_FOUND)
+endif(BUILD_TESTING)
 
 
 # ################################################
