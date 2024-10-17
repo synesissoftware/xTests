@@ -8,6 +8,7 @@
 /_internal/
 
 /bin/
+/ipch/
 /lib/
 
 /doc/
@@ -18,12 +19,16 @@
 /temp/
 
 /include/b64/
+/include/cstring/
+/include/recls/
 /include/shwild/
 /include/xcontract/
 /include/xcover/
 /include/xtests/
 
 /src/b64/
+/src/cstring/
+/src/recls/
 /src/shwild/
 /src/xcontract/
 /src/xcover/
@@ -58,7 +63,6 @@ Unicode Release Multithreaded Dll/
 Unicode Release Multithreaded/
 
 Win32/
-ipch/
 x64/
 
 

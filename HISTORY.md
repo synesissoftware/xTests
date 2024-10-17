@@ -1,6 +1,13 @@
 # xTests - History
 
 
+18th October 2024 - 0.24.0-alpha7
+---------------------------------
+
+ * Coloured output now bold;
+ * Minor fixes to CMake build scripts;
+
+
 17th October 2024 - 0.24.0-alpha6
 ---------------------------------
 
