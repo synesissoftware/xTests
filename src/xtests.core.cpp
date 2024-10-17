@@ -81,6 +81,7 @@
 #include <stlsoft/shims/access/string/std/c_string.h>
 #include <stlsoft/string/case_functions.hpp>
 #include <stlsoft/string/string_traits_fwd.hpp>
+#include <stlsoft/string/string_view.hpp>
 #if defined(STLSOFT_COMPILER_IS_WATCOM) || \
     (   defined(STLSOFT_COMPILER_IS_MSVC) && \
         _MSC_VER < 1300)
@@ -805,10 +806,38 @@ namespace
         return r;
     }
 
+    stlsoft::string_view
+    xtests_name_(
+        char_buffer_t_& buff
+    ,   char const*     name
+    )
+    {
+        STLSOFT_MESSAGE_ASSERT("`name` may not be null", NULL != name);
+
+        size_t const cchName = ::strlen(name);
+
+#if _STLSOFT_VER >= 0x010b014d
+        if (platformstl::isatty(stdout))
+#else
+        if (xtests_isatty_(xtests_fileno_(stdout)))
+#endif
+        {
+            buff.resize(10 + cchName);
+
+            int const n = stlsoft::snprintf(&buff[0], buff.size(), "\x1B[%dm%s\033[0m", XTESTS_ANSI_FG_BLUE_, name);
+
+            return stlsoft::string_view(buff.data(), static_cast<size_t>(n));
+        }
+        else
+        {
+            return stlsoft::string_view(name, cchName);
+        }
+    }
+
     char const*
     xtests_success_or_failure_(
-        int             succeeded
-    ,   char            (&buff)[101]
+        int       succeeded
+    ,   char    (&buff)[101]
     )
     {
         char const* const response = succeeded ? "SUCCESS" : "FAILURE";
@@ -2845,10 +2874,11 @@ namespace
                 };
                 char const*         fmt = s_fmts[level];
                 char                success_or_failure[101];
+                char_buffer_t_      name_buff(0);
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   results->name
+                                ,   xtests_name_(name_buff, results->name).data()
                                 ,   results->numTests
                                 ,   results->numTests - results->numFailedTests
                                 ,   results->numFailedTests
@@ -2927,10 +2957,11 @@ namespace
                 };
                 char const*         fmt = s_fmts[level];
                 char                success_or_failure[101];
+                char_buffer_t_      name_buff(0);
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   results->name
+                                ,   xtests_name_(name_buff, results->name).data()
                                 ,   static_cast<unsigned>(results->numCases)
                                 ,   static_cast<unsigned>(results->numTests)
                                 ,   static_cast<unsigned>(results->numTests - results->numFailedTests)

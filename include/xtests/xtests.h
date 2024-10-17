@@ -80,7 +80,7 @@
  */
 
 #define _XTESTS_VER_MAJOR       0
-#define _XTESTS_VER_MINOR       24
+#define _XTESTS_VER_MINOR       25
 #define _XTESTS_VER_REVISION    0
 
 #define _XTESTS_VER             0x00180006
