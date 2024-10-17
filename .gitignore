@@ -8,36 +8,64 @@
 /_internal/
 
 /bin/
+/lib/
+
 /doc/
 /dox/
 /ideas/
 /releases/
+/scratch/
 /temp/
 
-Debug/
-DebugMt/
-Debug Multithreaded/
+/include/b64/
+/include/shwild/
+/include/xcontract/
+/include/xcover/
+/include/xtests/
+
+/src/b64/
+/src/shwild/
+/src/xcontract/
+/src/xcover/
+/src/xtests/
+
+Debug Multithreaded DLL/
 Debug Multithreaded Dll/
+Debug Multithreaded/
+Debug/
+DebugDll/
+DebugMTDLL/
+DebugMt/
 DebugNox/
+DebugUNIX/
 DebugUnix/
-Release/
-ReleaseMt/
-Release Multithreaded/
+Release Multithreaded DLL/
 Release Multithreaded Dll/
+Release Multithreaded/
+Release/
+ReleaseDll/
+ReleaseMTDLL/
+ReleaseMt/
 ReleaseNox/
 ReleaseUnix/
-
-/include/shwild/
-
-/src/shwild/
+UDebug/
+UDebugMt/
+URelease/
+UReleaseMt/
+Unicode Debug Multithreaded Dll/
+Unicode Debug Multithreaded/
+Unicode Release Multithreaded Dll/
+Unicode Release Multithreaded/
 
 Win32/
 ipch/
 x64/
 
+
 # directories (by pattern)
 
 /include-*/
+
 
 # files (by name)
 
@@ -46,19 +74,25 @@ x64/
 .update_deps
 
 list_changes.cmd
+logging-bailout.txt
 prepare.cmd
 sh.exe.stackdump
+update_deps.cmd
 
 build/makefile.tmpl
 build/makefile.tools.xml
+build/shwild.tmplgen
+include/stlsoft/dos2unix.has.been.performed
+include/stlsoft/internal/dos2unix.has.been.performed
+test/testpatterns.orj
+
 
 # files (by pattern)
-
-xtests-0.*-doc.chm
 
 *~
 *.a
 *.app
+*.aps
 *.b64
 *.bak
 *.dll
@@ -67,6 +101,7 @@ xtests-0.*-doc.chm
 *.gch
 *.idb
 *.ilk
+*.ipch
 *.lib
 *.log
 *.ncb
@@ -90,5 +125,15 @@ xtests-0.*-doc.chm
 *.unsuccessfulbuild
 *.vcproj*.user
 *.vcxproj*.user
+*.xcuserstate
 *.zip
+
+xtests-0.*-doc.chm
+
+RCa0*
+RCb0*
+
+build/*.tmplgen
+build/*.tmpl
+build/*.tools.xml
 

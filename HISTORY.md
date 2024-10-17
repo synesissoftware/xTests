@@ -1,10 +1,22 @@
 # xTests - History
 
 
+17th October 2024 - 0.24.0-alpha6
+---------------------------------
+
+ * Expanded shwild integration (including CMake detection);
+ * Significant enhancement and refactoring around use of CMake;
+ * Added coloured output for test-case / runner names;
+ * General tidying;
+ * Compatibility with legacy versions of Visual C++;
+
+
 15th October 2024 - 0.24.0-alpha5
 ---------------------------------
 
-T.B.C.
+ * Refactored common aspects of example and test `main()` functions;
+ * Language/compiler compatibility fixes, including **MinGW-W64** compatibility;
+ * CMake build scripts enhancements;
 
 
 5th August 2024 - 0.24.0-alpha4

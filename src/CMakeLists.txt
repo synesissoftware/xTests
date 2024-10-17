@@ -1,4 +1,15 @@
 
+# ######################################################################## #
+# File:     /src/CMakeLists.txt
+#
+# Purpose:  CMake lists file for xTests core library
+#
+# Created:  ...
+# Updated:  17th October 2024
+#
+# ######################################################################## #
+
+
 if(UNIX)
 
 	add_definitions(-DUNIX)
@@ -49,9 +60,10 @@ set_target_properties(core PROPERTIES
 	PUBLIC_HEADER "${CORE_PUBLIC_HEADERS}"
 )
 
-target_include_directories(core PUBLIC
-	$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
-	$<INSTALL_INTERFACE:include>
+target_include_directories(core
+	PUBLIC
+		$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+		$<INSTALL_INTERFACE:include>
 )
 
 target_link_libraries(core
@@ -59,13 +71,14 @@ target_link_libraries(core
 		$<$<STREQUAL:${STLSOFT_INCLUDE_DIR},>:STLSoft::STLSoft>
 )
 
-target_compile_options(core PRIVATE
-	$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
-		-Werror -Wall -Wextra -pedantic
-	>
-	$<$<CXX_COMPILER_ID:MSVC>:
-		/WX /W4
-	>
+target_compile_options(core
+	PRIVATE
+		$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
+			-Werror -Wall -Wextra -pedantic
+		>
+		$<$<CXX_COMPILER_ID:MSVC>:
+			/WX /W4
+		>
 )
 
 

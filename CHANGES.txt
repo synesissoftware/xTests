@@ -16,11 +16,45 @@ Updated: 14th July 2024
     ************************************
 
 
+17th October 2024 - 0.24.0-alpha6
+=================================
+
+Summary:
+--------
+
+ * Expanded shwild integration (including CMake detection);
+ * Significant enhancement and refactoring around use of CMake;
+ * Added coloured output for test-case / runner names;
+ * General tidying;
+ * Compatibility with legacy versions of Visual C++;
+
+Changes:
+--------
+
+Expanded shwild integration (including CMake detection):
+ * detects **shwild** in CMakeLists.txt;
+ * added `XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH()`;
+ * added **test.component.shwild_patterns**;
+
+Significant enhancement and refactoring around use of CMake:
+ * added **cmake/LanguageFullVersion.cmake** file, which defines CMake variable `X_CMAKE_CXX_FULLSTANDARD`;
+ * added **cmake/TargetMacros.cmake** file, which defines CMake functions `define_automated_test_program()` and `define_example_program()`, and applied them throughout examples and test programs;
+ * Significant refactoring of ./CMakeLists.txt;
+ * enhanced CMake build scripts in line with recent STLSoft-1.11 release;
+
+General tidying:
+ * portable suppression of fall-through warnings;
+ * scratch-tests better header block descriptions;
+ * enhancing test-case names;
+ * code canonicalisation;
+
+
 15th October 2024 - 0.24.0-alpha5
 =================================
 
-General:
+Summary:
 --------
+
  * Refactored common aspects of example and test `main()` functions;
  * Language/compiler compatibility fixes, including **MinGW-W64** compatibility;
  * CMake build scripts enhancements;
