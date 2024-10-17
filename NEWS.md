@@ -2,6 +2,7 @@
 
 | Date                  | News Item                       |
 | --------------------- | ------------------------------- |
+| 18th October 2024     |   xTests 0.24.0-alpha7 released |
 | 17th October 2024     |   xTests 0.24.0-alpha6 released |
 | 15th October 2024     |   xTests 0.24.0-alpha5 released |
 | 5th August 2024       |   xTests 0.24.0-alpha4 released |
