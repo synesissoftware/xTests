@@ -37,7 +37,7 @@ xTests is a small, lightweight, portable, simple unit- and component-test framew
 Copyright (c) 2019-2024, Matthew Wilson and Synesis Information Systems
 Copyright (c) 2002-2019, Matthew Wilson and Synesis Software
 Copyright (c) 1999-2002 Matthew Wilson
-Runs all (matching) unit-test programs
+Runs all (matching) component and unit test programs
 
 $ScriptPath [ ... flags/options ... ]
 
