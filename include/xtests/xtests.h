@@ -5,7 +5,7 @@
  *          library.
  *
  * Created: 20th June 1999
- * Updated: 20th October 2024
+ * Updated: 21st October 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       43
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    3
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        373
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    4
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        374
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -81,9 +81,9 @@
 
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       25
-#define _XTESTS_VER_REVISION    0
+#define _XTESTS_VER_REVISION    1
 
-#define _XTESTS_VER             0x001900ff
+#define _XTESTS_VER             0x001901ff
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -99,24 +99,31 @@
  * compatibility
  */
 
+/* STLSoft version */
+
 #if defined(STLSOFT_VER) && \
     STLSOFT_VER >= 0x010c0000
+
 # define XTESTS_STLSOFT_1_12_OR_LATER
-#elif _STLSOFT_VER < 0x010988ff
-# error xTests requires version 1.9.136 (or later) of STLSoft; download from https://github.com/synesissoftware/
+#elif _STLSOFT_VER < 0x010b0152
+
+# error xTests requires version 1.11.1 alpha 18, or later, of STLSoft; download from https://github.com/synesissoftware/
 #endif /* _STLSOFT_VER */
 
-#ifndef __cplusplus
-# ifndef _XTESTS_NO_CPP_API
-#  define _XTESTS_NO_CPP_API
-# endif /* !_XTESTS_NO_CPP_API */
-#endif /* !__cplusplus */
 
-#if defined(STLSOFT_COMPILER_IS_WATCOM)
-# ifndef _XTESTS_NO_CPP_API
+/* (No) C++ API */
+
+#ifndef _XTESTS_NO_CPP_API
+
+# if 0
+# elif !defined(__cplusplus)
+
 #  define _XTESTS_NO_CPP_API
-# endif /* !_XTESTS_NO_CPP_API */
-#endif /* compiler */
+# elif defined(STLSOFT_COMPILER_IS_WATCOM)
+
+#  define _XTESTS_NO_CPP_API
+# endif
+#endif /* !_XTESTS_NO_CPP_API */
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -3012,7 +3019,6 @@ xtests_testMultibyteStringsN(
     ,   comp
     );
 }
-
 # endif /* !_XTESTS_NO_CPP_API */
 
 XTESTS_CALL(int)
@@ -3107,7 +3113,6 @@ xtests_testWideStringsN(
     ,   comp
     );
 }
-
 # endif /* !_XTESTS_NO_CPP_API */
 
 XTESTS_CALL(int)
@@ -3143,7 +3148,6 @@ xtests_testMultibyteStringContains(
 
     return xtests_testMultibyteStringContains(file, line, function, expr, XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(expected)), XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(actual)), comp);
 }
-
 # endif /* !_XTESTS_NO_CPP_API */
 
 XTESTS_CALL(int)
@@ -3179,7 +3183,6 @@ xtests_testWideStringContains(
 
     return xtests_testWideStringContains(file, line, function, expr, XTESTS_INVOKE_c_str_ptr_w_(XTESTS_INVOKE_c_str_ptr_w_(expected)), XTESTS_INVOKE_c_str_ptr_w_(XTESTS_INVOKE_c_str_ptr_w_(actual)), comp);
 }
-
 # endif /* !_XTESTS_NO_CPP_API */
 
 XTESTS_CALL(int)
@@ -3286,7 +3289,6 @@ xtests_writeFailMessage(
     ,   XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(message))
     ,   XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(qualifyingInformation)));
 }
-
 # endif /* !_XTESTS_NO_CPP_API */
 
 XTESTS_CALL(void)
@@ -4429,9 +4431,7 @@ xtests_test_floating_point(
 
     return comparisonSucceeded;
 }
-
 # endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
-
 #endif /* !_XTESTS_NO_CPP_API */
 
 #ifndef _XTESTS_NO_NAMESPACE
