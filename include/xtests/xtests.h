@@ -2479,7 +2479,7 @@ c_str_len_n_a(
 {
     size_t len = 0;
 
-    for (; '\0' != *s && len != n; ++s, ++len)
+    for (; len != n && '\0' != *s; ++s, ++len)
     {}
 
     return len;
@@ -2494,7 +2494,7 @@ c_str_len_n_w(
 {
     size_t len = 0;
 
-    for (; '\0' != *s && len != n; ++s, ++len)
+    for (; len != n && '\0' != *s; ++s, ++len)
     {}
 
     return len;
