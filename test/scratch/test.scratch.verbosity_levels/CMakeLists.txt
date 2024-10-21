@@ -1,19 +1,2 @@
-
-add_executable(test.scratch.verbosity_levels
-	test.scratch.verbosity_levels.cpp
-)
-
-target_link_libraries(test.scratch.verbosity_levels
-	PRIVATE
-		core
-)
-
-target_compile_options(test.scratch.verbosity_levels PRIVATE
-	$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
-		-Werror -Wall -Wextra -pedantic
-	>
-	$<$<CXX_COMPILER_ID:MSVC>:
-		/WX /W4
-	>
-)
-
+# SIS:AUTO_GENERATED: Remove this line if you edit the file, otherwise it will be overwritten
+define_automated_test_program(test.scratch.verbosity_levels test.scratch.verbosity_levels.cpp)
