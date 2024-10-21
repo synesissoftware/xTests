@@ -1,21 +1,2 @@
-
-add_executable(test.scratch.string_slices.c
-	test.scratch.string_slices.c.c
-)
-
-target_link_libraries(test.scratch.string_slices.c
-	PRIVATE
-		core
-)
-
-target_compile_options(test.scratch.string_slices.c PRIVATE
-	$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
-		-Werror -Wall -Wextra -pedantic
-	>
-	$<$<CXX_COMPILER_ID:MSVC>:
-		/WX /W4
-
-		/wd4130
-	>
-)
-
+# SIS:AUTO_GENERATED: Remove this line if you edit the file, otherwise it will be overwritten
+define_automated_test_program(test.scratch.string_slices.c test.scratch.string_slices.c.c)

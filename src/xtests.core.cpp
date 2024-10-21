@@ -822,16 +822,20 @@ namespace
         if (xtests_isatty_(xtests_fileno_(stdout)))
 #endif
         {
-            buff.resize(10 + cchName);
+            buff.resize(11 + cchName + 1);
 
-            int const n = stlsoft::snprintf(&buff[0], buff.size(), "\x1B[1;%dm%s\033[0m", XTESTS_ANSI_FG_BLUE_, name);
+            int const n         =   stlsoft::snprintf(&buff[0], buff.size(), "\033[1;%dm%s\033[0m", XTESTS_ANSI_FG_BLUE_, name);
+            int const buf_size  =   static_cast<int>(buff.size());
 
-            return stlsoft::string_view(buff.data(), static_cast<size_t>(n));
+            STLSOFT_ASSERT(n < 0 || n == (buf_size - 1));
+
+            if (n >= 0 && n < buf_size)
+            {
+                return stlsoft::string_view(buff.data(), static_cast<size_t>(n));
+            }
         }
-        else
-        {
-            return stlsoft::string_view(name, cchName);
-        }
+
+        return stlsoft::string_view(name, cchName);
     }
 
     char const*
@@ -848,7 +852,7 @@ namespace
         if (xtests_isatty_(xtests_fileno_(stdout)))
 #endif
         {
-            stlsoft::snprintf(&buff[0], 101, "\x1B[1;%dm%s\033[0m", succeeded ? XTESTS_ANSI_FG_GREEN_ : XTESTS_ANSI_FG_RED_, response);
+            stlsoft::snprintf(&buff[0], 101, "\033[1;%dm%s\033[0m", succeeded ? XTESTS_ANSI_FG_GREEN_ : XTESTS_ANSI_FG_RED_, response);
         }
         else
         {

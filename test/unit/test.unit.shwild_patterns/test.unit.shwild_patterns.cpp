@@ -1,5 +1,5 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.component.shwild_patterns.cpp
+ * File:    test.unit.shwild_patterns.cpp
  *
  * Purpose: Unit-tests for shwild extensions.
  *
@@ -69,7 +69,7 @@ int main(int argc, char **argv)
 
     XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, &verbosity);
 
-    if (XTESTS_START_RUNNER("test.component.shwild_patterns", verbosity))
+    if (XTESTS_START_RUNNER("test.unit.shwild_patterns", verbosity))
     {
         XTESTS_RUN_CASE(test_empty);
         XTESTS_RUN_CASE(test_exact_matches);
