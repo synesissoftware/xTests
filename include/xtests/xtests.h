@@ -5,7 +5,7 @@
  *          library.
  *
  * Created: 20th June 1999
- * Updated: 21st October 2024
+ * Updated: 22nd October 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       43
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    4
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        374
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    5
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        375
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -81,9 +81,9 @@
 
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       25
-#define _XTESTS_VER_REVISION    1
+#define _XTESTS_VER_REVISION    2
 
-#define _XTESTS_VER             0x001901ff
+#define _XTESTS_VER             0x001902ff
 
 
 /* /////////////////////////////////////////////////////////////////////////
