@@ -147,8 +147,6 @@ if [ $status -eq 0 ]; then
   done
 fi
 
-cd ->/dev/null
-
 exit $status
 
 

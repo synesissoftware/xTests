@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\test.scratch.string_slices.c.c">
+    <ClCompile Include="..\test.unit.string_slices.c.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,20 +1,2 @@
-
-add_executable(test.component.temp_file
-	test.component.temp_file.cpp
-)
-
-target_link_libraries(test.component.temp_file
-	PRIVATE
-		core
-)
-
-target_compile_options(test.component.temp_file PRIVATE
-	$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
-		-Werror -Wall -Wextra -pedantic
-	>
-	$<$<CXX_COMPILER_ID:MSVC>:
-		/WX /W4
-
-		/wd4459
-	>
-)
+# SIS:AUTO_GENERATED: Remove this line if you edit the file, otherwise it will be overwritten
+define_automated_test_program(test.component.temp_file test.component.temp_file.cpp)

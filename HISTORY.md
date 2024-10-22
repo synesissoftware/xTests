@@ -1,6 +1,16 @@
 # xTests - History
 
 
+22nd October 2024 - 0.25.2
+--------------------------
+
+ * Added and applied CMake functions for examples and test programs;
+ * Some refactoring in main header **include/xtests/xtests.h**;
+ * VC++ 19+ warnings;
+ * Fixed vulnerability in length-limited string comparisons;
+ * Renamed project **test.scratch.string_slices.c** => **test.unit.string_slices.c**;
+
+
 20th October 2024 - 0.25.0
 --------------------------
 

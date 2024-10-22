@@ -63,7 +63,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "test.scratch.string_slices.c"=.\test\scratch\test.scratch.string_slices.c\vc6\test.scratch.string_slices.c.dsp - Package Owner=<4>
+Project: "test.unit.string_slices.c"=.\test\scratch\test.unit.string_slices.c\vc6\test.unit.string_slices.c.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
