@@ -130,6 +130,10 @@
  * includes - 2
  */
 
+#ifndef STLSOFT_INCL_STLSOFT_SHIMS_ACCESS_STRING_STD_H_C_STRING
+# include <stlsoft/shims/access/string/std/c_string.h>
+#endif /* !STLSOFT_INCL_STLSOFT_SHIMS_ACCESS_STRING_STD_H_C_STRING */
+
 #ifdef __cplusplus
 # include <platformstl/platformstl.h>
 # if defined(PLATFORMSTL_OS_IS_UNIX)
@@ -154,12 +158,7 @@
 #  ifndef STLSOFT_INCL_STLSOFT_META_HPP_YESNO
 #   include <stlsoft/meta/yesno.hpp>
 #  endif /* !STLSOFT_INCL_STLSOFT_META_HPP_YESNO */
-#  if !defined(XTESTS_STLSOFT_1_12_OR_LATER) && \
-      defined(STLSOFT_MINIMUM_SAS_INCLUDES)
-#   ifndef STLSOFT_INCL_STLSOFT_SHIMS_ACCESS_STRING_STD_H_C_STRING
-#    include <stlsoft/shims/access/string/std/c_string.h>
-#   endif /* !STLSOFT_INCL_STLSOFT_SHIMS_ACCESS_STRING_STD_H_C_STRING */
-#  else /* ? STLSOFT_MINIMUM_SAS_INCLUDES */
+#  if !defined(STLSOFT_MINIMUM_SAS_INCLUDES)
 #   ifndef STLSOFT_INCL_STLSOFT_SHIMS_ACCESS_HPP_STRING
 #    include <stlsoft/shims/access/string.hpp>
 #   endif /* !STLSOFT_INCL_STLSOFT_SHIMS_ACCESS_HPP_STRING */
@@ -490,17 +489,8 @@ namespace c
 #  define XTESTS_INVOKE_c_str_ptr_w_(x)                     c_str_ptr_w(x)
 # endif /* compiler */
 
-
-# ifdef __cplusplus
-
-#  define XTESTS_GET_EXPECTED_SLICE_MB_(expected)           stlsoft_ns_qual(c_str_len_a)(expected), stlsoft_ns_qual(c_str_data_a)(expected)
-#  define XTESTS_GET_EXPECTED_SLICE_WIDE_(expected)         stlsoft_ns_qual(c_str_len_w)(expected), stlsoft_ns_qual(c_str_data_w)(expected)
-# else /* ? __cplusplus */
-
-#  define XTESTS_GET_EXPECTED_SLICE_MB_(expected)           ((NULL) == expected ? 0u : strlen((expected))), (expected)
-#  define XTESTS_GET_EXPECTED_SLICE_WIDE_(expected)         ((NULL) == expected ? 0u : wcslen((expected))), (expected)
-# endif /* __cplusplus */
-
+# define XTESTS_GET_EXPECTED_SLICE_MB_(expected)            stlsoft_ns_qual(c_str_len_a)(expected), stlsoft_ns_qual(c_str_data_a)(expected)
+# define XTESTS_GET_EXPECTED_SLICE_WIDE_(expected)          stlsoft_ns_qual(c_str_len_w)(expected), stlsoft_ns_qual(c_str_data_w)(expected)
 
 # if defined(STLSOFT_COMPILER_IS_MSVC) && \
      (   _MSC_VER >= 1500 || \
@@ -1968,7 +1958,8 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  * and has the same contents as an expected value.
  *
  * \param expected The expected value of the string
- * \param actual The string slice to be evaluated
+ * \param actual The string slice to be evaluated, which is expected to have
+ *   the member <code>#len</code> and <code>#ptr</code>
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
