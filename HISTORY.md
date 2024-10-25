@@ -1,6 +1,12 @@
 # xTests - History
 
 
+25th October 2024 - 0.25.3
+--------------------------
+
+ * Fix to colour output at high verbosity levels;
+
+
 22nd October 2024 - 0.25.2
 --------------------------
 

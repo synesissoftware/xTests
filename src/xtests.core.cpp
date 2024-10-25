@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 18th October 2024
+ * Updated: 24th October 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -1936,8 +1936,14 @@ namespace
                     XTESTS_VERBOSITY_VALID_MISSING_CASES
                     case    XTESTS_VERBOSITY_VERBOSE:
 
-                        xtests_mxnprintf_(  m_sinks, m_numSinks, stlsoft::c_str_len(name)
-                                        ,   "Test runner '%s' starting:\n", name);
+                        {
+                            char_buffer_t_      name_buff(0);
+
+                            xtests_mxnprintf_(  m_sinks, m_numSinks, stlsoft::c_str_len(name)
+                                            ,   "Test runner '%s' starting:\n"
+                                            ,   xtests_name_(name_buff, name).data()
+                                            );
+                        }
                         break;
                 }
             }
