@@ -1,6 +1,12 @@
 # xTests - History
 
 
+18th November 2024 - 0.25.4
+---------------------------
+
+ * added CMake MSVC MT support;
+
+
 25th October 2024 - 0.25.3
 --------------------------
 
