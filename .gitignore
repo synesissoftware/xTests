@@ -24,7 +24,6 @@
 /include/shwild/
 /include/xcontract/
 /include/xcover/
-/include/xtests/
 
 /src/b64/
 /src/cstring/
@@ -32,7 +31,6 @@
 /src/shwild/
 /src/xcontract/
 /src/xcover/
-/src/xtests/
 
 Debug Multithreaded DLL/
 Debug Multithreaded Dll/
