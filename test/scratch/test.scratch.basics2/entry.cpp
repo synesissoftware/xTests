@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.scratch.basics2.cpp
+ * File:    test.scratch.basics2/entry.cpp
  *
  * Purpose: Illustrates various xTests facilities available to C++ code.
  *
  * Created: 15th December 2007
- * Updated: 28th September 2024
+ * Updated: 20th November 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
