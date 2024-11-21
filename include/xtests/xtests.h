@@ -5,7 +5,7 @@
  *          library.
  *
  * Created: 20th June 1999
- * Updated: 18th November 2024
+ * Updated: 21st November 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       43
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    8
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        378
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    9
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        379
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -3718,6 +3718,7 @@ xtests_reportFailedIntegerComparison(
        _MSC_VER >= 1310 && \
        !defined(_WIN64) && \
        defined(_Wp64)
+
 /* This special overload is to allow for cases such as:
  *
  *     XTESTS_TEST_INTEGER_EQUAL(4u, sink.size());
@@ -3770,6 +3771,7 @@ xtests_reportFailedIntegerComparison(
 }
 
 #if 0
+
 inline
 void
 xtests_reportFailedIntegerComparison(
@@ -4052,9 +4054,82 @@ xtests_test_boolean_(
 ,   stlsoft_ns_qual(yes_type)
 )
 {
-    bool const actual_as_bool = actual;
+#  ifndef _XTESTS_NO_NAMESPACE
+    using namespace ::xtests::c;
+#  endif /* _XTESTS_NO_NAMESPACE */
 
-    return xtests_test_integer<bool, bool>(file, line, function, expr, expected, actual_as_bool, comp);
+    bool const actual_as_bool = !!actual;
+
+    int comparisonSucceeded = false;
+
+    switch (comp)
+    {
+        case    xtestsComparisonEqual:
+        case    xtestsComparisonApproxEqual:
+
+            if (expected == actual_as_bool)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case    xtestsComparisonNotEqual:
+        case    xtestsComparisonApproxNotEqual:
+
+            if (expected != actual_as_bool)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+#if 0 /* NOTE: currently don't support ordering of `bool` */
+
+        case    xtestsComparisonGreaterThan:
+
+            if (actual_as_bool > expected)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case    xtestsComparisonLessThan:
+
+            if (actual_as_bool < expected)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case    xtestsComparisonGreaterThanOrEqual:
+
+            if (actual_as_bool >= expected)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case    xtestsComparisonLessThanOrEqual:
+
+            if (actual_as_bool <= expected)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+#endif
+        default:
+
+            STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
+        case    xtestsComparison_max_enumerator:
+
+            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            break;
+    }
+
+    if (comparisonSucceeded)
+    {
+        xtests_testPassed(file, line, function, expr);
+    }
+    else
+    {
+        stlsoft_static_cast(void, xtests_testFailed_boolean(file, line, function, expr, expected, actual_as_bool, comp));
+    }
+
+    return comparisonSucceeded;
 }
 
 template <typename T>
@@ -4072,7 +4147,7 @@ xtests_test_boolean(
 {
     typedef ss_typename_type_k boolean_argument_traits<T>::yesno_type yesno_t;
 
-    return xtests_test_boolean_(file, line, function, expr, expected, !!actual, comp, yesno_t());
+    return xtests_test_boolean_(file, line, function, expr, expected, actual, comp, yesno_t());
 }
 
 
