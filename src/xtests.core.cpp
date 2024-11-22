@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 24th October 2024
+ * Updated: 23rd November 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -1167,8 +1167,8 @@ XTESTS_CALL(int) xtests_testFailed_longlong(
 ,   int                             line
 ,   char const*                     function
 ,   char const*                     expr
-,   stlsoft_ns_qual(ss_sint64_t)    expected
-,   stlsoft_ns_qual(ss_sint64_t)    actual
+,   STLSOFT_NS_QUAL(ss_sint64_t)    expected
+,   STLSOFT_NS_QUAL(ss_sint64_t)    actual
 ,   xtests_comparison_t             comp
 )
 {
@@ -1186,8 +1186,8 @@ XTESTS_CALL(int) xtests_testFailed_ulonglong(
 ,   int                             line
 ,   char const*                     function
 ,   char const*                     expr
-,   stlsoft_ns_qual(ss_uint64_t)    expected
-,   stlsoft_ns_qual(ss_uint64_t)    actual
+,   STLSOFT_NS_QUAL(ss_uint64_t)    expected
+,   STLSOFT_NS_QUAL(ss_uint64_t)    actual
 ,   xtests_comparison_t             comp
 )
 {
@@ -2084,7 +2084,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 20
                                 ,   fmt
-                                ,   file, line, (actualValue ? "true" : "false"), (xtestsComparisonEqual == comparison) ? "" : "not ", (expectedValue ? "true" : "false"), (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, (actualValue ? "true" : "false"), (xtestsComparisonEqual == comparison) ? "" : "not ", (expectedValue ? "true" : "false"), (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
 
             void onTestFailed_Double_(char const* file, int line, char const* function, char const* /* expr */, double const& expectedValue, double const& actualValue, xtests_comparison_t comparison, int verbosity)
@@ -2125,7 +2125,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
 
             void onTestFailed_MultibyteCharacter_(char const* file, int line, char const* function, char const* /* expr */, char expectedValue, char actualValue, xtests_comparison_t comparison, int verbosity)
@@ -2166,7 +2166,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, actualValue, expectedValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, actualValue, actualValue, expectedValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
 
             void onTestFailed_WideCharacter_(char const* file, int line, char const* function, char const* /* expr */, char expectedValue, char actualValue, xtests_comparison_t comparison, int verbosity)
@@ -2207,7 +2207,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, static_cast<char>(actualValue), actualValue, static_cast<char>(expectedValue), expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, static_cast<char>(actualValue), actualValue, static_cast<char>(expectedValue), expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
 
             void onTestFailed_MultibyteString_(char const* file, int line, char const* function, char const* /* expr */, char const* expectedValue, size_t expectedValueLen, char const* actualValue, size_t actualValueLen, ptrdiff_t length, xtests_test_type_t testType, xtests_comparison_t comparison, int verbosity)
@@ -2254,7 +2254,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
                 }
                 else if (xtestsTestPartialComparison == testType)
                 {
@@ -2303,7 +2303,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, int(actualValueLen), actualValue, int(expectedValueLen), expectedValue, length, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, int(actualValueLen), actualValue, int(expectedValueLen), expectedValue, length, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
                 }
                 else if (xtestsTestContainment == testType)
                 {
@@ -2347,7 +2347,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
                 }
                 else
                 {
@@ -2407,7 +2407,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
 
             void onTestFailed_SignedLong_(char const* file, int line, char const* function, char const* /* expr */, signed long expectedValue, signed long actualValue, xtests_comparison_t comparison, int verbosity)
@@ -2454,7 +2454,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
 
             void onTestFailed_UnsignedLong_(char const* file, int line, char const* function, char const* /* expr */, unsigned long expectedValue, unsigned long actualValue, xtests_comparison_t comparison, int verbosity)
@@ -2500,7 +2500,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
 
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
@@ -2584,7 +2584,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
 
                 STLSOFT_SUPPRESS_UNUSED(s_len);
             }
@@ -2670,7 +2670,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
 
                 STLSOFT_SUPPRESS_UNUSED(s_len);
             }
