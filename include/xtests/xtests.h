@@ -5,7 +5,7 @@
  *          library.
  *
  * Created: 20th June 1999
- * Updated: 21st November 2024
+ * Updated: 23rd November 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -53,7 +53,7 @@
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       43
 # define XTESTS_VER_XTESTS_H_XTESTS_REVISION    9
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        379
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        380
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -3646,6 +3646,8 @@ struct xtests_failure_reporter< stlsoft_ns_qual(ss_uint64_t)>
 };
 #  endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
+#if 0
+
 template <>
 struct xtests_failure_reporter<bool>
 {
@@ -3658,7 +3660,7 @@ struct xtests_failure_reporter<bool>
         stlsoft_static_cast(void, xtests_testFailed_boolean(file, line, function, expr, expected, actual, comp));
     }
 };
-
+#endif
 
 
 template<
@@ -3743,6 +3745,8 @@ xtests_reportFailedIntegerComparison(
 }
 #  endif
 
+#if 0
+
 inline
 void
 xtests_reportFailedIntegerComparison(
@@ -3769,6 +3773,7 @@ xtests_reportFailedIntegerComparison(
     failure_reporter_t::xtests_report_failure_equal(file, line, function, expr, expected, actual, comp);
 #  endif /* compiler */
 }
+#endif
 
 #if 0
 
