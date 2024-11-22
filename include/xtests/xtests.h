@@ -3646,22 +3646,6 @@ struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_uint64_t)>
 };
 #  endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
-#if 0
-
-template <>
-struct xtests_failure_reporter<bool>
-{
-    static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, int expected, int actual, xtests_comparison_t comp)
-    {
-#  ifndef _XTESTS_NO_NAMESPACE
-        using namespace ::xtests::c;
-#  endif /* _XTESTS_NO_NAMESPACE */
-
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_boolean(file, line, function, expr, expected, actual, comp));
-    }
-};
-#endif
-
 
 template<
     typename T1
@@ -3744,54 +3728,6 @@ xtests_reportFailedIntegerComparison(
     STLSOFT_STATIC_CAST(void, xtests_testFailed_ulong(file, line, function, expr, static_cast<unsigned long>(expected), static_cast<unsigned long>(actual), comp));
 }
 #  endif
-
-#if 0
-
-inline
-void
-xtests_reportFailedIntegerComparison(
-    char const*         file
-,   int                 line
-,   char const*         function
-,   char const*         expr
-,   bool                expected
-,   bool                actual
-,   xtests_comparison_t comp
-)
-{
-#  ifndef _XTESTS_NO_NAMESPACE
-    using namespace ::xtests::c;
-#  endif /* _XTESTS_NO_NAMESPACE */
-
-#  if defined(STLSOFT_COMPILER_IS_BORLAND)
-
-    xtests_integer_failure_reporter_selector<bool, bool>::type::xtests_report_failure_equal(file, line, function, expr, expected, actual, comp);
-#  else /* ? compiler */
-
-    typedef xtests_integer_failure_reporter_selector<bool, bool>::type    failure_reporter_t;
-
-    failure_reporter_t::xtests_report_failure_equal(file, line, function, expr, expected, actual, comp);
-#  endif /* compiler */
-}
-#endif
-
-#if 0
-
-inline
-void
-xtests_reportFailedIntegerComparison(
-    char const*         file
-,   int                 line
-,   char const*         function
-,   char const*         expr
-,   int                 expected
-,   bool                actual
-,   xtests_comparison_t comp
-)
-{
-    xtests_reportFailedIntegerComparison(file, line, function, expr, 0 != expected, actual, comp);
-}
-#endif /* 0 */
 
 inline
 void
