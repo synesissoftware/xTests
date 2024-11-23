@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.scratch.fail_all.1.cpp
+ * File:    test.scratch.fail_all.1/entry.cpp
  *
  * Purpose: Illustrates various test failures.
  *
  * Created: 26th January 2009
- * Updated: 28th September 2024
+ * Updated: 20th November 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
