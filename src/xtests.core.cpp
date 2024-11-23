@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 24th October 2024
+ * Updated: 23rd November 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -76,6 +76,7 @@
 #if _STLSOFT_VER >= 0x010b014d
 # include <platformstl/system/console_functions.h>
 #endif
+#include <platformstl/system/environment_variable.hpp>
 #include <stlsoft/conversion/char_conversions.hpp>
 #include <stlsoft/memory/auto_buffer.hpp>
 #include <stlsoft/shims/access/string/std/c_string.h>
@@ -164,6 +165,7 @@
 
 #if defined(WIN32) || \
     defined(WIN64)
+
 # define XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_          1
 #elif (   defined(STLSOFT_COMPILER_IS_MSVC) || \
           defined(STLSOFT_COMPILER_IS_UNKNOWN)) && \
@@ -171,8 +173,10 @@
       !defined(WIN32) && \
       defined(UNIX) && \
       defined(_WIN32)
+
 # define XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_          2
 #else
+
 # define XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_          0
 #endif
 
@@ -281,14 +285,12 @@ namespace
 
     typedef stlsoft::auto_buffer<char>                      char_buffer_t_;
     typedef stlsoft::auto_buffer<wchar_t>                   char_buffer_w_t_;
-
 } // anonymous namespace
 
 #ifndef _STLSOFT_NO_NAMESPACE
 namespace stlsoft
 {
 #endif /* _STLSOFT_NO_NAMESPACE */
-
 # ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
     STLSOFT_TEMPLATE_SPECIALISATION
@@ -302,9 +304,7 @@ namespace stlsoft
     {
         typedef char_buffer_w_t_::value_type                char_type;
     };
-
 # endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
-
 #ifndef _STLSOFT_NO_NAMESPACE
 } /* namespace stlsoft */
 #endif /* _STLSOFT_NO_NAMESPACE */
@@ -337,7 +337,6 @@ namespace
     typedef stlsoft::ss_sint64_t                            sint64_t;
     typedef stlsoft::ss_uint64_t                            uint64_t;
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
-
     typedef std::string                                     string_t;
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
@@ -367,7 +366,6 @@ namespace
     };
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
-
     typedef std::map<string_t, TestInfo>                    test_map_t;
 
 
@@ -375,7 +373,7 @@ namespace
 
     class RunnerInfo
     {
-    public:
+    public: // construction
         RunnerInfo(
             char const*         name
         ,   int                 verbosity
@@ -387,7 +385,10 @@ namespace
         ,   xTests_Teardown_t   teardown
         ,   void*               setupParam
         );
+    private:
+        RunnerInfo &operator =(RunnerInfo const&);
 
+    public:
         int BeginCase(char const* name, char const* description);
         int EndCase(char const* name);
         void*
@@ -617,7 +618,8 @@ namespace
 #endif /* STLSOFT_INCL_STLSOFT_UTIL_HPP_MUST_INIT */
 
     private:
-        /* static */ void Call_onTestFailed(
+        /* static */
+        void Call_onTestFailed(
             xTests_Reporter_t* const    reporter
         ,   void*                       reporterParam
         ,   char const*                 file
@@ -632,7 +634,9 @@ namespace
         );
 
     private:
-        static xTests_Reporter_t*   get_reporter_(
+        static
+        xTests_Reporter_t*
+        get_reporter_(
             xTests_Reporter_t*  reporter
         ,   FILE*               stm
         ,   int                 flags
@@ -655,9 +659,6 @@ namespace
         unsigned_type               m_expectedExceptions;
         test_map_t::iterator        m_currentCase;
         bool                        m_requireFailed;
-
-    private:
-        RunnerInfo &operator =(RunnerInfo const&);
     };
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
@@ -693,7 +694,12 @@ namespace
         ,   xtestsDebug         =   7
     };
 
-    static int xtests_output_(xtests_severity_t sev, char const* message)
+    static
+    int
+    xtests_output_(
+        xtests_severity_t   sev
+    ,   char const*         message
+    )
     {
 #if defined(XTESTS_USE_PANTHEIOS)
 
@@ -704,7 +710,6 @@ namespace
 # endif /* PANTHEIOS_VER */
 
         return 1;
-
 #else /* ? XTESTS_USE_PANTHEIOS */
 
         FILE*   stm = (sev < xtestsNotice) ? stderr : stdout;
@@ -713,18 +718,27 @@ namespace
          * warnings
          */
         return ::fprintf(stm, message, "");
-
 #endif /* XTESTS_USE_PANTHEIOS */
     }
 
-    void adapt_fputs(char const* s, size_t /* n */, void* param)
+    void
+    adapt_fputs(
+        char const* s
+    ,   size_t   /* n */
+    ,   void*       param
+    )
     {
-        FILE* const stm = stlsoft_static_cast(FILE*, param);
+        FILE* const stm = STLSOFT_STATIC_CAST(FILE*, param);
 
-        stlsoft_static_cast(void, ::fputs(s, stm));
+        STLSOFT_STATIC_CAST(void, ::fputs(s, stm));
     }
 #if XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_
-    void adapt_OutputDebugStringA(char const* s, size_t /* n */, void* /* param */)
+    void
+    adapt_OutputDebugStringA(
+        char const* s
+    ,   size_t   /* n */
+    ,   void*    /* param */
+    )
     {
         OutputDebugStringA(s);
     }
@@ -741,7 +755,14 @@ namespace
     };
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
-    int xtests_mxnprintf_(xtests_sink_t_ const* sinks, size_t numSinks, size_t requiredLen, char const* fmt, ...)
+    int
+    xtests_mxnprintf_(
+        xtests_sink_t_ const*   sinks
+    ,   size_t                  numSinks
+    ,   size_t                  requiredLen
+    ,   char const*             fmt
+    ,   ...
+    )
     {
         if (requiredLen < 100)
         {
@@ -861,7 +882,6 @@ namespace
 
         return &buff[0];
     }
-
 #ifdef STLSOFT_CF_NAMESPACE_SUPPORT
 } // anonymous namespace
 #endif /* STLSOFT_CF_NAMESPACE_SUPPORT */
@@ -871,7 +891,8 @@ namespace
  * API implementation
  */
 
-XTESTS_CALL(int) xtests_startRunner(
+XTESTS_CALL(int)
+xtests_startRunner(
     char const*         name
 ,   int                 verbosity
 ,   xTests_Reporter_t*  reporter
@@ -903,7 +924,8 @@ XTESTS_CALL(int) xtests_startRunner(
     XTESTS_EXCEPTION_CATCH_RETURN_int_
 }
 
-XTESTS_CALL(int) xtests_endRunner(int *retCode)
+XTESTS_CALL(int)
+xtests_endRunner(int *retCode)
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
 
@@ -931,14 +953,16 @@ XTESTS_CALL(int) xtests_endRunner(int *retCode)
     return *retCode;
 }
 
-XTESTS_CALL(void) xtests_printRunnerResults()
+XTESTS_CALL(void)
+xtests_printRunnerResults()
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
 
     s_runner->PrintResults();
 }
 
-XTESTS_CALL(void) xtests_abend(char const* message)
+XTESTS_CALL(void)
+xtests_abend(char const* message)
 {
     XTESTS_EXCEPTION_TRY_
 
@@ -958,7 +982,8 @@ XTESTS_CALL(void) xtests_abend(char const* message)
     ::exit(EXIT_FAILURE);
 }
 
-XTESTS_CALL(int) xtests_beginTestCase(
+XTESTS_CALL(int)
+xtests_beginTestCase(
     char const* name
 ,   char const* description
 )
@@ -980,7 +1005,8 @@ xtests_getSetupParam(void)
     return s_runner->GetSetupParam();
 }
 
-XTESTS_CALL(int) xtests_endTestCase(char const* name)
+XTESTS_CALL(int)
+xtests_endTestCase(char const* name)
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
 
@@ -991,7 +1017,8 @@ XTESTS_CALL(int) xtests_endTestCase(char const* name)
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot end test", "Cannot end test")
 }
 
-XTESTS_CALL(int) xtests_testPassed(
+XTESTS_CALL(int)
+xtests_testPassed(
     char const* file
 ,   int         line
 ,   char const* function
@@ -1009,7 +1036,8 @@ XTESTS_CALL(int) xtests_testPassed(
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
 
-XTESTS_CALL(void) xtests_caseExcepted(
+XTESTS_CALL(void)
+xtests_caseExcepted(
     char const* file
 ,   int         line
 ,   char const* exceptionType
@@ -1030,7 +1058,8 @@ XTESTS_CALL(void) xtests_caseExcepted(
     s_runner->CaseExcepted(file, line, exceptionType, exceptionMessage);
 }
 
-XTESTS_CALL(void) xtests_caseExceptionExpected(
+XTESTS_CALL(void)
+xtests_caseExceptionExpected(
     char const* file
 ,   int         line
 ,   char const* exceptionType
@@ -1041,7 +1070,8 @@ XTESTS_CALL(void) xtests_caseExceptionExpected(
     s_runner->CaseExceptionExpected(file, line, exceptionType);
 }
 
-XTESTS_CALL(int) xtests_testFailed(
+XTESTS_CALL(int)
+xtests_testFailed(
     char const* file
 ,   int         line
 ,   char const* function
@@ -1057,7 +1087,8 @@ XTESTS_CALL(int) xtests_testFailed(
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
 
-XTESTS_CALL(int) xtests_floatingPointClose(
+XTESTS_CALL(int)
+xtests_floatingPointClose(
     double  expected
 ,   double  actual
 )
@@ -1084,7 +1115,8 @@ XTESTS_CALL(int) xtests_floatingPointClose(
     return 0;
 }
 
-XTESTS_CALL(double) xtests_setFloatingPointCloseFactor(
+XTESTS_CALL(double)
+xtests_setFloatingPointCloseFactor(
     double  factor
 ,   double* old /* = NULL */
 )
@@ -1104,7 +1136,8 @@ XTESTS_CALL(double) xtests_setFloatingPointCloseFactor(
     return old_;
 }
 
-XTESTS_CALL(int) xtests_testFailed_int(
+XTESTS_CALL(int)
+xtests_testFailed_int(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -1123,7 +1156,8 @@ XTESTS_CALL(int) xtests_testFailed_int(
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
 
-XTESTS_CALL(int) xtests_testFailed_long(
+XTESTS_CALL(int)
+xtests_testFailed_long(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -1142,7 +1176,8 @@ XTESTS_CALL(int) xtests_testFailed_long(
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
 
-XTESTS_CALL(int) xtests_testFailed_ulong(
+XTESTS_CALL(int)
+xtests_testFailed_ulong(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -1160,15 +1195,16 @@ XTESTS_CALL(int) xtests_testFailed_ulong(
 
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
-
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
-XTESTS_CALL(int) xtests_testFailed_longlong(
+
+XTESTS_CALL(int)
+xtests_testFailed_longlong(
     char const*                     file
 ,   int                             line
 ,   char const*                     function
 ,   char const*                     expr
-,   stlsoft_ns_qual(ss_sint64_t)    expected
-,   stlsoft_ns_qual(ss_sint64_t)    actual
+,   STLSOFT_NS_QUAL(ss_sint64_t)    expected
+,   STLSOFT_NS_QUAL(ss_sint64_t)    actual
 ,   xtests_comparison_t             comp
 )
 {
@@ -1181,13 +1217,14 @@ XTESTS_CALL(int) xtests_testFailed_longlong(
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
 
-XTESTS_CALL(int) xtests_testFailed_ulonglong(
+XTESTS_CALL(int)
+xtests_testFailed_ulonglong(
     char const*                    file
 ,   int                             line
 ,   char const*                     function
 ,   char const*                     expr
-,   stlsoft_ns_qual(ss_uint64_t)    expected
-,   stlsoft_ns_qual(ss_uint64_t)    actual
+,   STLSOFT_NS_QUAL(ss_uint64_t)    expected
+,   STLSOFT_NS_QUAL(ss_uint64_t)    actual
 ,   xtests_comparison_t             comp
 )
 {
@@ -1201,7 +1238,8 @@ XTESTS_CALL(int) xtests_testFailed_ulonglong(
 }
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
-XTESTS_CALL(int) xtests_testFailed_boolean(
+XTESTS_CALL(int)
+xtests_testFailed_boolean(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -1220,7 +1258,8 @@ XTESTS_CALL(int) xtests_testFailed_boolean(
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
 
-XTESTS_CALL(int) xtests_testFailed_double(
+XTESTS_CALL(int)
+xtests_testFailed_double(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -1239,7 +1278,8 @@ XTESTS_CALL(int) xtests_testFailed_double(
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
 
-XTESTS_CALL(int) xtests_testMultibyteStrings(
+XTESTS_CALL(int)
+xtests_testMultibyteStrings(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -1258,7 +1298,8 @@ XTESTS_CALL(int) xtests_testMultibyteStrings(
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
 
-XTESTS_CALL(int) xtests_testMultibyteStringsN_(
+XTESTS_CALL(int)
+xtests_testMultibyteStringsN_(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -1280,7 +1321,8 @@ XTESTS_CALL(int) xtests_testMultibyteStringsN_(
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
 
-XTESTS_CALL(int) xtests_testMultibyteStringsN(
+XTESTS_CALL(int)
+xtests_testMultibyteStringsN(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -1304,7 +1346,8 @@ XTESTS_CALL(int) xtests_testMultibyteStringsN(
     ,   comp);
 }
 
-XTESTS_CALL(int) xtests_testWideStrings(
+XTESTS_CALL(int)
+xtests_testWideStrings(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -1323,7 +1366,8 @@ XTESTS_CALL(int) xtests_testWideStrings(
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
 
-XTESTS_CALL(int) xtests_testWideStringsN_(
+XTESTS_CALL(int)
+xtests_testWideStringsN_(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -1345,7 +1389,8 @@ XTESTS_CALL(int) xtests_testWideStringsN_(
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
 
-XTESTS_CALL(int) xtests_testWideStringsN(
+XTESTS_CALL(int)
+xtests_testWideStringsN(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -1369,7 +1414,8 @@ XTESTS_CALL(int) xtests_testWideStringsN(
     ,   comp);
 }
 
-XTESTS_CALL(int) xtests_testMultibyteStringContains(
+XTESTS_CALL(int)
+xtests_testMultibyteStringContains(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -1388,7 +1434,8 @@ XTESTS_CALL(int) xtests_testMultibyteStringContains(
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
 
-XTESTS_CALL(int) xtests_testWideStringContains(
+XTESTS_CALL(int)
+xtests_testWideStringContains(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -1451,7 +1498,8 @@ xtests_testWideStringSlice(
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
 
-XTESTS_CALL(int) xtests_testPointers(
+XTESTS_CALL(int)
+xtests_testPointers(
     char const*             file
 ,   int                     line
 ,   char const*             function
@@ -1470,7 +1518,8 @@ XTESTS_CALL(int) xtests_testPointers(
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
 
-XTESTS_CALL(int) xtests_testFunctionPointers(
+XTESTS_CALL(int)
+xtests_testFunctionPointers(
     char const*             file
 ,   int                     line
 ,   char const*             function
@@ -1489,7 +1538,8 @@ XTESTS_CALL(int) xtests_testFunctionPointers(
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
 
-XTESTS_CALL(int) xtests_testCharactersA(
+XTESTS_CALL(int)
+xtests_testCharactersA(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -1508,7 +1558,8 @@ XTESTS_CALL(int) xtests_testCharactersA(
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
 
-XTESTS_CALL(int) xtests_testCharactersW(
+XTESTS_CALL(int)
+xtests_testCharactersW(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -1527,7 +1578,8 @@ XTESTS_CALL(int) xtests_testCharactersW(
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
 
-XTESTS_CALL(int) xtests_writeFailMessage(
+XTESTS_CALL(int)
+xtests_writeFailMessage(
     char const* file
 ,   int         line
 ,   char const* function
@@ -1545,7 +1597,8 @@ XTESTS_CALL(int) xtests_writeFailMessage(
 }
 
 
-XTESTS_CALL(int) xtests_require_C(
+XTESTS_CALL(int)
+xtests_require_C(
     int success
 )
 {
@@ -1563,7 +1616,8 @@ XTESTS_CALL(int) xtests_require_C(
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
 
-XTESTS_CALL(int) xTests_hasRequiredConditionFailed(void)
+XTESTS_CALL(int)
+xTests_hasRequiredConditionFailed(void)
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
 
@@ -1582,7 +1636,7 @@ XTESTS_CALL(int) xTests_hasRequiredConditionFailed(void)
 XTESTS_CALL(int)
 xtests_commandLine_parseVerbosity(
     int     argc
-,   char**  argv
+,   char*   argv[]
 ,   int*    verbosity
 )
 {
@@ -1599,11 +1653,43 @@ xtests_commandLine_parseVerbosity(
 
         if (argv[i] == ::strstr(argv[i], s_verb))
         {
-            *verbosity = ::atoi(argv[i] + s_cchVerb);
+            char*   endptr;
+            long    l = ::strtol(argv[i] + s_cchVerb, &endptr, 0);
+
+            *verbosity = static_cast<int>(l);
 
             return 1;
         }
     }}
+
+    /* at this point, "--verbosity=???" has not been specified, so consult
+     * environment variable(s):
+     *
+     * - "XTESTS_VERBOSITY";
+     * - "TEST_VERBOSITY";
+     */
+
+    static char const* const ENVIRONMENT_VARIABLES[] =
+    {
+        "XTESTS_VERBOSITY",
+        "TEST_VERBOSITY",
+    };
+
+    for (unsigned i = 0; i != STLSOFT_NUM_ELEMENTS(ENVIRONMENT_VARIABLES); ++i)
+    {
+
+        platformstl::environment_variable envvar(ENVIRONMENT_VARIABLES[i]);
+
+        if (!envvar.empty())
+        {
+            char*   endptr;
+            long    l = ::strtol(envvar, &endptr, 0);
+
+            *verbosity = static_cast<int>(l);
+
+            return 1;
+        }
+    }
 
     return 0;
 }
@@ -1611,7 +1697,7 @@ xtests_commandLine_parseVerbosity(
 XTESTS_CALL(void)
 xtests_commandLine_parseHelp(
     int     argc
-,   char**  argv
+,   char*   argv[]
 ,   FILE*   stm
 ,   int     exitCode
 )
@@ -1815,7 +1901,13 @@ namespace
 {
 #endif /* STLSOFT_CF_NAMESPACE_SUPPORT */
 
-/* static */ xTests_Reporter_t* RunnerInfo::get_reporter_(xTests_Reporter_t* reporter, FILE* stm, int flags)
+/* static */
+xTests_Reporter_t*
+RunnerInfo::get_reporter_(
+    xTests_Reporter_t*  reporter
+,   FILE*               stm
+,   int                 flags
+)
 {
 #ifdef STLSOFT_COMPILER_IS_BORLAND
 
@@ -1937,7 +2029,7 @@ namespace
                     case    XTESTS_VERBOSITY_VERBOSE:
 
                         {
-                            char_buffer_t_      name_buff(0);
+                            char_buffer_t_  name_buff(0);
 
                             xtests_mxnprintf_(  m_sinks, m_numSinks, stlsoft::c_str_len(name)
                                             ,   "Test runner '%s' starting:\n"
@@ -2084,7 +2176,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 20
                                 ,   fmt
-                                ,   file, line, (actualValue ? "true" : "false"), (xtestsComparisonEqual == comparison) ? "" : "not ", (expectedValue ? "true" : "false"), (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, (actualValue ? "true" : "false"), (xtestsComparisonEqual == comparison) ? "" : "not ", (expectedValue ? "true" : "false"), (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
 
             void onTestFailed_Double_(char const* file, int line, char const* function, char const* /* expr */, double const& expectedValue, double const& actualValue, xtests_comparison_t comparison, int verbosity)
@@ -2125,7 +2217,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
 
             void onTestFailed_MultibyteCharacter_(char const* file, int line, char const* function, char const* /* expr */, char expectedValue, char actualValue, xtests_comparison_t comparison, int verbosity)
@@ -2166,7 +2258,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, actualValue, expectedValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, actualValue, actualValue, expectedValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
 
             void onTestFailed_WideCharacter_(char const* file, int line, char const* function, char const* /* expr */, char expectedValue, char actualValue, xtests_comparison_t comparison, int verbosity)
@@ -2207,7 +2299,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, static_cast<char>(actualValue), actualValue, static_cast<char>(expectedValue), expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, static_cast<char>(actualValue), actualValue, static_cast<char>(expectedValue), expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
 
             void onTestFailed_MultibyteString_(char const* file, int line, char const* function, char const* /* expr */, char const* expectedValue, size_t expectedValueLen, char const* actualValue, size_t actualValueLen, ptrdiff_t length, xtests_test_type_t testType, xtests_comparison_t comparison, int verbosity)
@@ -2254,7 +2346,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
                 }
                 else if (xtestsTestPartialComparison == testType)
                 {
@@ -2303,7 +2395,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, int(actualValueLen), actualValue, int(expectedValueLen), expectedValue, length, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, int(actualValueLen), actualValue, int(expectedValueLen), expectedValue, length, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
                 }
                 else if (xtestsTestContainment == testType)
                 {
@@ -2347,7 +2439,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
                 }
                 else
                 {
@@ -2407,7 +2499,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
 
             void onTestFailed_SignedLong_(char const* file, int line, char const* function, char const* /* expr */, signed long expectedValue, signed long actualValue, xtests_comparison_t comparison, int verbosity)
@@ -2454,7 +2546,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
 
             void onTestFailed_UnsignedLong_(char const* file, int line, char const* function, char const* /* expr */, unsigned long expectedValue, unsigned long actualValue, xtests_comparison_t comparison, int verbosity)
@@ -2500,7 +2592,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
 
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
@@ -2584,7 +2676,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
 
                 STLSOFT_SUPPRESS_UNUSED(s_len);
             }
@@ -2670,7 +2762,7 @@ namespace
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", stlsoft_ns_qual(c_str_ptr)(function));
+                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
 
                 STLSOFT_SUPPRESS_UNUSED(s_len);
             }
@@ -3046,7 +3138,8 @@ namespace
     return reporter;
 }
 
-void RunnerInfo::report_unstartedCase_defect_()
+void
+RunnerInfo::report_unstartedCase_defect_()
 {
 #ifdef STLSOFT_CF_EXCEPTION_SUPPORT
         throw std::runtime_error("not in a test case; call XTESTS_CASE_BEGIN() ?");
@@ -3088,7 +3181,8 @@ RunnerInfo::RunnerInfo(
     STLSOFT_MESSAGE_ASSERT("Invalid verbosity; must be in range [XTESTS_VERBOSITY_SILENT, XTESTS_VERBOSITY_VERBOSE]", verbosity >= XTESTS_VERBOSITY_SILENT && verbosity <= XTESTS_VERBOSITY_VERBOSE);
 }
 
-int RunnerInfo::BeginCase(
+int
+RunnerInfo::BeginCase(
     char const* name
 ,   char const* description
 )
@@ -3155,7 +3249,8 @@ int RunnerInfo::BeginCase(
     return 0;
 }
 
-int RunnerInfo::EndCase(char const* /* name */)
+int
+RunnerInfo::EndCase(char const* /* name */)
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
@@ -3232,7 +3327,8 @@ RunnerInfo::GetSetupParam() const
     return m_setupParam;
 }
 
-int RunnerInfo::RegisterSuccessfulCondition(
+int
+RunnerInfo::RegisterSuccessfulCondition(
     char const* file
 ,   int         line
 ,   char const* function
@@ -3261,7 +3357,8 @@ int RunnerInfo::RegisterSuccessfulCondition(
     RETURN_UNUSED(-1);
 }
 
-int RunnerInfo::RegisterFailedCondition(
+int
+RunnerInfo::RegisterFailedCondition(
     char const* file
 ,   int         line
 ,   char const* function
@@ -3291,7 +3388,8 @@ int RunnerInfo::RegisterFailedCondition(
     RETURN_UNUSED(-1);
 }
 
-int RunnerInfo::RegisterFailedCondition_long(
+int
+RunnerInfo::RegisterFailedCondition_long(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -3327,7 +3425,8 @@ int RunnerInfo::RegisterFailedCondition_long(
     RETURN_UNUSED(-1);
 }
 
-int RunnerInfo::RegisterFailedCondition_ulong(
+int
+RunnerInfo::RegisterFailedCondition_ulong(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -3362,9 +3461,10 @@ int RunnerInfo::RegisterFailedCondition_ulong(
 
     RETURN_UNUSED(-1);
 }
-
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
-int RunnerInfo::RegisterFailedCondition_sint64(
+
+int
+RunnerInfo::RegisterFailedCondition_sint64(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -3400,7 +3500,8 @@ int RunnerInfo::RegisterFailedCondition_sint64(
     RETURN_UNUSED(-1);
 }
 
-int RunnerInfo::RegisterFailedCondition_uint64(
+int
+RunnerInfo::RegisterFailedCondition_uint64(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -3437,8 +3538,8 @@ int RunnerInfo::RegisterFailedCondition_uint64(
 }
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
-
-int RunnerInfo::RegisterFailedCondition_boolean(
+int
+RunnerInfo::RegisterFailedCondition_boolean(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -3474,7 +3575,8 @@ int RunnerInfo::RegisterFailedCondition_boolean(
     RETURN_UNUSED(-1);
 }
 
-int RunnerInfo::RegisterFailedCondition_double(
+int
+RunnerInfo::RegisterFailedCondition_double(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -3510,7 +3612,8 @@ int RunnerInfo::RegisterFailedCondition_double(
     RETURN_UNUSED(-1);
 }
 
-int RunnerInfo::TestMultibyteStrings(
+int
+RunnerInfo::TestMultibyteStrings(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -3621,7 +3724,8 @@ int RunnerInfo::TestMultibyteStrings(
     RETURN_UNUSED(-1);
 }
 
-int RunnerInfo::TestMultibyteStringsN(
+int
+RunnerInfo::TestMultibyteStringsN(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -3786,7 +3890,8 @@ int RunnerInfo::TestMultibyteStringsN(
     RETURN_UNUSED(-1);
 }
 
-int RunnerInfo::TestWideStrings(
+int
+RunnerInfo::TestWideStrings(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -3897,7 +4002,8 @@ int RunnerInfo::TestWideStrings(
     RETURN_UNUSED(-1);
 }
 
-int RunnerInfo::TestWideStringsN(
+int
+RunnerInfo::TestWideStringsN(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -4059,7 +4165,8 @@ int RunnerInfo::TestWideStringsN(
     RETURN_UNUSED(-1);
 }
 
-int RunnerInfo::TestMultibyteStringContains(
+int
+RunnerInfo::TestMultibyteStringContains(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -4149,8 +4256,8 @@ int RunnerInfo::TestMultibyteStringContains(
     RETURN_UNUSED(-1);
 }
 
-
-int RunnerInfo::TestWideStringContains(
+int
+RunnerInfo::TestWideStringContains(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -4240,7 +4347,8 @@ int RunnerInfo::TestWideStringContains(
     RETURN_UNUSED(-1);
 }
 
-int RunnerInfo::TestMultibyteStringSlice(
+int
+RunnerInfo::TestMultibyteStringSlice(
     char const*             file
 ,   int                     line
 ,   char const*             function
@@ -4344,7 +4452,8 @@ int RunnerInfo::TestMultibyteStringSlice(
     RETURN_UNUSED(-1);
 }
 
-int RunnerInfo::TestWideStringSlice(
+int
+RunnerInfo::TestWideStringSlice(
     char const*             file
 ,   int                     line
 ,   char const*             function
@@ -4448,7 +4557,8 @@ int RunnerInfo::TestWideStringSlice(
     RETURN_UNUSED(-1);
 }
 
-int RunnerInfo::TestPointers(
+int
+RunnerInfo::TestPointers(
     char const*             file
 ,   int                     line
 ,   char const*             function
@@ -4547,7 +4657,8 @@ int RunnerInfo::TestPointers(
     RETURN_UNUSED(-1);
 }
 
-int RunnerInfo::TestFunctionPointers(
+int
+RunnerInfo::TestFunctionPointers(
     char const*             file
 ,   int                     line
 ,   char const*             function
@@ -4582,7 +4693,8 @@ int RunnerInfo::TestFunctionPointers(
     );
 }
 
-int RunnerInfo::TestCharacters(
+int
+RunnerInfo::TestCharacters(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -4693,7 +4805,8 @@ int RunnerInfo::TestCharacters(
     RETURN_UNUSED(-1);
 }
 
-int RunnerInfo::TestCharacters(
+int
+RunnerInfo::TestCharacters(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -4804,8 +4917,8 @@ int RunnerInfo::TestCharacters(
     RETURN_UNUSED(-1);
 }
 
-
-int RunnerInfo::WriteFailMessage(
+int
+RunnerInfo::WriteFailMessage(
     char const* file
 ,   int         line
 ,   char const* function
@@ -4836,7 +4949,8 @@ int RunnerInfo::WriteFailMessage(
     RETURN_UNUSED(-1);
 }
 
-void RunnerInfo::CaseExcepted(
+void
+RunnerInfo::CaseExcepted(
     char const* file
 ,   int         line
 ,   char const* exceptionType
@@ -4859,7 +4973,8 @@ void RunnerInfo::CaseExcepted(
     }
 }
 
-void RunnerInfo::CaseExceptionExpected(
+void
+RunnerInfo::CaseExceptionExpected(
     char const* file
 ,   int         line
 ,   char const* exceptionType
@@ -4881,31 +4996,36 @@ void RunnerInfo::CaseExceptionExpected(
     }
 }
 
-void RunnerInfo::OnRequireFailed()
+void
+RunnerInfo::OnRequireFailed()
 {
     m_requireFailed = true;
 }
 
-int RunnerInfo::HasRequiredConditionFailed() const
+int
+RunnerInfo::HasRequiredConditionFailed() const
 {
     return m_requireFailed;
 }
 
-void RunnerInfo::PrintStart()
+void
+RunnerInfo::PrintStart()
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
     m_reporter->onStartRunner(m_reporterParam, m_name.c_str(), m_verbosity);
 }
 
-void RunnerInfo::PrintEnd()
+void
+RunnerInfo::PrintEnd()
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
     m_reporter->onEndRunner(m_reporterParam, m_name.c_str(), m_verbosity);
 }
 
-void RunnerInfo::PrintResults()
+void
+RunnerInfo::PrintResults()
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
@@ -4922,14 +5042,16 @@ void RunnerInfo::PrintResults()
     m_reporter->onPrintRunnerResults(m_reporterParam, &results, m_verbosity);
 }
 
-void RunnerInfo::onAbend(char const* message)
+void
+RunnerInfo::onAbend(char const* message)
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
     m_reporter->onAbend(m_reporterParam, message, m_verbosity);
 }
 
-size_t RunnerInfo::NumberOfFailedTestCases() const
+size_t
+RunnerInfo::NumberOfFailedTestCases() const
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
@@ -4957,7 +5079,8 @@ size_t RunnerInfo::NumberOfFailedTestCases() const
     }
 }
 
-void RunnerInfo::Call_onTestFailed(
+void
+RunnerInfo::Call_onTestFailed(
     xTests_Reporter_t* const    reporter
 ,   void*                       reporterParam
 ,   char const*                 file
@@ -4977,7 +5100,6 @@ void RunnerInfo::Call_onTestFailed(
         reporter->onTestFailed(reporterParam, file, line, function, expr, expectedValue, actualValue, length, comparison, verbosity);
     }
 }
-
 
 #ifdef STLSOFT_CF_NAMESPACE_SUPPORT
 } // anonymous namespace
@@ -4999,6 +5121,7 @@ void RunnerInfo::Call_onTestFailed(
  */
 
 #if XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_
+
 # undef OutputDebugStringA
 # include <windows.h>
 static void xtests_OutputDebugStringA_(char const*s)
