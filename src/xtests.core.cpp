@@ -76,6 +76,7 @@
 #if _STLSOFT_VER >= 0x010b014d
 # include <platformstl/system/console_functions.h>
 #endif
+#include <platformstl/system/environment_variable.hpp>
 #include <stlsoft/conversion/char_conversions.hpp>
 #include <stlsoft/memory/auto_buffer.hpp>
 #include <stlsoft/shims/access/string/std/c_string.h>
@@ -1652,11 +1653,43 @@ xtests_commandLine_parseVerbosity(
 
         if (argv[i] == ::strstr(argv[i], s_verb))
         {
-            *verbosity = ::atoi(argv[i] + s_cchVerb);
+            char*   endptr;
+            long    l = ::strtol(argv[i] + s_cchVerb, &endptr, 0);
+
+            *verbosity = static_cast<int>(l);
 
             return 1;
         }
     }}
+
+    /* at this point, "--verbosity=???" has not been specified, so consult
+     * environment variable(s):
+     *
+     * - "XTESTS_VERBOSITY";
+     * - "TEST_VERBOSITY";
+     */
+
+    static char const* const ENVIRONMENT_VARIABLES[] =
+    {
+        "XTESTS_VERBOSITY",
+        "TEST_VERBOSITY",
+    };
+
+    for (unsigned i = 0; i != STLSOFT_NUM_ELEMENTS(ENVIRONMENT_VARIABLES); ++i)
+    {
+
+        platformstl::environment_variable envvar(ENVIRONMENT_VARIABLES[i]);
+
+        if (!envvar.empty())
+        {
+            char*   endptr;
+            long    l = ::strtol(envvar, &endptr, 0);
+
+            *verbosity = static_cast<int>(l);
+
+            return 1;
+        }
+    }
 
     return 0;
 }

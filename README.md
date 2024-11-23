@@ -341,7 +341,7 @@ int main(int argc, char* argv[])
 }
 ```
 
-**NOTE**: the language shown in **C**, but a **C++** version of this example program would be very similar. **C++** test programs have additiona support for facilities such as the throwing of exceptions.
+**NOTE**: the language shown is **C**, but a **C++** version of this example program would be very similar. **C++** test programs have additiona support for facilities such as the throwing of exceptions.
 
 
 ## Project Information
@@ -364,10 +364,9 @@ If you'd like to help out with the project, please raise an issue via [GitHub Pa
 
 #### STLSoft <!-- omit in toc -->
 
-**xTests** depends on the **STLSoft** libraries, version 1.9.136 (or later). Version 1.10.6 (or later) is recommended.
+**xTests** depends on the **STLSoft** libraries, version 1.11.1 (or later):
 
-* [STLSoft 1.9](http://github.com/synesissoftware/STLSoft-1.9/)
-* [STLSoft 1.10](http://github.com/synesissoftware/STLSoft-1.10/) (Recommended)
+* [STLSoft 1.11](http://github.com/synesissoftware/STLSoft-1.11/);
 
 
 ### Related projects
@@ -375,12 +374,13 @@ If you'd like to help out with the project, please raise an issue via [GitHub Pa
 Projects in which **xTests** is used for testing include:
 
 * [**b64**](https://github.com/synesissoftware/b64)
+* [**CLASP**](https://github.com/synesissoftware/CLASP)
 * [**cstring**](https://github.com/synesissoftware/cstring)
 * [**FastFormat**](https://github.com/synesissoftware/FastFormat)
+* [**libCLImate**](https://github.com/synesissoftware/libCLImate)
 * [**libpath**](https://github.com/synesissoftware/libpath)
 * [**Pantheios**](https://github.com/synesissoftware/Pantheios)
 * [**recls**](https://github.com/synesissoftware/recls)
-* [**shwild**](https://github.com/synesissoftware/shwild)
 * [**UNIXem**](https://github.com/synesissoftware/UNIXem)
 
 
