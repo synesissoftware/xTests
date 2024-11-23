@@ -51,9 +51,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
-# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       43
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    9
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        379
+# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       44
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        380
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -80,10 +80,10 @@
  */
 
 #define _XTESTS_VER_MAJOR       0
-#define _XTESTS_VER_MINOR       25
-#define _XTESTS_VER_REVISION    4
+#define _XTESTS_VER_MINOR       26
+#define _XTESTS_VER_REVISION    0
 
-#define _XTESTS_VER             0x001904ff
+#define _XTESTS_VER             0x001a0041
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -4444,7 +4444,8 @@ xTests_hasRequiredConditionFailed(void);
  */
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
-/**
+
+/** T.B.C.
  *
  * \retval 0 No verbosity was parsed from the command-line
  * \retval !0 Verbosity was parsed from the command-line
@@ -4456,7 +4457,7 @@ xtests_commandLine_parseVerbosity(
 ,   int*    verbosity
 );
 
-/**
+/** T.B.C.
  *
  */
 XTESTS_CALL(void)
@@ -4476,7 +4477,9 @@ xtests_commandLine_parseHelp(
  *
  * Parse the verbosity from the command-line arguments, looking for an
  * argument of the form `"--verbosity=<N>"`, where `N` is a non-negative
- * integer.
+ * integer. If no such command-line argument is found, then looks for (in
+ * order) the environment variables `"XTESTS_VERBOSITY"` and
+ * `"TEST_VERBOSITY"`.
  *
  * \param argc The <code>argc</code> parameter passed into
  *   <code>main()</code>
