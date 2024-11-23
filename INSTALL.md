@@ -103,7 +103,7 @@ The primary choice for installation is by use of **CMake**.
 
 
    ```bash
-   $ sudo cmake --install ./_build --config Release
+   $ sudo cmake --install ${SIS_CMAKE_BUILD_DIR:-./_build} --config Release
    ```
 
 7. Then to use the library, it is a simple matter as follows:
