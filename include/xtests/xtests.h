@@ -4452,7 +4452,7 @@ xTests_hasRequiredConditionFailed(void);
 XTESTS_CALL(int)
 xtests_commandLine_parseVerbosity(
     int     argc
-,   char**  argv
+,   char*   argv[]
 ,   int*    verbosity
 );
 
@@ -4462,7 +4462,7 @@ xtests_commandLine_parseVerbosity(
 XTESTS_CALL(void)
 xtests_commandLine_parseHelp(
     int     argc
-,   char**  argv
+,   char*   argv[]
 ,   FILE*   stm
 ,   int     exitCode
 );
