@@ -2,7 +2,7 @@
  * File:    xtests/xtests.h (formerly part of Synesis' internal test codebase)
  *
  * Purpose: Main header file for xTests, a simple unit/component-testing
- *          library.
+ *          library for C and C++.
  *
  * Created: 20th June 1999
  * Updated: 23rd November 2024
@@ -105,9 +105,9 @@
     STLSOFT_VER >= 0x010c0000
 
 # define XTESTS_STLSOFT_1_12_OR_LATER
-#elif _STLSOFT_VER < 0x010b0159
+#elif _STLSOFT_VER < 0x010b015a
 
-# error xTests requires version 1.11.1 alpha 25, or later, of STLSoft; download from https://github.com/synesissoftware/
+# error xTests requires version 1.11.1 alpha 26, or later, of STLSoft; obtain from https://github.com/synesissoftware/
 #endif /* _STLSOFT_VER */
 
 
@@ -163,6 +163,9 @@
 #    include <stlsoft/shims/access/string.hpp>
 #   endif /* !STLSOFT_INCL_STLSOFT_SHIMS_ACCESS_HPP_STRING */
 #  endif /* STLSOFT_MINIMUM_SAS_INCLUDES */
+#  ifndef STLSOFT_INCL_STLSOFT_UTIL_HPP_INTEGRAL_TRAITS
+#   include <stlsoft/traits/integral_traits.hpp>
+#  endif /* !STLSOFT_INCL_STLSOFT_UTIL_HPP_INTEGRAL_TRAITS */
 # endif /* !_XTESTS_NO_CPP_API */
 # if defined(STLSOFT_CF_EXCEPTION_SUPPORT)
 #  include <new>
@@ -3537,8 +3540,8 @@ struct xtests_failure_reporter<unsigned short>
         STLSOFT_STATIC_CAST(void, xtests_failure_reporter<int>::xtests_report_failure_equal(file, line, function, expr, int(expected), int(actual), comp));
     }
 };
-
 #  ifdef STLSOFT_CF_SHORT_DISTINCT_INT_TYPE
+
 template <>
 struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_sint16_t)>
 {
@@ -3564,8 +3567,8 @@ struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_uint16_t)>
     }
 };
 #  endif /* STLSOFT_CF_SHORT_DISTINCT_INT_TYPE */
-
 #  ifdef STLSOFT_CF_INT_DISTINCT_INT_TYPE
+
 template <>
 struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_sint32_t)>
 {
@@ -3617,8 +3620,8 @@ struct xtests_failure_reporter<unsigned long>
         STLSOFT_STATIC_CAST(void, xtests_testFailed_ulong(file, line, function, expr, expected, actual, comp));
     }
 };
-
 #  ifdef STLSOFT_CF_64BIT_INT_SUPPORT
+
 template <>
 struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_sint64_t)>
 {
@@ -3866,7 +3869,7 @@ template<
 >
 inline
 int
-xtests_test_integer(
+xtests_test_integer_(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -3948,6 +3951,34 @@ xtests_test_integer(
 
     return comparisonSucceeded;
 }
+
+template<
+    typename I1
+,   typename I2
+>
+inline
+int
+xtests_test_integer(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   I1 const&           expected
+,   I2 const&           actual
+,   xtests_comparison_t comp
+)
+{
+    return xtests_test_integer_(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   STLSOFT_NS_QUAL(integral_traits)<I1>::get_underlying_value(expected)
+    ,   STLSOFT_NS_QUAL(integral_traits)<I2>::get_underlying_value(actual)
+    ,   comp
+    );
+}
+
 
 struct boolean_test_must_involve_boolean_parameters {};
 
