@@ -1,10 +1,11 @@
 # xTests - History
 
 
-20th November 2024 - 0.26.0-alpha1
+23rd November 2024 - 0.26.0-alpha1
 ----------------------------------
 
  * added terse forms of macros, available by including **xtests/terse-api.h**;
+ * updated **STLSoft** constructs, incl. macros;
 
 
 18th November 2024 - 0.25.4
