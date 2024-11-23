@@ -4,6 +4,7 @@
 23rd November 2024 - 0.26.0-alpha1
 ----------------------------------
 
+ * added terse forms of macros, available by including **xtests/terse-api.h**;
  * `XTESTS_COMMANDLINE_PARSE_VERBOSITY()` now also recognises, if the command-line argument `"--verbosity= . . ."` is not found, the enviroment variables `"XTESTS_VERBOSITY"` and `"TEST_VERBOSITY"`;
  * updated **STLSoft** constructs, incl. macros;
  * minor improvements to project boilerplate files;

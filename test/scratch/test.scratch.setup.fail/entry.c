@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.scratch.setup.fail.c
+ * File:    test.scratch.setup.fail/entry.c
  *
  * Purpose: Illustrates failure of setup function.
  *
  * Created: 31st January 2010
- * Updated: 28th September 2024
+ * Updated: 20th November 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 

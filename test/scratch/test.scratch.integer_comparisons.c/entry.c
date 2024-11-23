@@ -1,11 +1,11 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.scratch.integer_comparisons.c.c
+ * File:    test.scratch.integer_comparisons.c/entry.c
  *
  * Purpose: Scratch tests of integer comparisons, given the new
  *          implementations in terms of `_Generic`.
  *
  * Created: 3rd August 2024
- * Updated: 28th September 2024
+ * Updated: 20th November 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 

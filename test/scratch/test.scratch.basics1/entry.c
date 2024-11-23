@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.scratch.basics1.c
+ * File:    test.scratch.basics1/entry.c
  *
  * Purpose: Illustrates various xTests facilities available to C code.
  *
  * Created: 15th December 2007
- * Updated: 29th September 2024
+ * Updated: 20th November 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
