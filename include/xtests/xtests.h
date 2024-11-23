@@ -2,7 +2,7 @@
  * File:    xtests/xtests.h (formerly part of Synesis' internal test codebase)
  *
  * Purpose: Main header file for xTests, a simple unit/component-testing
- *          library.
+ *          library for C and C++.
  *
  * Created: 20th June 1999
  * Updated: 23rd November 2024
@@ -51,9 +51,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
-# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       44
+# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       45
 # define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        380
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        383
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -105,9 +105,9 @@
     STLSOFT_VER >= 0x010c0000
 
 # define XTESTS_STLSOFT_1_12_OR_LATER
-#elif _STLSOFT_VER < 0x010b0159
+#elif _STLSOFT_VER < 0x010b015a
 
-# error xTests requires version 1.11.1 alpha 25, or later, of STLSoft; download from https://github.com/synesissoftware/
+# error xTests requires version 1.11.1 alpha 26, or later, of STLSoft; obtain from https://github.com/synesissoftware/
 #endif /* _STLSOFT_VER */
 
 
@@ -163,6 +163,9 @@
 #    include <stlsoft/shims/access/string.hpp>
 #   endif /* !STLSOFT_INCL_STLSOFT_SHIMS_ACCESS_HPP_STRING */
 #  endif /* STLSOFT_MINIMUM_SAS_INCLUDES */
+#  ifndef STLSOFT_INCL_STLSOFT_UTIL_HPP_INTEGRAL_TRAITS
+#   include <stlsoft/traits/integral_traits.hpp>
+#  endif /* !STLSOFT_INCL_STLSOFT_UTIL_HPP_INTEGRAL_TRAITS */
 # endif /* !_XTESTS_NO_CPP_API */
 # if defined(STLSOFT_CF_EXCEPTION_SUPPORT)
 #  include <new>
@@ -3537,8 +3540,8 @@ struct xtests_failure_reporter<unsigned short>
         STLSOFT_STATIC_CAST(void, xtests_failure_reporter<int>::xtests_report_failure_equal(file, line, function, expr, int(expected), int(actual), comp));
     }
 };
-
 #  ifdef STLSOFT_CF_SHORT_DISTINCT_INT_TYPE
+
 template <>
 struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_sint16_t)>
 {
@@ -3564,8 +3567,8 @@ struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_uint16_t)>
     }
 };
 #  endif /* STLSOFT_CF_SHORT_DISTINCT_INT_TYPE */
-
 #  ifdef STLSOFT_CF_INT_DISTINCT_INT_TYPE
+
 template <>
 struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_sint32_t)>
 {
@@ -3617,8 +3620,8 @@ struct xtests_failure_reporter<unsigned long>
         STLSOFT_STATIC_CAST(void, xtests_testFailed_ulong(file, line, function, expr, expected, actual, comp));
     }
 };
-
 #  ifdef STLSOFT_CF_64BIT_INT_SUPPORT
+
 template <>
 struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_sint64_t)>
 {
@@ -3645,20 +3648,6 @@ struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_uint64_t)>
     }
 };
 #  endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
-
-template <>
-struct xtests_failure_reporter<bool>
-{
-    static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, int expected, int actual, xtests_comparison_t comp)
-    {
-#  ifndef _XTESTS_NO_NAMESPACE
-        using namespace ::xtests::c;
-#  endif /* _XTESTS_NO_NAMESPACE */
-
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_boolean(file, line, function, expr, expected, actual, comp));
-    }
-};
-
 
 
 template<
@@ -3718,6 +3707,7 @@ xtests_reportFailedIntegerComparison(
        _MSC_VER >= 1310 && \
        !defined(_WIN64) && \
        defined(_Wp64)
+
 /* This special overload is to allow for cases such as:
  *
  *     XTESTS_TEST_INTEGER_EQUAL(4u, sink.size());
@@ -3741,50 +3731,6 @@ xtests_reportFailedIntegerComparison(
     STLSOFT_STATIC_CAST(void, xtests_testFailed_ulong(file, line, function, expr, static_cast<unsigned long>(expected), static_cast<unsigned long>(actual), comp));
 }
 #  endif
-
-inline
-void
-xtests_reportFailedIntegerComparison(
-    char const*         file
-,   int                 line
-,   char const*         function
-,   char const*         expr
-,   bool                expected
-,   bool                actual
-,   xtests_comparison_t comp
-)
-{
-#  ifndef _XTESTS_NO_NAMESPACE
-    using namespace ::xtests::c;
-#  endif /* _XTESTS_NO_NAMESPACE */
-
-#  if defined(STLSOFT_COMPILER_IS_BORLAND)
-
-    xtests_integer_failure_reporter_selector<bool, bool>::type::xtests_report_failure_equal(file, line, function, expr, expected, actual, comp);
-#  else /* ? compiler */
-
-    typedef xtests_integer_failure_reporter_selector<bool, bool>::type    failure_reporter_t;
-
-    failure_reporter_t::xtests_report_failure_equal(file, line, function, expr, expected, actual, comp);
-#  endif /* compiler */
-}
-
-#if 0
-inline
-void
-xtests_reportFailedIntegerComparison(
-    char const*         file
-,   int                 line
-,   char const*         function
-,   char const*         expr
-,   int                 expected
-,   bool                actual
-,   xtests_comparison_t comp
-)
-{
-    xtests_reportFailedIntegerComparison(file, line, function, expr, 0 != expected, actual, comp);
-}
-#endif /* 0 */
 
 inline
 void
@@ -3923,7 +3869,7 @@ template<
 >
 inline
 int
-xtests_test_integer(
+xtests_test_integer_(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -4006,6 +3952,34 @@ xtests_test_integer(
     return comparisonSucceeded;
 }
 
+template<
+    typename I1
+,   typename I2
+>
+inline
+int
+xtests_test_integer(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   I1 const&           expected
+,   I2 const&           actual
+,   xtests_comparison_t comp
+)
+{
+    return xtests_test_integer_(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   STLSOFT_NS_QUAL(integral_traits)<I1>::get_underlying_value(expected)
+    ,   STLSOFT_NS_QUAL(integral_traits)<I2>::get_underlying_value(actual)
+    ,   comp
+    );
+}
+
+
 struct boolean_test_must_involve_boolean_parameters {};
 
 template <typename T>
@@ -4052,9 +4026,82 @@ xtests_test_boolean_(
 ,   STLSOFT_NS_QUAL(yes_type)
 )
 {
-    bool const actual_as_bool = actual;
+#  ifndef _XTESTS_NO_NAMESPACE
+    using namespace ::xtests::c;
+#  endif /* _XTESTS_NO_NAMESPACE */
 
-    return xtests_test_integer<bool, bool>(file, line, function, expr, expected, actual_as_bool, comp);
+    bool const actual_as_bool = !!actual;
+
+    int comparisonSucceeded = false;
+
+    switch (comp)
+    {
+        case    xtestsComparisonEqual:
+        case    xtestsComparisonApproxEqual:
+
+            if (expected == actual_as_bool)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case    xtestsComparisonNotEqual:
+        case    xtestsComparisonApproxNotEqual:
+
+            if (expected != actual_as_bool)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+#if 0 /* NOTE: currently don't support ordering of `bool` */
+
+        case    xtestsComparisonGreaterThan:
+
+            if (actual_as_bool > expected)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case    xtestsComparisonLessThan:
+
+            if (actual_as_bool < expected)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case    xtestsComparisonGreaterThanOrEqual:
+
+            if (actual_as_bool >= expected)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case    xtestsComparisonLessThanOrEqual:
+
+            if (actual_as_bool <= expected)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+#endif
+        default:
+
+            STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
+        case    xtestsComparison_max_enumerator:
+
+            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            break;
+    }
+
+    if (comparisonSucceeded)
+    {
+        xtests_testPassed(file, line, function, expr);
+    }
+    else
+    {
+        STLSOFT_STATIC_CAST(void, xtests_testFailed_boolean(file, line, function, expr, expected, actual_as_bool, comp));
+    }
+
+    return comparisonSucceeded;
 }
 
 template <typename T>
@@ -4072,7 +4119,7 @@ xtests_test_boolean(
 {
     typedef ss_typename_type_k boolean_argument_traits<T>::yesno_type yesno_t;
 
-    return xtests_test_boolean_(file, line, function, expr, expected, !!actual, comp, yesno_t());
+    return xtests_test_boolean_(file, line, function, expr, expected, actual, comp, yesno_t());
 }
 
 

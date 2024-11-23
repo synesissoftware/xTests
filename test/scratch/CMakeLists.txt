@@ -2,6 +2,7 @@
 add_subdirectory(test.scratch.basics1)
 add_subdirectory(test.scratch.basics2)
 add_subdirectory(test.scratch.basics2.terse)
+add_subdirectory(test.scratch.custom_integral_types)
 add_subdirectory(test.scratch.fail_all.1)
 add_subdirectory(test.scratch.integer_comparisons.c)
 add_subdirectory(test.scratch.setup.fail)
