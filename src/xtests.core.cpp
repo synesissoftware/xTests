@@ -2111,7 +2111,7 @@ RunnerInfo::get_reporter_(
                         break;
                     case    xtestsVariableWideCharacter:
 
-                        onTestFailed_WideCharacter_(file, line, function, expr, expectedValue->value.multibyteCharacterValue, actualValue->value.multibyteCharacterValue, comparison, verbosity);
+                        onTestFailed_WideCharacter_(file, line, function, expr, expectedValue->value.wideCharacterValue, actualValue->value.wideCharacterValue, comparison, verbosity);
                         break;
                     case    xtestsVariableMultibyteString:
 
