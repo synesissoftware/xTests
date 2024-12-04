@@ -3849,47 +3849,47 @@ xtests_test_integer_compare_to_range_(
 
     switch (comp)
     {
-        case    xtestsComparisonEqual:
+    case    xtestsComparisonEqual:
 
-            for (; begin != end; ++begin)
+        for (; begin != end; ++begin)
+        {
+            I const& expected = *begin;
+
+            if (expected == actual)
             {
-                I const& expected = *begin;
-
-                if (expected == actual)
-                {
-                    return true;
-                }
+                return true;
             }
+        }
 
-            return false;
-        case    xtestsComparisonNotEqual:
+        return false;
+    case    xtestsComparisonNotEqual:
 
-            for (; begin != end; ++begin)
+        for (; begin != end; ++begin)
+        {
+            I const& expected = *begin;
+
+            if (expected == actual)
             {
-                I const& expected = *begin;
-
-                if (expected == actual)
-                {
-                    return false;
-                }
+                return false;
             }
+        }
 
-            return true;
-        case    xtestsComparisonApproxEqual:
-        case    xtestsComparisonApproxNotEqual:
-        case    xtestsComparisonGreaterThan:
-        case    xtestsComparisonLessThan:
-        case    xtestsComparisonGreaterThanOrEqual:
-        case    xtestsComparisonLessThanOrEqual:
+        return true;
+    case    xtestsComparisonApproxEqual:
+    case    xtestsComparisonApproxNotEqual:
+    case    xtestsComparisonGreaterThan:
+    case    xtestsComparisonLessThan:
+    case    xtestsComparisonGreaterThanOrEqual:
+    case    xtestsComparisonLessThanOrEqual:
 
-            xtests_abend("invalid test comparison type: only == and != are valid when testing membership of ranges");
-            break;
-        default:
+        xtests_abend("invalid test comparison type: only == and != are valid when testing membership of ranges");
+        break;
+    default:
 
-            STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
-        case    xtestsComparison_max_enumerator:
-            xtests_abend("invalid test comparison type: test framework may be out of date!");
-            break;
+        STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
+    case    xtestsComparison_max_enumerator:
+        xtests_abend("invalid test comparison type: test framework may be out of date!");
+        break;
     }
 
     xtests_abend("should not get here!");
@@ -3962,57 +3962,57 @@ xtests_test_integer_(
 
     switch (comp)
     {
-        case    xtestsComparisonEqual:
-        case    xtestsComparisonApproxEqual:
+    case    xtestsComparisonEqual:
+    case    xtestsComparisonApproxEqual:
 
-            if (expected == actual)
-            {
-                comparisonSucceeded = true;
-            }
-            break;
-        case    xtestsComparisonNotEqual:
-        case    xtestsComparisonApproxNotEqual:
+        if (expected == actual)
+        {
+            comparisonSucceeded = true;
+        }
+        break;
+    case    xtestsComparisonNotEqual:
+    case    xtestsComparisonApproxNotEqual:
 
-            if (expected != actual)
-            {
-                comparisonSucceeded = true;
-            }
-            break;
-        case    xtestsComparisonGreaterThan:
+        if (expected != actual)
+        {
+            comparisonSucceeded = true;
+        }
+        break;
+    case    xtestsComparisonGreaterThan:
 
-            if (actual > expected)
-            {
-                comparisonSucceeded = true;
-            }
-            break;
-        case    xtestsComparisonLessThan:
+        if (actual > expected)
+        {
+            comparisonSucceeded = true;
+        }
+        break;
+    case    xtestsComparisonLessThan:
 
-            if (actual < expected)
-            {
-                comparisonSucceeded = true;
-            }
-            break;
-        case    xtestsComparisonGreaterThanOrEqual:
+        if (actual < expected)
+        {
+            comparisonSucceeded = true;
+        }
+        break;
+    case    xtestsComparisonGreaterThanOrEqual:
 
-            if (actual >= expected)
-            {
-                comparisonSucceeded = true;
-            }
-            break;
-        case    xtestsComparisonLessThanOrEqual:
+        if (actual >= expected)
+        {
+            comparisonSucceeded = true;
+        }
+        break;
+    case    xtestsComparisonLessThanOrEqual:
 
-            if (actual <= expected)
-            {
-                comparisonSucceeded = true;
-            }
-            break;
-        default:
+        if (actual <= expected)
+        {
+            comparisonSucceeded = true;
+        }
+        break;
+    default:
 
-            STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
-        case    xtestsComparison_max_enumerator:
+        STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
+    case    xtestsComparison_max_enumerator:
 
-            xtests_abend("invalid test comparison type: test framework may be out of date!");
-            break;
+        xtests_abend("invalid test comparison type: test framework may be out of date!");
+        break;
     }
 
     if (comparisonSucceeded)
@@ -4111,60 +4111,60 @@ xtests_test_boolean_(
 
     switch (comp)
     {
-        case    xtestsComparisonEqual:
-        case    xtestsComparisonApproxEqual:
+    case    xtestsComparisonEqual:
+    case    xtestsComparisonApproxEqual:
 
-            if (expected == actual_as_bool)
-            {
-                comparisonSucceeded = true;
-            }
-            break;
-        case    xtestsComparisonNotEqual:
-        case    xtestsComparisonApproxNotEqual:
+        if (expected == actual_as_bool)
+        {
+            comparisonSucceeded = true;
+        }
+        break;
+    case    xtestsComparisonNotEqual:
+    case    xtestsComparisonApproxNotEqual:
 
-            if (expected != actual_as_bool)
-            {
-                comparisonSucceeded = true;
-            }
-            break;
+        if (expected != actual_as_bool)
+        {
+            comparisonSucceeded = true;
+        }
+        break;
 #if 0 /* NOTE: currently don't support ordering of `bool` */
 
-        case    xtestsComparisonGreaterThan:
+    case    xtestsComparisonGreaterThan:
 
-            if (actual_as_bool > expected)
-            {
-                comparisonSucceeded = true;
-            }
-            break;
-        case    xtestsComparisonLessThan:
+        if (actual_as_bool > expected)
+        {
+            comparisonSucceeded = true;
+        }
+        break;
+    case    xtestsComparisonLessThan:
 
-            if (actual_as_bool < expected)
-            {
-                comparisonSucceeded = true;
-            }
-            break;
-        case    xtestsComparisonGreaterThanOrEqual:
+        if (actual_as_bool < expected)
+        {
+            comparisonSucceeded = true;
+        }
+        break;
+    case    xtestsComparisonGreaterThanOrEqual:
 
-            if (actual_as_bool >= expected)
-            {
-                comparisonSucceeded = true;
-            }
-            break;
-        case    xtestsComparisonLessThanOrEqual:
+        if (actual_as_bool >= expected)
+        {
+            comparisonSucceeded = true;
+        }
+        break;
+    case    xtestsComparisonLessThanOrEqual:
 
-            if (actual_as_bool <= expected)
-            {
-                comparisonSucceeded = true;
-            }
-            break;
+        if (actual_as_bool <= expected)
+        {
+            comparisonSucceeded = true;
+        }
+        break;
 #endif
-        default:
+    default:
 
-            STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
-        case    xtestsComparison_max_enumerator:
+        STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
+    case    xtestsComparison_max_enumerator:
 
-            xtests_abend("invalid test comparison type: test framework may be out of date!");
-            break;
+        xtests_abend("invalid test comparison type: test framework may be out of date!");
+        break;
     }
 
     if (comparisonSucceeded)
@@ -4458,69 +4458,69 @@ xtests_test_floating_point(
 
     switch (comp)
     {
-        case    xtestsComparisonEqual:
+    case    xtestsComparisonEqual:
 
-            if (expected == actual)
-            {
-                comparisonSucceeded = true;
-            }
-            break;
-        case    xtestsComparisonApproxEqual:
+        if (expected == actual)
+        {
+            comparisonSucceeded = true;
+        }
+        break;
+    case    xtestsComparisonApproxEqual:
 
-            if (xtests_floatingPointClose(expected, actual))
-            {
-                comparisonSucceeded = true;
-            }
-            break;
-        case    xtestsComparisonNotEqual:
+        if (xtests_floatingPointClose(expected, actual))
+        {
+            comparisonSucceeded = true;
+        }
+        break;
+    case    xtestsComparisonNotEqual:
 
-            if (expected != actual)
-            {
-                comparisonSucceeded = true;
-            }
-            break;
-        case    xtestsComparisonApproxNotEqual:
+        if (expected != actual)
+        {
+            comparisonSucceeded = true;
+        }
+        break;
+    case    xtestsComparisonApproxNotEqual:
 
-            if (!xtests_floatingPointClose(expected, actual))
-            {
-                comparisonSucceeded = true;
-            }
-            break;
-        case    xtestsComparisonGreaterThan:
+        if (!xtests_floatingPointClose(expected, actual))
+        {
+            comparisonSucceeded = true;
+        }
+        break;
+    case    xtestsComparisonGreaterThan:
 
-            if (actual > expected)
-            {
-                comparisonSucceeded = true;
-            }
-            break;
-        case    xtestsComparisonLessThan:
+        if (actual > expected)
+        {
+            comparisonSucceeded = true;
+        }
+        break;
+    case    xtestsComparisonLessThan:
 
-            if (actual < expected)
-            {
-                comparisonSucceeded = true;
-            }
-            break;
-        case    xtestsComparisonGreaterThanOrEqual:
+        if (actual < expected)
+        {
+            comparisonSucceeded = true;
+        }
+        break;
+    case    xtestsComparisonGreaterThanOrEqual:
 
-            if (actual >= expected)
-            {
-                comparisonSucceeded = true;
-            }
-            break;
-        case    xtestsComparisonLessThanOrEqual:
+        if (actual >= expected)
+        {
+            comparisonSucceeded = true;
+        }
+        break;
+    case    xtestsComparisonLessThanOrEqual:
 
-            if (actual <= expected)
-            {
-                comparisonSucceeded = true;
-            }
-            break;
-        default:
+        if (actual <= expected)
+        {
+            comparisonSucceeded = true;
+        }
+        break;
+    default:
 
-            STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
-        case    xtestsComparison_max_enumerator:
+        STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
+    case    xtestsComparison_max_enumerator:
 
-            xtests_abend("invalid test comparison type: test framework may be out of date!");
-            break;
+        xtests_abend("invalid test comparison type: test framework may be out of date!");
+        break;
     }
 
     if (comparisonSucceeded)
