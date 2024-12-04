@@ -141,10 +141,10 @@
 
 #define XTESTS_VERBOSITY_VALID_MISSING_CASES    \
                                                 \
-                case    5:                      \
-                case    6:                      \
-                case    7:                      \
-                case    8:                      \
+                case 5:                         \
+                case 6:                         \
+                case 7:                         \
+                case 8:                         \
                                                 \
 
 
@@ -2019,19 +2019,19 @@ RunnerInfo::get_reporter_(
             {
                 switch (verbosity)
                 {
-                case    XTESTS_VERBOSITY_SILENT:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
-                case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
 
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case    XTESTS_VERBOSITY_VERBOSE:
+                case XTESTS_VERBOSITY_VERBOSE:
 
                     {
                         char_buffer_t_  name_buff(0);
@@ -2101,57 +2101,57 @@ RunnerInfo::get_reporter_(
 
                 switch (variableType)
                 {
-                case    xtestsVariableBoolean:
+                case xtestsVariableBoolean:
 
                     onTestFailed_Boolean_(file, line, function, expr, static_cast<bool>(0 != expectedValue->value.booleanValue), static_cast<bool>(0 != actualValue->value.booleanValue), comparison, verbosity);
                     break;
-                case    xtestsVariableOpaquePointer:
+                case xtestsVariableOpaquePointer:
 
                     onTestFailed_OpaquePointer_(file, line, function, expr, expectedValue->value.opaquePointerValue, actualValue->value.opaquePointerValue, comparison, verbosity);
                     break;
-                case    xtestsVariableMultibyteCharacter:
+                case xtestsVariableMultibyteCharacter:
 
                     onTestFailed_MultibyteCharacter_(file, line, function, expr, expectedValue->value.multibyteCharacterValue, actualValue->value.multibyteCharacterValue, comparison, verbosity);
                     break;
-                case    xtestsVariableWideCharacter:
+                case xtestsVariableWideCharacter:
 
                     onTestFailed_WideCharacter_(file, line, function, expr, expectedValue->value.wideCharacterValue, actualValue->value.wideCharacterValue, comparison, verbosity);
                     break;
-                case    xtestsVariableMultibyteString:
+                case xtestsVariableMultibyteString:
 
                     onTestFailed_MultibyteString_(file, line, function, expr, expectedValue->value.multibyteStringValue, expectedValue->valueLen, actualValue->value.multibyteStringValue, actualValue->valueLen, length, testType, comparison, verbosity);
                     break;
-                case    xtestsVariableWideString:
+                case xtestsVariableWideString:
 
                     onTestFailed_WideString_(file, line, function, expr, expectedValue->value.wideStringValue, expectedValue->valueLen, actualValue->value.wideStringValue, actualValue->valueLen, length, testType, comparison, verbosity);
                     break;
-                case    xtestsVariableLong:
+                case xtestsVariableLong:
 
                     onTestFailed_SignedLong_(file, line, function, expr, expectedValue->value.longValue, actualValue->value.longValue, comparison, verbosity);
                     break;
-                case    xtestsVariableUnsignedLong:
+                case xtestsVariableUnsignedLong:
 
                     onTestFailed_UnsignedLong_(file, line, function, expr, expectedValue->value.ulongValue, actualValue->value.ulongValue, comparison, verbosity);
                     break;
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
 
-                case    xtestsVariableLongLong:
+                case xtestsVariableLongLong:
 
                     onTestFailed_sint64_(file, line, function, expr, expectedValue->value.longlongValue, actualValue->value.longlongValue, comparison, verbosity);
                     break;
-                case    xtestsVariableUnsignedLongLong:
+                case xtestsVariableUnsignedLongLong:
 
                     onTestFailed_uint64_(file, line, function, expr, expectedValue->value.ulonglongValue, actualValue->value.ulonglongValue, comparison, verbosity);
                     break;
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
-                case    xtestsVariableDouble:
+                case xtestsVariableDouble:
 
                     onTestFailed_Double_(file, line, function, expr, expectedValue->value.doubleValue, actualValue->value.doubleValue, comparison, verbosity);
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("not currently defined for this type", 0);
-                case    xtestsVariableNone:
+                case xtestsVariableNone:
 
                     onTestFailed_(file, line, function, expr, comparison, verbosity);
                     break;
@@ -2174,20 +2174,20 @@ RunnerInfo::get_reporter_(
 
                 switch (verbosity)
                 {
-                case    XTESTS_VERBOSITY_SILENT:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
                     fmt = "";
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case    XTESTS_VERBOSITY_VERBOSE:
+                case XTESTS_VERBOSITY_VERBOSE:
 
                     break;
                 }
@@ -2225,20 +2225,20 @@ RunnerInfo::get_reporter_(
 
                 switch (verbosity)
                 {
-                case    XTESTS_VERBOSITY_SILENT:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
                     fmt = "";
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case    XTESTS_VERBOSITY_VERBOSE:
+                case XTESTS_VERBOSITY_VERBOSE:
 
                     break;
                 }
@@ -2276,20 +2276,20 @@ RunnerInfo::get_reporter_(
 
                 switch (verbosity)
                 {
-                case    XTESTS_VERBOSITY_SILENT:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
                     fmt = "";
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case    XTESTS_VERBOSITY_VERBOSE:
+                case XTESTS_VERBOSITY_VERBOSE:
 
                     break;
                 }
@@ -2327,20 +2327,20 @@ RunnerInfo::get_reporter_(
 
                 switch (verbosity)
                 {
-                case    XTESTS_VERBOSITY_SILENT:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
                     fmt = "";
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case    XTESTS_VERBOSITY_VERBOSE:
+                case XTESTS_VERBOSITY_VERBOSE:
 
                     break;
                 }
@@ -2388,20 +2388,20 @@ RunnerInfo::get_reporter_(
 
                     switch (verbosity)
                     {
-                    case    XTESTS_VERBOSITY_SILENT:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                    case XTESTS_VERBOSITY_SILENT:
+                    case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                    case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
                         fmt = "";
                         break;
                     default:
 
                         STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                    case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                    case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                    case XTESTS_VERBOSITY_CASE_SUMMARY:
                     XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case    XTESTS_VERBOSITY_VERBOSE:
+                    case XTESTS_VERBOSITY_VERBOSE:
 
                         break;
                     }
@@ -2436,20 +2436,20 @@ RunnerInfo::get_reporter_(
 
                     switch (verbosity)
                     {
-                    case    XTESTS_VERBOSITY_SILENT:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                    case XTESTS_VERBOSITY_SILENT:
+                    case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                    case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
                         fmt = "";
                         break;
                     default:
 
                         STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                    case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                    case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                    case XTESTS_VERBOSITY_CASE_SUMMARY:
                     XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case    XTESTS_VERBOSITY_VERBOSE:
+                    case XTESTS_VERBOSITY_VERBOSE:
 
                         break;
                     }
@@ -2485,20 +2485,20 @@ RunnerInfo::get_reporter_(
 
                     switch (verbosity)
                     {
-                    case    XTESTS_VERBOSITY_SILENT:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                    case XTESTS_VERBOSITY_SILENT:
+                    case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                    case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
                         fmt = "";
                         break;
                     default:
 
                         STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                    case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                    case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                    case XTESTS_VERBOSITY_CASE_SUMMARY:
                     XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case    XTESTS_VERBOSITY_VERBOSE:
+                    case XTESTS_VERBOSITY_VERBOSE:
 
                         break;
                     }
@@ -2568,20 +2568,20 @@ RunnerInfo::get_reporter_(
 
                 switch (verbosity)
                 {
-                case    XTESTS_VERBOSITY_SILENT:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
                     fmt = "";
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case    XTESTS_VERBOSITY_VERBOSE:
+                case XTESTS_VERBOSITY_VERBOSE:
 
                     break;
                 }
@@ -2624,20 +2624,20 @@ RunnerInfo::get_reporter_(
 
                 switch (verbosity)
                 {
-                case    XTESTS_VERBOSITY_SILENT:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
                     fmt = "";
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case    XTESTS_VERBOSITY_VERBOSE:
+                case XTESTS_VERBOSITY_VERBOSE:
 
                     break;
                 }
@@ -2680,20 +2680,20 @@ RunnerInfo::get_reporter_(
 
                 switch (verbosity)
                 {
-                case    XTESTS_VERBOSITY_SILENT:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
                     fmt = "";
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case    XTESTS_VERBOSITY_VERBOSE:
+                case XTESTS_VERBOSITY_VERBOSE:
 
                     break;
                 }
@@ -2774,20 +2774,20 @@ RunnerInfo::get_reporter_(
 
                 switch (verbosity)
                 {
-                case    XTESTS_VERBOSITY_SILENT:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
                     fmt = "";
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case    XTESTS_VERBOSITY_VERBOSE:
+                case XTESTS_VERBOSITY_VERBOSE:
 
                     break;
                 }
@@ -2870,20 +2870,20 @@ RunnerInfo::get_reporter_(
 
                 switch (verbosity)
                 {
-                case    XTESTS_VERBOSITY_SILENT:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
                     fmt = "";
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case    XTESTS_VERBOSITY_VERBOSE:
+                case XTESTS_VERBOSITY_VERBOSE:
 
                     break;
                 }
@@ -2915,20 +2915,20 @@ RunnerInfo::get_reporter_(
 
                 switch (verbosity)
                 {
-                case    XTESTS_VERBOSITY_SILENT:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
                     fmt = "";
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case    XTESTS_VERBOSITY_VERBOSE:
+                case XTESTS_VERBOSITY_VERBOSE:
 
                     break;
                 }
@@ -2944,19 +2944,19 @@ RunnerInfo::get_reporter_(
 
                 switch (verbosity)
                 {
-                case    XTESTS_VERBOSITY_SILENT:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case    XTESTS_VERBOSITY_VERBOSE:
+                case XTESTS_VERBOSITY_VERBOSE:
 
                     xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                     ,   s_fmt
@@ -2971,22 +2971,22 @@ RunnerInfo::get_reporter_(
 
                 switch (verbosity)
                 {
-                case    XTESTS_VERBOSITY_SILENT:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
                     break;
-                case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
 
                     level = 1;
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case    XTESTS_VERBOSITY_VERBOSE:
+                case XTESTS_VERBOSITY_VERBOSE:
 
                     level = 2;
                     break;
@@ -3014,22 +3014,22 @@ RunnerInfo::get_reporter_(
 
                 switch (verbosity)
                 {
-                case    XTESTS_VERBOSITY_SILENT:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
                     break;
-                case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
 
                     level = 1;
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case    XTESTS_VERBOSITY_VERBOSE:
+                case XTESTS_VERBOSITY_VERBOSE:
 
                     level = 2;
                     break;
@@ -3066,13 +3066,13 @@ RunnerInfo::get_reporter_(
 
                 switch (verbosity)
                 {
-                case    XTESTS_VERBOSITY_SILENT:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
                     level = 0;
                     break;
-                case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
 
                     if (!allTestsHavePassed)
                     {
@@ -3082,14 +3082,14 @@ RunnerInfo::get_reporter_(
                         }
                     }
                     break;
-                case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
 
                     if (!allTestsHavePassed)
                     {
                         level = 2;
                     }
                     break;
-                case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
 
                     level = 2;
                     break;
@@ -3097,7 +3097,7 @@ RunnerInfo::get_reporter_(
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case    XTESTS_VERBOSITY_VERBOSE:
+                case XTESTS_VERBOSITY_VERBOSE:
 
                     level = 2;
                     break;
@@ -3136,23 +3136,23 @@ RunnerInfo::get_reporter_(
 
                 switch (verbosity)
                 {
-                case    XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_SILENT:
 
                     level = 0;
                     break;
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
 
                     if (0 != results->numFailedCases)
                     {
                         level = 1;
                     }
                     break;
-                case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
                     level = 1;
                     break;
-                case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
 
                     level = 1;
                     if (0 != results->numFailedCases)
@@ -3160,7 +3160,7 @@ RunnerInfo::get_reporter_(
                         level = 2;
                     }
                     break;
-                case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
 
                     level = 2;
                     break;
@@ -3168,7 +3168,7 @@ RunnerInfo::get_reporter_(
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case    XTESTS_VERBOSITY_VERBOSE:
+                case XTESTS_VERBOSITY_VERBOSE:
 
                     level = 2;
                     break;
@@ -3778,63 +3778,63 @@ RunnerInfo::TestMultibyteStrings(
 
         switch (comp)
         {
-        case    xtestsComparisonEqual:
+        case xtestsComparisonEqual:
 
             if (0 == xtests_strcmp_a_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonApproxEqual:
+        case xtestsComparisonApproxEqual:
 
             if (0 == xtests_stricmp_a_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonNotEqual:
+        case xtestsComparisonNotEqual:
 
             if (0 != xtests_strcmp_a_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonApproxNotEqual:
+        case xtestsComparisonApproxNotEqual:
 
             if (0 != xtests_stricmp_a_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonGreaterThan:
+        case xtestsComparisonGreaterThan:
 
             if (0 > xtests_strcmp_a_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonLessThan:
+        case xtestsComparisonLessThan:
 
             if (0 < xtests_strcmp_a_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonGreaterThanOrEqual:
+        case xtestsComparisonGreaterThanOrEqual:
 
             if (0 >= xtests_strcmp_a_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonLessThanOrEqual:
+        case xtestsComparisonLessThanOrEqual:
 
             if (0 <= xtests_strcmp_a_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparison_max_enumerator:
+        case xtestsComparison_max_enumerator:
 
             xtests_abend("invalid test comparison type: test framework may be out of date!");
             break;
@@ -3915,25 +3915,25 @@ RunnerInfo::TestMultibyteStringsN(
             // fails
             switch (comp)
             {
-            case    xtestsComparisonEqual:
-            case    xtestsComparisonApproxEqual:
+            case xtestsComparisonEqual:
+            case xtestsComparisonApproxEqual:
 
                 break;
-            case    xtestsComparisonNotEqual:
-            case    xtestsComparisonApproxNotEqual:
+            case xtestsComparisonNotEqual:
+            case xtestsComparisonApproxNotEqual:
 
                 comparisonSucceeded = true;
                 break;
-            case    xtestsComparisonGreaterThan:
-            case    xtestsComparisonLessThan:
-            case    xtestsComparisonGreaterThanOrEqual:
-            case    xtestsComparisonLessThanOrEqual:
+            case xtestsComparisonGreaterThan:
+            case xtestsComparisonLessThan:
+            case xtestsComparisonGreaterThanOrEqual:
+            case xtestsComparisonLessThanOrEqual:
 
                 break;
             default:
 
                 STLSOFT_ASSERT(0);
-            case    xtestsComparison_max_enumerator:
+            case xtestsComparison_max_enumerator:
 
                 xtests_abend("invalid test comparison type: test framework may be out of date!");
                 break;
@@ -3943,63 +3943,63 @@ RunnerInfo::TestMultibyteStringsN(
         {
             switch (comp)
             {
-            case    xtestsComparisonEqual:
+            case xtestsComparisonEqual:
 
                 if (0 == xtests_strncmp_a_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case    xtestsComparisonApproxEqual:
+            case xtestsComparisonApproxEqual:
 
                 if (0 == xtests_strnicmp_a_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case    xtestsComparisonNotEqual:
+            case xtestsComparisonNotEqual:
 
                 if (0 != xtests_strncmp_a_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case    xtestsComparisonApproxNotEqual:
+            case xtestsComparisonApproxNotEqual:
 
                 if (0 != xtests_strnicmp_a_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case    xtestsComparisonGreaterThan:
+            case xtestsComparisonGreaterThan:
 
                 if (0 > xtests_strncmp_a_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case    xtestsComparisonLessThan:
+            case xtestsComparisonLessThan:
 
                 if (0 < xtests_strncmp_a_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case    xtestsComparisonGreaterThanOrEqual:
+            case xtestsComparisonGreaterThanOrEqual:
 
                 if (0 >= xtests_strncmp_a_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case    xtestsComparisonLessThanOrEqual:
+            case xtestsComparisonLessThanOrEqual:
 
                 if (0 <= xtests_strncmp_a_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case    xtestsComparison_max_enumerator:
+            case xtestsComparison_max_enumerator:
 
                 xtests_abend("invalid test comparison type: test framework may be out of date!");
                 break;
@@ -4056,63 +4056,63 @@ RunnerInfo::TestWideStrings(
 
         switch (comp)
         {
-        case    xtestsComparisonEqual:
+        case xtestsComparisonEqual:
 
             if (0 == xtests_strcmp_w_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonApproxEqual:
+        case xtestsComparisonApproxEqual:
 
             if (0 == xtests_stricmp_w_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonNotEqual:
+        case xtestsComparisonNotEqual:
 
             if (0 != xtests_strcmp_w_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonApproxNotEqual:
+        case xtestsComparisonApproxNotEqual:
 
             if (0 != xtests_stricmp_w_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonGreaterThan:
+        case xtestsComparisonGreaterThan:
 
             if (0 > xtests_strcmp_w_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonLessThan:
+        case xtestsComparisonLessThan:
 
             if (0 < xtests_strcmp_w_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonGreaterThanOrEqual:
+        case xtestsComparisonGreaterThanOrEqual:
 
             if (0 >= xtests_strcmp_w_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonLessThanOrEqual:
+        case xtestsComparisonLessThanOrEqual:
 
             if (0 <= xtests_strcmp_w_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparison_max_enumerator:
+        case xtestsComparison_max_enumerator:
 
             xtests_abend("invalid test comparison type: test framework may be out of date!");
             break;
@@ -4193,22 +4193,22 @@ RunnerInfo::TestWideStringsN(
             // fails
             switch (comp)
             {
-            case    xtestsComparisonEqual:
-            case    xtestsComparisonApproxEqual:
+            case xtestsComparisonEqual:
+            case xtestsComparisonApproxEqual:
 
                 break;
-            case    xtestsComparisonNotEqual:
-            case    xtestsComparisonApproxNotEqual:
+            case xtestsComparisonNotEqual:
+            case xtestsComparisonApproxNotEqual:
 
                 comparisonSucceeded = true;
                 break;
-            case    xtestsComparisonGreaterThan:
-            case    xtestsComparisonLessThan:
-            case    xtestsComparisonGreaterThanOrEqual:
-            case    xtestsComparisonLessThanOrEqual:
+            case xtestsComparisonGreaterThan:
+            case xtestsComparisonLessThan:
+            case xtestsComparisonGreaterThanOrEqual:
+            case xtestsComparisonLessThanOrEqual:
 
                 break;
-            case    xtestsComparison_max_enumerator:
+            case xtestsComparison_max_enumerator:
 
                 xtests_abend("invalid test comparison type: test framework may be out of date!");
                 break;
@@ -4218,63 +4218,63 @@ RunnerInfo::TestWideStringsN(
         {
             switch (comp)
             {
-            case    xtestsComparisonEqual:
+            case xtestsComparisonEqual:
 
                 if (0 == xtests_strncmp_w_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case    xtestsComparisonApproxEqual:
+            case xtestsComparisonApproxEqual:
 
                 if (0 == xtests_strnicmp_w_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case    xtestsComparisonNotEqual:
+            case xtestsComparisonNotEqual:
 
                 if (0 != xtests_strncmp_w_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case    xtestsComparisonApproxNotEqual:
+            case xtestsComparisonApproxNotEqual:
 
                 if (0 != xtests_strnicmp_w_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case    xtestsComparisonGreaterThan:
+            case xtestsComparisonGreaterThan:
 
                 if (0 > xtests_strncmp_w_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case    xtestsComparisonLessThan:
+            case xtestsComparisonLessThan:
 
                 if (0 < xtests_strncmp_w_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case    xtestsComparisonGreaterThanOrEqual:
+            case xtestsComparisonGreaterThanOrEqual:
 
                 if (0 >= xtests_strncmp_w_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case    xtestsComparisonLessThanOrEqual:
+            case xtestsComparisonLessThanOrEqual:
 
                 if (0 <= xtests_strncmp_w_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case    xtestsComparison_max_enumerator:
+            case xtestsComparison_max_enumerator:
 
                 xtests_abend("invalid test comparison type: test framework may be out of date!");
                 break;
@@ -4331,42 +4331,42 @@ RunnerInfo::TestMultibyteStringContains(
 
         switch (comp)
         {
-        case    xtestsComparisonEqual:
+        case xtestsComparisonEqual:
 
             if (NULL != xtests_strstr_(actual, expected))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonApproxEqual:
+        case xtestsComparisonApproxEqual:
 
             if (NULL != xtests_stristr_(actual, expected))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonNotEqual:
+        case xtestsComparisonNotEqual:
 
             if (NULL == xtests_strstr_(actual, expected))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonApproxNotEqual:
+        case xtestsComparisonApproxNotEqual:
 
             if (NULL == xtests_stristr_(actual, expected))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonGreaterThan:
-        case    xtestsComparisonLessThan:
-        case    xtestsComparisonGreaterThanOrEqual:
-        case    xtestsComparisonLessThanOrEqual:
+        case xtestsComparisonGreaterThan:
+        case xtestsComparisonLessThan:
+        case xtestsComparisonGreaterThanOrEqual:
+        case xtestsComparisonLessThanOrEqual:
 
             xtests_abend("comparison type not valid for string containing tests");
             break;
-        case    xtestsComparison_max_enumerator:
+        case xtestsComparison_max_enumerator:
 
             xtests_abend("invalid test comparison type: test framework may be out of date!");
             break;
@@ -4422,42 +4422,42 @@ RunnerInfo::TestWideStringContains(
 
         switch (comp)
         {
-        case    xtestsComparisonEqual:
+        case xtestsComparisonEqual:
 
             if (NULL != xtests_strstr_w_(actual, expected))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonApproxEqual:
+        case xtestsComparisonApproxEqual:
 
             if (NULL != xtests_stristr_w_(actual, expected))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonNotEqual:
+        case xtestsComparisonNotEqual:
 
             if (NULL == xtests_strstr_w_(actual, expected))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonApproxNotEqual:
+        case xtestsComparisonApproxNotEqual:
 
             if (NULL == xtests_stristr_w_(actual, expected))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonGreaterThan:
-        case    xtestsComparisonLessThan:
-        case    xtestsComparisonGreaterThanOrEqual:
-        case    xtestsComparisonLessThanOrEqual:
+        case xtestsComparisonGreaterThan:
+        case xtestsComparisonLessThan:
+        case xtestsComparisonGreaterThanOrEqual:
+        case xtestsComparisonLessThanOrEqual:
 
             xtests_abend("comparison type not valid for string containing tests");
             break;
-        case    xtestsComparison_max_enumerator:
+        case xtestsComparison_max_enumerator:
 
             xtests_abend("invalid test comparison type: test framework may be out of date!");
             break;
@@ -4517,7 +4517,7 @@ RunnerInfo::TestMultibyteStringSlice(
 
         switch (comp)
         {
-        case    xtestsComparisonEqual:
+        case xtestsComparisonEqual:
 
             if (sameLength &&
                 0 == xtests_strncmp_a_(expectedPtr, actualPtr, expectedLen))
@@ -4525,7 +4525,7 @@ RunnerInfo::TestMultibyteStringSlice(
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonApproxEqual:
+        case xtestsComparisonApproxEqual:
 
             if (sameLength &&
                 0 == xtests_strnicmp_a_(expectedPtr, actualPtr, expectedLen))
@@ -4533,7 +4533,7 @@ RunnerInfo::TestMultibyteStringSlice(
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonNotEqual:
+        case xtestsComparisonNotEqual:
 
             if (!sameLength ||
                 0 != xtests_strncmp_a_(expectedPtr, actualPtr, expectedLen))
@@ -4541,7 +4541,7 @@ RunnerInfo::TestMultibyteStringSlice(
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonApproxNotEqual:
+        case xtestsComparisonApproxNotEqual:
 
             if (!sameLength ||
                 0 != xtests_strnicmp_a_(expectedPtr, actualPtr, expectedLen))
@@ -4549,14 +4549,14 @@ RunnerInfo::TestMultibyteStringSlice(
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonGreaterThan:
-        case    xtestsComparisonLessThan:
-        case    xtestsComparisonGreaterThanOrEqual:
-        case    xtestsComparisonLessThanOrEqual:
+        case xtestsComparisonGreaterThan:
+        case xtestsComparisonLessThan:
+        case xtestsComparisonGreaterThanOrEqual:
+        case xtestsComparisonLessThanOrEqual:
 
             XTESTS_FALLTHROUGH_();
             // fall through
-        case    xtestsComparison_max_enumerator:
+        case xtestsComparison_max_enumerator:
 
             xtests_abend("invalid test comparison type: test framework may be out of date!");
             break;
@@ -4622,7 +4622,7 @@ RunnerInfo::TestWideStringSlice(
 
         switch (comp)
         {
-        case    xtestsComparisonEqual:
+        case xtestsComparisonEqual:
 
             if (sameLength &&
                 0 == xtests_strncmp_w_(expectedPtr, actualPtr, expectedLen))
@@ -4630,7 +4630,7 @@ RunnerInfo::TestWideStringSlice(
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonApproxEqual:
+        case xtestsComparisonApproxEqual:
 
             if (sameLength &&
                 0 == xtests_strnicmp_w_(expectedPtr, actualPtr, expectedLen))
@@ -4638,7 +4638,7 @@ RunnerInfo::TestWideStringSlice(
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonNotEqual:
+        case xtestsComparisonNotEqual:
 
             if (!sameLength ||
                 0 != xtests_strncmp_w_(expectedPtr, actualPtr, expectedLen))
@@ -4646,7 +4646,7 @@ RunnerInfo::TestWideStringSlice(
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonApproxNotEqual:
+        case xtestsComparisonApproxNotEqual:
 
             if (!sameLength ||
                 0 != xtests_strnicmp_w_(expectedPtr, actualPtr, expectedLen))
@@ -4654,14 +4654,14 @@ RunnerInfo::TestWideStringSlice(
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonGreaterThan:
-        case    xtestsComparisonLessThan:
-        case    xtestsComparisonGreaterThanOrEqual:
-        case    xtestsComparisonLessThanOrEqual:
+        case xtestsComparisonGreaterThan:
+        case xtestsComparisonLessThan:
+        case xtestsComparisonGreaterThanOrEqual:
+        case xtestsComparisonLessThanOrEqual:
 
             XTESTS_FALLTHROUGH_();
             // fall through
-        case    xtestsComparison_max_enumerator:
+        case xtestsComparison_max_enumerator:
 
             xtests_abend("invalid test comparison type: test framework may be out of date!");
             break;
@@ -4723,51 +4723,51 @@ RunnerInfo::TestPointers(
 
         switch (comp)
         {
-        case    xtestsComparisonEqual:
-        case    xtestsComparisonApproxEqual:
+        case xtestsComparisonEqual:
+        case xtestsComparisonApproxEqual:
 
             if (expected == actual)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonNotEqual:
-        case    xtestsComparisonApproxNotEqual:
+        case xtestsComparisonNotEqual:
+        case xtestsComparisonApproxNotEqual:
 
             if (expected != actual)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonGreaterThan:
+        case xtestsComparisonGreaterThan:
 
             if (actual > expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonLessThan:
+        case xtestsComparisonLessThan:
 
             if (actual < expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonGreaterThanOrEqual:
+        case xtestsComparisonGreaterThanOrEqual:
 
             if (actual >= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonLessThanOrEqual:
+        case xtestsComparisonLessThanOrEqual:
 
             if (actual <= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparison_max_enumerator:
+        case xtestsComparison_max_enumerator:
 
             xtests_abend("invalid test comparison type: test framework may be out of date!");
             break;
@@ -4859,63 +4859,63 @@ RunnerInfo::TestCharacters(
 
         switch (comp)
         {
-        case    xtestsComparisonEqual:
+        case xtestsComparisonEqual:
 
             if (expected == actual)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonApproxEqual:
+        case xtestsComparisonApproxEqual:
 
             if (::toupper(expected) == ::toupper(actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonNotEqual:
+        case xtestsComparisonNotEqual:
 
             if (expected != actual)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonApproxNotEqual:
+        case xtestsComparisonApproxNotEqual:
 
             if (::toupper(expected) != ::toupper(actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonGreaterThan:
+        case xtestsComparisonGreaterThan:
 
             if (actual > expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonLessThan:
+        case xtestsComparisonLessThan:
 
             if (actual < expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonGreaterThanOrEqual:
+        case xtestsComparisonGreaterThanOrEqual:
 
             if (actual >= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonLessThanOrEqual:
+        case xtestsComparisonLessThanOrEqual:
 
             if (actual <= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparison_max_enumerator:
+        case xtestsComparison_max_enumerator:
 
             xtests_abend("invalid test comparison type: test framework may be out of date!");
             break;
@@ -4971,63 +4971,63 @@ RunnerInfo::TestCharacters(
 
         switch (comp)
         {
-        case    xtestsComparisonEqual:
+        case xtestsComparisonEqual:
 
             if (expected == actual)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonApproxEqual:
+        case xtestsComparisonApproxEqual:
 
             if (::towupper(expected) == ::towupper(actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonNotEqual:
+        case xtestsComparisonNotEqual:
 
             if (expected != actual)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonApproxNotEqual:
+        case xtestsComparisonApproxNotEqual:
 
             if (::towupper(expected) != ::towupper(actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonGreaterThan:
+        case xtestsComparisonGreaterThan:
 
             if (actual > expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonLessThan:
+        case xtestsComparisonLessThan:
 
             if (actual < expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonGreaterThanOrEqual:
+        case xtestsComparisonGreaterThanOrEqual:
 
             if (actual >= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparisonLessThanOrEqual:
+        case xtestsComparisonLessThanOrEqual:
 
             if (actual <= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case    xtestsComparison_max_enumerator:
+        case xtestsComparison_max_enumerator:
 
             xtests_abend("invalid test comparison type: test framework may be out of date!");
             break;
