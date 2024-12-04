@@ -2187,14 +2187,14 @@ RunnerInfo::get_reporter_(
             {
                 static char const*  s_fmts[] =
                 {
-                        "%s(%d): test condition failed: actual value %G should equal the expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should not equal expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should be greater than expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should be less than expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should be greater than or equal to the expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should be less than or equal to the expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should approximately equal to the expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should approximately not equal to the expected value %G%s%s\n"
+                        "%s(%d): test condition failed: actual value %G should "    "be equal to"                   " the expected value %G%s%s\n"
+                    ,   "%s(%d): test condition failed: actual value %G should "    "be not equal to"               " the expected value %G%s%s\n"
+                    ,   "%s(%d): test condition failed: actual value %G should "    "be greater than"               " the expected value %G%s%s\n"
+                    ,   "%s(%d): test condition failed: actual value %G should "    "be less than"                  " the expected value %G%s%s\n"
+                    ,   "%s(%d): test condition failed: actual value %G should "    "be greater than or equal to"   " the expected value %G%s%s\n"
+                    ,   "%s(%d): test condition failed: actual value %G should "    "be less than or equal to"      " the expected value %G%s%s\n"
+                    ,   "%s(%d): test condition failed: actual value %G should "    "be approximately equal to"     " the expected value %G%s%s\n"
+                    ,   "%s(%d): test condition failed: actual value %G should "    "be not approximately equal to" " the expected value %G%s%s\n"
                 };
                 STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                 char const*         fmt = s_fmts[comparison];
@@ -2228,14 +2228,14 @@ RunnerInfo::get_reporter_(
             {
                 static char const*  s_fmts[] =
                 {
-                        "%s(%d): test condition failed: actual character value '%c' (0x%02x) should equal the expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should not equal expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should be greater than expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should be less than expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should be greater than or equal to the expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should be less than or equal to the expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should be approximately equal to the expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%04x) should be approximately not equal to the expected value '%c' (0x%04x)%s%s\n"
+                        "%s(%d): test condition failed: actual character value '%c' (0x%02x) should "   "be equal to"                   " the expected value '%c' (0x%02x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should "   "be not equal to"               " the expected value '%c' (0x%02x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should "   "be greater than"               " the expected value '%c' (0x%02x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should "   "be less than"                  " the expected value '%c' (0x%02x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should "   "be greater than or equal to"   " the expected value '%c' (0x%02x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should "   "be less than or equal to"      " the expected value '%c' (0x%02x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should "   "be approximately equal to"     " the expected value '%c' (0x%02x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%04x) should "   "be not approximately equal to" " the expected value '%c' (0x%04x)%s%s\n"
                 };
                 STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                 char const*         fmt = s_fmts[comparison];
@@ -2279,14 +2279,14 @@ RunnerInfo::get_reporter_(
             {
                 static char const*  s_fmts[] =
                 {
-                        "%s(%d): test condition failed: actual character value '%c' (0x%04x) should equal the expected value '%c' (0x%04x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%04x) should not equal expected value '%c' (0x%04x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%04x) should be greater than expected value '%c' (0x%04x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%04x) should be less than expected value '%c' (0x%04x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%04x) should be greater than or equal to the expected value '%c' (0x%04x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%04x) should be less than or equal to the expected value '%c' (0x%04x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%04x) should be approximately equal to the expected value '%c' (0x%04x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%04x) should be approximately not equal to the expected value '%c' (0x%04x)%s%s\n"
+                        "%s(%d): test condition failed: actual character value '%C' (0x%04x) should "   "be equal to"                   " the expected value '%C' (0x%04x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%C' (0x%04x) should "   "be not equal to"               " the expected value '%C' (0x%04x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%C' (0x%04x) should "   "be greater than"               " the expected value '%C' (0x%04x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%C' (0x%04x) should "   "be less than"                  " the expected value '%C' (0x%04x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%C' (0x%04x) should "   "be greater than or equal to"   " the expected value '%C' (0x%04x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%C' (0x%04x) should "   "be less than or equal to"      " the expected value '%C' (0x%04x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%C' (0x%04x) should "   "be approximately equal to"     " the expected value '%C' (0x%04x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%C' (0x%04x) should "   "be not approximately equal to" " the expected value '%C' (0x%04x)%s%s\n"
                 };
                 STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                 char const*         fmt = s_fmts[comparison];
@@ -2326,14 +2326,14 @@ RunnerInfo::get_reporter_(
 
                     static char const*  s_fmts[] =
                     {
-                            "%s(%d): test condition failed: actual string value '%s' should equal the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should not equal expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should be greater than expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should be less than expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should be greater than or equal to the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should be less than or equal to the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should approximately equal to the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should approximately not equal to the expected value '%s'%s%s\n"
+                            "%s(%d): test condition failed: actual string value '%s' should "   "be equal to"                   " the expected value '%s'%s%s\n"
+                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "be not equal to"               " the expected value '%s'%s%s\n"
+                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "be greater than"               " the expected value '%s'%s%s\n"
+                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "be less then"                  " the expected value '%s'%s%s\n"
+                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "be greater than or equal to"   " the expected value '%s'%s%s\n"
+                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "be less than or equal to"      " the expected value '%s'%s%s\n"
+                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "be approximately equal to"     " the expected value '%s'%s%s\n"
+                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "be not approximately equal to" " the expected value '%s'%s%s\n"
                     };
                     STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                     char const*         fmt = s_fmts[comparison];
@@ -2370,14 +2370,14 @@ RunnerInfo::get_reporter_(
 
                     static char const*  s_fmts[] =
                     {
-                            "%s(%d): test condition failed: actual string value '%.*s' should equal the expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should not equal expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should be greater than expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should be less than expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should be greater than or equal to the expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should be less than or equal to the expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should approximately equal to the expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should approximately not equal to the expected value '%.*s' to the length %d%s%s\n"
+                            "%s(%d): test condition failed: actual string value '%.*s' should " "be equal to"                   " the expected value '%.*s' to the length %d%s%s\n"
+                        ,   "%s(%d): test condition failed: actual string value '%.*s' should " "be not equal to"               " the expected value '%.*s' to the length %d%s%s\n"
+                        ,   "%s(%d): test condition failed: actual string value '%.*s' should " "be greater than"               " the expected value '%.*s' to the length %d%s%s\n"
+                        ,   "%s(%d): test condition failed: actual string value '%.*s' should " "be less than"                  " the expected value '%.*s' to the length %d%s%s\n"
+                        ,   "%s(%d): test condition failed: actual string value '%.*s' should " "be greater than or equal to"   " the expected value '%.*s' to the length %d%s%s\n"
+                        ,   "%s(%d): test condition failed: actual string value '%.*s' should " "be less than or equal to"      " the expected value '%.*s' to the length %d%s%s\n"
+                        ,   "%s(%d): test condition failed: actual string value '%.*s' should " "be approximately equal to"     " the expected value '%.*s' to the length %d%s%s\n"
+                        ,   "%s(%d): test condition failed: actual string value '%.*s' should " "be not approximately equal to" " the expected value '%.*s' to the length %d%s%s\n"
                     };
                     STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                     char const*         fmt = s_fmts[comparison];
@@ -2419,14 +2419,14 @@ RunnerInfo::get_reporter_(
 
                     static char const*  s_fmts[] =
                     {
-                            "%s(%d): test condition failed: actual string value '%s' should contain the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should not contain expected value '%s'%s%s\n"
+                            "%s(%d): test condition failed: actual string value '%s' should "   "contain"                   " the expected value '%s'%s%s\n"
+                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "not contain"               " the expected value '%s'%s%s\n"
                         ,   ""
                         ,   ""
                         ,   ""
                         ,   ""
-                        ,   "%s(%d): test condition failed: actual string value '%s' should approximately contain to the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should approximately not contain to the expected value '%s'%s%s\n"
+                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "contain approximately"     " the expected value '%s'%s%s\n"
+                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "not contain approximately" " the expected value '%s'%s%s\n"
                     };
                     STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                     char const*         fmt = s_fmts[comparison];
@@ -2473,18 +2473,17 @@ RunnerInfo::get_reporter_(
             {
                 static char const*  s_fmts_[] =
                 {
-                        "%s(%d): test condition failed: actual pointer value '%p' should equal the expected value '%p'%s%s\n"
-                    ,   "%s(%d): test condition failed: actual pointer value '%p' should not equal expected value '%p'%s%s\n"
+                        "%s(%d): test condition failed: actual pointer value '%p' should "  "be equal to"       " the expected value '%p'%s%s\n"
+                    ,   "%s(%d): test condition failed: actual pointer value '%p' should "  "be not equal to"   " the expected value '%p'%s%s\n"
                 };
-
                 static char const*  s_fmts[] =
                 {
                         s_fmts_[0]
                     ,   s_fmts_[1]
-                    ,   "%s(%d): test condition failed: actual pointer value '%p' should be greater than expected value '%p'%s%s\n"
-                    ,   "%s(%d): test condition failed: actual pointer value '%p' should be less than expected value '%p'%s%s\n"
-                    ,   "%s(%d): test condition failed: actual pointer value '%p' should be greater than or equal to the expected value '%p'%s%s\n"
-                    ,   "%s(%d): test condition failed: actual pointer value '%p' should be less than or equal to the expected value '%p'%s%s\n"
+                    ,   "%s(%d): test condition failed: actual pointer value '%p' should "  "be greater than"               " the expected value '%p'%s%s\n"
+                    ,   "%s(%d): test condition failed: actual pointer value '%p' should "  "be less than"                  " the expected value '%p'%s%s\n"
+                    ,   "%s(%d): test condition failed: actual pointer value '%p' should "  "be greater than or equal to"   " the expected value '%p'%s%s\n"
+                    ,   "%s(%d): test condition failed: actual pointer value '%p' should "  "be less than or equal to"      " the expected value '%p'%s%s\n"
                     ,   s_fmts_[0]
                     ,   s_fmts_[1]
                 };
@@ -2520,18 +2519,17 @@ RunnerInfo::get_reporter_(
             {
                 static char const*  s_fmts_[] =
                 {
-                        "%s(%d): test condition failed: actual value %ld should equal the expected value %ld%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %ld should not equal expected value %ld%s%s\n"
+                        "%s(%d): test condition failed: actual value %ld should "   "be equal to"       " the expected value %ld%s%s\n"
+                    ,   "%s(%d): test condition failed: actual value %ld should "   "be not equal to"   " the expected value %ld%s%s\n"
                 };
-
                 static char const*  s_fmts[] =
                 {
                         s_fmts_[0]
                     ,   s_fmts_[1]
-                    ,   "%s(%d): test condition failed: actual value %ld should be greater than expected value %ld%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %ld should be less than expected value %ld%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %ld should be greater than or equal to the expected value %ld%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %ld should be less than or equal to the expected value %ld%s%s\n"
+                    ,   "%s(%d): test condition failed: actual value %ld should "   "be greater than"               " the expected value %ld%s%s\n"
+                    ,   "%s(%d): test condition failed: actual value %ld should "   "be less than"                  " the expected value %ld%s%s\n"
+                    ,   "%s(%d): test condition failed: actual value %ld should "   "be greater than or equal to"   " the expected value %ld%s%s\n"
+                    ,   "%s(%d): test condition failed: actual value %ld should "   "be less than or equal to"      " the expected value %ld%s%s\n"
                     ,   s_fmts_[0]
                     ,   s_fmts_[1]
                 };
@@ -2567,17 +2565,17 @@ RunnerInfo::get_reporter_(
             {
                 static char const*  s_fmts_[] =
                 {
-                        "%s(%d): test condition failed: actual value %lu should equal the expected value %lu%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %lu should not equal expected value %lu%s%s\n"
+                        "%s(%d): test condition failed: actual value %lu should "   "be equal to"       " the expected value %lu%s%s\n"
+                    ,   "%s(%d): test condition failed: actual value %lu should "   "be not equal to"   " the expected value %lu%s%s\n"
                 };
                 static char const*  s_fmts[] =
                 {
                         s_fmts_[0]
                     ,   s_fmts_[1]
-                    ,   "%s(%d): test condition failed: actual value %lu should be greater than expected value %lu%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %lu should be less than expected value %lu%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %lu should be greater than or equal to the expected value %lu%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %lu should be less than or equal to the expected value %lu%s%s\n"
+                    ,   "%s(%d): test condition failed: actual value %lu should "   "be greater than"               " the expected value %lu%s%s\n"
+                    ,   "%s(%d): test condition failed: actual value %lu should "   "be less than"                  " the expected value %lu%s%s\n"
+                    ,   "%s(%d): test condition failed: actual value %lu should "   "be greater than or equal to"   " the expected value %lu%s%s\n"
+                    ,   "%s(%d): test condition failed: actual value %lu should "   "be less than or equal to"      " the expected value %lu%s%s\n"
                     ,   s_fmts_[0]
                     ,   s_fmts_[1]
                 };
@@ -2620,17 +2618,17 @@ RunnerInfo::get_reporter_(
 
                 static char const*  s_fmts_[] =
                 {
-                        "%%s(%%d): test condition failed: actual value %s should equal the expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should not equal expected value %s%%s%%s\n"
+                        "%%s(%%d): test condition failed: actual value %s should "  "be equal to"                   " the expected value %s%%s%%s\n"
+                    ,   "%%s(%%d): test condition failed: actual value %s should "  "be not equal to"               " the expected value %s%%s%%s\n"
                 };
                 static char const*  s_fmtBases[] =
                 {
                         s_fmts_[0]
                     ,   s_fmts_[1]
-                    ,   "%%s(%%d): test condition failed: actual value %s should be greater than expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should be less than expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should be greater than or equal to the expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should be less than or equal to the expected value %s%%s%%s\n"
+                    ,   "%%s(%%d): test condition failed: actual value %s should "  "be greater than"               " the expected value %s%%s%%s\n"
+                    ,   "%%s(%%d): test condition failed: actual value %s should "  "be less than"                  " the expected value %s%%s%%s\n"
+                    ,   "%%s(%%d): test condition failed: actual value %s should "  "be greater than or equal to"   " the expected value %s%%s%%s\n"
+                    ,   "%%s(%%d): test condition failed: actual value %s should "  "be less than or equal to"      " the expected value %s%%s%%s\n"
                     ,   s_fmts_[0]
                     ,   s_fmts_[1]
                 };
@@ -2705,18 +2703,18 @@ RunnerInfo::get_reporter_(
 
                 static char const*  s_fmts_[] =
                 {
-                        "%%s(%%d): test condition failed: actual value %s should equal the expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should not equal expected value %s%%s%%s\n"
+                        "%%s(%%d): test condition failed: actual value %s should "  "be equal to"                   " the expected value %s%%s%%s\n"
+                    ,   "%%s(%%d): test condition failed: actual value %s should "  "be not equal to"               " the expected value %s%%s%%s\n"
                 };
 
                 static char const*  s_fmtBases[] =
                 {
                         s_fmts_[0]
                     ,   s_fmts_[1]
-                    ,   "%%s(%%d): test condition failed: actual value %s should be greater than expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should be less than expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should be greater than or equal to the expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should be less than or equal to the expected value %s%%s%%s\n"
+                    ,   "%%s(%%d): test condition failed: actual value %s should "  "be greater than"               " the expected value %s%%s%%s\n"
+                    ,   "%%s(%%d): test condition failed: actual value %s should "  "be less than"                  " the expected value %s%%s%%s\n"
+                    ,   "%%s(%%d): test condition failed: actual value %s should "  "be greater than or equal to"   " the expected value %s%%s%%s\n"
+                    ,   "%%s(%%d): test condition failed: actual value %s should "  "be less than or equal to"      " the expected value %s%%s%%s\n"
                     ,   s_fmts_[0]
                     ,   s_fmts_[1]
                 };
