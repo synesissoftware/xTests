@@ -2588,7 +2588,6 @@ c_str_len_n_w(
 
     return (len < n) ? len : n;
 }
-
 #  endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 # endif /* !_XTESTS_NO_CPP_API */
 #endif /* __cplusplus */
@@ -3043,7 +3042,13 @@ xtests_testMultibyteStrings(
 {
     STLSOFT_NS_USING(c_str_ptr_a);
 
-    return xtests_testMultibyteStrings(file, line, function, expr, XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(expected)), XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(actual)), comp);
+    return xtests_testMultibyteStrings(
+        file, line, function
+    ,   expr
+    ,   XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(expected))
+    ,   XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(actual))
+    ,   comp
+    );
 }
 
 template<
@@ -3137,7 +3142,13 @@ xtests_testWideStrings(
 {
     STLSOFT_NS_USING(c_str_ptr_w);
 
-    return xtests_testWideStrings(file, line, function, expr, XTESTS_INVOKE_c_str_ptr_w_(XTESTS_INVOKE_c_str_ptr_w_(expected)), XTESTS_INVOKE_c_str_ptr_w_(XTESTS_INVOKE_c_str_ptr_w_(actual)), comp);
+    return xtests_testWideStrings(
+        file, line, function
+    ,   expr
+    ,   XTESTS_INVOKE_c_str_ptr_w_(XTESTS_INVOKE_c_str_ptr_w_(expected))
+    ,   XTESTS_INVOKE_c_str_ptr_w_(XTESTS_INVOKE_c_str_ptr_w_(actual))
+    ,   comp
+    );
 }
 
 template<
@@ -3205,7 +3216,13 @@ xtests_testMultibyteStringContains(
 {
     STLSOFT_NS_USING(c_str_ptr_a);
 
-    return xtests_testMultibyteStringContains(file, line, function, expr, XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(expected)), XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(actual)), comp);
+    return xtests_testMultibyteStringContains(
+        file, line, function
+    ,   expr
+    ,   XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(expected))
+    ,   XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(actual))
+    ,   comp
+    );
 }
 # endif /* !_XTESTS_NO_CPP_API */
 
@@ -3240,7 +3257,13 @@ xtests_testWideStringContains(
 {
     STLSOFT_NS_USING(c_str_ptr_w);
 
-    return xtests_testWideStringContains(file, line, function, expr, XTESTS_INVOKE_c_str_ptr_w_(XTESTS_INVOKE_c_str_ptr_w_(expected)), XTESTS_INVOKE_c_str_ptr_w_(XTESTS_INVOKE_c_str_ptr_w_(actual)), comp);
+    return xtests_testWideStringContains(
+        file, line, function
+    ,   expr
+    ,   XTESTS_INVOKE_c_str_ptr_w_(XTESTS_INVOKE_c_str_ptr_w_(expected))
+    ,   XTESTS_INVOKE_c_str_ptr_w_(XTESTS_INVOKE_c_str_ptr_w_(actual))
+    ,   comp
+    );
 }
 # endif /* !_XTESTS_NO_CPP_API */
 
@@ -3918,7 +3941,7 @@ xtests_test_integer_any_in_range(
     using namespace ::xtests::c;
 #  endif /* _XTESTS_NO_NAMESPACE */
 
-    int comparisonSucceeded = xtests_test_integer_compare_to_range_(file, line, function, expr, begin, end, actual, comp);
+    int const comparisonSucceeded = xtests_test_integer_compare_to_range_(file, line, function, expr, begin, end, actual, comp);
 
     if (comparisonSucceeded)
     {
@@ -4614,7 +4637,7 @@ xtests_commandLine_parseHelp(
  * \return The index of argument containing the verbosity, or 0 to indicate
  *   failure
  */
-#define XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, pverbosity)                      \
+#define XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, pverbosity)          \
     STLSOFT_STATIC_CAST(void, XTESTS_NS_C_QUAL(xtests_commandLine_parseVerbosity)((argc), (argv), (pverbosity)))
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
@@ -4668,7 +4691,7 @@ xtests_commandLine_parseHelp(
  *
  * \return nothing
  */
-#define XTESTS_COMMANDLINE_PARSE_HELP(argc, argv)                                       \
+#define XTESTS_COMMANDLINE_PARSE_HELP(argc, argv)                           \
     STLSOFT_STATIC_CAST(void, XTESTS_NS_C_QUAL(xtests_commandLine_parseHelp)((argc), (argv), stdout, EXIT_SUCCESS))
 
 /** \def XTESTS_ARRAY_END_POST(ar)
