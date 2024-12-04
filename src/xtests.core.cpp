@@ -2387,11 +2387,12 @@ RunnerInfo::get_reporter_(
             ,   int                 verbosity
             )
             {
+                // eliminate NULL pointers
+                expectedValue   =   stlsoft::c_str_ptr_a(expectedValue);
+                actualValue     =   stlsoft::c_str_ptr_a(actualValue);
+
                 if (xtestsTestFullComparison == testType)
                 {
-                    // Eliminate NULL pointers
-                    expectedValue   =   stlsoft::c_str_ptr_a(expectedValue);
-                    actualValue     =   stlsoft::c_str_ptr_a(actualValue);
 
                     static char const*  s_fmts[] =
                     {
@@ -2437,10 +2438,6 @@ RunnerInfo::get_reporter_(
                 }
                 else if (xtestsTestPartialComparison == testType)
                 {
-                    // Eliminate NULL pointers
-                    expectedValue   =   stlsoft::c_str_data_a(expectedValue);
-                    actualValue     =   stlsoft::c_str_data_a(actualValue);
-
                     static char const*  s_fmts[] =
                     {
                             "%s(%d): test condition failed: actual string value '%.*s' should " "be equal to"                   " the expected value '%.*s' to the length %d%s%s\n"
@@ -2492,10 +2489,6 @@ RunnerInfo::get_reporter_(
                 }
                 else if (xtestsTestContainment == testType)
                 {
-                    // Eliminate NULL pointers
-                    expectedValue   =   stlsoft::c_str_ptr_a(expectedValue);
-                    actualValue     =   stlsoft::c_str_ptr_a(actualValue);
-
                     static char const*  s_fmts[] =
                     {
                             "%s(%d): test condition failed: actual string value '%s' should "   "contain"                   " the expected value '%s'%s%s\n"
