@@ -3432,7 +3432,7 @@ public:
     virtual ~prerequisite_failed_exception() STLSOFT_NOEXCEPT
     {}
 private:
-    class_type& operator =(class_type const&);
+    void operator =(class_type const&) STLSOFT_COPY_ASSIGNMENT_PROSCRIBED;
 
 public: /* Overrides */
     virtual char const* what() const = 0;
@@ -3522,8 +3522,8 @@ public:
         XTESTS_NS_C_QUAL(xtests_setFloatingPointCloseFactor)(m_original, NULL);
     }
 private:
-    xtest_floatingpoint_factor_scope(xtest_floatingpoint_factor_scope const&);
-    xtest_floatingpoint_factor_scope &operator =(xtest_floatingpoint_factor_scope const&);
+    xtest_floatingpoint_factor_scope(xtest_floatingpoint_factor_scope const&) STLSOFT_COPY_CONSTRUCTION_PROSCRIBED;
+    void operator =(xtest_floatingpoint_factor_scope const&) STLSOFT_COPY_ASSIGNMENT_PROSCRIBED;
 
 private:
     const double m_original;

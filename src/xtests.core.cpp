@@ -386,7 +386,7 @@ namespace
         ,   void*               setupParam
         );
     private:
-        RunnerInfo &operator =(RunnerInfo const&);
+        void operator =(RunnerInfo const&) STLSOFT_COPY_ASSIGNMENT_PROSCRIBED;
 
     public:
         int BeginCase(char const* name, char const* description);
@@ -733,6 +733,7 @@ namespace
         STLSOFT_STATIC_CAST(void, ::fputs(s, stm));
     }
 #if XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_
+
     void
     adapt_OutputDebugStringA(
         char const* s
@@ -2000,17 +2001,17 @@ RunnerInfo::get_reporter_(
                     m_sinks[1].pfn      =   adapt_OutputDebugStringA;
                     m_sinks[1].param    =   NULL;
                 }
-#else
+#else /* ? XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_ */
 
                 STLSOFT_SUPPRESS_UNUSED(m_flags);
 #endif /* XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_ */
             }
         private:
-            void operator =(fprintf_reporter const&) // copy-assignment proscribed
-            {}
+            void operator =(fprintf_reporter const&) STLSOFT_COPY_ASSIGNMENT_PROSCRIBED;
 
         private: // overrides
-            virtual void onStartRunner(
+            virtual void
+            onStartRunner(
                 void* /* reporterParam */
             ,   char const* name
             ,   int verbosity
@@ -2044,7 +2045,8 @@ RunnerInfo::get_reporter_(
                 }
             }
 
-            virtual void onBeginTestCase(
+            virtual void
+            onBeginTestCase(
                 void* /* reporterParam */
             ,   char const* /* name */
             ,   char const* /* desc */
@@ -2053,7 +2055,8 @@ RunnerInfo::get_reporter_(
             {
             }
 
-            virtual void onTestPassed(
+            virtual void
+            onTestPassed(
                 void* /* reporterParam */
             ,   char const* /* file */
             ,   int /* line */
@@ -2065,7 +2068,8 @@ RunnerInfo::get_reporter_(
             {
             }
 
-            virtual void onTestFailed(
+            virtual void
+            onTestFailed(
                 void*                       /* reporterParam */
             ,   char const*                 file
             ,   int                         line
@@ -2154,7 +2158,17 @@ RunnerInfo::get_reporter_(
                 }
             }
 
-            void onTestFailed_Boolean_(char const* file, int line, char const* function, char const* /* expr */, bool expectedValue, bool actualValue, xtests_comparison_t comparison, int verbosity)
+            void
+            onTestFailed_Boolean_(
+                char const*         file
+            ,   int                 line
+            ,   char const*         function
+            ,   char const*      /* expr */
+            ,   bool                expectedValue
+            ,   bool                actualValue
+            ,   xtests_comparison_t comparison
+            ,   int                 verbosity
+            )
             {
                 char const* fmt = "%s(%d): test condition failed: actual value %s should %sequal the expected value %s%s%s\n";
 
@@ -2183,7 +2197,17 @@ RunnerInfo::get_reporter_(
                                 ,   file, line, (actualValue ? "true" : "false"), (xtestsComparisonEqual == comparison) ? "" : "not ", (expectedValue ? "true" : "false"), (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
 
-            void onTestFailed_Double_(char const* file, int line, char const* function, char const* /* expr */, double const& expectedValue, double const& actualValue, xtests_comparison_t comparison, int verbosity)
+            void
+            onTestFailed_Double_(
+                char const*         file
+            ,   int                 line
+            ,   char const*         function
+            ,   char const*      /* expr */
+            ,   double const&       expectedValue
+            ,   double const&       actualValue
+            ,   xtests_comparison_t comparison
+            ,   int                 verbosity
+            )
             {
                 static char const*  s_fmts[] =
                 {
@@ -2224,7 +2248,17 @@ RunnerInfo::get_reporter_(
                                 ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
 
-            void onTestFailed_MultibyteCharacter_(char const* file, int line, char const* function, char const* /* expr */, char expectedValue, char actualValue, xtests_comparison_t comparison, int verbosity)
+            void
+            onTestFailed_MultibyteCharacter_(
+                char const*         file
+            ,   int                 line
+            ,   char const*         function
+            ,   char const*      /* expr */
+            ,   char                expectedValue
+            ,   char                actualValue
+            ,   xtests_comparison_t comparison
+            ,   int                 verbosity
+            )
             {
                 static char const*  s_fmts[] =
                 {
@@ -2316,7 +2350,21 @@ RunnerInfo::get_reporter_(
                                 ,   file, line, static_cast<char>(actualValue), actualValue, static_cast<char>(expectedValue), expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
 
-            void onTestFailed_MultibyteString_(char const* file, int line, char const* function, char const* /* expr */, char const* expectedValue, size_t expectedValueLen, char const* actualValue, size_t actualValueLen, ptrdiff_t length, xtests_test_type_t testType, xtests_comparison_t comparison, int verbosity)
+            void
+            onTestFailed_MultibyteString_(
+                char const*         file
+            ,   int                 line
+            ,   char const*         function
+            ,   char const*      /* expr */
+            ,   char const*         expectedValue
+            ,   size_t              expectedValueLen
+            ,   char const*         actualValue
+            ,   size_t              actualValueLen
+            ,   ptrdiff_t           length
+            ,   xtests_test_type_t  testType
+            ,   xtests_comparison_t comparison
+            ,   int                 verbosity
+            )
             {
                 if (xtestsTestFullComparison == testType)
                 {
@@ -2360,7 +2408,11 @@ RunnerInfo::get_reporter_(
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
+                                ,   file, line
+                                ,   actualValue, expectedValue
+                                ,   (NULL != function) ? " in function " : ""
+                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                                );
                 }
                 else if (xtestsTestPartialComparison == testType)
                 {
@@ -2461,7 +2513,21 @@ RunnerInfo::get_reporter_(
                 }
             }
 
-            void onTestFailed_WideString_(char const* file, int line, char const* function, char const* expr, wchar_t const* expectedValue, size_t expectedValueLen, wchar_t const* actualValue, size_t actualValueLen, ptrdiff_t length, xtests_test_type_t testType, xtests_comparison_t comparison, int verbosity)
+            void
+            onTestFailed_WideString_(
+                char const*         file
+            ,   int                 line
+            ,   char const*         function
+            ,   char const*         expr
+            ,   wchar_t const*      expectedValue
+            ,   size_t              expectedValueLen
+            ,   wchar_t const*      actualValue
+            ,   size_t              actualValueLen
+            ,   ptrdiff_t           length
+            ,   xtests_test_type_t  testType
+            ,   xtests_comparison_t comparison
+            ,   int                 verbosity
+            )
             {
                 stlsoft::w2a    expected(expectedValue, expectedValueLen);
                 stlsoft::w2a    actual(actualValue, actualValueLen);
@@ -2469,7 +2535,17 @@ RunnerInfo::get_reporter_(
                 onTestFailed_MultibyteString_(file, line, function, expr, expected, expected.size(), actual, actual.size(), length, testType, comparison, verbosity);
             }
 
-            void onTestFailed_OpaquePointer_(char const* file, int line, char const* function, char const* /* expr */, void const volatile* expectedValue, void const volatile* actualValue, xtests_comparison_t comparison, int verbosity)
+            void
+            onTestFailed_OpaquePointer_(
+                char const*             file
+            ,   int                     line
+            ,   char const*             function
+            ,   char const*           /* expr */
+            ,   void const volatile*    expectedValue
+            ,   void const volatile*    actualValue
+            ,   xtests_comparison_t     comparison
+            ,   int                     verbosity
+            )
             {
                 static char const*  s_fmts_[] =
                 {
@@ -2515,7 +2591,17 @@ RunnerInfo::get_reporter_(
                                 ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
 
-            void onTestFailed_SignedLong_(char const* file, int line, char const* function, char const* /* expr */, signed long expectedValue, signed long actualValue, xtests_comparison_t comparison, int verbosity)
+            void
+            onTestFailed_SignedLong_(
+                char const*         file
+            ,   int                 line
+            ,   char const*         function
+            ,   char const*      /* expr */
+            ,   signed long         expectedValue
+            ,   signed long         actualValue
+            ,   xtests_comparison_t comparison
+            ,   int                 verbosity
+            )
             {
                 static char const*  s_fmts_[] =
                 {
@@ -2561,7 +2647,17 @@ RunnerInfo::get_reporter_(
                                 ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
 
-            void onTestFailed_UnsignedLong_(char const* file, int line, char const* function, char const* /* expr */, unsigned long expectedValue, unsigned long actualValue, xtests_comparison_t comparison, int verbosity)
+            void
+            onTestFailed_UnsignedLong_(
+                char const*         file
+            ,   int                 line
+            ,   char const*         function
+            ,   char const*      /* expr */
+            ,   unsigned long       expectedValue
+            ,   unsigned long       actualValue
+            ,   xtests_comparison_t comparison
+            ,   int                 verbosity
+            )
             {
                 static char const*  s_fmts_[] =
                 {
@@ -2608,7 +2704,17 @@ RunnerInfo::get_reporter_(
             }
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
 
-            void onTestFailed_sint64_(char const* file, int line, char const* function, char const* /* expr */, sint64_t expectedValue, sint64_t actualValue, xtests_comparison_t comparison, int verbosity)
+            void
+            onTestFailed_sint64_(
+                char const*         file
+            ,   int                 line
+            ,   char const*         function
+            ,   char const*      /* expr */
+            ,   sint64_t            expectedValue
+            ,   sint64_t            actualValue
+            ,   xtests_comparison_t comparison
+            ,   int                 verbosity
+            )
             {
 # if defined(STLSOFT_COMPILER_IS_BORLAND)
 #  define static
@@ -2693,7 +2799,17 @@ RunnerInfo::get_reporter_(
                 STLSOFT_SUPPRESS_UNUSED(s_len);
             }
 
-            void onTestFailed_uint64_(char const* file, int line, char const* function, char const* /* expr */, uint64_t expectedValue, uint64_t actualValue, xtests_comparison_t comparison, int verbosity)
+            void
+            onTestFailed_uint64_(
+                char const*         file
+            ,   int                 line
+            ,   char const*         function
+            ,   char const*      /* expr */
+            ,   uint64_t            expectedValue
+            ,   uint64_t            actualValue
+            ,   xtests_comparison_t comparison
+            ,   int                 verbosity
+            )
             {
 # if defined(STLSOFT_COMPILER_IS_BORLAND)
 #  define static
@@ -2780,7 +2896,15 @@ RunnerInfo::get_reporter_(
             }
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
-            void onTestFailed_(char const* file, int line, char const* function, char const* expr, xtests_comparison_t /* comparison */, int verbosity)
+            void
+            onTestFailed_(
+                char const*             file
+            ,   int                     line
+            ,   char const*             function
+            ,   char const*             expr
+            ,   xtests_comparison_t  /* comparison */
+            ,   int                     verbosity
+            )
             {
                 static const char*  s_fmts[] =
                 {
