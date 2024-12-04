@@ -51,9 +51,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
-# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       45
+# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       46
 # define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        383
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        384
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -1548,6 +1548,79 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
         ? XTESTS_NS_CPP_QUAL(xtests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual))) \
         : (0))
+
+/** \def XTESTS_TEST_FLOATINGPOINT_GREATER(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that the actual floating point value is greater than the expected
+ * value.
+ *
+ * \param expected The expected floating point value
+ * \param actual The actual floating point value
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_FLOATINGPOINT_GREATER(expected, actual)                 \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThan))) \
+        : (0))
+
+/** \def XTESTS_TEST_FLOATINGPOINT_LESS(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that the actual floating point value is less than the expected
+ * value.
+ *
+ * \param expected The expected floating point value
+ * \param actual The actual floating point value
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+# define XTESTS_TEST_FLOATINGPOINT_LESS(expected, actual)                   \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThan))) \
+        : (0))
+
+/** \def XTESTS_TEST_FLOATINGPOINT_GREATER_OR_EQUAL(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that the actual floating point value is greater than or equal to
+ * the expected value.
+ *
+ * \param expected The expected floating point value
+ * \param actual The actual floating point value
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+# define XTESTS_TEST_FLOATINGPOINT_GREATER_OR_EQUAL(expected, actual)       \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThanOrEqual))) \
+        : (0))
+
+/** \def XTESTS_TEST_FLOATINGPOINT_LESS_OR_EQUAL(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that the actual floating point value is less than or equal to the
+ * expected value.
+ *
+ * \param expected The expected floating point value
+ * \param actual The actual floating point value
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+# define XTESTS_TEST_FLOATINGPOINT_LESS_OR_EQUAL(expected, actual)          \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_CPP_QUAL(xtests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThanOrEqual))) \
+        : (0))
+
 
 
 /* /////////////////////////////////////////////////////////

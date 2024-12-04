@@ -65,6 +65,10 @@ int main(int argc, char* argv[])
             TEST_FP_EQ(-1.0, -1.0001);
             TEST_FLOATINGPOINT_NOT_EQUAL_APPROX(-1.0, -1.0000001);
             TEST_FP_NE(-1.0, -1.0000001);
+            TEST_FP_GT(-1.0, -1.0);
+            TEST_FP_LT(-1.0, -1.0);
+            TEST_FP_GE(-1.0, -1.1);
+            TEST_FP_LE(-1.1, -1.0);
             TEST_FLOATINGPOINT_EQUAL_EXACT(-1.0, -1.0001);
             TEST_FLOATINGPOINT_NOT_EQUAL_EXACT(-1.0, -1.0);
 
