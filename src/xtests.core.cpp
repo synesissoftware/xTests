@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 23rd November 2024
+ * Updated: 4th December 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -1771,6 +1771,7 @@ xtests_variable_value_t::xtests_variable_value_t(long i)
 xtests_variable_value_t::xtests_variable_value_t(unsigned long i)
     : ulongValue(i)
 {}
+#ifdef STLSOFT_CF_64BIT_INT_SUPPORT
 
 xtests_variable_value_t::xtests_variable_value_t(sint64_t const& i)
     : longlongValue(i)
@@ -1779,6 +1780,7 @@ xtests_variable_value_t::xtests_variable_value_t(sint64_t const& i)
 xtests_variable_value_t::xtests_variable_value_t(uint64_t const& i)
     : ulonglongValue(i)
 {}
+#endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
 xtests_variable_value_t::xtests_variable_value_t(char ch)
     : multibyteCharacterValue(ch)
@@ -1839,6 +1841,7 @@ xtests_variable_t::xtests_variable_t(unsigned long i)
     , value(i)
     , valueLen(0u)
 {}
+#ifdef STLSOFT_CF_64BIT_INT_SUPPORT
 
 xtests_variable_t::xtests_variable_t(sint64_t const& i)
     : variableType(xtestsVariableLongLong)
@@ -1853,6 +1856,7 @@ xtests_variable_t::xtests_variable_t(uint64_t const& i)
     , value(i)
     , valueLen(0u)
 {}
+#endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
 xtests_variable_t::xtests_variable_t(double const& d)
     : variableType(xtestsVariableDouble)
@@ -2261,7 +2265,17 @@ RunnerInfo::get_reporter_(
                                 ,   file, line, actualValue, actualValue, expectedValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
 
-            void onTestFailed_WideCharacter_(char const* file, int line, char const* function, char const* /* expr */, char expectedValue, char actualValue, xtests_comparison_t comparison, int verbosity)
+            void
+            onTestFailed_WideCharacter_(
+                char const*         file
+            ,   int                 line
+            ,   char const*         function
+            ,   char const*      /* expr */
+            ,   wchar_t             expectedValue
+            ,   wchar_t             actualValue
+            ,   xtests_comparison_t comparison
+            ,   int                 verbosity
+            )
             {
                 static char const*  s_fmts[] =
                 {
@@ -2594,8 +2608,8 @@ RunnerInfo::get_reporter_(
                                 ,   fmt
                                 ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
             }
-
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
+
             void onTestFailed_sint64_(char const* file, int line, char const* function, char const* /* expr */, sint64_t expectedValue, sint64_t actualValue, xtests_comparison_t comparison, int verbosity)
             {
 # if defined(STLSOFT_COMPILER_IS_BORLAND)

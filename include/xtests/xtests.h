@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 23rd November 2024
+ * Updated: 4th December 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -1719,6 +1719,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 #define XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL(expected, actual)               \
     XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_APPROX(expected, actual)
 
+
 /** \def XTESTS_TEST_CHARACTER_EQUAL(expected, actual)
  *
  * \ingroup group__xtests__test_assertion_functions
@@ -1733,6 +1734,7 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  */
 #define XTESTS_TEST_CHARACTER_EQUAL(expected, actual)                       \
     XTESTS_TEST_CHARACTER_EQUAL_EXACT(expected, actual)
+
 
 
 /* /////////////////////////////////////////////////////////
