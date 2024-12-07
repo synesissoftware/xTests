@@ -71,14 +71,8 @@
 
 /* STLSoft Header Files */
 #include <platformstl/platformstl.h>
-#if _STLSOFT_VER >= 0x010a0181 || \
-    (   defined(_STLSOFT_1_10_VER) && \
-        _STLSOFT_1_10_VER >= 0x010a0113)
-# include <platformstl/filesystem/path_functions.h>
-#endif
-#if _STLSOFT_VER >= 0x010b014d
-# include <platformstl/system/console_functions.h>
-#endif
+#include <platformstl/filesystem/path_functions.h>
+#include <platformstl/system/console_functions.h>
 #include <platformstl/system/environment_variable.hpp>
 #include <stlsoft/conversion/char_conversions.hpp>
 #include <stlsoft/memory/auto_buffer.hpp>
@@ -111,14 +105,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#if 0
-#elif _STLSOFT_VER >= 0x010b014d
-#elif defined(PLATFORMSTL_OS_IS_UNIX)
-# include <unistd.h>
-#elif defined(PLATFORMSTL_OS_IS_WINDOWS)
-# include <io.h>
-#endif
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -217,16 +203,6 @@
 # endif /* compiler / OS */
 #endif /* XTESTS_USING_SAFE_STR_FUNCTIONS */
 
-
-#if 0
-#elif _STLSOFT_VER >= 0x010b014d
-#elif defined(PLATFORMSTL_OS_IS_UNIX)
-# define xtests_fileno_                                     ::fileno
-# define xtests_isatty_                                     ::isatty
-#elif defined(PLATFORMSTL_OS_IS_WINDOWS)
-# define xtests_fileno_                                     ::_fileno
-# define xtests_isatty_                                     ::_isatty
-#endif
 
 #if defined(STLSOFT_COMPILER_IS_DMC)
 # define RETURN_UNUSED(x)                                   return x
@@ -4328,11 +4304,7 @@ RunnerInfo::RunnerInfo(
                         reporter
                     ,   stm
                     ,   flags
-#if _STLSOFT_VER >= 0x010b014d
                     ,   platformstl::isatty(stdout)
-#else
-                    ,   xtests_isatty_(xtests_fileno_(stdout))
-#endif
                     ))
     , m_reporterParam(reporterParam)
     , m_name(name)
