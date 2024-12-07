@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 4th December 2024
+ * Updated: 7th December 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -38,6 +38,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * ////////////////////////////////////////////////////////////////////// */
+
+
+#define EA_COLOR
 
 
 /* xTests Header Files */
@@ -2176,7 +2179,88 @@ RunnerInfo::get_reporter_(
                 ,   "true"
                 };
 
-                char const* fmt = "%s(%d): test condition failed: actual value %s should %sequal the expected value %s%s%s\n";
+#ifndef EA_COLOR
+
+                STLSOFT_SUPPRESS_UNUSED(comparison);
+
+                char const* fmt = "%s(%d): test condition failed: actual value %s should be %sequal to the expected value %s%s%s\n";
+#else
+
+                int const is_tty =
+#if _STLSOFT_VER >= 0x010b014d
+                                    platformstl::isatty(stdout)
+#else
+                                    xtests_isatty_(xtests_fileno_(stdout))
+#endif
+                                    ;
+
+                std::string     fmt_;
+
+                fmt_ += "%s(%d): test condition failed: ";
+
+                // actual
+                if (is_tty)
+                {
+                    fmt_ += "actual value \033[1;35m%s\033[0m";
+                }
+                else
+                {
+                    fmt_ += "actual value %s";
+                }
+
+                fmt_ += " should ";
+
+                // comparison
+                if (is_tty)
+                {
+                    fmt_ += "\033[1;36m";
+                }
+                switch (comparison)
+                {
+                case xtestsComparisonEqual:                 fmt_ += "be equal to";                      break;
+                case xtestsComparisonNotEqual:              fmt_ += "be not equal to";                  break;
+                case xtestsComparisonGreaterThan:           fmt_ += "be greater than";                  break;
+                case xtestsComparisonLessThan:              fmt_ += "be less than";                     break;
+                case xtestsComparisonGreaterThanOrEqual:    fmt_ += "be greater than or equal to";      break;
+                case xtestsComparisonLessThanOrEqual:       fmt_ += "be less than or equal to";         break;
+                case xtestsComparisonApproxEqual:           fmt_ += "be approximately equal to";        break;
+                case xtestsComparisonApproxNotEqual:        fmt_ += "be not approximately equal to";    break;
+                default:
+
+                    xtests_abend("VIOLATION: invalid `comparison`");
+                    break;
+                }
+                if (is_tty)
+                {
+                    fmt_ += "\033[0m";
+                }
+
+                // expected
+                if (is_tty)
+                {
+                    fmt_ += " the expected value \033[1;35m%s\033[0m";
+                }
+                else
+                {
+                    fmt_ += " the expected value %s";
+                }
+
+                // function (?)
+                if (is_tty)
+                {
+                    fmt_ += "%s\033[1;36m%s\033[0m";
+                }
+                else
+                {
+                    fmt_ += "%s%s";
+                }
+
+                // EOL
+                fmt_ += '\n';
+
+                char const*     fmt =   fmt_.c_str();
+
+#endif
 
                 switch (verbosity)
                 {
@@ -2198,11 +2282,13 @@ RunnerInfo::get_reporter_(
                     break;
                 }
 
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 20
+                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
                                 ,   file, line
                                 ,   s_truthy_strings[!!actualValue]
+#ifndef EA_COLOR
                                 ,   (xtestsComparisonEqual == comparison) ? "" : "not "
+#endif
                                 ,   s_truthy_strings[!!expectedValue]
                                 ,   (NULL != function) ? " in function " : ""
                                 ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
@@ -2221,6 +2307,83 @@ RunnerInfo::get_reporter_(
             ,   int                 verbosity
             )
             {
+#ifdef EA_COLOR
+
+                int const is_tty =
+#if _STLSOFT_VER >= 0x010b014d
+                                    platformstl::isatty(stdout)
+#else
+                                    xtests_isatty_(xtests_fileno_(stdout))
+#endif
+                                    ;
+
+                std::string     fmt_;
+
+                fmt_ += "%s(%d): test condition failed: ";
+
+                // actual
+                if (is_tty)
+                {
+                    fmt_ += "actual value \033[1;35m%G\033[0m";
+                }
+                else
+                {
+                    fmt_ += "actual value %G";
+                }
+
+                fmt_ += " should ";
+
+                // comparison
+                if (is_tty)
+                {
+                    fmt_ += "\033[1;36m";
+                }
+                switch (comparison)
+                {
+                case xtestsComparisonEqual:                 fmt_ += "be equal to";                      break;
+                case xtestsComparisonNotEqual:              fmt_ += "be not equal to";                  break;
+                case xtestsComparisonGreaterThan:           fmt_ += "be greater than";                  break;
+                case xtestsComparisonLessThan:              fmt_ += "be less than";                     break;
+                case xtestsComparisonGreaterThanOrEqual:    fmt_ += "be greater than or equal to";      break;
+                case xtestsComparisonLessThanOrEqual:       fmt_ += "be less than or equal to";         break;
+                case xtestsComparisonApproxEqual:           fmt_ += "be approximately equal to";        break;
+                case xtestsComparisonApproxNotEqual:        fmt_ += "be not approximately equal to";    break;
+                default:
+
+                    xtests_abend("VIOLATION: invalid `comparison`");
+                    break;
+                }
+                if (is_tty)
+                {
+                    fmt_ += "\033[0m";
+                }
+
+                // expected
+                if (is_tty)
+                {
+                    fmt_ += " the expected value \033[1;35m%G\033[0m";
+                }
+                else
+                {
+                    fmt_ += " the expected value %G";
+                }
+
+                // function (?)
+                if (is_tty)
+                {
+                    fmt_ += "%s\033[1;36m%s\033[0m";
+                }
+                else
+                {
+                    fmt_ += "%s%s";
+                }
+
+                // EOL
+                fmt_ += '\n';
+
+                char const*     fmt =   fmt_.c_str();
+#else
+
                 static char const*  s_fmts[] =
                 {
                         "%s(%d): test condition failed: actual value %G should "    "be equal to"                   " the expected value %G%s%s\n"
@@ -2234,6 +2397,7 @@ RunnerInfo::get_reporter_(
                 };
                 STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                 char const*         fmt = s_fmts[comparison];
+#endif
 
                 switch (verbosity)
                 {
@@ -2277,6 +2441,83 @@ RunnerInfo::get_reporter_(
             ,   int                 verbosity
             )
             {
+#ifdef EA_COLOR
+
+                int const is_tty =
+#if _STLSOFT_VER >= 0x010b014d
+                                    platformstl::isatty(stdout)
+#else
+                                    xtests_isatty_(xtests_fileno_(stdout))
+#endif
+                                    ;
+
+                std::string     fmt_;
+
+                fmt_ += "%s(%d): test condition failed: ";
+
+                // actual
+                if (is_tty)
+                {
+                    fmt_ += "actual character value '\033[1;35m%c\033[0m' (0x%02x)";
+                }
+                else
+                {
+                    fmt_ += "actual character value '%c' (0x%02x)";
+                }
+
+                fmt_ += " should ";
+
+                // comparison
+                if (is_tty)
+                {
+                    fmt_ += "\033[1;36m";
+                }
+                switch (comparison)
+                {
+                case xtestsComparisonEqual:                 fmt_ += "be equal to";                      break;
+                case xtestsComparisonNotEqual:              fmt_ += "be not equal to";                  break;
+                case xtestsComparisonGreaterThan:           fmt_ += "be greater than";                  break;
+                case xtestsComparisonLessThan:              fmt_ += "be less than";                     break;
+                case xtestsComparisonGreaterThanOrEqual:    fmt_ += "be greater than or equal to";      break;
+                case xtestsComparisonLessThanOrEqual:       fmt_ += "be less than or equal to";         break;
+                case xtestsComparisonApproxEqual:           fmt_ += "be approximately equal to";        break;
+                case xtestsComparisonApproxNotEqual:        fmt_ += "be not approximately equal to";    break;
+                default:
+
+                    xtests_abend("VIOLATION: invalid `comparison`");
+                    break;
+                }
+                if (is_tty)
+                {
+                    fmt_ += "\033[0m";
+                }
+
+                // expected
+                if (is_tty)
+                {
+                    fmt_ += " the expected value '\033[1;35m%c\033[0m' (0x%02x)";
+                }
+                else
+                {
+                    fmt_ += " the expected value '%c' (0x%02x)";
+                }
+
+                // function (?)
+                if (is_tty)
+                {
+                    fmt_ += "%s\033[1;36m%s\033[0m";
+                }
+                else
+                {
+                    fmt_ += "%s%s";
+                }
+
+                // EOL
+                fmt_ += '\n';
+
+                char const*     fmt =   fmt_.c_str();
+#else
+
                 static char const*  s_fmts[] =
                 {
                         "%s(%d): test condition failed: actual character value '%c' (0x%02x) should "   "be equal to"                   " the expected value '%c' (0x%02x)%s%s\n"
@@ -2290,6 +2531,7 @@ RunnerInfo::get_reporter_(
                 };
                 STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                 char const*         fmt = s_fmts[comparison];
+#endif
 
                 switch (verbosity)
                 {
@@ -2393,19 +2635,97 @@ RunnerInfo::get_reporter_(
             ,   int                 verbosity
             )
             {
+#ifdef EA_COLOR
+                int const is_tty =
+# if _STLSOFT_VER >= 0x010b014d
+                                    platformstl::isatty(stdout)
+# else
+                                    xtests_isatty_(xtests_fileno_(stdout))
+# endif
+                                    ;
+#endif
+
                 // eliminate NULL pointers
                 expectedValue   =   stlsoft::c_str_ptr_a(expectedValue);
                 actualValue     =   stlsoft::c_str_ptr_a(actualValue);
 
                 if (xtestsTestFullComparison == testType)
                 {
+#ifdef EA_COLOR
+
+                    std::string     fmt_;
+
+                    fmt_ += "%s(%d): test condition failed: ";
+
+                    // actual
+                    if (is_tty)
+                    {
+                        fmt_ += "actual string value '\033[1;35m%s\033[0m'";
+                    }
+                    else
+                    {
+                        fmt_ += "actual string value '%s'";
+                    }
+
+                    fmt_ += " should ";
+
+                    // comparison
+                    if (is_tty)
+                    {
+                        fmt_ += "\033[1;36m";
+                    }
+                    switch (comparison)
+                    {
+                    case xtestsComparisonEqual:                 fmt_ += "be equal to";                      break;
+                    case xtestsComparisonNotEqual:              fmt_ += "be not equal to";                  break;
+                    case xtestsComparisonGreaterThan:           fmt_ += "be greater than";                  break;
+                    case xtestsComparisonLessThan:              fmt_ += "be less than";                     break;
+                    case xtestsComparisonGreaterThanOrEqual:    fmt_ += "be greater than or equal to";      break;
+                    case xtestsComparisonLessThanOrEqual:       fmt_ += "be less than or equal to";         break;
+                    case xtestsComparisonApproxEqual:           fmt_ += "be approximately equal to";        break;
+                    case xtestsComparisonApproxNotEqual:        fmt_ += "be not approximately equal to";    break;
+                    default:
+
+                        xtests_abend("VIOLATION: invalid `comparison`");
+                        break;
+                    }
+                    if (is_tty)
+                    {
+                        fmt_ += "\033[0m";
+                    }
+
+                    // expected
+                    if (is_tty)
+                    {
+                        fmt_ += " the expected value '\033[1;35m%s\033[0m'";
+                    }
+                    else
+                    {
+                        fmt_ += " the expected value '%s'";
+                    }
+
+                    // function (?)
+                    if (is_tty)
+                    {
+                        fmt_ += "%s\033[1;36m%s\033[0m";
+                    }
+                    else
+                    {
+                        fmt_ += "%s%s";
+                    }
+
+                    // EOL
+                    fmt_ += '\n';
+
+                    char const*     fmt =   fmt_.c_str();
+#else
 
                     static char const*  s_fmts[] =
                     {
                             "%s(%d): test condition failed: actual string value '%s' should "   "be equal to"                   " the expected value '%s'%s%s\n"
                         ,   "%s(%d): test condition failed: actual string value '%s' should "   "be not equal to"               " the expected value '%s'%s%s\n"
                         ,   "%s(%d): test condition failed: actual string value '%s' should "   "be greater than"               " the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "be less then"                  " the expected value '%s'%s%s\n"
+                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "be less than"                  " the expected value '%s'%s%s\n"
                         ,   "%s(%d): test condition failed: actual string value '%s' should "   "be greater than or equal to"   " the expected value '%s'%s%s\n"
                         ,   "%s(%d): test condition failed: actual string value '%s' should "   "be less than or equal to"      " the expected value '%s'%s%s\n"
                         ,   "%s(%d): test condition failed: actual string value '%s' should "   "be approximately equal to"     " the expected value '%s'%s%s\n"
@@ -2413,6 +2733,7 @@ RunnerInfo::get_reporter_(
                     };
                     STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                     char const*         fmt = s_fmts[comparison];
+#endif
 
                     switch (verbosity)
                     {
@@ -2437,7 +2758,8 @@ RunnerInfo::get_reporter_(
                     xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                     ,   fmt
                                     ,   file, line
-                                    ,   actualValue, expectedValue
+                                    ,   actualValue
+                                    ,   expectedValue
                                     ,   (NULL != function) ? " in function " : ""
                                     ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
                                     );
@@ -2495,6 +2817,75 @@ RunnerInfo::get_reporter_(
                 }
                 else if (xtestsTestContainment == testType)
                 {
+#ifdef EA_COLOR
+
+                    std::string     fmt_;
+
+                    fmt_ += "%s(%d): test condition failed: ";
+
+                    // actual
+                    if (is_tty)
+                    {
+                        fmt_ += "actual string value '\033[1;35m%s\033[0m'";
+                    }
+                    else
+                    {
+                        fmt_ += "actual string value '%s'";
+                    }
+
+                    fmt_ += " should ";
+
+                    // comparison
+                    if (is_tty)
+                    {
+                        fmt_ += "\033[1;36m";
+                    }
+                    switch (comparison)
+                    {
+                    case xtestsComparisonEqual:                 fmt_ += "contain";                      break;
+                    case xtestsComparisonNotEqual:              fmt_ += "not contain";                  break;
+                    case xtestsComparisonGreaterThan:           fmt_ += "";                             break;
+                    case xtestsComparisonLessThan:              fmt_ += "";                             break;
+                    case xtestsComparisonGreaterThanOrEqual:    fmt_ += "";                             break;
+                    case xtestsComparisonLessThanOrEqual:       fmt_ += "";                             break;
+                    case xtestsComparisonApproxEqual:           fmt_ += "contain approximately";        break;
+                    case xtestsComparisonApproxNotEqual:        fmt_ += "not contain approximately";    break;
+                    default:
+
+                        xtests_abend("VIOLATION: invalid `comparison`");
+                        break;
+                    }
+                    if (is_tty)
+                    {
+                        fmt_ += "\033[0m";
+                    }
+
+                    // expected
+                    if (is_tty)
+                    {
+                        fmt_ += " the expected value '\033[1;35m%s\033[0m'";
+                    }
+                    else
+                    {
+                        fmt_ += " the expected value '%s'";
+                    }
+
+                    // function (?)
+                    if (is_tty)
+                    {
+                        fmt_ += "%s\033[1;36m%s\033[0m";
+                    }
+                    else
+                    {
+                        fmt_ += "%s%s";
+                    }
+
+                    // EOL
+                    fmt_ += '\n';
+
+                    char const*     fmt =   fmt_.c_str();
+#else
+
                     static char const*  s_fmts[] =
                     {
                             "%s(%d): test condition failed: actual string value '%s' should "   "contain"                   " the expected value '%s'%s%s\n"
@@ -2508,6 +2899,7 @@ RunnerInfo::get_reporter_(
                     };
                     STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                     char const*         fmt = s_fmts[comparison];
+#endif
 
                     switch (verbosity)
                     {
@@ -2578,6 +2970,82 @@ RunnerInfo::get_reporter_(
             ,   int                     verbosity
             )
             {
+#ifdef EA_COLOR
+
+                int const is_tty =
+# if _STLSOFT_VER >= 0x010b014d
+                                    platformstl::isatty(stdout)
+# else
+                                    xtests_isatty_(xtests_fileno_(stdout))
+# endif
+                                    ;
+                std::string     fmt_;
+
+                fmt_ += "%s(%d): test condition failed: ";
+
+                // actual
+                if (is_tty)
+                {
+                    fmt_ += "actual pointer value \033[1;35m%p\033[0m";
+                }
+                else
+                {
+                    fmt_ += "actual pointer value %p";
+                }
+
+                fmt_ += " should ";
+
+                // comparison
+                if (is_tty)
+                {
+                    fmt_ += "\033[1;36m";
+                }
+                switch (comparison)
+                {
+                case xtestsComparisonEqual:                 fmt_ += "be equal to";                      break;
+                case xtestsComparisonNotEqual:              fmt_ += "be not equal to";                  break;
+                case xtestsComparisonGreaterThan:           fmt_ += "be greater than";                  break;
+                case xtestsComparisonLessThan:              fmt_ += "be less than";                     break;
+                case xtestsComparisonGreaterThanOrEqual:    fmt_ += "be greater than or equal to";      break;
+                case xtestsComparisonLessThanOrEqual:       fmt_ += "be less than or equal to";         break;
+                case xtestsComparisonApproxEqual:           fmt_ += "be approximately equal to";        break;
+                case xtestsComparisonApproxNotEqual:        fmt_ += "be not approximately equal to";    break;
+                default:
+
+                    xtests_abend("VIOLATION: invalid `comparison`");
+                    break;
+                }
+                if (is_tty)
+                {
+                    fmt_ += "\033[0m";
+                }
+
+                // expected
+                if (is_tty)
+                {
+                    fmt_ += " the expected value \033[1;35m%p\033[0m";
+                }
+                else
+                {
+                    fmt_ += " the expected value %p";
+                }
+
+                // function (?)
+                if (is_tty)
+                {
+                    fmt_ += "%s\033[1;36m%s\033[0m";
+                }
+                else
+                {
+                    fmt_ += "%s%s";
+                }
+
+                // EOL
+                fmt_ += '\n';
+
+                char const*     fmt =   fmt_.c_str();
+#else
+
                 static char const*  s_fmts_[] =
                 {
                         "%s(%d): test condition failed: actual pointer value '%p' should "  "be equal to"       " the expected value '%p'%s%s\n"
@@ -2596,6 +3064,7 @@ RunnerInfo::get_reporter_(
                 };
                 STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                 char const*         fmt = s_fmts[comparison];
+#endif
 
                 switch (verbosity)
                 {
@@ -2639,6 +3108,83 @@ RunnerInfo::get_reporter_(
             ,   int                 verbosity
             )
             {
+#ifdef EA_COLOR
+
+                int const is_tty =
+#if _STLSOFT_VER >= 0x010b014d
+                                    platformstl::isatty(stdout)
+#else
+                                    xtests_isatty_(xtests_fileno_(stdout))
+#endif
+                                    ;
+
+                std::string     fmt_;
+
+                fmt_ += "%s(%d): test condition failed: ";
+
+                // actual
+                if (is_tty)
+                {
+                    fmt_ += "actual value \033[1;35m%ld\033[0m";
+                }
+                else
+                {
+                    fmt_ += "actual value %ld";
+                }
+
+                fmt_ += " should ";
+
+                // comparison
+                if (is_tty)
+                {
+                    fmt_ += "\033[1;36m";
+                }
+                switch (comparison)
+                {
+                case xtestsComparisonEqual:                 fmt_ += "be equal to";                      break;
+                case xtestsComparisonNotEqual:              fmt_ += "be not equal to";                  break;
+                case xtestsComparisonGreaterThan:           fmt_ += "be greater than";                  break;
+                case xtestsComparisonLessThan:              fmt_ += "be less than";                     break;
+                case xtestsComparisonGreaterThanOrEqual:    fmt_ += "be greater than or equal to";      break;
+                case xtestsComparisonLessThanOrEqual:       fmt_ += "be less than or equal to";         break;
+                case xtestsComparisonApproxEqual:           fmt_ += "be approximately equal to";        break;
+                case xtestsComparisonApproxNotEqual:        fmt_ += "be not approximately equal to";    break;
+                default:
+
+                    xtests_abend("VIOLATION: invalid `comparison`");
+                    break;
+                }
+                if (is_tty)
+                {
+                    fmt_ += "\033[0m";
+                }
+
+                // expected
+                if (is_tty)
+                {
+                    fmt_ += " the expected value \033[1;35m%ld\033[0m";
+                }
+                else
+                {
+                    fmt_ += " the expected value %ld";
+                }
+
+                // function (?)
+                if (is_tty)
+                {
+                    fmt_ += "%s\033[1;36m%s\033[0m";
+                }
+                else
+                {
+                    fmt_ += "%s%s";
+                }
+
+                // EOL
+                fmt_ += '\n';
+
+                char const*     fmt =   fmt_.c_str();
+#else
+
                 static char const*  s_fmts_[] =
                 {
                         "%s(%d): test condition failed: actual value %ld should "   "be equal to"       " the expected value %ld%s%s\n"
@@ -2657,6 +3203,7 @@ RunnerInfo::get_reporter_(
                 };
                 STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                 char const*         fmt = s_fmts[comparison];
+#endif
 
                 switch (verbosity)
                 {
@@ -2700,6 +3247,83 @@ RunnerInfo::get_reporter_(
             ,   int                 verbosity
             )
             {
+#ifdef EA_COLOR
+
+                int const is_tty =
+# if _STLSOFT_VER >= 0x010b014d
+                                    platformstl::isatty(stdout)
+# else
+                                    xtests_isatty_(xtests_fileno_(stdout))
+# endif
+                                    ;
+
+                std::string     fmt_;
+
+                fmt_ += "%s(%d): test condition failed: ";
+
+                // actual
+                if (is_tty)
+                {
+                    fmt_ += "actual value \033[1;35m%lu\033[0m";
+                }
+                else
+                {
+                    fmt_ += "actual value %lu";
+                }
+
+                fmt_ += " should ";
+
+                // comparison
+                if (is_tty)
+                {
+                    fmt_ += "\033[1;36m";
+                }
+                switch (comparison)
+                {
+                case xtestsComparisonEqual:                 fmt_ += "be equal to";                      break;
+                case xtestsComparisonNotEqual:              fmt_ += "be not equal to";                  break;
+                case xtestsComparisonGreaterThan:           fmt_ += "be greater than";                  break;
+                case xtestsComparisonLessThan:              fmt_ += "be less than";                     break;
+                case xtestsComparisonGreaterThanOrEqual:    fmt_ += "be greater than or equal to";      break;
+                case xtestsComparisonLessThanOrEqual:       fmt_ += "be less than or equal to";         break;
+                case xtestsComparisonApproxEqual:           fmt_ += "be approximately equal to";        break;
+                case xtestsComparisonApproxNotEqual:        fmt_ += "be not approximately equal to";    break;
+                default:
+
+                    xtests_abend("VIOLATION: invalid `comparison`");
+                    break;
+                }
+                if (is_tty)
+                {
+                    fmt_ += "\033[0m";
+                }
+
+                // expected
+                if (is_tty)
+                {
+                    fmt_ += " the expected value \033[1;35m%lu\033[0m";
+                }
+                else
+                {
+                    fmt_ += " the expected value %lu";
+                }
+
+                // function (?)
+                if (is_tty)
+                {
+                    fmt_ += "%s\033[1;36m%s\033[0m";
+                }
+                else
+                {
+                    fmt_ += "%s%s";
+                }
+
+                // EOL
+                fmt_ += '\n';
+
+                char const*     fmt =   fmt_.c_str();
+#else
+
                 static char const*  s_fmts_[] =
                 {
                         "%s(%d): test condition failed: actual value %lu should "   "be equal to"       " the expected value %lu%s%s\n"
@@ -2718,6 +3342,7 @@ RunnerInfo::get_reporter_(
                 };
                 STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                 char const*         fmt = s_fmts[comparison];
+#endif
 
                 switch (verbosity)
                 {
@@ -2762,6 +3387,95 @@ RunnerInfo::get_reporter_(
             ,   int                 verbosity
             )
             {
+#ifdef EA_COLOR
+
+                int const is_tty =
+# if _STLSOFT_VER >= 0x010b014d
+                                    platformstl::isatty(stdout)
+# else
+                                    xtests_isatty_(xtests_fileno_(stdout))
+# endif
+                                    ;
+
+# ifdef XTESTS_STLSOFT_1_12_OR_LATER
+                static char const*  s_fmt64 =   stlsoft::integral_printf_format_traits<stlsoft::sint64_t>::decimal_format_a();
+# else /* ? STLSoft 1.12+ */
+                static char const*  s_fmt64 =   stlsoft::integral_printf_traits       <stlsoft::sint64_t>::decimal_format_a();
+# endif /* STLSoft 1.12+ */
+
+                std::string     fmt_;
+
+                fmt_ += "%s(%d): test condition failed: ";
+
+                // actual
+                if (is_tty)
+                {
+                    fmt_ += "actual value \033[1;35m";
+                    fmt_ += s_fmt64;
+                    fmt_ += "\033[0m";
+                }
+                else
+                {
+                    fmt_ += "actual value ";
+                    fmt_ += s_fmt64;
+                }
+
+                fmt_ += " should ";
+
+                // comparison
+                if (is_tty)
+                {
+                    fmt_ += "\033[1;36m";
+                }
+                switch (comparison)
+                {
+                case xtestsComparisonEqual:                 fmt_ += "be equal to";                      break;
+                case xtestsComparisonNotEqual:              fmt_ += "be not equal to";                  break;
+                case xtestsComparisonGreaterThan:           fmt_ += "be greater than";                  break;
+                case xtestsComparisonLessThan:              fmt_ += "be less than";                     break;
+                case xtestsComparisonGreaterThanOrEqual:    fmt_ += "be greater than or equal to";      break;
+                case xtestsComparisonLessThanOrEqual:       fmt_ += "be less than or equal to";         break;
+                case xtestsComparisonApproxEqual:           fmt_ += "be approximately equal to";        break;
+                case xtestsComparisonApproxNotEqual:        fmt_ += "be not approximately equal to";    break;
+                default:
+
+                    xtests_abend("VIOLATION: invalid `comparison`");
+                    break;
+                }
+                if (is_tty)
+                {
+                    fmt_ += "\033[0m";
+                }
+
+                // expected
+                if (is_tty)
+                {
+                    fmt_ += " the expected value \033[1;35m";
+                    fmt_ += s_fmt64;
+                    fmt_ += "\033[0m";
+                }
+                else
+                {
+                    fmt_ += " the expected value ";
+                    fmt_ += s_fmt64;
+                }
+
+                // function (?)
+                if (is_tty)
+                {
+                    fmt_ += "%s\033[1;36m%s\033[0m";
+                }
+                else
+                {
+                    fmt_ += "%s%s";
+                }
+
+                // EOL
+                fmt_ += '\n';
+
+                char const*     fmt =   fmt_.c_str();
+#else
+
 # if defined(STLSOFT_COMPILER_IS_BORLAND)
 #  define static
 # endif /* compiler */
@@ -2817,6 +3531,7 @@ RunnerInfo::get_reporter_(
 # endif /* compiler */
 
                 char const*         fmt = s_fmts[comparison];
+#endif
 
                 switch (verbosity)
                 {
@@ -2847,7 +3562,10 @@ RunnerInfo::get_reporter_(
                                 ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
                                 );
 
+#ifndef EA_COLOR
+
                 STLSOFT_SUPPRESS_UNUSED(s_len);
+#endif
             }
 
             void
@@ -2862,6 +3580,95 @@ RunnerInfo::get_reporter_(
             ,   int                 verbosity
             )
             {
+#ifdef EA_COLOR
+
+                int const is_tty =
+# if _STLSOFT_VER >= 0x010b014d
+                                    platformstl::isatty(stdout)
+# else
+                                    xtests_isatty_(xtests_fileno_(stdout))
+# endif
+                                    ;
+
+# ifdef XTESTS_STLSOFT_1_12_OR_LATER
+                static char const*  s_fmt64 =   stlsoft::integral_printf_format_traits<stlsoft::uint64_t>::decimal_format_a();
+# else /* ? STLSoft 1.12+ */
+                static char const*  s_fmt64 =   stlsoft::integral_printf_traits       <stlsoft::uint64_t>::decimal_format_a();
+# endif /* STLSoft 1.12+ */
+
+                std::string     fmt_;
+
+                fmt_ += "%s(%d): test condition failed: ";
+
+                // actual
+                if (is_tty)
+                {
+                    fmt_ += "actual value \033[1;35m";
+                    fmt_ += s_fmt64;
+                    fmt_ += "\033[0m";
+                }
+                else
+                {
+                    fmt_ += "actual value ";
+                    fmt_ += s_fmt64;
+                }
+
+                fmt_ += " should ";
+
+                // comparison
+                if (is_tty)
+                {
+                    fmt_ += "\033[1;36m";
+                }
+                switch (comparison)
+                {
+                case xtestsComparisonEqual:                 fmt_ += "be equal to";                      break;
+                case xtestsComparisonNotEqual:              fmt_ += "be not equal to";                  break;
+                case xtestsComparisonGreaterThan:           fmt_ += "be greater than";                  break;
+                case xtestsComparisonLessThan:              fmt_ += "be less than";                     break;
+                case xtestsComparisonGreaterThanOrEqual:    fmt_ += "be greater than or equal to";      break;
+                case xtestsComparisonLessThanOrEqual:       fmt_ += "be less than or equal to";         break;
+                case xtestsComparisonApproxEqual:           fmt_ += "be approximately equal to";        break;
+                case xtestsComparisonApproxNotEqual:        fmt_ += "be not approximately equal to";    break;
+                default:
+
+                    xtests_abend("VIOLATION: invalid `comparison`");
+                    break;
+                }
+                if (is_tty)
+                {
+                    fmt_ += "\033[0m";
+                }
+
+                // expected
+                if (is_tty)
+                {
+                    fmt_ += " the expected value \033[1;35m";
+                    fmt_ += s_fmt64;
+                    fmt_ += "\033[0m";
+                }
+                else
+                {
+                    fmt_ += " the expected value ";
+                    fmt_ += s_fmt64;
+                }
+
+                // function (?)
+                if (is_tty)
+                {
+                    fmt_ += "%s\033[1;36m%s\033[0m";
+                }
+                else
+                {
+                    fmt_ += "%s%s";
+                }
+
+                // EOL
+                fmt_ += '\n';
+
+                char const*     fmt =   fmt_.c_str();
+#else
+
 # if defined(STLSOFT_COMPILER_IS_BORLAND)
 #  define static
 # endif /* compiler */
@@ -2873,7 +3680,6 @@ RunnerInfo::get_reporter_(
                         "%%s(%%d): test condition failed: actual value %s should "  "be equal to"                   " the expected value %s%%s%%s\n"
                     ,   "%%s(%%d): test condition failed: actual value %s should "  "be not equal to"               " the expected value %s%%s%%s\n"
                 };
-
                 static char const*  s_fmtBases[] =
                 {
                         s_fmts_[0]
@@ -2886,6 +3692,7 @@ RunnerInfo::get_reporter_(
                     ,   s_fmts_[1]
                 };
                 enum { bufferSize_ = 115 };
+
                 STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmtBases) == xtestsComparison_max_enumerator);
                 static char         s_fmts[STLSOFT_NUM_ELEMENTS_(s_fmtBases)][bufferSize_];
                 STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
@@ -2918,6 +3725,7 @@ RunnerInfo::get_reporter_(
 # endif /* compiler */
 
                 char const*         fmt = s_fmts[comparison];
+#endif
 
                 switch (verbosity)
                 {
@@ -2948,7 +3756,10 @@ RunnerInfo::get_reporter_(
                                 ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
                                 );
 
+# ifndef EA_COLOR
+
                 STLSOFT_SUPPRESS_UNUSED(s_len);
+# endif
             }
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 

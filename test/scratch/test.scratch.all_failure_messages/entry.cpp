@@ -4,7 +4,7 @@
  * Purpose: Illustrates each failure message.
  *
  * Created: 1st December 2024
- * Updated: 1st December 2024
+ * Updated: 7th December 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -22,6 +22,7 @@
 #include <stlsoft/stlsoft.h>
 
 /* Standard C++ Header Files */
+#include <limits>
 
 /* Standard C Header Files */
 #include <stdio.h>
@@ -208,6 +209,8 @@ int main(int argc, char* argv[])
                 TEST_INT_GT(0, stlsoft::ss_sint64_t(0));
                 TEST_INT_LE(0, stlsoft::ss_sint64_t(1));
                 TEST_INT_GE(1, stlsoft::ss_sint64_t(0));
+
+                TEST_INT_EQ(std::numeric_limits<stlsoft::ss_sint64_t>::min(), std::numeric_limits<stlsoft::ss_sint64_t>::max());
             }
 
             XTESTS_CASE_END("sint64");
@@ -223,6 +226,8 @@ int main(int argc, char* argv[])
                 TEST_INT_GT(0u, stlsoft::ss_uint64_t(0));
                 TEST_INT_LE(0u, stlsoft::ss_uint64_t(1));
                 TEST_INT_GE(1u, stlsoft::ss_uint64_t(0));
+
+                TEST_INT_EQ(std::numeric_limits<stlsoft::ss_uint64_t>::min(), std::numeric_limits<stlsoft::ss_uint64_t>::max());
             }
 
             XTESTS_CASE_END("uint64");
@@ -250,6 +255,17 @@ int main(int argc, char* argv[])
         {
 
             XTESTS_CASE_END("case exception excepted");
+        }
+
+        if (XTESTS_CASE_BEGIN("multibyte string (contains)", "illustrating multibyte string failure messages"))
+        {
+            XTESTS_TEST_MULTIBYTE_STRING_CONTAIN("abc", "def");
+            XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN("abc", "abcd");
+
+            XTESTS_TEST_MULTIBYTE_STRING_CONTAIN_APPROX("abc", "DEF");
+            XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN_APPROX("abc", "ABCD");
+
+            XTESTS_CASE_END("multibyte string (contains)");
         }
 
         XTESTS_PRINT_RESULTS();
