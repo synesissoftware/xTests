@@ -2170,6 +2170,12 @@ RunnerInfo::get_reporter_(
             ,   int                 verbosity
             )
             {
+                static char const*  s_truthy_strings[] =
+                {
+                    "false"
+                ,   "true"
+                };
+
                 char const* fmt = "%s(%d): test condition failed: actual value %s should %sequal the expected value %s%s%s\n";
 
                 switch (verbosity)
@@ -2195,9 +2201,9 @@ RunnerInfo::get_reporter_(
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 20
                                 ,   fmt
                                 ,   file, line
-                                ,   (actualValue ? "true" : "false")
+                                ,   s_truthy_strings[!!actualValue]
                                 ,   (xtestsComparisonEqual == comparison) ? "" : "not "
-                                ,   (expectedValue ? "true" : "false")
+                                ,   s_truthy_strings[!!expectedValue]
                                 ,   (NULL != function) ? " in function " : ""
                                 ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
                                 );
