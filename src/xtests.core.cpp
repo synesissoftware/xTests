@@ -40,6 +40,7 @@
  * ////////////////////////////////////////////////////////////////////// */
 
 
+#define EA_COLORISE
 
 
 /* xTests Header Files */
@@ -908,6 +909,193 @@ namespace
 
         return fmt;
     }
+
+
+#ifdef EA_COLORISE
+
+    // template <ss_typename_param_k T_value>
+    std::string
+    colorise_(
+        char const*         file
+    ,   int                 line
+    ,   char const*         function
+    ,   char const*      /* expr */
+    ,   char const*         type_qualifier      // might say "Boolean", "character", ...
+#if 0
+    ,   T_value const&      expectedValue
+    ,   T_value const&      actualValue
+    ,   std::string       (*pfn_value_to_string)(T_value const& value)
+#else
+    ,   char const*         fmt_specifier
+#endif
+    ,   int                 quote_type /* 0, 1, or 2 */
+    ,   char const*         secondary_fmt_specifier
+    ,   xtests_comparison_t comparison
+    ,   int                 verbosity
+    ,   int                 is_tty
+    ,   char const*       (*pfn_relation)(xtests_comparison_t comparison)
+    )
+    {
+        STLSOFT_SUPPRESS_UNUSED(file);
+        STLSOFT_SUPPRESS_UNUSED(line);
+        STLSOFT_SUPPRESS_UNUSED(function);
+        // STLSOFT_SUPPRESS_UNUSED(expr);
+        STLSOFT_SUPPRESS_UNUSED(verbosity);
+
+        STLSOFT_SUPPRESS_UNUSED(secondary_fmt_specifier);
+
+        switch (verbosity)
+        {
+        case XTESTS_VERBOSITY_SILENT:
+        case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+        case XTESTS_VERBOSITY_RUNNER_SUMMARY:
+
+            return "";
+        default:
+
+            STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
+        case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+        case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+        case XTESTS_VERBOSITY_CASE_SUMMARY:
+        XTESTS_VERBOSITY_VALID_MISSING_CASES
+        case XTESTS_VERBOSITY_VERBOSE:
+
+            break;
+        }
+
+        std::string     fmt_;
+
+        fmt_ += "%s(%d): test condition failed: ";
+
+        // actual
+        fmt_ += "actual ";
+        if (0 != stlsoft::c_str_len_a(type_qualifier))
+        {
+            fmt_ += type_qualifier;
+            fmt_ += ' ';
+        }
+        fmt_ += "value ";
+        switch (quote_type)
+        {
+        case 1:
+
+            fmt_ += '\'';
+            break;
+        case 2:
+
+            fmt_ += '"';
+            break;
+        default:
+
+            break;
+        }
+        if (is_tty)
+        {
+            fmt_ += "\033[1;35m";
+            fmt_ += fmt_specifier;
+            fmt_ += "\033[0m";
+        }
+        else
+        {
+            fmt_ += fmt_specifier;
+        }
+        switch (quote_type)
+        {
+        case 1:
+
+            fmt_ += '\'';
+            break;
+        case 2:
+
+            fmt_ += '"';
+            break;
+        default:
+
+            break;
+        }
+        if (0 != stlsoft::c_str_len_a(secondary_fmt_specifier))
+        {
+            fmt_ += "( ";
+            fmt_ += secondary_fmt_specifier;
+            fmt_ += ')';
+        }
+
+        fmt_ += " should ";
+
+        // comparison
+        if (is_tty)
+        {
+            fmt_ += "\033[1;36m";
+        }
+        fmt_ += (*pfn_relation)(comparison);
+        if (is_tty)
+        {
+            fmt_ += "\033[0m";
+        }
+
+        // expected
+        fmt_ += " the expected value ";
+        switch (quote_type)
+        {
+        case 1:
+
+            fmt_ += '\'';
+            break;
+        case 2:
+
+            fmt_ += '"';
+            break;
+        default:
+
+            break;
+        }
+        if (is_tty)
+        {
+            fmt_ += "\033[1;35m";
+            fmt_ += fmt_specifier;
+            fmt_ += "\033[0m";
+        }
+        else
+        {
+            fmt_ += fmt_specifier;
+        }
+        switch (quote_type)
+        {
+        case 1:
+
+            fmt_ += '\'';
+            break;
+        case 2:
+
+            fmt_ += '"';
+            break;
+        default:
+
+            break;
+        }
+        if (0 != stlsoft::c_str_len_a(secondary_fmt_specifier))
+        {
+            fmt_ += "( ";
+            fmt_ += secondary_fmt_specifier;
+            fmt_ += ')';
+        }
+
+        // function (?)
+        if (is_tty)
+        {
+            fmt_ += "%s\033[1;36m%s\033[0m";
+        }
+        else
+        {
+            fmt_ += "%s%s";
+        }
+
+        // EOL
+        fmt_ += '\n';
+
+        return fmt_;
+    }
+#endif
 
 #ifdef STLSOFT_CF_NAMESPACE_SUPPORT
 } // anonymous namespace
@@ -2043,9 +2231,9 @@ RunnerInfo::get_reporter_(
         private: // overrides
             virtual void
             onStartRunner(
-                void* /* reporterParam */
+                void*    /* reporterParam */
             ,   char const* name
-            ,   int verbosity
+            ,   int         verbosity
             ) ss_override_k
             {
                 switch (verbosity)
@@ -2194,7 +2382,7 @@ RunnerInfo::get_reporter_(
                 char const*         file
             ,   int                 line
             ,   char const*         function
-            ,   char const*      /* expr */
+            ,   char const*         expr
             ,   bool                expectedValue
             ,   bool                actualValue
             ,   xtests_comparison_t comparison
@@ -2208,6 +2396,47 @@ RunnerInfo::get_reporter_(
                 ,   "true"
                 };
 
+#ifdef EA_COLORISE
+
+                struct bool_to_string
+                {
+                    static std::string
+                    fn(bool const& value)
+                    {
+                        static char const* s_truthy_strings[] =
+                        {
+                            "false"
+                        ,   "true"
+                        };
+
+                        return s_truthy_strings[!!value];
+                    }
+                };
+
+                std::string fmt_ =
+                colorise_(
+                    file
+                ,   line
+                ,   function
+                ,   expr
+                ,   ""
+# if 0
+                ,   /*s_truthy_strings[!!*/actualValue/*]*/
+                ,   /*s_truthy_strings[!!*/expectedValue/*]*/
+                ,   &bool_to_string::fn
+# else
+                ,   "%s"
+# endif
+                ,   0 // no quotes
+                ,   NULL
+                ,   comparison
+                ,   verbosity
+                ,   is_tty
+                ,   relation_equals_
+                );
+#else
+
+                STLSOFT_SUPPRESS_UNUSED(expr);
 
                 std::string     fmt_;
 
@@ -2258,8 +2487,11 @@ RunnerInfo::get_reporter_(
 
                 // EOL
                 fmt_ += '\n';
+#endif
 
                 char const*     fmt =   fmt_.c_str();
+
+#ifndef EA_COLORISE
 
                 switch (verbosity)
                 {
@@ -2280,6 +2512,7 @@ RunnerInfo::get_reporter_(
 
                     break;
                 }
+#endif
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
@@ -2296,7 +2529,7 @@ RunnerInfo::get_reporter_(
                 char const*         file
             ,   int                 line
             ,   char const*         function
-            ,   char const*      /* expr */
+            ,   char const*         expr
             ,   double const&       expectedValue
             ,   double const&       actualValue
             ,   xtests_comparison_t comparison
@@ -2304,6 +2537,33 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
+#ifdef EA_COLORISE
+
+                std::string fmt_ =
+                colorise_(
+                    file
+                ,   line
+                ,   function
+                ,   expr
+                ,   ""
+# if 0
+                ,   /*s_truthy_strings[!!*/actualValue/*]*/
+                ,   /*s_truthy_strings[!!*/expectedValue/*]*/
+                ,   &double_to_string::fn
+# else
+                ,   "%G"
+# endif
+                ,   0 // no quotes
+                ,   NULL
+                ,   comparison
+                ,   verbosity
+                ,   is_tty
+                ,   relation_equals_
+                );
+#else
+
+                STLSOFT_SUPPRESS_UNUSED(expr);
+
                 std::string     fmt_;
 
                 fmt_ += "%s(%d): test condition failed: ";
@@ -2353,8 +2613,11 @@ RunnerInfo::get_reporter_(
 
                 // EOL
                 fmt_ += '\n';
+#endif
 
                 char const*     fmt =   fmt_.c_str();
+
+#ifndef EA_COLORISE
 
                 switch (verbosity)
                 {
@@ -2375,6 +2638,7 @@ RunnerInfo::get_reporter_(
 
                     break;
                 }
+#endif
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
@@ -2391,7 +2655,7 @@ RunnerInfo::get_reporter_(
                 char const*         file
             ,   int                 line
             ,   char const*         function
-            ,   char const*      /* expr */
+            ,   char const*         expr
             ,   char                expectedValue
             ,   char                actualValue
             ,   xtests_comparison_t comparison
@@ -2399,6 +2663,33 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
+#ifdef EA_COLORISE
+
+                std::string fmt_ =
+                colorise_(
+                    file
+                ,   line
+                ,   function
+                ,   expr
+                ,   "character"
+# if 0
+                ,   /*s_truthy_strings[!!*/actualValue/*]*/
+                ,   /*s_truthy_strings[!!*/expectedValue/*]*/
+                ,   &mbc_to_string::fn
+# else
+                ,   "%c"
+# endif
+                ,   1 // single-quotes
+                ,   "0x%02x"
+                ,   comparison
+                ,   verbosity
+                ,   is_tty
+                ,   relation_equals_
+                );
+#else
+
+                STLSOFT_SUPPRESS_UNUSED(expr);
+
                 std::string     fmt_;
 
                 fmt_ += "%s(%d): test condition failed: ";
@@ -2448,8 +2739,11 @@ RunnerInfo::get_reporter_(
 
                 // EOL
                 fmt_ += '\n';
+#endif
 
                 char const*     fmt =   fmt_.c_str();
+
+#ifndef EA_COLORISE
 
                 switch (verbosity)
                 {
@@ -2470,6 +2764,7 @@ RunnerInfo::get_reporter_(
 
                     break;
                 }
+#endif
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
@@ -2494,6 +2789,10 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
+                // TODO: implement colour when fix the wide-character issue
+
+                STLSOFT_SUPPRESS_UNUSED(&is_tty);
+
                 static char const*  s_fmts[] =
                 {
                         "%s(%d): test condition failed: actual character value '%C' (0x%04x) should "   "be equal to"                   " the expected value '%C' (0x%04x)%s%s\n"
@@ -2543,7 +2842,7 @@ RunnerInfo::get_reporter_(
                 char const*         file
             ,   int                 line
             ,   char const*         function
-            ,   char const*      /* expr */
+            ,   char const*         expr
             ,   char const*         expectedValue
             ,   size_t              expectedValueLen
             ,   char const*         actualValue
@@ -2561,6 +2860,33 @@ RunnerInfo::get_reporter_(
 
                 if (xtestsTestFullComparison == testType)
                 {
+#ifdef EA_COLORISE
+
+                    std::string fmt_ =
+                    colorise_(
+                        file
+                    ,   line
+                    ,   function
+                    ,   expr
+                    ,   "string"
+# if 0
+                    ,   /*s_truthy_strings[!!*/actualValue/*]*/
+                    ,   /*s_truthy_strings[!!*/expectedValue/*]*/
+                    ,   &mbs_to_string::fn
+# else
+                    ,   "%s"
+# endif
+                    ,   1 // single-quotes
+                    ,   NULL
+                    ,   comparison
+                    ,   verbosity
+                    ,   is_tty
+                    ,   relation_equals_
+                    );
+#else
+
+                    STLSOFT_SUPPRESS_UNUSED(expr);
+
                     std::string     fmt_;
 
                     fmt_ += "%s(%d): test condition failed: ";
@@ -2610,8 +2936,11 @@ RunnerInfo::get_reporter_(
 
                     // EOL
                     fmt_ += '\n';
+#endif
 
                     char const*     fmt =   fmt_.c_str();
+
+#ifndef EA_COLORISE
 
                     switch (verbosity)
                     {
@@ -2632,6 +2961,7 @@ RunnerInfo::get_reporter_(
 
                         break;
                     }
+#endif
 
                     xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                     ,   fmt
@@ -2706,6 +3036,9 @@ RunnerInfo::get_reporter_(
 
                     char const*     fmt =   fmt_.c_str();
 
+#ifndef EA_COLORISE
+#endif
+
                     switch (verbosity)
                     {
                     case XTESTS_VERBOSITY_SILENT:
@@ -2743,6 +3076,33 @@ RunnerInfo::get_reporter_(
                 }
                 else if (xtestsTestContainment == testType)
                 {
+#ifdef EA_COLORISE
+
+                    std::string fmt_ =
+                    colorise_(
+                        file
+                    ,   line
+                    ,   function
+                    ,   expr
+                    ,   "string"
+# if 0
+                    ,   /*s_truthy_strings[!!*/actualValue/*]*/
+                    ,   /*s_truthy_strings[!!*/expectedValue/*]*/
+                    ,   &mbs_to_string::fn
+# else
+                    ,   "%s"
+# endif
+                    ,   1 // single-quotes
+                    ,   NULL
+                    ,   comparison
+                    ,   verbosity
+                    ,   is_tty
+                    ,   relation_contains_
+                    );
+#else
+
+                    STLSOFT_SUPPRESS_UNUSED(expr);
+
                     std::string     fmt_;
 
                     fmt_ += "%s(%d): test condition failed: ";
@@ -2792,8 +3152,11 @@ RunnerInfo::get_reporter_(
 
                     // EOL
                     fmt_ += '\n';
+#endif
 
                     char const*     fmt =   fmt_.c_str();
+
+#ifndef EA_COLORISE
 
                     switch (verbosity)
                     {
@@ -2814,6 +3177,7 @@ RunnerInfo::get_reporter_(
 
                         break;
                     }
+#endif
 
                     xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                     ,   fmt
@@ -2858,7 +3222,7 @@ RunnerInfo::get_reporter_(
                 char const*             file
             ,   int                     line
             ,   char const*             function
-            ,   char const*           /* expr */
+            ,   char const*             expr
             ,   void const volatile*    expectedValue
             ,   void const volatile*    actualValue
             ,   xtests_comparison_t     comparison
@@ -2866,6 +3230,33 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
+#ifdef EA_COLORISE
+
+                std::string fmt_ =
+                colorise_(
+                    file
+                ,   line
+                ,   function
+                ,   expr
+                ,   "pointer"
+# if 0
+                ,   /*s_truthy_strings[!!*/actualValue/*]*/
+                ,   /*s_truthy_strings[!!*/expectedValue/*]*/
+                ,   &ptr_to_string::fn
+# else
+                ,   "%p"
+# endif
+                ,   1 // single-quotes
+                ,   NULL
+                ,   comparison
+                ,   verbosity
+                ,   is_tty
+                ,   relation_equals_
+                );
+#else
+
+                STLSOFT_SUPPRESS_UNUSED(expr);
+
                 std::string     fmt_;
 
                 fmt_ += "%s(%d): test condition failed: ";
@@ -2873,11 +3264,11 @@ RunnerInfo::get_reporter_(
                 // actual
                 if (is_tty)
                 {
-                    fmt_ += "actual pointer value \033[1;35m%p\033[0m";
+                    fmt_ += "actual pointer value '\033[1;35m%p\033[0m'";
                 }
                 else
                 {
-                    fmt_ += "actual pointer value %p";
+                    fmt_ += "actual pointer value '%p'";
                 }
 
                 fmt_ += " should ";
@@ -2896,11 +3287,11 @@ RunnerInfo::get_reporter_(
                 // expected
                 if (is_tty)
                 {
-                    fmt_ += " the expected value \033[1;35m%p\033[0m";
+                    fmt_ += " the expected value '\033[1;35m%p\033[0m'";
                 }
                 else
                 {
-                    fmt_ += " the expected value %p";
+                    fmt_ += " the expected value '%p'";
                 }
 
                 // function (?)
@@ -2915,8 +3306,11 @@ RunnerInfo::get_reporter_(
 
                 // EOL
                 fmt_ += '\n';
+#endif
 
                 char const*     fmt =   fmt_.c_str();
+
+#ifndef EA_COLORISE
 
                 switch (verbosity)
                 {
@@ -2937,6 +3331,7 @@ RunnerInfo::get_reporter_(
 
                     break;
                 }
+#endif
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
@@ -2953,7 +3348,7 @@ RunnerInfo::get_reporter_(
                 char const*         file
             ,   int                 line
             ,   char const*         function
-            ,   char const*      /* expr */
+            ,   char const*         expr
             ,   signed long         expectedValue
             ,   signed long         actualValue
             ,   xtests_comparison_t comparison
@@ -2961,6 +3356,33 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
+#ifdef EA_COLORISE
+
+                std::string fmt_ =
+                colorise_(
+                    file
+                ,   line
+                ,   function
+                ,   expr
+                ,   ""
+# if 0
+                ,   /*s_truthy_strings[!!*/actualValue/*]*/
+                ,   /*s_truthy_strings[!!*/expectedValue/*]*/
+                ,   &l_to_string::fn
+# else
+                ,   "%ld"
+# endif
+                ,   0 // no quotes
+                ,   NULL
+                ,   comparison
+                ,   verbosity
+                ,   is_tty
+                ,   relation_equals_
+                );
+#else
+
+                STLSOFT_SUPPRESS_UNUSED(expr);
+
                 std::string     fmt_;
 
                 fmt_ += "%s(%d): test condition failed: ";
@@ -3010,8 +3432,10 @@ RunnerInfo::get_reporter_(
 
                 // EOL
                 fmt_ += '\n';
-
+#endif
                 char const*     fmt =   fmt_.c_str();
+
+#ifndef EA_COLORISE
 
                 switch (verbosity)
                 {
@@ -3032,6 +3456,7 @@ RunnerInfo::get_reporter_(
 
                     break;
                 }
+#endif
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
@@ -3048,7 +3473,7 @@ RunnerInfo::get_reporter_(
                 char const*         file
             ,   int                 line
             ,   char const*         function
-            ,   char const*      /* expr */
+            ,   char const*         expr
             ,   unsigned long       expectedValue
             ,   unsigned long       actualValue
             ,   xtests_comparison_t comparison
@@ -3056,6 +3481,33 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
+#ifdef EA_COLORISE
+
+                std::string fmt_ =
+                colorise_(
+                    file
+                ,   line
+                ,   function
+                ,   expr
+                ,   ""
+# if 0
+                ,   /*s_truthy_strings[!!*/actualValue/*]*/
+                ,   /*s_truthy_strings[!!*/expectedValue/*]*/
+                ,   &ul_to_string::fn
+# else
+                ,   "%lu"
+# endif
+                ,   0 // no quotes
+                ,   NULL
+                ,   comparison
+                ,   verbosity
+                ,   is_tty
+                ,   relation_equals_
+                );
+#else
+
+                STLSOFT_SUPPRESS_UNUSED(expr);
+
                 std::string     fmt_;
 
                 fmt_ += "%s(%d): test condition failed: ";
@@ -3105,8 +3557,11 @@ RunnerInfo::get_reporter_(
 
                 // EOL
                 fmt_ += '\n';
+#endif
 
                 char const*     fmt =   fmt_.c_str();
+
+#ifndef EA_COLORISE
 
                 switch (verbosity)
                 {
@@ -3127,6 +3582,7 @@ RunnerInfo::get_reporter_(
 
                     break;
                 }
+#endif
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
@@ -3144,7 +3600,7 @@ RunnerInfo::get_reporter_(
                 char const*         file
             ,   int                 line
             ,   char const*         function
-            ,   char const*      /* expr */
+            ,   char const*         expr
             ,   sint64_t            expectedValue
             ,   sint64_t            actualValue
             ,   xtests_comparison_t comparison
@@ -3152,6 +3608,37 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
+#ifdef EA_COLORISE
+
+                std::string fmt_ =
+                colorise_(
+                    file
+                ,   line
+                ,   function
+                ,   expr
+                ,   ""
+# if 0
+                ,   /*s_truthy_strings[!!*/actualValue/*]*/
+                ,   /*s_truthy_strings[!!*/expectedValue/*]*/
+                ,   &sint64_to_string::fn
+# else
+#  ifdef XTESTS_STLSOFT_1_12_OR_LATER
+                ,   stlsoft::integral_printf_format_traits<stlsoft::sint64_t>::decimal_format_a()
+#  else /* ? STLSoft 1.12+ */
+                ,   stlsoft::integral_printf_traits       <stlsoft::sint64_t>::decimal_format_a()
+#  endif /* STLSoft 1.12+ */
+# endif
+                ,   0 // no quotes
+                ,   NULL
+                ,   comparison
+                ,   verbosity
+                ,   is_tty
+                ,   relation_equals_
+                );
+#else
+
+                STLSOFT_SUPPRESS_UNUSED(expr);
+
 # ifdef XTESTS_STLSOFT_1_12_OR_LATER
                 static char const*  s_fmt64 =   stlsoft::integral_printf_format_traits<stlsoft::sint64_t>::decimal_format_a();
 # else /* ? STLSoft 1.12+ */
@@ -3213,8 +3700,11 @@ RunnerInfo::get_reporter_(
 
                 // EOL
                 fmt_ += '\n';
+#endif
 
                 char const*     fmt =   fmt_.c_str();
+
+#ifndef EA_COLORISE
 
                 switch (verbosity)
                 {
@@ -3235,6 +3725,7 @@ RunnerInfo::get_reporter_(
 
                     break;
                 }
+#endif
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
@@ -3251,7 +3742,7 @@ RunnerInfo::get_reporter_(
                 char const*         file
             ,   int                 line
             ,   char const*         function
-            ,   char const*      /* expr */
+            ,   char const*         expr
             ,   uint64_t            expectedValue
             ,   uint64_t            actualValue
             ,   xtests_comparison_t comparison
@@ -3259,6 +3750,36 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
+#ifdef EA_COLORISE
+
+                std::string fmt_ =
+                colorise_(
+                    file
+                ,   line
+                ,   function
+                ,   expr
+                ,   ""
+# if 0
+                ,   /*s_truthy_strings[!!*/actualValue/*]*/
+                ,   /*s_truthy_strings[!!*/expectedValue/*]*/
+                ,   &uint64_to_string::fn
+# else
+#  ifdef XTESTS_STLSOFT_1_12_OR_LATER
+                ,   stlsoft::integral_printf_format_traits<stlsoft::uint64_t>::decimal_format_a()
+#  else /* ? STLSoft 1.12+ */
+                ,   stlsoft::integral_printf_traits       <stlsoft::uint64_t>::decimal_format_a()
+#  endif /* STLSoft 1.12+ */
+# endif
+                ,   0 // no quotes
+                ,   NULL
+                ,   comparison
+                ,   verbosity
+                ,   is_tty
+                ,   relation_equals_
+                );
+#else
+
+                STLSOFT_SUPPRESS_UNUSED(expr);
 
 # ifdef XTESTS_STLSOFT_1_12_OR_LATER
                 static char const*  s_fmt64 =   stlsoft::integral_printf_format_traits<stlsoft::uint64_t>::decimal_format_a();
@@ -3321,8 +3842,11 @@ RunnerInfo::get_reporter_(
 
                 // EOL
                 fmt_ += '\n';
+#endif
 
                 char const*     fmt =   fmt_.c_str();
+
+#ifndef EA_COLORISE
 
                 switch (verbosity)
                 {
@@ -3343,6 +3867,7 @@ RunnerInfo::get_reporter_(
 
                     break;
                 }
+#endif
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
