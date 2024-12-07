@@ -40,7 +40,6 @@
  * ////////////////////////////////////////////////////////////////////// */
 
 
-#define EA_COLORISE
 
 
 /* xTests Header Files */
@@ -911,8 +910,6 @@ namespace
     }
 
 
-#ifdef EA_COLORISE
-
     // template <ss_typename_param_k T_value>
     std::string
     colorise_(
@@ -1095,8 +1092,6 @@ namespace
 
         return fmt_;
     }
-#endif
-
 #ifdef STLSOFT_CF_NAMESPACE_SUPPORT
 } // anonymous namespace
 #endif /* STLSOFT_CF_NAMESPACE_SUPPORT */
@@ -2395,8 +2390,7 @@ RunnerInfo::get_reporter_(
                     "false"
                 ,   "true"
                 };
-
-#ifdef EA_COLORISE
+#if 0
 
                 struct bool_to_string
                 {
@@ -2412,6 +2406,7 @@ RunnerInfo::get_reporter_(
                         return s_truthy_strings[!!value];
                     }
                 };
+#endif
 
                 std::string fmt_ =
                 colorise_(
@@ -2425,7 +2420,7 @@ RunnerInfo::get_reporter_(
                 ,   /*s_truthy_strings[!!*/expectedValue/*]*/
                 ,   &bool_to_string::fn
 # else
-                ,   "%s"
+                ,   "%s" // we provide the conversion to string below
 # endif
                 ,   0 // no quotes
                 ,   NULL
@@ -2434,85 +2429,7 @@ RunnerInfo::get_reporter_(
                 ,   is_tty
                 ,   relation_equals_
                 );
-#else
-
-                STLSOFT_SUPPRESS_UNUSED(expr);
-
-                std::string     fmt_;
-
-                fmt_ += "%s(%d): test condition failed: ";
-
-                // actual
-                if (is_tty)
-                {
-                    fmt_ += "actual value \033[1;35m%s\033[0m";
-                }
-                else
-                {
-                    fmt_ += "actual value %s";
-                }
-
-                fmt_ += " should ";
-
-                // comparison
-                if (is_tty)
-                {
-                    fmt_ += "\033[1;36m";
-                }
-                fmt_ += relation_equals_(comparison);
-                if (is_tty)
-                {
-                    fmt_ += "\033[0m";
-                }
-
-                // expected
-                if (is_tty)
-                {
-                    fmt_ += " the expected value \033[1;35m%s\033[0m";
-                }
-                else
-                {
-                    fmt_ += " the expected value %s";
-                }
-
-                // function (?)
-                if (is_tty)
-                {
-                    fmt_ += "%s\033[1;36m%s\033[0m";
-                }
-                else
-                {
-                    fmt_ += "%s%s";
-                }
-
-                // EOL
-                fmt_ += '\n';
-#endif
-
-                char const*     fmt =   fmt_.c_str();
-
-#ifndef EA_COLORISE
-
-                switch (verbosity)
-                {
-                case XTESTS_VERBOSITY_SILENT:
-                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
-
-                    fmt = "";
-                    break;
-                default:
-
-                    STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_CASE_SUMMARY:
-                XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case XTESTS_VERBOSITY_VERBOSE:
-
-                    break;
-                }
-#endif
+                char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
@@ -2537,8 +2454,6 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
-#ifdef EA_COLORISE
-
                 std::string fmt_ =
                 colorise_(
                     file
@@ -2560,85 +2475,7 @@ RunnerInfo::get_reporter_(
                 ,   is_tty
                 ,   relation_equals_
                 );
-#else
-
-                STLSOFT_SUPPRESS_UNUSED(expr);
-
-                std::string     fmt_;
-
-                fmt_ += "%s(%d): test condition failed: ";
-
-                // actual
-                if (is_tty)
-                {
-                    fmt_ += "actual value \033[1;35m%G\033[0m";
-                }
-                else
-                {
-                    fmt_ += "actual value %G";
-                }
-
-                fmt_ += " should ";
-
-                // comparison
-                if (is_tty)
-                {
-                    fmt_ += "\033[1;36m";
-                }
-                fmt_ += relation_equals_(comparison);
-                if (is_tty)
-                {
-                    fmt_ += "\033[0m";
-                }
-
-                // expected
-                if (is_tty)
-                {
-                    fmt_ += " the expected value \033[1;35m%G\033[0m";
-                }
-                else
-                {
-                    fmt_ += " the expected value %G";
-                }
-
-                // function (?)
-                if (is_tty)
-                {
-                    fmt_ += "%s\033[1;36m%s\033[0m";
-                }
-                else
-                {
-                    fmt_ += "%s%s";
-                }
-
-                // EOL
-                fmt_ += '\n';
-#endif
-
-                char const*     fmt =   fmt_.c_str();
-
-#ifndef EA_COLORISE
-
-                switch (verbosity)
-                {
-                case XTESTS_VERBOSITY_SILENT:
-                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
-
-                    fmt = "";
-                    break;
-                default:
-
-                    STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_CASE_SUMMARY:
-                XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case XTESTS_VERBOSITY_VERBOSE:
-
-                    break;
-                }
-#endif
+                char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
@@ -2663,8 +2500,6 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
-#ifdef EA_COLORISE
-
                 std::string fmt_ =
                 colorise_(
                     file
@@ -2686,85 +2521,7 @@ RunnerInfo::get_reporter_(
                 ,   is_tty
                 ,   relation_equals_
                 );
-#else
-
-                STLSOFT_SUPPRESS_UNUSED(expr);
-
-                std::string     fmt_;
-
-                fmt_ += "%s(%d): test condition failed: ";
-
-                // actual
-                if (is_tty)
-                {
-                    fmt_ += "actual character value '\033[1;35m%c\033[0m' (0x%02x)";
-                }
-                else
-                {
-                    fmt_ += "actual character value '%c' (0x%02x)";
-                }
-
-                fmt_ += " should ";
-
-                // comparison
-                if (is_tty)
-                {
-                    fmt_ += "\033[1;36m";
-                }
-                fmt_ += relation_equals_(comparison);
-                if (is_tty)
-                {
-                    fmt_ += "\033[0m";
-                }
-
-                // expected
-                if (is_tty)
-                {
-                    fmt_ += " the expected value '\033[1;35m%c\033[0m' (0x%02x)";
-                }
-                else
-                {
-                    fmt_ += " the expected value '%c' (0x%02x)";
-                }
-
-                // function (?)
-                if (is_tty)
-                {
-                    fmt_ += "%s\033[1;36m%s\033[0m";
-                }
-                else
-                {
-                    fmt_ += "%s%s";
-                }
-
-                // EOL
-                fmt_ += '\n';
-#endif
-
-                char const*     fmt =   fmt_.c_str();
-
-#ifndef EA_COLORISE
-
-                switch (verbosity)
-                {
-                case XTESTS_VERBOSITY_SILENT:
-                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
-
-                    fmt = "";
-                    break;
-                default:
-
-                    STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_CASE_SUMMARY:
-                XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case XTESTS_VERBOSITY_VERBOSE:
-
-                    break;
-                }
-#endif
+                char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
@@ -2860,8 +2617,6 @@ RunnerInfo::get_reporter_(
 
                 if (xtestsTestFullComparison == testType)
                 {
-#ifdef EA_COLORISE
-
                     std::string fmt_ =
                     colorise_(
                         file
@@ -2883,85 +2638,7 @@ RunnerInfo::get_reporter_(
                     ,   is_tty
                     ,   relation_equals_
                     );
-#else
-
-                    STLSOFT_SUPPRESS_UNUSED(expr);
-
-                    std::string     fmt_;
-
-                    fmt_ += "%s(%d): test condition failed: ";
-
-                    // actual
-                    if (is_tty)
-                    {
-                        fmt_ += "actual string value '\033[1;35m%s\033[0m'";
-                    }
-                    else
-                    {
-                        fmt_ += "actual string value '%s'";
-                    }
-
-                    fmt_ += " should ";
-
-                    // comparison
-                    if (is_tty)
-                    {
-                        fmt_ += "\033[1;36m";
-                    }
-                    fmt_ += relation_equals_(comparison);
-                    if (is_tty)
-                    {
-                        fmt_ += "\033[0m";
-                    }
-
-                    // expected
-                    if (is_tty)
-                    {
-                        fmt_ += " the expected value '\033[1;35m%s\033[0m'";
-                    }
-                    else
-                    {
-                        fmt_ += " the expected value '%s'";
-                    }
-
-                    // function (?)
-                    if (is_tty)
-                    {
-                        fmt_ += "%s\033[1;36m%s\033[0m";
-                    }
-                    else
-                    {
-                        fmt_ += "%s%s";
-                    }
-
-                    // EOL
-                    fmt_ += '\n';
-#endif
-
-                    char const*     fmt =   fmt_.c_str();
-
-#ifndef EA_COLORISE
-
-                    switch (verbosity)
-                    {
-                    case XTESTS_VERBOSITY_SILENT:
-                    case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                    case XTESTS_VERBOSITY_RUNNER_SUMMARY:
-
-                        fmt = "";
-                        break;
-                    default:
-
-                        STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                    case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                    case XTESTS_VERBOSITY_CASE_SUMMARY:
-                    XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case XTESTS_VERBOSITY_VERBOSE:
-
-                        break;
-                    }
-#endif
+                    char const* fmt = fmt_.c_str();
 
                     xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                     ,   fmt
@@ -3076,8 +2753,6 @@ RunnerInfo::get_reporter_(
                 }
                 else if (xtestsTestContainment == testType)
                 {
-#ifdef EA_COLORISE
-
                     std::string fmt_ =
                     colorise_(
                         file
@@ -3099,85 +2774,7 @@ RunnerInfo::get_reporter_(
                     ,   is_tty
                     ,   relation_contains_
                     );
-#else
-
-                    STLSOFT_SUPPRESS_UNUSED(expr);
-
-                    std::string     fmt_;
-
-                    fmt_ += "%s(%d): test condition failed: ";
-
-                    // actual
-                    if (is_tty)
-                    {
-                        fmt_ += "actual string value '\033[1;35m%s\033[0m'";
-                    }
-                    else
-                    {
-                        fmt_ += "actual string value '%s'";
-                    }
-
-                    fmt_ += " should ";
-
-                    // comparison
-                    if (is_tty)
-                    {
-                        fmt_ += "\033[1;36m";
-                    }
-                    fmt_ += relation_contains_(comparison);
-                    if (is_tty)
-                    {
-                        fmt_ += "\033[0m";
-                    }
-
-                    // expected
-                    if (is_tty)
-                    {
-                        fmt_ += " the expected value '\033[1;35m%s\033[0m'";
-                    }
-                    else
-                    {
-                        fmt_ += " the expected value '%s'";
-                    }
-
-                    // function (?)
-                    if (is_tty)
-                    {
-                        fmt_ += "%s\033[1;36m%s\033[0m";
-                    }
-                    else
-                    {
-                        fmt_ += "%s%s";
-                    }
-
-                    // EOL
-                    fmt_ += '\n';
-#endif
-
-                    char const*     fmt =   fmt_.c_str();
-
-#ifndef EA_COLORISE
-
-                    switch (verbosity)
-                    {
-                    case XTESTS_VERBOSITY_SILENT:
-                    case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                    case XTESTS_VERBOSITY_RUNNER_SUMMARY:
-
-                        fmt = "";
-                        break;
-                    default:
-
-                        STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                    case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                    case XTESTS_VERBOSITY_CASE_SUMMARY:
-                    XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case XTESTS_VERBOSITY_VERBOSE:
-
-                        break;
-                    }
-#endif
+                    char const* fmt = fmt_.c_str();
 
                     xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                     ,   fmt
@@ -3230,8 +2827,6 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
-#ifdef EA_COLORISE
-
                 std::string fmt_ =
                 colorise_(
                     file
@@ -3253,85 +2848,7 @@ RunnerInfo::get_reporter_(
                 ,   is_tty
                 ,   relation_equals_
                 );
-#else
-
-                STLSOFT_SUPPRESS_UNUSED(expr);
-
-                std::string     fmt_;
-
-                fmt_ += "%s(%d): test condition failed: ";
-
-                // actual
-                if (is_tty)
-                {
-                    fmt_ += "actual pointer value '\033[1;35m%p\033[0m'";
-                }
-                else
-                {
-                    fmt_ += "actual pointer value '%p'";
-                }
-
-                fmt_ += " should ";
-
-                // comparison
-                if (is_tty)
-                {
-                    fmt_ += "\033[1;36m";
-                }
-                fmt_ += relation_equals_(comparison);
-                if (is_tty)
-                {
-                    fmt_ += "\033[0m";
-                }
-
-                // expected
-                if (is_tty)
-                {
-                    fmt_ += " the expected value '\033[1;35m%p\033[0m'";
-                }
-                else
-                {
-                    fmt_ += " the expected value '%p'";
-                }
-
-                // function (?)
-                if (is_tty)
-                {
-                    fmt_ += "%s\033[1;36m%s\033[0m";
-                }
-                else
-                {
-                    fmt_ += "%s%s";
-                }
-
-                // EOL
-                fmt_ += '\n';
-#endif
-
-                char const*     fmt =   fmt_.c_str();
-
-#ifndef EA_COLORISE
-
-                switch (verbosity)
-                {
-                case XTESTS_VERBOSITY_SILENT:
-                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
-
-                    fmt = "";
-                    break;
-                default:
-
-                    STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_CASE_SUMMARY:
-                XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case XTESTS_VERBOSITY_VERBOSE:
-
-                    break;
-                }
-#endif
+                char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
@@ -3356,8 +2873,6 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
-#ifdef EA_COLORISE
-
                 std::string fmt_ =
                 colorise_(
                     file
@@ -3379,84 +2894,7 @@ RunnerInfo::get_reporter_(
                 ,   is_tty
                 ,   relation_equals_
                 );
-#else
-
-                STLSOFT_SUPPRESS_UNUSED(expr);
-
-                std::string     fmt_;
-
-                fmt_ += "%s(%d): test condition failed: ";
-
-                // actual
-                if (is_tty)
-                {
-                    fmt_ += "actual value \033[1;35m%ld\033[0m";
-                }
-                else
-                {
-                    fmt_ += "actual value %ld";
-                }
-
-                fmt_ += " should ";
-
-                // comparison
-                if (is_tty)
-                {
-                    fmt_ += "\033[1;36m";
-                }
-                fmt_ += relation_equals_(comparison);
-                if (is_tty)
-                {
-                    fmt_ += "\033[0m";
-                }
-
-                // expected
-                if (is_tty)
-                {
-                    fmt_ += " the expected value \033[1;35m%ld\033[0m";
-                }
-                else
-                {
-                    fmt_ += " the expected value %ld";
-                }
-
-                // function (?)
-                if (is_tty)
-                {
-                    fmt_ += "%s\033[1;36m%s\033[0m";
-                }
-                else
-                {
-                    fmt_ += "%s%s";
-                }
-
-                // EOL
-                fmt_ += '\n';
-#endif
-                char const*     fmt =   fmt_.c_str();
-
-#ifndef EA_COLORISE
-
-                switch (verbosity)
-                {
-                case XTESTS_VERBOSITY_SILENT:
-                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
-
-                    fmt = "";
-                    break;
-                default:
-
-                    STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_CASE_SUMMARY:
-                XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case XTESTS_VERBOSITY_VERBOSE:
-
-                    break;
-                }
-#endif
+                char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
@@ -3481,8 +2919,6 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
-#ifdef EA_COLORISE
-
                 std::string fmt_ =
                 colorise_(
                     file
@@ -3504,85 +2940,7 @@ RunnerInfo::get_reporter_(
                 ,   is_tty
                 ,   relation_equals_
                 );
-#else
-
-                STLSOFT_SUPPRESS_UNUSED(expr);
-
-                std::string     fmt_;
-
-                fmt_ += "%s(%d): test condition failed: ";
-
-                // actual
-                if (is_tty)
-                {
-                    fmt_ += "actual value \033[1;35m%lu\033[0m";
-                }
-                else
-                {
-                    fmt_ += "actual value %lu";
-                }
-
-                fmt_ += " should ";
-
-                // comparison
-                if (is_tty)
-                {
-                    fmt_ += "\033[1;36m";
-                }
-                fmt_ += relation_equals_(comparison);
-                if (is_tty)
-                {
-                    fmt_ += "\033[0m";
-                }
-
-                // expected
-                if (is_tty)
-                {
-                    fmt_ += " the expected value \033[1;35m%lu\033[0m";
-                }
-                else
-                {
-                    fmt_ += " the expected value %lu";
-                }
-
-                // function (?)
-                if (is_tty)
-                {
-                    fmt_ += "%s\033[1;36m%s\033[0m";
-                }
-                else
-                {
-                    fmt_ += "%s%s";
-                }
-
-                // EOL
-                fmt_ += '\n';
-#endif
-
-                char const*     fmt =   fmt_.c_str();
-
-#ifndef EA_COLORISE
-
-                switch (verbosity)
-                {
-                case XTESTS_VERBOSITY_SILENT:
-                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
-
-                    fmt = "";
-                    break;
-                default:
-
-                    STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_CASE_SUMMARY:
-                XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case XTESTS_VERBOSITY_VERBOSE:
-
-                    break;
-                }
-#endif
+                char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
@@ -3608,8 +2966,6 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
-#ifdef EA_COLORISE
-
                 std::string fmt_ =
                 colorise_(
                     file
@@ -3635,97 +2991,7 @@ RunnerInfo::get_reporter_(
                 ,   is_tty
                 ,   relation_equals_
                 );
-#else
-
-                STLSOFT_SUPPRESS_UNUSED(expr);
-
-# ifdef XTESTS_STLSOFT_1_12_OR_LATER
-                static char const*  s_fmt64 =   stlsoft::integral_printf_format_traits<stlsoft::sint64_t>::decimal_format_a();
-# else /* ? STLSoft 1.12+ */
-                static char const*  s_fmt64 =   stlsoft::integral_printf_traits       <stlsoft::sint64_t>::decimal_format_a();
-# endif /* STLSoft 1.12+ */
-
-                std::string     fmt_;
-
-                fmt_ += "%s(%d): test condition failed: ";
-
-                // actual
-                if (is_tty)
-                {
-                    fmt_ += "actual value \033[1;35m";
-                    fmt_ += s_fmt64;
-                    fmt_ += "\033[0m";
-                }
-                else
-                {
-                    fmt_ += "actual value ";
-                    fmt_ += s_fmt64;
-                }
-
-                fmt_ += " should ";
-
-                // comparison
-                if (is_tty)
-                {
-                    fmt_ += "\033[1;36m";
-                }
-                fmt_ += relation_equals_(comparison);
-                if (is_tty)
-                {
-                    fmt_ += "\033[0m";
-                }
-
-                // expected
-                if (is_tty)
-                {
-                    fmt_ += " the expected value \033[1;35m";
-                    fmt_ += s_fmt64;
-                    fmt_ += "\033[0m";
-                }
-                else
-                {
-                    fmt_ += " the expected value ";
-                    fmt_ += s_fmt64;
-                }
-
-                // function (?)
-                if (is_tty)
-                {
-                    fmt_ += "%s\033[1;36m%s\033[0m";
-                }
-                else
-                {
-                    fmt_ += "%s%s";
-                }
-
-                // EOL
-                fmt_ += '\n';
-#endif
-
-                char const*     fmt =   fmt_.c_str();
-
-#ifndef EA_COLORISE
-
-                switch (verbosity)
-                {
-                case XTESTS_VERBOSITY_SILENT:
-                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
-
-                    fmt = "";
-                    break;
-                default:
-
-                    STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_CASE_SUMMARY:
-                XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case XTESTS_VERBOSITY_VERBOSE:
-
-                    break;
-                }
-#endif
+                char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
@@ -3750,8 +3016,6 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
-#ifdef EA_COLORISE
-
                 std::string fmt_ =
                 colorise_(
                     file
@@ -3777,97 +3041,7 @@ RunnerInfo::get_reporter_(
                 ,   is_tty
                 ,   relation_equals_
                 );
-#else
-
-                STLSOFT_SUPPRESS_UNUSED(expr);
-
-# ifdef XTESTS_STLSOFT_1_12_OR_LATER
-                static char const*  s_fmt64 =   stlsoft::integral_printf_format_traits<stlsoft::uint64_t>::decimal_format_a();
-# else /* ? STLSoft 1.12+ */
-                static char const*  s_fmt64 =   stlsoft::integral_printf_traits       <stlsoft::uint64_t>::decimal_format_a();
-# endif /* STLSoft 1.12+ */
-
-                std::string     fmt_;
-
-                fmt_ += "%s(%d): test condition failed: ";
-
-                // actual
-                if (is_tty)
-                {
-                    fmt_ += "actual value \033[1;35m";
-                    fmt_ += s_fmt64;
-                    fmt_ += "\033[0m";
-                }
-                else
-                {
-                    fmt_ += "actual value ";
-                    fmt_ += s_fmt64;
-                }
-
-                fmt_ += " should ";
-
-                // comparison
-                if (is_tty)
-                {
-                    fmt_ += "\033[1;36m";
-                }
-                fmt_ += relation_equals_(comparison);
-                if (is_tty)
-                {
-                    fmt_ += "\033[0m";
-                }
-
-                // expected
-                if (is_tty)
-                {
-                    fmt_ += " the expected value \033[1;35m";
-                    fmt_ += s_fmt64;
-                    fmt_ += "\033[0m";
-                }
-                else
-                {
-                    fmt_ += " the expected value ";
-                    fmt_ += s_fmt64;
-                }
-
-                // function (?)
-                if (is_tty)
-                {
-                    fmt_ += "%s\033[1;36m%s\033[0m";
-                }
-                else
-                {
-                    fmt_ += "%s%s";
-                }
-
-                // EOL
-                fmt_ += '\n';
-#endif
-
-                char const*     fmt =   fmt_.c_str();
-
-#ifndef EA_COLORISE
-
-                switch (verbosity)
-                {
-                case XTESTS_VERBOSITY_SILENT:
-                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
-
-                    fmt = "";
-                    break;
-                default:
-
-                    STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                case XTESTS_VERBOSITY_CASE_SUMMARY:
-                XTESTS_VERBOSITY_VALID_MISSING_CASES
-                case XTESTS_VERBOSITY_VERBOSE:
-
-                    break;
-                }
-#endif
+                char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
