@@ -883,6 +883,32 @@ namespace
         return fmt;
     }
 
+    char const*
+    relation_contains_(
+        xtests_comparison_t comparison
+    )
+    {
+        char const* fmt;
+
+        switch (comparison)
+        {
+        case xtestsComparisonEqual:                 fmt = "contain";                    break;
+        case xtestsComparisonNotEqual:              fmt = "not contain";                break;
+        case xtestsComparisonGreaterThan:           fmt = "";                           break;
+        case xtestsComparisonLessThan:              fmt = "";                           break;
+        case xtestsComparisonGreaterThanOrEqual:    fmt = "";                           break;
+        case xtestsComparisonLessThanOrEqual:       fmt = "";                           break;
+        case xtestsComparisonApproxEqual:           fmt = "contain approximately";      break;
+        case xtestsComparisonApproxNotEqual:        fmt = "not contain approximately";  break;
+        default:
+
+            xtests_abend("VIOLATION: invalid `comparison`");
+            break;
+        }
+
+        return fmt;
+    }
+
 #ifdef STLSOFT_CF_NAMESPACE_SUPPORT
 } // anonymous namespace
 #endif /* STLSOFT_CF_NAMESPACE_SUPPORT */
@@ -2738,21 +2764,7 @@ RunnerInfo::get_reporter_(
                     {
                         fmt_ += "\033[1;36m";
                     }
-                    switch (comparison)
-                    {
-                    case xtestsComparisonEqual:                 fmt_ += "contain";                      break;
-                    case xtestsComparisonNotEqual:              fmt_ += "not contain";                  break;
-                    case xtestsComparisonGreaterThan:           fmt_ += "";                             break;
-                    case xtestsComparisonLessThan:              fmt_ += "";                             break;
-                    case xtestsComparisonGreaterThanOrEqual:    fmt_ += "";                             break;
-                    case xtestsComparisonLessThanOrEqual:       fmt_ += "";                             break;
-                    case xtestsComparisonApproxEqual:           fmt_ += "contain approximately";        break;
-                    case xtestsComparisonApproxNotEqual:        fmt_ += "not contain approximately";    break;
-                    default:
-
-                        xtests_abend("VIOLATION: invalid `comparison`");
-                        break;
-                    }
+                    fmt_ += relation_contains_(comparison);
                     if (is_tty)
                     {
                         fmt_ += "\033[0m";
