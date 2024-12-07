@@ -865,8 +865,8 @@ namespace
 
     char const*
     xtests_success_or_failure_(
-        int       succeeded
-    ,   char    (&buff)[101]
+        int     succeeded
+    ,   char  (&buff)[101]
     )
     {
         char const* const response = succeeded ? "SUCCESS" : "FAILURE";
@@ -1986,7 +1986,10 @@ RunnerInfo::get_reporter_(
             : public xTests_Reporter_t
         {
         public: // construction
-            explicit fprintf_reporter(FILE* stm, int flags)
+            explicit fprintf_reporter(
+                FILE*   stm
+            ,   int     flags
+            )
                 : m_flags(flags)
 #if XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_
                 , m_numSinks((xtestsRunnerFlagsNoWindowsDebugString & flags) ? 1u : 2u)
@@ -4003,7 +4006,10 @@ RunnerInfo::get_reporter_(
                                 ,   results->numFailedTests
                                 ,   results->numUnexpectedExceptions
                                 ,   results->numMissingExpectedExceptions
-                                ,   xtests_success_or_failure_(allTestsHavePassed, success_or_failure)
+                                ,   xtests_success_or_failure_(
+                                        allTestsHavePassed
+                                    ,   success_or_failure
+                                    )
                                 );
             }
 
@@ -4133,8 +4139,8 @@ RunnerInfo::get_reporter_(
             }
 
         private: // fields
-            const int       m_flags;
-            const size_t    m_numSinks;
+            int const       m_flags;
+            size_t const    m_numSinks;
             xtests_sink_t_  m_sinks[2];
         };
 
