@@ -115,16 +115,16 @@ int main(int argc, char* argv[])
 
         if (XTESTS_CASE_BEGIN("opaque pointer", "illustrating opaque pointer failure messages"))
         {
-            int const int1 = 0;
-            int const int2 = 0;
-            int const ints[3] = { 0, 0 };
+            int const* int1 = reinterpret_cast<int const*>(0x16bca2bfc);
+            int const* int2 = reinterpret_cast<int const*>(0x16bca2bf8);
+            int const* ints[2] = { reinterpret_cast<int const*>(0x16bca2c08), reinterpret_cast<int const*>(0x16bca2c0c) };
 
-            TEST_PTR_EQ(&int1, &int2);
-            TEST_PTR_NE(&int1, &int1);
-            TEST_PTR_GT(&int1, &int1);
-            TEST_PTR_LT(&int1, &int1);
-            TEST_PTR_GE(&ints[1], &ints[0]);
-            TEST_PTR_LE(&ints[0], &ints[1]);
+            TEST_PTR_EQ(int1, int2);
+            TEST_PTR_NE(int1, int1);
+            TEST_PTR_GT(int1, int1);
+            TEST_PTR_LT(int1, int1);
+            TEST_PTR_GE(ints[1], ints[0]);
+            TEST_PTR_LE(ints[0], ints[1]);
 
             XTESTS_CASE_END("opaque pointer");
         }
