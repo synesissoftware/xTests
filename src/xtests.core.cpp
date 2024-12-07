@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 7th December 2024
+ * Updated: 8th December 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -40,7 +40,6 @@
  * ////////////////////////////////////////////////////////////////////// */
 
 
-#define EA_COLOR
 
 
 /* xTests Header Files */
@@ -2156,12 +2155,6 @@ RunnerInfo::get_reporter_(
                 ,   "true"
                 };
 
-#ifndef EA_COLOR
-
-                STLSOFT_SUPPRESS_UNUSED(comparison);
-
-                char const* fmt = "%s(%d): test condition failed: actual value %s should be %sequal to the expected value %s%s%s\n";
-#else
 
                 std::string     fmt_;
 
@@ -2229,8 +2222,6 @@ RunnerInfo::get_reporter_(
 
                 char const*     fmt =   fmt_.c_str();
 
-#endif
-
                 switch (verbosity)
                 {
                 case XTESTS_VERBOSITY_SILENT:
@@ -2255,9 +2246,6 @@ RunnerInfo::get_reporter_(
                                 ,   fmt
                                 ,   file, line
                                 ,   s_truthy_strings[!!actualValue]
-#ifndef EA_COLOR
-                                ,   (xtestsComparisonEqual == comparison) ? "" : "not "
-#endif
                                 ,   s_truthy_strings[!!expectedValue]
                                 ,   (NULL != function) ? " in function " : ""
                                 ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
@@ -2277,8 +2265,6 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
-#ifdef EA_COLOR
-
                 std::string     fmt_;
 
                 fmt_ += "%s(%d): test condition failed: ";
@@ -2344,22 +2330,6 @@ RunnerInfo::get_reporter_(
                 fmt_ += '\n';
 
                 char const*     fmt =   fmt_.c_str();
-#else
-
-                static char const*  s_fmts[] =
-                {
-                        "%s(%d): test condition failed: actual value %G should "    "be equal to"                   " the expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should "    "be not equal to"               " the expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should "    "be greater than"               " the expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should "    "be less than"                  " the expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should "    "be greater than or equal to"   " the expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should "    "be less than or equal to"      " the expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should "    "be approximately equal to"     " the expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should "    "be not approximately equal to" " the expected value %G%s%s\n"
-                };
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
-                char const*         fmt = s_fmts[comparison];
-#endif
 
                 switch (verbosity)
                 {
@@ -2404,8 +2374,6 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
-#ifdef EA_COLOR
-
                 std::string     fmt_;
 
                 fmt_ += "%s(%d): test condition failed: ";
@@ -2471,22 +2439,6 @@ RunnerInfo::get_reporter_(
                 fmt_ += '\n';
 
                 char const*     fmt =   fmt_.c_str();
-#else
-
-                static char const*  s_fmts[] =
-                {
-                        "%s(%d): test condition failed: actual character value '%c' (0x%02x) should "   "be equal to"                   " the expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should "   "be not equal to"               " the expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should "   "be greater than"               " the expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should "   "be less than"                  " the expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should "   "be greater than or equal to"   " the expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should "   "be less than or equal to"      " the expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should "   "be approximately equal to"     " the expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%04x) should "   "be not approximately equal to" " the expected value '%c' (0x%04x)%s%s\n"
-                };
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
-                char const*         fmt = s_fmts[comparison];
-#endif
 
                 switch (verbosity)
                 {
@@ -2598,8 +2550,6 @@ RunnerInfo::get_reporter_(
 
                 if (xtestsTestFullComparison == testType)
                 {
-#ifdef EA_COLOR
-
                     std::string     fmt_;
 
                     fmt_ += "%s(%d): test condition failed: ";
@@ -2665,22 +2615,6 @@ RunnerInfo::get_reporter_(
                     fmt_ += '\n';
 
                     char const*     fmt =   fmt_.c_str();
-#else
-
-                    static char const*  s_fmts[] =
-                    {
-                            "%s(%d): test condition failed: actual string value '%s' should "   "be equal to"                   " the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "be not equal to"               " the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "be greater than"               " the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "be less than"                  " the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "be greater than or equal to"   " the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "be less than or equal to"      " the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "be approximately equal to"     " the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "be not approximately equal to" " the expected value '%s'%s%s\n"
-                    };
-                    STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
-                    char const*         fmt = s_fmts[comparison];
-#endif
 
                     switch (verbosity)
                     {
@@ -2713,8 +2647,6 @@ RunnerInfo::get_reporter_(
                 }
                 else if (xtestsTestPartialComparison == testType)
                 {
-#ifdef EA_COLOR
-
                     std::string     fmt_;
 
                     fmt_ += "%s(%d): test condition failed: ";
@@ -2790,22 +2722,6 @@ RunnerInfo::get_reporter_(
                     fmt_ += '\n';
 
                     char const*     fmt =   fmt_.c_str();
-#else
-
-                    static char const*  s_fmts[] =
-                    {
-                            "%s(%d): test condition failed: actual string value '%.*s' should " "be equal to"                   " the expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should " "be not equal to"               " the expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should " "be greater than"               " the expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should " "be less than"                  " the expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should " "be greater than or equal to"   " the expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should " "be less than or equal to"      " the expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should " "be approximately equal to"     " the expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should " "be not approximately equal to" " the expected value '%.*s' to the length %d%s%s\n"
-                    };
-                    STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
-                    char const*         fmt = s_fmts[comparison];
-#endif
 
                     switch (verbosity)
                     {
@@ -2844,8 +2760,6 @@ RunnerInfo::get_reporter_(
                 }
                 else if (xtestsTestContainment == testType)
                 {
-#ifdef EA_COLOR
-
                     std::string     fmt_;
 
                     fmt_ += "%s(%d): test condition failed: ";
@@ -2911,22 +2825,6 @@ RunnerInfo::get_reporter_(
                     fmt_ += '\n';
 
                     char const*     fmt =   fmt_.c_str();
-#else
-
-                    static char const*  s_fmts[] =
-                    {
-                            "%s(%d): test condition failed: actual string value '%s' should "   "contain"                   " the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "not contain"               " the expected value '%s'%s%s\n"
-                        ,   ""
-                        ,   ""
-                        ,   ""
-                        ,   ""
-                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "contain approximately"     " the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should "   "not contain approximately" " the expected value '%s'%s%s\n"
-                    };
-                    STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
-                    char const*         fmt = s_fmts[comparison];
-#endif
 
                     switch (verbosity)
                     {
@@ -2999,8 +2897,6 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
-#ifdef EA_COLOR
-
                 std::string     fmt_;
 
                 fmt_ += "%s(%d): test condition failed: ";
@@ -3066,27 +2962,6 @@ RunnerInfo::get_reporter_(
                 fmt_ += '\n';
 
                 char const*     fmt =   fmt_.c_str();
-#else
-
-                static char const*  s_fmts_[] =
-                {
-                        "%s(%d): test condition failed: actual pointer value '%p' should "  "be equal to"       " the expected value '%p'%s%s\n"
-                    ,   "%s(%d): test condition failed: actual pointer value '%p' should "  "be not equal to"   " the expected value '%p'%s%s\n"
-                };
-                static char const*  s_fmts[] =
-                {
-                        s_fmts_[0]
-                    ,   s_fmts_[1]
-                    ,   "%s(%d): test condition failed: actual pointer value '%p' should "  "be greater than"               " the expected value '%p'%s%s\n"
-                    ,   "%s(%d): test condition failed: actual pointer value '%p' should "  "be less than"                  " the expected value '%p'%s%s\n"
-                    ,   "%s(%d): test condition failed: actual pointer value '%p' should "  "be greater than or equal to"   " the expected value '%p'%s%s\n"
-                    ,   "%s(%d): test condition failed: actual pointer value '%p' should "  "be less than or equal to"      " the expected value '%p'%s%s\n"
-                    ,   s_fmts_[0]
-                    ,   s_fmts_[1]
-                };
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
-                char const*         fmt = s_fmts[comparison];
-#endif
 
                 switch (verbosity)
                 {
@@ -3131,8 +3006,6 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
-#ifdef EA_COLOR
-
                 std::string     fmt_;
 
                 fmt_ += "%s(%d): test condition failed: ";
@@ -3198,27 +3071,6 @@ RunnerInfo::get_reporter_(
                 fmt_ += '\n';
 
                 char const*     fmt =   fmt_.c_str();
-#else
-
-                static char const*  s_fmts_[] =
-                {
-                        "%s(%d): test condition failed: actual value %ld should "   "be equal to"       " the expected value %ld%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %ld should "   "be not equal to"   " the expected value %ld%s%s\n"
-                };
-                static char const*  s_fmts[] =
-                {
-                        s_fmts_[0]
-                    ,   s_fmts_[1]
-                    ,   "%s(%d): test condition failed: actual value %ld should "   "be greater than"               " the expected value %ld%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %ld should "   "be less than"                  " the expected value %ld%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %ld should "   "be greater than or equal to"   " the expected value %ld%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %ld should "   "be less than or equal to"      " the expected value %ld%s%s\n"
-                    ,   s_fmts_[0]
-                    ,   s_fmts_[1]
-                };
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
-                char const*         fmt = s_fmts[comparison];
-#endif
 
                 switch (verbosity)
                 {
@@ -3263,8 +3115,6 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
-#ifdef EA_COLOR
-
                 std::string     fmt_;
 
                 fmt_ += "%s(%d): test condition failed: ";
@@ -3330,27 +3180,6 @@ RunnerInfo::get_reporter_(
                 fmt_ += '\n';
 
                 char const*     fmt =   fmt_.c_str();
-#else
-
-                static char const*  s_fmts_[] =
-                {
-                        "%s(%d): test condition failed: actual value %lu should "   "be equal to"       " the expected value %lu%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %lu should "   "be not equal to"   " the expected value %lu%s%s\n"
-                };
-                static char const*  s_fmts[] =
-                {
-                        s_fmts_[0]
-                    ,   s_fmts_[1]
-                    ,   "%s(%d): test condition failed: actual value %lu should "   "be greater than"               " the expected value %lu%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %lu should "   "be less than"                  " the expected value %lu%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %lu should "   "be greater than or equal to"   " the expected value %lu%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %lu should "   "be less than or equal to"      " the expected value %lu%s%s\n"
-                    ,   s_fmts_[0]
-                    ,   s_fmts_[1]
-                };
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
-                char const*         fmt = s_fmts[comparison];
-#endif
 
                 switch (verbosity)
                 {
@@ -3396,8 +3225,6 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
-#ifdef EA_COLOR
-
 # ifdef XTESTS_STLSOFT_1_12_OR_LATER
                 static char const*  s_fmt64 =   stlsoft::integral_printf_format_traits<stlsoft::sint64_t>::decimal_format_a();
 # else /* ? STLSoft 1.12+ */
@@ -3475,64 +3302,6 @@ RunnerInfo::get_reporter_(
                 fmt_ += '\n';
 
                 char const*     fmt =   fmt_.c_str();
-#else
-
-# if defined(STLSOFT_COMPILER_IS_BORLAND)
-#  define static
-# endif /* compiler */
-
-                // Note: The following code has a race condition, but it is entirely benign, so does not matter
-
-                static char const*  s_fmts_[] =
-                {
-                        "%%s(%%d): test condition failed: actual value %s should "  "be equal to"                   " the expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should "  "be not equal to"               " the expected value %s%%s%%s\n"
-                };
-                static char const*  s_fmtBases[] =
-                {
-                        s_fmts_[0]
-                    ,   s_fmts_[1]
-                    ,   "%%s(%%d): test condition failed: actual value %s should "  "be greater than"               " the expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should "  "be less than"                  " the expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should "  "be greater than or equal to"   " the expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should "  "be less than or equal to"      " the expected value %s%%s%%s\n"
-                    ,   s_fmts_[0]
-                    ,   s_fmts_[1]
-                };
-                enum { bufferSize_ = 115 };
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmtBases) == xtestsComparison_max_enumerator);
-                static char         s_fmts[STLSOFT_NUM_ELEMENTS_(s_fmtBases)][bufferSize_];
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == STLSOFT_NUM_ELEMENTS_(s_fmtBases));
-                STLSOFT_ASSERT(strlen(s_fmtBases[0]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[1]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[2]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[3]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[4]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[5]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[6]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[7]) < bufferSize_);
-#ifdef XTESTS_STLSOFT_1_12_OR_LATER
-                static char const*  s_fmt64 =   stlsoft::integral_printf_format_traits<stlsoft::sint64_t>::decimal_format_a();
-#else /* ? STLSoft 1.12+ */
-                static char const*  s_fmt64 =   stlsoft::integral_printf_traits       <stlsoft::sint64_t>::decimal_format_a();
-#endif /* STLSoft 1.12+ */
-                static const int    s_len   =   0
-                                            +   xtests_sprintf_2_(&s_fmts[0][0], STLSOFT_NUM_ELEMENTS_(s_fmts[0]), s_fmtBases[0], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[1][0], STLSOFT_NUM_ELEMENTS_(s_fmts[1]), s_fmtBases[1], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[2][0], STLSOFT_NUM_ELEMENTS_(s_fmts[2]), s_fmtBases[2], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[3][0], STLSOFT_NUM_ELEMENTS_(s_fmts[3]), s_fmtBases[3], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[4][0], STLSOFT_NUM_ELEMENTS_(s_fmts[4]), s_fmtBases[4], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[5][0], STLSOFT_NUM_ELEMENTS_(s_fmts[5]), s_fmtBases[5], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[6][0], STLSOFT_NUM_ELEMENTS_(s_fmts[6]), s_fmtBases[6], s_fmt64, s_fmt64)
-                                            +   0;
-
-# if defined(STLSOFT_COMPILER_IS_BORLAND)
-#  undef static
-# endif /* compiler */
-
-                char const*         fmt = s_fmts[comparison];
-#endif
 
                 switch (verbosity)
                 {
@@ -3562,11 +3331,6 @@ RunnerInfo::get_reporter_(
                                 ,   (NULL != function) ? " in function " : ""
                                 ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
                                 );
-
-#ifndef EA_COLOR
-
-                STLSOFT_SUPPRESS_UNUSED(s_len);
-#endif
             }
 
             void
@@ -3582,7 +3346,6 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
-#ifdef EA_COLOR
 
 # ifdef XTESTS_STLSOFT_1_12_OR_LATER
                 static char const*  s_fmt64 =   stlsoft::integral_printf_format_traits<stlsoft::uint64_t>::decimal_format_a();
@@ -3661,65 +3424,6 @@ RunnerInfo::get_reporter_(
                 fmt_ += '\n';
 
                 char const*     fmt =   fmt_.c_str();
-#else
-
-# if defined(STLSOFT_COMPILER_IS_BORLAND)
-#  define static
-# endif /* compiler */
-
-                // Note: The following code has a race condition, but it is entirely benign, so does not matter
-
-                static char const*  s_fmts_[] =
-                {
-                        "%%s(%%d): test condition failed: actual value %s should "  "be equal to"                   " the expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should "  "be not equal to"               " the expected value %s%%s%%s\n"
-                };
-                static char const*  s_fmtBases[] =
-                {
-                        s_fmts_[0]
-                    ,   s_fmts_[1]
-                    ,   "%%s(%%d): test condition failed: actual value %s should "  "be greater than"               " the expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should "  "be less than"                  " the expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should "  "be greater than or equal to"   " the expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should "  "be less than or equal to"      " the expected value %s%%s%%s\n"
-                    ,   s_fmts_[0]
-                    ,   s_fmts_[1]
-                };
-                enum { bufferSize_ = 115 };
-
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmtBases) == xtestsComparison_max_enumerator);
-                static char         s_fmts[STLSOFT_NUM_ELEMENTS_(s_fmtBases)][bufferSize_];
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == STLSOFT_NUM_ELEMENTS_(s_fmtBases));
-                STLSOFT_ASSERT(strlen(s_fmtBases[0]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[1]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[2]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[3]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[4]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[5]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[6]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[7]) < bufferSize_);
-#ifdef XTESTS_STLSOFT_1_12_OR_LATER
-                static char const*  s_fmt64 =   stlsoft::integral_printf_format_traits<stlsoft::uint64_t>::decimal_format_a();
-#else /* ? STLSoft 1.12+ */
-                static char const*  s_fmt64 =   stlsoft::integral_printf_traits       <stlsoft::uint64_t>::decimal_format_a();
-#endif /* STLSoft 1.12+ */
-                static const int    s_len   =   0
-                                            +   xtests_sprintf_2_(&s_fmts[0][0], STLSOFT_NUM_ELEMENTS_(s_fmts[0]), s_fmtBases[0], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[1][0], STLSOFT_NUM_ELEMENTS_(s_fmts[1]), s_fmtBases[1], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[2][0], STLSOFT_NUM_ELEMENTS_(s_fmts[2]), s_fmtBases[2], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[3][0], STLSOFT_NUM_ELEMENTS_(s_fmts[3]), s_fmtBases[3], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[4][0], STLSOFT_NUM_ELEMENTS_(s_fmts[4]), s_fmtBases[4], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[5][0], STLSOFT_NUM_ELEMENTS_(s_fmts[5]), s_fmtBases[5], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[6][0], STLSOFT_NUM_ELEMENTS_(s_fmts[6]), s_fmtBases[6], s_fmt64, s_fmt64)
-                                            +   0;
-
-# if defined(STLSOFT_COMPILER_IS_BORLAND)
-#  undef static
-# endif /* compiler */
-
-                char const*         fmt = s_fmts[comparison];
-#endif
 
                 switch (verbosity)
                 {
@@ -3749,11 +3453,6 @@ RunnerInfo::get_reporter_(
                                 ,   (NULL != function) ? " in function " : ""
                                 ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
                                 );
-
-# ifndef EA_COLOR
-
-                STLSOFT_SUPPRESS_UNUSED(s_len);
-# endif
             }
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
@@ -3818,8 +3517,6 @@ RunnerInfo::get_reporter_(
                 char const* msg_pre;
                 char const* msg_post;
 
-#ifdef EA_COLOR
-
                 if (is_tty)
                 {
                     fn_pre      =   "\033[1;36m";
@@ -3828,7 +3525,6 @@ RunnerInfo::get_reporter_(
                     msg_post    =   "\033[0m";
                 }
                 else
-#endif
                 {
                     fn_pre      =   "";
                     fn_post     =   "";
@@ -3917,8 +3613,6 @@ RunnerInfo::get_reporter_(
                 char const* xt_pre;
                 char const* xt_post;
 
-#ifdef EA_COLOR
-
                 if (is_tty)
                 {
                     case_pre    =   "\033[1;36m";
@@ -3931,7 +3625,6 @@ RunnerInfo::get_reporter_(
                     xt_post     =   "\033[0m";
                 }
                 else
-#endif
                 {
                     case_pre    =   "";
                     case_post   =   "";
@@ -4006,8 +3699,6 @@ RunnerInfo::get_reporter_(
                 char const* xt_pre;
                 char const* xt_post;
 
-#ifdef EA_COLOR
-
                 if (is_tty)
                 {
                     case_pre    =   "\033[1;36m";
@@ -4020,7 +3711,6 @@ RunnerInfo::get_reporter_(
                     xt_post     =   "\033[0m";
                 }
                 else
-#endif
                 {
                     case_pre    =   "";
                     case_post   =   "";
