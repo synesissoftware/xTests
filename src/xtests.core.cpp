@@ -856,6 +856,33 @@ namespace
 
         return &buff[0];
     }
+
+    char const*
+    relation_equals_(
+        xtests_comparison_t comparison
+    )
+    {
+        char const* fmt;
+
+        switch (comparison)
+        {
+        case xtestsComparisonEqual:                 fmt = "be equal to";                    break;
+        case xtestsComparisonNotEqual:              fmt = "be not equal to";                break;
+        case xtestsComparisonGreaterThan:           fmt = "be greater than";                break;
+        case xtestsComparisonLessThan:              fmt = "be less than";                   break;
+        case xtestsComparisonGreaterThanOrEqual:    fmt = "be greater than or equal to";    break;
+        case xtestsComparisonLessThanOrEqual:       fmt = "be less than or equal to";       break;
+        case xtestsComparisonApproxEqual:           fmt = "be approximately equal to";      break;
+        case xtestsComparisonApproxNotEqual:        fmt = "be not approximately equal to";  break;
+        default:
+
+            xtests_abend("VIOLATION: invalid `comparison`");
+            break;
+        }
+
+        return fmt;
+    }
+
 #ifdef STLSOFT_CF_NAMESPACE_SUPPORT
 } // anonymous namespace
 #endif /* STLSOFT_CF_NAMESPACE_SUPPORT */
@@ -2177,21 +2204,7 @@ RunnerInfo::get_reporter_(
                 {
                     fmt_ += "\033[1;36m";
                 }
-                switch (comparison)
-                {
-                case xtestsComparisonEqual:                 fmt_ += "be equal to";                      break;
-                case xtestsComparisonNotEqual:              fmt_ += "be not equal to";                  break;
-                case xtestsComparisonGreaterThan:           fmt_ += "be greater than";                  break;
-                case xtestsComparisonLessThan:              fmt_ += "be less than";                     break;
-                case xtestsComparisonGreaterThanOrEqual:    fmt_ += "be greater than or equal to";      break;
-                case xtestsComparisonLessThanOrEqual:       fmt_ += "be less than or equal to";         break;
-                case xtestsComparisonApproxEqual:           fmt_ += "be approximately equal to";        break;
-                case xtestsComparisonApproxNotEqual:        fmt_ += "be not approximately equal to";    break;
-                default:
-
-                    xtests_abend("VIOLATION: invalid `comparison`");
-                    break;
-                }
+                fmt_ += relation_equals_(comparison);
                 if (is_tty)
                 {
                     fmt_ += "\033[0m";
@@ -2286,21 +2299,7 @@ RunnerInfo::get_reporter_(
                 {
                     fmt_ += "\033[1;36m";
                 }
-                switch (comparison)
-                {
-                case xtestsComparisonEqual:                 fmt_ += "be equal to";                      break;
-                case xtestsComparisonNotEqual:              fmt_ += "be not equal to";                  break;
-                case xtestsComparisonGreaterThan:           fmt_ += "be greater than";                  break;
-                case xtestsComparisonLessThan:              fmt_ += "be less than";                     break;
-                case xtestsComparisonGreaterThanOrEqual:    fmt_ += "be greater than or equal to";      break;
-                case xtestsComparisonLessThanOrEqual:       fmt_ += "be less than or equal to";         break;
-                case xtestsComparisonApproxEqual:           fmt_ += "be approximately equal to";        break;
-                case xtestsComparisonApproxNotEqual:        fmt_ += "be not approximately equal to";    break;
-                default:
-
-                    xtests_abend("VIOLATION: invalid `comparison`");
-                    break;
-                }
+                fmt_ += relation_equals_(comparison);
                 if (is_tty)
                 {
                     fmt_ += "\033[0m";
@@ -2395,21 +2394,7 @@ RunnerInfo::get_reporter_(
                 {
                     fmt_ += "\033[1;36m";
                 }
-                switch (comparison)
-                {
-                case xtestsComparisonEqual:                 fmt_ += "be equal to";                      break;
-                case xtestsComparisonNotEqual:              fmt_ += "be not equal to";                  break;
-                case xtestsComparisonGreaterThan:           fmt_ += "be greater than";                  break;
-                case xtestsComparisonLessThan:              fmt_ += "be less than";                     break;
-                case xtestsComparisonGreaterThanOrEqual:    fmt_ += "be greater than or equal to";      break;
-                case xtestsComparisonLessThanOrEqual:       fmt_ += "be less than or equal to";         break;
-                case xtestsComparisonApproxEqual:           fmt_ += "be approximately equal to";        break;
-                case xtestsComparisonApproxNotEqual:        fmt_ += "be not approximately equal to";    break;
-                default:
-
-                    xtests_abend("VIOLATION: invalid `comparison`");
-                    break;
-                }
+                fmt_ += relation_equals_(comparison);
                 if (is_tty)
                 {
                     fmt_ += "\033[0m";
@@ -2571,21 +2556,7 @@ RunnerInfo::get_reporter_(
                     {
                         fmt_ += "\033[1;36m";
                     }
-                    switch (comparison)
-                    {
-                    case xtestsComparisonEqual:                 fmt_ += "be equal to";                      break;
-                    case xtestsComparisonNotEqual:              fmt_ += "be not equal to";                  break;
-                    case xtestsComparisonGreaterThan:           fmt_ += "be greater than";                  break;
-                    case xtestsComparisonLessThan:              fmt_ += "be less than";                     break;
-                    case xtestsComparisonGreaterThanOrEqual:    fmt_ += "be greater than or equal to";      break;
-                    case xtestsComparisonLessThanOrEqual:       fmt_ += "be less than or equal to";         break;
-                    case xtestsComparisonApproxEqual:           fmt_ += "be approximately equal to";        break;
-                    case xtestsComparisonApproxNotEqual:        fmt_ += "be not approximately equal to";    break;
-                    default:
-
-                        xtests_abend("VIOLATION: invalid `comparison`");
-                        break;
-                    }
+                    fmt_ += relation_equals_(comparison);
                     if (is_tty)
                     {
                         fmt_ += "\033[0m";
@@ -2668,21 +2639,7 @@ RunnerInfo::get_reporter_(
                     {
                         fmt_ += "\033[1;36m";
                     }
-                    switch (comparison)
-                    {
-                    case xtestsComparisonEqual:                 fmt_ += "be equal to";                      break;
-                    case xtestsComparisonNotEqual:              fmt_ += "be not equal to";                  break;
-                    case xtestsComparisonGreaterThan:           fmt_ += "be greater than";                  break;
-                    case xtestsComparisonLessThan:              fmt_ += "be less than";                     break;
-                    case xtestsComparisonGreaterThanOrEqual:    fmt_ += "be greater than or equal to";      break;
-                    case xtestsComparisonLessThanOrEqual:       fmt_ += "be less than or equal to";         break;
-                    case xtestsComparisonApproxEqual:           fmt_ += "be approximately equal to";        break;
-                    case xtestsComparisonApproxNotEqual:        fmt_ += "be not approximately equal to";    break;
-                    default:
-
-                        xtests_abend("VIOLATION: invalid `comparison`");
-                        break;
-                    }
+                    fmt_ += relation_equals_(comparison);
                     if (is_tty)
                     {
                         fmt_ += "\033[0m";
@@ -2918,21 +2875,7 @@ RunnerInfo::get_reporter_(
                 {
                     fmt_ += "\033[1;36m";
                 }
-                switch (comparison)
-                {
-                case xtestsComparisonEqual:                 fmt_ += "be equal to";                      break;
-                case xtestsComparisonNotEqual:              fmt_ += "be not equal to";                  break;
-                case xtestsComparisonGreaterThan:           fmt_ += "be greater than";                  break;
-                case xtestsComparisonLessThan:              fmt_ += "be less than";                     break;
-                case xtestsComparisonGreaterThanOrEqual:    fmt_ += "be greater than or equal to";      break;
-                case xtestsComparisonLessThanOrEqual:       fmt_ += "be less than or equal to";         break;
-                case xtestsComparisonApproxEqual:           fmt_ += "be approximately equal to";        break;
-                case xtestsComparisonApproxNotEqual:        fmt_ += "be not approximately equal to";    break;
-                default:
-
-                    xtests_abend("VIOLATION: invalid `comparison`");
-                    break;
-                }
+                fmt_ += relation_equals_(comparison);
                 if (is_tty)
                 {
                     fmt_ += "\033[0m";
@@ -3027,21 +2970,7 @@ RunnerInfo::get_reporter_(
                 {
                     fmt_ += "\033[1;36m";
                 }
-                switch (comparison)
-                {
-                case xtestsComparisonEqual:                 fmt_ += "be equal to";                      break;
-                case xtestsComparisonNotEqual:              fmt_ += "be not equal to";                  break;
-                case xtestsComparisonGreaterThan:           fmt_ += "be greater than";                  break;
-                case xtestsComparisonLessThan:              fmt_ += "be less than";                     break;
-                case xtestsComparisonGreaterThanOrEqual:    fmt_ += "be greater than or equal to";      break;
-                case xtestsComparisonLessThanOrEqual:       fmt_ += "be less than or equal to";         break;
-                case xtestsComparisonApproxEqual:           fmt_ += "be approximately equal to";        break;
-                case xtestsComparisonApproxNotEqual:        fmt_ += "be not approximately equal to";    break;
-                default:
-
-                    xtests_abend("VIOLATION: invalid `comparison`");
-                    break;
-                }
+                fmt_ += relation_equals_(comparison);
                 if (is_tty)
                 {
                     fmt_ += "\033[0m";
@@ -3136,21 +3065,7 @@ RunnerInfo::get_reporter_(
                 {
                     fmt_ += "\033[1;36m";
                 }
-                switch (comparison)
-                {
-                case xtestsComparisonEqual:                 fmt_ += "be equal to";                      break;
-                case xtestsComparisonNotEqual:              fmt_ += "be not equal to";                  break;
-                case xtestsComparisonGreaterThan:           fmt_ += "be greater than";                  break;
-                case xtestsComparisonLessThan:              fmt_ += "be less than";                     break;
-                case xtestsComparisonGreaterThanOrEqual:    fmt_ += "be greater than or equal to";      break;
-                case xtestsComparisonLessThanOrEqual:       fmt_ += "be less than or equal to";         break;
-                case xtestsComparisonApproxEqual:           fmt_ += "be approximately equal to";        break;
-                case xtestsComparisonApproxNotEqual:        fmt_ += "be not approximately equal to";    break;
-                default:
-
-                    xtests_abend("VIOLATION: invalid `comparison`");
-                    break;
-                }
+                fmt_ += relation_equals_(comparison);
                 if (is_tty)
                 {
                     fmt_ += "\033[0m";
@@ -3255,21 +3170,7 @@ RunnerInfo::get_reporter_(
                 {
                     fmt_ += "\033[1;36m";
                 }
-                switch (comparison)
-                {
-                case xtestsComparisonEqual:                 fmt_ += "be equal to";                      break;
-                case xtestsComparisonNotEqual:              fmt_ += "be not equal to";                  break;
-                case xtestsComparisonGreaterThan:           fmt_ += "be greater than";                  break;
-                case xtestsComparisonLessThan:              fmt_ += "be less than";                     break;
-                case xtestsComparisonGreaterThanOrEqual:    fmt_ += "be greater than or equal to";      break;
-                case xtestsComparisonLessThanOrEqual:       fmt_ += "be less than or equal to";         break;
-                case xtestsComparisonApproxEqual:           fmt_ += "be approximately equal to";        break;
-                case xtestsComparisonApproxNotEqual:        fmt_ += "be not approximately equal to";    break;
-                default:
-
-                    xtests_abend("VIOLATION: invalid `comparison`");
-                    break;
-                }
+                fmt_ += relation_equals_(comparison);
                 if (is_tty)
                 {
                     fmt_ += "\033[0m";
@@ -3377,21 +3278,7 @@ RunnerInfo::get_reporter_(
                 {
                     fmt_ += "\033[1;36m";
                 }
-                switch (comparison)
-                {
-                case xtestsComparisonEqual:                 fmt_ += "be equal to";                      break;
-                case xtestsComparisonNotEqual:              fmt_ += "be not equal to";                  break;
-                case xtestsComparisonGreaterThan:           fmt_ += "be greater than";                  break;
-                case xtestsComparisonLessThan:              fmt_ += "be less than";                     break;
-                case xtestsComparisonGreaterThanOrEqual:    fmt_ += "be greater than or equal to";      break;
-                case xtestsComparisonLessThanOrEqual:       fmt_ += "be less than or equal to";         break;
-                case xtestsComparisonApproxEqual:           fmt_ += "be approximately equal to";        break;
-                case xtestsComparisonApproxNotEqual:        fmt_ += "be not approximately equal to";    break;
-                default:
-
-                    xtests_abend("VIOLATION: invalid `comparison`");
-                    break;
-                }
+                fmt_ += relation_equals_(comparison);
                 if (is_tty)
                 {
                     fmt_ += "\033[0m";

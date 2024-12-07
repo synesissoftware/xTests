@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 4th December 2024
+ * Updated: 8th December 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       46
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        384
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    2
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        385
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -2865,6 +2865,15 @@ xtests_endRunner(int *retCode);
 XTESTS_CALL(void)
 xtests_printRunnerResults(void);
 
+# if 0
+# elif __cplusplus >= 201703L
+[[noreturn]]
+# elif 0 || \
+       defined(STLSOFT_COMPILER_IS_CLANG) || \
+       defined(STLSOFT_COMPILER_IS_GCC) || \
+       0
+__attribute__((noreturn))
+# endif
 XTESTS_CALL(void)
 xtests_abend(char const* message);
 
