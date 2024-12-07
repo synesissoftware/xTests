@@ -257,6 +257,17 @@ int main(int argc, char* argv[])
             XTESTS_CASE_END("case exception excepted");
         }
 
+        if (XTESTS_CASE_BEGIN("multibyte string (N)", "illustrating multibyte string failure messages"))
+        {
+            XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N("abc", "abdef", 3);
+            XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N("abc", "abcd", 3);
+
+            XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N_APPROX("abc", "DEF", 2);
+            XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N_APPROX("abc", "ABCD", 3);
+
+            XTESTS_CASE_END("multibyte string (N)");
+        }
+
         if (XTESTS_CASE_BEGIN("multibyte string (contains)", "illustrating multibyte string failure messages"))
         {
             XTESTS_TEST_MULTIBYTE_STRING_CONTAIN("abc", "def");
@@ -266,6 +277,37 @@ int main(int argc, char* argv[])
             XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN_APPROX("abc", "ABCD");
 
             XTESTS_CASE_END("multibyte string (contains)");
+        }
+
+        if (XTESTS_CASE_BEGIN("miscellaneous", "illustrating failure messages"))
+        {
+            TEST_FAIL("the message");
+            TEST_FAIL_WITH_QUALIFIER("the message", "the qualifier");
+
+            XTESTS_CASE_END("miscellaneous");
+        }
+
+        {
+            struct expected_exceptions_not_throw
+            {
+                static void fn() STLSOFT_NOEXCEPT
+                {
+                }
+            };
+
+            XTESTS_RUN_CASE_THAT_THROWS(&expected_exceptions_not_throw::fn, std::runtime_error);
+        }
+
+        {
+            struct unexpected_exceptions_thrown
+            {
+                static void fn()
+                {
+                    throw std::runtime_error("unexpected");
+                }
+            };
+
+            XTESTS_RUN_CASE(&unexpected_exceptions_thrown::fn);
         }
 
         XTESTS_PRINT_RESULTS();

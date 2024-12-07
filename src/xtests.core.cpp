@@ -643,6 +643,7 @@ namespace
             xTests_Reporter_t*  reporter
         ,   FILE*               stm
         ,   int                 flags
+        ,   int                 is_tty
         );
         void report_unstartedCase_defect_();
 
@@ -835,17 +836,14 @@ namespace
     xtests_name_(
         char_buffer_t_& buff
     ,   char const*     name
+    ,   int             is_tty
     )
     {
         STLSOFT_MESSAGE_ASSERT("`name` may not be null", NULL != name);
 
         size_t const cchName = ::strlen(name);
 
-#if _STLSOFT_VER >= 0x010b014d
-        if (platformstl::isatty(stdout))
-#else
-        if (xtests_isatty_(xtests_fileno_(stdout)))
-#endif
+        if (is_tty)
         {
             buff.resize(11 + cchName + 1);
 
@@ -867,15 +865,12 @@ namespace
     xtests_success_or_failure_(
         int     succeeded
     ,   char  (&buff)[101]
+    ,   int     is_tty
     )
     {
         char const* const response = succeeded ? "SUCCESS" : "FAILURE";
 
-#if _STLSOFT_VER >= 0x010b014d
-        if (platformstl::isatty(stdout))
-#else
-        if (xtests_isatty_(xtests_fileno_(stdout)))
-#endif
+        if (is_tty)
         {
             stlsoft::snprintf(&buff[0], 101, "\033[1;%dm%s\033[0m", succeeded ? XTESTS_ANSI_FG_GREEN_ : XTESTS_ANSI_FG_RED_, response);
         }
@@ -1915,6 +1910,7 @@ RunnerInfo::get_reporter_(
     xTests_Reporter_t*  reporter
 ,   FILE*               stm
 ,   int                 flags
+,   int                 is_tty
 )
 {
 #ifdef STLSOFT_COMPILER_IS_BORLAND
@@ -1944,7 +1940,6 @@ RunnerInfo::get_reporter_(
 # define xtestsTestPartialComparison                        ::xtests::c::xtestsTestPartialComparison
 # define xtestsTestContainment                              ::xtests::c::xtestsTestContainment
 
-# define xtestsVariableNone                                 ::xtests::c::xtestsVariableNone
 # define xtestsVariableNone                                 ::xtests::c::xtestsVariableNone
 # define xtestsVariableBoolean                              ::xtests::c::xtestsVariableBoolean
 # define xtestsVariableOpaquePointer                        ::xtests::c::xtestsVariableOpaquePointer
@@ -1989,8 +1984,10 @@ RunnerInfo::get_reporter_(
             explicit fprintf_reporter(
                 FILE*   stm
             ,   int     flags
+            ,   int     is_tty
             )
                 : m_flags(flags)
+                , is_tty(is_tty)
 #if XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_
                 , m_numSinks((xtestsRunnerFlagsNoWindowsDebugString & flags) ? 1u : 2u)
 #else /* ? XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_ */
@@ -2044,7 +2041,7 @@ RunnerInfo::get_reporter_(
 
                         xtests_mxnprintf_( m_sinks, m_numSinks, stlsoft::c_str_len(name)
                         ,   "Test runner '%s' starting:\n"
-                        ,   xtests_name_(name_buff, name).data()
+                        ,   xtests_name_(name_buff, name, is_tty).data()
                         );
                     }
                     break;
@@ -2109,57 +2106,57 @@ RunnerInfo::get_reporter_(
                 {
                 case xtestsVariableBoolean:
 
-                    onTestFailed_Boolean_(file, line, function, expr, static_cast<bool>(0 != expectedValue->value.booleanValue), static_cast<bool>(0 != actualValue->value.booleanValue), comparison, verbosity);
+                    onTestFailed_Boolean_(file, line, function, expr, static_cast<bool>(0 != expectedValue->value.booleanValue), static_cast<bool>(0 != actualValue->value.booleanValue), comparison, verbosity, is_tty);
                     break;
                 case xtestsVariableOpaquePointer:
 
-                    onTestFailed_OpaquePointer_(file, line, function, expr, expectedValue->value.opaquePointerValue, actualValue->value.opaquePointerValue, comparison, verbosity);
+                    onTestFailed_OpaquePointer_(file, line, function, expr, expectedValue->value.opaquePointerValue, actualValue->value.opaquePointerValue,  comparison, verbosity, is_tty);
                     break;
                 case xtestsVariableMultibyteCharacter:
 
-                    onTestFailed_MultibyteCharacter_(file, line, function, expr, expectedValue->value.multibyteCharacterValue, actualValue->value.multibyteCharacterValue, comparison, verbosity);
+                    onTestFailed_MultibyteCharacter_(file, line, function, expr, expectedValue->value.multibyteCharacterValue, actualValue->value.multibyteCharacterValue,  comparison, verbosity, is_tty);
                     break;
                 case xtestsVariableWideCharacter:
 
-                    onTestFailed_WideCharacter_(file, line, function, expr, expectedValue->value.wideCharacterValue, actualValue->value.wideCharacterValue, comparison, verbosity);
+                    onTestFailed_WideCharacter_(file, line, function, expr, expectedValue->value.wideCharacterValue, actualValue->value.wideCharacterValue,  comparison, verbosity, is_tty);
                     break;
                 case xtestsVariableMultibyteString:
 
-                    onTestFailed_MultibyteString_(file, line, function, expr, expectedValue->value.multibyteStringValue, expectedValue->valueLen, actualValue->value.multibyteStringValue, actualValue->valueLen, length, testType, comparison, verbosity);
+                    onTestFailed_MultibyteString_(file, line, function, expr, expectedValue->value.multibyteStringValue, expectedValue->valueLen, actualValue->value.multibyteStringValue, actualValue->valueLen, length, testType,  comparison, verbosity, is_tty);
                     break;
                 case xtestsVariableWideString:
 
-                    onTestFailed_WideString_(file, line, function, expr, expectedValue->value.wideStringValue, expectedValue->valueLen, actualValue->value.wideStringValue, actualValue->valueLen, length, testType, comparison, verbosity);
+                    onTestFailed_WideString_(file, line, function, expr, expectedValue->value.wideStringValue, expectedValue->valueLen, actualValue->value.wideStringValue, actualValue->valueLen, length, testType,  comparison, verbosity, is_tty);
                     break;
                 case xtestsVariableLong:
 
-                    onTestFailed_SignedLong_(file, line, function, expr, expectedValue->value.longValue, actualValue->value.longValue, comparison, verbosity);
+                    onTestFailed_SignedLong_(file, line, function, expr, expectedValue->value.longValue, actualValue->value.longValue,  comparison, verbosity, is_tty);
                     break;
                 case xtestsVariableUnsignedLong:
 
-                    onTestFailed_UnsignedLong_(file, line, function, expr, expectedValue->value.ulongValue, actualValue->value.ulongValue, comparison, verbosity);
+                    onTestFailed_UnsignedLong_(file, line, function, expr, expectedValue->value.ulongValue, actualValue->value.ulongValue,  comparison, verbosity, is_tty);
                     break;
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
 
                 case xtestsVariableLongLong:
 
-                    onTestFailed_sint64_(file, line, function, expr, expectedValue->value.longlongValue, actualValue->value.longlongValue, comparison, verbosity);
+                    onTestFailed_sint64_(file, line, function, expr, expectedValue->value.longlongValue, actualValue->value.longlongValue,  comparison, verbosity, is_tty);
                     break;
                 case xtestsVariableUnsignedLongLong:
 
-                    onTestFailed_uint64_(file, line, function, expr, expectedValue->value.ulonglongValue, actualValue->value.ulonglongValue, comparison, verbosity);
+                    onTestFailed_uint64_(file, line, function, expr, expectedValue->value.ulonglongValue, actualValue->value.ulonglongValue,  comparison, verbosity, is_tty);
                     break;
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
                 case xtestsVariableDouble:
 
-                    onTestFailed_Double_(file, line, function, expr, expectedValue->value.doubleValue, actualValue->value.doubleValue, comparison, verbosity);
+                    onTestFailed_Double_(file, line, function, expr, expectedValue->value.doubleValue, actualValue->value.doubleValue,  comparison, verbosity, is_tty);
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("not currently defined for this type", 0);
                 case xtestsVariableNone:
 
-                    onTestFailed_(file, line, function, expr, comparison, verbosity);
+                    onTestFailed_(file, line, function, expr,  comparison, verbosity, is_tty);
                     break;
                 }
             }
@@ -2174,6 +2171,7 @@ RunnerInfo::get_reporter_(
             ,   bool                actualValue
             ,   xtests_comparison_t comparison
             ,   int                 verbosity
+            ,   int                 is_tty
             )
             {
                 static char const*  s_truthy_strings[] =
@@ -2188,14 +2186,6 @@ RunnerInfo::get_reporter_(
 
                 char const* fmt = "%s(%d): test condition failed: actual value %s should be %sequal to the expected value %s%s%s\n";
 #else
-
-                int const is_tty =
-#if _STLSOFT_VER >= 0x010b014d
-                                    platformstl::isatty(stdout)
-#else
-                                    xtests_isatty_(xtests_fileno_(stdout))
-#endif
-                                    ;
 
                 std::string     fmt_;
 
@@ -2308,17 +2298,10 @@ RunnerInfo::get_reporter_(
             ,   double const&       actualValue
             ,   xtests_comparison_t comparison
             ,   int                 verbosity
+            ,   int                 is_tty
             )
             {
 #ifdef EA_COLOR
-
-                int const is_tty =
-#if _STLSOFT_VER >= 0x010b014d
-                                    platformstl::isatty(stdout)
-#else
-                                    xtests_isatty_(xtests_fileno_(stdout))
-#endif
-                                    ;
 
                 std::string     fmt_;
 
@@ -2442,17 +2425,10 @@ RunnerInfo::get_reporter_(
             ,   char                actualValue
             ,   xtests_comparison_t comparison
             ,   int                 verbosity
+            ,   int                 is_tty
             )
             {
 #ifdef EA_COLOR
-
-                int const is_tty =
-#if _STLSOFT_VER >= 0x010b014d
-                                    platformstl::isatty(stdout)
-#else
-                                    xtests_isatty_(xtests_fileno_(stdout))
-#endif
-                                    ;
 
                 std::string     fmt_;
 
@@ -2576,6 +2552,7 @@ RunnerInfo::get_reporter_(
             ,   wchar_t             actualValue
             ,   xtests_comparison_t comparison
             ,   int                 verbosity
+            ,   int                 is_tty
             )
             {
                 static char const*  s_fmts[] =
@@ -2636,18 +2613,9 @@ RunnerInfo::get_reporter_(
             ,   xtests_test_type_t  testType
             ,   xtests_comparison_t comparison
             ,   int                 verbosity
+            ,   int                 is_tty
             )
             {
-#ifdef EA_COLOR
-                int const is_tty =
-# if _STLSOFT_VER >= 0x010b014d
-                                    platformstl::isatty(stdout)
-# else
-                                    xtests_isatty_(xtests_fileno_(stdout))
-# endif
-                                    ;
-#endif
-
                 // eliminate NULL pointers
                 expectedValue   =   stlsoft::c_str_ptr_a(expectedValue);
                 actualValue     =   stlsoft::c_str_ptr_a(actualValue);
@@ -2769,6 +2737,85 @@ RunnerInfo::get_reporter_(
                 }
                 else if (xtestsTestPartialComparison == testType)
                 {
+#ifdef EA_COLOR
+
+                    std::string     fmt_;
+
+                    fmt_ += "%s(%d): test condition failed: ";
+
+                    // actual
+                    if (is_tty)
+                    {
+                        fmt_ += "actual string value '\033[1;35m%.*s\033[0m'";
+                    }
+                    else
+                    {
+                        fmt_ += "actual string value '%.*s'";
+                    }
+
+                    fmt_ += " should ";
+
+                    // comparison
+                    if (is_tty)
+                    {
+                        fmt_ += "\033[1;36m";
+                    }
+                    switch (comparison)
+                    {
+                    case xtestsComparisonEqual:                 fmt_ += "be equal to";                      break;
+                    case xtestsComparisonNotEqual:              fmt_ += "be not equal to";                  break;
+                    case xtestsComparisonGreaterThan:           fmt_ += "be greater than";                  break;
+                    case xtestsComparisonLessThan:              fmt_ += "be less than";                     break;
+                    case xtestsComparisonGreaterThanOrEqual:    fmt_ += "be greater than or equal to";      break;
+                    case xtestsComparisonLessThanOrEqual:       fmt_ += "be less than or equal to";         break;
+                    case xtestsComparisonApproxEqual:           fmt_ += "be approximately equal to";        break;
+                    case xtestsComparisonApproxNotEqual:        fmt_ += "be not approximately equal to";    break;
+                    default:
+
+                        xtests_abend("VIOLATION: invalid `comparison`");
+                        break;
+                    }
+                    if (is_tty)
+                    {
+                        fmt_ += "\033[0m";
+                    }
+
+                    // expected
+                    if (is_tty)
+                    {
+                        fmt_ += " the expected value '\033[1;35m%.*s\033[0m'";
+                    }
+                    else
+                    {
+                        fmt_ += " the expected value '%.*s'";
+                    }
+
+                    //  to the length %d
+                    if (is_tty)
+                    {
+                        fmt_ += " to the length \033[1;35m%d\033[0m";
+                    }
+                    else
+                    {
+                        fmt_ += " to the length %d";
+                    }
+
+                    // function (?)
+                    if (is_tty)
+                    {
+                        fmt_ += "%s\033[1;36m%s\033[0m";
+                    }
+                    else
+                    {
+                        fmt_ += "%s%s";
+                    }
+
+                    // EOL
+                    fmt_ += '\n';
+
+                    char const*     fmt =   fmt_.c_str();
+#else
+
                     static char const*  s_fmts[] =
                     {
                             "%s(%d): test condition failed: actual string value '%.*s' should " "be equal to"                   " the expected value '%.*s' to the length %d%s%s\n"
@@ -2782,6 +2829,7 @@ RunnerInfo::get_reporter_(
                     };
                     STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                     char const*         fmt = s_fmts[comparison];
+#endif
 
                     switch (verbosity)
                     {
@@ -2953,12 +3001,13 @@ RunnerInfo::get_reporter_(
             ,   xtests_test_type_t  testType
             ,   xtests_comparison_t comparison
             ,   int                 verbosity
+            ,   int                 is_tty
             )
             {
                 stlsoft::w2a    expected(expectedValue, expectedValueLen);
                 stlsoft::w2a    actual(actualValue, actualValueLen);
 
-                onTestFailed_MultibyteString_(file, line, function, expr, expected, expected.size(), actual, actual.size(), length, testType, comparison, verbosity);
+                onTestFailed_MultibyteString_(file, line, function, expr, expected, expected.size(), actual, actual.size(), length, testType,  comparison, verbosity, is_tty);
             }
 
             void
@@ -2971,17 +3020,11 @@ RunnerInfo::get_reporter_(
             ,   void const volatile*    actualValue
             ,   xtests_comparison_t     comparison
             ,   int                     verbosity
+            ,   int                 is_tty
             )
             {
 #ifdef EA_COLOR
 
-                int const is_tty =
-# if _STLSOFT_VER >= 0x010b014d
-                                    platformstl::isatty(stdout)
-# else
-                                    xtests_isatty_(xtests_fileno_(stdout))
-# endif
-                                    ;
                 std::string     fmt_;
 
                 fmt_ += "%s(%d): test condition failed: ";
@@ -3109,17 +3152,10 @@ RunnerInfo::get_reporter_(
             ,   signed long         actualValue
             ,   xtests_comparison_t comparison
             ,   int                 verbosity
+            ,   int                 is_tty
             )
             {
 #ifdef EA_COLOR
-
-                int const is_tty =
-#if _STLSOFT_VER >= 0x010b014d
-                                    platformstl::isatty(stdout)
-#else
-                                    xtests_isatty_(xtests_fileno_(stdout))
-#endif
-                                    ;
 
                 std::string     fmt_;
 
@@ -3248,17 +3284,10 @@ RunnerInfo::get_reporter_(
             ,   unsigned long       actualValue
             ,   xtests_comparison_t comparison
             ,   int                 verbosity
+            ,   int                 is_tty
             )
             {
 #ifdef EA_COLOR
-
-                int const is_tty =
-# if _STLSOFT_VER >= 0x010b014d
-                                    platformstl::isatty(stdout)
-# else
-                                    xtests_isatty_(xtests_fileno_(stdout))
-# endif
-                                    ;
 
                 std::string     fmt_;
 
@@ -3388,17 +3417,10 @@ RunnerInfo::get_reporter_(
             ,   sint64_t            actualValue
             ,   xtests_comparison_t comparison
             ,   int                 verbosity
+            ,   int                 is_tty
             )
             {
 #ifdef EA_COLOR
-
-                int const is_tty =
-# if _STLSOFT_VER >= 0x010b014d
-                                    platformstl::isatty(stdout)
-# else
-                                    xtests_isatty_(xtests_fileno_(stdout))
-# endif
-                                    ;
 
 # ifdef XTESTS_STLSOFT_1_12_OR_LATER
                 static char const*  s_fmt64 =   stlsoft::integral_printf_format_traits<stlsoft::sint64_t>::decimal_format_a();
@@ -3581,17 +3603,10 @@ RunnerInfo::get_reporter_(
             ,   uint64_t            actualValue
             ,   xtests_comparison_t comparison
             ,   int                 verbosity
+            ,   int                 is_tty
             )
             {
 #ifdef EA_COLOR
-
-                int const is_tty =
-# if _STLSOFT_VER >= 0x010b014d
-                                    platformstl::isatty(stdout)
-# else
-                                    xtests_isatty_(xtests_fileno_(stdout))
-# endif
-                                    ;
 
 # ifdef XTESTS_STLSOFT_1_12_OR_LATER
                 static char const*  s_fmt64 =   stlsoft::integral_printf_format_traits<stlsoft::uint64_t>::decimal_format_a();
@@ -3774,12 +3789,13 @@ RunnerInfo::get_reporter_(
             ,   char const*             expr
             ,   xtests_comparison_t  /* comparison */
             ,   int                     verbosity
+            ,   int                     is_tty
             )
             {
                 static const char*  s_fmts[] =
                 {
-                        "%s(%d): test condition \"%s\" failed\n"
-                    ,   "%s(%d): test condition \"%s\" failed in function %s\n"
+                        "%s(%d): test condition \"%s%s%s\" %sfailed%s\n"
+                    ,   "%s(%d): test condition \"%s%s%s\" %sfailed%s in function %s%s%s\n"
                 };
                 char const*         fmt = s_fmts[NULL != function];
 
@@ -3806,14 +3822,43 @@ RunnerInfo::get_reporter_(
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
                                 ,   file, line
+                                ,   is_tty ? "{" : ""
                                 ,   expr
+                                ,   is_tty ? "}" : ""
+                                ,   is_tty ? "{" : ""
+                                ,   is_tty ? "}" : ""
+                                ,   is_tty ? "{" : ""
                                 ,   function
+                                ,   is_tty ? "}" : ""
                                 );
             }
 
             virtual void onWriteFailMessage(void* /* reporterParam */, char const* file, int line, char const* function, char const* message, char const* qualifyingInformation, int verbosity) ss_override_k
             {
-                static const char  s_fmt[] = "%s(%d): %s%s%s%s%s\n";
+                static const char  s_fmt[] = "%s(%d): %s%s%s%s%s%s%s%s%s%s%s\n";
+
+                char const* fn_pre;
+                char const* fn_post;
+                char const* msg_pre;
+                char const* msg_post;
+
+#ifdef EA_COLOR
+
+                if (is_tty)
+                {
+                    fn_pre      =   "\033[1;36m";
+                    fn_post     =   "\033[0m";
+                    msg_pre     =   "\033[1;35m";
+                    msg_post    =   "\033[0m";
+                }
+                else
+#endif
+                {
+                    fn_pre      =   "";
+                    fn_post     =   "";
+                    msg_pre     =   "";
+                    msg_post    =   "";
+                }
 
                 switch (verbosity)
                 {
@@ -3834,11 +3879,17 @@ RunnerInfo::get_reporter_(
                     xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                     ,   s_fmt
                                     ,   file, line
+                                    ,   msg_pre
                                     ,   message
+                                    ,   msg_post
                                     ,   (NULL != function) ? " in function " : ""
+                                    ,   fn_pre
                                     ,   (NULL != function) ? function : ""
+                                    ,   fn_post
                                     ,   (NULL != qualifyingInformation) ? ": " : ""
+                                    ,   msg_pre
                                     ,   (NULL != qualifyingInformation) ? qualifyingInformation : ""
+                                    ,   msg_post
                                     );
                     break;
                 }
@@ -3876,17 +3927,60 @@ RunnerInfo::get_reporter_(
                 static char const*  s_fmts[] =
                 {
                         ""
-                    ,   "%s(%d): %s: UX '%s' rx; msg='%s'\n"
-                    ,   "%s(%d): Test case '%s': received unexpected exception of type '%s', with message '%s'\n"
+                    ,   "%s(%d): %s%s%s: %sUX%s %srx%s '%s%s%s'; msg='%s%s%s'\n"
+                    ,   "%s(%d): Test case '%s%s%s': %sreceived unexpected exception%s of type '%s%s%s', with message '%s%s%s'\n"
                 };
                 char const*         fmt = s_fmts[level];
+
+                char const* case_pre;
+                char const* case_post;
+                char const* rsn_pre;
+                char const* rsn_post;
+                char const* msg_pre;
+                char const* msg_post;
+                char const* xt_pre;
+                char const* xt_post;
+
+#ifdef EA_COLOR
+
+                if (is_tty)
+                {
+                    case_pre    =   "\033[1;36m";
+                    case_post   =   "\033[0m";
+                    rsn_pre     =   "\033[1;36m";
+                    rsn_post    =   "\033[0m";
+                    msg_pre     =   "\033[1;36m";
+                    msg_post    =   "\033[0m";
+                    xt_pre      =   "\033[1;35m";
+                    xt_post     =   "\033[0m";
+                }
+                else
+#endif
+                {
+                    case_pre    =   "";
+                    case_post   =   "";
+                    rsn_pre     =   "";
+                    rsn_post    =   "";
+                    msg_pre     =   "";
+                    msg_post    =   "";
+                    xt_pre      =   "";
+                    xt_post     =   "";
+                }
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
                                 ,   file, line
+                                ,   case_pre
                                 ,   caseName
+                                ,   case_post
+                                ,   rsn_pre
+                                ,   rsn_post
+                                ,   xt_pre
                                 ,   exceptionType
+                                ,   xt_post
+                                ,   msg_pre
                                 ,   exceptionMessage
+                                ,   msg_post
                                 );
             }
 
@@ -3922,16 +4016,59 @@ RunnerInfo::get_reporter_(
                 static char const*  s_fmts[] =
                 {
                         ""
-                    ,   "%s(%d): %s: EX '%s' not rx\n"
-                    ,   "%s(%d): Test case '%s': expected exception of type '%s' was not received\n"
+                    ,   "%s(%d): %s%s%s: %sEX%s '%s%s%s' %snot rx%s\n"
+                    ,   "%s(%d): Test case '%s%s%s': %sexpected exception%s of type '%s%s%s' was %snot received%s\n"
                 };
                 char const*         fmt = s_fmts[level];
+
+                char const* case_pre;
+                char const* case_post;
+                char const* rsn_pre;
+                char const* rsn_post;
+                char const* rx_pre;
+                char const* rx_post;
+                char const* xt_pre;
+                char const* xt_post;
+
+#ifdef EA_COLOR
+
+                if (is_tty)
+                {
+                    case_pre    =   "\033[1;36m";
+                    case_post   =   "\033[0m";
+                    rsn_pre     =   "\033[1;36m";
+                    rsn_post    =   "\033[0m";
+                    rx_pre      =   "\033[1;36m";
+                    rx_post     =   "\033[0m";
+                    xt_pre      =   "\033[1;35m";
+                    xt_post     =   "\033[0m";
+                }
+                else
+#endif
+                {
+                    case_pre    =   "";
+                    case_post   =   "";
+                    rsn_pre     =   "";
+                    rsn_post    =   "";
+                    rx_pre      =   "";
+                    rx_post     =   "";
+                    xt_pre      =   "";
+                    xt_post     =   "";
+                }
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
                                 ,   file, line
+                                ,   case_pre
                                 ,   caseName
+                                ,   case_post
+                                ,   rsn_pre
+                                ,   rsn_post
+                                ,   xt_pre
                                 ,   exceptionType
+                                ,   xt_post
+                                ,   rx_pre
+                                ,   rx_post
                                 );
             }
 
@@ -4000,7 +4137,7 @@ RunnerInfo::get_reporter_(
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   xtests_name_(name_buff, results->name).data()
+                                ,   xtests_name_(name_buff, results->name, is_tty).data()
                                 ,   results->numTests
                                 ,   results->numTests - results->numFailedTests
                                 ,   results->numFailedTests
@@ -4009,6 +4146,7 @@ RunnerInfo::get_reporter_(
                                 ,   xtests_success_or_failure_(
                                         allTestsHavePassed
                                     ,   success_or_failure
+                                    ,   is_tty
                                     )
                                 );
             }
@@ -4080,13 +4218,13 @@ RunnerInfo::get_reporter_(
                         "\tresult=%s\n"
                         "\n"
                 };
-                char const*         fmt = s_fmts[level];
+                char const* const   fmt = s_fmts[level];
                 char                success_or_failure[101];
                 char_buffer_t_      name_buff(0);
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   xtests_name_(name_buff, results->name).data()
+                                ,   xtests_name_(name_buff, results->name, is_tty).data()
                                 ,   static_cast<unsigned>(results->numCases)
                                 ,   static_cast<unsigned>(results->numTests)
                                 ,   static_cast<unsigned>(results->numTests - results->numFailedTests)
@@ -4098,6 +4236,7 @@ RunnerInfo::get_reporter_(
                                         0u == results->numUnexpectedExceptions &&
                                         0u == results->numMissingExpectedExceptions
                                     ,   success_or_failure
+                                    ,   is_tty
                                     )
                                 );
             }
@@ -4140,6 +4279,7 @@ RunnerInfo::get_reporter_(
 
         private: // fields
             int const       m_flags;
+            int const       is_tty;
             size_t const    m_numSinks;
             xtests_sink_t_  m_sinks[2];
         };
@@ -4149,7 +4289,7 @@ RunnerInfo::get_reporter_(
 # pragma warn -8104
 #endif
 
-        static fprintf_reporter s_reporter(stm, flags);
+        static fprintf_reporter s_reporter(stm, flags, is_tty);
 
 #if defined(STLSOFT_COMPILER_IS_BORLAND) && \
     __BORLANDC__ >= 0x0610
@@ -4184,7 +4324,16 @@ RunnerInfo::RunnerInfo(
 ,   xTests_Teardown_t const teardown
 ,   void* const             setupParam
 )
-    : m_reporter(get_reporter_(reporter, stm, flags))
+    : m_reporter(get_reporter_(
+                        reporter
+                    ,   stm
+                    ,   flags
+#if _STLSOFT_VER >= 0x010b014d
+                    ,   platformstl::isatty(stdout)
+#else
+                    ,   xtests_isatty_(xtests_fileno_(stdout))
+#endif
+                    ))
     , m_reporterParam(reporterParam)
     , m_name(name)
     , m_verbosity(verbosity)
