@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 8th December 2024
+ * Updated: 9th December 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -1135,7 +1135,7 @@ xtests_startRunner(
 }
 
 XTESTS_CALL(int)
-xtests_endRunner(int *retCode)
+xtests_endRunner(int* retCode)
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
 

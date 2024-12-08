@@ -2898,7 +2898,7 @@ xtests_startRunner(
 );
 
 XTESTS_CALL(int)
-xtests_endRunner(int *retCode);
+xtests_endRunner(int* retCode);
 
 XTESTS_CALL(void)
 xtests_printRunnerResults(void);
