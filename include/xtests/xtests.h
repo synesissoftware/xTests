@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 8th December 2024
+ * Updated: 9th December 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -51,9 +51,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
-# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       46
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    2
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        385
+# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       47
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        386
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -237,13 +237,51 @@ namespace c
 
 # define XTESTS_WHILE_0_CLAUSE()                            XTESTS_NS_C_QUAL(xtests_internal_while_0_)()
 
-# ifndef XTESTS_CALL
+ /* XTESTS_NORETURN_ */
+# if 0
+# elif defined(__cplusplus) &&\
+       __cplusplus >= 201703L
+
+#  define XTESTS_NORETURN_                                  [[noreturn]]
+# elif 0 || \
+       defined(STLSOFT_COMPILER_IS_CLANG) || \
+       defined(STLSOFT_COMPILER_IS_GCC) || \
+       0
+
+#  define XTESTS_NORETURN_                                  __attribute__((noreturn))
+# elif 0 || \
+       defined(STLSOFT_COMPILER_IS_MSVC) || \
+       0
+
+#  define XTESTS_NORETURN_                                  __declspec(noreturn)
+# endif
+
+ /* XTESTS_EXTERN_C */
+# ifndef XTESTS_EXTERN_C
+
 #  ifdef __cplusplus
 
-#   define XTESTS_CALL(x)                                   extern "C" x
+#   define XTESTS_EXTERN_C                                  extern "C"
 #  else /* ? __cplusplus */
 
-#   define XTESTS_CALL(x)                                   extern x
+#   define XTESTS_EXTERN_C                                  extern
+#  endif /* __cplusplus */
+# endif /* XTESTS_EXTERN_C */
+
+ /* XTESTS_CALL */
+# ifndef XTESTS_CALL
+
+#  define XTESTS_CALL(x)                                    XTESTS_EXTERN_C x
+# endif /* !XTESTS_CALL */
+
+ /* XTESTS_CALL_NORETURN */
+# ifndef XTESTS_CALL_NORETURN
+#  ifdef __cplusplus
+
+#   define XTESTS_CALL_NORETURN(x)                          extern "C" XTESTS_NORETURN_ x
+#  else /* ? __cplusplus */
+
+#   define XTESTS_CALL_NORETURN(x)                          extern XTESTS_NORETURN_ x
 #  endif /* __cplusplus */
 # endif /* !XTESTS_CALL */
 
@@ -2865,16 +2903,7 @@ xtests_endRunner(int *retCode);
 XTESTS_CALL(void)
 xtests_printRunnerResults(void);
 
-# if 0
-# elif __cplusplus >= 201703L
-[[noreturn]]
-# elif 0 || \
-       defined(STLSOFT_COMPILER_IS_CLANG) || \
-       defined(STLSOFT_COMPILER_IS_GCC) || \
-       0
-__attribute__((noreturn))
-# endif
-XTESTS_CALL(void)
+XTESTS_CALL_NORETURN(void)
 xtests_abend(char const* message);
 
 XTESTS_CALL(void*)
