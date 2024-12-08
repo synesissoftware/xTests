@@ -2198,7 +2198,7 @@ RunnerInfo::get_reporter_(
             ,   int     is_tty
             )
                 : m_flags(flags)
-                , is_tty(is_tty)
+                , m_is_tty(is_tty)
 #if XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_
                 , m_numSinks((xtestsRunnerFlagsNoWindowsDebugString & flags) ? 1u : 2u)
 #else /* ? XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_ */
@@ -2252,7 +2252,7 @@ RunnerInfo::get_reporter_(
 
                         xtests_mxnprintf_( m_sinks, m_numSinks, stlsoft::c_str_len(name)
                         ,   "Test runner '%s' starting:\n"
-                        ,   xtests_name_(name_buff, name, is_tty).data()
+                        ,   xtests_name_(name_buff, name, m_is_tty).data()
                         );
                     }
                     break;
@@ -2317,57 +2317,57 @@ RunnerInfo::get_reporter_(
                 {
                 case xtestsVariableBoolean:
 
-                    onTestFailed_Boolean_(file, line, function, expr, static_cast<bool>(0 != expectedValue->value.booleanValue), static_cast<bool>(0 != actualValue->value.booleanValue), comparison, verbosity, is_tty);
+                    onTestFailed_Boolean_(file, line, function, expr, static_cast<bool>(0 != expectedValue->value.booleanValue), static_cast<bool>(0 != actualValue->value.booleanValue), comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableOpaquePointer:
 
-                    onTestFailed_OpaquePointer_(file, line, function, expr, expectedValue->value.opaquePointerValue, actualValue->value.opaquePointerValue,  comparison, verbosity, is_tty);
+                    onTestFailed_OpaquePointer_(file, line, function, expr, expectedValue->value.opaquePointerValue, actualValue->value.opaquePointerValue,  comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableMultibyteCharacter:
 
-                    onTestFailed_MultibyteCharacter_(file, line, function, expr, expectedValue->value.multibyteCharacterValue, actualValue->value.multibyteCharacterValue,  comparison, verbosity, is_tty);
+                    onTestFailed_MultibyteCharacter_(file, line, function, expr, expectedValue->value.multibyteCharacterValue, actualValue->value.multibyteCharacterValue,  comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableWideCharacter:
 
-                    onTestFailed_WideCharacter_(file, line, function, expr, expectedValue->value.wideCharacterValue, actualValue->value.wideCharacterValue,  comparison, verbosity, is_tty);
+                    onTestFailed_WideCharacter_(file, line, function, expr, expectedValue->value.wideCharacterValue, actualValue->value.wideCharacterValue,  comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableMultibyteString:
 
-                    onTestFailed_MultibyteString_(file, line, function, expr, expectedValue->value.multibyteStringValue, expectedValue->valueLen, actualValue->value.multibyteStringValue, actualValue->valueLen, length, testType,  comparison, verbosity, is_tty);
+                    onTestFailed_MultibyteString_(file, line, function, expr, expectedValue->value.multibyteStringValue, expectedValue->valueLen, actualValue->value.multibyteStringValue, actualValue->valueLen, length, testType,  comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableWideString:
 
-                    onTestFailed_WideString_(file, line, function, expr, expectedValue->value.wideStringValue, expectedValue->valueLen, actualValue->value.wideStringValue, actualValue->valueLen, length, testType,  comparison, verbosity, is_tty);
+                    onTestFailed_WideString_(file, line, function, expr, expectedValue->value.wideStringValue, expectedValue->valueLen, actualValue->value.wideStringValue, actualValue->valueLen, length, testType,  comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableLong:
 
-                    onTestFailed_SignedLong_(file, line, function, expr, expectedValue->value.longValue, actualValue->value.longValue,  comparison, verbosity, is_tty);
+                    onTestFailed_SignedLong_(file, line, function, expr, expectedValue->value.longValue, actualValue->value.longValue,  comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableUnsignedLong:
 
-                    onTestFailed_UnsignedLong_(file, line, function, expr, expectedValue->value.ulongValue, actualValue->value.ulongValue,  comparison, verbosity, is_tty);
+                    onTestFailed_UnsignedLong_(file, line, function, expr, expectedValue->value.ulongValue, actualValue->value.ulongValue,  comparison, verbosity, m_is_tty);
                     break;
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
 
                 case xtestsVariableLongLong:
 
-                    onTestFailed_sint64_(file, line, function, expr, expectedValue->value.longlongValue, actualValue->value.longlongValue,  comparison, verbosity, is_tty);
+                    onTestFailed_sint64_(file, line, function, expr, expectedValue->value.longlongValue, actualValue->value.longlongValue,  comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableUnsignedLongLong:
 
-                    onTestFailed_uint64_(file, line, function, expr, expectedValue->value.ulonglongValue, actualValue->value.ulonglongValue,  comparison, verbosity, is_tty);
+                    onTestFailed_uint64_(file, line, function, expr, expectedValue->value.ulonglongValue, actualValue->value.ulonglongValue,  comparison, verbosity, m_is_tty);
                     break;
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
                 case xtestsVariableDouble:
 
-                    onTestFailed_Double_(file, line, function, expr, expectedValue->value.doubleValue, actualValue->value.doubleValue,  comparison, verbosity, is_tty);
+                    onTestFailed_Double_(file, line, function, expr, expectedValue->value.doubleValue, actualValue->value.doubleValue,  comparison, verbosity, m_is_tty);
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("not currently defined for this type", 0);
                 case xtestsVariableNone:
 
-                    onTestFailed_(file, line, function, expr,  comparison, verbosity, is_tty);
+                    onTestFailed_(file, line, function, expr,  comparison, verbosity, m_is_tty);
                     break;
                 }
             }
@@ -3115,7 +3115,7 @@ RunnerInfo::get_reporter_(
                 char const* msg_pre;
                 char const* msg_post;
 
-                if (is_tty)
+                if (m_is_tty)
                 {
                     fn_pre      =   "\033[1;36m";
                     fn_post     =   "\033[0m";
@@ -3211,7 +3211,7 @@ RunnerInfo::get_reporter_(
                 char const* xt_pre;
                 char const* xt_post;
 
-                if (is_tty)
+                if (m_is_tty)
                 {
                     case_pre    =   "\033[1;36m";
                     case_post   =   "\033[0m";
@@ -3297,7 +3297,7 @@ RunnerInfo::get_reporter_(
                 char const* xt_pre;
                 char const* xt_post;
 
-                if (is_tty)
+                if (m_is_tty)
                 {
                     case_pre    =   "\033[1;36m";
                     case_post   =   "\033[0m";
@@ -3401,7 +3401,7 @@ RunnerInfo::get_reporter_(
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   xtests_name_(name_buff, results->name, is_tty).data()
+                                ,   xtests_name_(name_buff, results->name, m_is_tty).data()
                                 ,   results->numTests
                                 ,   results->numTests - results->numFailedTests
                                 ,   results->numFailedTests
@@ -3410,7 +3410,7 @@ RunnerInfo::get_reporter_(
                                 ,   xtests_success_or_failure_(
                                         allTestsHavePassed
                                     ,   success_or_failure
-                                    ,   is_tty
+                                    ,   m_is_tty
                                     )
                                 );
             }
@@ -3488,7 +3488,7 @@ RunnerInfo::get_reporter_(
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   xtests_name_(name_buff, results->name, is_tty).data()
+                                ,   xtests_name_(name_buff, results->name, m_is_tty).data()
                                 ,   static_cast<unsigned>(results->numCases)
                                 ,   static_cast<unsigned>(results->numTests)
                                 ,   static_cast<unsigned>(results->numTests - results->numFailedTests)
@@ -3500,7 +3500,7 @@ RunnerInfo::get_reporter_(
                                         0u == results->numUnexpectedExceptions &&
                                         0u == results->numMissingExpectedExceptions
                                     ,   success_or_failure
-                                    ,   is_tty
+                                    ,   m_is_tty
                                     )
                                 );
             }
@@ -3543,7 +3543,7 @@ RunnerInfo::get_reporter_(
 
         private: // fields
             int const       m_flags;
-            int const       is_tty;
+            int const       m_is_tty;
             size_t const    m_numSinks;
             xtests_sink_t_  m_sinks[2];
         };
