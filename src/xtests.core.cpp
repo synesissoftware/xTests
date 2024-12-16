@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 9th December 2024
+ * Updated: 16th December 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -2321,53 +2321,53 @@ RunnerInfo::get_reporter_(
                     break;
                 case xtestsVariableOpaquePointer:
 
-                    onTestFailed_OpaquePointer_(file, line, function, expr, expectedValue->value.opaquePointerValue, actualValue->value.opaquePointerValue,  comparison, verbosity, m_is_tty);
+                    onTestFailed_OpaquePointer_(file, line, function, expr, expectedValue->value.opaquePointerValue, actualValue->value.opaquePointerValue, comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableMultibyteCharacter:
 
-                    onTestFailed_MultibyteCharacter_(file, line, function, expr, expectedValue->value.multibyteCharacterValue, actualValue->value.multibyteCharacterValue,  comparison, verbosity, m_is_tty);
+                    onTestFailed_MultibyteCharacter_(file, line, function, expr, expectedValue->value.multibyteCharacterValue, actualValue->value.multibyteCharacterValue, comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableWideCharacter:
 
-                    onTestFailed_WideCharacter_(file, line, function, expr, expectedValue->value.wideCharacterValue, actualValue->value.wideCharacterValue,  comparison, verbosity, m_is_tty);
+                    onTestFailed_WideCharacter_(file, line, function, expr, expectedValue->value.wideCharacterValue, actualValue->value.wideCharacterValue, comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableMultibyteString:
 
-                    onTestFailed_MultibyteString_(file, line, function, expr, expectedValue->value.multibyteStringValue, expectedValue->valueLen, actualValue->value.multibyteStringValue, actualValue->valueLen, length, testType,  comparison, verbosity, m_is_tty);
+                    onTestFailed_MultibyteString_(file, line, function, expr, expectedValue->value.multibyteStringValue, expectedValue->valueLen, actualValue->value.multibyteStringValue, actualValue->valueLen, length, testType, comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableWideString:
 
-                    onTestFailed_WideString_(file, line, function, expr, expectedValue->value.wideStringValue, expectedValue->valueLen, actualValue->value.wideStringValue, actualValue->valueLen, length, testType,  comparison, verbosity, m_is_tty);
+                    onTestFailed_WideString_(file, line, function, expr, expectedValue->value.wideStringValue, expectedValue->valueLen, actualValue->value.wideStringValue, actualValue->valueLen, length, testType, comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableLong:
 
-                    onTestFailed_SignedLong_(file, line, function, expr, expectedValue->value.longValue, actualValue->value.longValue,  comparison, verbosity, m_is_tty);
+                    onTestFailed_SignedLong_(file, line, function, expr, expectedValue->value.longValue, actualValue->value.longValue, comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableUnsignedLong:
 
-                    onTestFailed_UnsignedLong_(file, line, function, expr, expectedValue->value.ulongValue, actualValue->value.ulongValue,  comparison, verbosity, m_is_tty);
+                    onTestFailed_UnsignedLong_(file, line, function, expr, expectedValue->value.ulongValue, actualValue->value.ulongValue, comparison, verbosity, m_is_tty);
                     break;
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
 
                 case xtestsVariableLongLong:
 
-                    onTestFailed_sint64_(file, line, function, expr, expectedValue->value.longlongValue, actualValue->value.longlongValue,  comparison, verbosity, m_is_tty);
+                    onTestFailed_sint64_(file, line, function, expr, expectedValue->value.longlongValue, actualValue->value.longlongValue, comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableUnsignedLongLong:
 
-                    onTestFailed_uint64_(file, line, function, expr, expectedValue->value.ulonglongValue, actualValue->value.ulonglongValue,  comparison, verbosity, m_is_tty);
+                    onTestFailed_uint64_(file, line, function, expr, expectedValue->value.ulonglongValue, actualValue->value.ulonglongValue, comparison, verbosity, m_is_tty);
                     break;
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
                 case xtestsVariableDouble:
 
-                    onTestFailed_Double_(file, line, function, expr, expectedValue->value.doubleValue, actualValue->value.doubleValue,  comparison, verbosity, m_is_tty);
+                    onTestFailed_Double_(file, line, function, expr, expectedValue->value.doubleValue, actualValue->value.doubleValue, comparison, verbosity, m_is_tty);
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("not currently defined for this type", 0);
                 case xtestsVariableNone:
 
-                    onTestFailed_(file, line, function, expr,  comparison, verbosity, m_is_tty);
+                    onTestFailed_(file, line, function, expr, comparison, verbosity, m_is_tty);
                     break;
                 }
             }
@@ -2811,7 +2811,7 @@ RunnerInfo::get_reporter_(
                 stlsoft::w2a    expected(expectedValue, expectedValueLen);
                 stlsoft::w2a    actual(actualValue, actualValueLen);
 
-                onTestFailed_MultibyteString_(file, line, function, expr, expected, expected.size(), actual, actual.size(), length, testType,  comparison, verbosity, is_tty);
+                onTestFailed_MultibyteString_(file, line, function, expr, expected, expected.size(), actual, actual.size(), length, testType, comparison, verbosity, is_tty);
             }
 
             void
