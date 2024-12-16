@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 23rd November 2024
+ * Updated: 16th December 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -40,6 +40,8 @@
  * ////////////////////////////////////////////////////////////////////// */
 
 
+
+
 /* xTests Header Files */
 #ifndef _XTESTS_NO_CPP_API
 # define _XTESTS_NO_CPP_API
@@ -68,14 +70,8 @@
 
 /* STLSoft Header Files */
 #include <platformstl/platformstl.h>
-#if _STLSOFT_VER >= 0x010a0181 || \
-    (   defined(_STLSOFT_1_10_VER) && \
-        _STLSOFT_1_10_VER >= 0x010a0113)
-# include <platformstl/filesystem/path_functions.h>
-#endif
-#if _STLSOFT_VER >= 0x010b014d
-# include <platformstl/system/console_functions.h>
-#endif
+#include <platformstl/filesystem/path_functions.h>
+#include <platformstl/system/console_functions.h>
 #include <platformstl/system/environment_variable.hpp>
 #include <stlsoft/conversion/char_conversions.hpp>
 #include <stlsoft/memory/auto_buffer.hpp>
@@ -109,14 +105,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if 0
-#elif _STLSOFT_VER >= 0x010b014d
-#elif defined(PLATFORMSTL_OS_IS_UNIX)
-# include <unistd.h>
-#elif defined(PLATFORMSTL_OS_IS_WINDOWS)
-# include <io.h>
-#endif
-
 
 /* /////////////////////////////////////////////////////////////////////////
  * compatiblity tests
@@ -141,10 +129,10 @@
 
 #define XTESTS_VERBOSITY_VALID_MISSING_CASES    \
                                                 \
-                case    5:                      \
-                case    6:                      \
-                case    7:                      \
-                case    8:                      \
+                case 5:                         \
+                case 6:                         \
+                case 7:                         \
+                case 8:                         \
                                                 \
 
 
@@ -214,16 +202,6 @@
 # endif /* compiler / OS */
 #endif /* XTESTS_USING_SAFE_STR_FUNCTIONS */
 
-
-#if 0
-#elif _STLSOFT_VER >= 0x010b014d
-#elif defined(PLATFORMSTL_OS_IS_UNIX)
-# define xtests_fileno_                                     ::fileno
-# define xtests_isatty_                                     ::isatty
-#elif defined(PLATFORMSTL_OS_IS_WINDOWS)
-# define xtests_fileno_                                     ::_fileno
-# define xtests_isatty_                                     ::_isatty
-#endif
 
 #if defined(STLSOFT_COMPILER_IS_DMC)
 # define RETURN_UNUSED(x)                                   return x
@@ -386,7 +364,7 @@ namespace
         ,   void*               setupParam
         );
     private:
-        RunnerInfo &operator =(RunnerInfo const&);
+        void operator =(RunnerInfo const&) STLSOFT_COPY_ASSIGNMENT_PROSCRIBED;
 
     public:
         int BeginCase(char const* name, char const* description);
@@ -640,6 +618,7 @@ namespace
             xTests_Reporter_t*  reporter
         ,   FILE*               stm
         ,   int                 flags
+        ,   int                 is_tty
         );
         void report_unstartedCase_defect_();
 
@@ -733,6 +712,7 @@ namespace
         STLSOFT_STATIC_CAST(void, ::fputs(s, stm));
     }
 #if XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_
+
     void
     adapt_OutputDebugStringA(
         char const* s
@@ -831,17 +811,14 @@ namespace
     xtests_name_(
         char_buffer_t_& buff
     ,   char const*     name
+    ,   int             is_tty
     )
     {
         STLSOFT_MESSAGE_ASSERT("`name` may not be null", NULL != name);
 
         size_t const cchName = ::strlen(name);
 
-#if _STLSOFT_VER >= 0x010b014d
-        if (platformstl::isatty(stdout))
-#else
-        if (xtests_isatty_(xtests_fileno_(stdout)))
-#endif
+        if (is_tty)
         {
             buff.resize(11 + cchName + 1);
 
@@ -861,17 +838,14 @@ namespace
 
     char const*
     xtests_success_or_failure_(
-        int       succeeded
-    ,   char    (&buff)[101]
+        int     succeeded
+    ,   char  (&buff)[101]
+    ,   int     is_tty
     )
     {
         char const* const response = succeeded ? "SUCCESS" : "FAILURE";
 
-#if _STLSOFT_VER >= 0x010b014d
-        if (platformstl::isatty(stdout))
-#else
-        if (xtests_isatty_(xtests_fileno_(stdout)))
-#endif
+        if (is_tty)
         {
             stlsoft::snprintf(&buff[0], 101, "\033[1;%dm%s\033[0m", succeeded ? XTESTS_ANSI_FG_GREEN_ : XTESTS_ANSI_FG_RED_, response);
         }
@@ -881,6 +855,242 @@ namespace
         }
 
         return &buff[0];
+    }
+
+    char const*
+    relation_equals_(
+        xtests_comparison_t comparison
+    )
+    {
+        char const* fmt;
+
+        switch (comparison)
+        {
+        case xtestsComparisonEqual:                 fmt = "be equal to";                    break;
+        case xtestsComparisonNotEqual:              fmt = "be not equal to";                break;
+        case xtestsComparisonGreaterThan:           fmt = "be greater than";                break;
+        case xtestsComparisonLessThan:              fmt = "be less than";                   break;
+        case xtestsComparisonGreaterThanOrEqual:    fmt = "be greater than or equal to";    break;
+        case xtestsComparisonLessThanOrEqual:       fmt = "be less than or equal to";       break;
+        case xtestsComparisonApproxEqual:           fmt = "be approximately equal to";      break;
+        case xtestsComparisonApproxNotEqual:        fmt = "be not approximately equal to";  break;
+        default:
+
+            xtests_abend("VIOLATION: invalid `comparison`");
+            break;
+        }
+
+        return fmt;
+    }
+
+    char const*
+    relation_contains_(
+        xtests_comparison_t comparison
+    )
+    {
+        char const* fmt;
+
+        switch (comparison)
+        {
+        case xtestsComparisonEqual:                 fmt = "contain";                    break;
+        case xtestsComparisonNotEqual:              fmt = "not contain";                break;
+        case xtestsComparisonGreaterThan:           fmt = "";                           break;
+        case xtestsComparisonLessThan:              fmt = "";                           break;
+        case xtestsComparisonGreaterThanOrEqual:    fmt = "";                           break;
+        case xtestsComparisonLessThanOrEqual:       fmt = "";                           break;
+        case xtestsComparisonApproxEqual:           fmt = "contain approximately";      break;
+        case xtestsComparisonApproxNotEqual:        fmt = "not contain approximately";  break;
+        default:
+
+            xtests_abend("VIOLATION: invalid `comparison`");
+            break;
+        }
+
+        return fmt;
+    }
+
+
+    // template <ss_typename_param_k T_value>
+    std::string
+    colorise_(
+        char const*         file
+    ,   int                 line
+    ,   char const*         function
+    ,   char const*      /* expr */
+    ,   char const*         type_qualifier      // might say "Boolean", "character", ...
+#if 0
+    ,   T_value const&      expectedValue
+    ,   T_value const&      actualValue
+    ,   std::string       (*pfn_value_to_string)(T_value const& value)
+#else
+    ,   char const*         fmt_specifier
+#endif
+    ,   int                 quote_type /* 0, 1, or 2 */
+    ,   char const*         secondary_fmt_specifier
+    ,   xtests_comparison_t comparison
+    ,   int                 verbosity
+    ,   int                 is_tty
+    ,   char const*       (*pfn_relation)(xtests_comparison_t comparison)
+    )
+    {
+        STLSOFT_SUPPRESS_UNUSED(file);
+        STLSOFT_SUPPRESS_UNUSED(line);
+        STLSOFT_SUPPRESS_UNUSED(function);
+        // STLSOFT_SUPPRESS_UNUSED(expr);
+        STLSOFT_SUPPRESS_UNUSED(verbosity);
+
+        STLSOFT_SUPPRESS_UNUSED(secondary_fmt_specifier);
+
+        switch (verbosity)
+        {
+        case XTESTS_VERBOSITY_SILENT:
+        case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+        case XTESTS_VERBOSITY_RUNNER_SUMMARY:
+
+            return "";
+        default:
+
+            STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
+        case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+        case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+        case XTESTS_VERBOSITY_CASE_SUMMARY:
+        XTESTS_VERBOSITY_VALID_MISSING_CASES
+        case XTESTS_VERBOSITY_VERBOSE:
+
+            break;
+        }
+
+        std::string     fmt_;
+
+        fmt_ += "%s(%d): test condition failed: ";
+
+        // actual
+        fmt_ += "actual ";
+        if (0 != stlsoft::c_str_len_a(type_qualifier))
+        {
+            fmt_ += type_qualifier;
+            fmt_ += ' ';
+        }
+        fmt_ += "value ";
+        switch (quote_type)
+        {
+        case 1:
+
+            fmt_ += '\'';
+            break;
+        case 2:
+
+            fmt_ += '"';
+            break;
+        default:
+
+            break;
+        }
+        if (is_tty)
+        {
+            fmt_ += "\033[1;35m";
+            fmt_ += fmt_specifier;
+            fmt_ += "\033[0m";
+        }
+        else
+        {
+            fmt_ += fmt_specifier;
+        }
+        switch (quote_type)
+        {
+        case 1:
+
+            fmt_ += '\'';
+            break;
+        case 2:
+
+            fmt_ += '"';
+            break;
+        default:
+
+            break;
+        }
+        if (0 != stlsoft::c_str_len_a(secondary_fmt_specifier))
+        {
+            fmt_ += "( ";
+            fmt_ += secondary_fmt_specifier;
+            fmt_ += ')';
+        }
+
+        fmt_ += " should ";
+
+        // comparison
+        if (is_tty)
+        {
+            fmt_ += "\033[1;36m";
+        }
+        fmt_ += (*pfn_relation)(comparison);
+        if (is_tty)
+        {
+            fmt_ += "\033[0m";
+        }
+
+        // expected
+        fmt_ += " the expected value ";
+        switch (quote_type)
+        {
+        case 1:
+
+            fmt_ += '\'';
+            break;
+        case 2:
+
+            fmt_ += '"';
+            break;
+        default:
+
+            break;
+        }
+        if (is_tty)
+        {
+            fmt_ += "\033[1;35m";
+            fmt_ += fmt_specifier;
+            fmt_ += "\033[0m";
+        }
+        else
+        {
+            fmt_ += fmt_specifier;
+        }
+        switch (quote_type)
+        {
+        case 1:
+
+            fmt_ += '\'';
+            break;
+        case 2:
+
+            fmt_ += '"';
+            break;
+        default:
+
+            break;
+        }
+        if (0 != stlsoft::c_str_len_a(secondary_fmt_specifier))
+        {
+            fmt_ += "( ";
+            fmt_ += secondary_fmt_specifier;
+            fmt_ += ')';
+        }
+
+        // function (?)
+        if (is_tty)
+        {
+            fmt_ += "%s\033[1;36m%s\033[0m";
+        }
+        else
+        {
+            fmt_ += "%s%s";
+        }
+
+        // EOL
+        fmt_ += '\n';
+
+        return fmt_;
     }
 #ifdef STLSOFT_CF_NAMESPACE_SUPPORT
 } // anonymous namespace
@@ -925,7 +1135,7 @@ xtests_startRunner(
 }
 
 XTESTS_CALL(int)
-xtests_endRunner(int *retCode)
+xtests_endRunner(int* retCode)
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
 
@@ -1771,6 +1981,7 @@ xtests_variable_value_t::xtests_variable_value_t(long i)
 xtests_variable_value_t::xtests_variable_value_t(unsigned long i)
     : ulongValue(i)
 {}
+#ifdef STLSOFT_CF_64BIT_INT_SUPPORT
 
 xtests_variable_value_t::xtests_variable_value_t(sint64_t const& i)
     : longlongValue(i)
@@ -1779,6 +1990,7 @@ xtests_variable_value_t::xtests_variable_value_t(sint64_t const& i)
 xtests_variable_value_t::xtests_variable_value_t(uint64_t const& i)
     : ulonglongValue(i)
 {}
+#endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
 xtests_variable_value_t::xtests_variable_value_t(char ch)
     : multibyteCharacterValue(ch)
@@ -1839,6 +2051,7 @@ xtests_variable_t::xtests_variable_t(unsigned long i)
     , value(i)
     , valueLen(0u)
 {}
+#ifdef STLSOFT_CF_64BIT_INT_SUPPORT
 
 xtests_variable_t::xtests_variable_t(sint64_t const& i)
     : variableType(xtestsVariableLongLong)
@@ -1853,6 +2066,7 @@ xtests_variable_t::xtests_variable_t(uint64_t const& i)
     , value(i)
     , valueLen(0u)
 {}
+#endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
 xtests_variable_t::xtests_variable_t(double const& d)
     : variableType(xtestsVariableDouble)
@@ -1907,6 +2121,7 @@ RunnerInfo::get_reporter_(
     xTests_Reporter_t*  reporter
 ,   FILE*               stm
 ,   int                 flags
+,   int                 is_tty
 )
 {
 #ifdef STLSOFT_COMPILER_IS_BORLAND
@@ -1936,7 +2151,6 @@ RunnerInfo::get_reporter_(
 # define xtestsTestPartialComparison                        ::xtests::c::xtestsTestPartialComparison
 # define xtestsTestContainment                              ::xtests::c::xtestsTestContainment
 
-# define xtestsVariableNone                                 ::xtests::c::xtestsVariableNone
 # define xtestsVariableNone                                 ::xtests::c::xtestsVariableNone
 # define xtestsVariableBoolean                              ::xtests::c::xtestsVariableBoolean
 # define xtestsVariableOpaquePointer                        ::xtests::c::xtestsVariableOpaquePointer
@@ -1978,8 +2192,13 @@ RunnerInfo::get_reporter_(
             : public xTests_Reporter_t
         {
         public: // construction
-            explicit fprintf_reporter(FILE* stm, int flags)
+            explicit fprintf_reporter(
+                FILE*   stm
+            ,   int     flags
+            ,   int     is_tty
+            )
                 : m_flags(flags)
+                , m_is_tty(is_tty)
 #if XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_
                 , m_numSinks((xtestsRunnerFlagsNoWindowsDebugString & flags) ? 1u : 2u)
 #else /* ? XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_ */
@@ -1996,51 +2215,52 @@ RunnerInfo::get_reporter_(
                     m_sinks[1].pfn      =   adapt_OutputDebugStringA;
                     m_sinks[1].param    =   NULL;
                 }
-#else
+#else /* ? XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_ */
 
                 STLSOFT_SUPPRESS_UNUSED(m_flags);
 #endif /* XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_ */
             }
         private:
-            void operator =(fprintf_reporter const&) // copy-assignment proscribed
-            {}
+            void operator =(fprintf_reporter const&) STLSOFT_COPY_ASSIGNMENT_PROSCRIBED;
 
         private: // overrides
-            virtual void onStartRunner(
-                void* /* reporterParam */
+            virtual void
+            onStartRunner(
+                void*    /* reporterParam */
             ,   char const* name
-            ,   int verbosity
+            ,   int         verbosity
             ) ss_override_k
             {
                 switch (verbosity)
                 {
-                    case    XTESTS_VERBOSITY_SILENT:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
-                    case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
 
-                        break;
-                    default:
+                    break;
+                default:
 
-                        STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY:
-                    XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case    XTESTS_VERBOSITY_VERBOSE:
+                    STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
+                XTESTS_VERBOSITY_VALID_MISSING_CASES
+                case XTESTS_VERBOSITY_VERBOSE:
 
-                        {
-                            char_buffer_t_  name_buff(0);
+                    {
+                        char_buffer_t_  name_buff(0);
 
-                            xtests_mxnprintf_(  m_sinks, m_numSinks, stlsoft::c_str_len(name)
-                                            ,   "Test runner '%s' starting:\n"
-                                            ,   xtests_name_(name_buff, name).data()
-                                            );
-                        }
-                        break;
+                        xtests_mxnprintf_( m_sinks, m_numSinks, stlsoft::c_str_len(name)
+                        ,   "Test runner '%s' starting:\n"
+                        ,   xtests_name_(name_buff, name, m_is_tty).data()
+                        );
+                    }
+                    break;
                 }
             }
 
-            virtual void onBeginTestCase(
+            virtual void
+            onBeginTestCase(
                 void* /* reporterParam */
             ,   char const* /* name */
             ,   char const* /* desc */
@@ -2049,7 +2269,8 @@ RunnerInfo::get_reporter_(
             {
             }
 
-            virtual void onTestPassed(
+            virtual void
+            onTestPassed(
                 void* /* reporterParam */
             ,   char const* /* file */
             ,   int /* line */
@@ -2061,7 +2282,8 @@ RunnerInfo::get_reporter_(
             {
             }
 
-            virtual void onTestFailed(
+            virtual void
+            onTestFailed(
                 void*                       /* reporterParam */
             ,   char const*                 file
             ,   int                         line
@@ -2093,299 +2315,425 @@ RunnerInfo::get_reporter_(
 
                 switch (variableType)
                 {
-                    case    xtestsVariableBoolean:
+                case xtestsVariableBoolean:
 
-                        onTestFailed_Boolean_(file, line, function, expr, static_cast<bool>(0 != expectedValue->value.booleanValue), static_cast<bool>(0 != actualValue->value.booleanValue), comparison, verbosity);
-                        break;
-                    case    xtestsVariableOpaquePointer:
+                    onTestFailed_Boolean_(file, line, function, expr, static_cast<bool>(0 != expectedValue->value.booleanValue), static_cast<bool>(0 != actualValue->value.booleanValue), comparison, verbosity, m_is_tty);
+                    break;
+                case xtestsVariableOpaquePointer:
 
-                        onTestFailed_OpaquePointer_(file, line, function, expr, expectedValue->value.opaquePointerValue, actualValue->value.opaquePointerValue, comparison, verbosity);
-                        break;
-                    case    xtestsVariableMultibyteCharacter:
+                    onTestFailed_OpaquePointer_(file, line, function, expr, expectedValue->value.opaquePointerValue, actualValue->value.opaquePointerValue, comparison, verbosity, m_is_tty);
+                    break;
+                case xtestsVariableMultibyteCharacter:
 
-                        onTestFailed_MultibyteCharacter_(file, line, function, expr, expectedValue->value.multibyteCharacterValue, actualValue->value.multibyteCharacterValue, comparison, verbosity);
-                        break;
-                    case    xtestsVariableWideCharacter:
+                    onTestFailed_MultibyteCharacter_(file, line, function, expr, expectedValue->value.multibyteCharacterValue, actualValue->value.multibyteCharacterValue, comparison, verbosity, m_is_tty);
+                    break;
+                case xtestsVariableWideCharacter:
 
-                        onTestFailed_WideCharacter_(file, line, function, expr, expectedValue->value.multibyteCharacterValue, actualValue->value.multibyteCharacterValue, comparison, verbosity);
-                        break;
-                    case    xtestsVariableMultibyteString:
+                    onTestFailed_WideCharacter_(file, line, function, expr, expectedValue->value.wideCharacterValue, actualValue->value.wideCharacterValue, comparison, verbosity, m_is_tty);
+                    break;
+                case xtestsVariableMultibyteString:
 
-                        onTestFailed_MultibyteString_(file, line, function, expr, expectedValue->value.multibyteStringValue, expectedValue->valueLen, actualValue->value.multibyteStringValue, actualValue->valueLen, length, testType, comparison, verbosity);
-                        break;
-                    case    xtestsVariableWideString:
+                    onTestFailed_MultibyteString_(file, line, function, expr, expectedValue->value.multibyteStringValue, expectedValue->valueLen, actualValue->value.multibyteStringValue, actualValue->valueLen, length, testType, comparison, verbosity, m_is_tty);
+                    break;
+                case xtestsVariableWideString:
 
-                        onTestFailed_WideString_(file, line, function, expr, expectedValue->value.wideStringValue, expectedValue->valueLen, actualValue->value.wideStringValue, actualValue->valueLen, length, testType, comparison, verbosity);
-                        break;
-                    case    xtestsVariableLong:
+                    onTestFailed_WideString_(file, line, function, expr, expectedValue->value.wideStringValue, expectedValue->valueLen, actualValue->value.wideStringValue, actualValue->valueLen, length, testType, comparison, verbosity, m_is_tty);
+                    break;
+                case xtestsVariableLong:
 
-                        onTestFailed_SignedLong_(file, line, function, expr, expectedValue->value.longValue, actualValue->value.longValue, comparison, verbosity);
-                        break;
-                    case    xtestsVariableUnsignedLong:
+                    onTestFailed_SignedLong_(file, line, function, expr, expectedValue->value.longValue, actualValue->value.longValue, comparison, verbosity, m_is_tty);
+                    break;
+                case xtestsVariableUnsignedLong:
 
-                        onTestFailed_UnsignedLong_(file, line, function, expr, expectedValue->value.ulongValue, actualValue->value.ulongValue, comparison, verbosity);
-                        break;
+                    onTestFailed_UnsignedLong_(file, line, function, expr, expectedValue->value.ulongValue, actualValue->value.ulongValue, comparison, verbosity, m_is_tty);
+                    break;
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
 
-                    case    xtestsVariableLongLong:
+                case xtestsVariableLongLong:
 
-                        onTestFailed_sint64_(file, line, function, expr, expectedValue->value.longlongValue, actualValue->value.longlongValue, comparison, verbosity);
-                        break;
-                    case    xtestsVariableUnsignedLongLong:
+                    onTestFailed_sint64_(file, line, function, expr, expectedValue->value.longlongValue, actualValue->value.longlongValue, comparison, verbosity, m_is_tty);
+                    break;
+                case xtestsVariableUnsignedLongLong:
 
-                        onTestFailed_uint64_(file, line, function, expr, expectedValue->value.ulonglongValue, actualValue->value.ulonglongValue, comparison, verbosity);
-                        break;
+                    onTestFailed_uint64_(file, line, function, expr, expectedValue->value.ulonglongValue, actualValue->value.ulonglongValue, comparison, verbosity, m_is_tty);
+                    break;
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
-                    case    xtestsVariableDouble:
+                case xtestsVariableDouble:
 
-                        onTestFailed_Double_(file, line, function, expr, expectedValue->value.doubleValue, actualValue->value.doubleValue, comparison, verbosity);
-                        break;
-                    default:
+                    onTestFailed_Double_(file, line, function, expr, expectedValue->value.doubleValue, actualValue->value.doubleValue, comparison, verbosity, m_is_tty);
+                    break;
+                default:
 
-                        STLSOFT_MESSAGE_ASSERT("not currently defined for this type", 0);
-                    case    xtestsVariableNone:
+                    STLSOFT_MESSAGE_ASSERT("not currently defined for this type", 0);
+                case xtestsVariableNone:
 
-                        onTestFailed_(file, line, function, expr, comparison, verbosity);
-                        break;
+                    onTestFailed_(file, line, function, expr, comparison, verbosity, m_is_tty);
+                    break;
                 }
             }
 
-            void onTestFailed_Boolean_(char const* file, int line, char const* function, char const* /* expr */, bool expectedValue, bool actualValue, xtests_comparison_t comparison, int verbosity)
+            void
+            onTestFailed_Boolean_(
+                char const*         file
+            ,   int                 line
+            ,   char const*         function
+            ,   char const*         expr
+            ,   bool                expectedValue
+            ,   bool                actualValue
+            ,   xtests_comparison_t comparison
+            ,   int                 verbosity
+            ,   int                 is_tty
+            )
             {
-                char const* fmt = "%s(%d): test condition failed: actual value %s should %sequal the expected value %s%s%s\n";
-
-                switch (verbosity)
+                static char const*  s_truthy_strings[] =
                 {
-                    case    XTESTS_VERBOSITY_SILENT:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                    "false"
+                ,   "true"
+                };
+#if 0
 
-                        fmt = "";
-                        break;
-                    default:
+                struct bool_to_string
+                {
+                    static std::string
+                    fn(bool const& value)
+                    {
+                        static char const* s_truthy_strings[] =
+                        {
+                            "false"
+                        ,   "true"
+                        };
 
-                        STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY:
-                    XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case    XTESTS_VERBOSITY_VERBOSE:
+                        return s_truthy_strings[!!value];
+                    }
+                };
+#endif
 
-                        break;
-                }
+                std::string fmt_ =
+                colorise_(
+                    file
+                ,   line
+                ,   function
+                ,   expr
+                ,   ""
+# if 0
+                ,   /*s_truthy_strings[!!*/actualValue/*]*/
+                ,   /*s_truthy_strings[!!*/expectedValue/*]*/
+                ,   &bool_to_string::fn
+# else
+                ,   "%s" // we provide the conversion to string below
+# endif
+                ,   0 // no quotes
+                ,   NULL
+                ,   comparison
+                ,   verbosity
+                ,   is_tty
+                ,   relation_equals_
+                );
+                char const* fmt = fmt_.c_str();
 
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 20
+                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, (actualValue ? "true" : "false"), (xtestsComparisonEqual == comparison) ? "" : "not ", (expectedValue ? "true" : "false"), (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
+                                ,   file, line
+                                ,   s_truthy_strings[!!actualValue]
+                                ,   s_truthy_strings[!!expectedValue]
+                                ,   (NULL != function) ? " in function " : ""
+                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                                );
             }
 
-            void onTestFailed_Double_(char const* file, int line, char const* function, char const* /* expr */, double const& expectedValue, double const& actualValue, xtests_comparison_t comparison, int verbosity)
+            void
+            onTestFailed_Double_(
+                char const*         file
+            ,   int                 line
+            ,   char const*         function
+            ,   char const*         expr
+            ,   double const&       expectedValue
+            ,   double const&       actualValue
+            ,   xtests_comparison_t comparison
+            ,   int                 verbosity
+            ,   int                 is_tty
+            )
             {
+                std::string fmt_ =
+                colorise_(
+                    file
+                ,   line
+                ,   function
+                ,   expr
+                ,   ""
+# if 0
+                ,   /*s_truthy_strings[!!*/actualValue/*]*/
+                ,   /*s_truthy_strings[!!*/expectedValue/*]*/
+                ,   &double_to_string::fn
+# else
+                ,   "%G"
+# endif
+                ,   0 // no quotes
+                ,   NULL
+                ,   comparison
+                ,   verbosity
+                ,   is_tty
+                ,   relation_equals_
+                );
+                char const* fmt = fmt_.c_str();
+
+                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                                ,   fmt
+                                ,   file, line
+                                ,   actualValue
+                                ,   expectedValue
+                                ,   (NULL != function) ? " in function " : ""
+                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                                );
+            }
+
+            void
+            onTestFailed_MultibyteCharacter_(
+                char const*         file
+            ,   int                 line
+            ,   char const*         function
+            ,   char const*         expr
+            ,   char                expectedValue
+            ,   char                actualValue
+            ,   xtests_comparison_t comparison
+            ,   int                 verbosity
+            ,   int                 is_tty
+            )
+            {
+                std::string fmt_ =
+                colorise_(
+                    file
+                ,   line
+                ,   function
+                ,   expr
+                ,   "character"
+# if 0
+                ,   /*s_truthy_strings[!!*/actualValue/*]*/
+                ,   /*s_truthy_strings[!!*/expectedValue/*]*/
+                ,   &mbc_to_string::fn
+# else
+                ,   "%c"
+# endif
+                ,   1 // single-quotes
+                ,   "0x%02x"
+                ,   comparison
+                ,   verbosity
+                ,   is_tty
+                ,   relation_equals_
+                );
+                char const* fmt = fmt_.c_str();
+
+                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                                ,   fmt
+                                ,   file, line
+                                ,   actualValue, actualValue
+                                ,   expectedValue, expectedValue
+                                ,   (NULL != function) ? " in function " : ""
+                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                                );
+            }
+
+            void
+            onTestFailed_WideCharacter_(
+                char const*         file
+            ,   int                 line
+            ,   char const*         function
+            ,   char const*      /* expr */
+            ,   wchar_t             expectedValue
+            ,   wchar_t             actualValue
+            ,   xtests_comparison_t comparison
+            ,   int                 verbosity
+            ,   int                 is_tty
+            )
+            {
+                // TODO: implement colour when fix the wide-character issue
+
+                STLSOFT_SUPPRESS_UNUSED(&is_tty);
+
                 static char const*  s_fmts[] =
                 {
-                        "%s(%d): test condition failed: actual value %G should equal the expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should not equal expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should be greater than expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should be less than expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should be greater than or equal to the expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should be less than or equal to the expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should approximately equal to the expected value %G%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %G should approximately not equal to the expected value %G%s%s\n"
+                        "%s(%d): test condition failed: actual character value '%C' (0x%04x) should "   "be equal to"                   " the expected value '%C' (0x%04x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%C' (0x%04x) should "   "be not equal to"               " the expected value '%C' (0x%04x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%C' (0x%04x) should "   "be greater than"               " the expected value '%C' (0x%04x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%C' (0x%04x) should "   "be less than"                  " the expected value '%C' (0x%04x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%C' (0x%04x) should "   "be greater than or equal to"   " the expected value '%C' (0x%04x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%C' (0x%04x) should "   "be less than or equal to"      " the expected value '%C' (0x%04x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%C' (0x%04x) should "   "be approximately equal to"     " the expected value '%C' (0x%04x)%s%s\n"
+                    ,   "%s(%d): test condition failed: actual character value '%C' (0x%04x) should "   "be not approximately equal to" " the expected value '%C' (0x%04x)%s%s\n"
                 };
                 STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
                 char const*         fmt = s_fmts[comparison];
 
                 switch (verbosity)
                 {
-                    case    XTESTS_VERBOSITY_SILENT:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
-                        fmt = "";
-                        break;
-                    default:
+                    fmt = "";
+                    break;
+                default:
 
-                        STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY:
-                    XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case    XTESTS_VERBOSITY_VERBOSE:
+                    STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
+                XTESTS_VERBOSITY_VALID_MISSING_CASES
+                case XTESTS_VERBOSITY_VERBOSE:
 
-                        break;
+                    break;
                 }
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
+                                ,   file, line
+                                ,   static_cast<char>(actualValue), actualValue
+                                ,   static_cast<char>(expectedValue), expectedValue
+                                ,   (NULL != function) ? " in function " : ""
+                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                                );
             }
 
-            void onTestFailed_MultibyteCharacter_(char const* file, int line, char const* function, char const* /* expr */, char expectedValue, char actualValue, xtests_comparison_t comparison, int verbosity)
+            void
+            onTestFailed_MultibyteString_(
+                char const*         file
+            ,   int                 line
+            ,   char const*         function
+            ,   char const*         expr
+            ,   char const*         expectedValue
+            ,   size_t              expectedValueLen
+            ,   char const*         actualValue
+            ,   size_t              actualValueLen
+            ,   ptrdiff_t           length
+            ,   xtests_test_type_t  testType
+            ,   xtests_comparison_t comparison
+            ,   int                 verbosity
+            ,   int                 is_tty
+            )
             {
-                static char const*  s_fmts[] =
-                {
-                        "%s(%d): test condition failed: actual character value '%c' (0x%02x) should equal the expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should not equal expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should be greater than expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should be less than expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should be greater than or equal to the expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should be less than or equal to the expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%02x) should be approximately equal to the expected value '%c' (0x%02x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%04x) should be approximately not equal to the expected value '%c' (0x%04x)%s%s\n"
-                };
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
-                char const*         fmt = s_fmts[comparison];
+                // eliminate NULL pointers
+                expectedValue   =   stlsoft::c_str_ptr_a(expectedValue);
+                actualValue     =   stlsoft::c_str_ptr_a(actualValue);
 
-                switch (verbosity)
-                {
-                    case    XTESTS_VERBOSITY_SILENT:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
-
-                        fmt = "";
-                        break;
-                    default:
-
-                        STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY:
-                    XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case    XTESTS_VERBOSITY_VERBOSE:
-
-                        break;
-                }
-
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line, actualValue, actualValue, expectedValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
-            }
-
-            void onTestFailed_WideCharacter_(char const* file, int line, char const* function, char const* /* expr */, char expectedValue, char actualValue, xtests_comparison_t comparison, int verbosity)
-            {
-                static char const*  s_fmts[] =
-                {
-                        "%s(%d): test condition failed: actual character value '%c' (0x%04x) should equal the expected value '%c' (0x%04x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%04x) should not equal expected value '%c' (0x%04x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%04x) should be greater than expected value '%c' (0x%04x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%04x) should be less than expected value '%c' (0x%04x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%04x) should be greater than or equal to the expected value '%c' (0x%04x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%04x) should be less than or equal to the expected value '%c' (0x%04x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%04x) should be approximately equal to the expected value '%c' (0x%04x)%s%s\n"
-                    ,   "%s(%d): test condition failed: actual character value '%c' (0x%04x) should be approximately not equal to the expected value '%c' (0x%04x)%s%s\n"
-                };
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
-                char const*         fmt = s_fmts[comparison];
-
-                switch (verbosity)
-                {
-                    case    XTESTS_VERBOSITY_SILENT:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
-
-                        fmt = "";
-                        break;
-                    default:
-
-                        STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY:
-                    XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case    XTESTS_VERBOSITY_VERBOSE:
-
-                        break;
-                }
-
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line, static_cast<char>(actualValue), actualValue, static_cast<char>(expectedValue), expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
-            }
-
-            void onTestFailed_MultibyteString_(char const* file, int line, char const* function, char const* /* expr */, char const* expectedValue, size_t expectedValueLen, char const* actualValue, size_t actualValueLen, ptrdiff_t length, xtests_test_type_t testType, xtests_comparison_t comparison, int verbosity)
-            {
                 if (xtestsTestFullComparison == testType)
                 {
-                    // Eliminate NULL pointers
-                    expectedValue   =   stlsoft::c_str_ptr_a(expectedValue);
-                    actualValue     =   stlsoft::c_str_ptr_a(actualValue);
+                    std::string fmt_ =
+                    colorise_(
+                        file
+                    ,   line
+                    ,   function
+                    ,   expr
+                    ,   "string"
+# if 0
+                    ,   /*s_truthy_strings[!!*/actualValue/*]*/
+                    ,   /*s_truthy_strings[!!*/expectedValue/*]*/
+                    ,   &mbs_to_string::fn
+# else
+                    ,   "%s"
+# endif
+                    ,   1 // single-quotes
+                    ,   NULL
+                    ,   comparison
+                    ,   verbosity
+                    ,   is_tty
+                    ,   relation_equals_
+                    );
+                    char const* fmt = fmt_.c_str();
 
-                    static char const*  s_fmts[] =
-                    {
-                            "%s(%d): test condition failed: actual string value '%s' should equal the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should not equal expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should be greater than expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should be less than expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should be greater than or equal to the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should be less than or equal to the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should approximately equal to the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should approximately not equal to the expected value '%s'%s%s\n"
-                    };
-                    STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
-                    char const*         fmt = s_fmts[comparison];
-
-                    switch (verbosity)
-                    {
-                        case    XTESTS_VERBOSITY_SILENT:
-                        case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                        case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
-
-                            fmt = "";
-                            break;
-                        default:
-
-                            STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                        case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                        case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                        case    XTESTS_VERBOSITY_CASE_SUMMARY:
-                        XTESTS_VERBOSITY_VALID_MISSING_CASES
-                        case    XTESTS_VERBOSITY_VERBOSE:
-
-                            break;
-                    }
-
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
+                    xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                                    ,   fmt
+                                    ,   file, line
+                                    ,   actualValue
+                                    ,   expectedValue
+                                    ,   (NULL != function) ? " in function " : ""
+                                    ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                                    );
                 }
                 else if (xtestsTestPartialComparison == testType)
                 {
-                    // Eliminate NULL pointers
-                    expectedValue   =   stlsoft::c_str_data_a(expectedValue);
-                    actualValue     =   stlsoft::c_str_data_a(actualValue);
+                    std::string     fmt_;
 
-                    static char const*  s_fmts[] =
+                    fmt_ += "%s(%d): test condition failed: ";
+
+                    // actual
+                    if (is_tty)
                     {
-                            "%s(%d): test condition failed: actual string value '%.*s' should equal the expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should not equal expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should be greater than expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should be less than expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should be greater than or equal to the expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should be less than or equal to the expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should approximately equal to the expected value '%.*s' to the length %d%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%.*s' should approximately not equal to the expected value '%.*s' to the length %d%s%s\n"
-                    };
-                    STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
-                    char const*         fmt = s_fmts[comparison];
+                        fmt_ += "actual string value '\033[1;35m%.*s\033[0m'";
+                    }
+                    else
+                    {
+                        fmt_ += "actual string value '%.*s'";
+                    }
+
+                    fmt_ += " should ";
+
+                    // comparison
+                    if (is_tty)
+                    {
+                        fmt_ += "\033[1;36m";
+                    }
+                    fmt_ += relation_equals_(comparison);
+                    if (is_tty)
+                    {
+                        fmt_ += "\033[0m";
+                    }
+
+                    // expected
+                    if (is_tty)
+                    {
+                        fmt_ += " the expected value '\033[1;35m%.*s\033[0m'";
+                    }
+                    else
+                    {
+                        fmt_ += " the expected value '%.*s'";
+                    }
+
+                    //  to the length %d
+                    if (is_tty)
+                    {
+                        fmt_ += " to the length \033[1;35m%d\033[0m";
+                    }
+                    else
+                    {
+                        fmt_ += " to the length %d";
+                    }
+
+                    // function (?)
+                    if (is_tty)
+                    {
+                        fmt_ += "%s\033[1;36m%s\033[0m";
+                    }
+                    else
+                    {
+                        fmt_ += "%s%s";
+                    }
+
+                    // EOL
+                    fmt_ += '\n';
+
+                    char const*     fmt =   fmt_.c_str();
+
+#ifndef EA_COLORISE
+#endif
 
                     switch (verbosity)
                     {
-                        case    XTESTS_VERBOSITY_SILENT:
-                        case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                        case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                    case XTESTS_VERBOSITY_SILENT:
+                    case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                    case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
-                            fmt = "";
-                            break;
-                        default:
+                        fmt = "";
+                        break;
+                    default:
 
-                            STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                        case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                        case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                        case    XTESTS_VERBOSITY_CASE_SUMMARY:
-                        XTESTS_VERBOSITY_VALID_MISSING_CASES
-                        case    XTESTS_VERBOSITY_VERBOSE:
+                        STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
+                    case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                    case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                    case XTESTS_VERBOSITY_CASE_SUMMARY:
+                    XTESTS_VERBOSITY_VALID_MISSING_CASES
+                    case XTESTS_VERBOSITY_VERBOSE:
 
-                            break;
+                        break;
                     }
 
                     if (length < 0)
@@ -2393,53 +2741,49 @@ RunnerInfo::get_reporter_(
                         length = -length;
                     }
 
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line, int(actualValueLen), actualValue, int(expectedValueLen), expectedValue, length, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
+                    xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                                    ,   fmt
+                                    ,   file, line
+                                    ,   int(actualValueLen), actualValue
+                                    ,   int(expectedValueLen), expectedValue
+                                    ,   length
+                                    ,   (NULL != function) ? " in function " : ""
+                                    ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                                    );
                 }
                 else if (xtestsTestContainment == testType)
                 {
-                    // Eliminate NULL pointers
-                    expectedValue   =   stlsoft::c_str_ptr_a(expectedValue);
-                    actualValue     =   stlsoft::c_str_ptr_a(actualValue);
+                    std::string fmt_ =
+                    colorise_(
+                        file
+                    ,   line
+                    ,   function
+                    ,   expr
+                    ,   "string"
+# if 0
+                    ,   /*s_truthy_strings[!!*/actualValue/*]*/
+                    ,   /*s_truthy_strings[!!*/expectedValue/*]*/
+                    ,   &mbs_to_string::fn
+# else
+                    ,   "%s"
+# endif
+                    ,   1 // single-quotes
+                    ,   NULL
+                    ,   comparison
+                    ,   verbosity
+                    ,   is_tty
+                    ,   relation_contains_
+                    );
+                    char const* fmt = fmt_.c_str();
 
-                    static char const*  s_fmts[] =
-                    {
-                            "%s(%d): test condition failed: actual string value '%s' should contain the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should not contain expected value '%s'%s%s\n"
-                        ,   ""
-                        ,   ""
-                        ,   ""
-                        ,   ""
-                        ,   "%s(%d): test condition failed: actual string value '%s' should approximately contain to the expected value '%s'%s%s\n"
-                        ,   "%s(%d): test condition failed: actual string value '%s' should approximately not contain to the expected value '%s'%s%s\n"
-                    };
-                    STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
-                    char const*         fmt = s_fmts[comparison];
-
-                    switch (verbosity)
-                    {
-                        case    XTESTS_VERBOSITY_SILENT:
-                        case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                        case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
-
-                            fmt = "";
-                            break;
-                        default:
-
-                            STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                        case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                        case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                        case    XTESTS_VERBOSITY_CASE_SUMMARY:
-                        XTESTS_VERBOSITY_VALID_MISSING_CASES
-                        case    XTESTS_VERBOSITY_VERBOSE:
-
-                            break;
-                    }
-
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
+                    xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                                    ,   fmt
+                                    ,   file, line
+                                    ,   actualValue
+                                    ,   expectedValue
+                                    ,   (NULL != function) ? " in function " : ""
+                                    ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                                    );
                 }
                 else
                 {
@@ -2447,385 +2791,377 @@ RunnerInfo::get_reporter_(
                 }
             }
 
-            void onTestFailed_WideString_(char const* file, int line, char const* function, char const* expr, wchar_t const* expectedValue, size_t expectedValueLen, wchar_t const* actualValue, size_t actualValueLen, ptrdiff_t length, xtests_test_type_t testType, xtests_comparison_t comparison, int verbosity)
+            void
+            onTestFailed_WideString_(
+                char const*         file
+            ,   int                 line
+            ,   char const*         function
+            ,   char const*         expr
+            ,   wchar_t const*      expectedValue
+            ,   size_t              expectedValueLen
+            ,   wchar_t const*      actualValue
+            ,   size_t              actualValueLen
+            ,   ptrdiff_t           length
+            ,   xtests_test_type_t  testType
+            ,   xtests_comparison_t comparison
+            ,   int                 verbosity
+            ,   int                 is_tty
+            )
             {
                 stlsoft::w2a    expected(expectedValue, expectedValueLen);
                 stlsoft::w2a    actual(actualValue, actualValueLen);
 
-                onTestFailed_MultibyteString_(file, line, function, expr, expected, expected.size(), actual, actual.size(), length, testType, comparison, verbosity);
+                onTestFailed_MultibyteString_(file, line, function, expr, expected, expected.size(), actual, actual.size(), length, testType, comparison, verbosity, is_tty);
             }
 
-            void onTestFailed_OpaquePointer_(char const* file, int line, char const* function, char const* /* expr */, void const volatile* expectedValue, void const volatile* actualValue, xtests_comparison_t comparison, int verbosity)
+            void
+            onTestFailed_OpaquePointer_(
+                char const*             file
+            ,   int                     line
+            ,   char const*             function
+            ,   char const*             expr
+            ,   void const volatile*    expectedValue
+            ,   void const volatile*    actualValue
+            ,   xtests_comparison_t     comparison
+            ,   int                     verbosity
+            ,   int                 is_tty
+            )
             {
-                static char const*  s_fmts_[] =
-                {
-                        "%s(%d): test condition failed: actual pointer value '%p' should equal the expected value '%p'%s%s\n"
-                    ,   "%s(%d): test condition failed: actual pointer value '%p' should not equal expected value '%p'%s%s\n"
-                };
-
-                static char const*  s_fmts[] =
-                {
-                        s_fmts_[0]
-                    ,   s_fmts_[1]
-                    ,   "%s(%d): test condition failed: actual pointer value '%p' should be greater than expected value '%p'%s%s\n"
-                    ,   "%s(%d): test condition failed: actual pointer value '%p' should be less than expected value '%p'%s%s\n"
-                    ,   "%s(%d): test condition failed: actual pointer value '%p' should be greater than or equal to the expected value '%p'%s%s\n"
-                    ,   "%s(%d): test condition failed: actual pointer value '%p' should be less than or equal to the expected value '%p'%s%s\n"
-                    ,   s_fmts_[0]
-                    ,   s_fmts_[1]
-                };
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
-                char const*         fmt = s_fmts[comparison];
-
-                switch (verbosity)
-                {
-                    case    XTESTS_VERBOSITY_SILENT:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
-
-                        fmt = "";
-                        break;
-                    default:
-
-                        STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY:
-                    XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case    XTESTS_VERBOSITY_VERBOSE:
-
-                        break;
-                }
+                std::string fmt_ =
+                colorise_(
+                    file
+                ,   line
+                ,   function
+                ,   expr
+                ,   "pointer"
+# if 0
+                ,   /*s_truthy_strings[!!*/actualValue/*]*/
+                ,   /*s_truthy_strings[!!*/expectedValue/*]*/
+                ,   &ptr_to_string::fn
+# else
+                ,   "%p"
+# endif
+                ,   1 // single-quotes
+                ,   NULL
+                ,   comparison
+                ,   verbosity
+                ,   is_tty
+                ,   relation_equals_
+                );
+                char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
+                                ,   file, line
+                                ,   actualValue
+                                ,   expectedValue
+                                ,   (NULL != function) ? " in function " : ""
+                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                                );
             }
 
-            void onTestFailed_SignedLong_(char const* file, int line, char const* function, char const* /* expr */, signed long expectedValue, signed long actualValue, xtests_comparison_t comparison, int verbosity)
+            void
+            onTestFailed_SignedLong_(
+                char const*         file
+            ,   int                 line
+            ,   char const*         function
+            ,   char const*         expr
+            ,   signed long         expectedValue
+            ,   signed long         actualValue
+            ,   xtests_comparison_t comparison
+            ,   int                 verbosity
+            ,   int                 is_tty
+            )
             {
-                static char const*  s_fmts_[] =
-                {
-                        "%s(%d): test condition failed: actual value %ld should equal the expected value %ld%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %ld should not equal expected value %ld%s%s\n"
-                };
-
-                static char const*  s_fmts[] =
-                {
-                        s_fmts_[0]
-                    ,   s_fmts_[1]
-                    ,   "%s(%d): test condition failed: actual value %ld should be greater than expected value %ld%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %ld should be less than expected value %ld%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %ld should be greater than or equal to the expected value %ld%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %ld should be less than or equal to the expected value %ld%s%s\n"
-                    ,   s_fmts_[0]
-                    ,   s_fmts_[1]
-                };
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
-                char const*         fmt = s_fmts[comparison];
-
-                switch (verbosity)
-                {
-                    case    XTESTS_VERBOSITY_SILENT:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
-
-                        fmt = "";
-                        break;
-                    default:
-
-                        STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY:
-                    XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case    XTESTS_VERBOSITY_VERBOSE:
-
-                        break;
-                }
+                std::string fmt_ =
+                colorise_(
+                    file
+                ,   line
+                ,   function
+                ,   expr
+                ,   ""
+# if 0
+                ,   /*s_truthy_strings[!!*/actualValue/*]*/
+                ,   /*s_truthy_strings[!!*/expectedValue/*]*/
+                ,   &l_to_string::fn
+# else
+                ,   "%ld"
+# endif
+                ,   0 // no quotes
+                ,   NULL
+                ,   comparison
+                ,   verbosity
+                ,   is_tty
+                ,   relation_equals_
+                );
+                char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
+                                ,   file, line
+                                ,   actualValue
+                                ,   expectedValue
+                                ,   (NULL != function) ? " in function " : ""
+                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                                );
             }
 
-            void onTestFailed_UnsignedLong_(char const* file, int line, char const* function, char const* /* expr */, unsigned long expectedValue, unsigned long actualValue, xtests_comparison_t comparison, int verbosity)
+            void
+            onTestFailed_UnsignedLong_(
+                char const*         file
+            ,   int                 line
+            ,   char const*         function
+            ,   char const*         expr
+            ,   unsigned long       expectedValue
+            ,   unsigned long       actualValue
+            ,   xtests_comparison_t comparison
+            ,   int                 verbosity
+            ,   int                 is_tty
+            )
             {
-                static char const*  s_fmts_[] =
-                {
-                        "%s(%d): test condition failed: actual value %lu should equal the expected value %lu%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %lu should not equal expected value %lu%s%s\n"
-                };
-                static char const*  s_fmts[] =
-                {
-                        s_fmts_[0]
-                    ,   s_fmts_[1]
-                    ,   "%s(%d): test condition failed: actual value %lu should be greater than expected value %lu%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %lu should be less than expected value %lu%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %lu should be greater than or equal to the expected value %lu%s%s\n"
-                    ,   "%s(%d): test condition failed: actual value %lu should be less than or equal to the expected value %lu%s%s\n"
-                    ,   s_fmts_[0]
-                    ,   s_fmts_[1]
-                };
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
-                char const*         fmt = s_fmts[comparison];
-
-                switch (verbosity)
-                {
-                    case    XTESTS_VERBOSITY_SILENT:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
-
-                        fmt = "";
-                        break;
-                    default:
-
-                        STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY:
-                    XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case    XTESTS_VERBOSITY_VERBOSE:
-
-                        break;
-                }
+                std::string fmt_ =
+                colorise_(
+                    file
+                ,   line
+                ,   function
+                ,   expr
+                ,   ""
+# if 0
+                ,   /*s_truthy_strings[!!*/actualValue/*]*/
+                ,   /*s_truthy_strings[!!*/expectedValue/*]*/
+                ,   &ul_to_string::fn
+# else
+                ,   "%lu"
+# endif
+                ,   0 // no quotes
+                ,   NULL
+                ,   comparison
+                ,   verbosity
+                ,   is_tty
+                ,   relation_equals_
+                );
+                char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
+                                ,   file, line
+                                ,   actualValue
+                                ,   expectedValue
+                                ,   (NULL != function) ? " in function " : ""
+                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                                );
             }
-
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
-            void onTestFailed_sint64_(char const* file, int line, char const* function, char const* /* expr */, sint64_t expectedValue, sint64_t actualValue, xtests_comparison_t comparison, int verbosity)
+
+            void
+            onTestFailed_sint64_(
+                char const*         file
+            ,   int                 line
+            ,   char const*         function
+            ,   char const*         expr
+            ,   sint64_t            expectedValue
+            ,   sint64_t            actualValue
+            ,   xtests_comparison_t comparison
+            ,   int                 verbosity
+            ,   int                 is_tty
+            )
             {
-# if defined(STLSOFT_COMPILER_IS_BORLAND)
-#  define static
-# endif /* compiler */
-
-                // Note: The following code has a race condition, but it is entirely benign, so does not matter
-
-                static char const*  s_fmts_[] =
-                {
-                        "%%s(%%d): test condition failed: actual value %s should equal the expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should not equal expected value %s%%s%%s\n"
-                };
-                static char const*  s_fmtBases[] =
-                {
-                        s_fmts_[0]
-                    ,   s_fmts_[1]
-                    ,   "%%s(%%d): test condition failed: actual value %s should be greater than expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should be less than expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should be greater than or equal to the expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should be less than or equal to the expected value %s%%s%%s\n"
-                    ,   s_fmts_[0]
-                    ,   s_fmts_[1]
-                };
-                enum { bufferSize_ = 115 };
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmtBases) == xtestsComparison_max_enumerator);
-                static char         s_fmts[STLSOFT_NUM_ELEMENTS_(s_fmtBases)][bufferSize_];
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == STLSOFT_NUM_ELEMENTS_(s_fmtBases));
-                STLSOFT_ASSERT(strlen(s_fmtBases[0]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[1]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[2]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[3]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[4]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[5]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[6]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[7]) < bufferSize_);
-#ifdef XTESTS_STLSOFT_1_12_OR_LATER
-                static char const*  s_fmt64 =   stlsoft::integral_printf_format_traits<stlsoft::sint64_t>::decimal_format_a();
-#else /* ? STLSoft 1.12+ */
-                static char const*  s_fmt64 =   stlsoft::integral_printf_traits       <stlsoft::sint64_t>::decimal_format_a();
-#endif /* STLSoft 1.12+ */
-                static const int    s_len   =   0
-                                            +   xtests_sprintf_2_(&s_fmts[0][0], STLSOFT_NUM_ELEMENTS_(s_fmts[0]), s_fmtBases[0], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[1][0], STLSOFT_NUM_ELEMENTS_(s_fmts[1]), s_fmtBases[1], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[2][0], STLSOFT_NUM_ELEMENTS_(s_fmts[2]), s_fmtBases[2], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[3][0], STLSOFT_NUM_ELEMENTS_(s_fmts[3]), s_fmtBases[3], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[4][0], STLSOFT_NUM_ELEMENTS_(s_fmts[4]), s_fmtBases[4], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[5][0], STLSOFT_NUM_ELEMENTS_(s_fmts[5]), s_fmtBases[5], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[6][0], STLSOFT_NUM_ELEMENTS_(s_fmts[6]), s_fmtBases[6], s_fmt64, s_fmt64)
-                                            +   0;
-
-# if defined(STLSOFT_COMPILER_IS_BORLAND)
-#  undef static
-# endif /* compiler */
-
-                char const*         fmt = s_fmts[comparison];
-
-                switch (verbosity)
-                {
-                    case    XTESTS_VERBOSITY_SILENT:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
-
-                        fmt = "";
-                        break;
-                    default:
-
-                        STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY:
-                    XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case    XTESTS_VERBOSITY_VERBOSE:
-
-                        break;
-                }
+                std::string fmt_ =
+                colorise_(
+                    file
+                ,   line
+                ,   function
+                ,   expr
+                ,   ""
+# if 0
+                ,   /*s_truthy_strings[!!*/actualValue/*]*/
+                ,   /*s_truthy_strings[!!*/expectedValue/*]*/
+                ,   &sint64_to_string::fn
+# else
+#  ifdef XTESTS_STLSOFT_1_12_OR_LATER
+                ,   stlsoft::integral_printf_format_traits<stlsoft::sint64_t>::decimal_format_a()
+#  else /* ? STLSoft 1.12+ */
+                ,   stlsoft::integral_printf_traits       <stlsoft::sint64_t>::decimal_format_a()
+#  endif /* STLSoft 1.12+ */
+# endif
+                ,   0 // no quotes
+                ,   NULL
+                ,   comparison
+                ,   verbosity
+                ,   is_tty
+                ,   relation_equals_
+                );
+                char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
-
-                STLSOFT_SUPPRESS_UNUSED(s_len);
+                                ,   file, line
+                                ,   actualValue
+                                ,   expectedValue
+                                ,   (NULL != function) ? " in function " : ""
+                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                                );
             }
 
-            void onTestFailed_uint64_(char const* file, int line, char const* function, char const* /* expr */, uint64_t expectedValue, uint64_t actualValue, xtests_comparison_t comparison, int verbosity)
+            void
+            onTestFailed_uint64_(
+                char const*         file
+            ,   int                 line
+            ,   char const*         function
+            ,   char const*         expr
+            ,   uint64_t            expectedValue
+            ,   uint64_t            actualValue
+            ,   xtests_comparison_t comparison
+            ,   int                 verbosity
+            ,   int                 is_tty
+            )
             {
-# if defined(STLSOFT_COMPILER_IS_BORLAND)
-#  define static
-# endif /* compiler */
-
-                // Note: The following code has a race condition, but it is entirely benign, so does not matter
-
-                static char const*  s_fmts_[] =
-                {
-                        "%%s(%%d): test condition failed: actual value %s should equal the expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should not equal expected value %s%%s%%s\n"
-                };
-
-                static char const*  s_fmtBases[] =
-                {
-                        s_fmts_[0]
-                    ,   s_fmts_[1]
-                    ,   "%%s(%%d): test condition failed: actual value %s should be greater than expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should be less than expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should be greater than or equal to the expected value %s%%s%%s\n"
-                    ,   "%%s(%%d): test condition failed: actual value %s should be less than or equal to the expected value %s%%s%%s\n"
-                    ,   s_fmts_[0]
-                    ,   s_fmts_[1]
-                };
-                enum { bufferSize_ = 115 };
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmtBases) == xtestsComparison_max_enumerator);
-                static char         s_fmts[STLSOFT_NUM_ELEMENTS_(s_fmtBases)][bufferSize_];
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == STLSOFT_NUM_ELEMENTS_(s_fmtBases));
-                STLSOFT_ASSERT(strlen(s_fmtBases[0]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[1]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[2]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[3]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[4]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[5]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[6]) < bufferSize_);
-                STLSOFT_ASSERT(strlen(s_fmtBases[7]) < bufferSize_);
-#ifdef XTESTS_STLSOFT_1_12_OR_LATER
-                static char const*  s_fmt64 =   stlsoft::integral_printf_format_traits<stlsoft::uint64_t>::decimal_format_a();
-#else /* ? STLSoft 1.12+ */
-                static char const*  s_fmt64 =   stlsoft::integral_printf_traits       <stlsoft::uint64_t>::decimal_format_a();
-#endif /* STLSoft 1.12+ */
-                static const int    s_len   =   0
-                                            +   xtests_sprintf_2_(&s_fmts[0][0], STLSOFT_NUM_ELEMENTS_(s_fmts[0]), s_fmtBases[0], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[1][0], STLSOFT_NUM_ELEMENTS_(s_fmts[1]), s_fmtBases[1], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[2][0], STLSOFT_NUM_ELEMENTS_(s_fmts[2]), s_fmtBases[2], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[3][0], STLSOFT_NUM_ELEMENTS_(s_fmts[3]), s_fmtBases[3], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[4][0], STLSOFT_NUM_ELEMENTS_(s_fmts[4]), s_fmtBases[4], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[5][0], STLSOFT_NUM_ELEMENTS_(s_fmts[5]), s_fmtBases[5], s_fmt64, s_fmt64)
-                                            +   xtests_sprintf_2_(&s_fmts[6][0], STLSOFT_NUM_ELEMENTS_(s_fmts[6]), s_fmtBases[6], s_fmt64, s_fmt64)
-                                            +   0;
-
-# if defined(STLSOFT_COMPILER_IS_BORLAND)
-#  undef static
-# endif /* compiler */
-
-                char const*         fmt = s_fmts[comparison];
-
-                switch (verbosity)
-                {
-                    case    XTESTS_VERBOSITY_SILENT:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
-
-                        fmt = "";
-                        break;
-                    default:
-
-                        STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY:
-                    XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case    XTESTS_VERBOSITY_VERBOSE:
-
-                        break;
-                }
+                std::string fmt_ =
+                colorise_(
+                    file
+                ,   line
+                ,   function
+                ,   expr
+                ,   ""
+# if 0
+                ,   /*s_truthy_strings[!!*/actualValue/*]*/
+                ,   /*s_truthy_strings[!!*/expectedValue/*]*/
+                ,   &uint64_to_string::fn
+# else
+#  ifdef XTESTS_STLSOFT_1_12_OR_LATER
+                ,   stlsoft::integral_printf_format_traits<stlsoft::uint64_t>::decimal_format_a()
+#  else /* ? STLSoft 1.12+ */
+                ,   stlsoft::integral_printf_traits       <stlsoft::uint64_t>::decimal_format_a()
+#  endif /* STLSoft 1.12+ */
+# endif
+                ,   0 // no quotes
+                ,   NULL
+                ,   comparison
+                ,   verbosity
+                ,   is_tty
+                ,   relation_equals_
+                );
+                char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, actualValue, expectedValue, (NULL != function) ? " in function " : "", STLSOFT_NS_QUAL(c_str_ptr)(function));
-
-                STLSOFT_SUPPRESS_UNUSED(s_len);
+                                ,   file, line
+                                ,   actualValue
+                                ,   expectedValue
+                                ,   (NULL != function) ? " in function " : ""
+                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                                );
             }
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
-            void onTestFailed_(char const* file, int line, char const* function, char const* expr, xtests_comparison_t /* comparison */, int verbosity)
+            void
+            onTestFailed_(
+                char const*             file
+            ,   int                     line
+            ,   char const*             function
+            ,   char const*             expr
+            ,   xtests_comparison_t  /* comparison */
+            ,   int                     verbosity
+            ,   int                     is_tty
+            )
             {
                 static const char*  s_fmts[] =
                 {
-                        "%s(%d): test condition \"%s\" failed\n"
-                    ,   "%s(%d): test condition \"%s\" failed in function %s\n"
+                        "%s(%d): test condition \"%s%s%s\" %sfailed%s\n"
+                    ,   "%s(%d): test condition \"%s%s%s\" %sfailed%s in function %s%s%s\n"
                 };
                 char const*         fmt = s_fmts[NULL != function];
 
                 switch (verbosity)
                 {
-                    case    XTESTS_VERBOSITY_SILENT:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
-                        fmt = "";
-                        break;
-                    default:
+                    fmt = "";
+                    break;
+                default:
 
-                        STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY:
-                    XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case    XTESTS_VERBOSITY_VERBOSE:
+                    STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
+                XTESTS_VERBOSITY_VALID_MISSING_CASES
+                case XTESTS_VERBOSITY_VERBOSE:
 
-                        break;
+                    break;
                 }
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   file, line, expr, function);
+                                ,   file, line
+                                ,   is_tty ? "{" : ""
+                                ,   expr
+                                ,   is_tty ? "}" : ""
+                                ,   is_tty ? "{" : ""
+                                ,   is_tty ? "}" : ""
+                                ,   is_tty ? "{" : ""
+                                ,   function
+                                ,   is_tty ? "}" : ""
+                                );
             }
 
             virtual void onWriteFailMessage(void* /* reporterParam */, char const* file, int line, char const* function, char const* message, char const* qualifyingInformation, int verbosity) ss_override_k
             {
-                static const char  s_fmt[] = "%s(%d): %s%s%s%s%s\n";
+                static const char  s_fmt[] = "%s(%d): %s%s%s%s%s%s%s%s%s%s%s\n";
+
+                char const* fn_pre;
+                char const* fn_post;
+                char const* msg_pre;
+                char const* msg_post;
+
+                if (m_is_tty)
+                {
+                    fn_pre      =   "\033[1;36m";
+                    fn_post     =   "\033[0m";
+                    msg_pre     =   "\033[1;35m";
+                    msg_post    =   "\033[0m";
+                }
+                else
+                {
+                    fn_pre      =   "";
+                    fn_post     =   "";
+                    msg_pre     =   "";
+                    msg_post    =   "";
+                }
 
                 switch (verbosity)
                 {
-                    case    XTESTS_VERBOSITY_SILENT:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
-                        break;
-                    default:
+                    break;
+                default:
 
-                        STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY:
-                    XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case    XTESTS_VERBOSITY_VERBOSE:
+                    STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
+                XTESTS_VERBOSITY_VALID_MISSING_CASES
+                case XTESTS_VERBOSITY_VERBOSE:
 
-                        xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                        ,   s_fmt
-                                        ,   file, line, message, (NULL != function) ? " in function " : "", (NULL != function) ? function : "", (NULL != qualifyingInformation) ? ": " : "", (NULL != qualifyingInformation) ? qualifyingInformation : "");
-                        break;
+                    xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                                    ,   s_fmt
+                                    ,   file, line
+                                    ,   msg_pre
+                                    ,   message
+                                    ,   msg_post
+                                    ,   (NULL != function) ? " in function " : ""
+                                    ,   fn_pre
+                                    ,   (NULL != function) ? function : ""
+                                    ,   fn_post
+                                    ,   (NULL != qualifyingInformation) ? ": " : ""
+                                    ,   msg_pre
+                                    ,   (NULL != qualifyingInformation) ? qualifyingInformation : ""
+                                    ,   msg_post
+                                    );
+                    break;
                 }
             }
 
@@ -2835,25 +3171,25 @@ RunnerInfo::get_reporter_(
 
                 switch (verbosity)
                 {
-                    case    XTESTS_VERBOSITY_SILENT:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
-                        break;
-                    case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                    break;
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
 
-                        level = 1;
-                        break;
-                    default:
+                    level = 1;
+                    break;
+                default:
 
-                        STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY:
-                    XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case    XTESTS_VERBOSITY_VERBOSE:
+                    STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
+                XTESTS_VERBOSITY_VALID_MISSING_CASES
+                case XTESTS_VERBOSITY_VERBOSE:
 
-                        level = 2;
-                        break;
+                    level = 2;
+                    break;
                 }
 
                 STLSOFT_ASSERT(level >= 0 && level < 3);
@@ -2861,15 +3197,58 @@ RunnerInfo::get_reporter_(
                 static char const*  s_fmts[] =
                 {
                         ""
-                    ,   "%s(%d): %s: UX '%s' rx; msg='%s'\n"
-                    ,   "%s(%d): Test case '%s': received unexpected exception of type '%s', with message '%s'\n"
+                    ,   "%s(%d): %s%s%s: %sUX%s %srx%s '%s%s%s'; msg='%s%s%s'\n"
+                    ,   "%s(%d): Test case '%s%s%s': %sreceived unexpected exception%s of type '%s%s%s', with message '%s%s%s'\n"
                 };
                 char const*         fmt = s_fmts[level];
+
+                char const* case_pre;
+                char const* case_post;
+                char const* rsn_pre;
+                char const* rsn_post;
+                char const* msg_pre;
+                char const* msg_post;
+                char const* xt_pre;
+                char const* xt_post;
+
+                if (m_is_tty)
+                {
+                    case_pre    =   "\033[1;36m";
+                    case_post   =   "\033[0m";
+                    rsn_pre     =   "\033[1;36m";
+                    rsn_post    =   "\033[0m";
+                    msg_pre     =   "\033[1;36m";
+                    msg_post    =   "\033[0m";
+                    xt_pre      =   "\033[1;35m";
+                    xt_post     =   "\033[0m";
+                }
+                else
+                {
+                    case_pre    =   "";
+                    case_post   =   "";
+                    rsn_pre     =   "";
+                    rsn_post    =   "";
+                    msg_pre     =   "";
+                    msg_post    =   "";
+                    xt_pre      =   "";
+                    xt_post     =   "";
+                }
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
                                 ,   file, line
-                                ,   caseName, exceptionType, exceptionMessage);
+                                ,   case_pre
+                                ,   caseName
+                                ,   case_post
+                                ,   rsn_pre
+                                ,   rsn_post
+                                ,   xt_pre
+                                ,   exceptionType
+                                ,   xt_post
+                                ,   msg_pre
+                                ,   exceptionMessage
+                                ,   msg_post
+                                );
             }
 
             virtual void onCaseExceptionExpected(void* /* reporterParam */, char const* file, int line, char const* caseName, char const* exceptionType, int verbosity) ss_override_k
@@ -2878,25 +3257,25 @@ RunnerInfo::get_reporter_(
 
                 switch (verbosity)
                 {
-                    case    XTESTS_VERBOSITY_SILENT:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
-                        break;
-                    case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                    break;
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
 
-                        level = 1;
-                        break;
-                    default:
+                    level = 1;
+                    break;
+                default:
 
-                        STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY:
-                    XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case    XTESTS_VERBOSITY_VERBOSE:
+                    STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
+                XTESTS_VERBOSITY_VALID_MISSING_CASES
+                case XTESTS_VERBOSITY_VERBOSE:
 
-                        level = 2;
-                        break;
+                    level = 2;
+                    break;
                 }
 
                 STLSOFT_ASSERT(level >= 0 && level < 3);
@@ -2904,15 +3283,57 @@ RunnerInfo::get_reporter_(
                 static char const*  s_fmts[] =
                 {
                         ""
-                    ,   "%s(%d): %s: EX '%s' not rx\n"
-                    ,   "%s(%d): Test case '%s': expected exception of type '%s' was not received\n"
+                    ,   "%s(%d): %s%s%s: %sEX%s '%s%s%s' %snot rx%s\n"
+                    ,   "%s(%d): Test case '%s%s%s': %sexpected exception%s of type '%s%s%s' was %snot received%s\n"
                 };
                 char const*         fmt = s_fmts[level];
+
+                char const* case_pre;
+                char const* case_post;
+                char const* rsn_pre;
+                char const* rsn_post;
+                char const* rx_pre;
+                char const* rx_post;
+                char const* xt_pre;
+                char const* xt_post;
+
+                if (m_is_tty)
+                {
+                    case_pre    =   "\033[1;36m";
+                    case_post   =   "\033[0m";
+                    rsn_pre     =   "\033[1;36m";
+                    rsn_post    =   "\033[0m";
+                    rx_pre      =   "\033[1;36m";
+                    rx_post     =   "\033[0m";
+                    xt_pre      =   "\033[1;35m";
+                    xt_post     =   "\033[0m";
+                }
+                else
+                {
+                    case_pre    =   "";
+                    case_post   =   "";
+                    rsn_pre     =   "";
+                    rsn_post    =   "";
+                    rx_pre      =   "";
+                    rx_post     =   "";
+                    xt_pre      =   "";
+                    xt_post     =   "";
+                }
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
                                 ,   file, line
-                                ,   caseName, exceptionType);
+                                ,   case_pre
+                                ,   caseName
+                                ,   case_post
+                                ,   rsn_pre
+                                ,   rsn_post
+                                ,   xt_pre
+                                ,   exceptionType
+                                ,   xt_post
+                                ,   rx_pre
+                                ,   rx_post
+                                );
             }
 
             virtual void onEndTestCase(
@@ -2930,41 +3351,41 @@ RunnerInfo::get_reporter_(
 
                 switch (verbosity)
                 {
-                    case    XTESTS_VERBOSITY_SILENT:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
-                        level = 0;
-                        break;
-                    case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                    level = 0;
+                    break;
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
 
-                        if (!allTestsHavePassed)
-                        {
-                            if (0 == results[1].numFailedCases)
-                            {
-                                level = 2;
-                            }
-                        }
-                        break;
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
-
-                        if (!allTestsHavePassed)
+                    if (!allTestsHavePassed)
+                    {
+                        if (0 == results[1].numFailedCases)
                         {
                             level = 2;
                         }
-                        break;
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                    }
+                    break;
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
 
+                    if (!allTestsHavePassed)
+                    {
                         level = 2;
-                        break;
-                    default:
+                    }
+                    break;
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
 
-                        STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case    XTESTS_VERBOSITY_VERBOSE:
+                    level = 2;
+                    break;
+                default:
 
-                        level = 2;
-                        break;
+                    STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
+                XTESTS_VERBOSITY_VALID_MISSING_CASES
+                case XTESTS_VERBOSITY_VERBOSE:
+
+                    level = 2;
+                    break;
                 }
                 STLSOFT_ASSERT(level >= 0 && level < 3);
 
@@ -2980,13 +3401,17 @@ RunnerInfo::get_reporter_(
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   xtests_name_(name_buff, results->name).data()
+                                ,   xtests_name_(name_buff, results->name, m_is_tty).data()
                                 ,   results->numTests
                                 ,   results->numTests - results->numFailedTests
                                 ,   results->numFailedTests
                                 ,   results->numUnexpectedExceptions
                                 ,   results->numMissingExpectedExceptions
-                                ,   xtests_success_or_failure_(allTestsHavePassed, success_or_failure)
+                                ,   xtests_success_or_failure_(
+                                        allTestsHavePassed
+                                    ,   success_or_failure
+                                    ,   m_is_tty
+                                    )
                                 );
             }
 
@@ -3000,42 +3425,42 @@ RunnerInfo::get_reporter_(
 
                 switch (verbosity)
                 {
-                    case    XTESTS_VERBOSITY_SILENT:
+                case XTESTS_VERBOSITY_SILENT:
 
-                        level = 0;
-                        break;
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+                    level = 0;
+                    break;
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
 
-                        if (0 != results->numFailedCases)
-                        {
-                            level = 1;
-                        }
-                        break;
-                    case    XTESTS_VERBOSITY_RUNNER_SUMMARY:
-
+                    if (0 != results->numFailedCases)
+                    {
                         level = 1;
-                        break;
-                    case    XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+                    }
+                    break;
+                case XTESTS_VERBOSITY_RUNNER_SUMMARY:
 
-                        level = 1;
-                        if (0 != results->numFailedCases)
-                        {
-                            level = 2;
-                        }
-                        break;
-                    case    XTESTS_VERBOSITY_CASE_SUMMARY:
+                    level = 1;
+                    break;
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
 
+                    level = 1;
+                    if (0 != results->numFailedCases)
+                    {
                         level = 2;
-                        break;
-                    default:
+                    }
+                    break;
+                case XTESTS_VERBOSITY_CASE_SUMMARY:
 
-                        STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    XTESTS_VERBOSITY_VALID_MISSING_CASES
-                    case    XTESTS_VERBOSITY_VERBOSE:
+                    level = 2;
+                    break;
+                default:
 
-                        level = 2;
-                        break;
+                    STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
+                XTESTS_VERBOSITY_VALID_MISSING_CASES
+                case XTESTS_VERBOSITY_VERBOSE:
+
+                    level = 2;
+                    break;
                 }
 
                 STLSOFT_ASSERT(level >= 0 && level < 3);
@@ -3057,13 +3482,13 @@ RunnerInfo::get_reporter_(
                         "\tresult=%s\n"
                         "\n"
                 };
-                char const*         fmt = s_fmts[level];
+                char const* const   fmt = s_fmts[level];
                 char                success_or_failure[101];
                 char_buffer_t_      name_buff(0);
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   fmt
-                                ,   xtests_name_(name_buff, results->name).data()
+                                ,   xtests_name_(name_buff, results->name, m_is_tty).data()
                                 ,   static_cast<unsigned>(results->numCases)
                                 ,   static_cast<unsigned>(results->numTests)
                                 ,   static_cast<unsigned>(results->numTests - results->numFailedTests)
@@ -3075,6 +3500,7 @@ RunnerInfo::get_reporter_(
                                         0u == results->numUnexpectedExceptions &&
                                         0u == results->numMissingExpectedExceptions
                                     ,   success_or_failure
+                                    ,   m_is_tty
                                     )
                                 );
             }
@@ -3103,7 +3529,8 @@ RunnerInfo::get_reporter_(
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                                 ,   (NULL != qualifier) ? "defect: %s: %s\n" : "defect: %s\n"
                                 ,   message
-                                ,   qualifier);
+                                ,   qualifier
+                                );
             }
 
             virtual void onEndRunner(
@@ -3115,8 +3542,9 @@ RunnerInfo::get_reporter_(
             }
 
         private: // fields
-            const int       m_flags;
-            const size_t    m_numSinks;
+            int const       m_flags;
+            int const       m_is_tty;
+            size_t const    m_numSinks;
             xtests_sink_t_  m_sinks[2];
         };
 
@@ -3125,7 +3553,7 @@ RunnerInfo::get_reporter_(
 # pragma warn -8104
 #endif
 
-        static fprintf_reporter s_reporter(stm, flags);
+        static fprintf_reporter s_reporter(stm, flags, is_tty);
 
 #if defined(STLSOFT_COMPILER_IS_BORLAND) && \
     __BORLANDC__ >= 0x0610
@@ -3160,7 +3588,12 @@ RunnerInfo::RunnerInfo(
 ,   xTests_Teardown_t const teardown
 ,   void* const             setupParam
 )
-    : m_reporter(get_reporter_(reporter, stm, flags))
+    : m_reporter(get_reporter_(
+                        reporter
+                    ,   stm
+                    ,   flags
+                    ,   platformstl::isatty(stdout)
+                    ))
     , m_reporterParam(reporterParam)
     , m_name(name)
     , m_verbosity(verbosity)
@@ -3642,66 +4075,66 @@ RunnerInfo::TestMultibyteStrings(
 
         switch (comp)
         {
-            case    xtestsComparisonEqual:
+        case xtestsComparisonEqual:
 
-                if (0 == xtests_strcmp_a_(expected, actual))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonApproxEqual:
+            if (0 == xtests_strcmp_a_(expected, actual))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonApproxEqual:
 
-                if (0 == xtests_stricmp_a_(expected, actual))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonNotEqual:
+            if (0 == xtests_stricmp_a_(expected, actual))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonNotEqual:
 
-                if (0 != xtests_strcmp_a_(expected, actual))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonApproxNotEqual:
+            if (0 != xtests_strcmp_a_(expected, actual))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonApproxNotEqual:
 
-                if (0 != xtests_stricmp_a_(expected, actual))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonGreaterThan:
+            if (0 != xtests_stricmp_a_(expected, actual))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonGreaterThan:
 
-                if (0 > xtests_strcmp_a_(expected, actual))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonLessThan:
+            if (0 > xtests_strcmp_a_(expected, actual))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonLessThan:
 
-                if (0 < xtests_strcmp_a_(expected, actual))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonGreaterThanOrEqual:
+            if (0 < xtests_strcmp_a_(expected, actual))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonGreaterThanOrEqual:
 
-                if (0 >= xtests_strcmp_a_(expected, actual))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonLessThanOrEqual:
+            if (0 >= xtests_strcmp_a_(expected, actual))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonLessThanOrEqual:
 
-                if (0 <= xtests_strcmp_a_(expected, actual))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparison_max_enumerator:
+            if (0 <= xtests_strcmp_a_(expected, actual))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparison_max_enumerator:
 
-                xtests_abend("invalid test comparison type: test framework may be out of date!");
-                break;
+            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            break;
         }
 
         if (comparisonSucceeded)
@@ -3779,94 +4212,94 @@ RunnerInfo::TestMultibyteStringsN(
             // fails
             switch (comp)
             {
-                case    xtestsComparisonEqual:
-                case    xtestsComparisonApproxEqual:
+            case xtestsComparisonEqual:
+            case xtestsComparisonApproxEqual:
 
-                    break;
-                case    xtestsComparisonNotEqual:
-                case    xtestsComparisonApproxNotEqual:
+                break;
+            case xtestsComparisonNotEqual:
+            case xtestsComparisonApproxNotEqual:
 
-                    comparisonSucceeded = true;
-                    break;
-                case    xtestsComparisonGreaterThan:
-                case    xtestsComparisonLessThan:
-                case    xtestsComparisonGreaterThanOrEqual:
-                case    xtestsComparisonLessThanOrEqual:
+                comparisonSucceeded = true;
+                break;
+            case xtestsComparisonGreaterThan:
+            case xtestsComparisonLessThan:
+            case xtestsComparisonGreaterThanOrEqual:
+            case xtestsComparisonLessThanOrEqual:
 
-                    break;
-                default:
+                break;
+            default:
 
-                    STLSOFT_ASSERT(0);
-                case    xtestsComparison_max_enumerator:
+                STLSOFT_ASSERT(0);
+            case xtestsComparison_max_enumerator:
 
-                    xtests_abend("invalid test comparison type: test framework may be out of date!");
-                    break;
+                xtests_abend("invalid test comparison type: test framework may be out of date!");
+                break;
             }
         }
         else
         {
             switch (comp)
             {
-                case    xtestsComparisonEqual:
+            case xtestsComparisonEqual:
 
-                    if (0 == xtests_strncmp_a_(expected, actual, ncmp))
-                    {
-                        comparisonSucceeded = true;
-                    }
-                    break;
-                case    xtestsComparisonApproxEqual:
+                if (0 == xtests_strncmp_a_(expected, actual, ncmp))
+                {
+                    comparisonSucceeded = true;
+                }
+                break;
+            case xtestsComparisonApproxEqual:
 
-                    if (0 == xtests_strnicmp_a_(expected, actual, ncmp))
-                    {
-                        comparisonSucceeded = true;
-                    }
-                    break;
-                case    xtestsComparisonNotEqual:
+                if (0 == xtests_strnicmp_a_(expected, actual, ncmp))
+                {
+                    comparisonSucceeded = true;
+                }
+                break;
+            case xtestsComparisonNotEqual:
 
-                    if (0 != xtests_strncmp_a_(expected, actual, ncmp))
-                    {
-                        comparisonSucceeded = true;
-                    }
-                    break;
-                case    xtestsComparisonApproxNotEqual:
+                if (0 != xtests_strncmp_a_(expected, actual, ncmp))
+                {
+                    comparisonSucceeded = true;
+                }
+                break;
+            case xtestsComparisonApproxNotEqual:
 
-                    if (0 != xtests_strnicmp_a_(expected, actual, ncmp))
-                    {
-                        comparisonSucceeded = true;
-                    }
-                    break;
-                case    xtestsComparisonGreaterThan:
+                if (0 != xtests_strnicmp_a_(expected, actual, ncmp))
+                {
+                    comparisonSucceeded = true;
+                }
+                break;
+            case xtestsComparisonGreaterThan:
 
-                    if (0 > xtests_strncmp_a_(expected, actual, ncmp))
-                    {
-                        comparisonSucceeded = true;
-                    }
-                    break;
-                case    xtestsComparisonLessThan:
+                if (0 > xtests_strncmp_a_(expected, actual, ncmp))
+                {
+                    comparisonSucceeded = true;
+                }
+                break;
+            case xtestsComparisonLessThan:
 
-                    if (0 < xtests_strncmp_a_(expected, actual, ncmp))
-                    {
-                        comparisonSucceeded = true;
-                    }
-                    break;
-                case    xtestsComparisonGreaterThanOrEqual:
+                if (0 < xtests_strncmp_a_(expected, actual, ncmp))
+                {
+                    comparisonSucceeded = true;
+                }
+                break;
+            case xtestsComparisonGreaterThanOrEqual:
 
-                    if (0 >= xtests_strncmp_a_(expected, actual, ncmp))
-                    {
-                        comparisonSucceeded = true;
-                    }
-                    break;
-                case    xtestsComparisonLessThanOrEqual:
+                if (0 >= xtests_strncmp_a_(expected, actual, ncmp))
+                {
+                    comparisonSucceeded = true;
+                }
+                break;
+            case xtestsComparisonLessThanOrEqual:
 
-                    if (0 <= xtests_strncmp_a_(expected, actual, ncmp))
-                    {
-                        comparisonSucceeded = true;
-                    }
-                    break;
-                case    xtestsComparison_max_enumerator:
+                if (0 <= xtests_strncmp_a_(expected, actual, ncmp))
+                {
+                    comparisonSucceeded = true;
+                }
+                break;
+            case xtestsComparison_max_enumerator:
 
-                    xtests_abend("invalid test comparison type: test framework may be out of date!");
-                    break;
+                xtests_abend("invalid test comparison type: test framework may be out of date!");
+                break;
             }
         }
 
@@ -3920,66 +4353,66 @@ RunnerInfo::TestWideStrings(
 
         switch (comp)
         {
-            case    xtestsComparisonEqual:
+        case xtestsComparisonEqual:
 
-                if (0 == xtests_strcmp_w_(expected, actual))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonApproxEqual:
+            if (0 == xtests_strcmp_w_(expected, actual))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonApproxEqual:
 
-                if (0 == xtests_stricmp_w_(expected, actual))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonNotEqual:
+            if (0 == xtests_stricmp_w_(expected, actual))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonNotEqual:
 
-                if (0 != xtests_strcmp_w_(expected, actual))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonApproxNotEqual:
+            if (0 != xtests_strcmp_w_(expected, actual))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonApproxNotEqual:
 
-                if (0 != xtests_stricmp_w_(expected, actual))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonGreaterThan:
+            if (0 != xtests_stricmp_w_(expected, actual))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonGreaterThan:
 
-                if (0 > xtests_strcmp_w_(expected, actual))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonLessThan:
+            if (0 > xtests_strcmp_w_(expected, actual))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonLessThan:
 
-                if (0 < xtests_strcmp_w_(expected, actual))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonGreaterThanOrEqual:
+            if (0 < xtests_strcmp_w_(expected, actual))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonGreaterThanOrEqual:
 
-                if (0 >= xtests_strcmp_w_(expected, actual))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonLessThanOrEqual:
+            if (0 >= xtests_strcmp_w_(expected, actual))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonLessThanOrEqual:
 
-                if (0 <= xtests_strcmp_w_(expected, actual))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparison_max_enumerator:
+            if (0 <= xtests_strcmp_w_(expected, actual))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparison_max_enumerator:
 
-                xtests_abend("invalid test comparison type: test framework may be out of date!");
-                break;
+            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            break;
         }
 
         if (comparisonSucceeded)
@@ -4057,91 +4490,91 @@ RunnerInfo::TestWideStringsN(
             // fails
             switch (comp)
             {
-                case    xtestsComparisonEqual:
-                case    xtestsComparisonApproxEqual:
+            case xtestsComparisonEqual:
+            case xtestsComparisonApproxEqual:
 
-                    break;
-                case    xtestsComparisonNotEqual:
-                case    xtestsComparisonApproxNotEqual:
+                break;
+            case xtestsComparisonNotEqual:
+            case xtestsComparisonApproxNotEqual:
 
-                    comparisonSucceeded = true;
-                    break;
-                case    xtestsComparisonGreaterThan:
-                case    xtestsComparisonLessThan:
-                case    xtestsComparisonGreaterThanOrEqual:
-                case    xtestsComparisonLessThanOrEqual:
+                comparisonSucceeded = true;
+                break;
+            case xtestsComparisonGreaterThan:
+            case xtestsComparisonLessThan:
+            case xtestsComparisonGreaterThanOrEqual:
+            case xtestsComparisonLessThanOrEqual:
 
-                    break;
-                case    xtestsComparison_max_enumerator:
+                break;
+            case xtestsComparison_max_enumerator:
 
-                    xtests_abend("invalid test comparison type: test framework may be out of date!");
-                    break;
+                xtests_abend("invalid test comparison type: test framework may be out of date!");
+                break;
             }
         }
         else
         {
             switch (comp)
             {
-                case    xtestsComparisonEqual:
+            case xtestsComparisonEqual:
 
-                    if (0 == xtests_strncmp_w_(expected, actual, ncmp))
-                    {
-                        comparisonSucceeded = true;
-                    }
-                    break;
-                case    xtestsComparisonApproxEqual:
+                if (0 == xtests_strncmp_w_(expected, actual, ncmp))
+                {
+                    comparisonSucceeded = true;
+                }
+                break;
+            case xtestsComparisonApproxEqual:
 
-                    if (0 == xtests_strnicmp_w_(expected, actual, ncmp))
-                    {
-                        comparisonSucceeded = true;
-                    }
-                    break;
-                case    xtestsComparisonNotEqual:
+                if (0 == xtests_strnicmp_w_(expected, actual, ncmp))
+                {
+                    comparisonSucceeded = true;
+                }
+                break;
+            case xtestsComparisonNotEqual:
 
-                    if (0 != xtests_strncmp_w_(expected, actual, ncmp))
-                    {
-                        comparisonSucceeded = true;
-                    }
-                    break;
-                case    xtestsComparisonApproxNotEqual:
+                if (0 != xtests_strncmp_w_(expected, actual, ncmp))
+                {
+                    comparisonSucceeded = true;
+                }
+                break;
+            case xtestsComparisonApproxNotEqual:
 
-                    if (0 != xtests_strnicmp_w_(expected, actual, ncmp))
-                    {
-                        comparisonSucceeded = true;
-                    }
-                    break;
-                case    xtestsComparisonGreaterThan:
+                if (0 != xtests_strnicmp_w_(expected, actual, ncmp))
+                {
+                    comparisonSucceeded = true;
+                }
+                break;
+            case xtestsComparisonGreaterThan:
 
-                    if (0 > xtests_strncmp_w_(expected, actual, ncmp))
-                    {
-                        comparisonSucceeded = true;
-                    }
-                    break;
-                case    xtestsComparisonLessThan:
+                if (0 > xtests_strncmp_w_(expected, actual, ncmp))
+                {
+                    comparisonSucceeded = true;
+                }
+                break;
+            case xtestsComparisonLessThan:
 
-                    if (0 < xtests_strncmp_w_(expected, actual, ncmp))
-                    {
-                        comparisonSucceeded = true;
-                    }
-                    break;
-                case    xtestsComparisonGreaterThanOrEqual:
+                if (0 < xtests_strncmp_w_(expected, actual, ncmp))
+                {
+                    comparisonSucceeded = true;
+                }
+                break;
+            case xtestsComparisonGreaterThanOrEqual:
 
-                    if (0 >= xtests_strncmp_w_(expected, actual, ncmp))
-                    {
-                        comparisonSucceeded = true;
-                    }
-                    break;
-                case    xtestsComparisonLessThanOrEqual:
+                if (0 >= xtests_strncmp_w_(expected, actual, ncmp))
+                {
+                    comparisonSucceeded = true;
+                }
+                break;
+            case xtestsComparisonLessThanOrEqual:
 
-                    if (0 <= xtests_strncmp_w_(expected, actual, ncmp))
-                    {
-                        comparisonSucceeded = true;
-                    }
-                    break;
-                case    xtestsComparison_max_enumerator:
+                if (0 <= xtests_strncmp_w_(expected, actual, ncmp))
+                {
+                    comparisonSucceeded = true;
+                }
+                break;
+            case xtestsComparison_max_enumerator:
 
-                    xtests_abend("invalid test comparison type: test framework may be out of date!");
-                    break;
+                xtests_abend("invalid test comparison type: test framework may be out of date!");
+                break;
             }
         }
 
@@ -4195,45 +4628,45 @@ RunnerInfo::TestMultibyteStringContains(
 
         switch (comp)
         {
-            case    xtestsComparisonEqual:
+        case xtestsComparisonEqual:
 
-                if (NULL != xtests_strstr_(actual, expected))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonApproxEqual:
+            if (NULL != xtests_strstr_(actual, expected))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonApproxEqual:
 
-                if (NULL != xtests_stristr_(actual, expected))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonNotEqual:
+            if (NULL != xtests_stristr_(actual, expected))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonNotEqual:
 
-                if (NULL == xtests_strstr_(actual, expected))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonApproxNotEqual:
+            if (NULL == xtests_strstr_(actual, expected))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonApproxNotEqual:
 
-                if (NULL == xtests_stristr_(actual, expected))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonGreaterThan:
-            case    xtestsComparisonLessThan:
-            case    xtestsComparisonGreaterThanOrEqual:
-            case    xtestsComparisonLessThanOrEqual:
+            if (NULL == xtests_stristr_(actual, expected))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonGreaterThan:
+        case xtestsComparisonLessThan:
+        case xtestsComparisonGreaterThanOrEqual:
+        case xtestsComparisonLessThanOrEqual:
 
-                xtests_abend("comparison type not valid for string containing tests");
-                break;
-            case    xtestsComparison_max_enumerator:
+            xtests_abend("comparison type not valid for string containing tests");
+            break;
+        case xtestsComparison_max_enumerator:
 
-                xtests_abend("invalid test comparison type: test framework may be out of date!");
-                break;
+            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            break;
         }
 
         if (comparisonSucceeded)
@@ -4286,45 +4719,45 @@ RunnerInfo::TestWideStringContains(
 
         switch (comp)
         {
-            case    xtestsComparisonEqual:
+        case xtestsComparisonEqual:
 
-                if (NULL != xtests_strstr_w_(actual, expected))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonApproxEqual:
+            if (NULL != xtests_strstr_w_(actual, expected))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonApproxEqual:
 
-                if (NULL != xtests_stristr_w_(actual, expected))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonNotEqual:
+            if (NULL != xtests_stristr_w_(actual, expected))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonNotEqual:
 
-                if (NULL == xtests_strstr_w_(actual, expected))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonApproxNotEqual:
+            if (NULL == xtests_strstr_w_(actual, expected))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonApproxNotEqual:
 
-                if (NULL == xtests_stristr_w_(actual, expected))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonGreaterThan:
-            case    xtestsComparisonLessThan:
-            case    xtestsComparisonGreaterThanOrEqual:
-            case    xtestsComparisonLessThanOrEqual:
+            if (NULL == xtests_stristr_w_(actual, expected))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonGreaterThan:
+        case xtestsComparisonLessThan:
+        case xtestsComparisonGreaterThanOrEqual:
+        case xtestsComparisonLessThanOrEqual:
 
-                xtests_abend("comparison type not valid for string containing tests");
-                break;
-            case    xtestsComparison_max_enumerator:
+            xtests_abend("comparison type not valid for string containing tests");
+            break;
+        case xtestsComparison_max_enumerator:
 
-                xtests_abend("invalid test comparison type: test framework may be out of date!");
-                break;
+            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            break;
         }
 
         if (comparisonSucceeded)
@@ -4381,49 +4814,49 @@ RunnerInfo::TestMultibyteStringSlice(
 
         switch (comp)
         {
-            case    xtestsComparisonEqual:
+        case xtestsComparisonEqual:
 
-                if (sameLength &&
-                    0 == xtests_strncmp_a_(expectedPtr, actualPtr, expectedLen))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonApproxEqual:
+            if (sameLength &&
+                0 == xtests_strncmp_a_(expectedPtr, actualPtr, expectedLen))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonApproxEqual:
 
-                if (sameLength &&
-                    0 == xtests_strnicmp_a_(expectedPtr, actualPtr, expectedLen))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonNotEqual:
+            if (sameLength &&
+                0 == xtests_strnicmp_a_(expectedPtr, actualPtr, expectedLen))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonNotEqual:
 
-                if (!sameLength ||
-                    0 != xtests_strncmp_a_(expectedPtr, actualPtr, expectedLen))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonApproxNotEqual:
+            if (!sameLength ||
+                0 != xtests_strncmp_a_(expectedPtr, actualPtr, expectedLen))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonApproxNotEqual:
 
-                if (!sameLength ||
-                    0 != xtests_strnicmp_a_(expectedPtr, actualPtr, expectedLen))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonGreaterThan:
-            case    xtestsComparisonLessThan:
-            case    xtestsComparisonGreaterThanOrEqual:
-            case    xtestsComparisonLessThanOrEqual:
+            if (!sameLength ||
+                0 != xtests_strnicmp_a_(expectedPtr, actualPtr, expectedLen))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonGreaterThan:
+        case xtestsComparisonLessThan:
+        case xtestsComparisonGreaterThanOrEqual:
+        case xtestsComparisonLessThanOrEqual:
 
-                XTESTS_FALLTHROUGH_();
-                // fall through
-            case    xtestsComparison_max_enumerator:
+            XTESTS_FALLTHROUGH_();
+            // fall through
+        case xtestsComparison_max_enumerator:
 
-                xtests_abend("invalid test comparison type: test framework may be out of date!");
-                break;
+            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            break;
         }
 
         if (comparisonSucceeded)
@@ -4486,49 +4919,49 @@ RunnerInfo::TestWideStringSlice(
 
         switch (comp)
         {
-            case    xtestsComparisonEqual:
+        case xtestsComparisonEqual:
 
-                if (sameLength &&
-                    0 == xtests_strncmp_w_(expectedPtr, actualPtr, expectedLen))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonApproxEqual:
+            if (sameLength &&
+                0 == xtests_strncmp_w_(expectedPtr, actualPtr, expectedLen))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonApproxEqual:
 
-                if (sameLength &&
-                    0 == xtests_strnicmp_w_(expectedPtr, actualPtr, expectedLen))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonNotEqual:
+            if (sameLength &&
+                0 == xtests_strnicmp_w_(expectedPtr, actualPtr, expectedLen))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonNotEqual:
 
-                if (!sameLength ||
-                    0 != xtests_strncmp_w_(expectedPtr, actualPtr, expectedLen))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonApproxNotEqual:
+            if (!sameLength ||
+                0 != xtests_strncmp_w_(expectedPtr, actualPtr, expectedLen))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonApproxNotEqual:
 
-                if (!sameLength ||
-                    0 != xtests_strnicmp_w_(expectedPtr, actualPtr, expectedLen))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonGreaterThan:
-            case    xtestsComparisonLessThan:
-            case    xtestsComparisonGreaterThanOrEqual:
-            case    xtestsComparisonLessThanOrEqual:
+            if (!sameLength ||
+                0 != xtests_strnicmp_w_(expectedPtr, actualPtr, expectedLen))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonGreaterThan:
+        case xtestsComparisonLessThan:
+        case xtestsComparisonGreaterThanOrEqual:
+        case xtestsComparisonLessThanOrEqual:
 
-                XTESTS_FALLTHROUGH_();
-                // fall through
-            case    xtestsComparison_max_enumerator:
+            XTESTS_FALLTHROUGH_();
+            // fall through
+        case xtestsComparison_max_enumerator:
 
-                xtests_abend("invalid test comparison type: test framework may be out of date!");
-                break;
+            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            break;
         }
 
         if (comparisonSucceeded)
@@ -4587,54 +5020,54 @@ RunnerInfo::TestPointers(
 
         switch (comp)
         {
-            case    xtestsComparisonEqual:
-            case    xtestsComparisonApproxEqual:
+        case xtestsComparisonEqual:
+        case xtestsComparisonApproxEqual:
 
-                if (expected == actual)
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonNotEqual:
-            case    xtestsComparisonApproxNotEqual:
+            if (expected == actual)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonNotEqual:
+        case xtestsComparisonApproxNotEqual:
 
-                if (expected != actual)
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonGreaterThan:
+            if (expected != actual)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonGreaterThan:
 
-                if (actual > expected)
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonLessThan:
+            if (actual > expected)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonLessThan:
 
-                if (actual < expected)
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonGreaterThanOrEqual:
+            if (actual < expected)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonGreaterThanOrEqual:
 
-                if (actual >= expected)
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonLessThanOrEqual:
+            if (actual >= expected)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonLessThanOrEqual:
 
-                if (actual <= expected)
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparison_max_enumerator:
+            if (actual <= expected)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparison_max_enumerator:
 
-                xtests_abend("invalid test comparison type: test framework may be out of date!");
-                break;
+            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            break;
         }
 
         if (comparisonSucceeded)
@@ -4723,66 +5156,66 @@ RunnerInfo::TestCharacters(
 
         switch (comp)
         {
-            case    xtestsComparisonEqual:
+        case xtestsComparisonEqual:
 
-                if (expected == actual)
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonApproxEqual:
+            if (expected == actual)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonApproxEqual:
 
-                if (::toupper(expected) == ::toupper(actual))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonNotEqual:
+            if (::toupper(expected) == ::toupper(actual))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonNotEqual:
 
-                if (expected != actual)
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonApproxNotEqual:
+            if (expected != actual)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonApproxNotEqual:
 
-                if (::toupper(expected) != ::toupper(actual))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonGreaterThan:
+            if (::toupper(expected) != ::toupper(actual))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonGreaterThan:
 
-                if (actual > expected)
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonLessThan:
+            if (actual > expected)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonLessThan:
 
-                if (actual < expected)
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonGreaterThanOrEqual:
+            if (actual < expected)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonGreaterThanOrEqual:
 
-                if (actual >= expected)
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonLessThanOrEqual:
+            if (actual >= expected)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonLessThanOrEqual:
 
-                if (actual <= expected)
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparison_max_enumerator:
+            if (actual <= expected)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparison_max_enumerator:
 
-                xtests_abend("invalid test comparison type: test framework may be out of date!");
-                break;
+            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            break;
         }
 
         if (comparisonSucceeded)
@@ -4835,66 +5268,66 @@ RunnerInfo::TestCharacters(
 
         switch (comp)
         {
-            case    xtestsComparisonEqual:
+        case xtestsComparisonEqual:
 
-                if (expected == actual)
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonApproxEqual:
+            if (expected == actual)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonApproxEqual:
 
-                if (::towupper(expected) == ::towupper(actual))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonNotEqual:
+            if (::towupper(expected) == ::towupper(actual))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonNotEqual:
 
-                if (expected != actual)
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonApproxNotEqual:
+            if (expected != actual)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonApproxNotEqual:
 
-                if (::towupper(expected) != ::towupper(actual))
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonGreaterThan:
+            if (::towupper(expected) != ::towupper(actual))
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonGreaterThan:
 
-                if (actual > expected)
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonLessThan:
+            if (actual > expected)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonLessThan:
 
-                if (actual < expected)
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonGreaterThanOrEqual:
+            if (actual < expected)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonGreaterThanOrEqual:
 
-                if (actual >= expected)
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparisonLessThanOrEqual:
+            if (actual >= expected)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparisonLessThanOrEqual:
 
-                if (actual <= expected)
-                {
-                    comparisonSucceeded = true;
-                }
-                break;
-            case    xtestsComparison_max_enumerator:
+            if (actual <= expected)
+            {
+                comparisonSucceeded = true;
+            }
+            break;
+        case xtestsComparison_max_enumerator:
 
-                xtests_abend("invalid test comparison type: test framework may be out of date!");
-                break;
+            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            break;
         }
 
         if (comparisonSucceeded)

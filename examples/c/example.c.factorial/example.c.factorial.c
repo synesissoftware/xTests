@@ -5,7 +5,7 @@
  *          test case(s).
  *
  * Created: 7th December 2023
- * Updated: 13th October 2024
+ * Updated: 4th December 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -32,13 +32,13 @@ int factorial(int v)
 
     switch (v)
     {
-        case 0:
-        case 1:
+    case 0:
+    case 1:
 
-            return 1;
-        default:
+        return 1;
+    default:
 
-            return v * factorial(v - 1);
+        return v * factorial(v - 1);
     }
 }
 

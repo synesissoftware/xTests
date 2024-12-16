@@ -4,7 +4,7 @@
  * Purpose: Definition of the temp_directory class.
  *
  * Created: 1st October 2015
- * Updated: 28th September 2024
+ * Updated: 4th December 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -51,8 +51,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MAJOR    0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MINOR    2
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_REVISION 1
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     14
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_REVISION 2
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     15
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -155,8 +155,8 @@ public: // Construction
     /// flags
     explicit temp_directory(Flags flags);
 private:
-    temp_directory(class_type const&);
-    class_type& operator =(class_type const&);
+    temp_directory(class_type const&) STLSOFT_COPY_CONSTRUCTION_PROSCRIBED;
+    void operator =(class_type const&) STLSOFT_COPY_ASSIGNMENT_PROSCRIBED;
 public:
     ~temp_directory() STLSOFT_NOEXCEPT;
 

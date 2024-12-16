@@ -4,7 +4,7 @@
  * Purpose: Definition of the temp_file class.
  *
  * Created: 8th May 2014
- * Updated: 28th September 2024
+ * Updated: 4th December 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,7 +52,7 @@
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MAJOR     0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     3
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  1
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      20
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      21
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -206,8 +206,8 @@ public: // Construction
     ,   void*       param
     );
 private:
-    temp_file(class_type const&);               // copy-construction proscribed
-    class_type& operator =(class_type const&);  // copy-assignment proscribed
+    temp_file(class_type const&) STLSOFT_COPY_CONSTRUCTION_PROSCRIBED;
+    void operator =(class_type const&) STLSOFT_COPY_ASSIGNMENT_PROSCRIBED;
 public:
     ~temp_file() STLSOFT_NOEXCEPT;
 

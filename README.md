@@ -295,11 +295,13 @@ int factorial(int v)
 
     switch (v)
     {
-        case 0:
-        case 1:
-            return 1;
-        default:
-            return v * factorial(v - 1);
+      case 0:
+      case 1:
+
+          return 1;
+      default:
+
+          return v * factorial(v - 1);
     }
 }
 
