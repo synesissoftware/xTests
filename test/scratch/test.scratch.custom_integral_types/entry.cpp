@@ -4,7 +4,7 @@
  * Purpose: Illustrates facility for comparing custom integral types.
  *
  * Created: 23rd November 2024
- * Updated: 23rd November 2024
+ * Updated: 30th December 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -39,7 +39,7 @@
 namespace {
 
 static void test_int_wrapper();
-} /* anonymous namespace */
+} // anonymous namespace
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -113,7 +113,7 @@ static void test_int_wrapper()
     }
 
 }
-} /* anonymous namespace */
+} // anonymous namespace
 
 
 /* ///////////////////////////// end of file //////////////////////////// */
