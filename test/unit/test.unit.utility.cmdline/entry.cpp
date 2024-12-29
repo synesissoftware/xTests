@@ -47,6 +47,7 @@ namespace {
     static void TEST_parseVerbosity_NO_ARGUMENTS();
     static void TEST_parseVerbosity_WITH_SINGLE_verbosity_OPTION();
     static void TEST_parseVerbosity_WITH_verbosity_OPTION_FOLLOWED_BY_SECOND_verbosity_OPTION();
+    static void TEST_parseVerbosity_WITH_SINGLE_verbosity_OPTION_AFTER_DOUBLEDASH();
 } // anonymous namespace
 
 
@@ -76,6 +77,7 @@ int main(int argc, char **argv)
         XTESTS_RUN_CASE(TEST_parseVerbosity_NO_ARGUMENTS);
         XTESTS_RUN_CASE(TEST_parseVerbosity_WITH_SINGLE_verbosity_OPTION);
         XTESTS_RUN_CASE(TEST_parseVerbosity_WITH_verbosity_OPTION_FOLLOWED_BY_SECOND_verbosity_OPTION);
+        XTESTS_RUN_CASE(TEST_parseVerbosity_WITH_SINGLE_verbosity_OPTION_AFTER_DOUBLEDASH);
 
         XTESTS_PRINT_RESULTS();
 
@@ -140,6 +142,23 @@ static void TEST_parseVerbosity_WITH_verbosity_OPTION_FOLLOWED_BY_SECOND_verbosi
 
     XTESTS_TEST_INTEGER_EQUAL(1, r);
     XTESTS_TEST_INTEGER_EQUAL(99, verbosity);
+}
+
+static void TEST_parseVerbosity_WITH_SINGLE_verbosity_OPTION_AFTER_DOUBLEDASH()
+{
+    char* argv[] =
+    {
+        "my-program",
+        "--",
+        "--verbosity=99",
+        NULL
+    };
+
+    int         verbosity = -12345678;
+    int const   r = xtests_commandLine_parseVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, &verbosity);
+
+    XTESTS_TEST_INTEGER_EQUAL(0, r);
+    XTESTS_TEST_INTEGER_EQUAL(3, verbosity);
 }
 } // anonymous namespace
 

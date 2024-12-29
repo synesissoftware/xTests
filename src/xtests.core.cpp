@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 16th December 2024
+ * Updated: 30th December 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -74,6 +74,7 @@
 #include <platformstl/system/console_functions.h>
 #include <platformstl/system/environment_variable.hpp>
 #include <stlsoft/conversion/char_conversions.hpp>
+#include <stlsoft/conversion/string_to_integer.hpp>
 #include <stlsoft/memory/auto_buffer.hpp>
 #include <stlsoft/shims/access/string/std/c_string.h>
 #include <stlsoft/string/case_functions.hpp>
@@ -87,6 +88,7 @@
 #  include <stlsoft/util/must_init.hpp>
 # endif /* !STLSoft 1.12+ */
 #endif /* compiler */
+#include <stlsoft/system/cmdargs.hpp>
 #ifdef XTESTS_STLSOFT_1_12_OR_LATER
 # include <stlsoft/traits/integral_printf_format_traits.hpp>
 #else /* ? STLSoft 1.12+ */
@@ -1854,23 +1856,28 @@ xtests_commandLine_parseVerbosity(
 
     *verbosity = XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR;
 
-    static const char   s_verb[]    =   "--verbosity=";
-    static const size_t s_cchVerb   =   STLSOFT_NUM_ELEMENTS(s_verb) - 1;
-
-    { for (int i = 1; i < argc; ++i)
+    try
     {
-        STLSOFT_ASSERT(NULL != argv[i]);
+        stlsoft::cmdargs const      ca(argc, argv);
+        stlsoft::cmdargs::option    opt;
 
-        if (argv[i] == ::strstr(argv[i], s_verb))
+        if (ca.has_option("verbosity", 2, opt))
         {
-            char*   endptr;
-            long    l = ::strtol(argv[i] + s_cchVerb, &endptr, 0);
+            char const* endptr;
 
-            *verbosity = static_cast<int>(l);
+            *verbosity = stlsoft::string_to_integer(opt.value.data(), opt.value.size(), &endptr);
 
             return 1;
         }
-    }}
+
+        {/* code */}
+    }
+    catch (std::bad_alloc&)
+    {
+        fprintf(stderr, "%s: out of memory\n", argv[0]);
+
+        return 0;
+    }
 
     /* at this point, "--verbosity=???" has not been specified, so consult
      * environment variable(s):
