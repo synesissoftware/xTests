@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.unit.string_slices.c.c
+ * File:    test.unit.string_slices.c/entry.c
  *
  * Purpose: Illustrates xTests string slice comparison macros (C code).
  *
  * Created: 16th February 2013
- * Updated: 30th December 2024
+ * Updated: 31st December 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 

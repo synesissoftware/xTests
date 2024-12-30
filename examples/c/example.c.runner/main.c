@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    examples/c/example.c.runner/example.c.runner.c
+ * File:    examples/c/example.c.runner/main.c
  *
  * Purpose: Example of in-runner test cases.
  *
  * Created: 20th February 2008
- * Updated: 30th December 2024
+ * Updated: 31st December 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 

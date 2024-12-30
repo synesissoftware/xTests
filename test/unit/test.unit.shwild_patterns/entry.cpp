@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.unit.shwild_patterns.cpp
+ * File:    test.unit.shwild_patterns/entry.cpp
  *
  * Purpose: Unit-tests for shwild extensions.
  *
  * Created: 17th October 2024
- * Updated: 17th October 2024
+ * Updated: 31st December 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
