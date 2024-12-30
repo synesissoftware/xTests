@@ -1869,12 +1869,15 @@ xtests_commandLine_parseVerbosity(
 
             return 1;
         }
-
-        {/* code */}
     }
     catch (std::bad_alloc&)
     {
-        fprintf(stderr, "%s: out of memory\n", argv[0]);
+        STLSOFT_NS_USING(stlsoft_C_string_slice_a_t)
+        PLATFORMSTL_NS_USING(platformstl_C_get_executable_name_from_path)
+
+        stlsoft_C_string_slice_a_t const exe_name = platformstl_C_get_executable_name_from_path(argv[0]);
+
+        fprintf(stderr, "%.*s: out of memory\n", int(exe_name.len), exe_name.ptr);
 
         return 0;
     }
@@ -1894,7 +1897,6 @@ xtests_commandLine_parseVerbosity(
 
     for (unsigned i = 0; i != STLSOFT_NUM_ELEMENTS(ENVIRONMENT_VARIABLES); ++i)
     {
-
         platformstl::environment_variable envvar(ENVIRONMENT_VARIABLES[i]);
 
         if (!envvar.empty())
@@ -1919,28 +1921,27 @@ xtests_commandLine_parseHelp(
 ,   int     exitCode
 )
 {
-    static const char   s_verb[]    =   "--help";
+    return xtests_commandLine_parseHelp2(argc, argv, stm, &exitCode);
+}
 
-    { for (int i = 1; i < argc; ++i)
+XTESTS_CALL(void)
+xtests_commandLine_parseHelp2(
+    int         argc
+,   char*       argv[]
+,   FILE*       stm
+,   int const*  exitCode
+)
+{
+    try
     {
-        STLSOFT_ASSERT(NULL != argv[i]);
+        stlsoft::cmdargs const ca(argc, argv);
 
-        if (0 == ::strcmp(argv[i], s_verb))
+        if (ca.has_option("help", 2))
         {
-#ifdef PLATFORMSTL_INCL_PLATFORMSTL_FILESYSTEM_H_PATH_FUNCTIONS
-
             STLSOFT_NS_USING(stlsoft_C_string_slice_a_t)
             PLATFORMSTL_NS_USING(platformstl_C_get_executable_name_from_path)
 
             stlsoft_C_string_slice_a_t const exe_name = platformstl_C_get_executable_name_from_path(argv[0]);
-#else
-
-            struct
-            {
-                size_t      len;
-                char const* ptr;
-            } exe_name = { ::strlen(argv[0]), argv[0] };
-#endif
 
             ::fprintf(
                 stm
@@ -1959,13 +1960,19 @@ xtests_commandLine_parseHelp(
                 "\t                             2 - summary and first failed case\n"
                 "\t                             3 - summary and all failed cases\n"
                 "\t                             4 - summary and all cases\n"
-            ,   int(exe_name.len)
-            ,   exe_name.ptr
+            ,   int(exe_name.len), exe_name.ptr
             );
 
-            ::exit(exitCode);
+            if (NULL != exitCode)
+            {
+                ::exit(*exitCode);
+            }
         }
-    }}
+    }
+    catch (std::bad_alloc&)
+    {
+        fprintf(stderr, "%s: out of memory\n", argv[0]);
+    }
 }
 
 

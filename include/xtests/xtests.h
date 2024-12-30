@@ -4642,6 +4642,11 @@ xtests_commandLine_parseVerbosity(
 
 /** T.B.C.
  *
+ * \param argc T.B.C.
+ * \param argv T.B.C.
+ * \param stm The stream to which to write the usage message, in the case
+ *   where '--help' is found;
+ * \param exitCode T.B.C.
  */
 XTESTS_CALL(void)
 xtests_commandLine_parseHelp(
@@ -4649,6 +4654,19 @@ xtests_commandLine_parseHelp(
 ,   char*   argv[]
 ,   FILE*   stm
 ,   int     exitCode
+);
+
+/** T.B.C.
+ *
+ * \param exitCode Pointer to variable that will contain the exit code to be
+ *   passed to <code>::exit()</code>;
+ */
+XTESTS_CALL(void)
+xtests_commandLine_parseHelp2(
+    int         argc
+,   char*       argv[]
+,   FILE*       stm
+,   int const*  exitCode
 );
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
