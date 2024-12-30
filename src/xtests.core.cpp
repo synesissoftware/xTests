@@ -1932,17 +1932,17 @@ xtests_commandLine_parseHelp2(
 ,   int const*  exitCode
 )
 {
+    STLSOFT_NS_USING(stlsoft_C_string_slice_a_t)
+    PLATFORMSTL_NS_USING(platformstl_C_get_executable_name_from_path)
+
+    stlsoft_C_string_slice_a_t const exe_name = platformstl_C_get_executable_name_from_path(argv[0]);
+
     try
     {
         stlsoft::cmdargs const ca(argc, argv);
 
         if (ca.has_option("help", 2))
         {
-            STLSOFT_NS_USING(stlsoft_C_string_slice_a_t)
-            PLATFORMSTL_NS_USING(platformstl_C_get_executable_name_from_path)
-
-            stlsoft_C_string_slice_a_t const exe_name = platformstl_C_get_executable_name_from_path(argv[0]);
-
             ::fprintf(
                 stm
             ,   "USAGE: %.*s [ --help | --verbosity=<verbosity> ]\n"
@@ -1971,7 +1971,7 @@ xtests_commandLine_parseHelp2(
     }
     catch (std::bad_alloc&)
     {
-        fprintf(stderr, "%s: out of memory\n", argv[0]);
+        fprintf(stderr, "%.*s: out of memory\n", int(exe_name.len), exe_name.ptr);
     }
 }
 
