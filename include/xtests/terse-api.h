@@ -40,9 +40,10 @@
  * ////////////////////////////////////////////////////////////////////// */
 
 
-/**file xtests/xtests.h
+/** \file xtests/terse-api.h
  *
- * [C, C++] Simple unit/component-testing library.
+ * [C, C++] Alternative main header file for xTests, provide terse forms of
+ * the assertion macros (and other simplifications).
  */
 
 #ifndef XTESTS_INCL_XTESTS_H_XTESTS_TERSE
@@ -52,7 +53,7 @@
 # define XTESTS_VER_XTESTS_H_XTESTS_TERSE_MAJOR     1
 # define XTESTS_VER_XTESTS_H_XTESTS_TERSE_MINOR     1
 # define XTESTS_VER_XTESTS_H_XTESTS_TERSE_REVISION  1
-# define XTESTS_VER_XTESTS_H_XTESTS_TERSE_EDIT      3
+# define XTESTS_VER_XTESTS_H_XTESTS_TERSE_EDIT      4
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
