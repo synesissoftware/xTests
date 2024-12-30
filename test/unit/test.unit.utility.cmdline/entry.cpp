@@ -4,7 +4,7 @@
  * Purpose: Unit-tests for utility functions.
  *
  * Created: 30th December 2024
- * Updated: 30th December 2024
+ * Updated: 31st December 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -34,6 +34,7 @@
 /* STLSoft header files */
 #include <platformstl/filesystem/FILE_stream.hpp>
 #include <platformstl/filesystem/file_lines.hpp>
+#include <platformstl/system/environment_variable_traits.hpp>
 
 /* Standard C header files */
 #include <stdlib.h>
@@ -86,6 +87,12 @@ int main(int argc, char **argv)
 
     if (XTESTS_START_RUNNER("test.unit.utility.cmdline", verbosity))
     {
+#ifdef PLATFORMSTL_ENVVAR_ERASE_SUPPORTED
+
+        platformstl::environment_variable_traits::erase_variable("TEST_VERBOSITY");
+        platformstl::environment_variable_traits::erase_variable("XTESTS_VERBOSITY");
+#endif
+
         XTESTS_RUN_CASE(TEST_parseHelp2_NO_ARGUMENTS);
         XTESTS_RUN_CASE(TEST_parseHelp2_WITH_help_FLAG);
         XTESTS_RUN_CASE(TEST_parseHelp2_WITH_help_FLAG_AFTER_DOUBLEDASH);
