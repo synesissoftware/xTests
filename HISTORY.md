@@ -1,14 +1,19 @@
 # xTests - History
 
 
-23rd November 2024 - 0.26.0-alpha1
-----------------------------------
+31st December 2024 - 0.26.0-beta1
+---------------------------------
 
  * now uses `stlsoft::integral_traits<>` for integer test macros (in C++) to allow for custom integral types to be tested;
+ * added missing test macros `XTESTS_TEST_FLOATINGPOINT_GREATER()`, `XTESTS_TEST_FLOATINGPOINT_GREATER_OR_EQUAL()`, `XTESTS_TEST_FLOATINGPOINT_LESS()`, `XTESTS_TEST_FLOATINGPOINT_LESS_OR_EQUAL()`;
+ * added macro `XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY()`, which allows for a unified command-line parsing in test programs;
  * added terse forms of macros, available by including **xtests/terse-api.h**;
  * `XTESTS_COMMANDLINE_PARSE_VERBOSITY()` now also recognises, if the command-line argument `"--verbosity= . . ."` is not found, the enviroment variables `"XTESTS_VERBOSITY"` and `"TEST_VERBOSITY"`;
- * minor improvements to project boilerplate files;
+ * added test programs **test.scratch.all_failure_messages**, **test.scratch.basics2**, **test.scratch.custom_integral_types**,
+ * substantial internal refactoring;
  * minor tidying to CMake facilities;
+ * minor improvements to examples;
+ * minor improvements to project boilerplate files;
  * updated **STLSoft** constructs, incl. macros;
 
 

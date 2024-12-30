@@ -1,11 +1,11 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    examples/c/example.c.factorial/example.c.factorial.c
+ * File:    examples/c/example.c.factorial/main.c
  *
  * Purpose: Example of use of separate test-case function(s) and in-runner
  *          test case(s).
  *
  * Created: 7th December 2023
- * Updated: 4th December 2024
+ * Updated: 31st December 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
     int retCode = EXIT_SUCCESS;
     int verbosity;
 
-    XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, &verbosity);
+    XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY(argc, argv, &verbosity);
 
     if (XTESTS_START_RUNNER("example.factorial.factorial", verbosity))
     {

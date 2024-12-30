@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    examples/cpp/example.cpp.temp_directory/example.cpp.temp_directory.cpp
+ * File:    examples/cpp/example.cpp.temp_directory/main.cpp
  *
  * Purpose: Example use of `xtests::cpp::util::temp_directory`.
  *
  * Created: ... mid 2010s ...
- * Updated: 22nd October 2024
+ * Updated: 31st December 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -33,9 +33,8 @@ namespace {
 
 using xtests::cpp::util::temp_directory;
 
-typedef platformstl::filesystem_traits<char>    fs_traits_t;
-
-} /* anonymous namespace */
+typedef platformstl::filesystem_traits<char>                fs_traits_t;
+} // anonymous namespace
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -44,7 +43,9 @@ typedef platformstl::filesystem_traits<char>    fs_traits_t;
 
 int main(int argc, char* argv[])
 {
-    char const* const   progran_name    =   platformstl::platformstl_C_get_executable_name_from_path(argv[0]).ptr;
+    /* 1: command-line handling */
+
+    char const* const   program_name    =   platformstl::platformstl_C_get_executable_name_from_path(argv[0]).ptr;
     char const*         hint_dir;
 
     { for (int i = 1; i != argc; ++i)
@@ -53,7 +54,7 @@ int main(int argc, char* argv[])
         {
             std::cout
                 << "USAGE: "
-                << progran_name
+                << program_name
                 << " [ <hint-directory> ]"
                 << std::endl;
 
@@ -74,15 +75,18 @@ int main(int argc, char* argv[])
     default:
 
         std::cerr
-            << progran_name
+            << program_name
             << ": too many arguments; use --help for usage"
             << std::endl;
 
         return EXIT_FAILURE;
     }
 
+
+    /* 2: various uses of `xtests::cpp::util::temp_directory` */
+
     {
-        std::cout << "temp_directory::None : " << std::endl;
+        std::cout << "temp_directory::None :" << std::endl;
 
         temp_directory tf(temp_directory::None);
 
@@ -93,7 +97,7 @@ int main(int argc, char* argv[])
     }
 
     {
-        std::cout << "temp_directory::RemoveOnClose : " << std::endl;
+        std::cout << "temp_directory::RemoveOnClose :" << std::endl;
 
         temp_directory tf(temp_directory::RemoveOnClose);
 
@@ -104,7 +108,7 @@ int main(int argc, char* argv[])
     }
 
     {
-        std::cout << "temp_directory::RemoveOnOpen : " << std::endl;
+        std::cout << "temp_directory::RemoveOnOpen :" << std::endl;
 
         temp_directory tf(temp_directory::RemoveOnOpen);
 
@@ -115,7 +119,7 @@ int main(int argc, char* argv[])
     }
 
     {
-        std::cout << "temp_directory::RemoveOnClose | temp_directory::RemoveOnOpen : " << std::endl;
+        std::cout << "temp_directory::RemoveOnClose | temp_directory::RemoveOnOpen :" << std::endl;
 
         temp_directory tf(temp_directory::RemoveOnClose | temp_directory::RemoveOnOpen);
 
