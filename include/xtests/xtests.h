@@ -105,9 +105,9 @@
     STLSOFT_VER >= 0x010c0000
 
 # define XTESTS_STLSOFT_1_12_OR_LATER
-#elif _STLSOFT_VER < 0x010b015a
+#elif _STLSOFT_VER < 0x010b015d
 
-# error xTests requires version 1.11.1 alpha 26, or later, of STLSoft; obtain from https://github.com/synesissoftware/
+# error xTests requires version 1.11.1 alpha 29, or later, of STLSoft; obtain from https://github.com/synesissoftware/
 #endif /* _STLSOFT_VER */
 
 
