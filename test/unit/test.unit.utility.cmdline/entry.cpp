@@ -28,9 +28,6 @@
  * general includes
  */
 
-/* shwild header files */
-#include <shwild/shwild.hpp>
-
 /* xTests header files */
 #include <xtests/util/temp_file.hpp>
 
@@ -172,7 +169,10 @@ static void TEST_parseHelp2_WITH_help_FLAG()
 
         XTESTS_REQUIRE(XTESTS_TEST_INTEGER_EQUAL(15u, lines.size()));
 
+#ifdef XTESTS_HAS_SHWILD
+
         XTESTS_TEST_MULTIBYTE_STRING_MATCHES("USAGE: my-program*", lines[0]);
+#endif /* XTESTS_HAS_SHWILD */
     }
 }
 
@@ -323,7 +323,10 @@ static void TEST_parseHelpOrVerbosity_WITH_help_FLAG()
 
         XTESTS_REQUIRE(XTESTS_TEST_INTEGER_EQUAL(15u, lines.size()));
 
+#ifdef XTESTS_HAS_SHWILD
+
         XTESTS_TEST_MULTIBYTE_STRING_MATCHES("USAGE: my-program*", lines[0]);
+#endif /* XTESTS_HAS_SHWILD */
     }
 }
 
