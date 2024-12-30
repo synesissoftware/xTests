@@ -4,7 +4,7 @@
  * Purpose: Definition of the temp_file class.
  *
  * Created: 8th May 2014
- * Updated: 4th December 2024
+ * Updated: 31st December 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,7 +52,7 @@
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MAJOR     0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     3
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  1
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      21
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      22
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -162,15 +162,15 @@ public: // Types
     class could_not_create_temporary_file_exception;
 
 private:
-    typedef std::basic_string<char_type>                string_type_;
+    typedef std::basic_string<char_type>                    string_type_;
 public:
     /// The traits type
-    typedef platformstl::filesystem_traits<char_type>   fs_traits_type;
+    typedef platformstl::filesystem_traits<char_type>       fs_traits_type;
     /// The file handle type
-    typedef fs_traits_type::file_handle_type            file_handle_type;
+    typedef fs_traits_type::file_handle_type                file_handle_type;
 private:
-    typedef fs_traits_type                              fs_traits_type_;
-    typedef file_handle_type                            file_handle_type_;
+    typedef fs_traits_type                                  fs_traits_type_;
+    typedef file_handle_type                                file_handle_type_;
 
 public: // Construction
     /// Establishes an empty temporary file according to the given flags
@@ -491,7 +491,6 @@ temp_file::create_file_(
 # ifdef _WIN32
 #  undef tmp_path
 # endif
-
 #endif
 }
 
@@ -688,7 +687,7 @@ inline
 }
 
 inline
-/* explicit */ temp_file::temp_file(
+temp_file::temp_file(
     Flags       flags
 ,   void const* pv
 ,   size_t      cb
@@ -701,7 +700,7 @@ inline
 }
 
 inline
-/* explicit */ temp_file::temp_file(
+temp_file::temp_file(
     Flags       flags
 ,   int       (*pfn)(
         file_handle_type    h
