@@ -1,14 +1,19 @@
 /* /////////////////////////////////////////////////////////////////////////
  * File:    examples/cpp/example.cpp.temp_file/main.cpp
  *
- * Purpose: Example use of `xtests::cpp::util::temp_file`.
+ * Purpose: Example use of `xtests::cpp::util::temp_file`, illustrating:
+ *              - use of various flags, including `DeleteOnOpen`, etc.;
+ *              - use of hint-directory, which overrides the default temp
+ *                directory for a given platform;
+ *              - specifying temporary file's initial contents from an
+ *                array;
  *
  * Created: ... mid 2010s ...
  * Updated: 31st December 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
-/** \file example.cpp.temp_file.cpp
+/** \file example.cpp.temp_file/main.cpp
  */
 
 
@@ -22,7 +27,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <xtests/internal/checked_main.hpp>
+#include <xtests/internal/checked_main.hpp> // wraps the ostensible `main()` in exception handling
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -38,25 +43,13 @@ typedef platformstl::filesystem_traits<char>                fs_traits_t;
 
 
 /* /////////////////////////////////////////////////////////////////////////
- * helper functions
+ * helper function declarations
  */
 
 namespace {
 
     fs_traits_t::large_size_type
-    get_file_size(temp_file const& tf)
-    {
-        fs_traits_t::stat_data_type sd;
-
-        if (!fs_traits_t::stat(tf.c_str(), &sd))
-        {
-            return 0;
-        }
-        else
-        {
-            return fs_traits_t::get_file_size(sd);
-        }
-    }
+    get_file_size(temp_file const& tf);
 } // anonymous namespace
 
 
@@ -108,9 +101,22 @@ int main(int argc, char* argv[])
 
     /* Use `None`, which means no special behaviour */
     {
-        std::cout << "temp_file::None :" << std::endl;
+        std::cout << "temp_file::None (without hint directory):" << std::endl;
 
         temp_file tf(temp_file::None);
+
+        std::cout << "\tpath:     \t" << tf << std::endl;
+        std::cout << "\texist?:   \t" << fs_traits_t::file_exists(tf.c_str()) << std::endl;
+        std::cout << "\tfile?:    \t" << fs_traits_t::is_file(tf.c_str()) << std::endl;
+        std::cout << "\tdir?:     \t" << fs_traits_t::is_directory(tf.c_str()) << std::endl;
+        std::cout << "\tfile-size:\t" << get_file_size(tf) << std::endl;
+    }
+
+    /* Use `None`, but in a specific directory */
+    {
+        std::cout << "temp_file::None (with hint directory '" << hint_dir << "'):" << std::endl;
+
+        temp_file tf(temp_file::None, hint_dir);
 
         std::cout << "\tpath:     \t" << tf << std::endl;
         std::cout << "\texist?:   \t" << fs_traits_t::file_exists(tf.c_str()) << std::endl;
@@ -179,12 +185,48 @@ int main(int argc, char* argv[])
         std::cout << "\tfile-size:\t" << get_file_size(tf) << std::endl;
     }
 
+    /* Specifying some initial contents, but in a specific directory
+     */
+    {
+        std::cout << "some initial contents (with hint directory '" << hint_dir << "') :" << std::endl;
 
-    ((void)&hint_dir);
+        int const initial_contents[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+
+        temp_file tf(temp_file::DeleteOnClose | temp_file::EmptyOnOpen, hint_dir, &initial_contents, sizeof(initial_contents));
+
+        std::cout << "\tpath:     \t" << tf << std::endl;
+        std::cout << "\texist?:   \t" << fs_traits_t::file_exists(tf.c_str()) << std::endl;
+        std::cout << "\tfile?:    \t" << fs_traits_t::is_file(tf.c_str()) << std::endl;
+        std::cout << "\tdir?:     \t" << fs_traits_t::is_directory(tf.c_str()) << std::endl;
+        std::cout << "\tfile-size:\t" << get_file_size(tf) << std::endl;
+    }
 
 
     return EXIT_SUCCESS;
 }
+
+
+/* /////////////////////////////////////////////////////////////////////////
+ * helper function implementations
+ */
+
+namespace {
+
+    fs_traits_t::large_size_type
+    get_file_size(temp_file const& tf)
+    {
+        fs_traits_t::stat_data_type sd;
+
+        if (!fs_traits_t::stat(tf.c_str(), &sd))
+        {
+            return 0;
+        }
+        else
+        {
+            return fs_traits_t::get_file_size(sd);
+        }
+    }
+} // anonymous namespace
 
 
 /* ///////////////////////////// end of file //////////////////////////// */

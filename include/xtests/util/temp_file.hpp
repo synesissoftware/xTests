@@ -50,9 +50,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MAJOR     0
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     3
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     4
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  1
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      22
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      23
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -82,6 +82,7 @@
 #endif /* !XTESTS_INCL_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION */
 
 #include <platformstl/filesystem/filesystem_traits.hpp>
+#include <platformstl/filesystem/path.hpp>
 
 #if 0
 #elif defined(PLATFORMSTL_OS_IS_UNIX)
@@ -168,6 +169,8 @@ public:
     typedef platformstl::filesystem_traits<char_type>       fs_traits_type;
     /// The file handle type
     typedef fs_traits_type::file_handle_type                file_handle_type;
+    /// The path type
+    typedef platformstl::basic_path<char_type>              path_type_;
 private:
     typedef fs_traits_type                                  fs_traits_type_;
     typedef file_handle_type                                file_handle_type_;
@@ -178,6 +181,27 @@ public: // Construction
     /// @param flags A combination of \c Flags
     explicit
     temp_file(Flags flags);
+    /// Establishes an empty temporary file according to the given flags
+    ///
+    /// @param flags A combination of \c Flags
+    /// @param hint_dir Directory under which to locate the temporary file
+    temp_file(
+        Flags               flags
+    ,   char_type const*    hint_dir
+    );
+    /// Establishes a non-empty temporary file according to the given flags,
+    /// and with the given contents
+    ///
+    /// @param flags A combination of \c Flags
+    /// @param hint_dir Directory under which to locate the temporary file
+    /// @param pv Pointer to first byte in contents
+    /// @param cb Number of bytes in contents
+    temp_file(
+        Flags               flags
+    ,   char_type const*    hint_dir
+    ,   void const*         pv
+    ,   size_t              cb
+    );
     /// Establishes a non-empty temporary file according to the given flags,
     /// and with the given contents
     ///
@@ -221,29 +245,32 @@ private: // Implementation
     static
     file_handle_type_
     create_file_(
-        string_type_&   path
+        string_type_&       path
+    ,   char_type const*    hint_dir
     );
 
     static
     file_handle_type_
     create_(
-        Flags           flags
-    ,   string_type_&   path
-    ,   void const*     pv
-    ,   size_t          cb
+        Flags               flags
+    ,   string_type_&       path
+    ,   char_type const*    hint_dir
+    ,   void const*         pv
+    ,   size_t              cb
     );
 
     static
     file_handle_type_
     create_by_fn_(
-        Flags           flags
-    ,   string_type_&   path
-    ,   int           (*pfn)(
+        Flags               flags
+    ,   string_type_&       path
+    ,   char_type const*    hint_dir
+    ,   int               (*pfn)(
             file_handle_type    h
         ,   void*               param
         ,   unsigned            num_calls
         )
-    ,   void*           param
+    ,   void*               param
     );
 
     static
@@ -382,7 +409,8 @@ inline
 /* static */
 temp_file::file_handle_type_
 temp_file::create_file_(
-    string_type_&   path
+    string_type_&       path
+,   char_type const*    hint_dir
 )
 {
     //
@@ -455,7 +483,16 @@ temp_file::create_file_(
     throw could_not_create_temporary_file_exception(e, "could not create file in any of the possible locations");
 #else
 
-    char tmp_path[] = "/tmp/xtests-temp-file.XXXXXXXX";
+    char const      default_tmp_dir[] = "/tmp";
+    char const      tmp_file_pattern[] = "xtests-temp-file.XXXXXXXX";
+
+    path_type_      tmp_path_(0 != stlsoft::c_str_len_a(hint_dir) ? hint_dir : default_tmp_dir);
+
+    tmp_path_ /= tmp_file_pattern;
+
+    stlsoft::auto_buffer<char>  tmp_path(tmp_path_.data(), tmp_path_.data() + tmp_path_.size());
+
+    tmp_path.resize(1 + tmp_path.size());
 
 # ifdef _WIN32
     // Can't bank on "/tmp" directory existing, so just do it in "./"
@@ -466,9 +503,9 @@ temp_file::create_file_(
 
     int f;
 
-    if (-1 != (f = ::mkstemp(tmp_path)))
+    if (-1 != (f = ::mkstemp(&tmp_path[0])))
     {
-        file_handle_type_ const hFile = fs_traits_type_::open_file(tmp_path, O_WRONLY | O_CREAT | O_TRUNC, S_IWRITE);
+        file_handle_type_ const hFile = fs_traits_type_::open_file(tmp_path.data(), O_WRONLY | O_CREAT | O_TRUNC, S_IWRITE);
 
         int const e = errno;
 
@@ -478,7 +515,7 @@ temp_file::create_file_(
 
         if (fs_traits_type_::invalid_file_handle_value() != hFile)
         {
-            path = tmp_path;
+            path.assign(tmp_path.data(), tmp_path.size() - 1);
 
             return hFile;
         }
@@ -500,6 +537,7 @@ temp_file::file_handle_type_
 temp_file::create_(
     temp_file::Flags            flags
 ,   temp_file::string_type_&    path
+,   char_type const*            hint_dir
 ,   void const*                 pv
 ,   size_t                      cb
 )
@@ -515,7 +553,7 @@ temp_file::create_(
 
     // 1. Generate a unique, new file name
 
-    file_handle_type_ const hFile = create_file_(path);
+    file_handle_type_ const hFile = create_file_(path, hint_dir);
 
 
     if (fs_traits_type_::invalid_file_handle_value() == hFile)
@@ -592,14 +630,15 @@ inline
 /* static */
 temp_file::file_handle_type_
 temp_file::create_by_fn_(
-    Flags           flags
-,   string_type_&   path
-,   int           (*pfn)(
+    Flags               flags
+,   string_type_&       path
+,   char_type const*    hint_dir
+,   int               (*pfn)(
         file_handle_type    h
     ,   void*               param
     ,   unsigned            num_calls
     )
-,   void*           param
+,   void*               param
 )
 {
     STLSOFT_ASSERT(NULL != pfn);
@@ -613,7 +652,7 @@ temp_file::create_by_fn_(
 
     // 1. Generate a unique, new file name
 
-    file_handle_type_ const hFile = create_file_(path);
+    file_handle_type_ const hFile = create_file_(path, hint_dir);
 
 
     if (fs_traits_type_::invalid_file_handle_value() == hFile)
@@ -681,7 +720,19 @@ inline
 )
     : m_flags(flags)
     , m_path()
-    , m_hFile(create_(flags, m_path, NULL, 0))
+    , m_hFile(create_(flags, m_path, NULL, NULL, 0))
+{
+    STLSOFT_ASSERT(fs_traits_type_::invalid_file_handle_value() != m_hFile || 0 != (CloseOnOpen & m_flags) || 0 != (DeleteOnOpen & m_flags));
+}
+
+inline
+temp_file::temp_file(
+    temp_file::Flags            flags
+,   temp_file::char_type const* hint_dir
+)
+    : m_flags(flags)
+    , m_path()
+    , m_hFile(create_(flags, m_path, hint_dir, NULL, 0))
 {
     STLSOFT_ASSERT(fs_traits_type_::invalid_file_handle_value() != m_hFile || 0 != (CloseOnOpen & m_flags) || 0 != (DeleteOnOpen & m_flags));
 }
@@ -694,7 +745,21 @@ temp_file::temp_file(
 )
     : m_flags(flags)
     , m_path()
-    , m_hFile(create_(flags, m_path, pv, cb))
+    , m_hFile(create_(flags, m_path, NULL, pv, cb))
+{
+    STLSOFT_ASSERT(fs_traits_type_::invalid_file_handle_value() != m_hFile || 0 != (CloseOnOpen & m_flags) || 0 != (DeleteOnOpen & m_flags));
+}
+
+inline
+temp_file::temp_file(
+    temp_file::Flags            flags
+,   temp_file::char_type const* hint_dir
+,   void const*                 pv
+,   size_t                      cb
+)
+    : m_flags(flags)
+    , m_path()
+    , m_hFile(create_(flags, m_path, hint_dir, pv, cb))
 {
     STLSOFT_ASSERT(fs_traits_type_::invalid_file_handle_value() != m_hFile || 0 != (CloseOnOpen & m_flags) || 0 != (DeleteOnOpen & m_flags));
 }
@@ -711,7 +776,7 @@ temp_file::temp_file(
 )
     : m_flags(flags)
     , m_path()
-    , m_hFile(create_by_fn_(flags, m_path, pfn, param))
+    , m_hFile(create_by_fn_(flags, m_path, NULL, pfn, param))
 {
     STLSOFT_ASSERT(fs_traits_type_::invalid_file_handle_value() != m_hFile || 0 != (CloseOnOpen & m_flags) || 0 != (DeleteOnOpen & m_flags));
 }
@@ -906,13 +971,16 @@ namespace stlsoft
     !defined(STLSOFT_NO_NAMESPACE)
 } /* namespace stlsoft */
 # endif
-
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
 /* /////////////////////////////////////////////////////////////////////////
  * inclusion control
  */
+
+#ifdef STLSOFT_CF_PRAGMA_ONCE_SUPPORT
+# pragma once
+#endif /* STLSOFT_CF_PRAGMA_ONCE_SUPPORT */
 
 #endif /* XTESTS_INCL_XTESTS_UTIL_HPP_TEMP_FILE */
 
