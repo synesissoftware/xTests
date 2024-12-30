@@ -5,7 +5,7 @@
  *          using the terse version of macros.
  *
  * Created: 20th November 2024
- * Updated: 20th November 2024
+ * Updated: 30th December 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -83,7 +83,7 @@ int main(int argc, char* argv[])
     int retCode = EXIT_SUCCESS;
     int verbosity;
 
-    XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, &verbosity);
+    XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY(argc, argv, &verbosity);
 
     if (XTESTS_START_RUNNER("test.scratch.basics2.terse.runner-1", verbosity))
     {

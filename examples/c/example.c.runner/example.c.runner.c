@@ -4,7 +4,7 @@
  * Purpose: Example of in-runner test cases.
  *
  * Created: 20th February 2008
- * Updated: 28th September 2024
+ * Updated: 30th December 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
     int retCode = EXIT_SUCCESS;
     int verbosity;
 
-    XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, &verbosity);
+    XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY(argc, argv, &verbosity);
 
     if (XTESTS_START_RUNNER("example.c.runner", verbosity))
     {

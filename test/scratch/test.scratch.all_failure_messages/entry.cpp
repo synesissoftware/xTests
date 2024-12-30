@@ -4,7 +4,7 @@
  * Purpose: Illustrates each failure message.
  *
  * Created: 1st December 2024
- * Updated: 9th December 2024
+ * Updated: 30th December 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -56,8 +56,7 @@ int main(int argc, char* argv[])
     int retCode = EXIT_SUCCESS;
     int verbosity;
 
-    XTESTS_COMMANDLINE_PARSE_HELP(argc, argv);
-    XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, &verbosity);
+    XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY(argc, argv, &verbosity);
 
     if (XTESTS_START_RUNNER("test.scratch.all_failure_messages", verbosity))
     {

@@ -51,9 +51,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
-# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       47
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    2
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        387
+# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       48
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        388
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -4628,7 +4628,14 @@ xTests_hasRequiredConditionFailed(void);
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
-/** T.B.C.
+/** Parses the command-line for '--verbosity'
+ *
+ * \param argc The argument count;
+ * \param argv Pointer to first element of array (of size argc + 1) of
+ *   argument pointers, the first one of which is the name of the program,
+ *   and the last one of which is NULL;
+ * \param verbosity Pointer to variable to receive the verbosity. May not be
+ *   NULL;
  *
  * \retval 0 No verbosity was parsed from the command-line
  * \retval !0 Verbosity was parsed from the command-line
@@ -4640,13 +4647,15 @@ xtests_commandLine_parseVerbosity(
 ,   int*    verbosity
 );
 
-/** T.B.C.
+/** Parses the command-line for '--help'
  *
- * \param argc T.B.C.
- * \param argv T.B.C.
+ * \param argc The argument count;
+ * \param argv Pointer to first element of array (of size argc + 1) of
+ *   argument pointers, the first one of which is the name of the program,
+ *   and the last one of which is NULL;
  * \param stm The stream to which to write the usage message, in the case
- *   where '--help' is found;
- * \param exitCode T.B.C.
+ *   where '--help' is found. May not be NULL;
+ * \param exitCode The exit code passed to <code>::exit()</code>;
  */
 XTESTS_CALL(void)
 xtests_commandLine_parseHelp(
@@ -4656,10 +4665,18 @@ xtests_commandLine_parseHelp(
 ,   int     exitCode
 );
 
-/** T.B.C.
+/** Parses the command-line for '--help'
  *
- * \param exitCode Pointer to variable that will contain the exit code to be
- *   passed to <code>::exit()</code>;
+ * \param argc The argument count;
+ * \param argv Pointer to first element of array (of size argc + 1) of
+ *   argument pointers, the first one of which is the name of the program,
+ *   and the last one of which is NULL;
+ * \param stm The stream to which to write the usage message, in the case
+ *   where '--help' is found. May not be NULL;
+ * \param exitCode Pointer to variable that contains the exit code to be
+ *   passed to <code>::exit()</code>. May be NULL, in which case
+ *   <code>::exit()</code> is not called. This is implemented as a pointer
+ *   to facilitate testing;
  */
 XTESTS_CALL(void)
 xtests_commandLine_parseHelp2(
@@ -4668,7 +4685,80 @@ xtests_commandLine_parseHelp2(
 ,   FILE*       stm
 ,   int const*  exitCode
 );
+
+/** Parses the command-line for '--help' and '--verbosity'
+ *
+ * \param argc The argument count;
+ * \param argv Pointer to first element of array (of size argc + 1) of
+ *   argument pointers, the first one of which is the name of the program,
+ *   and the last one of which is NULL;
+ * \param stm The stream to which to write the usage message, in the case
+ *   where '--help' is found. May not be NULL;
+ * \param usageExitCode Pointer to variable that will contain the exit code
+ *   to be passed to <code>::exit()</code>, which is not called if this is
+ *   NULL. This is implemented as a pointer to facilitate testing;
+ *
+ * \retval 2 '--help' was parsed from the command-line, and usageExitCode is
+ *   NULL;
+ * \retval 1 '--verbosity' was parsed from the command-line;
+ * \retval 0 No verbosity was parsed from the command-line;
+ * \retval <0 A failure occurred, and the return value is the negative value
+ *   of a value from <errno.h>;
+ */
+XTESTS_CALL(int)
+xtests_commandLine_parseHelpOrVerbosity(
+    int         argc
+,   char*       argv[]
+,   FILE*       stm
+,   int const*  usageExitCode
+,   int const*  defaultVerbosity
+,   int*        verbosity
+);
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
+
+/** \def XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY(argc, argv, pverbosity)
+ *
+ * \ingroup group__xtests__utiliy_functions
+ *
+ * \brief Parses help or verbosity from the command-line
+ *
+ * Parses the '--help' flag from the command-line and, if found, issues
+ * usage information to the standard output stream and exits (with
+ * `EXIT_SUCCESS`)
+ *
+ * Parse the verbosity from the command-line arguments, looking for an
+ * argument of the form `"--verbosity=<N>"`, where `N` is a non-negative
+ * integer. If no such command-line argument is found, then looks for (in
+ * order) the environment variables `"XTESTS_VERBOSITY"` and
+ * `"TEST_VERBOSITY"`.
+ *
+ * \param argc The <code>argc</code> parameter passed into
+ *   <code>main()</code>
+ * \param argv The <code>argv</code> parameter passed into
+ *   <code>main()</code>
+ * \param pverbosity A pointer to an integer to receive the verbosity. Will
+ *   be set to xtestsVerbositySummaryOnSuccess even if no verbosity argument
+ *   is found. May not be NULL.
+ *
+ * \return The index of argument containing the verbosity, or 0 to indicate
+ *   failure
+ */
+#define XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY(argc, argv, pverbosity)  \
+    do {                                                                    \
+        int const exitCode = EXIT_SUCCESS;                                  \
+                                                                            \
+        STLSOFT_STATIC_CAST(void,                                           \
+            XTESTS_NS_C_QUAL(xtests_commandLine_parseHelpOrVerbosity)(      \
+                (argc)                                                      \
+            ,   (argv)                                                      \
+            ,   (stdout)                                                    \
+            ,   &exitCode                                                   \
+            ,   NULL                                                        \
+            ,   (pverbosity)                                                \
+            )                                                               \
+        );                                                                  \
+    } while (XTESTS_WHILE_0_CLAUSE())
+
 
 /** \def XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, pverbosity)
  *

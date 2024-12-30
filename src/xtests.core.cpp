@@ -1975,6 +1975,122 @@ xtests_commandLine_parseHelp2(
     }
 }
 
+XTESTS_CALL(int)
+xtests_commandLine_parseHelpOrVerbosity(
+    int         argc
+,   char*       argv[]
+,   FILE*       stm
+,   int const*  usageExitCode
+,   int const*  defaultVerbosity
+,   int*        verbosity
+)
+{
+    int dummy;
+
+    if (NULL == verbosity)
+    {
+        verbosity = &dummy;
+    }
+
+    if (NULL != defaultVerbosity)
+    {
+        *verbosity = *defaultVerbosity;
+    }
+    else
+    {
+        *verbosity = XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR;
+    }
+
+    STLSOFT_NS_USING(stlsoft_C_string_slice_a_t)
+    PLATFORMSTL_NS_USING(platformstl_C_get_executable_name_from_path)
+
+    stlsoft_C_string_slice_a_t const exe_name = platformstl_C_get_executable_name_from_path(argv[0]);
+
+
+    try
+    {
+        stlsoft::cmdargs const      ca(argc, argv);
+        stlsoft::cmdargs::option    opt;
+
+        if (ca.has_option("help", 2))
+        {
+            ::fprintf(
+                stm
+            ,   "USAGE: %.*s [ --help | --verbosity=<verbosity> ]\n"
+                "\n"
+                "where:\n"
+                "\t--help                  - displays this help and terminates\n"
+                "\t--verbosity=<verbosity> - executes the tests with the given\n"
+                "\t                          <verbosity>, which may be between\n"
+                "\t                          -1 and 4 (inclusive). The values\n"
+                "\t                          are interpreted as:\n"
+                "\n"
+                "\t                            -1 - no output\n"
+                "\t                             0 - summary only on fail\n"
+                "\t                             1 - summary only\n"
+                "\t                             2 - summary and first failed case\n"
+                "\t                             3 - summary and all failed cases\n"
+                "\t                             4 - summary and all cases\n"
+            ,   int(exe_name.len), exe_name.ptr
+            );
+
+            if (NULL != usageExitCode)
+            {
+                ::exit(*usageExitCode);
+            }
+            else
+            {
+                return 2;
+            }
+        }
+
+        if (ca.has_option("verbosity", 2, opt))
+        {
+            char const* endptr;
+
+            *verbosity = stlsoft::string_to_integer(opt.value.data(), opt.value.size(), &endptr);
+
+            return 1;
+        }
+
+        /* at this point, "--verbosity=???" has not been specified, so consult
+        * environment variable(s):
+        *
+        * - "XTESTS_VERBOSITY";
+        * - "TEST_VERBOSITY";
+        */
+
+        static char const* const ENVIRONMENT_VARIABLES[] =
+        {
+            "XTESTS_VERBOSITY",
+            "TEST_VERBOSITY",
+        };
+
+        for (unsigned i = 0; i != STLSOFT_NUM_ELEMENTS(ENVIRONMENT_VARIABLES); ++i)
+        {
+            platformstl::environment_variable envvar(ENVIRONMENT_VARIABLES[i]);
+
+            if (!envvar.empty())
+            {
+                char*   endptr;
+                long    l = ::strtol(envvar, &endptr, 0);
+
+                *verbosity = static_cast<int>(l);
+
+                return 1;
+            }
+        }
+
+        return 0;
+    }
+    catch (std::bad_alloc&)
+    {
+        fprintf(stderr, "%.*s: out of memory\n", int(exe_name.len), exe_name.ptr);
+
+        return -ENOMEM;
+    }
+}
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * classes
