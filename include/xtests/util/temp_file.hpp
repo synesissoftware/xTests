@@ -424,60 +424,79 @@ temp_file::create_file_(
 
     // On Windows, we'll work in one of %TEMP%, %TMP%, %USERPROFILE%, or
 
-    static LPCSTR const s_roots[] =
+    LPCSTR const s_roots[] =
     {
-            "%TEMP%"
+            hint_dir
+        ,   "%TEMP%"
         ,   "%TMP%"
         ,   "%USERPROFILE%"
         ,   "."
     };
 
     comstl::guid                unique_name;
-    DWORD                       e = ERROR_SUCCESS;
+    DWORD                       e = ERROR_OUTOFMEMORY;
     stlsoft::auto_buffer<char>  buff(1);
 
-    { for (size_t i = 0; i != STLSOFT_NUM_ELEMENTS(s_roots); )
+    { for (size_t i = 0; i != STLSOFT_NUM_ELEMENTS(s_roots); ++i)
     {
         LPCSTR const root = s_roots[i];
 
-        size_t n1 = fs_traits_type_::expand_environment_strings(root, NULL, 0);
+        if (NULL == root)
+        {
+            continue;
+        }
+
+        // NOTE: all the tests against 0 are legacy when dealing with
+        // non-throwing (bad_alloc) std libs
+
+        size_t n1 = fs_traits_type_::expand_environment_strings(root, buff);
+
+        // expand_environment_strings returns #chars incl NUL
+        if (0 != n1)
+        {
+            n1 = fs_traits_type_::str_len(buff.data());
+        }
 
         if (0 != n1)
         {
-            if (buff.resize(n1))
+            n1 = fs_traits_type_::ensure_dir_end(buff);
+
+            if (0 != n1)
             {
-                size_t const n2 = fs_traits_type_::expand_environment_strings(root, &buff[0], buff.size() + (1 + comstl::COMSTL_CCH_GUID));
-
-                if (0 != n2)
-                {
-                    if (n2 < buff.size() - (1 + comstl::COMSTL_CCH_GUID))
-                    {
-                        fs_traits_type_::ensure_dir_end(&buff[0] + (n2 - 2));
-
-                        size_t const    n3  =   fs_traits_type_::str_len(buff.data());
-                        char* const     p3  =   buff.data() + n3;
-
-                        fs_traits_type_::char_copy(p3, stlsoft::c_str_ptr_a(unique_name), comstl::COMSTL_CCH_GUID);
-                        p3[comstl::COMSTL_CCH_GUID] = '\0';
-
-                        file_handle_type_ const hFile = fs_traits_type_::create_file(buff.data(), GENERIC_WRITE, 0, NULL, CREATE_NEW, 0, NULL);
-
-                        if (fs_traits_type_::invalid_file_handle_value() != hFile)
-                        {
-                            path.assign(buff.data(), n3 + comstl::COMSTL_CCH_GUID);
-
-                            return hFile;
-                        }
-                        else
-                        {
-                            e = fs_traits_type_::get_last_error();
-                        }
-                    }
-                }
+                n1 = fs_traits_type_::str_len(buff.data());
             }
         }
 
-        ++i;
+        if (0 != n1)
+        {
+            if (!buff.resize(buff.size() + comstl::COMSTL_CCH_GUID))
+            {
+                n1 = 0;
+            }
+            else
+            {
+                char* const p3 = buff.data() + n1;
+
+                fs_traits_type_::char_copy(p3, stlsoft::c_str_ptr_a(unique_name), comstl::COMSTL_CCH_GUID);
+                p3[comstl::COMSTL_CCH_GUID] = '\0';
+            }
+        }
+
+        if (0 != n1)
+        {
+            file_handle_type_ const hFile = fs_traits_type_::create_file(buff.data(), GENERIC_WRITE, 0, NULL, CREATE_NEW, 0, NULL);
+
+            if (fs_traits_type_::invalid_file_handle_value() != hFile)
+            {
+                path.assign(buff.data(), buff.size() - 1);
+
+                return hFile;
+            }
+            else
+            {
+                e = fs_traits_type_::get_last_error();
+            }
+        }
     }}
 
     throw could_not_create_temporary_file_exception(e, "could not create file in any of the possible locations");
