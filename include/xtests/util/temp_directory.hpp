@@ -51,8 +51,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MAJOR    0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MINOR    2
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_REVISION 2
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     16
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_REVISION 3
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     17
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -641,13 +641,16 @@ namespace stlsoft
     !defined(STLSOFT_NO_NAMESPACE)
 } /* namespace stlsoft */
 # endif
-
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
 /* /////////////////////////////////////////////////////////////////////////
  * inclusion control
  */
+
+#ifdef STLSOFT_CF_PRAGMA_ONCE_SUPPORT
+# pragma once
+#endif /* STLSOFT_CF_PRAGMA_ONCE_SUPPORT */
 
 #endif /* XTESTS_INCL_XTESTS_UTIL_HPP_TEMP_DIRECTORY */
 
