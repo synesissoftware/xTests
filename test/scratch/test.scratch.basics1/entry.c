@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.scratch.basics1.c
+ * File:    test.scratch.basics1/entry.c
  *
  * Purpose: Illustrates various xTests facilities available to C code.
  *
  * Created: 15th December 2007
- * Updated: 29th September 2024
+ * Updated: 30th December 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
     int retCode = EXIT_SUCCESS;
     int verbosity;
 
-    XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, &verbosity);
+    XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY(argc, argv, &verbosity);
 
     if (XTESTS_START_RUNNER("test.scratch.basics1.c", verbosity))
     {

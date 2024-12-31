@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.scratch.temp_directory.cpp
+ * File:    test.scratch.temp_directory/entry.cpp
  *
  * Purpose: Use of `xtests::cpp::util::temp_directory`.
  *
  * Created: 1st October 2015
- * Updated: 28th September 2024
+ * Updated: 20th November 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
