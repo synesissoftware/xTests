@@ -1,6 +1,12 @@
 # xTests - History
 
 
+11th January 2025 - 0.26.0-beta2
+--------------------------------
+
+ * added support (including coloured output) for (in)equality testing of UDTs;
+
+
 31st December 2024 - 0.26.0-beta1
 ---------------------------------
 
