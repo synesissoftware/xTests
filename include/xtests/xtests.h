@@ -5,11 +5,11 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 31st December 2024
+ * Updated: 11th January 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
- * Copyright (c) 2019-2024, Matthew Wilson and Synesis Information Systems
+ * Copyright (c) 2019-2025, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 1999-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -51,9 +51,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
-# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       48
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    2
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        389
+# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       49
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        390
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -83,7 +83,7 @@
 #define _XTESTS_VER_MINOR       26
 #define _XTESTS_VER_REVISION    0
 
-#define _XTESTS_VER             0x001a0081
+#define _XTESTS_VER             0x001a0082
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -1055,6 +1055,89 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  */
 #define XTESTS_TEST(expr)                                                   \
     XTESTS_TEST_WITH_MESSAGE(expr, #expr)
+
+
+/* /////////////////////////////////////////////////////////
+ * test UDTs
+ */
+
+/** \def XTESTS_TEST_EQUAL_WITH_MESSAGE(expected, actual, msg)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that two user-defined type values are exactly equal, passing an
+ * explanatory message to be used in the case of failure..
+ *
+ * \param expected The expected value
+ * \param actual The actual value
+ *
+ * \remarks The values must be comparable with the equality operator
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_EQUAL_WITH_MESSAGE(expected, actual, msg)               \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? (((expected) == (actual))                                         \
+            ? XTESTS_NS_C_QUAL(xtests_testUdtPassed)(XTESTS_FLF_(), #expected " == " #actual, #expected, #actual, XTESTS_NS_C_QUAL(xtestsComparisonEqual), msg)     \
+            : XTESTS_NS_C_QUAL(xtests_testUdtFailed)(XTESTS_FLF_(), #expected " == " #actual, #expected, #actual, XTESTS_NS_C_QUAL(xtestsComparisonEqual), msg))    \
+    : (0))
+
+/** \def XTESTS_TEST_EQUAL(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that two user-defined type values are exactly equal.
+ *
+ * \param expected The expected value
+ * \param actual The actual value
+ *
+ * \remarks The values must be comparable with the equality operator
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_EQUAL(expected, actual)                                 \
+    XTESTS_TEST_EQUAL_WITH_MESSAGE(expected, actual, NULL)
+
+/** \def XTESTS_TEST_NOT_EQUAL_WITH_MESSAGE(expected, actual, msg)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that two user-defined type values are not equal, passing an
+ * explanatory message to be used in the case of failure..
+ *
+ * \param expected The expected value
+ * \param actual The actual value
+ *
+ * \remarks The values must be comparable with the equality operator
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_NOT_EQUAL_WITH_MESSAGE(expected, actual, msg)           \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? (((expected) != (actual))                                         \
+            ? XTESTS_NS_C_QUAL(xtests_testUdtPassed)(XTESTS_FLF_(), #expected " != " #actual, #expected, #actual, XTESTS_NS_C_QUAL(xtestsComparisonNotEqual), msg)     \
+            : XTESTS_NS_C_QUAL(xtests_testUdtFailed)(XTESTS_FLF_(), #expected " != " #actual, #expected, #actual, XTESTS_NS_C_QUAL(xtestsComparisonNotEqual), msg))    \
+    : (0))
+
+/** \def XTESTS_TEST_NOT_EQUAL(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that two user-defined type values are not equal.
+ *
+ * \param expected The expected value
+ * \param actual The actual value
+ *
+ * \remarks The values must be comparable with the equality operator
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_NOT_EQUAL(expected, actual)                             \
+    XTESTS_TEST_NOT_EQUAL_WITH_MESSAGE(expected, actual, NULL)
 
 
 /* /////////////////////////////////////////////////////////
@@ -2716,6 +2799,7 @@ enum xtests_variable_type_t
     ,   xtestsVariableUnsignedLongLong      =   20
 #  endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
     ,   xtestsVariableDouble                =   31
+    ,   xtestsVariableUdt                   =   32
 };
 
 enum xtests_test_type_t
@@ -2792,6 +2876,7 @@ public:
     explicit xtests_variable_t(wchar_t const* s, xtests_test_type_t testType = xtestsTestFullComparison);
     explicit xtests_variable_t(double const& d);
     explicit xtests_variable_t(void const volatile* pv);
+    explicit xtests_variable_t(char const* s, xtests_variable_type_t type); // UDT
 };
 
 /** Summary of results for a single test case, or for all test cases
@@ -2933,6 +3018,30 @@ xtests_testFailed(
 ,   int         line
 ,   char const* function
 ,   char const* expr
+);
+
+XTESTS_CALL(int)
+xtests_testUdtPassed(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const*         expected
+,   char const*         actual
+,   xtests_comparison_t comp
+,   char const*         message     /* = NULL */
+);
+
+XTESTS_CALL(int)
+xtests_testUdtFailed(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const*         expected
+,   char const*         actual
+,   xtests_comparison_t comp
+,   char const*         message     /* = NULL */
 );
 
 XTESTS_CALL(int)

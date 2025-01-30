@@ -5,11 +5,11 @@
  *          the assertion macros (and other simplifications).
  *
  * Created: 20th November 2024
- * Updated: 1st December 2024
+ * Updated: 11th January 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
- * Copyright (c) 2024, Matthew Wilson and Synesis Information Systems
+ * Copyright (c) 2024-2025, Matthew Wilson and Synesis Information Systems
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -142,6 +142,15 @@
 #ifdef XTESTS_TEST
 # define TEST                                               XTESTS_TEST
 #endif /* XTESTS_TEST */
+
+#ifdef XTESTS_TEST_EQUAL
+# define TEST_EQUAL                                         XTESTS_TEST_EQUAL
+# define TEST_EQ                                            XTESTS_TEST_EQUAL
+#endif /* XTESTS_TEST_EQUAL */
+#ifdef XTESTS_TEST_NOT_EQUAL
+# define TEST_NOT_EQUAL                                     XTESTS_TEST_NOT_EQUAL
+# define TEST_NE                                            XTESTS_TEST_NOT_EQUAL
+#endif /* XTESTS_TEST_NOT_EQUAL */
 
 #ifdef XTESTS_TEST_BOOLEAN_EQUAL
 # define TEST_BOOLEAN_EQUAL                                 XTESTS_TEST_BOOLEAN_EQUAL

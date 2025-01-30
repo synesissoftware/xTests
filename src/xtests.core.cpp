@@ -4,11 +4,11 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 30th December 2024
+ * Updated: 30th January 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
- * Copyright (c) 2019-2024, Matthew Wilson and Synesis Information Systems
+ * Copyright (c) 2019-2025, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 1999-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -389,6 +389,16 @@ namespace
         ,   int                     line
         ,   char const*             function
         ,   char const*             expr
+        );
+        int RegisterFailedCondition_udt(
+            char const*             file
+        ,   int                     line
+        ,   char const*             function
+        ,   char const*             expr
+        ,   char const*             expected
+        ,   char const*             actual
+        ,   xtests_comparison_t     comp
+        ,   char const*             message
         );
         int RegisterFailedCondition_long(
             char const*             file
@@ -974,7 +984,17 @@ namespace
         fmt_ += "actual ";
         if (0 != stlsoft::c_str_len_a(type_qualifier))
         {
-            fmt_ += type_qualifier;
+            if (is_tty)
+            {
+                fmt_ += "\033[1;36m";
+                fmt_ += type_qualifier;
+                fmt_ += "\033[0m";
+            }
+            else
+            {
+                fmt_ += type_qualifier;
+            }
+
             fmt_ += ' ';
         }
         fmt_ += "value ";
@@ -1302,6 +1322,60 @@ xtests_testFailed(
 
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
+
+XTESTS_CALL(int)
+xtests_testUdtPassed(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const*         expected
+,   char const*         actual
+,   xtests_comparison_t comp
+,   char const*         message     /* = NULL */
+)
+{
+    STLSOFT_SUPPRESS_UNUSED(file);
+    STLSOFT_SUPPRESS_UNUSED(line);
+    STLSOFT_SUPPRESS_UNUSED(function);
+    STLSOFT_SUPPRESS_UNUSED(expr);
+    STLSOFT_SUPPRESS_UNUSED(expected);
+    STLSOFT_SUPPRESS_UNUSED(actual);
+    STLSOFT_SUPPRESS_UNUSED(comp);
+    STLSOFT_SUPPRESS_UNUSED(message);
+
+    STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
+
+    XTESTS_EXCEPTION_TRY_
+
+        s_runner->RegisterSuccessfulCondition(file, line, function, expr);
+
+        return 1;
+
+    XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
+}
+
+XTESTS_CALL(int)
+xtests_testUdtFailed(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const*         expected
+,   char const*         actual
+,   xtests_comparison_t comp
+,   char const*         message     /* = NULL */
+)
+{
+    STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
+
+    XTESTS_EXCEPTION_TRY_
+
+        return s_runner->RegisterFailedCondition_udt(file, line, function, expr, expected, actual, comp, message);
+
+    XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
+}
+
 
 XTESTS_CALL(int)
 xtests_floatingPointClose(
@@ -2245,6 +2319,13 @@ xtests_variable_t::xtests_variable_t(wchar_t const* s, size_t n, xtests_test_typ
     , valueLen(n)
 {}
 
+xtests_variable_t::xtests_variable_t(char const* s, xtests_variable_type_t type) // UDT
+    : variableType(type)
+    , testType(xtestsTestFullComparison)
+    , value(s)
+    , valueLen(::stlsoft::c_str_len_a(s))
+{}
+
 #ifdef STLSOFT_CF_NAMESPACE_SUPPORT
 namespace
 {
@@ -2468,7 +2549,7 @@ RunnerInfo::get_reporter_(
                     break;
                 case xtestsVariableMultibyteString:
 
-                    onTestFailed_MultibyteString_(file, line, function, expr, expectedValue->value.multibyteStringValue, expectedValue->valueLen, actualValue->value.multibyteStringValue, actualValue->valueLen, length, testType, comparison, verbosity, m_is_tty);
+                    onTestFailed_MultibyteString_(file, line, function, expr, expectedValue->value.multibyteStringValue, expectedValue->valueLen, actualValue->value.multibyteStringValue, actualValue->valueLen, length, testType, comparison, verbosity, m_is_tty, xtestsVariableMultibyteString);
                     break;
                 case xtestsVariableWideString:
 
@@ -2496,6 +2577,10 @@ RunnerInfo::get_reporter_(
                 case xtestsVariableDouble:
 
                     onTestFailed_Double_(file, line, function, expr, expectedValue->value.doubleValue, actualValue->value.doubleValue, comparison, verbosity, m_is_tty);
+                    break;
+                case xtestsVariableUdt:
+
+                    onTestFailed_MultibyteString_(file, line, function, expr, expectedValue->value.multibyteStringValue, expectedValue->valueLen, actualValue->value.multibyteStringValue, actualValue->valueLen, length, testType, comparison, verbosity, m_is_tty, xtestsVariableUdt);
                     break;
                 default:
 
@@ -2731,19 +2816,20 @@ RunnerInfo::get_reporter_(
 
             void
             onTestFailed_MultibyteString_(
-                char const*         file
-            ,   int                 line
-            ,   char const*         function
-            ,   char const*         expr
-            ,   char const*         expectedValue
-            ,   size_t              expectedValueLen
-            ,   char const*         actualValue
-            ,   size_t              actualValueLen
-            ,   ptrdiff_t           length
-            ,   xtests_test_type_t  testType
-            ,   xtests_comparison_t comparison
-            ,   int                 verbosity
-            ,   int                 is_tty
+                char const*             file
+            ,   int                     line
+            ,   char const*             function
+            ,   char const*             expr
+            ,   char const*             expectedValue
+            ,   size_t                  expectedValueLen
+            ,   char const*             actualValue
+            ,   size_t                  actualValueLen
+            ,   ptrdiff_t               length
+            ,   xtests_test_type_t      testType
+            ,   xtests_comparison_t     comparison
+            ,   int                     verbosity
+            ,   int                     is_tty
+            ,   xtests_variable_type_t  variable_type
             )
             {
                 // eliminate NULL pointers
@@ -2752,13 +2838,34 @@ RunnerInfo::get_reporter_(
 
                 if (xtestsTestFullComparison == testType)
                 {
+                    char const* type_qualifier = NULL;
+
+                    switch (variable_type)
+                    {
+                    case xtestsVariableMultibyteString:
+
+                        type_qualifier = "multibyte string";
+                        break;
+                    case xtestsVariableWideString:
+
+                        type_qualifier = "wide string";
+                        break;
+                    case xtestsVariableUdt:
+
+                        type_qualifier = "user-defined type";
+                        break;
+                    default:
+
+                        break;
+                    }
+
                     std::string fmt_ =
                     colorise_(
                         file
                     ,   line
                     ,   function
                     ,   expr
-                    ,   "string"
+                    ,   type_qualifier
 # if 0
                     ,   /*s_truthy_strings[!!*/actualValue/*]*/
                     ,   /*s_truthy_strings[!!*/expectedValue/*]*/
@@ -2946,7 +3053,7 @@ RunnerInfo::get_reporter_(
                 stlsoft::w2a    expected(expectedValue, expectedValueLen);
                 stlsoft::w2a    actual(actualValue, actualValueLen);
 
-                onTestFailed_MultibyteString_(file, line, function, expr, expected, expected.size(), actual, actual.size(), length, testType, comparison, verbosity, is_tty);
+                onTestFailed_MultibyteString_(file, line, function, expr, expected, expected.size(), actual, actual.size(), length, testType, comparison, verbosity, is_tty, xtestsVariableWideString);
             }
 
             void
@@ -3993,6 +4100,46 @@ RunnerInfo::RegisterFailedCondition(
         ++testInfo.totalConditions;
 
         Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, NULL, NULL, -1, xtestsComparisonEqual, m_verbosity);
+
+        return 0;
+    }
+
+    RETURN_UNUSED(-1);
+}
+
+int
+RunnerInfo::RegisterFailedCondition_udt(
+        char const*             file
+    ,   int                     line
+    ,   char const*             function
+    ,   char const*             expr
+    ,   char const*             expected
+    ,   char const*             actual
+    ,   xtests_comparison_t     comp
+    ,   char const*             message
+)
+{
+    STLSOFT_ASSERT(NULL != m_reporter);
+
+    STLSOFT_SUPPRESS_UNUSED(message);
+
+    if (m_testCases.end() == m_currentCase)
+    {
+        report_unstartedCase_defect_();
+
+        return -1;
+    }
+    else
+    {
+        TestInfo& testInfo = (*m_currentCase).second;
+
+        ++testInfo.failedConditions;
+        ++testInfo.totalConditions;
+
+        xtests_variable_t   expectedValue(expected, xtestsVariableUdt);
+        xtests_variable_t   actualValue(actual, xtestsVariableUdt);
+
+        Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, &expectedValue, &actualValue, -1, comp, m_verbosity);
 
         return 0;
     }

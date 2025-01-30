@@ -13,11 +13,15 @@
  */
 
 /** \example{lineno} example.cpp.temp_directory/main.cpp
- * A simple example of
+ * A simple example of the use of xtests::cpp::util::temp_directory
  */
 
 /** \example{lineno} example.cpp.temp_file/main.cpp
- * A simple example of
+ * A simple example of the use of xtests::cpp::util::temp_file
+ */
+
+/** \example{lineno} example.cpp.temp_file/main.cpp
+ * An example of the unit-testing of a user-defined type
  */
 
 
