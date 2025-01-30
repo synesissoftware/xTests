@@ -1,6 +1,12 @@
 # xTests - History
 
 
+30th January 2025 - 0.26.0-beta2
+--------------------------------
+
+ * now ensures that does not emit ANSI colour sequences when running on Windows on an old terminal that does not support them;
+
+
 31st December 2024 - 0.26.0-beta1
 ---------------------------------
 
