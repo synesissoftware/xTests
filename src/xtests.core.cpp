@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 10th January 2025
+ * Updated: 30th January 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -2839,25 +2839,17 @@ RunnerInfo::get_reporter_(
                     {
                     case xtestsVariableMultibyteString:
 
-                        fprintf(stderr, "%s:%d:%s: \n", __STLSOFT_FILE_LINE_FUNCTION__);
-
                         type_qualifier = "multibyte string";
                         break;
                     case xtestsVariableWideString:
-
-                        fprintf(stderr, "%s:%d:%s: \n", __STLSOFT_FILE_LINE_FUNCTION__);
 
                         type_qualifier = "wide string";
                         break;
                     case xtestsVariableUdt:
 
-                        fprintf(stderr, "%s:%d:%s: \n", __STLSOFT_FILE_LINE_FUNCTION__);
-
                         type_qualifier = "user-defined type";
                         break;
                     default:
-
-                        fprintf(stderr, "%s:%d:%s: \n", __STLSOFT_FILE_LINE_FUNCTION__);
 
                         break;
                     }
