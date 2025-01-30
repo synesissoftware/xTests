@@ -60,6 +60,7 @@ function(define_example_program program_name entry_point_source_name)
 	target_link_libraries(${program_name}
 		PRIVATE
 			core
+			$<${shwild_FOUND}:shwild::core>
 	)
 
 	define_target_compile_options(${program_name})
