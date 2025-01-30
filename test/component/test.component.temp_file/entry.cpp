@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.component.temp_file.cpp
+ * File:    test.component.temp_file/entry.cpp
  *
  * Purpose: Component-tests for `xtests::cpp::util::temp_file`.
  *
  * Created: 5th May 2024
- * Updated: 21st October 2024
+ * Updated: 31st December 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 

@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.test.unit.string_comparisons.cpp
+ * File:    test.test.unit.string_comparisons/entry.cpp
  *
  * Purpose: Conmponent-tests for `xtests::cpp::util::temp_file`.
  *
  * Created: 21st October 2024
- * Updated: 21st October 2024
+ * Updated: 31st December 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 

@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 9th December 2024
+ * Updated: 30th December 2024
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -78,6 +78,7 @@
 # include <winstl/system/system_version.hpp>
 #endif
 #include <stlsoft/conversion/char_conversions.hpp>
+#include <stlsoft/conversion/string_to_integer.hpp>
 #include <stlsoft/memory/auto_buffer.hpp>
 #include <stlsoft/shims/access/string/std/c_string.h>
 #include <stlsoft/string/case_functions.hpp>
@@ -91,6 +92,7 @@
 #  include <stlsoft/util/must_init.hpp>
 # endif /* !STLSoft 1.12+ */
 #endif /* compiler */
+#include <stlsoft/system/cmdargs.hpp>
 #ifdef XTESTS_STLSOFT_1_12_OR_LATER
 # include <stlsoft/traits/integral_printf_format_traits.hpp>
 #else /* ? STLSoft 1.12+ */
@@ -1858,23 +1860,31 @@ xtests_commandLine_parseVerbosity(
 
     *verbosity = XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR;
 
-    static const char   s_verb[]    =   "--verbosity=";
-    static const size_t s_cchVerb   =   STLSOFT_NUM_ELEMENTS(s_verb) - 1;
-
-    { for (int i = 1; i < argc; ++i)
+    try
     {
-        STLSOFT_ASSERT(NULL != argv[i]);
+        stlsoft::cmdargs const      ca(argc, argv);
+        stlsoft::cmdargs::option    opt;
 
-        if (argv[i] == ::strstr(argv[i], s_verb))
+        if (ca.has_option("verbosity", 2, opt))
         {
-            char*   endptr;
-            long    l = ::strtol(argv[i] + s_cchVerb, &endptr, 0);
+            char const* endptr;
 
-            *verbosity = static_cast<int>(l);
+            *verbosity = stlsoft::string_to_integer(opt.value.data(), opt.value.size(), &endptr);
 
             return 1;
         }
-    }}
+    }
+    catch (std::bad_alloc&)
+    {
+        STLSOFT_NS_USING(stlsoft_C_string_slice_a_t)
+        PLATFORMSTL_NS_USING(platformstl_C_get_executable_name_from_path)
+
+        stlsoft_C_string_slice_a_t const exe_name = platformstl_C_get_executable_name_from_path(argv[0]);
+
+        fprintf(stderr, "%.*s: out of memory\n", int(exe_name.len), exe_name.ptr);
+
+        return 0;
+    }
 
     /* at this point, "--verbosity=???" has not been specified, so consult
      * environment variable(s):
@@ -1916,29 +1926,28 @@ xtests_commandLine_parseHelp(
 ,   int     exitCode
 )
 {
-    static const char   s_verb[]    =   "--help";
+    return xtests_commandLine_parseHelp2(argc, argv, stm, &exitCode);
+}
 
-    { for (int i = 1; i < argc; ++i)
+XTESTS_CALL(void)
+xtests_commandLine_parseHelp2(
+    int         argc
+,   char*       argv[]
+,   FILE*       stm
+,   int const*  exitCode
+)
+{
+    STLSOFT_NS_USING(stlsoft_C_string_slice_a_t)
+    PLATFORMSTL_NS_USING(platformstl_C_get_executable_name_from_path)
+
+    stlsoft_C_string_slice_a_t const exe_name = platformstl_C_get_executable_name_from_path(argv[0]);
+
+    try
     {
-        STLSOFT_ASSERT(NULL != argv[i]);
+        stlsoft::cmdargs const ca(argc, argv);
 
-        if (0 == ::strcmp(argv[i], s_verb))
+        if (ca.has_option("help", 2))
         {
-#ifdef PLATFORMSTL_INCL_PLATFORMSTL_FILESYSTEM_H_PATH_FUNCTIONS
-
-            STLSOFT_NS_USING(stlsoft_C_string_slice_a_t)
-            PLATFORMSTL_NS_USING(platformstl_C_get_executable_name_from_path)
-
-            stlsoft_C_string_slice_a_t const exe_name = platformstl_C_get_executable_name_from_path(argv[0]);
-#else
-
-            struct
-            {
-                size_t      len;
-                char const* ptr;
-            } exe_name = { ::strlen(argv[0]), argv[0] };
-#endif
-
             ::fprintf(
                 stm
             ,   "USAGE: %.*s [ --help | --verbosity=<verbosity> ]\n"
@@ -1956,13 +1965,135 @@ xtests_commandLine_parseHelp(
                 "\t                             2 - summary and first failed case\n"
                 "\t                             3 - summary and all failed cases\n"
                 "\t                             4 - summary and all cases\n"
-            ,   int(exe_name.len)
-            ,   exe_name.ptr
+            ,   int(exe_name.len), exe_name.ptr
             );
 
-            ::exit(exitCode);
+            if (NULL != exitCode)
+            {
+                ::exit(*exitCode);
+            }
         }
-    }}
+    }
+    catch (std::bad_alloc&)
+    {
+        fprintf(stderr, "%.*s: out of memory\n", int(exe_name.len), exe_name.ptr);
+    }
+}
+
+XTESTS_CALL(int)
+xtests_commandLine_parseHelpOrVerbosity(
+    int         argc
+,   char*       argv[]
+,   FILE*       stm
+,   int const*  usageExitCode
+,   int const*  defaultVerbosity
+,   int*        verbosity
+)
+{
+    int dummy;
+
+    if (NULL == verbosity)
+    {
+        verbosity = &dummy;
+    }
+
+    if (NULL != defaultVerbosity)
+    {
+        *verbosity = *defaultVerbosity;
+    }
+    else
+    {
+        *verbosity = XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR;
+    }
+
+    STLSOFT_NS_USING(stlsoft_C_string_slice_a_t)
+    PLATFORMSTL_NS_USING(platformstl_C_get_executable_name_from_path)
+
+    stlsoft_C_string_slice_a_t const exe_name = platformstl_C_get_executable_name_from_path(argv[0]);
+
+
+    try
+    {
+        stlsoft::cmdargs const      ca(argc, argv);
+        stlsoft::cmdargs::option    opt;
+
+        if (ca.has_option("help", 2))
+        {
+            ::fprintf(
+                stm
+            ,   "USAGE: %.*s [ --help | --verbosity=<verbosity> ]\n"
+                "\n"
+                "where:\n"
+                "\t--help                  - displays this help and terminates\n"
+                "\t--verbosity=<verbosity> - executes the tests with the given\n"
+                "\t                          <verbosity>, which may be between\n"
+                "\t                          -1 and 4 (inclusive). The values\n"
+                "\t                          are interpreted as:\n"
+                "\n"
+                "\t                            -1 - no output\n"
+                "\t                             0 - summary only on fail\n"
+                "\t                             1 - summary only\n"
+                "\t                             2 - summary and first failed case\n"
+                "\t                             3 - summary and all failed cases\n"
+                "\t                             4 - summary and all cases\n"
+            ,   int(exe_name.len), exe_name.ptr
+            );
+
+            if (NULL != usageExitCode)
+            {
+                ::exit(*usageExitCode);
+            }
+            else
+            {
+                return 2;
+            }
+        }
+
+        if (ca.has_option("verbosity", 2, opt))
+        {
+            char const* endptr;
+
+            *verbosity = stlsoft::string_to_integer(opt.value.data(), opt.value.size(), &endptr);
+
+            return 1;
+        }
+
+        /* at this point, "--verbosity=???" has not been specified, so consult
+        * environment variable(s):
+        *
+        * - "XTESTS_VERBOSITY";
+        * - "TEST_VERBOSITY";
+        */
+
+        static char const* const ENVIRONMENT_VARIABLES[] =
+        {
+            "XTESTS_VERBOSITY",
+            "TEST_VERBOSITY",
+        };
+
+        for (unsigned i = 0; i != STLSOFT_NUM_ELEMENTS(ENVIRONMENT_VARIABLES); ++i)
+        {
+            platformstl::environment_variable envvar(ENVIRONMENT_VARIABLES[i]);
+
+            if (!envvar.empty())
+            {
+                char*   endptr;
+                long    l = ::strtol(envvar, &endptr, 0);
+
+                *verbosity = static_cast<int>(l);
+
+                return 1;
+            }
+        }
+
+        return 0;
+    }
+    catch (std::bad_alloc&)
+    {
+        fprintf(stderr, "%.*s: out of memory\n", int(exe_name.len), exe_name.ptr);
+
+        return -ENOMEM;
+    }
 }
 
 
@@ -2325,53 +2456,53 @@ RunnerInfo::get_reporter_(
                     break;
                 case xtestsVariableOpaquePointer:
 
-                    onTestFailed_OpaquePointer_(file, line, function, expr, expectedValue->value.opaquePointerValue, actualValue->value.opaquePointerValue,  comparison, verbosity, m_is_tty);
+                    onTestFailed_OpaquePointer_(file, line, function, expr, expectedValue->value.opaquePointerValue, actualValue->value.opaquePointerValue, comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableMultibyteCharacter:
 
-                    onTestFailed_MultibyteCharacter_(file, line, function, expr, expectedValue->value.multibyteCharacterValue, actualValue->value.multibyteCharacterValue,  comparison, verbosity, m_is_tty);
+                    onTestFailed_MultibyteCharacter_(file, line, function, expr, expectedValue->value.multibyteCharacterValue, actualValue->value.multibyteCharacterValue, comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableWideCharacter:
 
-                    onTestFailed_WideCharacter_(file, line, function, expr, expectedValue->value.wideCharacterValue, actualValue->value.wideCharacterValue,  comparison, verbosity, m_is_tty);
+                    onTestFailed_WideCharacter_(file, line, function, expr, expectedValue->value.wideCharacterValue, actualValue->value.wideCharacterValue, comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableMultibyteString:
 
-                    onTestFailed_MultibyteString_(file, line, function, expr, expectedValue->value.multibyteStringValue, expectedValue->valueLen, actualValue->value.multibyteStringValue, actualValue->valueLen, length, testType,  comparison, verbosity, m_is_tty);
+                    onTestFailed_MultibyteString_(file, line, function, expr, expectedValue->value.multibyteStringValue, expectedValue->valueLen, actualValue->value.multibyteStringValue, actualValue->valueLen, length, testType, comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableWideString:
 
-                    onTestFailed_WideString_(file, line, function, expr, expectedValue->value.wideStringValue, expectedValue->valueLen, actualValue->value.wideStringValue, actualValue->valueLen, length, testType,  comparison, verbosity, m_is_tty);
+                    onTestFailed_WideString_(file, line, function, expr, expectedValue->value.wideStringValue, expectedValue->valueLen, actualValue->value.wideStringValue, actualValue->valueLen, length, testType, comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableLong:
 
-                    onTestFailed_SignedLong_(file, line, function, expr, expectedValue->value.longValue, actualValue->value.longValue,  comparison, verbosity, m_is_tty);
+                    onTestFailed_SignedLong_(file, line, function, expr, expectedValue->value.longValue, actualValue->value.longValue, comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableUnsignedLong:
 
-                    onTestFailed_UnsignedLong_(file, line, function, expr, expectedValue->value.ulongValue, actualValue->value.ulongValue,  comparison, verbosity, m_is_tty);
+                    onTestFailed_UnsignedLong_(file, line, function, expr, expectedValue->value.ulongValue, actualValue->value.ulongValue, comparison, verbosity, m_is_tty);
                     break;
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
 
                 case xtestsVariableLongLong:
 
-                    onTestFailed_sint64_(file, line, function, expr, expectedValue->value.longlongValue, actualValue->value.longlongValue,  comparison, verbosity, m_is_tty);
+                    onTestFailed_sint64_(file, line, function, expr, expectedValue->value.longlongValue, actualValue->value.longlongValue, comparison, verbosity, m_is_tty);
                     break;
                 case xtestsVariableUnsignedLongLong:
 
-                    onTestFailed_uint64_(file, line, function, expr, expectedValue->value.ulonglongValue, actualValue->value.ulonglongValue,  comparison, verbosity, m_is_tty);
+                    onTestFailed_uint64_(file, line, function, expr, expectedValue->value.ulonglongValue, actualValue->value.ulonglongValue, comparison, verbosity, m_is_tty);
                     break;
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
                 case xtestsVariableDouble:
 
-                    onTestFailed_Double_(file, line, function, expr, expectedValue->value.doubleValue, actualValue->value.doubleValue,  comparison, verbosity, m_is_tty);
+                    onTestFailed_Double_(file, line, function, expr, expectedValue->value.doubleValue, actualValue->value.doubleValue, comparison, verbosity, m_is_tty);
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("not currently defined for this type", 0);
                 case xtestsVariableNone:
 
-                    onTestFailed_(file, line, function, expr,  comparison, verbosity, m_is_tty);
+                    onTestFailed_(file, line, function, expr, comparison, verbosity, m_is_tty);
                     break;
                 }
             }
@@ -2815,7 +2946,7 @@ RunnerInfo::get_reporter_(
                 stlsoft::w2a    expected(expectedValue, expectedValueLen);
                 stlsoft::w2a    actual(actualValue, actualValueLen);
 
-                onTestFailed_MultibyteString_(file, line, function, expr, expected, expected.size(), actual, actual.size(), length, testType,  comparison, verbosity, is_tty);
+                onTestFailed_MultibyteString_(file, line, function, expr, expected, expected.size(), actual, actual.size(), length, testType, comparison, verbosity, is_tty);
             }
 
             void

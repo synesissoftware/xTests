@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.unit.string_slices.c.c
+ * File:    test.unit.string_slices.c/entry.c
  *
  * Purpose: Illustrates xTests string slice comparison macros (C code).
  *
  * Created: 16th February 2013
- * Updated: 22nd October 2024
+ * Updated: 31st December 2024
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
     int retCode = EXIT_SUCCESS;
     int verbosity;
 
-    XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, &verbosity);
+    XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY(argc, argv, &verbosity);
 
     if (XTESTS_START_RUNNER("test.unit.string_slices.c", verbosity))
     {

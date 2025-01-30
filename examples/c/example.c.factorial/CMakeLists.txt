@@ -1,2 +1,2 @@
 # SIS:AUTO_GENERATED: Remove this line if you edit the file, otherwise it will be overwritten
-define_example_program(example.c.factorial example.c.factorial.c)
+define_example_program(example.c.factorial main.c)
