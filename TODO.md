@@ -2,15 +2,15 @@
 
 ## Table of Contents <!-- omit in toc -->
 
-- [xTests 0.22+ TODOs:](#xtests-022-todos)
+- [xTests 0.26+ TODOs:](#xtests-026-todos)
 - [xTests 0.20.x TODOs:](#xtests-020x-todos)
 
 
-## xTests 0.22+ TODOs:
+## xTests 0.26+ TODOs:
 
-* coloured console output, for `"SUCCESS"` and `"FAILURE"` reports;
+* ~~coloured console output, for `"SUCCESS"` and `"FAILURE"` reports~~;
 * ~~enhance C-form of macros using `_Generic`~~ - this provided as of version 0.24.0;
-* simplified (shorter) macros, via opt-in header(s);
+* ~~simplified (shorter) macros, via opt-in header(s)~~;
 
 
 ## xTests 0.20.x TODOs:

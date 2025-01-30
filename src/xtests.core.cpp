@@ -73,6 +73,10 @@
 #include <platformstl/filesystem/path_functions.h>
 #include <platformstl/system/console_functions.h>
 #include <platformstl/system/environment_variable.hpp>
+#if 0
+#elif defined(PLATFORMSTL_OS_IS_WINDOWS)
+# include <winstl/system/system_version.hpp>
+#endif
 #include <stlsoft/conversion/char_conversions.hpp>
 #include <stlsoft/conversion/string_to_integer.hpp>
 #include <stlsoft/memory/auto_buffer.hpp>
@@ -1971,6 +1975,7 @@ xtests_commandLine_parseVerbosity(
 
     for (unsigned i = 0; i != STLSOFT_NUM_ELEMENTS(ENVIRONMENT_VARIABLES); ++i)
     {
+
         platformstl::environment_variable envvar(ENVIRONMENT_VARIABLES[i]);
 
         if (!envvar.empty())
@@ -3813,6 +3818,49 @@ RunnerInfo::report_unstartedCase_defect_()
 #endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
 }
 
+namespace tty
+{
+    // Intended to ensure that, on Windows, we are not emitting ANSI colour
+    // codes when on an old terminal that cannot be instructed to accept
+    // them
+    struct ansi_supporter
+    {
+    public:
+        static
+        bool
+        determine_support()
+        {
+#ifdef PLATFORMSTL_OS_IS_WINDOWS
+
+            using winstl::system_version;
+
+            if (system_version::build_number() >= 22000)
+            {
+                return true;
+            }
+
+            if (system_version::build_number() >= 16257)
+            {
+                DWORD consoleMode;
+                HANDLE h = ::GetStdHandle(STD_INPUT_HANDLE);
+
+                if (::GetConsoleMode(h, &consoleMode))
+                {
+                    if (::SetConsoleMode(h, consoleMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+#else
+
+            return true;
+#endif
+        }
+    };
+}
 
 RunnerInfo::RunnerInfo(
     char const*             name
@@ -3829,7 +3877,8 @@ RunnerInfo::RunnerInfo(
                         reporter
                     ,   stm
                     ,   flags
-                    ,   platformstl::isatty(stdout)
+                    ,   platformstl::isatty(stdout) &&
+                        tty::ansi_supporter::determine_support()
                     ))
     , m_reporterParam(reporterParam)
     , m_name(name)
