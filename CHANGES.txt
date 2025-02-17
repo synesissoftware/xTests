@@ -16,6 +16,12 @@ Updated: 11th January 2025
     ************************************
 
 
+17th February 2025 - 0.26.0-beta3
+=================================
+
+ * fixed defect (when on UNIX) in `temp_file`;
+
+
 30th January 2025 - 0.26.0-beta2
 ================================
 
