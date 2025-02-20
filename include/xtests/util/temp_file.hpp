@@ -4,7 +4,7 @@
  * Purpose: Definition of the temp_file class.
  *
  * Created: 8th May 2014
- * Updated: 17th February 2025
+ * Updated: 20th February 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,7 +52,7 @@
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MAJOR     0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     4
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  2
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      24
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      25
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -152,11 +152,11 @@ public: // Types
     enum Flags
     {
             None            =   0
-        ,   DeleteOnClose   =   0x0002  /*!< causes the file to be deleted upon destruction */
-        ,   EmptyOnOpen     =   0x0004  /*!< causes the file to be emptied upon construction */
-        ,   EmptyOnClose    =   0x0008  /*!< causes the file to be emptied upon destruction */
-        ,   DeleteOnOpen    =   0x0010  /*!< causes the file to be deletec upon construction */
-        ,   CloseOnOpen     =   0x0020  /*!< causes the file to be closed upon construction */
+        ,   DeleteOnClose   =   0x0002  /*!< file to be deleted upon destruction */
+        ,   EmptyOnOpen     =   0x0004  /*!< file to be emptied upon construction */
+        ,   EmptyOnClose    =   0x0008  /*!< file to be emptied upon destruction */
+        ,   DeleteOnOpen    =   0x0010  /*!< file to be deletec upon construction */
+        ,   CloseOnOpen     =   0x0020  /*!< file to be closed upon construction */
     };
 
     /// Exception type

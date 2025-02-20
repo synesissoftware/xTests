@@ -1,3 +1,2 @@
 # SIS:AUTO_GENERATED: Remove this line if you edit the file, otherwise it will be overwritten
-add_subdirectory(test.component.temp_directory)
-add_subdirectory(test.component.temp_file)
+define_automated_test_program(test.component.temp_directory entry.cpp)
