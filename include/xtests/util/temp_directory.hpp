@@ -297,7 +297,7 @@ temp_directory::remove_subdirectories_(
     bool succeeded = true;
 
 
-    readdir_sequence files(path, readdir_sequence::files | readdir_sequence::fullPath);
+    readdir_sequence files(path, readdir_sequence::files | readdir_sequence::sockets | readdir_sequence::fullPath);
 
     { for (readdir_sequence::const_iterator i = files.begin(); files.end() != i; ++i)
     {
