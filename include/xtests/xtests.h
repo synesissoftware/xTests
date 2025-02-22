@@ -53,7 +53,7 @@
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       49
 # define XTESTS_VER_XTESTS_H_XTESTS_REVISION    3
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        392
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        393
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -105,9 +105,9 @@
     STLSOFT_VER >= 0x010c0000
 
 # define XTESTS_STLSOFT_1_12_OR_LATER
-#elif _STLSOFT_VER < 0x010b015d
+#elif _STLSOFT_VER < 0x010b0182
 
-# error xTests requires version 1.11.1 alpha 29, or later, of STLSoft; obtain from https://github.com/synesissoftware/
+# error xTests requires version 1.11.1 beta 2, or later, of STLSoft; obtain from https://github.com/synesissoftware/
 #endif /* _STLSOFT_VER */
 
 
