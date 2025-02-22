@@ -2,7 +2,7 @@ xTests - Changes
 ================
 
 Created: 22nd February 2008
-Updated: 23rd November 2024
+Updated: 23rd February 2025
 
 
     ************************************
@@ -14,6 +14,15 @@ Updated: 23rd November 2024
     *  *  means a general bullet-point *
     *                                  *
     ************************************
+
+
+23rd February 2025 - 0.26.0-beta3
+=================================
+
+ * added support (including coloured output) for (in)equality testing of UDTs;
+ * `temp_directory` now finds and deletes sockets (in addition to files);
+ * fixed defect (when on UNIX) in `temp_file`;
+ * now ensures that does not emit ANSI colour sequences when running on Windows on an old terminal that does not support them;
 
 
 31st December 2024 - 0.26.0-beta1

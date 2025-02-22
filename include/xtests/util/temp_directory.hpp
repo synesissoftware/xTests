@@ -4,11 +4,11 @@
  * Purpose: Definition of the temp_directory class.
  *
  * Created: 1st October 2015
- * Updated: 31st December 2024
+ * Updated: 20th February 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
- * Copyright (c) 2019-2024, Matthew Wilson and Synesis Information Systems
+ * Copyright (c) 2019-2025, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 2015-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -51,8 +51,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MAJOR    0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MINOR    2
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_REVISION 3
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     17
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_REVISION 4
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     18
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -137,10 +137,10 @@ public: // Types
     enum Flags
     {
             None                    =   0
-        ,   EmptyOnOpen             =   0x0001  /*!< causes the directory to be cleared upon construction */
-        ,   EmptyOnClose            =   0x0002  /*!< causes the directory to be cleared upon destruction */
-        ,   RemoveOnOpen            =   0x0004  /*!< causes the directory to be removed upon construction */
-        ,   RemoveOnClose           =   0x0008  /*!< causes the directory to be removed upon destruction */
+        ,   EmptyOnOpen             =   0x0001  /*!< directory to be cleared upon construction */
+        ,   EmptyOnClose            =   0x0002  /*!< directory to be cleared upon destruction */
+        ,   RemoveOnOpen            =   0x0004  /*!< directory to be removed upon construction, which will fail if not empty unless also use EmptyOnOpen */
+        ,   RemoveOnClose           =   0x0008  /*!< directory to be removed upon destruction, which will fail if not empty unless also use EmptyOnClose */
     };
 
     class could_not_create_temporary_directory_exception;
@@ -297,7 +297,7 @@ temp_directory::remove_subdirectories_(
     bool succeeded = true;
 
 
-    readdir_sequence files(path, readdir_sequence::files | readdir_sequence::fullPath);
+    readdir_sequence files(path, readdir_sequence::files | readdir_sequence::sockets | readdir_sequence::fullPath);
 
     { for (readdir_sequence::const_iterator i = files.begin(); files.end() != i; ++i)
     {
@@ -467,7 +467,7 @@ inline
 inline
 temp_directory::~temp_directory() STLSOFT_NOEXCEPT
 {
-    bool removed_recursively = false;
+    bool removed_recursively = true;
 
     if (0 != (EmptyOnClose & m_flags))
     {

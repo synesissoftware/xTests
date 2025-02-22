@@ -5,7 +5,7 @@
 # Purpose:  CMake lists file for xTests core library
 #
 # Created:  ...
-# Updated:  17th October 2024
+# Updated:  18th January 2025
 #
 # ######################################################################## #
 
@@ -53,6 +53,7 @@ add_library(core
 # `install()` step
 set(CORE_PUBLIC_HEADERS
 	"${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME_LOWER}/${PROJECT_NAME_LOWER}.h"
+	"${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME_LOWER}/terse-api.h"
 )
 
 set_target_properties(core PROPERTIES
