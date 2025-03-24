@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 23rd February 2025
+ * Updated: 24th March 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       49
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    3
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        393
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    4
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        395
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -83,7 +83,7 @@
 #define _XTESTS_VER_MINOR       26
 #define _XTESTS_VER_REVISION    0
 
-#define _XTESTS_VER             0x001a0083
+#define _XTESTS_VER             0x001a0084
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -2728,8 +2728,6 @@ c_str_len_n_w(
  * - a test failure (highly granular)
  * - a test case summary
  * - a test runner summary
- *
- *
  *
  * \see XTESTS_START_RUNNER()
  * \see XTESTS_START_RUNNER_WITH_REPORTER()
