@@ -3749,11 +3749,12 @@ RunnerInfo::get_reporter_(
                 {
                         ""
                     ,   "Test runner '%s' complete:"
-                        "\t%u / %u / %u / %u / %u / %u; result=%s\n"
+                        "\t%u / %u / %u / %u / %u / %u / %u; result=%s\n"
                         "\n"
                     ,   "------------------------------------------------------------\n"
                         "Test runner '%s' complete:\n"
                         "\t%u test case(s)\n"
+                        "\t%u test case(s) failed\n"
                         "\t%u total assertion(s)\n"
                         "\t%u total assertion(s) succeeded\n"
                         "\t%u total assertion(s) failed\n"
@@ -3770,6 +3771,7 @@ RunnerInfo::get_reporter_(
                 ,   fmt
                 ,   xtests_name_(name_buff, results->name, m_is_tty).data()
                 ,   static_cast<unsigned>(results->numCases)
+                ,   static_cast<unsigned>(results->numFailedCases)
                 ,   static_cast<unsigned>(results->numTests)
                 ,   static_cast<unsigned>(results->numTests - results->numFailedTests)
                 ,   static_cast<unsigned>(results->numFailedTests)
