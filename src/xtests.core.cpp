@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 30th January 2025
+ * Updated: 23rd March 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -40,7 +40,9 @@
  * ////////////////////////////////////////////////////////////////////// */
 
 
-
+/* /////////////////////////////////////////////////////////////////////////
+ * includes
+ */
 
 /* xTests Header Files */
 #ifndef _XTESTS_NO_CPP_API
@@ -751,9 +753,19 @@ namespace
     };
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
+    /** Printf-formatted into sink(s).
+     *
+     * \param sinks Array of sinks into which to write the formatted string;
+     * \param numSinks Extent of \c sinks;
+     * \param requiredLen T.B.C;
+     * \param fmt The printf-like format;
+     *
+     * \return The number of characters written into the sink(s), or -1 if
+     *  the operation failed.
+     */
     int
     xtests_mxnprintf_(
-        xtests_sink_t_ const*   sinks
+        xtests_sink_t_ const    sinks[]
     ,   size_t                  numSinks
     ,   size_t                  requiredLen
     ,   char const*             fmt
@@ -775,8 +787,8 @@ namespace
             {
                 { for (size_t j = 0; j != numSinks; ++j)
                 {
-                    xtests_sink_t_ const&   sink = sinks[j];
-                    static const char       oom[] = "out of memory\n";
+                    xtests_sink_t_ const&   sink    =   sinks[j];
+                    static const char       oom[]   =   "out of memory\n";
 
                     sink.pfn(oom, STLSOFT_NUM_ELEMENTS(oom) - 1, sink.param);
                 }}
@@ -2464,9 +2476,9 @@ RunnerInfo::get_reporter_(
                 case XTESTS_VERBOSITY_VERBOSE:
 
                     {
-                        char_buffer_t_  name_buff(0);
+                        char_buffer_t_ name_buff(0);
 
-                        xtests_mxnprintf_( m_sinks, m_numSinks, stlsoft::c_str_len(name)
+                        xtests_mxnprintf_(  m_sinks, m_numSinks, stlsoft::c_str_len(name)
                         ,   "Test runner '%s' starting:\n"
                         ,   xtests_name_(name_buff, name, m_is_tty).data()
                         );
@@ -2652,13 +2664,13 @@ RunnerInfo::get_reporter_(
                 char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line
-                                ,   s_truthy_strings[!!actualValue]
-                                ,   s_truthy_strings[!!expectedValue]
-                                ,   (NULL != function) ? " in function " : ""
-                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
-                                );
+                ,   fmt
+                ,   file, line
+                ,   s_truthy_strings[!!actualValue]
+                ,   s_truthy_strings[!!expectedValue]
+                ,   (NULL != function) ? " in function " : ""
+                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                );
             }
 
             void
@@ -2698,13 +2710,13 @@ RunnerInfo::get_reporter_(
                 char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line
-                                ,   actualValue
-                                ,   expectedValue
-                                ,   (NULL != function) ? " in function " : ""
-                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
-                                );
+                ,   fmt
+                ,   file, line
+                ,   actualValue
+                ,   expectedValue
+                ,   (NULL != function) ? " in function " : ""
+                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                );
             }
 
             void
@@ -2744,13 +2756,13 @@ RunnerInfo::get_reporter_(
                 char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line
-                                ,   actualValue, actualValue
-                                ,   expectedValue, expectedValue
-                                ,   (NULL != function) ? " in function " : ""
-                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
-                                );
+                ,   fmt
+                ,   file, line
+                ,   actualValue, actualValue
+                ,   expectedValue, expectedValue
+                ,   (NULL != function) ? " in function " : ""
+                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                );
             }
 
             void
@@ -2805,13 +2817,13 @@ RunnerInfo::get_reporter_(
                 }
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line
-                                ,   static_cast<char>(actualValue), actualValue
-                                ,   static_cast<char>(expectedValue), expectedValue
-                                ,   (NULL != function) ? " in function " : ""
-                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
-                                );
+                ,   fmt
+                ,   file, line
+                ,   static_cast<char>(actualValue), actualValue
+                ,   static_cast<char>(expectedValue), expectedValue
+                ,   (NULL != function) ? " in function " : ""
+                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                );
             }
 
             void
@@ -2883,13 +2895,13 @@ RunnerInfo::get_reporter_(
                     char const* fmt = fmt_.c_str();
 
                     xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                    ,   fmt
-                                    ,   file, line
-                                    ,   actualValue
-                                    ,   expectedValue
-                                    ,   (NULL != function) ? " in function " : ""
-                                    ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
-                                    );
+                    ,   fmt
+                    ,   file, line
+                    ,   actualValue
+                    ,   expectedValue
+                    ,   (NULL != function) ? " in function " : ""
+                    ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                    );
                 }
                 else if (xtestsTestPartialComparison == testType)
                 {
@@ -3350,7 +3362,7 @@ RunnerInfo::get_reporter_(
 
             virtual void onWriteFailMessage(void* /* reporterParam */, char const* file, int line, char const* function, char const* message, char const* qualifyingInformation, int verbosity) ss_override_k
             {
-                static const char  s_fmt[] = "%s(%d): %s%s%s%s%s%s%s%s%s%s%s\n";
+                static const char   s_fmt[] = "%s(%d): %s%s%s%s%s%s%s%s%s%s%s\n";
 
                 char const* fn_pre;
                 char const* fn_post;
