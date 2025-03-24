@@ -742,16 +742,28 @@ namespace
     }
 #endif /* XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_ */
 
-    typedef void (*sink_pfn_t_)(char const* s, size_t n, void* param);
-
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
+    /** Sink function.
+     *
+     * \param s Pointer to the first character to be written;
+     * \param n Number of characters to be written;
+     * \param param Parameter to be passed back to the sink;
+     */
+    //
+    typedef void (*sink_pfn_t_)(
+        char const*     s
+    ,   size_t          n
+    ,   void*           param
+    );
+
+    /** Sink structure.
+     */
     struct xtests_sink_t_
     {
         sink_pfn_t_ pfn;
         void*       param;
     };
-#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
     /** Printf-formatted into sink(s).
      *
@@ -1130,6 +1142,7 @@ namespace
 
         return fmt_;
     }
+#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 #ifdef STLSOFT_CF_NAMESPACE_SUPPORT
 } // anonymous namespace
 #endif /* STLSOFT_CF_NAMESPACE_SUPPORT */
