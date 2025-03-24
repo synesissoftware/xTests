@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 23rd March 2025
+ * Updated: 24th March 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -986,12 +986,12 @@ namespace
         case XTESTS_VERBOSITY_SILENT:
         case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
         case XTESTS_VERBOSITY_RUNNER_SUMMARY:
+        case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
 
             return "";
         default:
 
             STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-        case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
         case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
         case XTESTS_VERBOSITY_CASE_SUMMARY:
         XTESTS_VERBOSITY_VALID_MISSING_CASES
@@ -2814,13 +2814,13 @@ RunnerInfo::get_reporter_(
                 case XTESTS_VERBOSITY_SILENT:
                 case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
 
                     fmt = "";
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
@@ -2988,13 +2988,13 @@ RunnerInfo::get_reporter_(
                     case XTESTS_VERBOSITY_SILENT:
                     case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
                     case XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                    case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
 
                         fmt = "";
                         break;
                     default:
 
                         STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
                     case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
                     case XTESTS_VERBOSITY_CASE_SUMMARY:
                     XTESTS_VERBOSITY_VALID_MISSING_CASES
@@ -3344,13 +3344,13 @@ RunnerInfo::get_reporter_(
                 case XTESTS_VERBOSITY_SILENT:
                 case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
 
                     fmt = "";
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
@@ -3402,12 +3402,12 @@ RunnerInfo::get_reporter_(
                 case XTESTS_VERBOSITY_SILENT:
                 case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
 
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
@@ -3441,16 +3441,16 @@ RunnerInfo::get_reporter_(
                 case XTESTS_VERBOSITY_SILENT:
                 case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
 
                     break;
-                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
 
                     level = 1;
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
                 case XTESTS_VERBOSITY_VERBOSE:
@@ -3527,16 +3527,16 @@ RunnerInfo::get_reporter_(
                 case XTESTS_VERBOSITY_SILENT:
                 case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
 
                     break;
-                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
 
                     level = 1;
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
                 case XTESTS_VERBOSITY_VERBOSE:
