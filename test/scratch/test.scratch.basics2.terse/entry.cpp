@@ -368,20 +368,20 @@ static void test_4_1()
     stlsoft::string_view    s1(s2, 3);
     std::string             s3      =   "AbCdEf";
 
-    TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, 0);
-    TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, 1);
-    TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, 2);
-    TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, 3);
+    TEST_MS_EQ_N(s1, s2, 0);
+    TEST_MS_EQ_N(s1, s2, 1);
+    TEST_MS_EQ_N(s1, s2, 2);
+    TEST_MS_EQ_N(s1, s2, 3);
     TEST_MULTIBYTE_STRING_NOT_EQUAL_N(s1, s2, 4);
-    TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, -4);
+    TEST_MS_EQ_N(s1, s2, -4);
     TEST_MULTIBYTE_STRING_NOT_EQUAL_N(s1, s2, 5);
-    TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, -5);
+    TEST_MS_EQ_N(s1, s2, -5);
     TEST_MULTIBYTE_STRING_NOT_EQUAL_N(s1, s2, 6);
-    TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, -6);
+    TEST_MS_EQ_N(s1, s2, -6);
     TEST_MULTIBYTE_STRING_NOT_EQUAL_N(s1, s2, 7);
-    TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, -7);
+    TEST_MS_EQ_N(s1, s2, -7);
     TEST_MULTIBYTE_STRING_NOT_EQUAL_N(s1, s2, 8);
-    TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, -8);
+    TEST_MS_EQ_N(s1, s2, -8);
 
     TEST_MULTIBYTE_STRING_EQUAL_N_APPROX(s1, s3, 0);
     TEST_MULTIBYTE_STRING_EQUAL_N_APPROX(s1, s3, 1);

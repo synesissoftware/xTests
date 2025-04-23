@@ -9,7 +9,6 @@
  * ////////////////////////////////////////////////////////////////////// */
 
 
-
 /* /////////////////////////////////////////////////////////////////////////
  * includes
  */
@@ -18,7 +17,7 @@
  * test component header file include(s)
  */
 
-#include <xtests/xtests.h>
+#include <xtests/terse-api.h>
 
 /* /////////////////////////////////////
  * general includes
@@ -102,7 +101,7 @@ static void test_Pantheios_broken_example()
 
        s::pantheios_util_formatYearToString4(0, &sz);
 
-       XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N("0000", sz, 4);
+       TEST_MS_EQ_N("0000", sz, 4);
    }
 
    {
@@ -116,11 +115,10 @@ static void test_Pantheios_broken_example()
 
            snprintf(expected, STLSOFT_NUM_ELEMENTS(expected), ("%04d"), year);
 
-           XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(expected, sz, 4);
+           TEST_MS_EQ_N(expected, sz, 4);
        }
    }
 }
-
 } // anonymous namespace
 
 

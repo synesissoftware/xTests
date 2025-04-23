@@ -4,7 +4,7 @@
  * Purpose: Unit-tests for utility functions.
  *
  * Created: 30th December 2024
- * Updated: 31st December 2024
+ * Updated: 23rd April 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -22,7 +22,7 @@
  * test component header file include(s)
  */
 
-#include <xtests/xtests.h>
+#include <xtests/terse-api.h>
 
 /* /////////////////////////////////////
  * general includes
@@ -150,7 +150,7 @@ static void TEST_parseHelp2_NO_ARGUMENTS()
     {
         platformstl::file_lines const lines(tf.c_str());
 
-        XTESTS_TEST_INTEGER_EQUAL(0u, lines.size());
+        TEST_INT_EQ(0u, lines.size());
     }
 }
 
@@ -174,11 +174,11 @@ static void TEST_parseHelp2_WITH_help_FLAG()
     {
         platformstl::file_lines const lines(tf.c_str());
 
-        XTESTS_REQUIRE(XTESTS_TEST_INTEGER_EQUAL(15u, lines.size()));
+        XTESTS_REQUIRE(TEST_INT_EQ(15u, lines.size()));
 
 #ifdef XTESTS_HAS_SHWILD
 
-        XTESTS_TEST_MULTIBYTE_STRING_MATCHES("USAGE: my-program*", lines[0]);
+        TEST_MS_MATCHES("USAGE: my-program*", lines[0]);
 #endif /* XTESTS_HAS_SHWILD */
     }
 }
@@ -204,7 +204,7 @@ static void TEST_parseHelp2_WITH_help_FLAG_AFTER_DOUBLEDASH()
     {
         platformstl::file_lines const lines(tf.c_str());
 
-        XTESTS_REQUIRE(XTESTS_TEST_INTEGER_EQUAL(0u, lines.size()));
+        XTESTS_REQUIRE(TEST_INT_EQ(0u, lines.size()));
     }
 }
 
@@ -220,8 +220,8 @@ static void TEST_parseVerbosity_NO_ARGUMENTS()
     int         verbosity = -12345678;
     int const   r = xtests_commandLine_parseVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, &verbosity);
 
-    XTESTS_TEST_INTEGER_EQUAL(0, r);
-    XTESTS_TEST_INTEGER_EQUAL(ASSUMED_DEFAULT_VERBOSITY, verbosity);
+    TEST_INT_EQ(0, r);
+    TEST_INT_EQ(ASSUMED_DEFAULT_VERBOSITY, verbosity);
 }
 
 static void TEST_parseVerbosity_WITH_SINGLE_verbosity_OPTION()
@@ -236,8 +236,8 @@ static void TEST_parseVerbosity_WITH_SINGLE_verbosity_OPTION()
     int         verbosity = -12345678;
     int const   r = xtests_commandLine_parseVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, &verbosity);
 
-    XTESTS_TEST_INTEGER_EQUAL(1, r);
-    XTESTS_TEST_INTEGER_EQUAL(99, verbosity);
+    TEST_INT_EQ(1, r);
+    TEST_INT_EQ(99, verbosity);
 }
 
 static void TEST_parseVerbosity_WITH_verbosity_OPTION_FOLLOWED_BY_SECOND_verbosity_OPTION()
@@ -253,8 +253,8 @@ static void TEST_parseVerbosity_WITH_verbosity_OPTION_FOLLOWED_BY_SECOND_verbosi
     int         verbosity = -12345678;
     int const   r = xtests_commandLine_parseVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, &verbosity);
 
-    XTESTS_TEST_INTEGER_EQUAL(1, r);
-    XTESTS_TEST_INTEGER_EQUAL(99, verbosity);
+    TEST_INT_EQ(1, r);
+    TEST_INT_EQ(99, verbosity);
 }
 
 static void TEST_parseVerbosity_WITH_SINGLE_verbosity_OPTION_AFTER_DOUBLEDASH()
@@ -270,8 +270,8 @@ static void TEST_parseVerbosity_WITH_SINGLE_verbosity_OPTION_AFTER_DOUBLEDASH()
     int         verbosity = -12345678;
     int const   r = xtests_commandLine_parseVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, &verbosity);
 
-    XTESTS_TEST_INTEGER_EQUAL(0, r);
-    XTESTS_TEST_INTEGER_EQUAL(3, verbosity);
+    TEST_INT_EQ(0, r);
+    TEST_INT_EQ(3, verbosity);
 }
 
 
@@ -292,14 +292,14 @@ static void TEST_parseHelpOrVerbosity_NO_ARGUMENTS()
 
         int const r = xtests_commandLine_parseHelpOrVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL, NULL, &verbosity);
 
-        XTESTS_TEST_INTEGER_EQUAL(0, r);
-        XTESTS_TEST_INTEGER_EQUAL(3, verbosity);
+        TEST_INT_EQ(0, r);
+        TEST_INT_EQ(3, verbosity);
     }
 
     {
         platformstl::file_lines const lines(tf.c_str());
 
-        XTESTS_TEST_INTEGER_EQUAL(0u, lines.size());
+        TEST_INT_EQ(0u, lines.size());
     }
 }
 
@@ -321,18 +321,18 @@ static void TEST_parseHelpOrVerbosity_WITH_help_FLAG()
 
         int const r = xtests_commandLine_parseHelpOrVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL, NULL, &verbosity);
 
-        XTESTS_TEST_INTEGER_EQUAL(2, r);
-        XTESTS_TEST_INTEGER_EQUAL(3, verbosity);
+        TEST_INT_EQ(2, r);
+        TEST_INT_EQ(3, verbosity);
     }
 
     {
         platformstl::file_lines const lines(tf.c_str());
 
-        XTESTS_REQUIRE(XTESTS_TEST_INTEGER_EQUAL(15u, lines.size()));
+        XTESTS_REQUIRE(TEST_INT_EQ(15u, lines.size()));
 
 #ifdef XTESTS_HAS_SHWILD
 
-        XTESTS_TEST_MULTIBYTE_STRING_MATCHES("USAGE: my-program*", lines[0]);
+        TEST_MS_MATCHES("USAGE: my-program*", lines[0]);
 #endif /* XTESTS_HAS_SHWILD */
     }
 }
@@ -356,14 +356,14 @@ static void TEST_parseHelpOrVerbosity_WITH_help_FLAG_AFTER_DOUBLEDASH()
 
         int const r = xtests_commandLine_parseHelpOrVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL, NULL, &verbosity);
 
-        XTESTS_TEST_INTEGER_EQUAL(0, r);
-        XTESTS_TEST_INTEGER_EQUAL(3, verbosity);
+        TEST_INT_EQ(0, r);
+        TEST_INT_EQ(3, verbosity);
     }
 
     {
         platformstl::file_lines const lines(tf.c_str());
 
-        XTESTS_REQUIRE(XTESTS_TEST_INTEGER_EQUAL(0u, lines.size()));
+        XTESTS_REQUIRE(TEST_INT_EQ(0u, lines.size()));
     }
 }
 
@@ -384,14 +384,14 @@ static void TEST_parseHelpOrVerbosity_WITH_SINGLE_verbosity_OPTION()
         int         verbosity = -12345678;
         int const   r = xtests_commandLine_parseHelpOrVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL, NULL, &verbosity);
 
-        XTESTS_TEST_INTEGER_EQUAL(1, r);
-        XTESTS_TEST_INTEGER_EQUAL(99, verbosity);
+        TEST_INT_EQ(1, r);
+        TEST_INT_EQ(99, verbosity);
     }
 
     {
         platformstl::file_lines const lines(tf.c_str());
 
-        XTESTS_REQUIRE(XTESTS_TEST_INTEGER_EQUAL(0u, lines.size()));
+        XTESTS_REQUIRE(TEST_INT_EQ(0u, lines.size()));
     }
 }
 
@@ -413,14 +413,14 @@ static void TEST_parseHelpOrVerbosity_WITH_verbosity_OPTION_FOLLOWED_BY_SECOND_v
         int         verbosity = -12345678;
         int const   r = xtests_commandLine_parseHelpOrVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL, NULL, &verbosity);
 
-        XTESTS_TEST_INTEGER_EQUAL(1, r);
-        XTESTS_TEST_INTEGER_EQUAL(99, verbosity);
+        TEST_INT_EQ(1, r);
+        TEST_INT_EQ(99, verbosity);
     }
 
     {
         platformstl::file_lines const lines(tf.c_str());
 
-        XTESTS_REQUIRE(XTESTS_TEST_INTEGER_EQUAL(0u, lines.size()));
+        XTESTS_REQUIRE(TEST_INT_EQ(0u, lines.size()));
     }
 }
 
@@ -442,14 +442,14 @@ static void TEST_parseHelpOrVerbosity_WITH_SINGLE_verbosity_OPTION_AFTER_DOUBLED
         int         verbosity = -12345678;
         int const   r = xtests_commandLine_parseHelpOrVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL, NULL, &verbosity);
 
-        XTESTS_TEST_INTEGER_EQUAL(0, r);
-        XTESTS_TEST_INTEGER_EQUAL(3, verbosity);
+        TEST_INT_EQ(0, r);
+        TEST_INT_EQ(3, verbosity);
     }
 
     {
         platformstl::file_lines const lines(tf.c_str());
 
-        XTESTS_REQUIRE(XTESTS_TEST_INTEGER_EQUAL(0u, lines.size()));
+        XTESTS_REQUIRE(TEST_INT_EQ(0u, lines.size()));
     }
 }
 } // anonymous namespace

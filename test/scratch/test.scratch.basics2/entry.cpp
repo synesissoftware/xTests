@@ -4,7 +4,7 @@
  * Purpose: Illustrates various xTests facilities available to C++ code.
  *
  * Created: 15th December 2007
- * Updated: 30th December 2024
+ * Updated: 23rd April 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -16,7 +16,7 @@
 #include <xtests/test/util/compiler_warnings_suppression.first_include.h>
 
 /* xTests Header Files */
-#include <xtests/xtests.h>
+#include <xtests/terse-api.h>
 
 /* STLSoft Header Files */
 #include <stlsoft/stlsoft.h>
@@ -367,20 +367,20 @@ static void test_4_1()
     stlsoft::string_view    s1(s2, 3);
     std::string             s3      =   "AbCdEf";
 
-    XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, 0);
-    XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, 1);
-    XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, 2);
-    XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, 3);
+    TEST_MS_EQ_N(s1, s2, 0);
+    TEST_MS_EQ_N(s1, s2, 1);
+    TEST_MS_EQ_N(s1, s2, 2);
+    TEST_MS_EQ_N(s1, s2, 3);
     XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N(s1, s2, 4);
-    XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, -4);
+    TEST_MS_EQ_N(s1, s2, -4);
     XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N(s1, s2, 5);
-    XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, -5);
+    TEST_MS_EQ_N(s1, s2, -5);
     XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N(s1, s2, 6);
-    XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, -6);
+    TEST_MS_EQ_N(s1, s2, -6);
     XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N(s1, s2, 7);
-    XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, -7);
+    TEST_MS_EQ_N(s1, s2, -7);
     XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N(s1, s2, 8);
-    XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, -8);
+    TEST_MS_EQ_N(s1, s2, -8);
 
     XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N_APPROX(s1, s3, 0);
     XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N_APPROX(s1, s3, 1);

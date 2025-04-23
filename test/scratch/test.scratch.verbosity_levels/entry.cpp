@@ -4,7 +4,7 @@
  * Purpose: Illustrates some canonical failures (C++ code).
  *
  * Created: 28th January 2017
- * Updated: 30th December 2024
+ * Updated: 23rd April 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -16,7 +16,7 @@
 #include <xtests/test/util/compiler_warnings_suppression.first_include.h>
 
 /* xTests Header Files */
-#include <xtests/xtests.h>
+#include <xtests/terse-api.h>
 
 /* STLSoft Header Files */
 #include <stlsoft/stlsoft.h>
@@ -44,8 +44,11 @@
 
 static void test_succeeded();
 static void test_integer_failed();
+#ifdef STLSOFT_CF_EXCEPTION_SUPPORT
+
 static void test_exception_expected_runtime_error();
 static void test_exception_unexpected();
+#endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -63,8 +66,11 @@ int main(int argc, char* argv[])
     {
         XTESTS_RUN_CASE(test_succeeded);
         XTESTS_RUN_CASE(test_integer_failed);
+#ifdef STLSOFT_CF_EXCEPTION_SUPPORT
+
         XTESTS_RUN_CASE_THAT_THROWS(test_exception_expected_runtime_error, std::runtime_error);
         XTESTS_RUN_CASE(test_exception_unexpected);
+#endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
 
         XTESTS_PRINT_RESULTS();
 
@@ -90,9 +96,8 @@ static void test_integer_failed()
     int const i1 = 0;
     int const i2 = 0;
 
-    XTESTS_TEST_INTEGER_NOT_EQUAL(i1, i2);
+    TEST_INT_NE(i1, i2);
 }
-
 #ifdef STLSOFT_CF_EXCEPTION_SUPPORT
 
 static void test_exception_expected_runtime_error()

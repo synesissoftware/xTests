@@ -32,7 +32,7 @@
  * test component header file include(s)
  */
 
-#include <xtests/xtests.h>
+#include <xtests/terse-api.h>
 
 /* /////////////////////////////////////
  * general includes
@@ -91,40 +91,40 @@ int main(int argc, char **argv)
 
 static void test_empty()
 {
-    XTESTS_TEST_MULTIBYTE_STRING_MATCHES("", "");
+    TEST_MS_MATCHES("", "");
 
-    XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH("", "a");
+    TEST_MS_DOES_NOT_MATCH("", "a");
 }
 
 static void test_exact_matches()
 {
-    XTESTS_TEST_MULTIBYTE_STRING_MATCHES("1", "1");
-    XTESTS_TEST_MULTIBYTE_STRING_MATCHES("abc", "abc");
+    TEST_MS_MATCHES("1", "1");
+    TEST_MS_MATCHES("abc", "abc");
 
-    XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH("1", "2");
-    XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH("2", "1");
+    TEST_MS_DOES_NOT_MATCH("1", "2");
+    TEST_MS_DOES_NOT_MATCH("2", "1");
 }
 
 static void test_wild1_1()
 {
-    XTESTS_TEST_MULTIBYTE_STRING_MATCHES("ab?", "ab_");
-    XTESTS_TEST_MULTIBYTE_STRING_MATCHES("ab?", "ab-");
-    XTESTS_TEST_MULTIBYTE_STRING_MATCHES("ab?", "aba");
+    TEST_MS_MATCHES("ab?", "ab_");
+    TEST_MS_MATCHES("ab?", "ab-");
+    TEST_MS_MATCHES("ab?", "aba");
 
-    XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH("ab?", "Abc");
-    XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH("ab?", "aBc");
+    TEST_MS_DOES_NOT_MATCH("ab?", "Abc");
+    TEST_MS_DOES_NOT_MATCH("ab?", "aBc");
 }
 
 static void test_wild1_2()
 {
-    XTESTS_TEST_MULTIBYTE_STRING_MATCHES("a?c", "a_c");
-    XTESTS_TEST_MULTIBYTE_STRING_MATCHES("a?c", "a-c");
-    XTESTS_TEST_MULTIBYTE_STRING_MATCHES("a?c", "abc");
+    TEST_MS_MATCHES("a?c", "a_c");
+    TEST_MS_MATCHES("a?c", "a-c");
+    TEST_MS_MATCHES("a?c", "abc");
 
-    XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH("a?c", "Ac");
-    XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH("a?c", "Abc");
-    XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH("a?c", "abC");
-    XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH("a?c", "abd");
+    TEST_MS_DOES_NOT_MATCH("a?c", "Ac");
+    TEST_MS_DOES_NOT_MATCH("a?c", "Abc");
+    TEST_MS_DOES_NOT_MATCH("a?c", "abC");
+    TEST_MS_DOES_NOT_MATCH("a?c", "abd");
 }
 
 

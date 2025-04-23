@@ -16,7 +16,7 @@
 #include <xtests/test/util/compiler_warnings_suppression.first_include.h>
 
 /* xTests Header Files */
-#include <xtests/xtests.h>
+#include <xtests/terse-api.h>
 
 /* STLSoft Header Files */
 #include <stlsoft/string/string_view.hpp>
@@ -52,7 +52,7 @@ namespace
     static void test_explicit_failures();
     static void test_missing_expected_exception_failures();
     static void test_unexpected_exception_failures();
-} /* anonymous namespace */
+} // anonymous namespace
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -102,12 +102,12 @@ namespace
     template <typename I>
     void test_int_comparison_failures_(I /* dummyToMakeVC6InstantiateCorrectly */)
     {
-        XTESTS_TEST_INTEGER_EQUAL(static_cast<I>(0), static_cast<I>(-1));
-        XTESTS_TEST_INTEGER_EQUAL(static_cast<I>(1), static_cast<I>(0));
+        TEST_INT_EQ(static_cast<I>(0), static_cast<I>(-1));
+        TEST_INT_EQ(static_cast<I>(1), static_cast<I>(0));
 
-        XTESTS_TEST_INTEGER_LESS(static_cast<I>(0), static_cast<I>(1));
+        TEST_INT_LE(static_cast<I>(0), static_cast<I>(1));
 
-        XTESTS_TEST_INTEGER_GREATER(static_cast<I>(1), static_cast<I>(0));
+        TEST_INT_GT(static_cast<I>(1), static_cast<I>(0));
     }
 
     static void test_int_comparison_failures()
@@ -126,72 +126,72 @@ namespace
     {
         const char src[] = "abcdefghijklmnopqrstuvwxyz";
 
-        XTESTS_TEST_MULTIBYTE_STRING_EQUAL("abc", "xyz");
-        XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX("abc", "xyz");
-        XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL("abc", "abc");
+        TEST_MS_EQ("abc", "xyz");
+        TEST_MS_EQ_APPROX("abc", "xyz");
+        TEST_MS_NE("abc", "abc");
 
 //      stlsoft::string_view    "
 
-        XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(stlsoft::string_view(src, 3), "abcd", 4);
-        XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N("abcd", "abc", -4);
-        XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N_APPROX("abc", "xyz", 1);
-        XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N_APPROX(stlsoft::string_view(src, 3), "Abc", -2);
+        TEST_MS_EQ_N(stlsoft::string_view(src, 3), "abcd", 4);
+        TEST_MS_EQ_N("abcd", "abc", -4);
+        TEST_MS_EQ_N_APPROX("abc", "xyz", 1);
+        TEST_MS_NE_N_APPROX(stlsoft::string_view(src, 3), "Abc", -2);
 
-        XTESTS_TEST_MULTIBYTE_STRING_CONTAIN("abc", "xyz");
-        XTESTS_TEST_MULTIBYTE_STRING_CONTAIN_APPROX(stlsoft::string_view(src, 3), "xyz");
-        XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN("abc", stlsoft::string_view(src, 3));
+        TEST_MS_CONTAIN("abc", "xyz");
+        TEST_MS_CONTAIN_APPROX(stlsoft::string_view(src, 3), "xyz");
+        TEST_MS_NOT_CONTAIN("abc", stlsoft::string_view(src, 3));
     }
 
     static void test_wide_string_comparison_failures()
     {
-        XTESTS_TEST_WIDE_STRING_EQUAL(L"abc", L"xyz");
-        XTESTS_TEST_WIDE_STRING_EQUAL_APPROX(L"abc", L"xyz");
-        XTESTS_TEST_WIDE_STRING_NOT_EQUAL(L"abc", L"abc");
+        TEST_WS_EQ(L"abc", L"xyz");
+        TEST_WS_EQ_APPROX(L"abc", L"xyz");
+        TEST_WS_NE(L"abc", L"abc");
 
-        XTESTS_TEST_WIDE_STRING_EQUAL_N(L"abc", L"abcd", 4);
-        XTESTS_TEST_WIDE_STRING_EQUAL_N(L"abcd", L"abc", -4);
-        XTESTS_TEST_WIDE_STRING_EQUAL_N_APPROX(L"abc", L"xyz", 1);
-        XTESTS_TEST_WIDE_STRING_NOT_EQUAL_N_APPROX(L"abc", L"Abc", -2);
+        TEST_WS_EQ_N(L"abc", L"abcd", 4);
+        TEST_WS_EQ_N(L"abcd", L"abc", -4);
+        TEST_WS_EQ_N_APPROX(L"abc", L"xyz", 1);
+        TEST_WS_NE_N_APPROX(L"abc", L"Abc", -2);
 
-        XTESTS_TEST_WIDE_STRING_CONTAIN(L"abc", L"xyz");
-        XTESTS_TEST_WIDE_STRING_CONTAIN_APPROX(L"abc", L"xyz");
-        XTESTS_TEST_WIDE_STRING_NOT_CONTAIN(L"abc", L"abc");
+        TEST_WS_CONTAIN(L"abc", L"xyz");
+        TEST_WS_CONTAIN_APPROX(L"abc", L"xyz");
+        TEST_WS_NOT_CONTAIN(L"abc", L"abc");
     }
 
     static void test_character_comparison_failures()
     {
-        XTESTS_TEST_CHARACTER_EQUAL('a', 'b');
+        TEST_CHAR_EQ('a', 'b');
 
 #ifdef __BORLANDC__
 
-        XTESTS_TEST_CHARACTER_EQUAL((wchar_t)'a', (wchar_t)'b');
+        TEST_CHAR_EQ((wchar_t)'a', (wchar_t)'b');
 #else
 
-        XTESTS_TEST_CHARACTER_EQUAL(L'a', L'b');
+        TEST_CHAR_EQ(L'a', L'b');
 #endif
     }
 
     static void test_floating_point_comparison_failures()
     {
-        XTESTS_TEST_FLOATINGPOINT_EQUAL_APPROX(12345678.9, -1.23e-100);
+        TEST_FP_EQ_APPROX(12345678.9, -1.23e-100);
     }
 
     static void test_boolean_comparison_failures()
     {
-        XTESTS_TEST_BOOLEAN_TRUE(false);
-        XTESTS_TEST_BOOLEAN_FALSE(true);
+        TEST_BOOLEAN_TRUE(false);
+        TEST_BOOLEAN_FALSE(true);
     }
 
     static void test_pointer_comparison_failures()
     {
         int i = 0;
 
-        XTESTS_TEST_POINTER_EQUAL(NULL, &i);
+        TEST_PTR_EQ(NULL, &i);
     }
 
     static void test_explicit_failures()
     {
-        XTESTS_TEST_FAIL("this failure was explicit");
+        TEST_FAIL("this failure was explicit");
     }
 
     static void test_missing_expected_exception_failures()
@@ -201,7 +201,7 @@ namespace
     {
         throw std::runtime_error("<this was not expected!>");
     }
-} /* anonymous namespace */
+} // anonymous namespace
 
 
 /* ///////////////////////////// end of file //////////////////////////// */

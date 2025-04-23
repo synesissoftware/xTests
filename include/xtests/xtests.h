@@ -2014,7 +2014,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * \param expected The expected value of the string
  * \param actual The actual value of the string
- * \param n The maximum number of characters to compare
+ * \param n The exact number of characters to compare if non-negative; the
+ *  (inverse) maximum number of characters to compare if negative;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2033,7 +2034,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * \param expected The expected value of the string
  * \param actual The actual value of the string
- * \param n The maximum number of characters to compare
+ * \param n The exact number of characters to compare if non-negative; the
+ *  (inverse) maximum number of characters to compare if negative;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2051,7 +2053,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * \param expected The expected value of the string
  * \param actual The actual value of the string
- * \param n The maximum number of characters to compare
+ * \param n The exact number of characters to compare if non-negative; the
+ *  (inverse) maximum number of characters to compare if negative;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2070,7 +2073,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * \param expected The expected value of the string
  * \param actual The actual value of the string
- * \param n The maximum number of characters to compare
+ * \param n The exact number of characters to compare if non-negative; the
+ *  (inverse) maximum number of characters to compare if negative;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -3141,7 +3145,6 @@ xtests_testMultibyteStringsN_(
 ,   size_t              cchActual
 ,   xtests_comparison_t comp
 );
-
 # ifndef _XTESTS_NO_CPP_API
 
 template<
@@ -3251,7 +3254,6 @@ xtests_testWideStringsN(
 ,   int                 n /* exact if +ve; limit if -ve */
 ,   xtests_comparison_t comp
 );
-
 # ifndef _XTESTS_NO_CPP_API
 
 template<
@@ -3323,7 +3325,6 @@ xtests_testMultibyteStringContains(
 ,   char const*         actual
 ,   xtests_comparison_t comp
 );
-
 # ifndef _XTESTS_NO_CPP_API
 
 template<
