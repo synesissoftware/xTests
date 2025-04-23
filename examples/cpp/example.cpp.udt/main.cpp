@@ -4,7 +4,7 @@
  * Purpose: Example use of unit-testing of a user-defined type.
  *
  * Created: 10th January 2025
- * Updated: 11th January 2025
+ * Updated: 23rd April 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -82,6 +82,16 @@ namespace {
     ) STLSOFT_NOEXCEPT
     {
         return lhs.p == rhs.p && lhs.q == rhs.q;
+    }
+
+    inline
+    bool
+    operator !=(
+        PriceQuantity const&    lhs
+    ,   PriceQuantity const&    rhs
+    ) STLSOFT_NOEXCEPT
+    {
+        return !operator ==(lhs, rhs);
     }
 } // anonymous namespace
 
