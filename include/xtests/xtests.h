@@ -3240,7 +3240,7 @@ xtests_testWideStringsN_(
 ,   char const*         expr
 ,   wchar_t const*      expected
 ,   wchar_t const*      actual
-,   int                 n /* exact if +ve; limit if -ve */
+,   ptrdiff_t           n /* exact if +ve; limit if -ve */
 ,   size_t              cchExpected
 ,   size_t              cchActual
 ,   xtests_comparison_t comp
