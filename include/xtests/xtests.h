@@ -574,7 +574,7 @@ enum xtests_runner_flags_t
     ,   xtestsReportOnlyNonEmptyCases           =   0x0002
 };
 #ifndef __cplusplus
-typedef enum xtests_runner_flags_t xtests_runner_flags_t;
+typedef enum xtests_runner_flags_t                          xtests_runner_flags_t;
 #endif /* !__cplusplus */
 
 /** \def XTESTS_FP_APPROXIMATE_FACTOR
@@ -2744,7 +2744,7 @@ enum xtests_verbosity_t
     ,   XTESTS_VERBOSITY_VERBOSE                      =   9   /*!< Maximum amount of output */
 };
 #ifndef __cplusplus
-typedef enum xtests_verbosity_t xtests_verbosity_t;
+typedef enum xtests_verbosity_t                             xtests_verbosity_t;
 #endif /* !__cplusplus */
 
 
@@ -2769,7 +2769,7 @@ enum xtests_comparison_t
 
 };
 # ifndef __cplusplus
-typedef enum xtests_comparison_t xtests_comparison_t;
+typedef enum xtests_comparison_t                            xtests_comparison_t;
 # endif /* !__cplusplus */
 
 
@@ -2882,7 +2882,7 @@ public:
  */
 struct xTests_runner_results_t
 {
-    typedef STLSOFT_NS_QUAL(ss_uint32_t)   uint32_t;
+    typedef STLSOFT_NS_QUAL(ss_uint32_t)                    uint32_t;
 
     char const*     name;
     uint32_t        numCases;
@@ -2936,7 +2936,7 @@ public: /* Overrides */
 };
 # else /* ? __cplusplus */
 struct xTests_Reporter_t;
-typedef struct xTests_Reporter_t xTests_Reporter_t;
+typedef struct xTests_Reporter_t                            xTests_Reporter_t;
 # endif /* __cplusplus */
 
 
@@ -3381,7 +3381,6 @@ xtests_testWideStringContains(
 ,   wchar_t const*      actual
 ,   xtests_comparison_t comp
 );
-
 # ifndef _XTESTS_NO_CPP_API
 
 template<
@@ -3490,7 +3489,6 @@ xtests_writeFailMessage(
 ,   char const* message
 ,   char const* qualifyingInformation
 );
-
 # ifndef _XTESTS_NO_CPP_API
 
 template<
@@ -3553,7 +3551,6 @@ xtests_setFloatingPointCloseFactor(
     double  factor
 ,   double* old /* = NULL */
 );
-
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -3591,7 +3588,7 @@ class requirement_failed_exception
 class prerequisite_failed_exception
 {
 public:
-    typedef prerequisite_failed_exception   class_type;
+    typedef prerequisite_failed_exception                   class_type;
 
 public:
     explicit
@@ -3605,10 +3602,8 @@ private:
 public: /* Overrides */
     virtual char const* what() const = 0;
 };
-
 # endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
-
 #ifndef _XTESTS_NO_CPP_API
 # ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
@@ -3636,8 +3631,8 @@ public:
         (*pfn)(param);
     }
 #  endif /* STLSOFT_CF_CDECL_SUPPORTED */
-
 #  ifdef STLSOFT_CF_STDCALL_SUPPORTED
+
     static
     void
     invoke(
@@ -3659,8 +3654,8 @@ public:
     }
 #  endif /* STLSOFT_CF_STDCALL_SUPPORTED */
 };
-
 #  if defined(STLSOFT_CF_EXCEPTION_SUPPORT)
+
 inline
 void
 xtests_require(int success)
@@ -3671,7 +3666,6 @@ xtests_require(int success)
     }
 }
 #  endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
-
 # endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /** Scoping class that sets the floating-point close factor for a
@@ -3715,9 +3709,7 @@ private:
  */
 # define XTESTS_FLOATINGPOINT_FACTOR_SCOPE                  XTESTS_NS_CPP_QUAL(xtest_floatingpoint_factor_scope)
 
-
 # ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
-
 
 template <typename T>
 struct xtests_failure_reporter;
@@ -3903,13 +3895,14 @@ private:
     enum { are_types_same       =   (0 != STLSOFT_NS_QUAL(is_same_type)<T1, T2>::value) };
     enum { T1_is_larger_than_T2 =   sizeof(T1) > sizeof(T2)                     };
 
-    typedef typename STLSOFT_NS_QUAL(select_first_type_if)< T1
-                                                ,   T2
-                                                ,   T1_is_larger_than_T2
-                                                >::type         larger_type_;
+    typedef typename STLSOFT_NS_QUAL(select_first_type_if)<
+        T1
+    ,   T2
+    ,   T1_is_larger_than_T2
+    >::type                                                 larger_type_;
 
 public:
-    typedef xtests_failure_reporter<larger_type_>               type;
+    typedef xtests_failure_reporter<larger_type_>           type;
 };
 
 template<
@@ -3940,12 +3933,14 @@ xtests_reportFailedIntegerComparison(
     xtests_integer_failure_reporter_selector<I1, I2>::type::xtests_report_failure_equal(file, line, function, expr, expected, actual, comp);
 #  else /* ? compiler */
 
-    typedef typename xtests_integer_failure_reporter_selector<I1, I2>::type    failure_reporter_t;
+    typedef typename xtests_integer_failure_reporter_selector<
+        I1
+    ,   I2
+    >::type                                                 failure_reporter_t;
 
     failure_reporter_t::xtests_report_failure_equal(file, line, function, expr, expected, actual, comp);
 #  endif /* compiler */
 }
-
 #  if defined(STLSOFT_COMPILER_IS_MSVC) && \
        _MSC_VER >= 1310 && \
        !defined(_WIN64) && \
@@ -4365,7 +4360,6 @@ xtests_test_boolean(
     return xtests_test_boolean_(file, line, function, expr, expected, actual, comp, yesno_t());
 }
 
-
 template<
     typename I0
 ,   typename I1
@@ -4704,13 +4698,11 @@ xtests_test_floating_point(
 }
 # endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 #endif /* !_XTESTS_NO_CPP_API */
-
 #ifndef _XTESTS_NO_NAMESPACE
 } /* namespace cpp */
 namespace c
 {
 #endif /* !_XTESTS_NO_NAMESPACE */
-
 #ifdef _XTESTS_NO_CPP_API
 
 # define XTESTS_REQUIRE(test)                               XTESTS_NS_C_QUAL(xtests_require_C)(!(!(test)))
