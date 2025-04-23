@@ -162,6 +162,9 @@
 #   ifndef STLSOFT_INCL_STLSOFT_SHIMS_ACCESS_HPP_STRING
 #    include <stlsoft/shims/access/string.hpp>
 #   endif /* !STLSOFT_INCL_STLSOFT_SHIMS_ACCESS_HPP_STRING */
+#   ifndef STLSOFT_INCL_STLSOFT_STRING_HPP_STRING_VIEW
+#    include <stlsoft/string/string_view.hpp>
+#   endif /* !STLSOFT_INCL_STLSOFT_STRING_HPP_STRING_VIEW */
 #  endif /* STLSOFT_MINIMUM_SAS_INCLUDES */
 #  ifndef STLSOFT_INCL_STLSOFT_UTIL_HPP_INTEGRAL_TRAITS
 #   include <stlsoft/traits/integral_traits.hpp>
@@ -191,11 +194,9 @@
 #ifdef XTESTS_USE_SHWILD
 # ifndef _XTESTS_NO_CPP_API
 #  include <shwild/shwild.hpp>
-#  if _STLSOFT_VER >= 0x010a01a2
-#   ifndef STLSOFT_INCL_STLSOFT_CONVERSION_HPP_SAS_TO_STRING
-#    include <stlsoft/conversion/sas_to_string.hpp>
-#   endif /* !STLSOFT_INCL_STLSOFT_CONVERSION_HPP_SAS_TO_STRING */
-#  endif /* _STLSOFT_VER */
+#  ifndef STLSOFT_INCL_STLSOFT_CONVERSION_HPP_SAS_TO_STRING
+#   include <stlsoft/conversion/sas_to_string.hpp>
+#  endif /* !STLSOFT_INCL_STLSOFT_CONVERSION_HPP_SAS_TO_STRING */
 # endif /* !_XTESTS_NO_CPP_API */
 #endif /* XTESTS_USE_SHWILD */
 
@@ -2204,35 +2205,21 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
 
 # ifndef _XTESTS_NO_CPP_API
 
-#  ifdef STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING
+#  ifdef STLSOFT_INCL_STLSOFT_CONVERSION_HPP_SAS_TO_STRING
 
 #   define XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)             \
     (                                                                       \
-        (0 == shwild::match((pattern), XTESTS_INVOKE_c_str_ptr_a_((value)), 0))   \
+        (0 == shwild::match((pattern), stlsoft::sas_to_string_m((value)).c_str(), 0))   \
             ?   XTESTS_TEST_PASSED()                                        \
-            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(XTESTS_INVOKE_c_str_ptr_a_("actual value (given in qualifier) did not match pattern '" + stlsoft::sas_to_string_m((pattern)) + "'"), XTESTS_INVOKE_c_str_ptr_a_((value)))   \
+            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(("actual value (given in qualifier) did not match pattern '" + stlsoft::sas_to_string_m((pattern)) + "'").c_str(), stlsoft::sas_to_string_m((value)).c_str())   \
     )
 #   define XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH(pattern, value)      \
     (                                                                       \
-        (0 != shwild::match((pattern), XTESTS_INVOKE_c_str_ptr_a_((value)), 0))   \
+        (0 != shwild::match((pattern), stlsoft::sas_to_string_m((value)).c_str(), 0))   \
             ?   XTESTS_TEST_PASSED()                                        \
-            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(XTESTS_INVOKE_c_str_ptr_a_("actual value (given in qualifier) matches unexpectedly the pattern '" + stlsoft::sas_to_string_m((pattern)) + "'"), XTESTS_INVOKE_c_str_ptr_a_((value)))   \
+            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(("actual value (given in qualifier) matches unexpectedly the pattern '" + stlsoft::sas_to_string_m((pattern)) + "'").c_str(), stlsoft::sas_to_string_m((value)).c_str())   \
     )
-#  else /* !STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING */
-
-#   define XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)             \
-    (                                                                       \
-        (0 == shwild::match((pattern), XTESTS_INVOKE_c_str_ptr_a_((value)), 0))   \
-            ?   XTESTS_TEST_PASSED()                                        \
-            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(XTESTS_INVOKE_c_str_ptr_a_("actual value (given in qualifier) did not match pattern '" + std::string(XTESTS_INVOKE_c_str_data_a_((pattern)), XTESTS_INVOKE_c_str_len_a_((pattern))) + "'"), XTESTS_INVOKE_c_str_ptr_a_((value)))    \
-    )
-#   define XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH(pattern, value)      \
-    (                                                                       \
-        (0 != shwild::match((pattern), XTESTS_INVOKE_c_str_ptr_a_((value)), 0))   \
-            ?   XTESTS_TEST_PASSED()                                        \
-            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(XTESTS_INVOKE_c_str_ptr_a_("actual value (given in qualifier) matches unexpectedly the pattern '" + std::string(XTESTS_INVOKE_c_str_data_a_((pattern)), XTESTS_INVOKE_c_str_len_a_((pattern))) + "'"), XTESTS_INVOKE_c_str_ptr_a_((value)))    \
-    )
-#  endif /* STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING */
+#  endif /* STLSOFT_INCL_STLSOFT_CONVERSION_HPP_SAS_TO_STRING */
 # else /* ? _XTESTS_NO_CPP_API */
 
 #  define XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)              \
