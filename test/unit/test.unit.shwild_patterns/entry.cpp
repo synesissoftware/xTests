@@ -4,7 +4,7 @@
  * Purpose: Unit-tests for shwild extensions.
  *
  * Created: 17th October 2024
- * Updated: 31st December 2024
+ * Updated: 23rd April 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -52,10 +52,10 @@
  * forward declarations
  */
 
-static void test_empty(void);
-static void test_exact_matches(void);
-static void test_wild1_1(void);
-static void test_wild1_2(void);
+static void test_empty();
+static void test_exact_matches();
+static void test_wild1_1();
+static void test_wild1_2();
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -89,14 +89,14 @@ int main(int argc, char **argv)
  * test function implementations
  */
 
-static void test_empty(void)
+static void test_empty()
 {
     XTESTS_TEST_MULTIBYTE_STRING_MATCHES("", "");
 
     XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH("", "a");
 }
 
-static void test_exact_matches(void)
+static void test_exact_matches()
 {
     XTESTS_TEST_MULTIBYTE_STRING_MATCHES("1", "1");
     XTESTS_TEST_MULTIBYTE_STRING_MATCHES("abc", "abc");
@@ -105,7 +105,7 @@ static void test_exact_matches(void)
     XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH("2", "1");
 }
 
-static void test_wild1_1(void)
+static void test_wild1_1()
 {
     XTESTS_TEST_MULTIBYTE_STRING_MATCHES("ab?", "ab_");
     XTESTS_TEST_MULTIBYTE_STRING_MATCHES("ab?", "ab-");
@@ -115,7 +115,7 @@ static void test_wild1_1(void)
     XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH("ab?", "aBc");
 }
 
-static void test_wild1_2(void)
+static void test_wild1_2()
 {
     XTESTS_TEST_MULTIBYTE_STRING_MATCHES("a?c", "a_c");
     XTESTS_TEST_MULTIBYTE_STRING_MATCHES("a?c", "a-c");
