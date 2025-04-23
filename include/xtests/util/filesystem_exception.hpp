@@ -4,7 +4,7 @@
  * Purpose: Definition of the filesystem_exception class.
  *
  * Created: 1st October 2015
- * Updated: 5th May 2024
+ * Updated: 23rd April 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,7 +52,7 @@
 # define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_MAJOR      0
 # define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_MINOR      1
 # define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_REVISION   8
-# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_EDIT       12
+# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_EDIT       13
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -119,29 +119,29 @@ class filesystem_exception
 {
 public: // Types
     /// This type
-    typedef filesystem_exception                    class_type;
+    typedef filesystem_exception                            class_type;
 private:
-    typedef prerequisite_failed_exception           parent_class_type;
+    typedef prerequisite_failed_exception                   parent_class_type;
 public:
     /// The character type
-    typedef char                                    char_type;
+    typedef char                                            char_type;
 private:
-    typedef platformstl::system_traits<char_type>   traits_type_;
+    typedef platformstl::system_traits<char_type>           traits_type_;
 public:
     /// The result-code type
-    typedef traits_type_::result_code_type          result_code_type;
+    typedef traits_type_::result_code_type                  result_code_type;
 protected:
     /// The embedded-exception type
-    class                                           embedded_exception_type
+    class                                                   embedded_exception_type
         : public platformstl::platform_exception
     {
     public: // Types
         /// This type
-        typedef embedded_exception_type             class_type;
+        typedef embedded_exception_type                     class_type;
         /// The parent-class type
-        typedef platformstl::platform_exception     parent_class_type;
+        typedef platformstl::platform_exception             parent_class_type;
         /// The string type
-        typedef parent_class_type::string_type      string_type;
+        typedef parent_class_type::string_type              string_type;
 
     public: // Construction
         /// Constructs an instance of the type
@@ -244,7 +244,6 @@ filesystem_exception::filesystem_exception(
 )
     : m_embedded(rc, message)
 {}
-
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -271,7 +270,6 @@ c_str_ptr(
 {
     return x.what();
 }
-
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -318,7 +316,6 @@ namespace stlsoft
     !defined(STLSOFT_NO_NAMESPACE)
 } /* namespace stlsoft */
 # endif
-
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
