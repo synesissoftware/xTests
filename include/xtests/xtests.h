@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       50
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    0
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        398
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        399
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -81,9 +81,9 @@
 
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       26
-#define _XTESTS_VER_REVISION    0
+#define _XTESTS_VER_REVISION    1
 
-#define _XTESTS_VER             0x001a00ff
+#define _XTESTS_VER             0x001a0141
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -194,11 +194,14 @@
 #ifdef XTESTS_USE_SHWILD
 # ifndef _XTESTS_NO_CPP_API
 #  include <shwild/shwild.hpp>
+# endif /* !_XTESTS_NO_CPP_API */
+#endif /* XTESTS_USE_SHWILD */
+
+#ifdef __cplusplus
 #  ifndef STLSOFT_INCL_STLSOFT_CONVERSION_HPP_SAS_TO_STRING
 #   include <stlsoft/conversion/sas_to_string.hpp>
 #  endif /* !STLSOFT_INCL_STLSOFT_CONVERSION_HPP_SAS_TO_STRING */
-# endif /* !_XTESTS_NO_CPP_API */
-#endif /* XTESTS_USE_SHWILD */
+#endif /* __cplusplus */
 
 #include <stddef.h>
 #include <stdio.h>
