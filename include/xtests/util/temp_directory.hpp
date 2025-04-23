@@ -4,7 +4,7 @@
  * Purpose: Definition of the temp_directory class.
  *
  * Created: 1st October 2015
- * Updated: 20th February 2025
+ * Updated: 23rd April 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,7 +52,7 @@
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MAJOR    0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MINOR    2
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_REVISION 4
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     18
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     19
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -557,7 +557,6 @@ c_str_ptr(
 {
     return t.c_str();
 }
-
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 

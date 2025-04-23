@@ -1,6 +1,17 @@
 # xTests - History
 
 
+23rd April 2025 - 0.26.0
+------------------------
+
+ * Improved compatibility to types that provide shims `stlsoft::c_str_data_a()` and `stlsoft::c_str_len_a()`, rather than `stlsoft::c_str_ptr_a()`;
+ * Fixed inconsistency in handling of verbosity levels (esp. `XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR`);
+ * Visual C++ compatibility;
+ * Further application of terse api in example and test programs;
+ * Various tidyings;
+ * Improved scope and consistency in example and test programs;
+
+
 30th January 2025 - 0.26.0-beta3
 --------------------------------
 

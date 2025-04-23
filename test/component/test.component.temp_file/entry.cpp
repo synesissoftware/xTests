@@ -4,7 +4,7 @@
  * Purpose: Component-tests for `xtests::cpp::util::temp_file`.
  *
  * Created: 5th May 2024
- * Updated: 31st December 2024
+ * Updated: 23rd April 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -16,7 +16,7 @@
 
 #include <xtests/util/temp_file.hpp>
 
-#include <xtests/xtests.h>
+#include <xtests/terse-api.h>
 
 #include <platformstl/filesystem/filesystem_traits.hpp>
 #include <platformstl/filesystem/FILE_stream.hpp>
@@ -31,10 +31,10 @@
 namespace
 {
 
-    static void test_None(void);
-    static void test_DeleteOnClose(void);
-    static void test_DeleteOnOpen(void);
-    static void test_DeleteOnOpen_DeleteOnClose(void);
+    static void test_None();
+    static void test_DeleteOnClose();
+    static void test_DeleteOnOpen();
+    static void test_DeleteOnOpen_DeleteOnClose();
 } // anonymous namespace
 
 
@@ -85,17 +85,17 @@ static void test_None()
 
         path.assign(tf.c_str());
 
-        XTESTS_TEST_BOOLEAN_TRUE(fs_traits_t::file_exists(path.c_str()));
-        XTESTS_TEST_BOOLEAN_TRUE(fs_traits_t::is_file(path.c_str()));
+        TEST_BOOLEAN_TRUE(fs_traits_t::file_exists(path.c_str()));
+        TEST_BOOLEAN_TRUE(fs_traits_t::is_file(path.c_str()));
     }
 
-    XTESTS_TEST_BOOLEAN_TRUE(fs_traits_t::file_exists(path.c_str()));
-    XTESTS_TEST_BOOLEAN_TRUE(fs_traits_t::is_file(path.c_str()));
+    TEST_BOOLEAN_TRUE(fs_traits_t::file_exists(path.c_str()));
+    TEST_BOOLEAN_TRUE(fs_traits_t::is_file(path.c_str()));
 
     fs_traits_t::unlink_file(path.c_str());
 
-    XTESTS_TEST_BOOLEAN_FALSE(fs_traits_t::file_exists(path.c_str()));
-    XTESTS_TEST_BOOLEAN_FALSE(fs_traits_t::is_file(path.c_str()));
+    TEST_BOOLEAN_FALSE(fs_traits_t::file_exists(path.c_str()));
+    TEST_BOOLEAN_FALSE(fs_traits_t::is_file(path.c_str()));
 }
 
 static void test_DeleteOnClose()
@@ -107,12 +107,12 @@ static void test_DeleteOnClose()
 
         path.assign(tf.c_str());
 
-        XTESTS_TEST_BOOLEAN_TRUE(fs_traits_t::file_exists(path.c_str()));
-        XTESTS_TEST_BOOLEAN_TRUE(fs_traits_t::is_file(path.c_str()));
+        TEST_BOOLEAN_TRUE(fs_traits_t::file_exists(path.c_str()));
+        TEST_BOOLEAN_TRUE(fs_traits_t::is_file(path.c_str()));
     }
 
-    XTESTS_TEST_BOOLEAN_FALSE(fs_traits_t::file_exists(path.c_str()));
-    XTESTS_TEST_BOOLEAN_FALSE(fs_traits_t::is_file(path.c_str()));
+    TEST_BOOLEAN_FALSE(fs_traits_t::file_exists(path.c_str()));
+    TEST_BOOLEAN_FALSE(fs_traits_t::is_file(path.c_str()));
 }
 
 static void test_DeleteOnOpen()
@@ -124,24 +124,24 @@ static void test_DeleteOnOpen()
 
         path.assign(tf.c_str());
 
-        XTESTS_TEST_BOOLEAN_FALSE(fs_traits_t::file_exists(path.c_str()));
-        XTESTS_TEST_BOOLEAN_FALSE(fs_traits_t::is_file(path.c_str()));
+        TEST_BOOLEAN_FALSE(fs_traits_t::file_exists(path.c_str()));
+        TEST_BOOLEAN_FALSE(fs_traits_t::is_file(path.c_str()));
 
         // since the file was deleted-on-open, we create it
 
         platformstl::FILE_stream stm(path, "w");
 
-        XTESTS_TEST_BOOLEAN_TRUE(fs_traits_t::file_exists(path.c_str()));
-        XTESTS_TEST_BOOLEAN_TRUE(fs_traits_t::is_file(path.c_str()));
+        TEST_BOOLEAN_TRUE(fs_traits_t::file_exists(path.c_str()));
+        TEST_BOOLEAN_TRUE(fs_traits_t::is_file(path.c_str()));
     }
 
-    XTESTS_TEST_BOOLEAN_TRUE(fs_traits_t::file_exists(path.c_str()));
-    XTESTS_TEST_BOOLEAN_TRUE(fs_traits_t::is_file(path.c_str()));
+    TEST_BOOLEAN_TRUE(fs_traits_t::file_exists(path.c_str()));
+    TEST_BOOLEAN_TRUE(fs_traits_t::is_file(path.c_str()));
 
     fs_traits_t::unlink_file(path.c_str());
 
-    XTESTS_TEST_BOOLEAN_FALSE(fs_traits_t::file_exists(path.c_str()));
-    XTESTS_TEST_BOOLEAN_FALSE(fs_traits_t::is_file(path.c_str()));
+    TEST_BOOLEAN_FALSE(fs_traits_t::file_exists(path.c_str()));
+    TEST_BOOLEAN_FALSE(fs_traits_t::is_file(path.c_str()));
 }
 
 static void test_DeleteOnOpen_DeleteOnClose()
@@ -153,21 +153,20 @@ static void test_DeleteOnOpen_DeleteOnClose()
 
         path.assign(tf.c_str());
 
-        XTESTS_TEST_BOOLEAN_FALSE(fs_traits_t::file_exists(path.c_str()));
-        XTESTS_TEST_BOOLEAN_FALSE(fs_traits_t::is_file(path.c_str()));
+        TEST_BOOLEAN_FALSE(fs_traits_t::file_exists(path.c_str()));
+        TEST_BOOLEAN_FALSE(fs_traits_t::is_file(path.c_str()));
 
         // since the file was deleted-on-open, we create it
 
         platformstl::FILE_stream stm(path, "w");
 
-        XTESTS_TEST_BOOLEAN_TRUE(fs_traits_t::file_exists(path.c_str()));
-        XTESTS_TEST_BOOLEAN_TRUE(fs_traits_t::is_file(path.c_str()));
+        TEST_BOOLEAN_TRUE(fs_traits_t::file_exists(path.c_str()));
+        TEST_BOOLEAN_TRUE(fs_traits_t::is_file(path.c_str()));
     }
 
-    XTESTS_TEST_BOOLEAN_FALSE(fs_traits_t::file_exists(path.c_str()));
-    XTESTS_TEST_BOOLEAN_FALSE(fs_traits_t::is_file(path.c_str()));
+    TEST_BOOLEAN_FALSE(fs_traits_t::file_exists(path.c_str()));
+    TEST_BOOLEAN_FALSE(fs_traits_t::is_file(path.c_str()));
 }
-
 } // anonymous namespace
 
 

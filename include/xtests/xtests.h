@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 23rd February 2025
+ * Updated: 23rd April 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -51,9 +51,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
-# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       49
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    3
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        393
+# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       50
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    0
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        398
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -83,7 +83,7 @@
 #define _XTESTS_VER_MINOR       26
 #define _XTESTS_VER_REVISION    0
 
-#define _XTESTS_VER             0x001a0083
+#define _XTESTS_VER             0x001a00ff
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -105,9 +105,9 @@
     STLSOFT_VER >= 0x010c0000
 
 # define XTESTS_STLSOFT_1_12_OR_LATER
-#elif _STLSOFT_VER < 0x010b0182
+#elif _STLSOFT_VER < 0x010b0184
 
-# error xTests requires version 1.11.1 beta 2, or later, of STLSoft; obtain from https://github.com/synesissoftware/
+# error xTests requires version 1.11.1 beta 4, or later, of STLSoft; obtain from https://github.com/synesissoftware/
 #endif /* _STLSOFT_VER */
 
 
@@ -162,6 +162,9 @@
 #   ifndef STLSOFT_INCL_STLSOFT_SHIMS_ACCESS_HPP_STRING
 #    include <stlsoft/shims/access/string.hpp>
 #   endif /* !STLSOFT_INCL_STLSOFT_SHIMS_ACCESS_HPP_STRING */
+#   ifndef STLSOFT_INCL_STLSOFT_STRING_HPP_STRING_VIEW
+#    include <stlsoft/string/string_view.hpp>
+#   endif /* !STLSOFT_INCL_STLSOFT_STRING_HPP_STRING_VIEW */
 #  endif /* STLSOFT_MINIMUM_SAS_INCLUDES */
 #  ifndef STLSOFT_INCL_STLSOFT_UTIL_HPP_INTEGRAL_TRAITS
 #   include <stlsoft/traits/integral_traits.hpp>
@@ -191,11 +194,9 @@
 #ifdef XTESTS_USE_SHWILD
 # ifndef _XTESTS_NO_CPP_API
 #  include <shwild/shwild.hpp>
-#  if _STLSOFT_VER >= 0x010a01a2
-#   ifndef STLSOFT_INCL_STLSOFT_CONVERSION_HPP_SAS_TO_STRING
-#    include <stlsoft/conversion/sas_to_string.hpp>
-#   endif /* !STLSOFT_INCL_STLSOFT_CONVERSION_HPP_SAS_TO_STRING */
-#  endif /* _STLSOFT_VER */
+#  ifndef STLSOFT_INCL_STLSOFT_CONVERSION_HPP_SAS_TO_STRING
+#   include <stlsoft/conversion/sas_to_string.hpp>
+#  endif /* !STLSOFT_INCL_STLSOFT_CONVERSION_HPP_SAS_TO_STRING */
 # endif /* !_XTESTS_NO_CPP_API */
 #endif /* XTESTS_USE_SHWILD */
 
@@ -574,7 +575,7 @@ enum xtests_runner_flags_t
     ,   xtestsReportOnlyNonEmptyCases           =   0x0002
 };
 #ifndef __cplusplus
-typedef enum xtests_runner_flags_t xtests_runner_flags_t;
+typedef enum xtests_runner_flags_t                          xtests_runner_flags_t;
 #endif /* !__cplusplus */
 
 /** \def XTESTS_FP_APPROXIMATE_FACTOR
@@ -2013,7 +2014,8 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  *
  * \param expected The expected value of the string
  * \param actual The actual value of the string
- * \param n The maximum number of characters to compare
+ * \param n The exact number of characters to compare if non-negative; the
+ *  (inverse) maximum number of characters to compare if negative;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2032,7 +2034,8 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  *
  * \param expected The expected value of the string
  * \param actual The actual value of the string
- * \param n The maximum number of characters to compare
+ * \param n The exact number of characters to compare if non-negative; the
+ *  (inverse) maximum number of characters to compare if negative;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2050,7 +2053,8 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  *
  * \param expected The expected value of the string
  * \param actual The actual value of the string
- * \param n The maximum number of characters to compare
+ * \param n The exact number of characters to compare if non-negative; the
+ *  (inverse) maximum number of characters to compare if negative;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2069,7 +2073,8 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
  *
  * \param expected The expected value of the string
  * \param actual The actual value of the string
- * \param n The maximum number of characters to compare
+ * \param n The exact number of characters to compare if non-negative; the
+ *  (inverse) maximum number of characters to compare if negative;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2204,35 +2209,21 @@ typedef enum xtests_runner_flags_t xtests_runner_flags_t;
 
 # ifndef _XTESTS_NO_CPP_API
 
-#  ifdef STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING
+#  ifdef STLSOFT_INCL_STLSOFT_CONVERSION_HPP_SAS_TO_STRING
 
 #   define XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)             \
     (                                                                       \
-        (0 == shwild::match((pattern), stlsoft::c_str_ptr_a((value)), 0))   \
+        (0 == shwild::match((pattern), STLSOFT_NS_QUAL(sas_to_string_m)((value)).c_str(), 0))   \
             ?   XTESTS_TEST_PASSED()                                        \
-            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(stlsoft::c_str_ptr_a("actual value (given in qualifier) did not match pattern '" + stlsoft::sas_to_string_m((pattern)) + "'"), stlsoft::c_str_ptr_a((value)))   \
+            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(("actual value (given in qualifier) did not match pattern '" + STLSOFT_NS_QUAL(sas_to_string_m)((pattern)) + "'").c_str(), STLSOFT_NS_QUAL(sas_to_string_m)((value)).c_str())   \
     )
 #   define XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH(pattern, value)      \
     (                                                                       \
-        (0 != shwild::match((pattern), stlsoft::c_str_ptr_a((value)), 0))   \
+        (0 != shwild::match((pattern), STLSOFT_NS_QUAL(sas_to_string_m)((value)).c_str(), 0))   \
             ?   XTESTS_TEST_PASSED()                                        \
-            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(stlsoft::c_str_ptr_a("actual value (given in qualifier) matches unexpectedly the pattern '" + stlsoft::sas_to_string_m((pattern)) + "'"), stlsoft::c_str_ptr_a((value)))   \
+            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(("actual value (given in qualifier) matches unexpectedly the pattern '" + STLSOFT_NS_QUAL(sas_to_string_m)((pattern)) + "'").c_str(), STLSOFT_NS_QUAL(sas_to_string_m)((value)).c_str())   \
     )
-#  else /* !STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING */
-
-#   define XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)             \
-    (                                                                       \
-        (0 == shwild::match((pattern), stlsoft::c_str_ptr_a((value)), 0))   \
-            ?   XTESTS_TEST_PASSED()                                        \
-            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(stlsoft::c_str_ptr_a("actual value (given in qualifier) did not match pattern '" + std::string(stlsoft::c_str_data_a((pattern)), stlsoft::c_str_len_a((pattern))) + "'"), stlsoft::c_str_ptr_a((value)))    \
-    )
-#   define XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH(pattern, value)      \
-    (                                                                       \
-        (0 != shwild::match((pattern), stlsoft::c_str_ptr_a((value)), 0))   \
-            ?   XTESTS_TEST_PASSED()                                        \
-            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(stlsoft::c_str_ptr_a("actual value (given in qualifier) matches unexpectedly the pattern '" + std::string(stlsoft::c_str_data_a((pattern)), stlsoft::c_str_len_a((pattern))) + "'"), stlsoft::c_str_ptr_a((value)))    \
-    )
-#  endif /* STLSOFT_INCL_STLSOFT_STRING_HPP_SAS_TO_STRING */
+#  endif /* STLSOFT_INCL_STLSOFT_CONVERSION_HPP_SAS_TO_STRING */
 # else /* ? _XTESTS_NO_CPP_API */
 
 #  define XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)              \
@@ -2729,8 +2720,6 @@ c_str_len_n_w(
  * - a test case summary
  * - a test runner summary
  *
- *
- *
  * \see XTESTS_START_RUNNER()
  * \see XTESTS_START_RUNNER_WITH_REPORTER()
  */
@@ -2746,7 +2735,7 @@ enum xtests_verbosity_t
     ,   XTESTS_VERBOSITY_VERBOSE                      =   9   /*!< Maximum amount of output */
 };
 #ifndef __cplusplus
-typedef enum xtests_verbosity_t xtests_verbosity_t;
+typedef enum xtests_verbosity_t                             xtests_verbosity_t;
 #endif /* !__cplusplus */
 
 
@@ -2771,7 +2760,7 @@ enum xtests_comparison_t
 
 };
 # ifndef __cplusplus
-typedef enum xtests_comparison_t xtests_comparison_t;
+typedef enum xtests_comparison_t                            xtests_comparison_t;
 # endif /* !__cplusplus */
 
 
@@ -2884,7 +2873,7 @@ public:
  */
 struct xTests_runner_results_t
 {
-    typedef STLSOFT_NS_QUAL(ss_uint32_t)   uint32_t;
+    typedef STLSOFT_NS_QUAL(ss_uint32_t)                    uint32_t;
 
     char const*     name;
     uint32_t        numCases;
@@ -2938,7 +2927,7 @@ public: /* Overrides */
 };
 # else /* ? __cplusplus */
 struct xTests_Reporter_t;
-typedef struct xTests_Reporter_t xTests_Reporter_t;
+typedef struct xTests_Reporter_t                            xTests_Reporter_t;
 # endif /* __cplusplus */
 
 
@@ -3156,7 +3145,6 @@ xtests_testMultibyteStringsN_(
 ,   size_t              cchActual
 ,   xtests_comparison_t comp
 );
-
 # ifndef _XTESTS_NO_CPP_API
 
 template<
@@ -3187,13 +3175,11 @@ xtests_testMultibyteStrings(
 ,   xtests_comparison_t comp
 )
 {
-    STLSOFT_NS_USING(c_str_ptr_a);
-
     return xtests_testMultibyteStrings(
         file, line, function
     ,   expr
-    ,   XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(expected))
-    ,   XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(actual))
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(actual).c_str()
     ,   comp
     );
 }
@@ -3222,8 +3208,8 @@ xtests_testMultibyteStringsN(
     ,   line
     ,   function
     ,   expr
-    ,   XTESTS_INVOKE_c_str_data_a_(XTESTS_INVOKE_c_str_data_a_(expected))
-    ,   XTESTS_INVOKE_c_str_data_a_(XTESTS_INVOKE_c_str_data_a_(actual))
+    ,   XTESTS_INVOKE_c_str_data_a_(expected)
+    ,   XTESTS_INVOKE_c_str_data_a_(actual)
     ,   n
     ,   c_str_len_n_a(expected, STLSOFT_STATIC_CAST(size_t, (n < 0) ? -n : n))
     ,   c_str_len_n_a(actual, STLSOFT_STATIC_CAST(size_t, (n < 0) ? -n : n))
@@ -3268,7 +3254,6 @@ xtests_testWideStringsN(
 ,   int                 n /* exact if +ve; limit if -ve */
 ,   xtests_comparison_t comp
 );
-
 # ifndef _XTESTS_NO_CPP_API
 
 template<
@@ -3287,13 +3272,11 @@ xtests_testWideStrings(
 ,   xtests_comparison_t comp
 )
 {
-    STLSOFT_NS_USING(c_str_ptr_w);
-
     return xtests_testWideStrings(
         file, line, function
     ,   expr
-    ,   XTESTS_INVOKE_c_str_ptr_w_(XTESTS_INVOKE_c_str_ptr_w_(expected))
-    ,   XTESTS_INVOKE_c_str_ptr_w_(XTESTS_INVOKE_c_str_ptr_w_(actual))
+    ,   STLSOFT_NS_QUAL(sas_to_string_w)(expected).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_w)(actual).c_str()
     ,   comp
     );
 }
@@ -3322,8 +3305,8 @@ xtests_testWideStringsN(
     ,   line
     ,   function
     ,   expr
-    ,   XTESTS_INVOKE_c_str_data_w_(XTESTS_INVOKE_c_str_data_w_(expected))
-    ,   XTESTS_INVOKE_c_str_data_w_(XTESTS_INVOKE_c_str_data_w_(actual))
+    ,   XTESTS_INVOKE_c_str_data_w_(expected)
+    ,   XTESTS_INVOKE_c_str_data_w_(actual)
     ,   n
     ,   c_str_len_n_w(expected, STLSOFT_STATIC_CAST(size_t, (n < 0) ? -n : n))
     ,   c_str_len_n_w(actual, STLSOFT_STATIC_CAST(size_t, (n < 0) ? -n : n))
@@ -3342,7 +3325,6 @@ xtests_testMultibyteStringContains(
 ,   char const*         actual
 ,   xtests_comparison_t comp
 );
-
 # ifndef _XTESTS_NO_CPP_API
 
 template<
@@ -3361,13 +3343,11 @@ xtests_testMultibyteStringContains(
 ,   xtests_comparison_t comp
 )
 {
-    STLSOFT_NS_USING(c_str_ptr_a);
-
     return xtests_testMultibyteStringContains(
         file, line, function
     ,   expr
-    ,   XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(expected))
-    ,   XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(actual))
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(actual).c_str()
     ,   comp
     );
 }
@@ -3383,7 +3363,6 @@ xtests_testWideStringContains(
 ,   wchar_t const*      actual
 ,   xtests_comparison_t comp
 );
-
 # ifndef _XTESTS_NO_CPP_API
 
 template<
@@ -3402,13 +3381,11 @@ xtests_testWideStringContains(
 ,   xtests_comparison_t comp
 )
 {
-    STLSOFT_NS_USING(c_str_ptr_w);
-
     return xtests_testWideStringContains(
         file, line, function
     ,   expr
-    ,   XTESTS_INVOKE_c_str_ptr_w_(XTESTS_INVOKE_c_str_ptr_w_(expected))
-    ,   XTESTS_INVOKE_c_str_ptr_w_(XTESTS_INVOKE_c_str_ptr_w_(actual))
+    ,   STLSOFT_NS_QUAL(sas_to_string_w)(expected).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_w)(actual).c_str()
     ,   comp
     );
 }
@@ -3492,7 +3469,6 @@ xtests_writeFailMessage(
 ,   char const* message
 ,   char const* qualifyingInformation
 );
-
 # ifndef _XTESTS_NO_CPP_API
 
 template<
@@ -3509,14 +3485,13 @@ xtests_writeFailMessage(
 ,   S1 const&   qualifyingInformation
 )
 {
-    STLSOFT_NS_USING(c_str_ptr_a);
-
     return xtests_writeFailMessage(
         file
     ,   line
     ,   function
-    ,   XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(message))
-    ,   XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(qualifyingInformation)));
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(message).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(qualifyingInformation).c_str()
+    );
 }
 # endif /* !_XTESTS_NO_CPP_API */
 
@@ -3555,7 +3530,6 @@ xtests_setFloatingPointCloseFactor(
     double  factor
 ,   double* old /* = NULL */
 );
-
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -3593,7 +3567,7 @@ class requirement_failed_exception
 class prerequisite_failed_exception
 {
 public:
-    typedef prerequisite_failed_exception   class_type;
+    typedef prerequisite_failed_exception                   class_type;
 
 public:
     explicit
@@ -3607,10 +3581,8 @@ private:
 public: /* Overrides */
     virtual char const* what() const = 0;
 };
-
 # endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
-
 #ifndef _XTESTS_NO_CPP_API
 # ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
@@ -3638,8 +3610,8 @@ public:
         (*pfn)(param);
     }
 #  endif /* STLSOFT_CF_CDECL_SUPPORTED */
-
 #  ifdef STLSOFT_CF_STDCALL_SUPPORTED
+
     static
     void
     invoke(
@@ -3661,8 +3633,8 @@ public:
     }
 #  endif /* STLSOFT_CF_STDCALL_SUPPORTED */
 };
-
 #  if defined(STLSOFT_CF_EXCEPTION_SUPPORT)
+
 inline
 void
 xtests_require(int success)
@@ -3673,7 +3645,6 @@ xtests_require(int success)
     }
 }
 #  endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
-
 # endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /** Scoping class that sets the floating-point close factor for a
@@ -3717,9 +3688,7 @@ private:
  */
 # define XTESTS_FLOATINGPOINT_FACTOR_SCOPE                  XTESTS_NS_CPP_QUAL(xtest_floatingpoint_factor_scope)
 
-
 # ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
-
 
 template <typename T>
 struct xtests_failure_reporter;
@@ -3905,13 +3874,14 @@ private:
     enum { are_types_same       =   (0 != STLSOFT_NS_QUAL(is_same_type)<T1, T2>::value) };
     enum { T1_is_larger_than_T2 =   sizeof(T1) > sizeof(T2)                     };
 
-    typedef typename STLSOFT_NS_QUAL(select_first_type_if)< T1
-                                                ,   T2
-                                                ,   T1_is_larger_than_T2
-                                                >::type         larger_type_;
+    typedef typename STLSOFT_NS_QUAL(select_first_type_if)<
+        T1
+    ,   T2
+    ,   T1_is_larger_than_T2
+    >::type                                                 larger_type_;
 
 public:
-    typedef xtests_failure_reporter<larger_type_>               type;
+    typedef xtests_failure_reporter<larger_type_>           type;
 };
 
 template<
@@ -3942,12 +3912,14 @@ xtests_reportFailedIntegerComparison(
     xtests_integer_failure_reporter_selector<I1, I2>::type::xtests_report_failure_equal(file, line, function, expr, expected, actual, comp);
 #  else /* ? compiler */
 
-    typedef typename xtests_integer_failure_reporter_selector<I1, I2>::type    failure_reporter_t;
+    typedef typename xtests_integer_failure_reporter_selector<
+        I1
+    ,   I2
+    >::type                                                 failure_reporter_t;
 
     failure_reporter_t::xtests_report_failure_equal(file, line, function, expr, expected, actual, comp);
 #  endif /* compiler */
 }
-
 #  if defined(STLSOFT_COMPILER_IS_MSVC) && \
        _MSC_VER >= 1310 && \
        !defined(_WIN64) && \
@@ -4367,7 +4339,6 @@ xtests_test_boolean(
     return xtests_test_boolean_(file, line, function, expr, expected, actual, comp, yesno_t());
 }
 
-
 template<
     typename I0
 ,   typename I1
@@ -4706,13 +4677,11 @@ xtests_test_floating_point(
 }
 # endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 #endif /* !_XTESTS_NO_CPP_API */
-
 #ifndef _XTESTS_NO_NAMESPACE
 } /* namespace cpp */
 namespace c
 {
 #endif /* !_XTESTS_NO_NAMESPACE */
-
 #ifdef _XTESTS_NO_CPP_API
 
 # define XTESTS_REQUIRE(test)                               XTESTS_NS_C_QUAL(xtests_require_C)(!(!(test)))

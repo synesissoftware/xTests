@@ -4,7 +4,7 @@
  * Purpose: Illustrates various xTests facilities available to C code.
  *
  * Created: 15th December 2007
- * Updated: 30th December 2024
+ * Updated: 23rd April 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -14,7 +14,7 @@
  */
 
 /* xTests Header Files */
-#include <xtests/xtests.h>
+#include <xtests/terse-api.h>
 
 /* STLSoft Header Files */
 #include <stlsoft/stlsoft.h>
@@ -112,7 +112,7 @@ static void test_3(void)
         {
             if (i == j)
             {
-                XTESTS_TEST_INTEGER_EQUAL(i, j);
+                TEST_INT_EQ(i, j);
                 XTESTS_TEST_INTEGER_EQUAL_EXACT(i, j);
 
                 XTESTS_TEST_INTEGER_LESS_OR_EQUAL(j, i);
@@ -157,14 +157,14 @@ static void test_5(void)
     signed long     i7 = 7;
     unsigned long   i8 = 8;
 
-    XTESTS_TEST_INTEGER_EQUAL(i1, i1);
-    XTESTS_TEST_INTEGER_EQUAL(i2, i2);
-    XTESTS_TEST_INTEGER_EQUAL(i3, i3);
-    XTESTS_TEST_INTEGER_EQUAL(i4, i4);
-    XTESTS_TEST_INTEGER_EQUAL(i5, i5);
-    XTESTS_TEST_INTEGER_EQUAL(i6, i6);
-    XTESTS_TEST_INTEGER_EQUAL(i7, i7);
-    XTESTS_TEST_INTEGER_EQUAL(i8, i8);
+    TEST_INT_EQ(i1, i1);
+    TEST_INT_EQ(i2, i2);
+    TEST_INT_EQ(i3, i3);
+    TEST_INT_EQ(i4, i4);
+    TEST_INT_EQ(i5, i5);
+    TEST_INT_EQ(i6, i6);
+    TEST_INT_EQ(i7, i7);
+    TEST_INT_EQ(i8, i8);
 }
 
 static void test_4_1(void)
@@ -173,20 +173,20 @@ static void test_4_1(void)
     char    s2[]    =   "abcdef";
     char    s3[]    =   "AbCdEf";
 
-    XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, 0);
-    XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, 1);
-    XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, 2);
-    XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, 3);
+    TEST_MS_EQ_N(s1, s2, 0);
+    TEST_MS_EQ_N(s1, s2, 1);
+    TEST_MS_EQ_N(s1, s2, 2);
+    TEST_MS_EQ_N(s1, s2, 3);
     XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N(s1, s2, 4);
-    XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, -4);
+    TEST_MS_EQ_N(s1, s2, -4);
     XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N(s1, s2, 5);
-    XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, -5);
+    TEST_MS_EQ_N(s1, s2, -5);
     XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N(s1, s2, 6);
-    XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, -6);
+    TEST_MS_EQ_N(s1, s2, -6);
     XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N(s1, s2, 7);
-    XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, -7);
+    TEST_MS_EQ_N(s1, s2, -7);
     XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N(s1, s2, 8);
-    XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, -8);
+    TEST_MS_EQ_N(s1, s2, -8);
 
     XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N_APPROX(s1, s3, 0);
     XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N_APPROX(s1, s3, 1);
@@ -255,7 +255,7 @@ static void test_require(void)
     XTESTS_REQUIRE(XTESTS_TEST_POINTER_NOT_EQUAL(NULL, pi));
 
     /* should not get here */
-    XTESTS_TEST_INTEGER_EQUAL(0, *pi);
+    TEST_INT_EQ(0, *pi);
 }
 
 #if defined(_MSC_VER) &&\

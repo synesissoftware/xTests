@@ -4,7 +4,7 @@
  * Purpose: Illustrates facility for comparing custom integral types.
  *
  * Created: 23rd November 2024
- * Updated: 30th December 2024
+ * Updated: 23rd April 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -16,7 +16,7 @@
 #include <xtests/test/util/compiler_warnings_suppression.first_include.h>
 
 /* xTests Header Files */
-#include <xtests/xtests.h>
+#include <xtests/terse-api.h>
 
 /* STLSoft Header Files */
 #include <stlsoft/stlsoft.h>
@@ -38,7 +38,7 @@
 
 namespace {
 
-static void test_int_wrapper();
+    static void test_int_wrapper();
 } // anonymous namespace
 
 
@@ -101,16 +101,15 @@ static void test_int_wrapper()
         int_wrapper lhs { 0 };
         int_wrapper rhs { 0 };
 
-        XTESTS_TEST_INTEGER_EQUAL(lhs, rhs);
+        TEST_INT_EQ(lhs, rhs);
     }
 
     {
         int_wrapper lhs { 0 };
         int_wrapper rhs { 1 };
 
-        XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(lhs, rhs);
+        TEST_INT_GE(lhs, rhs);
     }
-
 }
 } // anonymous namespace
 

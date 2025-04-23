@@ -4,7 +4,7 @@
  * Purpose: Example use of `xtests::cpp::util::temp_directory`.
  *
  * Created: ... mid 2010s ...
- * Updated: 31st December 2024
+ * Updated: 23rd April 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -31,9 +31,9 @@
 
 namespace {
 
-using xtests::cpp::util::temp_directory;
+    using xtests::cpp::util::temp_directory;
 
-typedef platformstl::filesystem_traits<char>                fs_traits_t;
+    typedef platformstl::filesystem_traits<char>            fs_traits_t;
 } // anonymous namespace
 
 

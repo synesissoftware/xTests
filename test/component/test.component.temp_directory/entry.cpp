@@ -4,7 +4,7 @@
  * Purpose: Component-tests for `xtests::cpp::util::temp_directory`.
  *
  * Created: 20th February 2025
- * Updated: 20th February 2025
+ * Updated: 23rd April 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -33,12 +33,12 @@
 namespace
 {
 
-    static void test_None(void);
-    static void test_EmptyOnOpen(void);
-    static void test_EmptyOnClose(void);
-    static void test_RemoveOnClose(void);
-    static void test_RemoveOnOpen(void);
-    static void test_EmptyOnClose_RemoveOnClose(void);
+    static void test_None();
+    static void test_EmptyOnOpen();
+    static void test_EmptyOnClose();
+    static void test_RemoveOnClose();
+    static void test_RemoveOnOpen();
+    static void test_EmptyOnClose_RemoveOnClose();
 } // anonymous namespace
 
 
@@ -130,7 +130,14 @@ namespace
 
         path /= file_name;
 
+#if 0
+#elif defined(PLATFORMSTL_OS_IS_UNIX)
+
         fs_traits_t::file_handle_type h = fs_traits_t::open_file(path.c_str(), O_CREAT, 0);
+#elif defined(PLATFORMSTL_OS_IS_WINDOWS)
+
+        fs_traits_t::file_handle_type h = fs_traits_t::create_file(path.c_str(), 0, 0, NULL, CREATE_ALWAYS, 0, NULL);
+#endif
 
         if (fs_traits_t::invalid_file_handle_value() == h)
         {
@@ -185,7 +192,7 @@ static void test_None()
     fs_traits_t::remove_directory(path.c_str());
 }
 
-static void test_EmptyOnOpen(void)
+static void test_EmptyOnOpen()
 {
     std::string path;
 
@@ -214,7 +221,7 @@ static void test_EmptyOnOpen(void)
     fs_traits_t::remove_directory(path.c_str());
 }
 
-static void test_EmptyOnClose(void)
+static void test_EmptyOnClose()
 {
     std::string path;
 

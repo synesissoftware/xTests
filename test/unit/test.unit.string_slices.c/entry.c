@@ -4,7 +4,7 @@
  * Purpose: Illustrates xTests string slice comparison macros (C code).
  *
  * Created: 16th February 2013
- * Updated: 31st December 2024
+ * Updated: 23rd April 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -16,7 +16,7 @@
 #include <xtests/test/util/compiler_warnings_suppression.first_include.h>
 
 /* xTests Header Files */
-#include <xtests/xtests.h>
+#include <xtests/terse-api.h>
 
 /* STLSoft Header Files */
 #include <stlsoft/stlsoft.h>
@@ -77,7 +77,7 @@ static void test_against_empty_string(void)
 
         } slice = { 0, ss_nullptr_k };
 
-        XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL("", slice);
+        TEST_MULTIBYTE_STRING_SLICE_EQUAL("", slice);
     }
 
     {
@@ -88,7 +88,7 @@ static void test_against_empty_string(void)
 
         } slice = { 0, "" };
 
-        XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL("", slice);
+        TEST_MULTIBYTE_STRING_SLICE_EQUAL("", slice);
     }
 
     {
@@ -99,7 +99,7 @@ static void test_against_empty_string(void)
 
         } slice = { 0, "abcdef" };
 
-        XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL("", slice);
+        TEST_MULTIBYTE_STRING_SLICE_EQUAL("", slice);
     }
 }
 
@@ -113,7 +113,7 @@ static void test_against_short_string(void)
 
         } slice = { 1, "abcdef" };
 
-        XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL("a", slice);
+        TEST_MULTIBYTE_STRING_SLICE_EQUAL("a", slice);
     }
 
     {
@@ -124,7 +124,7 @@ static void test_against_short_string(void)
 
         } slice = { 3, "abcdef" };
 
-        XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL("abc", slice);
+        TEST_MULTIBYTE_STRING_SLICE_EQUAL("abc", slice);
     }
 
     {
@@ -135,7 +135,7 @@ static void test_against_short_string(void)
 
         } slice = { 6, "abcdef" };
 
-        XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL("abcdef", slice);
+        TEST_MULTIBYTE_STRING_SLICE_EQUAL("abcdef", slice);
     }
 }
 

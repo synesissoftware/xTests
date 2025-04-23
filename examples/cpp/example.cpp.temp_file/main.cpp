@@ -9,7 +9,7 @@
  *                array;
  *
  * Created: ... mid 2010s ...
- * Updated: 31st December 2024
+ * Updated: 23rd April 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -36,9 +36,9 @@
 
 namespace {
 
-using xtests::cpp::util::temp_file;
+    using xtests::cpp::util::temp_file;
 
-typedef platformstl::filesystem_traits<char>                fs_traits_t;
+    typedef platformstl::filesystem_traits<char>            fs_traits_t;
 } // anonymous namespace
 
 

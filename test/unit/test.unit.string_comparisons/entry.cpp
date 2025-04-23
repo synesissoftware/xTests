@@ -4,10 +4,9 @@
  * Purpose: Conmponent-tests for `xtests::cpp::util::temp_file`.
  *
  * Created: 21st October 2024
- * Updated: 31st December 2024
+ * Updated: 23rd April 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
-
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -18,7 +17,7 @@
  * test component header file include(s)
  */
 
-#include <xtests/xtests.h>
+#include <xtests/terse-api.h>
 
 /* /////////////////////////////////////
  * general includes
@@ -26,6 +25,9 @@
 
 /* STLSoft header files */
 #include <stlsoft/util/string/snprintf.h>
+
+/* Standard C++ header files */
+#include <string>
 
 /* Standard C header files */
 #include <stdlib.h>
@@ -45,7 +47,12 @@
 namespace
 {
 
-    static void test_Pantheios_broken_example(void);
+    static void TEST_MS_COMPARE_TO_N();
+    static void TEST_MS_COMPARE_TO_N_WITH_std_string();
+    static void TEST_WS_COMPARE_TO_N();
+    static void TEST_WS_COMPARE_TO_N_WITH_std_wstring();
+
+    static void test_Pantheios_broken_example();
 } // anonymous namespace
 
 
@@ -62,6 +69,11 @@ int main(int argc, char* argv[])
 
     if (XTESTS_START_RUNNER("test.test.unit.string_comparisons", verbosity))
     {
+        XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N);
+        XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WITH_std_string);
+        XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N);
+        XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WITH_std_wstring);
+
         XTESTS_RUN_CASE(test_Pantheios_broken_example);
 
         XTESTS_PRINT_RESULTS();
@@ -79,6 +91,286 @@ int main(int argc, char* argv[])
 
 namespace
 {
+
+static void TEST_MS_COMPARE_TO_N()
+{
+    char    s1[]    =   "abc";
+    char    s2[]    =   "abcdef";
+    char    s3[]    =   "AbCdEf";
+
+    {
+        TEST_MS_EQ_N(s1, s2, 0);
+        TEST_MS_EQ_N_APPROX(s1, s2, 0);
+        TEST_MS_EQ_N(s1, s3, 0);
+        TEST_MS_EQ_N_APPROX(s1, s3, 0);
+        TEST_MS_EQ_N(s2, s3, 0);
+        TEST_MS_EQ_N_APPROX(s2, s3, 0);
+    }
+
+    {
+        TEST_MS_EQ_N(s1, s2, 2);
+        TEST_MS_EQ_N_APPROX(s1, s2, 2);
+        TEST_MS_NE_N(s1, s3, 2);
+        TEST_MS_EQ_N_APPROX(s1, s3, 2);
+        TEST_MS_NE_N(s2, s3, 2);
+        TEST_MS_EQ_N_APPROX(s2, s3, 2);
+    }
+
+    {
+        TEST_MS_EQ_N(s1, s2, -2);
+        TEST_MS_EQ_N_APPROX(s1, s2, -2);
+        TEST_MS_NE_N(s1, s3, -2);
+        TEST_MS_EQ_N_APPROX(s1, s3, -2);
+        TEST_MS_NE_N(s2, s3, -2);
+        TEST_MS_EQ_N_APPROX(s2, s3, -2);
+    }
+
+    {
+        TEST_MS_EQ_N(s1, s2, 3);
+        TEST_MS_EQ_N_APPROX(s1, s2, 3);
+        TEST_MS_NE_N(s1, s3, 3);
+        TEST_MS_EQ_N_APPROX(s1, s3, 3);
+        TEST_MS_NE_N(s2, s3, 3);
+        TEST_MS_EQ_N_APPROX(s2, s3, 3);
+    }
+
+    {
+        TEST_MS_EQ_N(s1, s2, -3);
+        TEST_MS_EQ_N_APPROX(s1, s2, -3);
+        TEST_MS_NE_N(s1, s3, -3);
+        TEST_MS_EQ_N_APPROX(s1, s3, -3);
+        TEST_MS_NE_N(s2, s3, -3);
+        TEST_MS_EQ_N_APPROX(s2, s3, -3);
+    }
+
+    {
+        TEST_MS_NE_N(s1, s2, 4);
+        TEST_MS_NE_N_APPROX(s1, s2, 4);
+        TEST_MS_NE_N(s1, s3, 4);
+        TEST_MS_NE_N_APPROX(s1, s3, 4);
+        TEST_MS_NE_N(s2, s3, 4);
+        TEST_MS_EQ_N_APPROX(s2, s3, 4);
+    }
+
+    {
+        TEST_MS_EQ_N(s1, s2, -4);
+        TEST_MS_EQ_N_APPROX(s1, s2, -4);
+        TEST_MS_NE_N(s1, s3, -4);
+        TEST_MS_EQ_N_APPROX(s1, s3, -4);
+        TEST_MS_NE_N(s2, s3, -4);
+        TEST_MS_EQ_N_APPROX(s2, s3, -4);
+    }
+}
+
+static void TEST_MS_COMPARE_TO_N_WITH_std_string()
+{
+    std::string const   s1("abc");
+    std::string const   s2("abcdef");
+    std::string const   s3("AbCdEf");
+
+    {
+        TEST_MS_EQ_N(s1, s2, 0);
+        TEST_MS_EQ_N_APPROX(s1, s2, 0);
+        TEST_MS_EQ_N(s1, s3, 0);
+        TEST_MS_EQ_N_APPROX(s1, s3, 0);
+        TEST_MS_EQ_N(s2, s3, 0);
+        TEST_MS_EQ_N_APPROX(s2, s3, 0);
+    }
+
+    {
+        TEST_MS_EQ_N(s1, s2, 2);
+        TEST_MS_EQ_N_APPROX(s1, s2, 2);
+        TEST_MS_NE_N(s1, s3, 2);
+        TEST_MS_EQ_N_APPROX(s1, s3, 2);
+        TEST_MS_NE_N(s2, s3, 2);
+        TEST_MS_EQ_N_APPROX(s2, s3, 2);
+    }
+
+    {
+        TEST_MS_EQ_N(s1, s2, -2);
+        TEST_MS_EQ_N_APPROX(s1, s2, -2);
+        TEST_MS_NE_N(s1, s3, -2);
+        TEST_MS_EQ_N_APPROX(s1, s3, -2);
+        TEST_MS_NE_N(s2, s3, -2);
+        TEST_MS_EQ_N_APPROX(s2, s3, -2);
+    }
+
+    {
+        TEST_MS_EQ_N(s1, s2, s1.size());
+        TEST_MS_EQ_N_APPROX(s1, s2, s1.size());
+        TEST_MS_NE_N(s1, s3, 3);
+        TEST_MS_EQ_N_APPROX(s1, s3, 3);
+        TEST_MS_NE_N(s2, s3, 3);
+        TEST_MS_EQ_N_APPROX(s2, s3, 3);
+    }
+
+    {
+        TEST_MS_EQ_N(s1, s2, -long(s1.size()));
+        TEST_MS_EQ_N_APPROX(s1, s2, -long(s1.size()));
+        TEST_MS_NE_N(s1, s3, -3);
+        TEST_MS_EQ_N_APPROX(s1, s3, -3);
+        TEST_MS_NE_N(s2, s3, -3);
+        TEST_MS_EQ_N_APPROX(s2, s3, -3);
+    }
+
+    {
+        TEST_MS_NE_N(s1, s2, 4);
+        TEST_MS_NE_N_APPROX(s1, s2, 4);
+        TEST_MS_NE_N(s1, s3, 4);
+        TEST_MS_NE_N_APPROX(s1, s3, 4);
+        TEST_MS_NE_N(s2, s3, 4);
+        TEST_MS_EQ_N_APPROX(s2, s3, 4);
+    }
+
+    {
+        TEST_MS_EQ_N(s1, s2, -4);
+        TEST_MS_EQ_N_APPROX(s1, s2, -4);
+        TEST_MS_NE_N(s1, s3, -4);
+        TEST_MS_EQ_N_APPROX(s1, s3, -4);
+        TEST_MS_NE_N(s2, s3, -4);
+        TEST_MS_EQ_N_APPROX(s2, s3, -4);
+    }
+}
+
+static void TEST_WS_COMPARE_TO_N()
+{
+    wchar_t s1[]    =   L"abc";
+    wchar_t s2[]    =   L"abcdef";
+    wchar_t s3[]    =   L"AbCdEf";
+
+    {
+        TEST_WS_EQ_N(s1, s2, 0);
+        TEST_WS_EQ_N_APPROX(s1, s2, 0);
+        TEST_WS_EQ_N(s1, s3, 0);
+        TEST_WS_EQ_N_APPROX(s1, s3, 0);
+        TEST_WS_EQ_N(s2, s3, 0);
+        TEST_WS_EQ_N_APPROX(s2, s3, 0);
+    }
+
+    {
+        TEST_WS_EQ_N(s1, s2, 2);
+        TEST_WS_EQ_N_APPROX(s1, s2, 2);
+        TEST_WS_NE_N(s1, s3, 2);
+        TEST_WS_EQ_N_APPROX(s1, s3, 2);
+        TEST_WS_NE_N(s2, s3, 2);
+        TEST_WS_EQ_N_APPROX(s2, s3, 2);
+    }
+
+    {
+        TEST_WS_EQ_N(s1, s2, -2);
+        TEST_WS_EQ_N_APPROX(s1, s2, -2);
+        TEST_WS_NE_N(s1, s3, -2);
+        TEST_WS_EQ_N_APPROX(s1, s3, -2);
+        TEST_WS_NE_N(s2, s3, -2);
+        TEST_WS_EQ_N_APPROX(s2, s3, -2);
+    }
+
+    {
+        TEST_WS_EQ_N(s1, s2, 3);
+        TEST_WS_EQ_N_APPROX(s1, s2, 3);
+        TEST_WS_NE_N(s1, s3, 3);
+        TEST_WS_EQ_N_APPROX(s1, s3, 3);
+        TEST_WS_NE_N(s2, s3, 3);
+        TEST_WS_EQ_N_APPROX(s2, s3, 3);
+    }
+
+    {
+        TEST_WS_EQ_N(s1, s2, -3);
+        TEST_WS_EQ_N_APPROX(s1, s2, -3);
+        TEST_WS_NE_N(s1, s3, -3);
+        TEST_WS_EQ_N_APPROX(s1, s3, -3);
+        TEST_WS_NE_N(s2, s3, -3);
+        TEST_WS_EQ_N_APPROX(s2, s3, -3);
+    }
+
+    {
+        TEST_WS_NE_N(s1, s2, 4);
+        TEST_WS_NE_N_APPROX(s1, s2, 4);
+        TEST_WS_NE_N(s1, s3, 4);
+        TEST_WS_NE_N_APPROX(s1, s3, 4);
+        TEST_WS_NE_N(s2, s3, 4);
+        TEST_WS_EQ_N_APPROX(s2, s3, 4);
+    }
+
+    {
+        TEST_WS_EQ_N(s1, s2, -4);
+        TEST_WS_EQ_N_APPROX(s1, s2, -4);
+        TEST_WS_NE_N(s1, s3, -4);
+        TEST_WS_EQ_N_APPROX(s1, s3, -4);
+        TEST_WS_NE_N(s2, s3, -4);
+        TEST_WS_EQ_N_APPROX(s2, s3, -4);
+    }
+}
+
+static void TEST_WS_COMPARE_TO_N_WITH_std_wstring()
+{
+    std::wstring const  s1(L"abc");
+    std::wstring const  s2(L"abcdef");
+    std::wstring const  s3(L"AbCdEf");
+
+    {
+        TEST_WS_EQ_N(s1, s2, 0);
+        TEST_WS_EQ_N_APPROX(s1, s2, 0);
+        TEST_WS_EQ_N(s1, s3, 0);
+        TEST_WS_EQ_N_APPROX(s1, s3, 0);
+        TEST_WS_EQ_N(s2, s3, 0);
+        TEST_WS_EQ_N_APPROX(s2, s3, 0);
+    }
+
+    {
+        TEST_WS_EQ_N(s1, s2, 2);
+        TEST_WS_EQ_N_APPROX(s1, s2, 2);
+        TEST_WS_NE_N(s1, s3, 2);
+        TEST_WS_EQ_N_APPROX(s1, s3, 2);
+        TEST_WS_NE_N(s2, s3, 2);
+        TEST_WS_EQ_N_APPROX(s2, s3, 2);
+    }
+
+    {
+        TEST_WS_EQ_N(s1, s2, -2);
+        TEST_WS_EQ_N_APPROX(s1, s2, -2);
+        TEST_WS_NE_N(s1, s3, -2);
+        TEST_WS_EQ_N_APPROX(s1, s3, -2);
+        TEST_WS_NE_N(s2, s3, -2);
+        TEST_WS_EQ_N_APPROX(s2, s3, -2);
+    }
+
+    {
+        TEST_WS_EQ_N(s1, s2, s1.size());
+        TEST_WS_EQ_N_APPROX(s1, s2, s1.size());
+        TEST_WS_NE_N(s1, s3, 3);
+        TEST_WS_EQ_N_APPROX(s1, s3, 3);
+        TEST_WS_NE_N(s2, s3, 3);
+        TEST_WS_EQ_N_APPROX(s2, s3, 3);
+    }
+
+    {
+        TEST_WS_EQ_N(s1, s2, -3);
+        TEST_WS_EQ_N_APPROX(s1, s2, -3);
+        TEST_WS_NE_N(s1, s3, -3);
+        TEST_WS_EQ_N_APPROX(s1, s3, -3);
+        TEST_WS_NE_N(s2, s3, -3);
+        TEST_WS_EQ_N_APPROX(s2, s3, -3);
+    }
+
+    {
+        TEST_WS_NE_N(s1, s2, 4);
+        TEST_WS_NE_N_APPROX(s1, s2, 4);
+        TEST_WS_NE_N(s1, s3, 4);
+        TEST_WS_NE_N_APPROX(s1, s3, 4);
+        TEST_WS_NE_N(s2, s3, 4);
+        TEST_WS_EQ_N_APPROX(s2, s3, 4);
+    }
+
+    {
+        TEST_WS_EQ_N(s1, s2, -4);
+        TEST_WS_EQ_N_APPROX(s1, s2, -4);
+        TEST_WS_NE_N(s1, s3, -4);
+        TEST_WS_EQ_N_APPROX(s1, s3, -4);
+        TEST_WS_NE_N(s2, s3, -4);
+        TEST_WS_EQ_N_APPROX(s2, s3, -4);
+    }
+}
 
 static void test_Pantheios_broken_example()
 {
@@ -102,7 +394,7 @@ static void test_Pantheios_broken_example()
 
        s::pantheios_util_formatYearToString4(0, &sz);
 
-       XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N("0000", sz, 4);
+       TEST_MS_EQ_N("0000", sz, 4);
    }
 
    {
@@ -116,11 +408,10 @@ static void test_Pantheios_broken_example()
 
            snprintf(expected, STLSOFT_NUM_ELEMENTS(expected), ("%04d"), year);
 
-           XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(expected, sz, 4);
+           TEST_MS_EQ_N(expected, sz, 4);
        }
    }
 }
-
 } // anonymous namespace
 
 
