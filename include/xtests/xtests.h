@@ -2209,15 +2209,15 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
 
 #   define XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)             \
     (                                                                       \
-        (0 == shwild::match((pattern), stlsoft::sas_to_string_m((value)).c_str(), 0))   \
+        (0 == shwild::match((pattern), STLSOFT_NS_QUAL(sas_to_string_m)((value)).c_str(), 0))   \
             ?   XTESTS_TEST_PASSED()                                        \
-            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(("actual value (given in qualifier) did not match pattern '" + stlsoft::sas_to_string_m((pattern)) + "'").c_str(), stlsoft::sas_to_string_m((value)).c_str())   \
+            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(("actual value (given in qualifier) did not match pattern '" + STLSOFT_NS_QUAL(sas_to_string_m)((pattern)) + "'").c_str(), STLSOFT_NS_QUAL(sas_to_string_m)((value)).c_str())   \
     )
 #   define XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH(pattern, value)      \
     (                                                                       \
-        (0 != shwild::match((pattern), stlsoft::sas_to_string_m((value)).c_str(), 0))   \
+        (0 != shwild::match((pattern), STLSOFT_NS_QUAL(sas_to_string_m)((value)).c_str(), 0))   \
             ?   XTESTS_TEST_PASSED()                                        \
-            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(("actual value (given in qualifier) matches unexpectedly the pattern '" + stlsoft::sas_to_string_m((pattern)) + "'").c_str(), stlsoft::sas_to_string_m((value)).c_str())   \
+            :   XTESTS_TEST_FAIL_WITH_QUALIFIER(("actual value (given in qualifier) matches unexpectedly the pattern '" + STLSOFT_NS_QUAL(sas_to_string_m)((pattern)) + "'").c_str(), STLSOFT_NS_QUAL(sas_to_string_m)((value)).c_str())   \
     )
 #  endif /* STLSOFT_INCL_STLSOFT_CONVERSION_HPP_SAS_TO_STRING */
 # else /* ? _XTESTS_NO_CPP_API */
@@ -3175,8 +3175,8 @@ xtests_testMultibyteStrings(
     return xtests_testMultibyteStrings(
         file, line, function
     ,   expr
-    ,   stlsoft::sas_to_string_m(expected).c_str()
-    ,   stlsoft::sas_to_string_m(actual).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(actual).c_str()
     ,   comp
     );
 }
@@ -3273,8 +3273,8 @@ xtests_testWideStrings(
     return xtests_testWideStrings(
         file, line, function
     ,   expr
-    ,   stlsoft::sas_to_string_w(expected).c_str()
-    ,   stlsoft::sas_to_string_w(actual).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_w)(expected).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_w)(actual).c_str()
     ,   comp
     );
 }
@@ -3345,8 +3345,8 @@ xtests_testMultibyteStringContains(
     return xtests_testMultibyteStringContains(
         file, line, function
     ,   expr
-    ,   stlsoft::sas_to_string_m(expected).c_str()
-    ,   stlsoft::sas_to_string_m(actual).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(actual).c_str()
     ,   comp
     );
 }
@@ -3383,8 +3383,8 @@ xtests_testWideStringContains(
     return xtests_testWideStringContains(
         file, line, function
     ,   expr
-    ,   stlsoft::sas_to_string_w(expected).c_str()
-    ,   stlsoft::sas_to_string_w(actual).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_w)(expected).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_w)(actual).c_str()
     ,   comp
     );
 }
@@ -3488,8 +3488,8 @@ xtests_writeFailMessage(
         file
     ,   line
     ,   function
-    ,   stlsoft::sas_to_string_m(message).c_str()
-    ,   stlsoft::sas_to_string_m(qualifyingInformation).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(message).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(qualifyingInformation).c_str()
     );
 }
 # endif /* !_XTESTS_NO_CPP_API */
