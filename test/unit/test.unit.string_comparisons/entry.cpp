@@ -4,7 +4,7 @@
  * Purpose: Conmponent-tests for `xtests::cpp::util::temp_file`.
  *
  * Created: 21st October 2024
- * Updated: 31st December 2024
+ * Updated: 23rd April 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -45,7 +45,7 @@
 namespace
 {
 
-    static void test_Pantheios_broken_example(void);
+    static void test_Pantheios_broken_example();
 } // anonymous namespace
 
 

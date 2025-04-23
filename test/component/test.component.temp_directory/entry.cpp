@@ -33,12 +33,12 @@
 namespace
 {
 
-    static void test_None(void);
-    static void test_EmptyOnOpen(void);
-    static void test_EmptyOnClose(void);
-    static void test_RemoveOnClose(void);
-    static void test_RemoveOnOpen(void);
-    static void test_EmptyOnClose_RemoveOnClose(void);
+    static void test_None();
+    static void test_EmptyOnOpen();
+    static void test_EmptyOnClose();
+    static void test_RemoveOnClose();
+    static void test_RemoveOnOpen();
+    static void test_EmptyOnClose_RemoveOnClose();
 } // anonymous namespace
 
 
@@ -192,7 +192,7 @@ static void test_None()
     fs_traits_t::remove_directory(path.c_str());
 }
 
-static void test_EmptyOnOpen(void)
+static void test_EmptyOnOpen()
 {
     std::string path;
 
@@ -221,7 +221,7 @@ static void test_EmptyOnOpen(void)
     fs_traits_t::remove_directory(path.c_str());
 }
 
-static void test_EmptyOnClose(void)
+static void test_EmptyOnClose()
 {
     std::string path;
 

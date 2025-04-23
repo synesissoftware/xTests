@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 24th March 2025
+ * Updated: 23rd April 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -554,8 +554,8 @@ namespace
         ,   int                     line
         ,   char const*             function
         ,   char const*             expr
-        ,   void                    (*expected)(void)
-        ,   void                    (*actual)(void)
+        ,   void                    (*expected)()
+        ,   void                    (*actual)()
         ,   xtests_comparison_t     comp
         );
         int TestCharacters(
@@ -1272,7 +1272,7 @@ xtests_beginTestCase(
 }
 
 XTESTS_CALL(void*)
-xtests_getSetupParam(void)
+xtests_getSetupParam()
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
 
@@ -1852,8 +1852,8 @@ xtests_testFunctionPointers(
 ,   int                     line
 ,   char const*             function
 ,   char const*             expr
-,   void                    (*expected)(void)
-,   void                    (*actual)(void)
+,   void                    (*expected)()
+,   void                    (*actual)()
 ,   xtests_comparison_t     comp
 )
 {
@@ -1945,7 +1945,7 @@ xtests_require_C(
 }
 
 XTESTS_CALL(int)
-xTests_hasRequiredConditionFailed(void)
+xTests_hasRequiredConditionFailed()
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
 
@@ -5462,19 +5462,19 @@ RunnerInfo::TestFunctionPointers(
 ,   int                     line
 ,   char const*             function
 ,   char const*             expr
-,   void                    (*expected)(void)
-,   void                    (*actual)(void)
+,   void                    (*expected)()
+,   void                    (*actual)()
 ,   xtests_comparison_t     comp
 )
 {
     STLSOFT_ASSERT(xtestsComparisonEqual == comp || xtestsComparisonNotEqual == comp);
 
-    STLSOFT_STATIC_ASSERT(sizeof(void*) == sizeof(void(*)(void)));
+    STLSOFT_STATIC_ASSERT(sizeof(void*) == sizeof(void(*)()));
 
     union
     {
         void*   p;
-        void    (*pfn)(void);
+        void    (*pfn)();
 
     } x, a;
 
