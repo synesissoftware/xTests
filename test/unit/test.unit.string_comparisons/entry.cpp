@@ -26,6 +26,9 @@
 /* STLSoft header files */
 #include <stlsoft/util/string/snprintf.h>
 
+/* Standard C++ header files */
+#include <string>
+
 /* Standard C header files */
 #include <stdlib.h>
 
@@ -45,7 +48,9 @@ namespace
 {
 
     static void TEST_MS_COMPARE_TO_N();
+    static void TEST_MS_COMPARE_TO_N_WITH_std_string();
     static void TEST_WS_COMPARE_TO_N();
+    static void TEST_WS_COMPARE_TO_N_WITH_std_wstring();
 
     static void test_Pantheios_broken_example();
 } // anonymous namespace
@@ -65,7 +70,9 @@ int main(int argc, char* argv[])
     if (XTESTS_START_RUNNER("test.test.unit.string_comparisons", verbosity))
     {
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N);
+        XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WITH_std_string);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N);
+        XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WITH_std_wstring);
 
         XTESTS_RUN_CASE(test_Pantheios_broken_example);
 
@@ -155,6 +162,76 @@ static void TEST_MS_COMPARE_TO_N()
     }
 }
 
+static void TEST_MS_COMPARE_TO_N_WITH_std_string()
+{
+    std::string const   s1("abc");
+    std::string const   s2("abcdef");
+    std::string const   s3("AbCdEf");
+
+    {
+        TEST_MS_EQ_N(s1, s2, 0);
+        TEST_MS_EQ_N_APPROX(s1, s2, 0);
+        TEST_MS_EQ_N(s1, s3, 0);
+        TEST_MS_EQ_N_APPROX(s1, s3, 0);
+        TEST_MS_EQ_N(s2, s3, 0);
+        TEST_MS_EQ_N_APPROX(s2, s3, 0);
+    }
+
+    {
+        TEST_MS_EQ_N(s1, s2, 2);
+        TEST_MS_EQ_N_APPROX(s1, s2, 2);
+        TEST_MS_NE_N(s1, s3, 2);
+        TEST_MS_EQ_N_APPROX(s1, s3, 2);
+        TEST_MS_NE_N(s2, s3, 2);
+        TEST_MS_EQ_N_APPROX(s2, s3, 2);
+    }
+
+    {
+        TEST_MS_EQ_N(s1, s2, -2);
+        TEST_MS_EQ_N_APPROX(s1, s2, -2);
+        TEST_MS_NE_N(s1, s3, -2);
+        TEST_MS_EQ_N_APPROX(s1, s3, -2);
+        TEST_MS_NE_N(s2, s3, -2);
+        TEST_MS_EQ_N_APPROX(s2, s3, -2);
+    }
+
+    {
+        TEST_MS_EQ_N(s1, s2, s1.size());
+        TEST_MS_EQ_N_APPROX(s1, s2, s1.size());
+        TEST_MS_NE_N(s1, s3, 3);
+        TEST_MS_EQ_N_APPROX(s1, s3, 3);
+        TEST_MS_NE_N(s2, s3, 3);
+        TEST_MS_EQ_N_APPROX(s2, s3, 3);
+    }
+
+    {
+        TEST_MS_EQ_N(s1, s2, -long(s1.size()));
+        TEST_MS_EQ_N_APPROX(s1, s2, -long(s1.size()));
+        TEST_MS_NE_N(s1, s3, -3);
+        TEST_MS_EQ_N_APPROX(s1, s3, -3);
+        TEST_MS_NE_N(s2, s3, -3);
+        TEST_MS_EQ_N_APPROX(s2, s3, -3);
+    }
+
+    {
+        TEST_MS_NE_N(s1, s2, 4);
+        TEST_MS_NE_N_APPROX(s1, s2, 4);
+        TEST_MS_NE_N(s1, s3, 4);
+        TEST_MS_NE_N_APPROX(s1, s3, 4);
+        TEST_MS_NE_N(s2, s3, 4);
+        TEST_MS_EQ_N_APPROX(s2, s3, 4);
+    }
+
+    {
+        TEST_MS_EQ_N(s1, s2, -4);
+        TEST_MS_EQ_N_APPROX(s1, s2, -4);
+        TEST_MS_NE_N(s1, s3, -4);
+        TEST_MS_EQ_N_APPROX(s1, s3, -4);
+        TEST_MS_NE_N(s2, s3, -4);
+        TEST_MS_EQ_N_APPROX(s2, s3, -4);
+    }
+}
+
 static void TEST_WS_COMPARE_TO_N()
 {
     wchar_t s1[]    =   L"abc";
@@ -191,6 +268,76 @@ static void TEST_WS_COMPARE_TO_N()
     {
         TEST_WS_EQ_N(s1, s2, 3);
         TEST_WS_EQ_N_APPROX(s1, s2, 3);
+        TEST_WS_NE_N(s1, s3, 3);
+        TEST_WS_EQ_N_APPROX(s1, s3, 3);
+        TEST_WS_NE_N(s2, s3, 3);
+        TEST_WS_EQ_N_APPROX(s2, s3, 3);
+    }
+
+    {
+        TEST_WS_EQ_N(s1, s2, -3);
+        TEST_WS_EQ_N_APPROX(s1, s2, -3);
+        TEST_WS_NE_N(s1, s3, -3);
+        TEST_WS_EQ_N_APPROX(s1, s3, -3);
+        TEST_WS_NE_N(s2, s3, -3);
+        TEST_WS_EQ_N_APPROX(s2, s3, -3);
+    }
+
+    {
+        TEST_WS_NE_N(s1, s2, 4);
+        TEST_WS_NE_N_APPROX(s1, s2, 4);
+        TEST_WS_NE_N(s1, s3, 4);
+        TEST_WS_NE_N_APPROX(s1, s3, 4);
+        TEST_WS_NE_N(s2, s3, 4);
+        TEST_WS_EQ_N_APPROX(s2, s3, 4);
+    }
+
+    {
+        TEST_WS_EQ_N(s1, s2, -4);
+        TEST_WS_EQ_N_APPROX(s1, s2, -4);
+        TEST_WS_NE_N(s1, s3, -4);
+        TEST_WS_EQ_N_APPROX(s1, s3, -4);
+        TEST_WS_NE_N(s2, s3, -4);
+        TEST_WS_EQ_N_APPROX(s2, s3, -4);
+    }
+}
+
+static void TEST_WS_COMPARE_TO_N_WITH_std_wstring()
+{
+    std::wstring const  s1(L"abc");
+    std::wstring const  s2(L"abcdef");
+    std::wstring const  s3(L"AbCdEf");
+
+    {
+        TEST_WS_EQ_N(s1, s2, 0);
+        TEST_WS_EQ_N_APPROX(s1, s2, 0);
+        TEST_WS_EQ_N(s1, s3, 0);
+        TEST_WS_EQ_N_APPROX(s1, s3, 0);
+        TEST_WS_EQ_N(s2, s3, 0);
+        TEST_WS_EQ_N_APPROX(s2, s3, 0);
+    }
+
+    {
+        TEST_WS_EQ_N(s1, s2, 2);
+        TEST_WS_EQ_N_APPROX(s1, s2, 2);
+        TEST_WS_NE_N(s1, s3, 2);
+        TEST_WS_EQ_N_APPROX(s1, s3, 2);
+        TEST_WS_NE_N(s2, s3, 2);
+        TEST_WS_EQ_N_APPROX(s2, s3, 2);
+    }
+
+    {
+        TEST_WS_EQ_N(s1, s2, -2);
+        TEST_WS_EQ_N_APPROX(s1, s2, -2);
+        TEST_WS_NE_N(s1, s3, -2);
+        TEST_WS_EQ_N_APPROX(s1, s3, -2);
+        TEST_WS_NE_N(s2, s3, -2);
+        TEST_WS_EQ_N_APPROX(s2, s3, -2);
+    }
+
+    {
+        TEST_WS_EQ_N(s1, s2, s1.size());
+        TEST_WS_EQ_N_APPROX(s1, s2, s1.size());
         TEST_WS_NE_N(s1, s3, 3);
         TEST_WS_EQ_N_APPROX(s1, s3, 3);
         TEST_WS_NE_N(s2, s3, 3);
