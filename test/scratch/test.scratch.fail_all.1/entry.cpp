@@ -4,7 +4,7 @@
  * Purpose: Illustrates various test failures.
  *
  * Created: 26th January 2009
- * Updated: 30th December 2024
+ * Updated: 23rd April 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -41,17 +41,17 @@
 
 namespace
 {
-    static void test_int_comparison_failures(void);
-    static void test_multibyte_string_comparison_failures(void);
-    static void test_wide_string_comparison_failures(void);
-    static void test_character_comparison_failures(void);
-    static void test_floating_point_comparison_failures(void);
-    static void test_boolean_comparison_failures(void);
-    static void test_pointer_comparison_failures(void);
-    static void test_explicit_failures(void);
-    static void test_missing_expected_exception_failures(void);
-    static void test_unexpected_exception_failures(void);
 
+    static void test_int_comparison_failures();
+    static void test_multibyte_string_comparison_failures();
+    static void test_wide_string_comparison_failures();
+    static void test_character_comparison_failures();
+    static void test_floating_point_comparison_failures();
+    static void test_boolean_comparison_failures();
+    static void test_pointer_comparison_failures();
+    static void test_explicit_failures();
+    static void test_missing_expected_exception_failures();
+    static void test_unexpected_exception_failures();
 } /* anonymous namespace */
 
 
@@ -110,7 +110,7 @@ namespace
         XTESTS_TEST_INTEGER_GREATER(static_cast<I>(1), static_cast<I>(0));
     }
 
-    static void test_int_comparison_failures(void)
+    static void test_int_comparison_failures()
     {
         test_int_comparison_failures_(static_cast<short>(0));
         test_int_comparison_failures_(static_cast<unsigned short>(0));
@@ -122,7 +122,7 @@ namespace
         test_int_comparison_failures_(stlsoft::uint64_t(0));
     }
 
-    static void test_multibyte_string_comparison_failures(void)
+    static void test_multibyte_string_comparison_failures()
     {
         const char src[] = "abcdefghijklmnopqrstuvwxyz";
 
@@ -142,7 +142,7 @@ namespace
         XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN("abc", stlsoft::string_view(src, 3));
     }
 
-    static void test_wide_string_comparison_failures(void)
+    static void test_wide_string_comparison_failures()
     {
         XTESTS_TEST_WIDE_STRING_EQUAL(L"abc", L"xyz");
         XTESTS_TEST_WIDE_STRING_EQUAL_APPROX(L"abc", L"xyz");
@@ -158,7 +158,7 @@ namespace
         XTESTS_TEST_WIDE_STRING_NOT_CONTAIN(L"abc", L"abc");
     }
 
-    static void test_character_comparison_failures(void)
+    static void test_character_comparison_failures()
     {
         XTESTS_TEST_CHARACTER_EQUAL('a', 'b');
 
@@ -171,33 +171,33 @@ namespace
 #endif
     }
 
-    static void test_floating_point_comparison_failures(void)
+    static void test_floating_point_comparison_failures()
     {
         XTESTS_TEST_FLOATINGPOINT_EQUAL_APPROX(12345678.9, -1.23e-100);
     }
 
-    static void test_boolean_comparison_failures(void)
+    static void test_boolean_comparison_failures()
     {
         XTESTS_TEST_BOOLEAN_TRUE(false);
         XTESTS_TEST_BOOLEAN_FALSE(true);
     }
 
-    static void test_pointer_comparison_failures(void)
+    static void test_pointer_comparison_failures()
     {
         int i = 0;
 
         XTESTS_TEST_POINTER_EQUAL(NULL, &i);
     }
 
-    static void test_explicit_failures(void)
+    static void test_explicit_failures()
     {
         XTESTS_TEST_FAIL("this failure was explicit");
     }
 
-    static void test_missing_expected_exception_failures(void)
+    static void test_missing_expected_exception_failures()
     {}
 
-    static void test_unexpected_exception_failures(void)
+    static void test_unexpected_exception_failures()
     {
         throw std::runtime_error("<this was not expected!>");
     }

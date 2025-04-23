@@ -4,7 +4,7 @@
  * Purpose: Component-tests for `xtests::cpp::util::temp_file`.
  *
  * Created: 5th May 2024
- * Updated: 31st December 2024
+ * Updated: 23rd April 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -31,10 +31,10 @@
 namespace
 {
 
-    static void test_None(void);
-    static void test_DeleteOnClose(void);
-    static void test_DeleteOnOpen(void);
-    static void test_DeleteOnOpen_DeleteOnClose(void);
+    static void test_None();
+    static void test_DeleteOnClose();
+    static void test_DeleteOnOpen();
+    static void test_DeleteOnOpen_DeleteOnClose();
 } // anonymous namespace
 
 
