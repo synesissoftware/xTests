@@ -1,6 +1,12 @@
 # xTests - History
 
 
+23rd April 2025 - 0.26.1-alpha1
+-------------------------------
+
+ * Fix wrong conditionality on inclusion of **stlsoft/conversion/sas_to_string.hpp**;
+
+
 23rd April 2025 - 0.26.0
 ------------------------
 
