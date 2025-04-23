@@ -3172,13 +3172,11 @@ xtests_testMultibyteStrings(
 ,   xtests_comparison_t comp
 )
 {
-    STLSOFT_NS_USING(c_str_ptr_a);
-
     return xtests_testMultibyteStrings(
         file, line, function
     ,   expr
-    ,   XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(expected))
-    ,   XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(actual))
+    ,   stlsoft::sas_to_string_m(expected).c_str()
+    ,   stlsoft::sas_to_string_m(actual).c_str()
     ,   comp
     );
 }
@@ -3207,8 +3205,8 @@ xtests_testMultibyteStringsN(
     ,   line
     ,   function
     ,   expr
-    ,   XTESTS_INVOKE_c_str_data_a_(XTESTS_INVOKE_c_str_data_a_(expected))
-    ,   XTESTS_INVOKE_c_str_data_a_(XTESTS_INVOKE_c_str_data_a_(actual))
+    ,   XTESTS_INVOKE_c_str_data_a_(expected)
+    ,   XTESTS_INVOKE_c_str_data_a_(actual)
     ,   n
     ,   c_str_len_n_a(expected, STLSOFT_STATIC_CAST(size_t, (n < 0) ? -n : n))
     ,   c_str_len_n_a(actual, STLSOFT_STATIC_CAST(size_t, (n < 0) ? -n : n))
@@ -3272,13 +3270,11 @@ xtests_testWideStrings(
 ,   xtests_comparison_t comp
 )
 {
-    STLSOFT_NS_USING(c_str_ptr_w);
-
     return xtests_testWideStrings(
         file, line, function
     ,   expr
-    ,   XTESTS_INVOKE_c_str_ptr_w_(XTESTS_INVOKE_c_str_ptr_w_(expected))
-    ,   XTESTS_INVOKE_c_str_ptr_w_(XTESTS_INVOKE_c_str_ptr_w_(actual))
+    ,   stlsoft::sas_to_string_w(expected).c_str()
+    ,   stlsoft::sas_to_string_w(actual).c_str()
     ,   comp
     );
 }
@@ -3307,8 +3303,8 @@ xtests_testWideStringsN(
     ,   line
     ,   function
     ,   expr
-    ,   XTESTS_INVOKE_c_str_data_w_(XTESTS_INVOKE_c_str_data_w_(expected))
-    ,   XTESTS_INVOKE_c_str_data_w_(XTESTS_INVOKE_c_str_data_w_(actual))
+    ,   XTESTS_INVOKE_c_str_data_w_(expected)
+    ,   XTESTS_INVOKE_c_str_data_w_(actual)
     ,   n
     ,   c_str_len_n_w(expected, STLSOFT_STATIC_CAST(size_t, (n < 0) ? -n : n))
     ,   c_str_len_n_w(actual, STLSOFT_STATIC_CAST(size_t, (n < 0) ? -n : n))
@@ -3346,13 +3342,11 @@ xtests_testMultibyteStringContains(
 ,   xtests_comparison_t comp
 )
 {
-    STLSOFT_NS_USING(c_str_ptr_a);
-
     return xtests_testMultibyteStringContains(
         file, line, function
     ,   expr
-    ,   XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(expected))
-    ,   XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(actual))
+    ,   stlsoft::sas_to_string_m(expected).c_str()
+    ,   stlsoft::sas_to_string_m(actual).c_str()
     ,   comp
     );
 }
@@ -3386,13 +3380,11 @@ xtests_testWideStringContains(
 ,   xtests_comparison_t comp
 )
 {
-    STLSOFT_NS_USING(c_str_ptr_w);
-
     return xtests_testWideStringContains(
         file, line, function
     ,   expr
-    ,   XTESTS_INVOKE_c_str_ptr_w_(XTESTS_INVOKE_c_str_ptr_w_(expected))
-    ,   XTESTS_INVOKE_c_str_ptr_w_(XTESTS_INVOKE_c_str_ptr_w_(actual))
+    ,   stlsoft::sas_to_string_w(expected).c_str()
+    ,   stlsoft::sas_to_string_w(actual).c_str()
     ,   comp
     );
 }
@@ -3492,14 +3484,13 @@ xtests_writeFailMessage(
 ,   S1 const&   qualifyingInformation
 )
 {
-    STLSOFT_NS_USING(c_str_ptr_a);
-
     return xtests_writeFailMessage(
         file
     ,   line
     ,   function
-    ,   XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(message))
-    ,   XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(qualifyingInformation)));
+    ,   stlsoft::sas_to_string_m(message).c_str()
+    ,   stlsoft::sas_to_string_m(qualifyingInformation).c_str()
+    );
 }
 # endif /* !_XTESTS_NO_CPP_API */
 
