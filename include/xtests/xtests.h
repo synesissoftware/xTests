@@ -51,9 +51,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
-# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       50
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        399
+# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       51
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    0
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        400
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -83,7 +83,7 @@
 #define _XTESTS_VER_MINOR       26
 #define _XTESTS_VER_REVISION    1
 
-#define _XTESTS_VER             0x001a0141
+#define _XTESTS_VER             0x001a0142
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -3162,6 +3162,44 @@ xtests_abend(S const& message)
     xtests_abend(XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(message)));
 }
 
+
+template <typename I>
+struct xtests_string_len_signed_form;
+
+template <>
+struct xtests_string_len_signed_form<int>
+{
+    static int from(int i) STLSOFT_NOEXCEPT { return i; }
+};
+
+template <>
+struct xtests_string_len_signed_form<unsigned int>
+{
+    static int from(unsigned int i) STLSOFT_NOEXCEPT { return static_cast<int>(i); }
+};
+
+template <>
+struct xtests_string_len_signed_form<unsigned long>
+{
+    static long from(unsigned long i) STLSOFT_NOEXCEPT { return static_cast<long>(i); }
+};
+
+template <>
+struct xtests_string_len_signed_form<long>
+{
+    static long from(long i) STLSOFT_NOEXCEPT { return i; }
+};
+
+template <>
+struct xtests_string_len_signed_form<size_t>
+{
+#  ifdef STLSOFT_CF_64BIT_INT_SUPPORT
+    static STLSOFT_NS_QUAL(ss_sint64_t) from(size_t i) STLSOFT_NOEXCEPT { return static_cast<STLSOFT_NS_QUAL(ss_sint64_t)>(i); }
+#  else
+#  endif
+};
+
+
 template<
     typename S0
 ,   typename S1
@@ -3190,21 +3228,24 @@ xtests_testMultibyteStrings(
 template<
     typename S0
 ,   typename S1
+,   typename I
 >
 inline
 int
-xtests_testMultibyteStringsN(
+xtests_testMultibyteStringsN_t(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   S0 const&           expected
 ,   S1 const&           actual
-,   int                 n /* exact if +ve; limit if -ve */
+,   I                   n /* exact if +ve; limit if -ve */
 ,   xtests_comparison_t comp
 )
 {
     STLSOFT_NS_USING(c_str_data_a);
+
+    STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_integral_type)<I>::value);
 
     return xtests_testMultibyteStringsN_(
         file
@@ -3216,6 +3257,42 @@ xtests_testMultibyteStringsN(
     ,   n
     ,   c_str_len_n_a(expected, STLSOFT_STATIC_CAST(size_t, (n < 0) ? -n : n))
     ,   c_str_len_n_a(actual, STLSOFT_STATIC_CAST(size_t, (n < 0) ? -n : n))
+    ,   comp
+    );
+}
+
+template<
+    typename S0
+,   typename S1
+,   typename I
+>
+inline
+int
+xtests_testMultibyteStringsN(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   S0 const&           expected
+,   S1 const&           actual
+,   I                   n /* exact if +ve; limit if -ve */
+,   xtests_comparison_t comp
+)
+{
+    STLSOFT_NS_USING(c_str_data_a);
+
+    STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_integral_type)<I>::value);
+
+    typedef xtests_string_len_signed_form<I>                I_signed_form_t;
+
+    return xtests_testMultibyteStringsN_t(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   expected
+    ,   actual
+    ,   I_signed_form_t::from(n)
     ,   comp
     );
 }
@@ -3240,7 +3317,7 @@ xtests_testWideStringsN_(
 ,   char const*         expr
 ,   wchar_t const*      expected
 ,   wchar_t const*      actual
-,   int                 n /* exact if +ve; limit if -ve */
+,   ptrdiff_t           n /* exact if +ve; limit if -ve */
 ,   size_t              cchExpected
 ,   size_t              cchActual
 ,   xtests_comparison_t comp
@@ -3287,21 +3364,24 @@ xtests_testWideStrings(
 template<
     typename S0
 ,   typename S1
+,   typename I
 >
 inline
 int
-xtests_testWideStringsN(
+xtests_testWideStringsN_t(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   S0 const&           expected
 ,   S1 const&           actual
-,   int                 n /* exact if +ve; limit if -ve */
+,   I                   n /* exact if +ve; limit if -ve */
 ,   xtests_comparison_t comp
 )
 {
     STLSOFT_NS_USING(c_str_data_w);
+
+    STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_integral_type)<I>::value);
 
     return xtests_testWideStringsN_(
         file
@@ -3313,6 +3393,42 @@ xtests_testWideStringsN(
     ,   n
     ,   c_str_len_n_w(expected, STLSOFT_STATIC_CAST(size_t, (n < 0) ? -n : n))
     ,   c_str_len_n_w(actual, STLSOFT_STATIC_CAST(size_t, (n < 0) ? -n : n))
+    ,   comp
+    );
+}
+
+template<
+    typename S0
+,   typename S1
+,   typename I
+>
+inline
+int
+xtests_testWideStringsN(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   S0 const&           expected
+,   S1 const&           actual
+,   I                   n /* exact if +ve; limit if -ve */
+,   xtests_comparison_t comp
+)
+{
+    STLSOFT_NS_USING(c_str_data_w);
+
+    STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_integral_type)<I>::value);
+
+    typedef xtests_string_len_signed_form<I>                I_signed_form_t;
+
+    return xtests_testWideStringsN_t(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   expected
+    ,   actual
+    ,   I_signed_form_t::from(n)
     ,   comp
     );
 }
