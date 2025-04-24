@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 23rd April 2025
+ * Updated: 24th April 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -606,7 +606,7 @@ namespace
 
     private:
 #if defined(STLSOFT_INCL_STLSOFT_UTIL_HPP_MUST_INIT)
-        typedef stlsoft::must_init<int>                     int_type;
+        typedef stlsoft::must_init<signed int>              int_type;
         typedef stlsoft::must_init<uint32_t>                unsigned_type;
 #else /* ? STLSOFT_INCL_STLSOFT_UTIL_HPP_MUST_INIT */
         typedef int                                         int_type;
@@ -876,7 +876,7 @@ namespace
             buff.resize(11 + cchName + 1);
 
             int const n         =   stlsoft::snprintf(&buff[0], buff.size(), "\033[1;%dm%s\033[0m", XTESTS_ANSI_FG_BLUE_, name);
-            int const buf_size  =   static_cast<int>(buff.size());
+            int const buf_size  =   static_cast<signed int>(buff.size());
 
             STLSOFT_ASSERT(n < 0 || n == (buf_size - 1));
 
@@ -1479,7 +1479,7 @@ xtests_testFailed_int(
 
     XTESTS_EXCEPTION_TRY_
 
-        return s_runner->RegisterFailedCondition_long(file, line, function, expr, static_cast<long>(expected), static_cast<long>(actual), comp);
+        return s_runner->RegisterFailedCondition_long(file, line, function, expr, static_cast<signed long>(expected), static_cast<signed long>(actual), comp);
 
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
@@ -1670,7 +1670,7 @@ xtests_testMultibyteStringsN(
     ,   actual
     ,   n
     ,   (0 != n && NULL != expected) ? ::strlen(expected) : 0u
-    ,   (0 != n && NULL != actual) ? xtests_strnlen_(actual, static_cast<size_t>(::abs(static_cast<int>(n)))) : 0u
+    ,   (0 != n && NULL != actual) ? xtests_strnlen_(actual, static_cast<size_t>(::abs(static_cast<signed int>(n)))) : 0u
     ,   comp);
 }
 
@@ -1993,7 +1993,7 @@ xtests_commandLine_parseVerbosity(
 
         stlsoft_C_string_slice_a_t const exe_name = platformstl_C_get_executable_name_from_path(argv[0]);
 
-        fprintf(stderr, "%.*s: out of memory\n", int(exe_name.len), exe_name.ptr);
+        fprintf(stderr, "%.*s: out of memory\n", static_cast<signed int>(exe_name.len), exe_name.ptr);
 
         return 0;
     }
@@ -2021,7 +2021,7 @@ xtests_commandLine_parseVerbosity(
             char*   endptr;
             long    l = ::strtol(envvar, &endptr, 0);
 
-            *verbosity = static_cast<int>(l);
+            *verbosity = static_cast<signed int>(l);
 
             return 1;
         }
@@ -2088,7 +2088,7 @@ xtests_commandLine_parseHelp2(
     }
     catch (std::bad_alloc&)
     {
-        fprintf(stderr, "%.*s: out of memory\n", int(exe_name.len), exe_name.ptr);
+        fprintf(stderr, "%.*s: out of memory\n", static_cast<signed int>(exe_name.len), exe_name.ptr);
     }
 }
 
@@ -2192,7 +2192,7 @@ xtests_commandLine_parseHelpOrVerbosity(
                 char*   endptr;
                 long    l = ::strtol(envvar, &endptr, 0);
 
-                *verbosity = static_cast<int>(l);
+                *verbosity = static_cast<signed int>(l);
 
                 return 1;
             }
@@ -2202,7 +2202,7 @@ xtests_commandLine_parseHelpOrVerbosity(
     }
     catch (std::bad_alloc&)
     {
-        fprintf(stderr, "%.*s: out of memory\n", int(exe_name.len), exe_name.ptr);
+        fprintf(stderr, "%.*s: out of memory\n", static_cast<signed int>(exe_name.len), exe_name.ptr);
 
         return -ENOMEM;
     }

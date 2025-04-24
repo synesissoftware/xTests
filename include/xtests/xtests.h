@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 23rd April 2025
+ * Updated: 24th April 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -3167,9 +3167,9 @@ template <typename I>
 struct xtests_string_len_signed_form;
 
 template <>
-struct xtests_string_len_signed_form<int>
+struct xtests_string_len_signed_form<signed int>
 {
-    static int from(int i) STLSOFT_NOEXCEPT { return i; }
+    static int from(signed int i) STLSOFT_NOEXCEPT { return i; }
 };
 
 template <>
@@ -3185,7 +3185,7 @@ struct xtests_string_len_signed_form<unsigned long>
 };
 
 template <>
-struct xtests_string_len_signed_form<long>
+struct xtests_string_len_signed_form<signed long>
 {
     static long from(long i) STLSOFT_NOEXCEPT { return i; }
 };
@@ -3813,7 +3813,7 @@ template <typename T>
 struct xtests_failure_reporter;
 
 template <>
-struct xtests_failure_reporter<int>
+struct xtests_failure_reporter<signed int>
 {
     static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, int expected, int actual, xtests_comparison_t comp)
     {
@@ -3843,7 +3843,7 @@ struct xtests_failure_reporter<signed char>
 {
     static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, signed char expected, signed char actual, xtests_comparison_t comp)
     {
-        STLSOFT_STATIC_CAST(void, xtests_failure_reporter<int>::xtests_report_failure_equal(file, line, function, expr, int(expected), int(actual), comp));
+        STLSOFT_STATIC_CAST(void, xtests_failure_reporter<signed int>::xtests_report_failure_equal(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 
@@ -3852,16 +3852,16 @@ struct xtests_failure_reporter<unsigned char>
 {
     static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, unsigned char expected, unsigned char actual, xtests_comparison_t comp)
     {
-        STLSOFT_STATIC_CAST(void, xtests_failure_reporter<int>::xtests_report_failure_equal(file, line, function, expr, int(expected), int(actual), comp));
+        STLSOFT_STATIC_CAST(void, xtests_failure_reporter<signed int>::xtests_report_failure_equal(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 
 template <>
-struct xtests_failure_reporter<short>
+struct xtests_failure_reporter<signed short>
 {
     static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, int expected, int actual, xtests_comparison_t comp)
     {
-        STLSOFT_STATIC_CAST(void, xtests_failure_reporter<int>::xtests_report_failure_equal(file, line, function, expr, int(expected), int(actual), comp));
+        STLSOFT_STATIC_CAST(void, xtests_failure_reporter<signed int>::xtests_report_failure_equal(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 
@@ -3870,7 +3870,7 @@ struct xtests_failure_reporter<unsigned short>
 {
     static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, int expected, int actual, xtests_comparison_t comp)
     {
-        STLSOFT_STATIC_CAST(void, xtests_failure_reporter<int>::xtests_report_failure_equal(file, line, function, expr, int(expected), int(actual), comp));
+        STLSOFT_STATIC_CAST(void, xtests_failure_reporter<signed int>::xtests_report_failure_equal(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 #  ifdef STLSOFT_CF_SHORT_DISTINCT_INT_TYPE
@@ -3884,7 +3884,7 @@ struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_sint16_t)>
         using namespace ::xtests::c;
 #   endif /* _XTESTS_NO_NAMESPACE */
 
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, int(expected), int(actual), comp));
+        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 template <>
@@ -3896,7 +3896,7 @@ struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_uint16_t)>
         using namespace ::xtests::c;
 #   endif /* _XTESTS_NO_NAMESPACE */
 
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, int(expected), int(actual), comp));
+        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 #  endif /* STLSOFT_CF_SHORT_DISTINCT_INT_TYPE */
@@ -3911,7 +3911,7 @@ struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_sint32_t)>
         using namespace ::xtests::c;
 #   endif /* _XTESTS_NO_NAMESPACE */
 
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, int(expected), int(actual), comp));
+        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 template <>
@@ -3923,13 +3923,13 @@ struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_uint32_t)>
         using namespace ::xtests::c;
 #   endif /* _XTESTS_NO_NAMESPACE */
 
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, int(expected), int(actual), comp));
+        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 #  endif /* STLSOFT_CF_INT_DISTINCT_INT_TYPE */
 
 template <>
-struct xtests_failure_reporter<long>
+struct xtests_failure_reporter<signed long>
 {
     static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, long expected, long actual, xtests_comparison_t comp)
     {
@@ -4329,7 +4329,7 @@ struct boolean_argument_traits<bool>
     typedef STLSOFT_NS_QUAL(yes_type)                       yesno_type;
 };
 template <>
-struct boolean_argument_traits<int>
+struct boolean_argument_traits<signed int>
 {
     typedef STLSOFT_NS_QUAL(yes_type)                       yesno_type;
 };
