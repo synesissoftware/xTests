@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       51
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    0
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        400
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        401
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -81,9 +81,9 @@
 
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       26
-#define _XTESTS_VER_REVISION    1
+#define _XTESTS_VER_REVISION    2
 
-#define _XTESTS_VER             0x001a0142
+#define _XTESTS_VER             0x001a0241
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -3169,20 +3169,64 @@ struct xtests_string_len_signed_form;
 template <>
 struct xtests_string_len_signed_form<signed int>
 {
-    static int from(signed int i) STLSOFT_NOEXCEPT { return i; }
+    static long from(signed int i) STLSOFT_NOEXCEPT { return i; }
 };
 
 template <>
 struct xtests_string_len_signed_form<unsigned int>
 {
-    static int from(unsigned int i) STLSOFT_NOEXCEPT { return static_cast<int>(i); }
+    static long from(unsigned int i) STLSOFT_NOEXCEPT { return static_cast<long>(i); }
+};
+#  ifdef STLSOFT_CF_INT_DISTINCT_INT_TYPE
+
+template <>
+struct xtests_string_len_signed_form< STLSOFT_NS_QUAL(ss_sint32_t)>
+{
+    static long from(STLSOFT_NS_QUAL(ss_sint32_t) i) STLSOFT_NOEXCEPT { return i; }
+};
+template <>
+struct xtests_string_len_signed_form< STLSOFT_NS_QUAL(ss_uint32_t)>
+{
+    static long from(STLSOFT_NS_QUAL(ss_uint32_t) i) STLSOFT_NOEXCEPT { return static_cast<long>(i); }
+};
+#  endif /* STLSOFT_CF_INT_DISTINCT_INT_TYPE */
+
+template <>
+struct xtests_string_len_signed_form<signed char>
+{
+    static long from(signed char i) STLSOFT_NOEXCEPT { return i; }
 };
 
 template <>
-struct xtests_string_len_signed_form<unsigned long>
+struct xtests_string_len_signed_form<unsigned char>
 {
-    static long from(unsigned long i) STLSOFT_NOEXCEPT { return static_cast<long>(i); }
+    static long from(unsigned char i) STLSOFT_NOEXCEPT { return static_cast<long>(i); }
 };
+
+template <>
+struct xtests_string_len_signed_form<signed short>
+{
+    static long from(signed short i) STLSOFT_NOEXCEPT { return i; }
+};
+
+template <>
+struct xtests_string_len_signed_form<unsigned short>
+{
+    static long from(unsigned short i) STLSOFT_NOEXCEPT { return static_cast<long>(i); }
+};
+#  ifdef STLSOFT_CF_SHORT_DISTINCT_INT_TYPE
+
+template <>
+struct xtests_string_len_signed_form< STLSOFT_NS_QUAL(ss_sint16_t)>
+{
+    static long from(STLSOFT_NS_QUAL(ss_sint16_t) i) STLSOFT_NOEXCEPT { return i; }
+};
+template <>
+struct xtests_string_len_signed_form< STLSOFT_NS_QUAL(ss_uint16_t)>
+{
+    static long from(STLSOFT_NS_QUAL(ss_uint16_t) i) STLSOFT_NOEXCEPT { return static_cast<long>(i); }
+};
+#  endif /* STLSOFT_CF_SHORT_DISTINCT_INT_TYPE */
 
 template <>
 struct xtests_string_len_signed_form<signed long>
@@ -3191,13 +3235,25 @@ struct xtests_string_len_signed_form<signed long>
 };
 
 template <>
-struct xtests_string_len_signed_form<size_t>
+struct xtests_string_len_signed_form<unsigned long>
 {
-#  ifdef STLSOFT_CF_64BIT_INT_SUPPORT
-    static STLSOFT_NS_QUAL(ss_sint64_t) from(size_t i) STLSOFT_NOEXCEPT { return static_cast<STLSOFT_NS_QUAL(ss_sint64_t)>(i); }
-#  else
-#  endif
+    static long from(unsigned long i) STLSOFT_NOEXCEPT { return static_cast<long>(i); }
 };
+
+#  ifdef STLSOFT_CF_64BIT_INT_SUPPORT
+
+template <>
+struct xtests_string_len_signed_form< STLSOFT_NS_QUAL(ss_sint64_t)>
+{
+    static STLSOFT_NS_QUAL(ss_sint64_t) from(STLSOFT_NS_QUAL(ss_sint64_t) i) STLSOFT_NOEXCEPT { return i; }
+};
+
+template <>
+struct xtests_string_len_signed_form< STLSOFT_NS_QUAL(ss_uint64_t)>
+{
+    static STLSOFT_NS_QUAL(ss_uint64_t) from(STLSOFT_NS_QUAL(ss_uint64_t) i) STLSOFT_NOEXCEPT { return static_cast<STLSOFT_NS_QUAL(ss_sint64_t)>(i); }
+};
+#  endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
 
 template<

@@ -16,6 +16,12 @@ Updated: 23rd April 2025
     ************************************
 
 
+24th April 2025 - 0.26.2-alpha1
+===============================
+
+ * Full and complate (backwards-compatible with old C++ compilers) definition of \`xtests_string_len_signed_form\`;
+
+
 23rd April 2025 - 0.26.1-alpha1
 ===============================
 
