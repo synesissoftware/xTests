@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       51
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        401
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    2
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        402
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -152,6 +152,9 @@
 #  ifndef STLSOFT_INCL_STLSOFT_META_HPP_IS_SAME_TYPE
 #   include <stlsoft/meta/is_same_type.hpp>
 #  endif /* !STLSOFT_INCL_STLSOFT_META_HPP_IS_SAME_TYPE */
+#  ifndef STLSOFT_INCL_STLSOFT_META_HPP_IS_SIGNED_TYPE
+#   include <stlsoft/meta/is_signed_type.hpp>
+#  endif /* !STLSOFT_INCL_STLSOFT_META_HPP_IS_SIGNED_TYPE */
 #  ifndef STLSOFT_INCL_STLSOFT_META_HPP_SELECT_FIRST_TYPE_IF
 #   include <stlsoft/meta/select_first_type_if.hpp>
 #  endif /* !STLSOFT_INCL_STLSOFT_META_HPP_SELECT_FIRST_TYPE_IF */
@@ -3251,7 +3254,7 @@ struct xtests_string_len_signed_form< STLSOFT_NS_QUAL(ss_sint64_t)>
 template <>
 struct xtests_string_len_signed_form< STLSOFT_NS_QUAL(ss_uint64_t)>
 {
-    static STLSOFT_NS_QUAL(ss_uint64_t) from(STLSOFT_NS_QUAL(ss_uint64_t) i) STLSOFT_NOEXCEPT { return static_cast<STLSOFT_NS_QUAL(ss_sint64_t)>(i); }
+    static STLSOFT_NS_QUAL(ss_sint64_t) from(STLSOFT_NS_QUAL(ss_uint64_t) i) STLSOFT_NOEXCEPT { return static_cast<STLSOFT_NS_QUAL(ss_sint64_t)>(i); }
 };
 #  endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
@@ -3301,7 +3304,8 @@ xtests_testMultibyteStringsN_t(
 {
     STLSOFT_NS_USING(c_str_data_a);
 
-    STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_integral_type)<I>::value);
+    STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_integral_type) < I > ::value);
+    STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_signed_type) < I > ::value);
 
     return xtests_testMultibyteStringsN_(
         file
