@@ -1,5 +1,10 @@
 # xTests - History
 
+26th April 2025 - 0.26.2-alpha1
+-------------------------------
+
+ * N-len string comparisons now works regardless of integral type of length argument;
+
 
 23rd April 2025 - 0.26.1-alpha1
 -------------------------------

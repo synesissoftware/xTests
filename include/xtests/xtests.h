@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 23rd April 2025
+ * Updated: 26th April 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       51
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    0
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        400
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    2
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        402
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -81,9 +81,9 @@
 
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       26
-#define _XTESTS_VER_REVISION    1
+#define _XTESTS_VER_REVISION    2
 
-#define _XTESTS_VER             0x001a0142
+#define _XTESTS_VER             0x001a0241
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -152,6 +152,9 @@
 #  ifndef STLSOFT_INCL_STLSOFT_META_HPP_IS_SAME_TYPE
 #   include <stlsoft/meta/is_same_type.hpp>
 #  endif /* !STLSOFT_INCL_STLSOFT_META_HPP_IS_SAME_TYPE */
+#  ifndef STLSOFT_INCL_STLSOFT_META_HPP_IS_SIGNED_TYPE
+#   include <stlsoft/meta/is_signed_type.hpp>
+#  endif /* !STLSOFT_INCL_STLSOFT_META_HPP_IS_SIGNED_TYPE */
 #  ifndef STLSOFT_INCL_STLSOFT_META_HPP_SELECT_FIRST_TYPE_IF
 #   include <stlsoft/meta/select_first_type_if.hpp>
 #  endif /* !STLSOFT_INCL_STLSOFT_META_HPP_SELECT_FIRST_TYPE_IF */
@@ -3167,15 +3170,71 @@ template <typename I>
 struct xtests_string_len_signed_form;
 
 template <>
-struct xtests_string_len_signed_form<int>
+struct xtests_string_len_signed_form<signed int>
 {
-    static int from(int i) STLSOFT_NOEXCEPT { return i; }
+    static long from(signed int i) STLSOFT_NOEXCEPT { return i; }
 };
 
 template <>
 struct xtests_string_len_signed_form<unsigned int>
 {
-    static int from(unsigned int i) STLSOFT_NOEXCEPT { return static_cast<int>(i); }
+    static long from(unsigned int i) STLSOFT_NOEXCEPT { return static_cast<long>(i); }
+};
+#  ifdef STLSOFT_CF_INT_DISTINCT_INT_TYPE
+
+template <>
+struct xtests_string_len_signed_form< STLSOFT_NS_QUAL(ss_sint32_t)>
+{
+    static long from(STLSOFT_NS_QUAL(ss_sint32_t) i) STLSOFT_NOEXCEPT { return i; }
+};
+template <>
+struct xtests_string_len_signed_form< STLSOFT_NS_QUAL(ss_uint32_t)>
+{
+    static long from(STLSOFT_NS_QUAL(ss_uint32_t) i) STLSOFT_NOEXCEPT { return static_cast<long>(i); }
+};
+#  endif /* STLSOFT_CF_INT_DISTINCT_INT_TYPE */
+
+template <>
+struct xtests_string_len_signed_form<signed char>
+{
+    static long from(signed char i) STLSOFT_NOEXCEPT { return i; }
+};
+
+template <>
+struct xtests_string_len_signed_form<unsigned char>
+{
+    static long from(unsigned char i) STLSOFT_NOEXCEPT { return static_cast<long>(i); }
+};
+
+template <>
+struct xtests_string_len_signed_form<signed short>
+{
+    static long from(signed short i) STLSOFT_NOEXCEPT { return i; }
+};
+
+template <>
+struct xtests_string_len_signed_form<unsigned short>
+{
+    static long from(unsigned short i) STLSOFT_NOEXCEPT { return static_cast<long>(i); }
+};
+#  ifdef STLSOFT_CF_SHORT_DISTINCT_INT_TYPE
+
+template <>
+struct xtests_string_len_signed_form< STLSOFT_NS_QUAL(ss_sint16_t)>
+{
+    static long from(STLSOFT_NS_QUAL(ss_sint16_t) i) STLSOFT_NOEXCEPT { return i; }
+};
+template <>
+struct xtests_string_len_signed_form< STLSOFT_NS_QUAL(ss_uint16_t)>
+{
+    static long from(STLSOFT_NS_QUAL(ss_uint16_t) i) STLSOFT_NOEXCEPT { return static_cast<long>(i); }
+};
+#  endif /* STLSOFT_CF_SHORT_DISTINCT_INT_TYPE */
+
+template <>
+struct xtests_string_len_signed_form<signed long>
+{
+    static long from(long i) STLSOFT_NOEXCEPT { return i; }
 };
 
 template <>
@@ -3183,21 +3242,20 @@ struct xtests_string_len_signed_form<unsigned long>
 {
     static long from(unsigned long i) STLSOFT_NOEXCEPT { return static_cast<long>(i); }
 };
-
-template <>
-struct xtests_string_len_signed_form<long>
-{
-    static long from(long i) STLSOFT_NOEXCEPT { return i; }
-};
-
-template <>
-struct xtests_string_len_signed_form<size_t>
-{
 #  ifdef STLSOFT_CF_64BIT_INT_SUPPORT
-    static STLSOFT_NS_QUAL(ss_sint64_t) from(size_t i) STLSOFT_NOEXCEPT { return static_cast<STLSOFT_NS_QUAL(ss_sint64_t)>(i); }
-#  else
-#  endif
+
+template <>
+struct xtests_string_len_signed_form< STLSOFT_NS_QUAL(ss_sint64_t)>
+{
+    static STLSOFT_NS_QUAL(ss_sint64_t) from(STLSOFT_NS_QUAL(ss_sint64_t) i) STLSOFT_NOEXCEPT { return i; }
 };
+
+template <>
+struct xtests_string_len_signed_form< STLSOFT_NS_QUAL(ss_uint64_t)>
+{
+    static STLSOFT_NS_QUAL(ss_sint64_t) from(STLSOFT_NS_QUAL(ss_uint64_t) i) STLSOFT_NOEXCEPT { return static_cast<STLSOFT_NS_QUAL(ss_sint64_t)>(i); }
+};
+#  endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
 
 template<
@@ -3245,7 +3303,8 @@ xtests_testMultibyteStringsN_t(
 {
     STLSOFT_NS_USING(c_str_data_a);
 
-    STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_integral_type)<I>::value);
+    STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_integral_type) < I > ::value);
+    STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_signed_type) < I > ::value);
 
     return xtests_testMultibyteStringsN_(
         file
@@ -3813,7 +3872,7 @@ template <typename T>
 struct xtests_failure_reporter;
 
 template <>
-struct xtests_failure_reporter<int>
+struct xtests_failure_reporter<signed int>
 {
     static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, int expected, int actual, xtests_comparison_t comp)
     {
@@ -3843,7 +3902,7 @@ struct xtests_failure_reporter<signed char>
 {
     static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, signed char expected, signed char actual, xtests_comparison_t comp)
     {
-        STLSOFT_STATIC_CAST(void, xtests_failure_reporter<int>::xtests_report_failure_equal(file, line, function, expr, int(expected), int(actual), comp));
+        STLSOFT_STATIC_CAST(void, xtests_failure_reporter<signed int>::xtests_report_failure_equal(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 
@@ -3852,16 +3911,16 @@ struct xtests_failure_reporter<unsigned char>
 {
     static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, unsigned char expected, unsigned char actual, xtests_comparison_t comp)
     {
-        STLSOFT_STATIC_CAST(void, xtests_failure_reporter<int>::xtests_report_failure_equal(file, line, function, expr, int(expected), int(actual), comp));
+        STLSOFT_STATIC_CAST(void, xtests_failure_reporter<signed int>::xtests_report_failure_equal(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 
 template <>
-struct xtests_failure_reporter<short>
+struct xtests_failure_reporter<signed short>
 {
     static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, int expected, int actual, xtests_comparison_t comp)
     {
-        STLSOFT_STATIC_CAST(void, xtests_failure_reporter<int>::xtests_report_failure_equal(file, line, function, expr, int(expected), int(actual), comp));
+        STLSOFT_STATIC_CAST(void, xtests_failure_reporter<signed int>::xtests_report_failure_equal(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 
@@ -3870,7 +3929,7 @@ struct xtests_failure_reporter<unsigned short>
 {
     static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, int expected, int actual, xtests_comparison_t comp)
     {
-        STLSOFT_STATIC_CAST(void, xtests_failure_reporter<int>::xtests_report_failure_equal(file, line, function, expr, int(expected), int(actual), comp));
+        STLSOFT_STATIC_CAST(void, xtests_failure_reporter<signed int>::xtests_report_failure_equal(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 #  ifdef STLSOFT_CF_SHORT_DISTINCT_INT_TYPE
@@ -3884,7 +3943,7 @@ struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_sint16_t)>
         using namespace ::xtests::c;
 #   endif /* _XTESTS_NO_NAMESPACE */
 
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, int(expected), int(actual), comp));
+        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 template <>
@@ -3896,7 +3955,7 @@ struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_uint16_t)>
         using namespace ::xtests::c;
 #   endif /* _XTESTS_NO_NAMESPACE */
 
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, int(expected), int(actual), comp));
+        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 #  endif /* STLSOFT_CF_SHORT_DISTINCT_INT_TYPE */
@@ -3911,7 +3970,7 @@ struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_sint32_t)>
         using namespace ::xtests::c;
 #   endif /* _XTESTS_NO_NAMESPACE */
 
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, int(expected), int(actual), comp));
+        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 template <>
@@ -3923,13 +3982,13 @@ struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_uint32_t)>
         using namespace ::xtests::c;
 #   endif /* _XTESTS_NO_NAMESPACE */
 
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, int(expected), int(actual), comp));
+        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 #  endif /* STLSOFT_CF_INT_DISTINCT_INT_TYPE */
 
 template <>
-struct xtests_failure_reporter<long>
+struct xtests_failure_reporter<signed long>
 {
     static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, long expected, long actual, xtests_comparison_t comp)
     {
@@ -4329,7 +4388,7 @@ struct boolean_argument_traits<bool>
     typedef STLSOFT_NS_QUAL(yes_type)                       yesno_type;
 };
 template <>
-struct boolean_argument_traits<int>
+struct boolean_argument_traits<signed int>
 {
     typedef STLSOFT_NS_QUAL(yes_type)                       yesno_type;
 };

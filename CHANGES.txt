@@ -2,7 +2,7 @@ xTests - Changes
 ================
 
 Created: 22nd February 2008
-Updated: 23rd April 2025
+Updated: 26th April 2025
 
 
     ************************************
@@ -14,6 +14,12 @@ Updated: 23rd April 2025
     *  *  means a general bullet-point *
     *                                  *
     ************************************
+
+
+26th April 2025 - 0.26.2-alpha1
+===============================
+
+ * N-len string comparisons now works regardless of integral type of length argument;
 
 
 23rd April 2025 - 0.26.1-alpha1
