@@ -1,5 +1,12 @@
 # xTests - History
 
+28th April 2025 - 0.26.2-alpha2
+-------------------------------
+
+ * **prepare_cmake.sh** / **CMakeLists.txt** : + added '--no-shwild' / `CMAKE_NO_SHWILD`;
+ * Minor improvements to `temp_directory` and `temp_file` to improve portability;
+
+
 26th April 2025 - 0.26.2-alpha1
 -------------------------------
 
