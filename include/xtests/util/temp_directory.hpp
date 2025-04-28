@@ -4,7 +4,7 @@
  * Purpose: Definition of the temp_directory class.
  *
  * Created: 1st October 2015
- * Updated: 23rd April 2025
+ * Updated: 28th April 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -51,8 +51,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MAJOR    0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MINOR    2
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_REVISION 4
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     19
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_REVISION 5
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     20
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -297,7 +297,7 @@ temp_directory::remove_subdirectories_(
     bool succeeded = true;
 
 
-    readdir_sequence files(path, readdir_sequence::files | readdir_sequence::sockets | readdir_sequence::fullPath);
+    readdir_sequence files(path.c_str(), readdir_sequence::files | readdir_sequence::sockets | readdir_sequence::fullPath);
 
     { for (readdir_sequence::const_iterator i = files.begin(); files.end() != i; ++i)
     {
@@ -308,7 +308,7 @@ temp_directory::remove_subdirectories_(
     }}
 
 
-    readdir_sequence directories(path, readdir_sequence::directories | readdir_sequence::fullPath);
+    readdir_sequence directories(path.c_str(), readdir_sequence::directories | readdir_sequence::fullPath);
 
     { for (readdir_sequence::const_iterator i = directories.begin(); directories.end() != i; ++i)
     {
