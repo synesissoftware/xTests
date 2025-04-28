@@ -1,5 +1,12 @@
 # xTests - History
 
+28th April 2025 - 0.26.2-alpha2
+-------------------------------
+
+ * T.B.C.;
+ * Minor improvements to `temp_directory` and `temp_file` to improve portability;
+
+
 26th April 2025 - 0.26.2-alpha1
 -------------------------------
 
