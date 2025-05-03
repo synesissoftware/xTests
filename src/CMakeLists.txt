@@ -31,10 +31,17 @@ if(WIN32)
 	endif()
 endif(WIN32)
 
-if ((MSVC) AND (MSVC_VERSION GREATER_EQUAL 1914))
+if(MSVC)
+	if(MSVC_VERSION LESS 1920)
 
-	add_compile_options("/Zc:__cplusplus")
-endif()
+		add_compile_options("/wd4822")
+	endif()
+
+	if(MSVC_VERSION GREATER_EQUAL 1914)
+
+		add_compile_options("/Zc:__cplusplus")
+	endif()
+endif(MSVC)
 
 
 set(CORE_SRCS
