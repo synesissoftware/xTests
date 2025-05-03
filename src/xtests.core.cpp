@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 24th April 2025
+ * Updated: 3rd May 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -129,6 +129,12 @@
 #  pragma warning(default : 4541)
 # endif /* STLSOFT_CF_RTTI_SUPPORT */
 #endif /* compiler */
+
+#ifdef _WIN32
+# ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+#  define ENABLE_VIRTUAL_TERMINAL_PROCESSING	(0x0004)
+# endif
+#endif
 
 
 /* /////////////////////////////////////////////////////////////////////////

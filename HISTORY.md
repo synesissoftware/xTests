@@ -1,5 +1,12 @@
 # xTests - History
 
+3rd May 2025 - 0.26.2
+---------------------
+
+ * Compatibility with older compilers (incl. Visual C++ 14);
+ * Compatibility with older operating systems (incl. Windows Vista);
+
+
 28th April 2025 - 0.26.2-alpha2
 -------------------------------
 
