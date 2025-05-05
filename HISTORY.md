@@ -1,5 +1,12 @@
 # xTests - History
 
+
+6th May 2025 - 0.26.3
+---------------------
+
+ * Fixed defect in format specifiers for end-case summary;
+
+
 3rd May 2025 - 0.26.2
 ---------------------
 

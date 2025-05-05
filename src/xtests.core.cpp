@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 3rd May 2025
+ * Updated: 5th May 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -3483,7 +3483,7 @@ RunnerInfo::get_reporter_(
                 static char const*  s_fmts[] =
                 {
                         ""
-                    ,   "%s(%d): %s%s%s: %sUX%s %srx%s '%s%s%s'; msg='%s%s%s'\n"
+                    ,   "%s(%d): %s%s%s: %sUX%s '%s%s%s'; msg='%s%s%s'\n"
                     ,   "%s(%d): Test case '%s%s%s': %sreceived unexpected exception%s of type '%s%s%s', with message '%s%s%s'\n"
                 };
                 char const*         fmt = s_fmts[level];
@@ -3523,17 +3523,10 @@ RunnerInfo::get_reporter_(
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                 ,   fmt
                 ,   file, line
-                ,   case_pre
-                ,   caseName
-                ,   case_post
-                ,   rsn_pre
-                ,   rsn_post
-                ,   xt_pre
-                ,   exceptionType
-                ,   xt_post
-                ,   msg_pre
-                ,   exceptionMessage
-                ,   msg_post
+                ,   case_pre, caseName, case_post
+                ,   rsn_pre, rsn_post
+                ,   xt_pre, exceptionType, xt_post
+                ,   msg_pre, exceptionMessage, msg_post
                 );
             }
 
