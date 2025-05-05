@@ -3523,17 +3523,10 @@ RunnerInfo::get_reporter_(
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
                 ,   fmt
                 ,   file, line
-                ,   case_pre
-                ,   caseName
-                ,   case_post
-                ,   rsn_pre
-                ,   rsn_post
-                ,   xt_pre
-                ,   exceptionType
-                ,   xt_post
-                ,   msg_pre
-                ,   exceptionMessage
-                ,   msg_post
+                ,   case_pre, caseName, case_post
+                ,   rsn_pre, rsn_post
+                ,   xt_pre, exceptionType, xt_post
+                ,   msg_pre, exceptionMessage, msg_post
                 );
             }
 
