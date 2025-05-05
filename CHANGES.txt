@@ -2,7 +2,7 @@ xTests - Changes
 ================
 
 Created: 22nd February 2008
-Updated: 5th May 2025
+Updated: 6th May 2025
 
 
     ************************************
@@ -16,7 +16,7 @@ Updated: 5th May 2025
     ************************************
 
 
-5th May 2025 - 0.26.3
+6th May 2025 - 0.26.3
 =====================
 
  * Fixed defect in format specifiers for end-case summary;
