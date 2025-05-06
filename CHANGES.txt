@@ -16,6 +16,24 @@ Updated: 6th May 2025
     ************************************
 
 
+6th May 2025 - 0.26.4 (alpha 1)
+===============================
+
+Summary:
+--------
+
+ * MinGW compatibility;
+ * Various CMake scripts canonicalisation;
+
+Details:
+--------
+
+ * CMake helper scripts now define default make command as "mingw32-make.xe" if recognise MinGW;
+ * Preparation for **UNIXem** compatibility;
+ * **prepare_cmake.sh** : ~ canonicalising flag/option handling (by placing aliases last);
+ * Miscellaneous canonical mods;
+
+
 6th May 2025 - 0.26.3
 =====================
 
