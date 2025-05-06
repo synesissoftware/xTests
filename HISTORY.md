@@ -1,6 +1,13 @@
 # xTests - History
 
 
+6th May 2025 - 0.26.4 (alpha 1)
+-------------------------------
+
+ * MinGW compatibility;
+ * Various CMake scripts canonicalisation;
+
+
 6th May 2025 - 0.26.3
 ---------------------
 
