@@ -5,7 +5,7 @@
 # Purpose:  Top-level CMake lists file for xTests
 #
 # Created:  9th October 2019
-# Updated:  5th May 2025
+# Updated:  6th May 2025
 #
 # ######################################################################## #
 
@@ -98,11 +98,18 @@ include(TargetMacros)
 
 
 # ################################################
-# dependencies and options
+# dependencies, features, and options
+
+# ######################################
+# options
 
 option(BUILD_EXAMPLES "Build examples" ON)
 
 option(BUILD_TESTING "Build tests" ON)
+
+
+# ######################################
+# features
 
 
 # ######################################
@@ -112,7 +119,8 @@ option(BUILD_TESTING "Build tests" ON)
 # - STLSoft - required, both for implementation and interface;
 #
 # optional:
-# - shwild - for enhanced match constructs
+# - shwild - for enhanced match constructs;
+
 
 # ############################
 # STLSoft (required)
@@ -179,7 +187,7 @@ include(GNUInstallDirs)
 # targets
 
 # ################################################
-# main library
+# main libraries
 
 add_subdirectory(src)
 
@@ -224,7 +232,7 @@ set(EXPORT_NAME ${PROJECT_NAME_LOWER})
 configure_package_config_file(
 	${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EXPORT_NAME}-config.cmake.in
 	${CMAKE_CURRENT_BINARY_DIR}/cmake/${EXPORT_NAME}-config.cmake
-	INSTALL_DESTINATION ${LIB_INSTALL_DIR}/${EXPORT_NAME}/cmake
+	INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/${EXPORT_NAME}/cmake
 )
 
 write_basic_package_version_file(
@@ -254,7 +262,7 @@ install( FILES
 # ##########################################################
 # completion
 
-message(NOTICE "Generating CMake build scripts for ${PROJECT_NAME} ${PROJECT_VERSION}, for C${CMAKE_C_STANDARD} C++${CMAKE_CXX_STANDARD}")
+message(NOTICE "Generating CMake build scripts for ${PROJECT_NAME} ${PROJECT_VERSION}, for C${CMAKE_C_STANDARD} C++${CMAKE_CXX_STANDARD}, with build type ${CMAKE_BUILD_TYPE}")
 
 
 # ############################## end of file ############################# #
