@@ -158,8 +158,8 @@ if [ $MinGW -ne 0 ]; then
     $CMakeSTLSoftVariable \
     -DBUILD_EXAMPLES:BOOL=$CMakeBuildExamplesFlag \
     -DBUILD_TESTING:BOOL=$CMakeBuildTestingFlag \
-    -DMAKE_NO_SHWILD:BOOL=$CMakeNoShwild \
     -DCMAKE_BUILD_TYPE=$Configuration \
+    -DNO_SHWILD:BOOL=$CMakeNoShwild \
     -G "MinGW Makefiles" \
     -S $Dir \
     -B $CMakeDir \
@@ -171,9 +171,9 @@ else
     -DBUILD_EXAMPLES:BOOL=$CMakeBuildExamplesFlag \
     -DBUILD_TESTING:BOOL=$CMakeBuildTestingFlag \
     -DCMAKE_BUILD_TYPE=$Configuration \
-    -DMAKE_NO_SHWILD:BOOL=$CMakeNoShwild \
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=$CMakeVerboseMakefileFlag \
     -DMSVC_USE_MT:BOOL=$CMakeMsvcMtFlag \
+    -DNO_SHWILD:BOOL=$CMakeNoShwild \
     -S $Dir \
     -B $CMakeDir \
     || (cd ->/dev/null ; exit 1)

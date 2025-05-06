@@ -158,7 +158,7 @@ endif()
 # ############################
 # shwild (optional)
 
-if(NOT (MAKE_NO_SHWILD))
+if(NOT (NO_SHWILD))
 	if(BUILD_TESTING)
 
 		find_package(shwild QUIET)
