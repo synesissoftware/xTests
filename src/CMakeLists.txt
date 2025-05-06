@@ -5,18 +5,18 @@
 # Purpose:  CMake lists file for xTests core library
 #
 # Created:  ...
-# Updated:  2nd May 2025
+# Updated:  6th May 2025
 #
 # ######################################################################## #
 
 
-if(UNIX)
+if(_BUILD_AS_UNIX)
 
 	add_definitions(-DUNIX)
 	add_definitions(-Dunix)
-endif(UNIX)
+endif(_BUILD_AS_UNIX)
 
-if(WIN32)
+if(_BUILD_AS_WIN32)
 
 	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 
@@ -29,7 +29,7 @@ if(WIN32)
 
 		add_definitions(-DWIN32)
 	endif()
-endif(WIN32)
+endif(_BUILD_AS_WIN32)
 
 if(MSVC)
 	if(MSVC_VERSION LESS 1920)
