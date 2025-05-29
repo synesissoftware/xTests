@@ -4,7 +4,7 @@
  * Purpose: Illustrates facility for comparing custom integral types.
  *
  * Created: 23rd November 2024
- * Updated: 23rd April 2025
+ * Updated: 30th May 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -98,15 +98,15 @@ namespace {
 static void test_int_wrapper()
 {
     {
-        int_wrapper lhs { 0 };
-        int_wrapper rhs { 0 };
+        int_wrapper lhs = { 0 };
+        int_wrapper rhs = { 0 };
 
         TEST_INT_EQ(lhs, rhs);
     }
 
     {
-        int_wrapper lhs { 0 };
-        int_wrapper rhs { 1 };
+        int_wrapper lhs = { 0 };
+        int_wrapper rhs = { 1 };
 
         TEST_INT_GE(lhs, rhs);
     }

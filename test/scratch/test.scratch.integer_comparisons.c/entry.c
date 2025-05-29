@@ -5,7 +5,7 @@
  *          implementations in terms of `_Generic`.
  *
  * Created: 3rd August 2024
- * Updated: 30th December 2024
+ * Updated: 28th May 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -106,6 +106,8 @@ static void test_passes(void)
 
             XTESTS_TEST_INTEGER_EQUAL_EXACT(expected, actual);
         }
+#if defined(__STDC_VERSION__) &&\
+    __STDC_VERSION__ >= 201112L
 
         {
             long long const expected    =   -100;
@@ -120,7 +122,7 @@ static void test_passes(void)
 
             XTESTS_TEST_INTEGER_EQUAL_EXACT(expected, actual);
         }
-
+#endif
     }
 
     /* != */
@@ -166,6 +168,8 @@ static void test_passes(void)
 
             XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual);
         }
+#if defined(__STDC_VERSION__) &&\
+    __STDC_VERSION__ >= 201112L
 
         {
             long long const expected    =   -101;
@@ -180,7 +184,7 @@ static void test_passes(void)
 
             XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual);
         }
-
+#endif
     }
 
     /* < */
@@ -226,6 +230,8 @@ static void test_passes(void)
 
             XTESTS_TEST_INTEGER_LESS(expected, actual);
         }
+#if defined(__STDC_VERSION__) &&\
+    __STDC_VERSION__ >= 201112L
 
         {
             long long const expected    =   -100;
@@ -240,7 +246,7 @@ static void test_passes(void)
 
             XTESTS_TEST_INTEGER_LESS(expected, actual);
         }
-
+#endif
     }
 
     /* <= */
@@ -286,6 +292,8 @@ static void test_passes(void)
 
             XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual);
         }
+#if defined(__STDC_VERSION__) &&\
+    __STDC_VERSION__ >= 201112L
 
         {
             long long const expected    =   -100;
@@ -300,6 +308,7 @@ static void test_passes(void)
 
             XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual);
         }
+#endif
     }
 
     /* > */
@@ -345,6 +354,8 @@ static void test_passes(void)
 
             XTESTS_TEST_INTEGER_GREATER(expected, actual);
         }
+#if defined(__STDC_VERSION__) &&\
+    __STDC_VERSION__ >= 201112L
 
         {
             long long const expected    =   -101;
@@ -359,6 +370,7 @@ static void test_passes(void)
 
             XTESTS_TEST_INTEGER_GREATER(expected, actual);
         }
+#endif
     }
 
     /* >= */
@@ -404,6 +416,8 @@ static void test_passes(void)
 
             XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual);
         }
+#if defined(__STDC_VERSION__) &&\
+    __STDC_VERSION__ >= 201112L
 
         {
             long long const expected    =   -101;
@@ -418,7 +432,7 @@ static void test_passes(void)
 
             XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual);
         }
-
+#endif
     }
 
 }
@@ -472,6 +486,8 @@ static void test_fails(void)
 
         XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual);
     }
+#if defined(__STDC_VERSION__) &&\
+    __STDC_VERSION__ >= 201112L
 
     /* > (long long) */
     {
@@ -488,6 +504,7 @@ static void test_fails(void)
 
         XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual);
     }
+#endif
 }
 
 /* ///////////////////////////// end of file //////////////////////////// */

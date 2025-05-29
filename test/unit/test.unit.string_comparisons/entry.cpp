@@ -4,7 +4,7 @@
  * Purpose: Conmponent-tests for `xtests::cpp::util::temp_file`.
  *
  * Created: 21st October 2024
- * Updated: 23rd April 2025
+ * Updated: 30th May 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -380,7 +380,7 @@ static void test_Pantheios_broken_example()
        pantheios_util_formatYearToString4(
            unsigned    year
        ,   char      (*ar)[4]
-       ) noexcept
+       ) ss_noexcept_k
        {
            (*ar)[0]    =   '0' + ((year / 1000) % 10);
            (*ar)[1]    =   '0' + ((year /  100) % 10);
