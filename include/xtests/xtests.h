@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 6th May 2025
+ * Updated: 31st May 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -83,7 +83,7 @@
 #define _XTESTS_VER_MINOR       26
 #define _XTESTS_VER_REVISION    4
 
-#define _XTESTS_VER             0x001a0441
+#define _XTESTS_VER             0x001a0442
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -105,9 +105,9 @@
     STLSOFT_VER >= 0x010c0000
 
 # define XTESTS_STLSOFT_1_12_OR_LATER
-#elif _STLSOFT_VER < 0x010b0184
+#elif _STLSOFT_VER < 0x010b01c2
 
-# error xTests requires version 1.11.1 beta 4, or later, of STLSoft; obtain from https://github.com/synesissoftware/
+# error xTests requires version 1.11.1 release candidate 2, or later, of STLSoft; obtain from https://github.com/synesissoftware/
 #endif /* _STLSOFT_VER */
 
 
