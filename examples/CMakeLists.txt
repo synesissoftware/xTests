@@ -31,6 +31,17 @@ if ((MSVC) AND (MSVC_VERSION GREATER_EQUAL 1914))
 endif()
 
 
+set(GCC_WARN_NO_cxx11_long_long "")
+if(X_CMAKE_C_FULLSTANDARD LESS 2011)
+
+	list(APPEND GCC_WARN_NO_cxx11_long_long -Wno-long-long)
+endif()
+if(X_CMAKE_CXX_FULLSTANDARD LESS 2011)
+
+	list(APPEND GCC_WARN_NO_cxx11_long_long -Wno-c++11-long-long)
+endif()
+
+
 add_subdirectory(c)
 add_subdirectory(cpp)
 

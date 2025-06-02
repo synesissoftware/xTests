@@ -20,11 +20,11 @@
 * [ ] change `uint32_t` type(s)??;
 * [ ] execution context;
 * [ ] apply Visitor and have custom outputs;
-* [x] ~~coloured console output, for `"SUCCESS"` and `"FAILURE"` reports~~ - ✅;
-* [x] ~~enhance C-form of macros using `_Generic`~~ - this provided as of version 0.24.0 - ✅;
-* [x] ~~simplified (shorter) macros, via opt-in header(s)~~ - ✅;
-* [x] ~~ensuring different verbosity levels handled appropriately, in summary and expanded form(s)~~ - ✅;
-* [x] ~~**CMake** build setup should be able to infer **STLSoft** if available via a **CMake** find mechanism  (e.g. `find_package()`)~~ - this provided as of version 0.20.5 - ✅;
+* [x] coloured console output, for `"SUCCESS"` and `"FAILURE"` reports - ✅;
+* [x] enhance C-form of macros using `_Generic` - this provided as of version 0.24.0 - ✅;
+* [x] simplified (shorter) macros, via opt-in header(s) - ✅;
+* [x] ensuring different verbosity levels handled appropriately, in summary and expanded form(s) - ✅;
+* [x] **CMake** build setup should be able to infer **STLSoft** if available via a **CMake** find mechanism  (e.g. `find_package()`) - this provided as of version 0.20.5 - ✅;
 
 
 <!-- ########################### end of file ########################### -->
