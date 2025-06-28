@@ -150,6 +150,7 @@ static void test_passes(void)
             unsigned int const expected =   +100;
             unsigned int const actual   =   +101;
 
+            TEST_INT_NE(0, actual);
             TEST_INT_NE(expected, actual);
         }
 
@@ -315,6 +316,7 @@ static void test_passes(void)
             unsigned short const expected   =   +100;
             unsigned short const actual     =   +101;
 
+            TEST_INT_GT(0, actual);
             TEST_INT_GT(expected, actual);
         }
 

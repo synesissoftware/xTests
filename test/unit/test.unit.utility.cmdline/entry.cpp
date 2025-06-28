@@ -4,7 +4,7 @@
  * Purpose: Unit-tests for utility functions.
  *
  * Created: 30th December 2024
- * Updated: 23rd April 2025
+ * Updated: 28th June 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -150,7 +150,7 @@ static void TEST_parseHelp2_NO_ARGUMENTS()
     {
         platformstl::file_lines const lines(tf.c_str());
 
-        TEST_INT_EQ(0u, lines.size());
+        TEST_INT_EQ(0, lines.size());
     }
 }
 
@@ -174,7 +174,7 @@ static void TEST_parseHelp2_WITH_help_FLAG()
     {
         platformstl::file_lines const lines(tf.c_str());
 
-        XTESTS_REQUIRE(TEST_INT_EQ(15u, lines.size()));
+        XTESTS_REQUIRE(TEST_INT_EQ(15, lines.size()));
 
 #ifdef XTESTS_HAS_SHWILD
 
@@ -204,7 +204,7 @@ static void TEST_parseHelp2_WITH_help_FLAG_AFTER_DOUBLEDASH()
     {
         platformstl::file_lines const lines(tf.c_str());
 
-        XTESTS_REQUIRE(TEST_INT_EQ(0u, lines.size()));
+        XTESTS_REQUIRE(TEST_INT_EQ(0, lines.size()));
     }
 }
 
@@ -299,7 +299,7 @@ static void TEST_parseHelpOrVerbosity_NO_ARGUMENTS()
     {
         platformstl::file_lines const lines(tf.c_str());
 
-        TEST_INT_EQ(0u, lines.size());
+        TEST_INT_EQ(0, lines.size());
     }
 }
 
@@ -328,7 +328,7 @@ static void TEST_parseHelpOrVerbosity_WITH_help_FLAG()
     {
         platformstl::file_lines const lines(tf.c_str());
 
-        XTESTS_REQUIRE(TEST_INT_EQ(15u, lines.size()));
+        XTESTS_REQUIRE(TEST_INT_EQ(15, lines.size()));
 
 #ifdef XTESTS_HAS_SHWILD
 
@@ -363,7 +363,7 @@ static void TEST_parseHelpOrVerbosity_WITH_help_FLAG_AFTER_DOUBLEDASH()
     {
         platformstl::file_lines const lines(tf.c_str());
 
-        XTESTS_REQUIRE(TEST_INT_EQ(0u, lines.size()));
+        XTESTS_REQUIRE(TEST_INT_EQ(0, lines.size()));
     }
 }
 
@@ -391,7 +391,7 @@ static void TEST_parseHelpOrVerbosity_WITH_SINGLE_verbosity_OPTION()
     {
         platformstl::file_lines const lines(tf.c_str());
 
-        XTESTS_REQUIRE(TEST_INT_EQ(0u, lines.size()));
+        XTESTS_REQUIRE(TEST_INT_EQ(0, lines.size()));
     }
 }
 
@@ -420,7 +420,7 @@ static void TEST_parseHelpOrVerbosity_WITH_verbosity_OPTION_FOLLOWED_BY_SECOND_v
     {
         platformstl::file_lines const lines(tf.c_str());
 
-        XTESTS_REQUIRE(TEST_INT_EQ(0u, lines.size()));
+        XTESTS_REQUIRE(TEST_INT_EQ(0, lines.size()));
     }
 }
 
@@ -449,7 +449,7 @@ static void TEST_parseHelpOrVerbosity_WITH_SINGLE_verbosity_OPTION_AFTER_DOUBLED
     {
         platformstl::file_lines const lines(tf.c_str());
 
-        XTESTS_REQUIRE(TEST_INT_EQ(0u, lines.size()));
+        XTESTS_REQUIRE(TEST_INT_EQ(0, lines.size()));
     }
 }
 } // anonymous namespace
