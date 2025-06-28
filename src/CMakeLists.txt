@@ -44,6 +44,17 @@ if(MSVC)
 endif(MSVC)
 
 
+set(GCC_WARN_NO_cxx11_long_long "")
+if(X_CMAKE_C_FULLSTANDARD LESS 2011)
+
+	list(APPEND GCC_WARN_NO_cxx11_long_long -Wno-long-long)
+endif()
+if(X_CMAKE_CXX_FULLSTANDARD LESS 2011)
+
+	list(APPEND GCC_WARN_NO_cxx11_long_long -Wno-c++11-long-long)
+endif()
+
+
 set(CORE_SRCS
 	xtests.core.cpp
 )
@@ -83,6 +94,8 @@ target_compile_options(core
 	PRIVATE
 		$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
 			-Werror -Wall -Wextra -pedantic
+
+			${GCC_WARN_NO_cxx11_long_long}
 		>
 		$<$<CXX_COMPILER_ID:MSVC>:
 			/WX /W4

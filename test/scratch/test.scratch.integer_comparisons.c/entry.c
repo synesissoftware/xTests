@@ -106,6 +106,8 @@ static void test_passes(void)
 
             XTESTS_TEST_INTEGER_EQUAL_EXACT(expected, actual);
         }
+#if defined(__STDC_VERSION__) &&\
+    __STDC_VERSION__ >= 201112L
 
         {
             long long const expected    =   -100;
@@ -120,7 +122,7 @@ static void test_passes(void)
 
             XTESTS_TEST_INTEGER_EQUAL_EXACT(expected, actual);
         }
-
+#endif
     }
 
     /* != */
@@ -167,6 +169,8 @@ static void test_passes(void)
 
             TEST_INT_NE(expected, actual);
         }
+#if defined(__STDC_VERSION__) &&\
+    __STDC_VERSION__ >= 201112L
 
         {
             long long const expected    =   -101;
@@ -181,7 +185,7 @@ static void test_passes(void)
 
             TEST_INT_NE(expected, actual);
         }
-
+#endif
     }
 
     /* < */
@@ -227,6 +231,8 @@ static void test_passes(void)
 
             TEST_INT_LT(expected, actual);
         }
+#if defined(__STDC_VERSION__) &&\
+    __STDC_VERSION__ >= 201112L
 
         {
             long long const expected    =   -100;
@@ -241,7 +247,7 @@ static void test_passes(void)
 
             TEST_INT_LT(expected, actual);
         }
-
+#endif
     }
 
     /* <= */
@@ -287,6 +293,8 @@ static void test_passes(void)
 
             TEST_INT_LE(expected, actual);
         }
+#if defined(__STDC_VERSION__) &&\
+    __STDC_VERSION__ >= 201112L
 
         {
             long long const expected    =   -100;
@@ -301,6 +309,7 @@ static void test_passes(void)
 
             TEST_INT_LE(expected, actual);
         }
+#endif
     }
 
     /* > */
@@ -347,6 +356,8 @@ static void test_passes(void)
 
             TEST_INT_GT(expected, actual);
         }
+#if defined(__STDC_VERSION__) &&\
+    __STDC_VERSION__ >= 201112L
 
         {
             long long const expected    =   -101;
@@ -361,6 +372,7 @@ static void test_passes(void)
 
             TEST_INT_GT(expected, actual);
         }
+#endif
     }
 
     /* >= */
@@ -406,6 +418,8 @@ static void test_passes(void)
 
             TEST_INT_GE(expected, actual);
         }
+#if defined(__STDC_VERSION__) &&\
+    __STDC_VERSION__ >= 201112L
 
         {
             long long const expected    =   -101;
@@ -420,7 +434,7 @@ static void test_passes(void)
 
             TEST_INT_GE(expected, actual);
         }
-
+#endif
     }
 
 }
@@ -474,6 +488,8 @@ static void test_fails(void)
 
         TEST_INT_GE(expected, actual);
     }
+#if defined(__STDC_VERSION__) &&\
+    __STDC_VERSION__ >= 201112L
 
     /* > (long long) */
     {
@@ -490,6 +506,7 @@ static void test_fails(void)
 
         TEST_INT_GE(expected, actual);
     }
+#endif
 }
 
 /* ///////////////////////////// end of file //////////////////////////// */

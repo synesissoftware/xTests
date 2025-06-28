@@ -3,6 +3,7 @@
 ## Table of Contents <!-- omit in toc -->
 
 - [Introduction](#introduction)
+  - [Compatibility](#compatibility)
 - [Installation](#installation)
 - [Components](#components)
 - [Examples](#examples)
@@ -34,6 +35,31 @@ code what you want, and nothing that you don't want.
 **xTests** is completely free and includes source released under a BSD-style
 license.
 
+### Compatibility
+
+  | C++   | C   | Clang (macOS) | GCC (Linux) | GCC(MinGW) (Windows)  | Visual C++ 17.x (Windows) |
+  | ----- | --- | :-----------: | :---------: | :-------------------: | :-----------------------: |
+  | 23    | 23  | ✅             |             |                       |                           |
+  | 23    | 17  |               |             |                       |                           |
+  | 20    | 23  |               |             |                       |                           |
+  | 20    | 17  | ✅             |             |                       |                           |
+  | 20    | 17  |               |             |                       |                           |
+  | 20    | 11  |               |             |                       |                           |
+  | 20    | 99  |               |             |                       |                           |
+  | 20    | 90  |               |             |                       |                           |
+  | 17    | 17  | ✅             |             |                       |                           |
+  | 17    | 11  |               |             |                       |                           |
+  | 17    | 99  |               |             |                       |                           |
+  | 17    | 90  |               |             |                       |                           |
+  | 14    | 11  | ✅             |             |                       |                           |
+  | 14    | 99  |               |             |                       |                           |
+  | 14    | 90  |               |             |                       |                           |
+  | 11    | 11  | ✅             |             |                       |                           |
+  | 11    | 99  | ✅             |             |                       |                           |
+  | 11    | 90  |               |             |                       |                           |
+  | 98    | 99  | ✅             |             |                       |                           |
+  | 98    | 90  |               |             |                       |                           |
+
 
 ## Installation
 
@@ -44,7 +70,7 @@ file.
 
 ## Components
 
-(Click :arrow_forward: to expand/contract the sections)
+(Click ➡️ to expand/contract the sections)
 
 <details>
 <summary markdown="span">Test-runner and Test-case functions that are used to set up the test context</summary>
