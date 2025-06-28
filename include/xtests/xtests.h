@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 31st May 2025
+ * Updated: 28th June 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       51
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    6
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        406
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    7
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        407
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -70,9 +70,9 @@
  *
  * Minor version number of the xTests library
  *
- * \def _XTESTS_VER_REVISION
+ * \def _XTESTS_VER_PATCH
  *
- * The revision number of the xTests library
+ * The patch number of the xTests library
  *
  * \def _XTESTS_VER
  *
@@ -81,9 +81,18 @@
 
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       26
-#define _XTESTS_VER_REVISION    4
+#define _XTESTS_VER_PATCH       4
+#define _XTESTS_VER_ALPHABETA   0x43
 
-#define _XTESTS_VER             0x001a0442
+#define _XTESTS_VER \
+    (0\
+        |   (   _XTESTS_VER_MAJOR       << 24   ) \
+        |   (   _XTESTS_VER_MINOR       << 16   ) \
+        |   (   _XTESTS_VER_PATCH       <<  8   ) \
+        |   (   _XTESTS_VER_ALPHABETA   <<  0   ) \
+    )
+
+#define _XTESTS_VER_REVISION            _XTESTS_VER_PATCH
 
 
 /* /////////////////////////////////////////////////////////////////////////
