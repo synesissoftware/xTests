@@ -5,6 +5,7 @@
 ---------------------------------
 
  * Allowing comparisons between integer values/variables of arbitrary type and sign;
+ * C++-98 compatibility;
 
 
 6th May 2025 - 0.26.4 (alpha 1)
