@@ -4,7 +4,7 @@
  * Purpose: Illustrates each failure message.
  *
  * Created: 1st December 2024
- * Updated: 23rd April 2025
+ * Updated: 28th June 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -176,32 +176,32 @@ int main(int argc, char* argv[])
         {
             // uint8_t
             {
-                TEST_INT_EQ(0u, stlsoft::ss_uint8_t(1));
-                TEST_INT_NE(0u, stlsoft::ss_uint8_t(0));
-                TEST_INT_LT(0u, stlsoft::ss_uint8_t(0));
-                TEST_INT_GT(0u, stlsoft::ss_uint8_t(0));
-                TEST_INT_LE(0u, stlsoft::ss_uint8_t(1));
-                TEST_INT_GE(1u, stlsoft::ss_uint8_t(0));
+                TEST_INT_EQ(0, stlsoft::ss_uint8_t(1));
+                TEST_INT_NE(0, stlsoft::ss_uint8_t(0));
+                TEST_INT_LT(0, stlsoft::ss_uint8_t(0));
+                TEST_INT_GT(0, stlsoft::ss_uint8_t(0));
+                TEST_INT_LE(0, stlsoft::ss_uint8_t(1));
+                TEST_INT_GE(1, stlsoft::ss_uint8_t(0));
             }
 
             // uint16_t
             {
-                TEST_INT_EQ(0u, stlsoft::ss_uint16_t(1));
-                TEST_INT_NE(0u, stlsoft::ss_uint16_t(0));
-                TEST_INT_LT(0u, stlsoft::ss_uint16_t(0));
-                TEST_INT_GT(0u, stlsoft::ss_uint16_t(0));
-                TEST_INT_LE(0u, stlsoft::ss_uint16_t(1));
-                TEST_INT_GE(1u, stlsoft::ss_uint16_t(0));
+                TEST_INT_EQ(0, stlsoft::ss_uint16_t(1));
+                TEST_INT_NE(0, stlsoft::ss_uint16_t(0));
+                TEST_INT_LT(0, stlsoft::ss_uint16_t(0));
+                TEST_INT_GT(0, stlsoft::ss_uint16_t(0));
+                TEST_INT_LE(0, stlsoft::ss_uint16_t(1));
+                TEST_INT_GE(1, stlsoft::ss_uint16_t(0));
             }
 
             // uint32_t
             {
-                TEST_INT_EQ(0u, stlsoft::ss_uint32_t(1));
-                TEST_INT_NE(0u, stlsoft::ss_uint32_t(0));
-                TEST_INT_LT(0u, stlsoft::ss_uint32_t(0));
-                TEST_INT_GT(0u, stlsoft::ss_uint32_t(0));
-                TEST_INT_LE(0u, stlsoft::ss_uint32_t(1));
-                TEST_INT_GE(1u, stlsoft::ss_uint32_t(0));
+                TEST_INT_EQ(0, stlsoft::ss_uint32_t(1));
+                TEST_INT_NE(0, stlsoft::ss_uint32_t(0));
+                TEST_INT_LT(0, stlsoft::ss_uint32_t(0));
+                TEST_INT_GT(0, stlsoft::ss_uint32_t(0));
+                TEST_INT_LE(0, stlsoft::ss_uint32_t(1));
+                TEST_INT_GE(1, stlsoft::ss_uint32_t(0));
             }
 
             XTESTS_CASE_END("unsigned long");
@@ -228,12 +228,12 @@ int main(int argc, char* argv[])
         {
             // uint64_t
             {
-                TEST_INT_EQ(0u, stlsoft::ss_uint64_t(1));
-                TEST_INT_NE(0u, stlsoft::ss_uint64_t(0));
-                TEST_INT_LT(0u, stlsoft::ss_uint64_t(0));
-                TEST_INT_GT(0u, stlsoft::ss_uint64_t(0));
-                TEST_INT_LE(0u, stlsoft::ss_uint64_t(1));
-                TEST_INT_GE(1u, stlsoft::ss_uint64_t(0));
+                TEST_INT_EQ(0, stlsoft::ss_uint64_t(1));
+                TEST_INT_NE(0, stlsoft::ss_uint64_t(0));
+                TEST_INT_LT(0, stlsoft::ss_uint64_t(0));
+                TEST_INT_GT(0, stlsoft::ss_uint64_t(0));
+                TEST_INT_LE(0, stlsoft::ss_uint64_t(1));
+                TEST_INT_GE(1, stlsoft::ss_uint64_t(0));
 
                 TEST_INT_EQ(std::numeric_limits<stlsoft::ss_uint64_t>::min(), std::numeric_limits<stlsoft::ss_uint64_t>::max());
             }
