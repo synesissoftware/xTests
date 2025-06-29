@@ -4,7 +4,7 @@
  * Purpose: Illustrates various xTests facilities available to C++ code.
  *
  * Created: 15th December 2007
- * Updated: 23rd April 2025
+ * Updated: 28th June 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -439,7 +439,7 @@ static void test_5_1()
 {
     std::vector<int>    v(2);
 
-    XTESTS_REQUIRE(XTESTS_TEST_INTEGER_EQUAL(2u, v.size()));
+    XTESTS_REQUIRE(XTESTS_TEST_INTEGER_EQUAL(2, v.size()));
     XTESTS_TEST_INTEGER_EQUAL(0, v[0]);
     XTESTS_TEST_INTEGER_EQUAL(0, v[1]);
 }
@@ -448,7 +448,7 @@ static void test_5_2()
 {
     std::vector<int>    v(2);
 
-    XTESTS_REQUIRE(XTESTS_TEST_INTEGER_EQUAL(2u, v.size()));
+    XTESTS_REQUIRE(XTESTS_TEST_INTEGER_EQUAL(2, v.size()));
     XTESTS_TEST_INTEGER_EQUAL(0, v[0]);
     XTESTS_TEST_INTEGER_EQUAL(0, v[1]);
 }

@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 6th May 2025
+ * Updated: 29th June 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       51
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    6
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        406
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    8
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        408
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -70,9 +70,9 @@
  *
  * Minor version number of the xTests library
  *
- * \def _XTESTS_VER_REVISION
+ * \def _XTESTS_VER_PATCH
  *
- * The revision number of the xTests library
+ * The patch number of the xTests library
  *
  * \def _XTESTS_VER
  *
@@ -81,9 +81,18 @@
 
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       26
-#define _XTESTS_VER_REVISION    4
+#define _XTESTS_VER_PATCH       4
+#define _XTESTS_VER_ALPHABETA   0x43
 
-#define _XTESTS_VER             0x001a0441
+#define _XTESTS_VER \
+    (0\
+        |   (   _XTESTS_VER_MAJOR       << 24   ) \
+        |   (   _XTESTS_VER_MINOR       << 16   ) \
+        |   (   _XTESTS_VER_PATCH       <<  8   ) \
+        |   (   _XTESTS_VER_ALPHABETA   <<  0   ) \
+    )
+
+#define _XTESTS_VER_REVISION            _XTESTS_VER_PATCH
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -105,9 +114,9 @@
     STLSOFT_VER >= 0x010c0000
 
 # define XTESTS_STLSOFT_1_12_OR_LATER
-#elif _STLSOFT_VER < 0x010b0184
+#elif _STLSOFT_VER < 0x010b01c2
 
-# error xTests requires version 1.11.1 beta 4, or later, of STLSoft; obtain from https://github.com/synesissoftware/
+# error xTests requires version 1.11.1 release candidate 2, or later, of STLSoft; obtain from https://github.com/synesissoftware/
 #endif /* _STLSOFT_VER */
 
 
@@ -146,6 +155,12 @@
 # elif defined(PLATFORMSTL_OS_IS_WINDOWS)
 # endif /* PLATFORMSTL_OS_IS_???? */
 # ifndef _XTESTS_NO_CPP_API
+#  ifndef STLSOFT_INCL_STLSOFT_CONVERSION_INTEGER_TO_STRING_HPP_INTEGER_TO_DECIMAL_STRING
+#   include <stlsoft/conversion/integer_to_string/integer_to_decimal_string.hpp>
+#  endif /* !STLSOFT_INCL_STLSOFT_CONVERSION_INTEGER_TO_STRING_HPP_INTEGER_TO_DECIMAL_STRING */
+#  ifndef STLSOFT_INCL_STLSOFT_LIMITS_HPP_INTEGRAL_LIMITS
+#   include <stlsoft/limits/integral_limits.hpp>
+#  endif /* !STLSOFT_INCL_STLSOFT_LIMITS_HPP_INTEGRAL_LIMITS */
 #  ifndef STLSOFT_INCL_STLSOFT_META_HPP_IS_INTEGRAL_TYPE
 #   include <stlsoft/meta/is_integral_type.hpp>
 #  endif /* !STLSOFT_INCL_STLSOFT_META_HPP_IS_INTEGRAL_TYPE */
@@ -330,7 +345,7 @@ namespace c
 # if 0
 # elif 1 &&\
        defined(__cplusplus) &&\
-       __cplusplus >= 201702L &&\
+       __cplusplus >= 201703L &&\
        1
 
    /* C++17 (or later) */
@@ -4105,7 +4120,7 @@ xtests_reportFailedIntegerComparison(
 
 /* This special overload is to allow for cases such as:
  *
- *     XTESTS_TEST_INTEGER_EQUAL(4u, sink.size());
+ *     XTESTS_TEST_INTEGER_EQUAL(4, sink.size());
  */
 inline
 void
@@ -4145,6 +4160,63 @@ xtests_reportFailedFloatingPointComparison(
 
     STLSOFT_STATIC_CAST(void, xtests_testFailed_double(file, line, function, expr, expected, actual, comp));
 }
+
+
+/* TODO: move to STLSoft */
+inline STLSOFT_NS_QUAL(ss_sint64_t) into_maximum_type(signed long long v) STLSOFT_NOEXCEPT { return v; }
+inline STLSOFT_NS_QUAL(ss_sint64_t) into_maximum_type(signed long v) STLSOFT_NOEXCEPT { return v; }
+inline STLSOFT_NS_QUAL(ss_sint64_t) into_maximum_type(signed int v) STLSOFT_NOEXCEPT { return v; }
+inline STLSOFT_NS_QUAL(ss_sint64_t) into_maximum_type(signed short v) STLSOFT_NOEXCEPT { return v; }
+inline STLSOFT_NS_QUAL(ss_sint64_t) into_maximum_type(signed char v) STLSOFT_NOEXCEPT { return v; }
+
+inline STLSOFT_NS_QUAL(ss_uint64_t) into_maximum_type(unsigned long long v) STLSOFT_NOEXCEPT { return v; }
+inline STLSOFT_NS_QUAL(ss_uint64_t) into_maximum_type(unsigned long v) STLSOFT_NOEXCEPT { return v; }
+inline STLSOFT_NS_QUAL(ss_uint64_t) into_maximum_type(unsigned int v) STLSOFT_NOEXCEPT { return v; }
+inline STLSOFT_NS_QUAL(ss_uint64_t) into_maximum_type(unsigned short v) STLSOFT_NOEXCEPT { return v; }
+inline STLSOFT_NS_QUAL(ss_uint64_t) into_maximum_type(unsigned char v) STLSOFT_NOEXCEPT { return v; }
+
+#ifdef STLSOFT_CF_SHORT_DISTINCT_INT_TYPE
+
+inline STLSOFT_NS_QUAL(ss_sint64_t) into_maximum_type(STLSOFT_NS_QUAL(ss_sint16_t) v) STLSOFT_NOEXCEPT { return v; }
+inline STLSOFT_NS_QUAL(ss_uint64_t) into_maximum_type(STLSOFT_NS_QUAL(ss_uint16_t) v) STLSOFT_NOEXCEPT { return v; }
+#endif /* STLSOFT_CF_SHORT_DISTINCT_INT_TYPE */
+#ifdef STLSOFT_CF_INT_DISTINCT_INT_TYPE
+
+inline STLSOFT_NS_QUAL(ss_sint64_t) into_maximum_type(STLSOFT_NS_QUAL(ss_sint32_t) v) STLSOFT_NOEXCEPT { return v; }
+inline STLSOFT_NS_QUAL(ss_uint64_t) into_maximum_type(STLSOFT_NS_QUAL(ss_uint32_t) v) STLSOFT_NOEXCEPT { return v; }
+#endif /* STLSOFT_CF_INT_DISTINCT_INT_TYPE */
+
+/* TODO: move to STLSoft */
+inline
+bool
+integer_values_are_comparable(
+    STLSOFT_NS_QUAL(ss_sint64_t)    s_val
+,   STLSOFT_NS_QUAL(ss_uint64_t)    u_val
+) STLSOFT_NOEXCEPT
+{
+    if (s_val < 0)
+    {
+        return false;
+    }
+
+    if (u_val > static_cast<STLSOFT_NS_QUAL(ss_uint64_t)>(STLSOFT_NS_QUAL(integral_limits)<STLSOFT_NS_QUAL(ss_sint64_t)>::maximum()))
+    {
+        return false;
+    }
+
+    return true;
+}
+
+inline
+bool
+integer_values_are_comparable(
+    STLSOFT_NS_QUAL(ss_uint64_t)    u_val
+,   STLSOFT_NS_QUAL(ss_sint64_t)    s_val
+) STLSOFT_NOEXCEPT
+{
+    return integer_values_are_comparable(s_val, u_val);
+}
+
 
 template<
     typename I
@@ -4264,7 +4336,7 @@ template<
 >
 inline
 int
-xtests_test_integer_(
+xtests_test_integer_when_same_sign_(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -4277,6 +4349,9 @@ xtests_test_integer_(
 #  ifndef _XTESTS_NO_NAMESPACE
     using namespace ::xtests::c;
 #  endif /* _XTESTS_NO_NAMESPACE */
+
+    STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_integral_type) < I1 > ::value);
+    STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_integral_type) < I2 > ::value);
 
     int comparisonSucceeded = false;
 
@@ -4347,6 +4422,242 @@ xtests_test_integer_(
     return comparisonSucceeded;
 }
 
+/** Compare two integers of the same type in the given manner.
+ *
+ */
+template<
+    typename I1
+,   typename I2
+>
+inline
+int
+xtests_test_integer_is_same_type_(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   I1 const&           expected
+,   I2 const&           actual
+,   xtests_comparison_t comp
+,   STLSOFT_NS_QUAL(yes_type)
+)
+{
+    return xtests_test_integer_when_same_sign_(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   expected
+    ,   actual
+    ,   comp
+    );
+}
+
+/** Compare two integers of the largest signed and unsigned types in the
+ * given manner, including determining whether they are actually comparable.
+ *
+ */
+template<
+    typename I1
+,   typename I2
+>
+inline
+int
+xtests_test_integer_is_different_sign_max_(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   I1 const&           expected
+,   I2 const&           actual
+,   xtests_comparison_t comp
+)
+{
+    // this is the only function where the integer types / signs are not
+    // resolvable entirely at compile-time, so algorithm:
+    //
+    // 1. promote both to their largest possible type/value;
+    // 2. determine whether their actual values are comparable;
+
+    if (!integer_values_are_comparable(expected, actual))
+    {
+        char        buff[21];
+        std::string message;
+
+        message.append(file);
+        message.append(1, ':');
+        message.append(STLSOFT_NS_QUAL(integer_to_decimal_string)(&buff[0], STLSOFT_NUM_ELEMENTS(buff), line));
+        message.append(1, ':');
+        message.append(function);
+        message.append(1, ':');
+        message.append(1, ' ');
+        message.append("cannot compare integers of different signs with value(s) outside the shared range");
+
+        throw std::logic_error(message);
+    }
+    // else
+    {
+        // One is signed, but not negative, and the other is unsigned but
+        // within the range of the (non-negative) signed, so we can cast to
+        // either and process
+
+        STLSOFT_NS_QUAL(ss_sint64_t) const  expected_s64    =   static_cast<STLSOFT_NS_QUAL(ss_sint64_t)>(expected);
+        STLSOFT_NS_QUAL(ss_sint64_t) const  actual_s64      =   static_cast<STLSOFT_NS_QUAL(ss_sint64_t)>(actual);
+
+        return xtests_test_integer_when_same_sign_(
+            file
+        ,   line
+        ,   function
+        ,   expr
+        ,   expected_s64
+        ,   actual_s64
+        ,   comp
+        );
+    }
+}
+
+/** Compare two integers of different sign (and different type) in the given
+ * manner.
+ *
+ */
+template<
+    typename I1
+,   typename I2
+>
+inline
+int
+xtests_test_integer_is_same_sign_(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   I1 const&           expected
+,   I2 const&           actual
+,   xtests_comparison_t comp
+,   STLSOFT_NS_QUAL(no_type)
+)
+{
+    return xtests_test_integer_is_different_sign_max_(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   XTESTS_NS_CPP_QUAL(into_maximum_type)(expected)
+    ,   XTESTS_NS_CPP_QUAL(into_maximum_type)(actual)
+    ,   comp
+    );
+}
+
+/** Compare two integers of same sign (but different type) in the given
+ * manner.
+ *
+ */
+template<
+    typename I1
+,   typename I2
+>
+inline
+int
+xtests_test_integer_is_same_sign_(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   I1 const&           expected
+,   I2 const&           actual
+,   xtests_comparison_t comp
+,   STLSOFT_NS_QUAL(yes_type)
+)
+{
+    return xtests_test_integer_when_same_sign_(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   expected
+    ,   actual
+    ,   comp
+    );
+}
+
+/** Compare two integers of different type in the given manner.
+ *
+ */
+template<
+    typename I1
+,   typename I2
+>
+inline
+int
+xtests_test_integer_is_same_type_(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   I1 const&           expected
+,   I2 const&           actual
+,   xtests_comparison_t comp
+,   STLSOFT_NS_QUAL(no_type)
+)
+{
+    STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_integral_type) < I1 > ::value);
+    STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_integral_type) < I2 > ::value);
+
+    enum { _I1_and_I2_have_same_sign = ((0 != STLSOFT_NS_QUAL(is_signed_type)<I1>::value) == (0 != STLSOFT_NS_QUAL(is_signed_type)<I2>::value)) };
+
+    typedef ss_typename_type_k STLSOFT_NS_QUAL(value_to_yesno_type)<_I1_and_I2_have_same_sign>::type    are_same_sign_t;
+
+    return xtests_test_integer_is_same_sign_(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   expected
+    ,   actual
+    ,   comp
+    ,   are_same_sign_t()
+    );
+}
+
+/** Compare two integers of arbitrary size/sign in the given manner.
+ *
+ */
+template<
+    typename I1
+,   typename I2
+>
+inline
+int
+xtests_test_integer_underlying_type_(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   I1 const&           expected
+,   I2 const&           actual
+,   xtests_comparison_t comp
+)
+{
+    STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_integral_type) < I1 > ::value);
+    STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_integral_type) < I2 > ::value);
+
+    typedef ss_typename_type_k STLSOFT_NS_QUAL(is_same_type)<I1, I2>::type  I1_and_I2_are_same_type_t;
+
+    return xtests_test_integer_is_same_type_(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   expected
+    ,   actual
+    ,   comp
+    ,   I1_and_I2_are_same_type_t()
+    );
+}
+
+/** Compare two integer like values of arbitrary type in the given manner.
+ *
+ */
 template<
     typename I1
 ,   typename I2
@@ -4363,7 +4674,7 @@ xtests_test_integer(
 ,   xtests_comparison_t comp
 )
 {
-    return xtests_test_integer_(
+    return xtests_test_integer_underlying_type_(
         file
     ,   line
     ,   function

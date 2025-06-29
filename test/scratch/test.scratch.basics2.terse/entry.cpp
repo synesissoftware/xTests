@@ -5,7 +5,7 @@
  *          using the terse version of macros.
  *
  * Created: 20th November 2024
- * Updated: 30th December 2024
+ * Updated: 28th June 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -440,7 +440,7 @@ static void test_5_1()
 {
     std::vector<int>    v(2);
 
-    REQUIRE(TEST_INTEGER_EQUAL(2u, v.size()));
+    REQUIRE(TEST_INTEGER_EQUAL(2, v.size()));
     TEST_INTEGER_EQUAL(0, v[0]);
     TEST_INTEGER_EQUAL(0, v[1]);
 }
@@ -449,7 +449,7 @@ static void test_5_2()
 {
     std::vector<int>    v(2);
 
-    REQUIRE(TEST_INTEGER_EQUAL(2u, v.size()));
+    REQUIRE(TEST_INTEGER_EQUAL(2, v.size()));
     TEST_INTEGER_EQUAL(0, v[0]);
     TEST_INTEGER_EQUAL(0, v[1]);
 }

@@ -5,7 +5,7 @@
  *          implementations in terms of `_Generic`.
  *
  * Created: 3rd August 2024
- * Updated: 28th May 2025
+ * Updated: 31st May 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -15,7 +15,7 @@
  */
 
 /* xTests Header Files */
-#include <xtests/xtests.h>
+#include <xtests/terse-api.h>
 
 /* Standard C Header Files */
 #include <limits.h>
@@ -131,42 +131,43 @@ static void test_passes(void)
             short const expected    =   -101;
             short const actual      =   -100;
 
-            XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual);
+            TEST_INT_NE(expected, actual);
         }
 
         {
             unsigned short const expected   =   +100;
             unsigned short const actual     =   +101;
 
-            XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual);
+            TEST_INT_NE(expected, actual);
         }
 
         {
             int const expected  =   -101;
             int const actual    =   -100;
 
-            XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual);
+            TEST_INT_NE(expected, actual);
         }
 
         {
             unsigned int const expected =   +100;
             unsigned int const actual   =   +101;
 
-            XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual);
+            TEST_INT_NE(0, actual);
+            TEST_INT_NE(expected, actual);
         }
 
         {
             long const expected =   -101;
             long const actual   =   -100;
 
-            XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual);
+            TEST_INT_NE(expected, actual);
         }
 
         {
             unsigned long const expected    =   +100;
             unsigned long const actual      =   +101;
 
-            XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual);
+            TEST_INT_NE(expected, actual);
         }
 #if defined(__STDC_VERSION__) &&\
     __STDC_VERSION__ >= 201112L
@@ -175,14 +176,14 @@ static void test_passes(void)
             long long const expected    =   -101;
             long long const actual      =   -100;
 
-            XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual);
+            TEST_INT_NE(expected, actual);
         }
 
         {
             unsigned long long const expected   =   +100;
             unsigned long long const actual     =   +101;
 
-            XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual);
+            TEST_INT_NE(expected, actual);
         }
 #endif
     }
@@ -193,42 +194,42 @@ static void test_passes(void)
             short const expected    =   -100;
             short const actual      =   -101;
 
-            XTESTS_TEST_INTEGER_LESS(expected, actual);
+            TEST_INT_LT(expected, actual);
         }
 
         {
             unsigned short const expected   =   +101;
             unsigned short const actual     =   +100;
 
-            XTESTS_TEST_INTEGER_LESS(expected, actual);
+            TEST_INT_LT(expected, actual);
         }
 
         {
             int const expected  =   -100;
             int const actual    =   -101;
 
-            XTESTS_TEST_INTEGER_LESS(expected, actual);
+            TEST_INT_LT(expected, actual);
         }
 
         {
             unsigned int const expected =   +101;
             unsigned int const actual   =   +100;
 
-            XTESTS_TEST_INTEGER_LESS(expected, actual);
+            TEST_INT_LT(expected, actual);
         }
 
         {
             long const expected =   -100;
             long const actual   =   -101;
 
-            XTESTS_TEST_INTEGER_LESS(expected, actual);
+            TEST_INT_LT(expected, actual);
         }
 
         {
             unsigned long const expected    =   +101;
             unsigned long const actual      =   +100;
 
-            XTESTS_TEST_INTEGER_LESS(expected, actual);
+            TEST_INT_LT(expected, actual);
         }
 #if defined(__STDC_VERSION__) &&\
     __STDC_VERSION__ >= 201112L
@@ -237,14 +238,14 @@ static void test_passes(void)
             long long const expected    =   -100;
             long long const actual      =   -101;
 
-            XTESTS_TEST_INTEGER_LESS(expected, actual);
+            TEST_INT_LT(expected, actual);
         }
 
         {
             unsigned long long const expected   =   +101;
             unsigned long long const actual     =   +100;
 
-            XTESTS_TEST_INTEGER_LESS(expected, actual);
+            TEST_INT_LT(expected, actual);
         }
 #endif
     }
@@ -255,42 +256,42 @@ static void test_passes(void)
             short const expected    =   -100;
             short const actual      =   -101;
 
-            XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual);
+            TEST_INT_LE(expected, actual);
         }
 
         {
             unsigned short const expected   =   +100;
             unsigned short const actual     =   +100;
 
-            XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual);
+            TEST_INT_LE(expected, actual);
         }
 
         {
             int const expected  =   -100;
             int const actual    =   -101;
 
-            XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual);
+            TEST_INT_LE(expected, actual);
         }
 
         {
             unsigned int const expected =   +100;
             unsigned int const actual   =   +100;
 
-            XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual);
+            TEST_INT_LE(expected, actual);
         }
 
         {
             long const expected =   -100;
             long const actual   =   -101;
 
-            XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual);
+            TEST_INT_LE(expected, actual);
         }
 
         {
             unsigned long const expected    =   +100;
             unsigned long const actual      =   +100;
 
-            XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual);
+            TEST_INT_LE(expected, actual);
         }
 #if defined(__STDC_VERSION__) &&\
     __STDC_VERSION__ >= 201112L
@@ -299,14 +300,14 @@ static void test_passes(void)
             long long const expected    =   -100;
             long long const actual      =   -101;
 
-            XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual);
+            TEST_INT_LE(expected, actual);
         }
 
         {
             unsigned long long const expected   =   +100;
             unsigned long long const actual     =   +100;
 
-            XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual);
+            TEST_INT_LE(expected, actual);
         }
 #endif
     }
@@ -317,42 +318,43 @@ static void test_passes(void)
             short const expected    =   -101;
             short const actual      =   -100;
 
-            XTESTS_TEST_INTEGER_GREATER(expected, actual);
+            TEST_INT_GT(expected, actual);
         }
 
         {
             unsigned short const expected   =   +100;
             unsigned short const actual     =   +101;
 
-            XTESTS_TEST_INTEGER_GREATER(expected, actual);
+            TEST_INT_GT(0, actual);
+            TEST_INT_GT(expected, actual);
         }
 
         {
             int const expected  =   -101;
             int const actual    =   -100;
 
-            XTESTS_TEST_INTEGER_GREATER(expected, actual);
+            TEST_INT_GT(expected, actual);
         }
 
         {
             unsigned int const expected =   +100;
             unsigned int const actual   =   +101;
 
-            XTESTS_TEST_INTEGER_GREATER(expected, actual);
+            TEST_INT_GT(expected, actual);
         }
 
         {
             long const expected =   -101;
             long const actual   =   -100;
 
-            XTESTS_TEST_INTEGER_GREATER(expected, actual);
+            TEST_INT_GT(expected, actual);
         }
 
         {
             unsigned long const expected    =   +100;
             unsigned long const actual      =   +101;
 
-            XTESTS_TEST_INTEGER_GREATER(expected, actual);
+            TEST_INT_GT(expected, actual);
         }
 #if defined(__STDC_VERSION__) &&\
     __STDC_VERSION__ >= 201112L
@@ -361,14 +363,14 @@ static void test_passes(void)
             long long const expected    =   -101;
             long long const actual      =   -100;
 
-            XTESTS_TEST_INTEGER_GREATER(expected, actual);
+            TEST_INT_GT(expected, actual);
         }
 
         {
             unsigned long long const expected   =   +100;
             unsigned long long const actual     =   +101;
 
-            XTESTS_TEST_INTEGER_GREATER(expected, actual);
+            TEST_INT_GT(expected, actual);
         }
 #endif
     }
@@ -379,42 +381,42 @@ static void test_passes(void)
             short const expected    =   -101;
             short const actual      =   -100;
 
-            XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual);
+            TEST_INT_GE(expected, actual);
         }
 
         {
             unsigned short const expected   =   +100;
             unsigned short const actual     =   +101;
 
-            XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual);
+            TEST_INT_GE(expected, actual);
         }
 
         {
             int const expected  =   -101;
             int const actual    =   -100;
 
-            XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual);
+            TEST_INT_GE(expected, actual);
         }
 
         {
             unsigned int const expected =   +100;
             unsigned int const actual   =   +101;
 
-            XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual);
+            TEST_INT_GE(expected, actual);
         }
 
         {
             long const expected =   -101;
             long const actual   =   -100;
 
-            XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual);
+            TEST_INT_GE(expected, actual);
         }
 
         {
             unsigned long const expected    =   +100;
             unsigned long const actual      =   +101;
 
-            XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual);
+            TEST_INT_GE(expected, actual);
         }
 #if defined(__STDC_VERSION__) &&\
     __STDC_VERSION__ >= 201112L
@@ -423,14 +425,14 @@ static void test_passes(void)
             long long const expected    =   -101;
             long long const actual      =   -100;
 
-            XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual);
+            TEST_INT_GE(expected, actual);
         }
 
         {
             unsigned long long const expected   =   +100;
             unsigned long long const actual     =   +101;
 
-            XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual);
+            TEST_INT_GE(expected, actual);
         }
 #endif
     }
@@ -452,7 +454,7 @@ static void test_fails(void)
         unsigned short const expected   =   123;
         unsigned short const actual     =   123;
 
-        XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual);
+        TEST_INT_NE(expected, actual);
     }
 
     /* < (int) */
@@ -460,7 +462,7 @@ static void test_fails(void)
         int const expected  =   123;
         int const actual    =   123;
 
-        XTESTS_TEST_INTEGER_LESS(expected, actual);
+        TEST_INT_LT(expected, actual);
     }
 
     /* <= (unsigned int) */
@@ -468,7 +470,7 @@ static void test_fails(void)
         unsigned short const expected   =   123;
         unsigned short const actual     =   124;
 
-        XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual);
+        TEST_INT_LE(expected, actual);
     }
 
     /* > (long) */
@@ -476,7 +478,7 @@ static void test_fails(void)
         long const expected =   124;
         long const actual   =   123;
 
-        XTESTS_TEST_INTEGER_GREATER(expected, actual);
+        TEST_INT_GT(expected, actual);
     }
 
     /* > (unsigned long) */
@@ -484,7 +486,7 @@ static void test_fails(void)
         unsigned long const expected    =   124;
         unsigned long const actual      =   123;
 
-        XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual);
+        TEST_INT_GE(expected, actual);
     }
 #if defined(__STDC_VERSION__) &&\
     __STDC_VERSION__ >= 201112L
@@ -494,7 +496,7 @@ static void test_fails(void)
         long long const expected    =   LLONG_MAX;
         long long const actual      =   LLONG_MIN;
 
-        XTESTS_TEST_INTEGER_GREATER(expected, actual);
+        TEST_INT_GT(expected, actual);
     }
 
     /* >= (unsigned long long) */
@@ -502,7 +504,7 @@ static void test_fails(void)
         unsigned long long const expected   =   ULLONG_MAX;
         unsigned long long const actual     =   0;
 
-        XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual);
+        TEST_INT_GE(expected, actual);
     }
 #endif
 }
