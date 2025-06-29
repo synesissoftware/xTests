@@ -4,7 +4,7 @@
 30th June 2025 - 0.26.4 (alpha 2)
 ---------------------------------
 
- * T.B.C.;
+ * Allowing comparisons between integer values/variables of arbitrary type and sign;
 
 
 6th May 2025 - 0.26.4 (alpha 1)

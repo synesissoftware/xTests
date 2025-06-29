@@ -92,7 +92,7 @@
         |   (   _XTESTS_VER_ALPHABETA   <<  0   ) \
     )
 
-#define _XTESTS_VER_REVISION            _XTESTS_VER_PATCH
+#define _XTESTS_VER_REVISION    _XTESTS_VER_PATCH
 
 
 /* /////////////////////////////////////////////////////////////////////////
