@@ -80,8 +80,16 @@ jobs:
         exclude:
           - os: macos-latest
             c_compiler: cc
+          - os: macos-latest
+            c_compiler: cl
           - os: ubuntu-latest
             c_compiler: cc
+          - os: ubuntu-latest
+            c_compiler: cl
+          - os: windows-latest
+            c_compiler: cc
+          - os: windows-latest
+            c_compiler: clang
           # - os: windows-latest
           #   c_compiler: clang
           # - os: windows-latest
