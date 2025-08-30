@@ -112,7 +112,7 @@ jobs:
       run: |
         echo "Obtaining latest STLSoft ..."
         mkdir -p /tmp/sis/stlsoft
-        git clone https://github.com/synesissoftware/STLSoft-1.11 /tmp/sis/stlsoft/STLSoft-1.11
+        git clone https://github.com/synesissoftware/STLSoft-1.11 /tmp/sis/stlsoft/STLSoft_1_11
         echo "Obtained latest STLSoft."
 
     - name: Configure CMake
