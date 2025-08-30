@@ -25,7 +25,7 @@ jobs:
       matrix:
         os:
           - macos-latest
-          # - ubuntu-latest
+          - ubuntu-latest
           # - windows-latest
         c_compiler:
           # - cl
@@ -64,9 +64,11 @@ jobs:
           # - os: ubuntu-latest
           #   c_compiler: clang
           #   cpp_compiler: clang++
-          # - os: windows-latest
-          #   c_compiler: cl
-          #   cpp_compiler: cl
+          - os: windows-latest
+            c_compiler: cl
+            cpp_compiler: cl
+            enable_examples: false
+            enable_testing: false
         exclude:
           - os: ubuntu-latest
             c_compiler: clang
