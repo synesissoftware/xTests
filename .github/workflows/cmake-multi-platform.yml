@@ -42,6 +42,7 @@ jobs:
           - os: macos-latest
             c_compiler: clang
             cpp_compiler: clang++
+            enable_testing: true
           - os: macos-latest
             c_compiler: gcc
             cpp_compiler: g++
