@@ -109,6 +109,7 @@ jobs:
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
     - name: Install STLSoft
+      # NOTE: cannot extract to "/tmp/sis/stlsoft/STLSoft-1.11" as the Windows agent ignores the ".11" part
       run: |
         echo "Obtaining latest STLSoft ..."
         mkdir -p /tmp/sis/stlsoft
@@ -127,7 +128,7 @@ jobs:
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DNO_SHWILD:BOOL=TRUE
-        -DSTLSOFT=/tmp/sis/stlsoft/STLSoft-1.11
+        -DSTLSOFT=/tmp/sis/stlsoft/STLSoft_1_11
         -S ${{ github.workspace }}
 
     - name: Build
