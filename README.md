@@ -409,15 +409,30 @@ If you'd like to help out with the project, please raise an issue via [GitHub Pa
 
 Projects in which **xTests** is used for testing include:
 
-* [**b64**](https://github.com/synesissoftware/b64)
-* [**CLASP**](https://github.com/synesissoftware/CLASP)
-* [**cstring**](https://github.com/synesissoftware/cstring)
-* [**FastFormat**](https://github.com/synesissoftware/FastFormat)
-* [**libCLImate**](https://github.com/synesissoftware/libCLImate)
-* [**libpath**](https://github.com/synesissoftware/libpath)
-* [**Pantheios**](https://github.com/synesissoftware/Pantheios)
-* [**recls**](https://github.com/synesissoftware/recls)
-* [**UNIXem**](https://github.com/synesissoftware/UNIXem)
+* [**b64**](https://github.com/synesissoftware/b64);
+* [**chomp**](https://github.com/sistools/chomp);
+* [**CLASP**](https://github.com/synesissoftware/CLASP);
+* [**collect-c**](https://github.com/synesissoftware/collect-c);
+* [**collect-cxx**](https://github.com/synesissoftware/collect-cxx);
+* [**cstring**](https://github.com/synesissoftware/cstring);
+* [**Diagnosticism**](https://github.com/synesissoftware/Diagnosticism);
+* [**FastFormat**](https://github.com/synesissoftware/FastFormat);
+* [**libCLImate**](https://github.com/synesissoftware/libCLImate);
+* [**libpath**](https://github.com/synesissoftware/libpath);
+* [**lstrip**](https://github.com/sistools/lstrip);
+* [**mksock**](https://github.com/sistools/mksock);
+* [**Pantheios.Extras.DiagUtil**](https://github.com/synesissoftware/Pantheios.Extras.DiagUtil);
+* [**Pantheios.Extras.Main**](https://github.com/synesissoftware/Pantheios.Extras.Main);
+* [**Pantheios.Extras.xHelpers**](https://github.com/synesissoftware/Pantheios.Extras.xHelpers);
+* [**Pantheios**](https://github.com/synesissoftware/Pantheios);
+* [**recls**](https://github.com/synesissoftware/recls);
+* [**rstrip**](https://github.com/sistools/rstrip);
+* [**ss-win-diskutil**](https://github.com/synesissoftware/ss-win-diskutil);
+* [**STLSoft-1.10**](https://github.com/synesissoftware/STLSoft-1.10);
+* [**STLSoft-1.11**](https://github.com/synesissoftware/STLSoft-1.11);
+* [**SyLVReDxx**](https://github.com/synesissoftware/SyLVReDxx);
+* [**UNIXem**](https://github.com/synesissoftware/UNIXem);
+* [**xTests**](https://github.com/synesissoftware/xTests);
 
 
 ### License
