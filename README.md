@@ -1,5 +1,13 @@
 # xTests <!-- omit in toc -->
 
+![Language](https://img.shields.io/badge/C%2B%2B-00599C?style=flat&logo=c%2B%2B&logoColor=white)
+[![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+[![GitHub release](https://img.shields.io/github/v/release/synesissoftware/xTests.svg)](https://github.com/synesissoftware/xTests/releases/latest)
+[![Last Commit](https://img.shields.io/github/last-commit/synesissoftware/xTests)](https://github.com/synesissoftware/xTests/commits/master)
+
+Simple, easy-to-use, efficient testing library, for C, C++. It's not particularly great, but it's small and portable enough to be bundled with other, more important, libraries.
+
+
 ## Table of Contents <!-- omit in toc -->
 
 - [Introduction](#introduction)
@@ -310,7 +318,7 @@ Extensive examples are provided in the ```examples``` directory, along with a ma
 
 ```c
 /* file: example.c.factorial.c */
-#include <xtests/xtests.h>
+#include <xtests/terse-api.h>
 #include <stdio.h>
 #include <assert.h>
 
@@ -333,8 +341,8 @@ int factorial(int v)
 
 void test_factorial_edge_cases()
 {
-    XTESTS_TEST_INTEGER_EQUAL(1, factorial(0));
-    XTESTS_TEST_INTEGER_EQUAL(1, factorial(1));
+    TEST_INT_EQ(1, factorial(0));
+    TEST_INT_EQ(1, factorial(1));
 }
 
 int main(int argc, char* argv[])
@@ -352,10 +360,10 @@ int main(int argc, char* argv[])
         /* runs test case "test-case-range" */
         if (XTESTS_CASE_BEGIN("test-case-range", "checking wider range of input numbers"))
         {
-            XTESTS_TEST_INTEGER_EQUAL(2, factorial(2));
-            XTESTS_TEST_INTEGER_EQUAL(6, factorial(3));
+            TEST_INT_EQ(2, factorial(2));
+            TEST_INT_EQ(6, factorial(3));
             /* . . . */
-            XTESTS_TEST_INTEGER_EQUAL(479001600, factorial(12));
+            TEST_INT_EQ(479001600, factorial(12));
 
             XTESTS_CASE_END("test-case-1");
         }
@@ -401,15 +409,30 @@ If you'd like to help out with the project, please raise an issue via [GitHub Pa
 
 Projects in which **xTests** is used for testing include:
 
-* [**b64**](https://github.com/synesissoftware/b64)
-* [**CLASP**](https://github.com/synesissoftware/CLASP)
-* [**cstring**](https://github.com/synesissoftware/cstring)
-* [**FastFormat**](https://github.com/synesissoftware/FastFormat)
-* [**libCLImate**](https://github.com/synesissoftware/libCLImate)
-* [**libpath**](https://github.com/synesissoftware/libpath)
-* [**Pantheios**](https://github.com/synesissoftware/Pantheios)
-* [**recls**](https://github.com/synesissoftware/recls)
-* [**UNIXem**](https://github.com/synesissoftware/UNIXem)
+* [**b64**](https://github.com/synesissoftware/b64);
+* [**chomp**](https://github.com/sistools/chomp);
+* [**CLASP**](https://github.com/synesissoftware/CLASP);
+* [**collect-c**](https://github.com/synesissoftware/collect-c);
+* [**collect-cxx**](https://github.com/synesissoftware/collect-cxx);
+* [**cstring**](https://github.com/synesissoftware/cstring);
+* [**Diagnosticism**](https://github.com/synesissoftware/Diagnosticism);
+* [**FastFormat**](https://github.com/synesissoftware/FastFormat);
+* [**libCLImate**](https://github.com/synesissoftware/libCLImate);
+* [**libpath**](https://github.com/synesissoftware/libpath);
+* [**lstrip**](https://github.com/sistools/lstrip);
+* [**mksock**](https://github.com/sistools/mksock);
+* [**Pantheios.Extras.DiagUtil**](https://github.com/synesissoftware/Pantheios.Extras.DiagUtil);
+* [**Pantheios.Extras.Main**](https://github.com/synesissoftware/Pantheios.Extras.Main);
+* [**Pantheios.Extras.xHelpers**](https://github.com/synesissoftware/Pantheios.Extras.xHelpers);
+* [**Pantheios**](https://github.com/synesissoftware/Pantheios);
+* [**recls**](https://github.com/synesissoftware/recls);
+* [**rstrip**](https://github.com/sistools/rstrip);
+* [**ss-win-diskutil**](https://github.com/synesissoftware/ss-win-diskutil);
+* [**STLSoft-1.10**](https://github.com/synesissoftware/STLSoft-1.10);
+* [**STLSoft-1.11**](https://github.com/synesissoftware/STLSoft-1.11);
+* [**SyLVReDxx**](https://github.com/synesissoftware/SyLVReDxx);
+* [**UNIXem**](https://github.com/synesissoftware/UNIXem);
+* [**xTests**](https://github.com/synesissoftware/xTests);
 
 
 ### License
