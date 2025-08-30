@@ -318,7 +318,7 @@ Extensive examples are provided in the ```examples``` directory, along with a ma
 
 ```c
 /* file: example.c.factorial.c */
-#include <xtests/xtests.h>
+#include <xtests/terse-api.h>
 #include <stdio.h>
 #include <assert.h>
 
@@ -341,8 +341,8 @@ int factorial(int v)
 
 void test_factorial_edge_cases()
 {
-    XTESTS_TEST_INTEGER_EQUAL(1, factorial(0));
-    XTESTS_TEST_INTEGER_EQUAL(1, factorial(1));
+    TEST_INT_EQ(1, factorial(0));
+    TEST_INT_EQ(1, factorial(1));
 }
 
 int main(int argc, char* argv[])
@@ -360,10 +360,10 @@ int main(int argc, char* argv[])
         /* runs test case "test-case-range" */
         if (XTESTS_CASE_BEGIN("test-case-range", "checking wider range of input numbers"))
         {
-            XTESTS_TEST_INTEGER_EQUAL(2, factorial(2));
-            XTESTS_TEST_INTEGER_EQUAL(6, factorial(3));
+            TEST_INT_EQ(2, factorial(2));
+            TEST_INT_EQ(6, factorial(3));
             /* . . . */
-            XTESTS_TEST_INTEGER_EQUAL(479001600, factorial(12));
+            TEST_INT_EQ(479001600, factorial(12));
 
             XTESTS_CASE_END("test-case-1");
         }
