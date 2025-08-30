@@ -41,7 +41,7 @@ jobs:
         enable_examples:
           - false
         enable_testing:
-          - false        
+          - false
         include:
           - os: macos-latest
             c_compiler: clang
@@ -111,6 +111,7 @@ jobs:
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
+        -DNO_SHWILD:BOOL=TRUE
         -DSTLSOFT=/tmp/sis/stlsoft/STLSoft-1.11
         -S ${{ github.workspace }}
 
