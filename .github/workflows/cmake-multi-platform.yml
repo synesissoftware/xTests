@@ -42,12 +42,12 @@ jobs:
           - false
         enable_testing:
           - false        
-        # include:
-        #   - os: macos-latest
-        #     c_compiler: clang
-        #     cpp_compiler: clang++
-        #     enable_testing: true
-        #     build_type: Release
+        include:
+          - os: macos-latest
+            c_compiler: clang
+            cpp_compiler: clang++
+            enable_testing: true
+            build_type: Release
         #   - os: macos-latest
         #     c_compiler: gcc
         #     cpp_compiler: g++
