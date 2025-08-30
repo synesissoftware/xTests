@@ -75,8 +75,8 @@ jobs:
           - os: windows-latest
             c_compiler: cl
             cpp_compiler: cl
-            enable_examples: false
-            enable_testing: false
+            enable_examples: true
+            enable_testing: true
             build_type: Release
         exclude:
           - os: macos-latest
