@@ -1,5 +1,13 @@
 # xTests <!-- omit in toc -->
 
+![Language](https://img.shields.io/badge/C%2B%2B-00599C?style=flat&logo=c%2B%2B&logoColor=white)
+[![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+[![GitHub release](https://img.shields.io/github/v/release/synesissoftware/xTests.svg)](https://github.com/synesissoftware/xTests/releases/latest)
+[![Last Commit](https://img.shields.io/github/last-commit/synesissoftware/xTests)](https://github.com/synesissoftware/xTests/commits/master)
+
+Simple, easy-to-use, efficient testing library, for C, C++. It's not particularly great, but it's small and portable enough to be bundled with other, more important, libraries.
+
+
 ## Table of Contents <!-- omit in toc -->
 
 - [Introduction](#introduction)
