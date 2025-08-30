@@ -28,13 +28,9 @@ jobs:
           - ubuntu-latest
           # - windows-latest
         c_compiler:
-          # - cl
-          - clang
-          # - gcc
+          - cc
         cpp_compiler:
-          # - cl
-          - clang++
-          - gcc
+          - c++
         build_type:
           # - Debug
           - Release
@@ -50,9 +46,15 @@ jobs:
             enable_testing: true
             build_type: Release
           - os: ubuntu-latest
+            c_compiler: clang
+            cpp_compiler: clang++
+            enable_examples: true
+            enable_testing: true
+            build_type: Release
+          - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
-            enable_examples: false
+            enable_examples: true
             enable_testing: true
             build_type: Release
         #   - os: macos-latest
@@ -70,8 +72,10 @@ jobs:
           #   enable_examples: false
           #   enable_testing: false
         exclude:
+          - os: macos-latest
+            c_compiler: cc
           - os: ubuntu-latest
-            c_compiler: clang
+            c_compiler: cc
           # - os: windows-latest
           #   c_compiler: clang
           # - os: windows-latest
