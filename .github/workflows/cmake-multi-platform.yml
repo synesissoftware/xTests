@@ -34,6 +34,10 @@ jobs:
           # - cl
           - clang
           - gcc
+        enable_examples:
+          - false
+        enable_testing:
+          - false        
         include:
           - os: macos-latest
             c_compiler: clang
@@ -83,8 +87,8 @@ jobs:
       run: >
         cmake
         -B ${{ steps.strings.outputs.build-output-dir }}
-        -DBUILD_EXAMPLES:BOOL=FALSE
-        -DBUILD_TESTING:BOOL=FALSE
+        -DBUILD_EXAMPLES:BOOL=${{ matrix.enable_examples }}
+        -DBUILD_TESTING:BOOL=${{ matrix.enable_testing }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
