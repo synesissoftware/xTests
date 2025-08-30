@@ -25,31 +25,31 @@ jobs:
       matrix:
         os:
           - macos-latest
-          - ubuntu-latest
+          # - ubuntu-latest
           # - windows-latest
-        build_type:
-          # - Debug
-          - Release
         c_compiler:
           # - cl
           - clang
-          - gcc
+          # - gcc
+        build_type:
+          # - Debug
+          - Release
         enable_examples:
           - false
         enable_testing:
           - false        
-        include:
-          - os: macos-latest
-            c_compiler: clang
-            cpp_compiler: clang++
-            enable_testing: true
-            build_type: Release
-          - os: macos-latest
-            c_compiler: gcc
-            cpp_compiler: g++
-          - os: ubuntu-latest
-            c_compiler: gcc
-            cpp_compiler: g++
+        # include:
+        #   - os: macos-latest
+        #     c_compiler: clang
+        #     cpp_compiler: clang++
+        #     enable_testing: true
+        #     build_type: Release
+        #   - os: macos-latest
+        #     c_compiler: gcc
+        #     cpp_compiler: g++
+        #   - os: ubuntu-latest
+        #     c_compiler: gcc
+        #     cpp_compiler: g++
           # - os: ubuntu-latest
           #   c_compiler: clang
           #   cpp_compiler: clang++
