@@ -4,7 +4,7 @@
  * Purpose: Illustrates each failure message.
  *
  * Created: 1st December 2024
- * Updated: 30th December 2024
+ * Updated: 28th June 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -62,17 +62,17 @@ int main(int argc, char* argv[])
     {
         if (XTESTS_CASE_BEGIN("boolean", "illustrating boolean failure messages"))
         {
-            TEST_BOOLEAN_EQUAL(false, true);
-            TEST_BOOLEAN_NOT_EQUAL(false, false);
+            TEST_BOOLEAN_EQ(false, true);
+            TEST_BOOLEAN_NE(false, false);
 
             XTESTS_CASE_END("boolean");
         }
 
         if (XTESTS_CASE_BEGIN("double", "illustrating double failure messages"))
         {
-            TEST_FLOATINGPOINT_EQUAL_APPROX(-1.0, -1.0001);
+            TEST_FP_EQ_APPROX(-1.0, -1.0001);
             TEST_FP_EQ(-1.0, -1.0001);
-            TEST_FLOATINGPOINT_NOT_EQUAL_APPROX(-1.0, -1.0000001);
+            TEST_FP_NE_APPROX(-1.0, -1.0000001);
             TEST_FP_NE(-1.0, -1.0000001);
             TEST_FP_GT(-1.0, -1.0);
             TEST_FP_LT(-1.0, -1.0);
@@ -105,8 +105,8 @@ int main(int argc, char* argv[])
         {
             TEST_MS_EQ("abc", "abcd");
             TEST_MS_NE("abc", "abc");
-            TEST_MULTIBYTE_STRING_EQUAL_APPROX("abc", "def");
-            TEST_MULTIBYTE_STRING_NOT_EQUAL_APPROX("abc", "ABC");
+            TEST_MS_EQ_APPROX("abc", "def");
+            TEST_MS_NE_APPROX("abc", "ABC");
 
             XTESTS_CASE_END("multibyte string");
         }
@@ -115,8 +115,8 @@ int main(int argc, char* argv[])
         {
             TEST_WS_EQ(L"abc", L"abcd");
             TEST_WS_NE(L"abc", L"abc");
-            TEST_WIDE_STRING_EQUAL_APPROX(L"abc", L"def");
-            TEST_WIDE_STRING_NOT_EQUAL_APPROX(L"abc", L"ABC");
+            TEST_WS_EQ_APPROX(L"abc", L"def");
+            TEST_WS_NE_APPROX(L"abc", L"ABC");
 
             XTESTS_CASE_END("wide string");
         }
@@ -176,32 +176,32 @@ int main(int argc, char* argv[])
         {
             // uint8_t
             {
-                TEST_INT_EQ(0u, stlsoft::ss_uint8_t(1));
-                TEST_INT_NE(0u, stlsoft::ss_uint8_t(0));
-                TEST_INT_LT(0u, stlsoft::ss_uint8_t(0));
-                TEST_INT_GT(0u, stlsoft::ss_uint8_t(0));
-                TEST_INT_LE(0u, stlsoft::ss_uint8_t(1));
-                TEST_INT_GE(1u, stlsoft::ss_uint8_t(0));
+                TEST_INT_EQ(0, stlsoft::ss_uint8_t(1));
+                TEST_INT_NE(0, stlsoft::ss_uint8_t(0));
+                TEST_INT_LT(0, stlsoft::ss_uint8_t(0));
+                TEST_INT_GT(0, stlsoft::ss_uint8_t(0));
+                TEST_INT_LE(0, stlsoft::ss_uint8_t(1));
+                TEST_INT_GE(1, stlsoft::ss_uint8_t(0));
             }
 
             // uint16_t
             {
-                TEST_INT_EQ(0u, stlsoft::ss_uint16_t(1));
-                TEST_INT_NE(0u, stlsoft::ss_uint16_t(0));
-                TEST_INT_LT(0u, stlsoft::ss_uint16_t(0));
-                TEST_INT_GT(0u, stlsoft::ss_uint16_t(0));
-                TEST_INT_LE(0u, stlsoft::ss_uint16_t(1));
-                TEST_INT_GE(1u, stlsoft::ss_uint16_t(0));
+                TEST_INT_EQ(0, stlsoft::ss_uint16_t(1));
+                TEST_INT_NE(0, stlsoft::ss_uint16_t(0));
+                TEST_INT_LT(0, stlsoft::ss_uint16_t(0));
+                TEST_INT_GT(0, stlsoft::ss_uint16_t(0));
+                TEST_INT_LE(0, stlsoft::ss_uint16_t(1));
+                TEST_INT_GE(1, stlsoft::ss_uint16_t(0));
             }
 
             // uint32_t
             {
-                TEST_INT_EQ(0u, stlsoft::ss_uint32_t(1));
-                TEST_INT_NE(0u, stlsoft::ss_uint32_t(0));
-                TEST_INT_LT(0u, stlsoft::ss_uint32_t(0));
-                TEST_INT_GT(0u, stlsoft::ss_uint32_t(0));
-                TEST_INT_LE(0u, stlsoft::ss_uint32_t(1));
-                TEST_INT_GE(1u, stlsoft::ss_uint32_t(0));
+                TEST_INT_EQ(0, stlsoft::ss_uint32_t(1));
+                TEST_INT_NE(0, stlsoft::ss_uint32_t(0));
+                TEST_INT_LT(0, stlsoft::ss_uint32_t(0));
+                TEST_INT_GT(0, stlsoft::ss_uint32_t(0));
+                TEST_INT_LE(0, stlsoft::ss_uint32_t(1));
+                TEST_INT_GE(1, stlsoft::ss_uint32_t(0));
             }
 
             XTESTS_CASE_END("unsigned long");
@@ -228,12 +228,12 @@ int main(int argc, char* argv[])
         {
             // uint64_t
             {
-                TEST_INT_EQ(0u, stlsoft::ss_uint64_t(1));
-                TEST_INT_NE(0u, stlsoft::ss_uint64_t(0));
-                TEST_INT_LT(0u, stlsoft::ss_uint64_t(0));
-                TEST_INT_GT(0u, stlsoft::ss_uint64_t(0));
-                TEST_INT_LE(0u, stlsoft::ss_uint64_t(1));
-                TEST_INT_GE(1u, stlsoft::ss_uint64_t(0));
+                TEST_INT_EQ(0, stlsoft::ss_uint64_t(1));
+                TEST_INT_NE(0, stlsoft::ss_uint64_t(0));
+                TEST_INT_LT(0, stlsoft::ss_uint64_t(0));
+                TEST_INT_GT(0, stlsoft::ss_uint64_t(0));
+                TEST_INT_LE(0, stlsoft::ss_uint64_t(1));
+                TEST_INT_GE(1, stlsoft::ss_uint64_t(0));
 
                 TEST_INT_EQ(std::numeric_limits<stlsoft::ss_uint64_t>::min(), std::numeric_limits<stlsoft::ss_uint64_t>::max());
             }
@@ -267,22 +267,25 @@ int main(int argc, char* argv[])
 
         if (XTESTS_CASE_BEGIN("multibyte string (N)", "illustrating multibyte string failure messages"))
         {
-            XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N("abc", "abdef", 3);
-            XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N("abc", "abcd", 3);
+            TEST_MS_EQ_N("abc", "abdef", 3);
+            TEST_MS_EQ_N("abc", "abdef", -3);
 
-            XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N_APPROX("abc", "DEF", 2);
-            XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N_APPROX("abc", "ABCD", 3);
+            TEST_MS_NE_N("abc", "abcd", 3);
+            TEST_MS_EQ_N("abc", "abcd", -3);
+
+            TEST_MS_EQ_N_APPROX("abc", "DEF", 2);
+            TEST_MS_NE_N_APPROX("abc", "ABCD", 3);
 
             XTESTS_CASE_END("multibyte string (N)");
         }
 
         if (XTESTS_CASE_BEGIN("multibyte string (contains)", "illustrating multibyte string failure messages"))
         {
-            XTESTS_TEST_MULTIBYTE_STRING_CONTAIN("abc", "def");
-            XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN("abc", "abcd");
+            TEST_MS_CONTAIN("abc", "def");
+            TEST_MS_NOT_CONTAIN("abc", "abcd");
 
-            XTESTS_TEST_MULTIBYTE_STRING_CONTAIN_APPROX("abc", "DEF");
-            XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN_APPROX("abc", "ABCD");
+            TEST_MS_CONTAIN_APPROX("abc", "DEF");
+            TEST_MS_NOT_CONTAIN_APPROX("abc", "ABCD");
 
             XTESTS_CASE_END("multibyte string (contains)");
         }

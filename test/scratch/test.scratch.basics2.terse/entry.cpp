@@ -5,7 +5,7 @@
  *          using the terse version of macros.
  *
  * Created: 20th November 2024
- * Updated: 30th December 2024
+ * Updated: 28th June 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -368,20 +368,20 @@ static void test_4_1()
     stlsoft::string_view    s1(s2, 3);
     std::string             s3      =   "AbCdEf";
 
-    TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, 0);
-    TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, 1);
-    TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, 2);
-    TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, 3);
+    TEST_MS_EQ_N(s1, s2, 0);
+    TEST_MS_EQ_N(s1, s2, 1);
+    TEST_MS_EQ_N(s1, s2, 2);
+    TEST_MS_EQ_N(s1, s2, 3);
     TEST_MULTIBYTE_STRING_NOT_EQUAL_N(s1, s2, 4);
-    TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, -4);
+    TEST_MS_EQ_N(s1, s2, -4);
     TEST_MULTIBYTE_STRING_NOT_EQUAL_N(s1, s2, 5);
-    TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, -5);
+    TEST_MS_EQ_N(s1, s2, -5);
     TEST_MULTIBYTE_STRING_NOT_EQUAL_N(s1, s2, 6);
-    TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, -6);
+    TEST_MS_EQ_N(s1, s2, -6);
     TEST_MULTIBYTE_STRING_NOT_EQUAL_N(s1, s2, 7);
-    TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, -7);
+    TEST_MS_EQ_N(s1, s2, -7);
     TEST_MULTIBYTE_STRING_NOT_EQUAL_N(s1, s2, 8);
-    TEST_MULTIBYTE_STRING_EQUAL_N(s1, s2, -8);
+    TEST_MS_EQ_N(s1, s2, -8);
 
     TEST_MULTIBYTE_STRING_EQUAL_N_APPROX(s1, s3, 0);
     TEST_MULTIBYTE_STRING_EQUAL_N_APPROX(s1, s3, 1);
@@ -440,7 +440,7 @@ static void test_5_1()
 {
     std::vector<int>    v(2);
 
-    REQUIRE(TEST_INTEGER_EQUAL(2u, v.size()));
+    REQUIRE(TEST_INTEGER_EQUAL(2, v.size()));
     TEST_INTEGER_EQUAL(0, v[0]);
     TEST_INTEGER_EQUAL(0, v[1]);
 }
@@ -449,7 +449,7 @@ static void test_5_2()
 {
     std::vector<int>    v(2);
 
-    REQUIRE(TEST_INTEGER_EQUAL(2u, v.size()));
+    REQUIRE(TEST_INTEGER_EQUAL(2, v.size()));
     TEST_INTEGER_EQUAL(0, v[0]);
     TEST_INTEGER_EQUAL(0, v[1]);
 }

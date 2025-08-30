@@ -5,7 +5,7 @@
 # Purpose:  Top-level CMake lists file for xTests
 #
 # Created:  9th October 2019
-# Updated:  23rd November 2024
+# Updated:  29th June 2025
 #
 # ######################################################################## #
 
@@ -46,7 +46,7 @@ string(REGEX MATCH "#${RX_WS}*define${RX_WS}+_?${RX_PROJ_TAG}_VER_MAJOR${RX_WS}+
 set(_VERSION_MAJOR ${CMAKE_MATCH_1})
 string(REGEX MATCH "#${RX_WS}*define${RX_WS}+_?${RX_PROJ_TAG}_VER_MINOR${RX_WS}+([0-9]+)" MINOR_DUMMY ${_header_file})
 set(_VERSION_MINOR ${CMAKE_MATCH_1})
-string(REGEX MATCH "#${RX_WS}*define${RX_WS}+_?${RX_PROJ_TAG}_VER_REVISION${RX_WS}+([0-9]+)" PATCH_DUMMY ${_header_file})
+string(REGEX MATCH "#${RX_WS}*define${RX_WS}+_?${RX_PROJ_TAG}_VER_PATCH${RX_WS}+([0-9]+)" PATCH_DUMMY ${_header_file})
 set(_VERSION_PATCH ${CMAKE_MATCH_1})
 
 # set project version number here
@@ -98,11 +98,18 @@ include(TargetMacros)
 
 
 # ################################################
-# dependencies and options
+# dependencies, features, and options
+
+# ######################################
+# options
 
 option(BUILD_EXAMPLES "Build examples" ON)
 
 option(BUILD_TESTING "Build tests" ON)
+
+
+# ######################################
+# features
 
 
 # ######################################
@@ -112,7 +119,8 @@ option(BUILD_TESTING "Build tests" ON)
 # - STLSoft - required, both for implementation and interface;
 #
 # optional:
-# - shwild - for enhanced match constructs
+# - shwild - for enhanced match constructs;
+
 
 # ############################
 # STLSoft (required)
@@ -165,7 +173,6 @@ if(NOT (NO_SHWILD))
 	endif(BUILD_TESTING)
 endif()
 
-
 # ################################################
 # includes - 2
 
@@ -181,7 +188,37 @@ include(GNUInstallDirs)
 # targets
 
 # ################################################
-# main library
+# custom definitions
+
+if(UNIX)
+
+	set(_BUILD_AS_UNIX 1)
+
+	message("-- Operating system Unix")
+else(UNIX)
+
+	if(WIN32)
+
+		if(USE_UNIXEM)
+
+			set(_BUILD_AS_UNIX 1)
+
+			message("-- Operating system Unix (synthesised on Windows)")
+		else(USE_UNIXEM)
+
+			set(_BUILD_AS_WIN32 1)
+
+			message("-- Operating system Windows")
+		endif(USE_UNIXEM)
+	else(WIN32)
+
+		message("-- Operating system unknown")
+	endif(WIN32)
+endif(UNIX)
+
+
+# ################################################
+# main libraries
 
 add_subdirectory(src)
 
@@ -226,7 +263,7 @@ set(EXPORT_NAME ${PROJECT_NAME_LOWER})
 configure_package_config_file(
 	${CMAKE_CURRENT_SOURCE_DIR}/cmake/${EXPORT_NAME}-config.cmake.in
 	${CMAKE_CURRENT_BINARY_DIR}/cmake/${EXPORT_NAME}-config.cmake
-	INSTALL_DESTINATION ${LIB_INSTALL_DIR}/${EXPORT_NAME}/cmake
+	INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/${EXPORT_NAME}/cmake
 )
 
 write_basic_package_version_file(
@@ -256,7 +293,7 @@ install( FILES
 # ##########################################################
 # completion
 
-message(NOTICE "Generating CMake build scripts for ${PROJECT_NAME} ${PROJECT_VERSION}, for C${CMAKE_C_STANDARD} C++${CMAKE_CXX_STANDARD}")
+message(NOTICE "Generating CMake build scripts for ${PROJECT_NAME} ${PROJECT_VERSION}, for C${CMAKE_C_STANDARD} C++${CMAKE_CXX_STANDARD}, with build type ${CMAKE_BUILD_TYPE}")
 
 
 # ############################## end of file ############################# #

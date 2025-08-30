@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 30th January 2025
+ * Updated: 5th May 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -40,7 +40,9 @@
  * ////////////////////////////////////////////////////////////////////// */
 
 
-
+/* /////////////////////////////////////////////////////////////////////////
+ * includes
+ */
 
 /* xTests Header Files */
 #ifndef _XTESTS_NO_CPP_API
@@ -127,6 +129,12 @@
 #  pragma warning(default : 4541)
 # endif /* STLSOFT_CF_RTTI_SUPPORT */
 #endif /* compiler */
+
+#ifdef _WIN32
+# ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+#  define ENABLE_VIRTUAL_TERMINAL_PROCESSING	(0x0004)
+# endif
+#endif
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -493,7 +501,7 @@ namespace
         ,   char const*             expr
         ,   wchar_t const*          expected
         ,   wchar_t const*          actual
-        ,   int                     n /* exact if +ve; limit if -ve */
+        ,   ptrdiff_t               n /* exact if +ve; limit if -ve */
         ,   size_t                  cchExpected
         ,   size_t                  cchActual
         ,   xtests_comparison_t     comp
@@ -552,8 +560,8 @@ namespace
         ,   int                     line
         ,   char const*             function
         ,   char const*             expr
-        ,   void                    (*expected)(void)
-        ,   void                    (*actual)(void)
+        ,   void                    (*expected)()
+        ,   void                    (*actual)()
         ,   xtests_comparison_t     comp
         );
         int TestCharacters(
@@ -604,7 +612,7 @@ namespace
 
     private:
 #if defined(STLSOFT_INCL_STLSOFT_UTIL_HPP_MUST_INIT)
-        typedef stlsoft::must_init<int>                     int_type;
+        typedef stlsoft::must_init<signed int>              int_type;
         typedef stlsoft::must_init<uint32_t>                unsigned_type;
 #else /* ? STLSOFT_INCL_STLSOFT_UTIL_HPP_MUST_INIT */
         typedef int                                         int_type;
@@ -740,25 +748,60 @@ namespace
     }
 #endif /* XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_ */
 
-    typedef void (*sink_pfn_t_)(char const* s, size_t n, void* param);
-
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
+    /** Sink function.
+     *
+     * \param s Pointer to the first character to be written;
+     * \param n Number of characters to be written;
+     * \param param Parameter to be passed back to the sink;
+     */
+    //
+    typedef void (*sink_pfn_t_)(
+        char const*     s
+    ,   size_t          n
+    ,   void*           param
+    );
+
+    /** Sink structure.
+     */
     struct xtests_sink_t_
     {
         sink_pfn_t_ pfn;
         void*       param;
     };
-#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
+    /** Printf-formatted into sink(s).
+     *
+     * \param sinks Array of sinks into which to write the formatted string;
+     * \param numSinks Extent of \c sinks;
+     * \param requiredLen A guess for the required length;
+     * \param fmt The printf-like format;
+     *
+     * \return The number of characters written into the sink(s), or -1 if
+     *  the operation failed.
+     */
     int
     xtests_mxnprintf_(
-        xtests_sink_t_ const*   sinks
+        xtests_sink_t_ const    sinks[]
     ,   size_t                  numSinks
     ,   size_t                  requiredLen
     ,   char const*             fmt
     ,   ...
     )
+#if 0
+#elif defined(__GNUC__)
+    __attribute__((format(printf, 4, 5)))
+    ;
+    int
+    xtests_mxnprintf_(
+        xtests_sink_t_ const    sinks[]
+    ,   size_t                  numSinks
+    ,   size_t                  requiredLen
+    ,   char const*             fmt
+    ,   ...
+    )
+#endif
     {
         if (requiredLen < 100)
         {
@@ -775,8 +818,8 @@ namespace
             {
                 { for (size_t j = 0; j != numSinks; ++j)
                 {
-                    xtests_sink_t_ const&   sink = sinks[j];
-                    static const char       oom[] = "out of memory\n";
+                    xtests_sink_t_ const&   sink    =   sinks[j];
+                    static const char       oom[]   =   "out of memory\n";
 
                     sink.pfn(oom, STLSOFT_NUM_ELEMENTS(oom) - 1, sink.param);
                 }}
@@ -808,7 +851,7 @@ namespace
 
         if (r >= 0)
         {
-            size_t n = static_cast<size_t>(r);
+            size_t const n = static_cast<size_t>(r);
 
             buff[n] = '\0';
 
@@ -839,7 +882,7 @@ namespace
             buff.resize(11 + cchName + 1);
 
             int const n         =   stlsoft::snprintf(&buff[0], buff.size(), "\033[1;%dm%s\033[0m", XTESTS_ANSI_FG_BLUE_, name);
-            int const buf_size  =   static_cast<int>(buff.size());
+            int const buf_size  =   static_cast<signed int>(buff.size());
 
             STLSOFT_ASSERT(n < 0 || n == (buf_size - 1));
 
@@ -962,12 +1005,12 @@ namespace
         case XTESTS_VERBOSITY_SILENT:
         case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
         case XTESTS_VERBOSITY_RUNNER_SUMMARY:
+        case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
 
             return "";
         default:
 
             STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-        case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
         case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
         case XTESTS_VERBOSITY_CASE_SUMMARY:
         XTESTS_VERBOSITY_VALID_MISSING_CASES
@@ -1118,6 +1161,7 @@ namespace
 
         return fmt_;
     }
+#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 #ifdef STLSOFT_CF_NAMESPACE_SUPPORT
 } // anonymous namespace
 #endif /* STLSOFT_CF_NAMESPACE_SUPPORT */
@@ -1234,7 +1278,7 @@ xtests_beginTestCase(
 }
 
 XTESTS_CALL(void*)
-xtests_getSetupParam(void)
+xtests_getSetupParam()
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
 
@@ -1441,7 +1485,7 @@ xtests_testFailed_int(
 
     XTESTS_EXCEPTION_TRY_
 
-        return s_runner->RegisterFailedCondition_long(file, line, function, expr, static_cast<long>(expected), static_cast<long>(actual), comp);
+        return s_runner->RegisterFailedCondition_long(file, line, function, expr, static_cast<signed long>(expected), static_cast<signed long>(actual), comp);
 
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
@@ -1632,7 +1676,7 @@ xtests_testMultibyteStringsN(
     ,   actual
     ,   n
     ,   (0 != n && NULL != expected) ? ::strlen(expected) : 0u
-    ,   (0 != n && NULL != actual) ? xtests_strnlen_(actual, static_cast<size_t>(::abs(static_cast<int>(n)))) : 0u
+    ,   (0 != n && NULL != actual) ? xtests_strnlen_(actual, static_cast<size_t>(::abs(static_cast<signed int>(n)))) : 0u
     ,   comp);
 }
 
@@ -1664,7 +1708,7 @@ xtests_testWideStringsN_(
 ,   char const*         expr
 ,   wchar_t const*      expected
 ,   wchar_t const*      actual
-,   int                 n /* exact if +ve; limit if -ve */
+,   ptrdiff_t           n /* exact if +ve; limit if -ve */
 ,   size_t              cchExpected
 ,   size_t              cchActual
 ,   xtests_comparison_t comp
@@ -1814,8 +1858,8 @@ xtests_testFunctionPointers(
 ,   int                     line
 ,   char const*             function
 ,   char const*             expr
-,   void                    (*expected)(void)
-,   void                    (*actual)(void)
+,   void                    (*expected)()
+,   void                    (*actual)()
 ,   xtests_comparison_t     comp
 )
 {
@@ -1907,7 +1951,7 @@ xtests_require_C(
 }
 
 XTESTS_CALL(int)
-xTests_hasRequiredConditionFailed(void)
+xTests_hasRequiredConditionFailed()
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
 
@@ -1955,7 +1999,7 @@ xtests_commandLine_parseVerbosity(
 
         stlsoft_C_string_slice_a_t const exe_name = platformstl_C_get_executable_name_from_path(argv[0]);
 
-        fprintf(stderr, "%.*s: out of memory\n", int(exe_name.len), exe_name.ptr);
+        fprintf(stderr, "%.*s: out of memory\n", static_cast<signed int>(exe_name.len), exe_name.ptr);
 
         return 0;
     }
@@ -1983,7 +2027,7 @@ xtests_commandLine_parseVerbosity(
             char*   endptr;
             long    l = ::strtol(envvar, &endptr, 0);
 
-            *verbosity = static_cast<int>(l);
+            *verbosity = static_cast<signed int>(l);
 
             return 1;
         }
@@ -2050,7 +2094,7 @@ xtests_commandLine_parseHelp2(
     }
     catch (std::bad_alloc&)
     {
-        fprintf(stderr, "%.*s: out of memory\n", int(exe_name.len), exe_name.ptr);
+        fprintf(stderr, "%.*s: out of memory\n", static_cast<signed int>(exe_name.len), exe_name.ptr);
     }
 }
 
@@ -2154,7 +2198,7 @@ xtests_commandLine_parseHelpOrVerbosity(
                 char*   endptr;
                 long    l = ::strtol(envvar, &endptr, 0);
 
-                *verbosity = static_cast<int>(l);
+                *verbosity = static_cast<signed int>(l);
 
                 return 1;
             }
@@ -2164,7 +2208,7 @@ xtests_commandLine_parseHelpOrVerbosity(
     }
     catch (std::bad_alloc&)
     {
-        fprintf(stderr, "%.*s: out of memory\n", int(exe_name.len), exe_name.ptr);
+        fprintf(stderr, "%.*s: out of memory\n", static_cast<signed int>(exe_name.len), exe_name.ptr);
 
         return -ENOMEM;
     }
@@ -2464,9 +2508,9 @@ RunnerInfo::get_reporter_(
                 case XTESTS_VERBOSITY_VERBOSE:
 
                     {
-                        char_buffer_t_  name_buff(0);
+                        char_buffer_t_ name_buff(0);
 
-                        xtests_mxnprintf_( m_sinks, m_numSinks, stlsoft::c_str_len(name)
+                        xtests_mxnprintf_(  m_sinks, m_numSinks, stlsoft::c_str_len(name)
                         ,   "Test runner '%s' starting:\n"
                         ,   xtests_name_(name_buff, name, m_is_tty).data()
                         );
@@ -2652,13 +2696,13 @@ RunnerInfo::get_reporter_(
                 char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line
-                                ,   s_truthy_strings[!!actualValue]
-                                ,   s_truthy_strings[!!expectedValue]
-                                ,   (NULL != function) ? " in function " : ""
-                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
-                                );
+                ,   fmt
+                ,   file, line
+                ,   s_truthy_strings[!!actualValue]
+                ,   s_truthy_strings[!!expectedValue]
+                ,   (NULL != function) ? " in function " : ""
+                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                );
             }
 
             void
@@ -2698,13 +2742,13 @@ RunnerInfo::get_reporter_(
                 char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line
-                                ,   actualValue
-                                ,   expectedValue
-                                ,   (NULL != function) ? " in function " : ""
-                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
-                                );
+                ,   fmt
+                ,   file, line
+                ,   actualValue
+                ,   expectedValue
+                ,   (NULL != function) ? " in function " : ""
+                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                );
             }
 
             void
@@ -2744,13 +2788,13 @@ RunnerInfo::get_reporter_(
                 char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line
-                                ,   actualValue, actualValue
-                                ,   expectedValue, expectedValue
-                                ,   (NULL != function) ? " in function " : ""
-                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
-                                );
+                ,   fmt
+                ,   file, line
+                ,   actualValue, actualValue
+                ,   expectedValue, expectedValue
+                ,   (NULL != function) ? " in function " : ""
+                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                );
             }
 
             void
@@ -2789,13 +2833,13 @@ RunnerInfo::get_reporter_(
                 case XTESTS_VERBOSITY_SILENT:
                 case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
 
                     fmt = "";
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
@@ -2805,13 +2849,13 @@ RunnerInfo::get_reporter_(
                 }
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line
-                                ,   static_cast<char>(actualValue), actualValue
-                                ,   static_cast<char>(expectedValue), expectedValue
-                                ,   (NULL != function) ? " in function " : ""
-                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
-                                );
+                ,   fmt
+                ,   file, line
+                ,   static_cast<char>(actualValue), actualValue
+                ,   static_cast<char>(expectedValue), expectedValue
+                ,   (NULL != function) ? " in function " : ""
+                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                );
             }
 
             void
@@ -2883,13 +2927,13 @@ RunnerInfo::get_reporter_(
                     char const* fmt = fmt_.c_str();
 
                     xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                    ,   fmt
-                                    ,   file, line
-                                    ,   actualValue
-                                    ,   expectedValue
-                                    ,   (NULL != function) ? " in function " : ""
-                                    ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
-                                    );
+                    ,   fmt
+                    ,   file, line
+                    ,   actualValue
+                    ,   expectedValue
+                    ,   (NULL != function) ? " in function " : ""
+                    ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                    );
                 }
                 else if (xtestsTestPartialComparison == testType)
                 {
@@ -2963,13 +3007,13 @@ RunnerInfo::get_reporter_(
                     case XTESTS_VERBOSITY_SILENT:
                     case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
                     case XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                    case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
 
                         fmt = "";
                         break;
                     default:
 
                         STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                    case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
                     case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
                     case XTESTS_VERBOSITY_CASE_SUMMARY:
                     XTESTS_VERBOSITY_VALID_MISSING_CASES
@@ -2984,14 +3028,14 @@ RunnerInfo::get_reporter_(
                     }
 
                     xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                    ,   fmt
-                                    ,   file, line
-                                    ,   int(actualValueLen), actualValue
-                                    ,   int(expectedValueLen), expectedValue
-                                    ,   length
-                                    ,   (NULL != function) ? " in function " : ""
-                                    ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
-                                    );
+                    ,   fmt
+                    ,   file, line
+                    ,   int(actualValueLen), actualValue
+                    ,   int(expectedValueLen), expectedValue
+                    ,   length
+                    ,   (NULL != function) ? " in function " : ""
+                    ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                    );
                 }
                 else if (xtestsTestContainment == testType)
                 {
@@ -3019,13 +3063,13 @@ RunnerInfo::get_reporter_(
                     char const* fmt = fmt_.c_str();
 
                     xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                    ,   fmt
-                                    ,   file, line
-                                    ,   actualValue
-                                    ,   expectedValue
-                                    ,   (NULL != function) ? " in function " : ""
-                                    ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
-                                    );
+                    ,   fmt
+                    ,   file, line
+                    ,   actualValue
+                    ,   expectedValue
+                    ,   (NULL != function) ? " in function " : ""
+                    ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                    );
                 }
                 else
                 {
@@ -3093,13 +3137,13 @@ RunnerInfo::get_reporter_(
                 char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line
-                                ,   actualValue
-                                ,   expectedValue
-                                ,   (NULL != function) ? " in function " : ""
-                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
-                                );
+                ,   fmt
+                ,   file, line
+                ,   actualValue
+                ,   expectedValue
+                ,   (NULL != function) ? " in function " : ""
+                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                );
             }
 
             void
@@ -3139,13 +3183,13 @@ RunnerInfo::get_reporter_(
                 char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line
-                                ,   actualValue
-                                ,   expectedValue
-                                ,   (NULL != function) ? " in function " : ""
-                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
-                                );
+                ,   fmt
+                ,   file, line
+                ,   actualValue
+                ,   expectedValue
+                ,   (NULL != function) ? " in function " : ""
+                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                );
             }
 
             void
@@ -3185,13 +3229,13 @@ RunnerInfo::get_reporter_(
                 char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line
-                                ,   actualValue
-                                ,   expectedValue
-                                ,   (NULL != function) ? " in function " : ""
-                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
-                                );
+                ,   fmt
+                ,   file, line
+                ,   actualValue
+                ,   expectedValue
+                ,   (NULL != function) ? " in function " : ""
+                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                );
             }
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
 
@@ -3236,13 +3280,13 @@ RunnerInfo::get_reporter_(
                 char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line
-                                ,   actualValue
-                                ,   expectedValue
-                                ,   (NULL != function) ? " in function " : ""
-                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
-                                );
+                ,   fmt
+                ,   file, line
+                ,   actualValue
+                ,   expectedValue
+                ,   (NULL != function) ? " in function " : ""
+                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                );
             }
 
             void
@@ -3286,13 +3330,13 @@ RunnerInfo::get_reporter_(
                 char const* fmt = fmt_.c_str();
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line
-                                ,   actualValue
-                                ,   expectedValue
-                                ,   (NULL != function) ? " in function " : ""
-                                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
-                                );
+                ,   fmt
+                ,   file, line
+                ,   actualValue
+                ,   expectedValue
+                ,   (NULL != function) ? " in function " : ""
+                ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                );
             }
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
@@ -3319,13 +3363,13 @@ RunnerInfo::get_reporter_(
                 case XTESTS_VERBOSITY_SILENT:
                 case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
 
                     fmt = "";
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
@@ -3335,22 +3379,22 @@ RunnerInfo::get_reporter_(
                 }
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line
-                                ,   is_tty ? "{" : ""
-                                ,   expr
-                                ,   is_tty ? "}" : ""
-                                ,   is_tty ? "{" : ""
-                                ,   is_tty ? "}" : ""
-                                ,   is_tty ? "{" : ""
-                                ,   function
-                                ,   is_tty ? "}" : ""
-                                );
+                ,   fmt
+                ,   file, line
+                ,   is_tty ? "{" : ""
+                ,   expr
+                ,   is_tty ? "}" : ""
+                ,   is_tty ? "{" : ""
+                ,   is_tty ? "}" : ""
+                ,   is_tty ? "{" : ""
+                ,   function
+                ,   is_tty ? "}" : ""
+                );
             }
 
             virtual void onWriteFailMessage(void* /* reporterParam */, char const* file, int line, char const* function, char const* message, char const* qualifyingInformation, int verbosity) ss_override_k
             {
-                static const char  s_fmt[] = "%s(%d): %s%s%s%s%s%s%s%s%s%s%s\n";
+                static const char   s_fmt[] = "%s(%d): %s%s%s%s%s%s%s%s%s%s%s\n";
 
                 char const* fn_pre;
                 char const* fn_post;
@@ -3377,32 +3421,32 @@ RunnerInfo::get_reporter_(
                 case XTESTS_VERBOSITY_SILENT:
                 case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
 
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
                 case XTESTS_VERBOSITY_VERBOSE:
 
                     xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                    ,   s_fmt
-                                    ,   file, line
-                                    ,   msg_pre
-                                    ,   message
-                                    ,   msg_post
-                                    ,   (NULL != function) ? " in function " : ""
-                                    ,   fn_pre
-                                    ,   (NULL != function) ? function : ""
-                                    ,   fn_post
-                                    ,   (NULL != qualifyingInformation) ? ": " : ""
-                                    ,   msg_pre
-                                    ,   (NULL != qualifyingInformation) ? qualifyingInformation : ""
-                                    ,   msg_post
-                                    );
+                    ,   s_fmt
+                    ,   file, line
+                    ,   msg_pre
+                    ,   message
+                    ,   msg_post
+                    ,   (NULL != function) ? " in function " : ""
+                    ,   fn_pre
+                    ,   (NULL != function) ? function : ""
+                    ,   fn_post
+                    ,   (NULL != qualifyingInformation) ? ": " : ""
+                    ,   msg_pre
+                    ,   (NULL != qualifyingInformation) ? qualifyingInformation : ""
+                    ,   msg_post
+                    );
                     break;
                 }
             }
@@ -3416,16 +3460,16 @@ RunnerInfo::get_reporter_(
                 case XTESTS_VERBOSITY_SILENT:
                 case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
 
                     break;
-                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
 
                     level = 1;
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
                 case XTESTS_VERBOSITY_VERBOSE:
@@ -3439,7 +3483,7 @@ RunnerInfo::get_reporter_(
                 static char const*  s_fmts[] =
                 {
                         ""
-                    ,   "%s(%d): %s%s%s: %sUX%s %srx%s '%s%s%s'; msg='%s%s%s'\n"
+                    ,   "%s(%d): %s%s%s: %sUX%s '%s%s%s'; msg='%s%s%s'\n"
                     ,   "%s(%d): Test case '%s%s%s': %sreceived unexpected exception%s of type '%s%s%s', with message '%s%s%s'\n"
                 };
                 char const*         fmt = s_fmts[level];
@@ -3477,20 +3521,13 @@ RunnerInfo::get_reporter_(
                 }
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line
-                                ,   case_pre
-                                ,   caseName
-                                ,   case_post
-                                ,   rsn_pre
-                                ,   rsn_post
-                                ,   xt_pre
-                                ,   exceptionType
-                                ,   xt_post
-                                ,   msg_pre
-                                ,   exceptionMessage
-                                ,   msg_post
-                                );
+                ,   fmt
+                ,   file, line
+                ,   case_pre, caseName, case_post
+                ,   rsn_pre, rsn_post
+                ,   xt_pre, exceptionType, xt_post
+                ,   msg_pre, exceptionMessage, msg_post
+                );
             }
 
             virtual void onCaseExceptionExpected(void* /* reporterParam */, char const* file, int line, char const* caseName, char const* exceptionType, int verbosity) ss_override_k
@@ -3502,16 +3539,16 @@ RunnerInfo::get_reporter_(
                 case XTESTS_VERBOSITY_SILENT:
                 case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_RUNNER_SUMMARY:
+                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
 
                     break;
-                case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
 
                     level = 1;
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
-                case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
                 case XTESTS_VERBOSITY_CASE_SUMMARY:
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
                 case XTESTS_VERBOSITY_VERBOSE:
@@ -3563,19 +3600,19 @@ RunnerInfo::get_reporter_(
                 }
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   file, line
-                                ,   case_pre
-                                ,   caseName
-                                ,   case_post
-                                ,   rsn_pre
-                                ,   rsn_post
-                                ,   xt_pre
-                                ,   exceptionType
-                                ,   xt_post
-                                ,   rx_pre
-                                ,   rx_post
-                                );
+                ,   fmt
+                ,   file, line
+                ,   case_pre
+                ,   caseName
+                ,   case_post
+                ,   rsn_pre
+                ,   rsn_post
+                ,   xt_pre
+                ,   exceptionType
+                ,   xt_post
+                ,   rx_pre
+                ,   rx_post
+                );
             }
 
             virtual void onEndTestCase(
@@ -3642,19 +3679,19 @@ RunnerInfo::get_reporter_(
                 char_buffer_t_      name_buff(0);
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   xtests_name_(name_buff, results->name, m_is_tty).data()
-                                ,   results->numTests
-                                ,   results->numTests - results->numFailedTests
-                                ,   results->numFailedTests
-                                ,   results->numUnexpectedExceptions
-                                ,   results->numMissingExpectedExceptions
-                                ,   xtests_success_or_failure_(
-                                        allTestsHavePassed
-                                    ,   success_or_failure
-                                    ,   m_is_tty
-                                    )
-                                );
+                ,   fmt
+                ,   xtests_name_(name_buff, results->name, m_is_tty).data()
+                ,   static_cast<unsigned>(results->numTests)
+                ,   static_cast<unsigned>(results->numTests - results->numFailedTests)
+                ,   static_cast<unsigned>(results->numFailedTests)
+                ,   static_cast<unsigned>(results->numUnexpectedExceptions)
+                ,   static_cast<unsigned>(results->numMissingExpectedExceptions)
+                ,   xtests_success_or_failure_(
+                        allTestsHavePassed
+                    ,   success_or_failure
+                    ,   m_is_tty
+                    )
+                );
             }
 
             virtual void onPrintRunnerResults(
@@ -3711,11 +3748,12 @@ RunnerInfo::get_reporter_(
                 {
                         ""
                     ,   "Test runner '%s' complete:"
-                        "\t%u / %u / %u / %u / %u / %u; result=%s\n"
+                        "\t%u / %u / %u / %u / %u / %u / %u; result=%s\n"
                         "\n"
                     ,   "------------------------------------------------------------\n"
                         "Test runner '%s' complete:\n"
                         "\t%u test case(s)\n"
+                        "\t%u test case(s) failed\n"
                         "\t%u total assertion(s)\n"
                         "\t%u total assertion(s) succeeded\n"
                         "\t%u total assertion(s) failed\n"
@@ -3729,22 +3767,23 @@ RunnerInfo::get_reporter_(
                 char_buffer_t_      name_buff(0);
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   fmt
-                                ,   xtests_name_(name_buff, results->name, m_is_tty).data()
-                                ,   static_cast<unsigned>(results->numCases)
-                                ,   static_cast<unsigned>(results->numTests)
-                                ,   static_cast<unsigned>(results->numTests - results->numFailedTests)
-                                ,   static_cast<unsigned>(results->numFailedTests)
-                                ,   static_cast<unsigned>(results->numUnexpectedExceptions)
-                                ,   static_cast<unsigned>(results->numMissingExpectedExceptions)
-                                ,   xtests_success_or_failure_(
-                                        0u == results->numFailedTests &&
-                                        0u == results->numUnexpectedExceptions &&
-                                        0u == results->numMissingExpectedExceptions
-                                    ,   success_or_failure
-                                    ,   m_is_tty
-                                    )
-                                );
+                ,   fmt
+                ,   xtests_name_(name_buff, results->name, m_is_tty).data()
+                ,   static_cast<unsigned>(results->numCases)
+                ,   static_cast<unsigned>(results->numFailedCases)
+                ,   static_cast<unsigned>(results->numTests)
+                ,   static_cast<unsigned>(results->numTests - results->numFailedTests)
+                ,   static_cast<unsigned>(results->numFailedTests)
+                ,   static_cast<unsigned>(results->numUnexpectedExceptions)
+                ,   static_cast<unsigned>(results->numMissingExpectedExceptions)
+                ,   xtests_success_or_failure_(
+                        0u == results->numFailedTests &&
+                        0u == results->numUnexpectedExceptions &&
+                        0u == results->numMissingExpectedExceptions
+                    ,   success_or_failure
+                    ,   m_is_tty
+                    )
+                );
             }
 
             virtual void onAbend(
@@ -3769,10 +3808,10 @@ RunnerInfo::get_reporter_(
                 }
 
                 xtests_mxnprintf_(  m_sinks, m_numSinks, 50
-                                ,   (NULL != qualifier) ? "defect: %s: %s\n" : "defect: %s\n"
-                                ,   message
-                                ,   qualifier
-                                );
+                ,   (NULL != qualifier) ? "defect: %s: %s\n" : "defect: %s\n"
+                ,   message
+                ,   qualifier
+                );
             }
 
             virtual void onEndRunner(
@@ -4769,7 +4808,7 @@ RunnerInfo::TestWideStringsN(
 ,   char const*         expr
 ,   wchar_t const*      expected
 ,   wchar_t const*      actual
-,   int                 n
+,   ptrdiff_t           n
 ,   size_t              cchExpected
 ,   size_t              cchActual
 ,   xtests_comparison_t comp)
@@ -5422,19 +5461,19 @@ RunnerInfo::TestFunctionPointers(
 ,   int                     line
 ,   char const*             function
 ,   char const*             expr
-,   void                    (*expected)(void)
-,   void                    (*actual)(void)
+,   void                    (*expected)()
+,   void                    (*actual)()
 ,   xtests_comparison_t     comp
 )
 {
     STLSOFT_ASSERT(xtestsComparisonEqual == comp || xtestsComparisonNotEqual == comp);
 
-    STLSOFT_STATIC_ASSERT(sizeof(void*) == sizeof(void(*)(void)));
+    STLSOFT_STATIC_ASSERT(sizeof(void*) == sizeof(void(*)()));
 
     union
     {
         void*   p;
-        void    (*pfn)(void);
+        void    (*pfn)();
 
     } x, a;
 

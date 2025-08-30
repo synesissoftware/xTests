@@ -1,6 +1,63 @@
 # xTests - History
 
 
+30th June 2025 - 0.26.4 (alpha 2)
+---------------------------------
+
+ * Allowing comparisons between integer values/variables of arbitrary type and sign;
+ * C++-98 compatibility;
+
+
+6th May 2025 - 0.26.4 (alpha 1)
+-------------------------------
+
+ * MinGW compatibility;
+ * Various CMake scripts canonicalisation;
+
+
+6th May 2025 - 0.26.3
+---------------------
+
+ * Fixed defect in format specifiers for end-case summary;
+
+
+3rd May 2025 - 0.26.2
+---------------------
+
+ * Compatibility with older compilers (incl. Visual C++ 14);
+ * Compatibility with older operating systems (incl. Windows Vista);
+
+
+28th April 2025 - 0.26.2-alpha2
+-------------------------------
+
+ * **prepare_cmake.sh** / **CMakeLists.txt** : + added '--no-shwild' / `CMAKE_NO_SHWILD`;
+ * Minor improvements to `temp_directory` and `temp_file` to improve portability;
+
+
+26th April 2025 - 0.26.2-alpha1
+-------------------------------
+
+ * N-len string comparisons now works regardless of integral type of length argument;
+
+
+23rd April 2025 - 0.26.1-alpha1
+-------------------------------
+
+ * Fix wrong conditionality on inclusion of **stlsoft/conversion/sas_to_string.hpp**;
+
+
+23rd April 2025 - 0.26.0
+------------------------
+
+ * Improved compatibility to types that provide shims `stlsoft::c_str_data_a()` and `stlsoft::c_str_len_a()`, rather than `stlsoft::c_str_ptr_a()`;
+ * Fixed inconsistency in handling of verbosity levels (esp. `XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR`);
+ * Visual C++ compatibility;
+ * Further application of terse api in example and test programs;
+ * Various tidyings;
+ * Improved scope and consistency in example and test programs;
+
+
 30th January 2025 - 0.26.0-beta3
 --------------------------------
 

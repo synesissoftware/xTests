@@ -24,14 +24,15 @@ macro(define_target_compile_options target_name)
 			$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
 				-Werror -Wall -Wextra -pedantic
 
-			${X_GCC_CUSTOM_WARNINGS_}
-		>
-		$<$<CXX_COMPILER_ID:MSVC>:
-			/WX /W4
+				${GCC_WARN_NO_cxx11_long_long}
+				${X_GCC_CUSTOM_WARNINGS_}
+			>
+			$<$<CXX_COMPILER_ID:MSVC>:
+				/WX /W4
 
-			${X_MSVC_CUSTOM_WARNINGS_}
-		>
-	)
+				${X_MSVC_CUSTOM_WARNINGS_}
+			>
+		)
 endmacro(define_target_compile_options)
 
 
@@ -48,6 +49,11 @@ function(define_automated_test_program program_name entry_point_source_name)
 	)
 
 	define_target_compile_options(${program_name})
+
+	add_test(
+		NAME ${program_name}
+		COMMAND ${program_name}
+	)
 endfunction(define_automated_test_program)
 
 

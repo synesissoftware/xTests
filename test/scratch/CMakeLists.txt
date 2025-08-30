@@ -1,4 +1,5 @@
 # SIS:AUTO_GENERATED: Remove this line if you edit the file, otherwise it will be overwritten
+add_subdirectory(libver)
 add_subdirectory(test.scratch.all_failure_messages)
 add_subdirectory(test.scratch.basics1)
 add_subdirectory(test.scratch.basics2)

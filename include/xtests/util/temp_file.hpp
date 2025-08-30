@@ -4,7 +4,7 @@
  * Purpose: Definition of the temp_file class.
  *
  * Created: 8th May 2014
- * Updated: 20th February 2025
+ * Updated: 28th April 2025
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -51,8 +51,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MAJOR     0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     4
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  2
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      25
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  3
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      26
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -502,7 +502,12 @@ temp_file::create_file_(
     throw could_not_create_temporary_file_exception(e, "could not create file in any of the possible locations");
 #else
 
+# ifdef _WIN32
+    // Can't bank on "/tmp" directory existing, so just do it in "./"
+    char const      default_tmp_dir[] = "./";
+# else
     char const      default_tmp_dir[] = "/tmp";
+# endif
     char const      tmp_file_pattern[] = "xtests-temp-file.XXXXXXXX";
 
     path_type_      tmp_path_(0 != stlsoft::c_str_len_a(hint_dir) ? hint_dir : default_tmp_dir);
@@ -517,18 +522,12 @@ temp_file::create_file_(
 
     tmp_path[n] = '\0';
 
-# ifdef _WIN32
-    // Can't bank on "/tmp" directory existing, so just do it in "./"
-    char* const tmp_path_win_ = &tmp_path[0] + 3;
-    0[tmp_path_win_] = '.';
-#  define tmp_path  tmp_path_win_
-# endif
 
     int f;
 
     if (-1 != (f = ::mkstemp(&tmp_path[0])))
     {
-        file_handle_type_ const hFile = fs_traits_type_::open_file(tmp_path.data(), O_WRONLY | O_CREAT | O_TRUNC, S_IWRITE);
+        file_handle_type_ const hFile = fs_traits_type_::open_file(&tmp_path[0], O_WRONLY | O_CREAT | O_TRUNC, S_IWRITE);
 
         int const e = errno;
 
