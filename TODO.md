@@ -1,6 +1,9 @@
 # xTests - TODO list <!-- omit in toc -->
 
 
+* [ ] GitHub Actions:
+  * [ ] Build;
+  * [ ] Unit-tests;
 * [ ] support for `“--list”` flag;
 * [ ] support for named test case(s);
 * [ ] support for `“—-timings”` flag;

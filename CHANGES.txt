@@ -2,7 +2,7 @@ xTests - Changes
 ================
 
 Created: 22nd February 2008
-Updated: 6th May 2025
+Updated: 30th August 2025
 
 
     ************************************
@@ -20,6 +20,7 @@ Updated: 6th May 2025
 ===================================
 
  * CTest compatibility;
+ * GitHub Actions;
 
 
 30th June 2025 - 0.26.4 (alpha 2)
