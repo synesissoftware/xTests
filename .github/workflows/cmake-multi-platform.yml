@@ -34,14 +34,14 @@ jobs:
         cpp_compiler:
           # - cl
           - clang++
-          # - gcc
+          - gcc
         build_type:
           # - Debug
           - Release
         enable_examples:
-          - false
+          - true
         enable_testing:
-          - false
+          - true
         include:
           - os: macos-latest
             c_compiler: clang
@@ -64,11 +64,11 @@ jobs:
           # - os: ubuntu-latest
           #   c_compiler: clang
           #   cpp_compiler: clang++
-          - os: windows-latest
-            c_compiler: cl
-            cpp_compiler: cl
-            enable_examples: false
-            enable_testing: false
+          # - os: windows-latest
+          #   c_compiler: cl
+          #   cpp_compiler: cl
+          #   enable_examples: false
+          #   enable_testing: false
         exclude:
           - os: ubuntu-latest
             c_compiler: clang
