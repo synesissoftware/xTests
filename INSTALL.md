@@ -125,7 +125,7 @@ The primary choice for installation is by use of **CMake**.
 
          fprintf(stderr, "verbosity=%d\n", verbosity);
 
-         return 0;
+         return retCode;
       }
       ```
 
@@ -261,7 +261,7 @@ use one of the custom makefiles provided with the project, as follows:
 
          fprintf(stderr, "verbosity=%d\n", verbosity);
 
-         return 0;
+         return retCode;
       }
       ```
 
