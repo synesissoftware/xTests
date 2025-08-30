@@ -62,9 +62,11 @@ jobs:
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
     - name: Install STLSoft
-        echo :
+      run: |
+        echo "Obtaining latest STLSoft ..."
         mkdir -p /tmp/sis/stlsoft
         git clone https://github.com/synesissoftware/STLSoft-1.11 /tmp/sis/stlsoft/STLSoft-1.11
+        echo "Obtained latest STLSoft."
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
