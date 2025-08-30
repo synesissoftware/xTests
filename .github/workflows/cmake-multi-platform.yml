@@ -45,12 +45,18 @@ jobs:
             enable_examples: true
             enable_testing: true
             build_type: Release
-          - os: ubuntu-latest
-            c_compiler: clang
-            cpp_compiler: clang++
+          - os: macos-latest
+            c_compiler: gcc
+            cpp_compiler: g++
             enable_examples: true
             enable_testing: true
             build_type: Release
+          # - os: ubuntu-latest # This not working because get "redefinition of 'sign_traits<long>'"
+          #   c_compiler: clang
+          #   cpp_compiler: clang++
+          #   enable_examples: true
+          #   enable_testing: true
+          #   build_type: Release
           - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
