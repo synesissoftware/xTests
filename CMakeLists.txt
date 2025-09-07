@@ -159,6 +159,7 @@ endif()
 # shwild (optional)
 
 if(NOT (NO_SHWILD))
+
 	if(BUILD_TESTING)
 
 		find_package(shwild QUIET)

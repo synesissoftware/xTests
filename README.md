@@ -5,6 +5,7 @@
 [![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![GitHub release](https://img.shields.io/github/v/release/synesissoftware/xTests.svg)](https://github.com/synesissoftware/xTests/releases/latest)
 [![Last Commit](https://img.shields.io/github/last-commit/synesissoftware/xTests)](https://github.com/synesissoftware/xTests/commits/master)
+[![CMake on multiple platforms](https://github.com/mwsis/xTests/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/mwsis/xTests/actions/workflows/cmake-multi-platform.yml)
 
 Simple, easy-to-use, efficient testing library, for C, C++. It's not particularly great, but it's small and portable enough to be bundled with other, more important, libraries.
 
@@ -12,11 +13,11 @@ Simple, easy-to-use, efficient testing library, for C, C++. It's not particularl
 ## Table of Contents <!-- omit in toc -->
 
 - [Introduction](#introduction)
-  - [Compatibility](#compatibility)
 - [Installation](#installation)
 - [Components](#components)
 - [Examples](#examples)
 - [Project Information](#project-information)
+  - [Compatibility](#compatibility)
   - [Where to get help](#where-to-get-help)
   - [Contribution guidelines](#contribution-guidelines)
   - [Dependencies](#dependencies)
@@ -43,32 +44,6 @@ code what you want, and nothing that you don't want.
 
 **xTests** is completely free and includes source released under a BSD-style
 license.
-
-### Compatibility
-
-  | C++   | C   | Clang (macOS) | GCC (Linux) | GCC(MinGW) (Windows)  | Visual C++ 17.x (Windows) |
-  | ----- | --- | :-----------: | :---------: | :-------------------: | :-----------------------: |
-  | 23    | 23  | ✅             |             |                       |                           |
-  | 23    | 17  |               |             |                       |                           |
-  | 20    | 23  |               |             |                       |                           |
-  | 20    | 17  | ✅             |             |                       |                           |
-  | 20    | 17  |               |             |                       |                           |
-  | 20    | 11  |               |             |                       |                           |
-  | 20    | 99  |               |             |                       |                           |
-  | 20    | 90  |               |             |                       |                           |
-  | 17    | 17  | ✅             |             |                       |                           |
-  | 17    | 11  |               |             |                       |                           |
-  | 17    | 99  |               |             |                       |                           |
-  | 17    | 90  |               |             |                       |                           |
-  | 14    | 11  | ✅             |             |                       |                           |
-  | 14    | 99  |               |             |                       |                           |
-  | 14    | 90  |               |             |                       |                           |
-  | 11    | 11  | ✅             |             |                       |                           |
-  | 11    | 99  | ✅             |             |                       |                           |
-  | 11    | 90  |               |             |                       |                           |
-  | 98    | 99  | ✅             |             |                       |                           |
-  | 98    | 90  |               |             |                       |                           |
-
 
 ## Installation
 
@@ -384,6 +359,32 @@ int main(int argc, char* argv[])
 ## Project Information
 
 
+### Compatibility
+
+  | C++   | C   | Clang (macOS) | GCC (Linux) | GCC(MinGW) (Windows)  | Visual C++ 17.x (Windows) |
+  | ----- | --- | :-----------: | :---------: | :-------------------: | :-----------------------: |
+  | 23    | 23  | ✅             | ✅           |                       | ❌                         |
+  | 23    | 17  |               |             |                       |                           |
+  | 20    | 23  |               |             |                       |                           |
+  | 20    | 17  | ✅             | ✅           |                       | ✅                         |
+  | 20    | 17  |               |             |                       |                           |
+  | 20    | 11  |               |             |                       |                           |
+  | 20    | 99  |               |             |                       |                           |
+  | 20    | 90  |               |             |                       |                           |
+  | 17    | 17  | ✅             | ✅           |                       | ✅                         |
+  | 17    | 11  |               |             |                       |                           |
+  | 17    | 99  |               |             |                       |                           |
+  | 17    | 90  |               |             |                       |                           |
+  | 14    | 11  | ✅             | ✅           |                       | ✅                         |
+  | 14    | 99  |               |             |                       |                           |
+  | 14    | 90  |               |             |                       |                           |
+  | 11    | 11  | ✅             | ✅           |                       | ✅                         |
+  | 11    | 99  | ✅             | ✅           |                       | ✅                         |
+  | 11    | 90  |               |             |                       | ✅                         |
+  | 98    | 99  | ✅             | ❌           |                       | ✅                         |
+  | 98    | 90  |               |             |                       |                           |
+
+
 ### Where to get help
 
 [GitHub Page](https://github.com/synesissoftware/xTests "GitHub Page")
@@ -401,9 +402,16 @@ If you'd like to help out with the project, please raise an issue via [GitHub Pa
 
 #### STLSoft <!-- omit in toc -->
 
-**xTests** depends on the **STLSoft** libraries, version 1.11.1 (or later):
+**xTests** has two dependencies:
 
-* [STLSoft 1.11](http://github.com/synesissoftware/STLSoft-1.11/);
+* [STLSoft 1.11](http://github.com/synesissoftware/STLSoft-1.11/) is required, both for the implementation and for the interface, providing:
+  * essential compiler and platform discrimination;
+  * string compatibility;
+  * string conversions (for C++ API);
+  * meta-programming (for C++ API);
+* [shwild](http://github.com/synesissoftware/shwild/) is an optional dependency, which, if present, supports the string matching tests:
+  * `XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)`;
+  * `XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH(pattern, value)`;
 
 
 ### Related projects
