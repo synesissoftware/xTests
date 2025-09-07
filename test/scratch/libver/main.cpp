@@ -40,13 +40,13 @@ version(
 int main(int /* argc */, char* /* argv */[])
 {
     {
-        auto const libver = _XTESTS_VER;
+        int const libver = _XTESTS_VER;
 
         version(std::cout, "\txTests", libver);
     }
 
     {
-        auto const libver = _STLSOFT_VER;
+        int const libver = _STLSOFT_VER;
 
         version(std::cout, "\tSTLSoft", libver);
     }
