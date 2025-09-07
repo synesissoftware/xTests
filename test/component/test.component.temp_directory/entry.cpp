@@ -4,7 +4,7 @@
  * Purpose: Component-tests for `xtests::cpp::util::temp_directory`.
  *
  * Created: 20th February 2025
- * Updated: 28th June 2025
+ * Updated: 1st September 2025
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -351,5 +351,5 @@ static void test_EmptyOnClose_RemoveOnClose()
 } // anonymous namespace
 
 
- /* ///////////////////////////// end of file //////////////////////////// */
+/* ///////////////////////////// end of file //////////////////////////// */
 
