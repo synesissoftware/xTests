@@ -42,8 +42,13 @@ if(X_CMAKE_CXX_FULLSTANDARD LESS 2011)
 endif()
 
 
-add_subdirectory(c)
-add_subdirectory(cpp)
+foreach(d c cpp)
+
+	if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${d}")
+
+		add_subdirectory(${d})
+	endif()
+endforeach()
 
 
 # ############################## end of file ############################# #
