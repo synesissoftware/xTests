@@ -4,13 +4,20 @@ ScriptPath=$0
 Dir=$(cd $(dirname "$ScriptPath"); pwd)
 Basename=$(basename "$ScriptPath")
 CMakeDir=${SIS_CMAKE_BUILD_DIR:-$Dir/_build}
-[[ -n "$MSYSTEM" ]] && DefaultMakeCmd=mingw32-make.exe || DefaultMakeCmd=make
+if [[ -n "$MSYSTEM" ]]; then
+
+  DefaultMakeCmd=mingw32-make.exe
+  MinGW=1
+else
+
+  DefaultMakeCmd=make
+fi
 MakeCmd=${SIS_CMAKE_MAKE_COMMAND:-${SIS_CMAKE_COMMAND:-$DefaultMakeCmd}}
 
 Configuration=Release
 ExamplesDisabled=0
 MSVC_MT=0
-MinGW=0
+MinGW="${MinGW:=0}"
 NO_shwild=0
 RunMake=0
 STLSoftDirGiven=
@@ -33,8 +40,8 @@ while [[ $# -gt 0 ]]; do
       Configuration=Debug
       ;;
     --disable-examples|-E)
-      ExamplesDisabled=1
 
+      ExamplesDisabled=1
       ;;
     --disable-testing|-T)
 
@@ -63,11 +70,8 @@ while [[ $# -gt 0 ]]; do
       ;;
     --help)
 
+      [ -f "$Dir/.sis/script_info_lines.txt" ] && cat "$Dir/.sis/script_info_lines.txt"
       cat << EOF
-xTests is a small, lightweight, portable, simple unit- and component-test framework suitable for exercising C and C++ libraries
-Copyright (c) 2019-2024, Matthew Wilson and Synesis Information Systems
-Copyright (c) 2002-2019, Matthew Wilson and Synesis Software
-Copyright (c) 1999-2002 Matthew Wilson
 Creates/reinitialises the CMake build script(s)
 
 $ScriptPath [ ... flags/options ... ]
@@ -95,7 +99,8 @@ Flags/options:
         disables building of tests (by setting BUILD_TESTING=OFF)
 
     --mingw
-        uses explicitly the "MinGW Makefiles" generator
+        uses explicitly the "MinGW Makefiles" generator, and defaults the
+        make-command to "mingw32-make.exe"
 
     --msvc-mt
         when using Visual C++ (MSVC), the static runtime library will be
@@ -178,6 +183,7 @@ else
     -B $CMakeDir \
     || (cd ->/dev/null ; exit 1)
 fi
+
 
 status=0
 

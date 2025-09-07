@@ -33,11 +33,9 @@ while [[ $# -gt 0 ]]; do
       ;;
     --help)
 
+      [ -f "$Dir/.sis/script_info_lines.txt" ] && cat "$Dir/.sis/script_info_lines.txt"
       cat << EOF
-xTests is a small, lightweight, portable, simple unit- and component-test framework suitable for exercising C and C++ libraries
-Copyright (c) 2019-2024, Matthew Wilson and Synesis Information Systems
-Copyright (c) 2008-2019, Matthew Wilson and Synesis Software
-Runs all (matching) scratch-test programs
+Runs all (matching) performance-test and scratch-test programs
 
 $ScriptPath [ ... flags/options ... ]
 
@@ -87,7 +85,7 @@ if [ $RunMake -ne 0 ]; then
 
   if [ $ListOnly -eq 0 ]; then
 
-    echo "Executing build (via command \`$MakeCmd\`) and then running all scratch test programs"
+    echo "Executing build (via command \`$MakeCmd\`) and then running all scratch (and performance) test programs"
 
     mkdir -p $CMakeDir || exit 1
 
@@ -135,7 +133,7 @@ if [ $status -eq 0 ]; then
       echo "executing $f:"
     fi
 
-    # NOTE: we do not break on fail, because, this being a unit-testing library, the scratch-tests actually fail
+    # NOTE: we do not break on fail, because, this being a unit-testing library, some tests actually fail intentionally
     $f
   done
 fi
