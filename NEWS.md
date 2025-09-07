@@ -2,6 +2,7 @@
 
 | Date                  | News Item                           |
 | --------------------- | ----------------------------------- |
+| 6th September 2025    | [xTests 0.26.4](https://github.com/synesissoftware/shwild/releases/tag/0.26.4) released |
 | 30th June 2025        | xTests 0.26.4 (alpha 2) released    |
 | 6th May 2025          | xTests 0.26.4 (alpha 1) released    |
 | 6th May 2025          | xTests 0.26.3 released              |
