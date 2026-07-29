@@ -1,4 +1,4 @@
-# xTests - History
+# xTests - History <!-- omit in toc -->
 
 
 30th June 2025 - 0.26.4 (alpha 2)

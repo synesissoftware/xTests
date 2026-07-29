@@ -1,4 +1,4 @@
-# xTests - Authors
+# xTests - Authors <!-- omit in toc -->
 
 ## Major Contributors:
 

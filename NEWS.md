@@ -1,4 +1,4 @@
-# xTests - News
+# xTests - News <!-- omit in toc -->
 
 | Date                  | News Item                           |
 | --------------------- | ----------------------------------- |
