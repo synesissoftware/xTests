@@ -1,9 +1,11 @@
-# xTests - TODO list <!-- omit in toc -->
+# xTests - TODO <!-- omit in toc -->
 
 
-* [x] GitHub Actions:
-  * [x] Build;
-  * [x] Unit-tests;
+## Functional improvements
+
+* [x] ~~~GitHub Actions~~~:
+  * [x] ~~~Build~~~;
+  * [x] ~~~Unit-tests~~~;
 * [ ] support for `“--list”` flag;
 * [ ] support for named test case(s);
 * [ ] support for `“—-timings”` flag;
@@ -15,7 +17,7 @@
 * [ ] allow `TEST_INT_EQ(0, stlsoft::ss_uint32_t(1))` such that the comparison works without needing to specify u suffix;;
 * [ ] refactor internally params { file+line+function } into a structure;
 * [ ] internal printf translates `%zu` transparently for those (older) standard libraries that do not support;
-* [x] summary should list #cases that failed/succeeded - CHECK THIS - ❔;
+* [ ] summary should list #cases that failed/succeeded - CHECK THIS - ❔;
 * [ ] C: integer equal etc should produce message that logs both exp and act, like **BDUT**;
 * [ ] refactor out default reporter into separate implementation file;
 * [ ] remove most/all static_cast in implementation files;
@@ -23,13 +25,16 @@
 * [ ] change `uint32_t` type(s)??;
 * [ ] execution context;
 * [ ] apply Visitor and have custom outputs;
-* [x] coloured console output, for `"SUCCESS"` and `"FAILURE"` reports - ✅;
-* [x] enhance C-form of macros using `_Generic` - this provided as of version 0.24.0 - ✅;
-* [x] simplified (shorter) macros, via opt-in header(s) - ✅;
-* [x] ensuring different verbosity levels handled appropriately, in summary and expanded form(s) - ✅;
-* [x] **CMake** build setup should be able to infer **STLSoft** if available via a **CMake** find mechanism  (e.g. `find_package()`) - this provided as of version 0.20.5 - ✅;
+* [x] ~~~coloured console output, for `"SUCCESS"` and `"FAILURE"` reports~~~ - ✅;
+* [x] ~~~enhance C-form of macros using `_Generic` - this provided as of version 0.24.0~~~ - ✅;
+* [x] ~~~simplified (shorter) macros, via opt-in header(s)~~~ - ✅;
+* [x] ~~~ensuring different verbosity levels handled appropriately, in summary and expanded form(s)~~~ - ✅;
+* [x] ~~~**CMake** build setup should be able to infer **STLSoft** if available via a **CMake** find mechanism  (e.g. `find_package()`) - this provided as of version 0.20.5~~~ - ✅;
+
+
+## Performance improvements
+
+\<none>
 
 
 <!-- ########################### end of file ########################### -->
-
-
