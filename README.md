@@ -18,12 +18,12 @@ Simple, easy-to-use, efficient testing library, for C, C++. It's not particularl
 * [Components](#components)
 * [Examples](#examples)
 * [Project Information](#project-information)
-	* [Compatibility](#compatibility)
-	* [Where to get help](#where-to-get-help)
-	* [Contribution guidelines](#contribution-guidelines)
-	* [Dependencies](#dependencies)
-	* [Related projects](#related-projects)
-	* [License](#license)
+  * [Compatibility](#compatibility)
+  * [Where to get help](#where-to-get-help)
+  * [Contribution guidelines](#contribution-guidelines)
+  * [Dependencies](#dependencies)
+  * [Related projects](#related-projects)
+  * [License](#license)
 
 
 ## Introduction
@@ -61,8 +61,8 @@ file.
 <details>
 <summary markdown="span">Test-runner and Test-case functions that are used to set up the test context</summary>
 <blockquote>
- <details>
- <summary markdown="span">Test runner functions</summary>
+<details>
+<summary markdown="span">Test runner functions</summary>
 
 | Function Name & Usage (Test runner functions)                                                                                      |
 |:-----------------------------------------------------------------------------------------------------------------------------------|
@@ -78,9 +78,9 @@ file.
 |`XTESTS_ABEND(terminationMessage)`<br>Abnormal end of tests, and process termination.|
 |`XTESTS_END_RUNNER_UPDATE_EXITCODE()`<br>Ends a test runner, and modifies a caller-supplied exit code parameter<br>- param **retCode** A pointer to a variable of type <code>int</code> that will receive an exit code.<br>- remarks The variable should have been initialised to <code>EXIT_SUCCESS</code>, and each invocation of XTESTS_END_RUNNER_UPDATE_EXITCODE() (for each separate test-runner in a given application) will only set it to <code>EXIT_FAILURE</code> in the case where that runner has failed one or more tests. |
 
- </details>
- <details>
- <summary markdown="span">Test case functions</summary>
+</details>
+<details>
+<summary markdown="span">Test case functions</summary>
 
 | Function Name & Usage (Test case functions)                                                                                        |
 |:-----------------------------------------------------------------------------------------------------------------------------------|
@@ -93,7 +93,7 @@ file.
 |`XTESTS_RUN_CASE_THAT_THROWS_WITH_DESC(fn, desc, type)`<br>[C++-only] Runs the given test case function.<br>- param **fn** A function, taking no parameters and returning <code>void</code>, that executes a number of tests representing a test case;<br>- param **desc** Description of the test case;<br>- param **type** The type of the exception that is expected to be thrown;<br>**Note**: This can only be invoked after a successful invocation of `XTESTS_CASE_BEGIN()` and before invocation of `XTESTS_CASE_END()`.|
 |`XTESTS_RUN_CASE_THAT_THROWS_WITH_NAME_AND_DESC(name, desc, fn, type)`<br>[C++-only] Runs the given test case function.<br>- param **name** Name of the test case;<br>- param **desc** Description of the test case;<br>- param **fn** A function, taking no parameters and returning <code>void</code>, that executes a number of tests representing a test case;<br>- param **type** The type of the exception that is expected to be thrown;<br>**Note**: This can only be invoked after a successful invocation of `XTESTS_CASE_BEGIN()` and before invocation of `XTESTS_CASE_END()`.|
 
- </details>
+</details>
 </blockquote>
 </details>
 
@@ -101,10 +101,10 @@ file.
 <summary markdown="span">Test assertion macros</summary>
 <blockquote>
 
- <!-- integers and floating-point -->
- <details>
- <summary markdown="span">Numeric - Integer, Floating Point - Assertion Macros</summary>
- <blockquote>
+<!-- integers and floating-point -->
+<details>
+<summary markdown="span">Numeric - Integer, Floating Point - Assertion Macros</summary>
+<blockquote>
   <details>
   <summary markdown="span">Integer Assertion Macros</summary>
 
@@ -135,13 +135,13 @@ file.
 
   </details>
 
- </blockquote>
- </details>
+</blockquote>
+</details>
 
- <!-- characters and strings -->
- <details>
- <summary markdown="span">Character/String (Multi-Byte and Wide) Assertion Macros</summary>
- <blockquote>
+<!-- characters and strings -->
+<details>
+<summary markdown="span">Character/String (Multi-Byte and Wide) Assertion Macros</summary>
+<blockquote>
   <details>
   <summary markdown="span">Character Assertion Macros</summary>
 
@@ -201,12 +201,12 @@ file.
 
   </details>
 
- </blockquote>
- </details>
+</blockquote>
+</details>
 
- <!-- booleans -->
- <details>
- <summary markdown="span">Boolean Assertion Macros</summary>
+<!-- booleans -->
+<details>
+<summary markdown="span">Boolean Assertion Macros</summary>
 
 | Category |Test Item                                                              |
 |:---------|:----------------------------------------------------------------------|
@@ -215,22 +215,22 @@ file.
 | Boolean  |XTESTS_TEST_BOOLEAN_TRUE(actual)                                       |
 | Boolean  |XTESTS_TEST_BOOLEAN_FALSE(actual)                                      |
 
- </details>
+</details>
 
- <!-- enums -->
- <details>
- <summary markdown="span">Enum Assertion Macros</summary>
+<!-- enums -->
+<details>
+<summary markdown="span">Enum Assertion Macros</summary>
 
 | Category |Test Item                                                              |
 |:---------|:----------------------------------------------------------------------|
 | Enum     |XTESTS_TEST_ENUM_EQUAL(expected, actual)                               |
 | Enum     |XTESTS_TEST_ENUM_NOT_EQUAL(expected, actual)                           |
 
- </details>
+</details>
 
- <!-- pointers -->
- <details>
- <summary markdown="span">Pointer Assertion Macros</summary>
+<!-- pointers -->
+<details>
+<summary markdown="span">Pointer Assertion Macros</summary>
 
 | Category |Test Item                                                              |
 |:---------|:----------------------------------------------------------------------|
@@ -243,11 +243,11 @@ file.
 | Pointer  |XTESTS_TEST_FUNCTION_POINTER_EQUAL(expected, actual)                   |
 | Pointer  |XTESTS_TEST_FUNCTION_POINTER_NOT_EQUAL(expected, actual)               |
 
- </details>
+</details>
 
- <!-- direct results -->
- <details>
- <summary markdown="span">Directed-result Assertion Macros</summary>
+<!-- direct results -->
+<details>
+<summary markdown="span">Directed-result Assertion Macros</summary>
 
 | Category |Test Item                                                              |
 |:---------|:----------------------------------------------------------------------|
@@ -258,7 +258,7 @@ file.
 | Utility  |XTESTS_TEST_WITH_MESSAGE(expr, msg)                                    |
 | Utility  |XTESTS_REQUIRE(test)                                                   |
 
- </details>
+</details>
 
 </blockquote>
 </details>
@@ -266,8 +266,8 @@ file.
 <details>
 <summary markdown="span">Utility functions and miscellaneous constructs</summary>
 <blockquote>
- <details>
- <summary markdown="span">Utility functions</summary>
+<details>
+<summary markdown="span">Utility functions</summary>
 
 | Function Name & Usage (Utility functions)  |
 |:-------------------------------------------|
@@ -275,17 +275,17 @@ file.
 |`XTESTS_COMMANDLINE_PARSE_VERBOSITY_WITH_DEFAULT(argc, argv, pverbosity, defaultVerbosity)`<br>Parses the verbosity from the command-line arguments, looking for an argument of the form `"--verbosity=<N>"`, where `N` is a non-negative integer.<br>- param `argc`  The `argc` parameter passed into `main()`;<br>- param `argv` The `argv` parameter passed into `main()`;<br>- param `pverbosity` A pointer to an integer to receive the verbosity. Will be set to `xtestsVerbositySummaryOnSuccess` upon success, or if no verbosity argument is found. May not be `NULL`;<br>- param `defaultVerbosity` The default verbosity to be applied if none specified on the command-line|
 |`XTESTS_COMMANDLINE_PARSE_HELP(argc, argv)`<br>Parses the `"--help"` flag from the command-line and, if found, issues usage information to the standard output stream and exits (with `EXIT_SUCCESS`).<br>- param `argc`  The `argc` parameter passed into `main()`;<br>- param `argv` The `argv` parameter passed into `main()`;|
 
- </details>
+</details>
 
- <details>
- <summary markdown="span">Miscellaneous constructs</summary>
+<details>
+<summary markdown="span">Miscellaneous constructs</summary>
 
 | Constructs                                                                                                                       |
 |:---------------------------------------------------------------------------------------------------------------------------------|
 |`XTESTS_FLOATINGPOINT_FACTOR_SCOPE()`<br>[C++ only] Macro used to declare an instance of the class xtests::cpp::xtest_floatingpoint_factor_scope, which causes the floating point factor to be set to a new value for the lifetime of the object, and then returned to its prior value.|
 |`XTESTS_FP_APPROXIMATE_FACTOR(argc, argv)`<br>The factor within which floating point numbers are deemed to be approximately equal.|
 
- </details>
+</details>
 </blockquote>
 </details>
 
