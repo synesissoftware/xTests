@@ -30,6 +30,12 @@
 * Compatibility with older operating systems (incl. Windows Vista);
 
 
+## 0.26.2-alpha2 - 28th April 2025
+
+* **prepare_cmake.sh** / **CMakeLists.txt** : + added '--no-shwild' / `CMAKE_NO_SHWILD`;
+* Minor improvements to `temp_directory` and `temp_file` to improve portability;
+
+
 ## 0.26.2-alpha1 - 26th April 2025
 
 * N-len string comparisons now works regardless of integral type of length argument;
@@ -273,7 +279,7 @@
 * NOTE: requires STLSoft 1.9.111;
 
 
-## 0.16.2 - 13th August 2010
+## 0.16.2 - 30th November 2010
 
 * various minor modifications for compatibility with recent versions of GCC 4.X;
 * NOTE: requires STLSoft 1.9.111;
@@ -290,7 +296,7 @@
 ## 0.15.2 - 21st June 2010
 
 * minimal compatibility enhancements;
-* NOTE: requires STLSoft 1.9.97;
+* NOTE: requires STLSoft 1.9.99;
 
 
 ## 0.15.1 - 4th April 2010
@@ -392,7 +398,7 @@
 * now uses Windows debugging support when emulating UNIX on Windows;
 
 
-## 0.10.2 - 20th January 2009
+## 0.10.2 - 27th January 2009
 
 * added facilities for length-limiting string comparison;
 * added missing macros for case-insensitive string inequality;
@@ -520,7 +526,7 @@
 * fix for wide string support;
 
 
-## 0.3.2 - 15th March 2008
+## 0.3.2 - 17th March 2008
 
 * minor bug fix to prevent confusion about threading models on some UNIX operating systems;
 
