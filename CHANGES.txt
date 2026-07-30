@@ -172,7 +172,7 @@ Significant enhancement and refactoring around use of CMake:
  * added **cmake/LanguageFullVersion.cmake** file, which defines CMake variable `X_CMAKE_CXX_FULLSTANDARD`;
  * added **cmake/TargetMacros.cmake** file, which defines CMake functions `define_automated_test_program()` and `define_example_program()`, and applied them throughout examples and test programs;
  * Significant refactoring of ./CMakeLists.txt;
- * enhanced CMake build scripts in line with recent STLSoft-1.11 release;
+ * enhanced CMake build scripts in line with recent STLSoft release;
 
 General tidying:
  * portable suppression of fall-through warnings;

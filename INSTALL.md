@@ -26,19 +26,19 @@ The primary choice for installation is by use of **CMake**.
    ```
 
 2. Obtain the latest distribution of **STLSoft**, from
-   https://github.com/synesissoftware/STLSoft-1.11/, e.g.
+   https://github.com/synesissoftware/STLSoft/, e.g.
 
    ```bash
    $ mkdir -p ~/open-source
    $ cd ~/open-source
-   $ git clone https://github.com/synesissoftware/STLSoft-1.11/
+   $ git clone https://github.com/synesissoftware/STLSoft/
    ```
 
    (**NOTE**: As of the time of writing, the **STLSoft** libraries are
    still available in separate forms - 1.9 (via
    https://github.com/synesissoftware/STLSoft-1.9), 1.10 (via
    https://github.com/synesissoftware/STLSoft-1.10), 1.11 (via
-   https://github.com/synesissoftware/STLSoft-1.11) - but this will be
+   https://github.com/synesissoftware/STLSoft) - but this will be
    rectified sometime in 2023/24. Until such time as a consolidated
    project is available - via https://github.com/synesissoftware/STLSoft -
    you are advised to prefer **1.11**.)
@@ -48,9 +48,9 @@ The primary choice for installation is by use of **CMake**.
    `--stlsoft-root-dir` option, as in:
 
    ```bash
-   # Assuming step-2 cloned into ~/open-source/STLSoft-1.11
+   # Assuming step-2 cloned into ~/open-source/STLSoft
    $ cd ~/open-source/xTests
-   $ ./prepare_cmake.sh --stlsoft-root-dir ~/open-source/STLSoft-1.11 -v
+   $ ./prepare_cmake.sh --stlsoft-root-dir ~/open-source/STLSoft -v
    ```
 
    (**Hint**: execute `$ ./prepare_cmake.sh --help` for more information.)
@@ -67,7 +67,7 @@ The primary choice for installation is by use of **CMake**.
    or:
 
    ```bash
-   $ STLSOFT=~/open-source/STLSoft-1.11 ./prepare_cmake.sh -v
+   $ STLSOFT=~/open-source/STLSoft ./prepare_cmake.sh -v
    ```
 
    As of version **0.20.5**, if you have already obtained **STLSoft** and
@@ -175,19 +175,19 @@ use one of the custom makefiles provided with the project, as follows:
    ```
 
 2. Obtain the latest distribution of **STLSoft**, from
-   https://github.com/synesissoftware/STLSoft-1.11/, as in:
+   https://github.com/synesissoftware/STLSoft/, as in:
 
    ```bash
    $ mkdir -p ~/open-source
    $ cd ~/open-source
-   $ git clone https://github.com/synesissoftware/STLSoft-1.11/
+   $ git clone https://github.com/synesissoftware/STLSoft/
    ```
 
    (**NOTE**: As of the time of writing, the **STLSoft** libraries are
    still available in separate forms - 1.9 (via
    https://github.com/synesissoftware/STLSoft-1.9), 1.10 (via
    https://github.com/synesissoftware/STLSoft-1.10), 1.11 (via
-   https://github.com/synesissoftware/STLSoft-1.11) - but this will be
+   https://github.com/synesissoftware/STLSoft) - but this will be
    rectified sometime in 2023/24. Until such time as a consolidated
    project is available - via https://github.com/synesissoftware/STLSoft -
    you are advised to prefer **1.11**.)
@@ -215,7 +215,7 @@ use one of the custom makefiles provided with the project, as follows:
 
    ```bash
    # from within build/gcc42.unix
-   $ STLSOFT=~/open-source/STLSoft-1.11 make clean
+   $ STLSOFT=~/open-source/STLSoft make clean
    ```
 
    In either case, you should see output such as the following:
@@ -232,14 +232,14 @@ use one of the custom makefiles provided with the project, as follows:
 
    ```bash
    # from within build/gcc42.unix
-   $ STLSOFT=~/open-source/STLSoft-1.11 make build
+   $ STLSOFT=~/open-source/STLSoft make build
    ```
 
    or just:
 
    ```bash
    # from within build/gcc42.unix
-   $ STLSOFT=~/open-source/STLSoft-1.11 make
+   $ STLSOFT=~/open-source/STLSoft make
    ```
 
 6. Then to use the library, it was customary practice to make available the
@@ -498,7 +498,7 @@ Hence, to build, say, **recls**, using this form, can be done as follows:
 2. Set up `STLSOFT` environment variable:
 
    ```bash
-   $ export STLSOFT=~/open-source/STLSoft-1.11
+   $ export STLSOFT=~/open-source/STLSoft
    ```
 
 3. Invoke **recls** build using custom makefile parameter

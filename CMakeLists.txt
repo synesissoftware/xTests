@@ -5,7 +5,7 @@
 # Purpose:  Top-level CMake lists file for xTests
 #
 # Created:  9th October 2019
-# Updated:  7th September 2025
+# Updated:  30th July 2026
 #
 # ######################################################################## #
 
@@ -65,6 +65,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
 if(MSVC)
+
+	if(MSVC_VERSION LESS 1800)
+
+		add_compile_options("/wd4996")
+	endif()
 
 	if(MSVC_VERSION LESS 1930)
 
@@ -151,6 +156,8 @@ else()
 
 		set(STLSOFT_INCLUDE_DIR $ENV{STLSOFT}/include)
 	endif()
+
+	get_filename_component(STLSOFT_INCLUDE_DIR "${STLSOFT_INCLUDE_DIR}" ABSOLUTE)
 
 	include_directories(${STLSOFT_INCLUDE_DIR})
 endif()

@@ -406,7 +406,7 @@ If you'd like to help out with the project, please raise an issue via [GitHub Pa
 
 **xTests** has two dependencies:
 
-* [STLSoft 1.11](http://github.com/synesissoftware/STLSoft-1.11/) is required, both for the implementation and for the interface, providing:
+* [STLSoft 1.11](http://github.com/synesissoftware/STLSoft/) is required, both for the implementation and for the interface, providing:
   * essential compiler and platform discrimination;
   * string compatibility;
   * string conversions (for C++ API);
@@ -439,6 +439,7 @@ Projects in which **xTests** is used for testing include:
 * [**recls**](https://github.com/synesissoftware/recls);
 * [**rstrip**](https://github.com/sistools/rstrip);
 * [**ss-win-diskutil**](https://github.com/synesissoftware/ss-win-diskutil);
+* [**STLSoft**](https://github.com/synesissoftware/STLSoft);
 * [**STLSoft-1.10**](https://github.com/synesissoftware/STLSoft-1.10);
 * [**STLSoft-1.11**](https://github.com/synesissoftware/STLSoft-1.11);
 * [**SyLVReDxx**](https://github.com/synesissoftware/SyLVReDxx);
