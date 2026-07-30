@@ -1,3253 +1,567 @@
-xTests - Changes
-================
+# **xTests** Changes <!-- omit in toc -->
 
-Created: 22nd February 2008
-Updated: 30th August 2025
 
+## 0.26.4 (alpha 3) - 30th August 2025
 
-    ************************************
-    * Change key:                      *
-    *                                  *
-    *  ~  means something has changed  *
-    *  +  means a new addition         *
-    *  -  means removal of something   *
-    *  *  means a general bullet-point *
-    *                                  *
-    ************************************
+* CTest compatibility;
+* GitHub Actions;
 
 
-30th August 2025 - 0.26.4 (alpha 3)
-===================================
+## 0.26.4 (alpha 2) - 30th June 2025
 
- * CTest compatibility;
- * GitHub Actions;
+* Allowing comparisons between integer values/variables of arbitrary type and sign;
+* C++-98 compatibility;
 
 
-30th June 2025 - 0.26.4 (alpha 2)
-=================================
+## 0.26.4 (alpha 1) - 6th May 2025
 
- * Allowing comparisons between integer values/variables of arbitrary type and sign;
- * C++-98 compatibility;
+* MinGW compatibility;
+* Various CMake scripts canonicalisation;
 
 
-6th May 2025 - 0.26.4 (alpha 1)
-===============================
+## 0.26.3 - 6th May 2025
 
-Summary:
---------
+* Fixed defect in format specifiers for end-case summary;
 
- * MinGW compatibility;
- * Various CMake scripts canonicalisation;
 
-Details:
---------
+## 0.26.2 - 3rd May 2025
 
- * CMake helper scripts now define default make command as "mingw32-make.xe" if recognise MinGW;
- * Preparation for **UNIXem** compatibility;
- * **prepare_cmake.sh** : ~ canonicalising flag/option handling (by placing aliases last);
- * Miscellaneous canonical mods;
+* Compatibility with older compilers (incl. Visual C++ 14);
+* Compatibility with older operating systems (incl. Windows Vista);
 
 
-6th May 2025 - 0.26.3
-=====================
+## 0.26.2-alpha1 - 26th April 2025
 
- * Fixed defect in format specifiers for end-case summary;
+* N-len string comparisons now works regardless of integral type of length argument;
 
 
-3rd May 2025 - 0.26.2
-=====================
+## 0.26.1-alpha1 - 23rd April 2025
 
- * Compatibility with older compilers (incl. Visual C++ 14);
- * Compatibility with older operating systems (incl. Windows Vista);
+* Fix wrong conditionality on inclusion of **stlsoft/conversion/sas_to_string.hpp**;
 
 
-26th April 2025 - 0.26.2-alpha1
-===============================
+## 0.26.0 - 23rd April 2025
 
- * N-len string comparisons now works regardless of integral type of length argument;
+* Improved compatibility to types that provide shims `stlsoft::c_str_data_a()` and `stlsoft::c_str_len_a()`, rather than `stlsoft::c_str_ptr_a()`;
+* Fixed inconsistency in handling of verbosity levels (esp. `XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR`);
+* Visual C++ compatibility;
+* Further application of terse api in example and test programs;
+* Various tidyings;
+* Improved scope and consistency in example and test programs;
 
 
-23rd April 2025 - 0.26.1-alpha1
-===============================
+## 0.26.0-beta3 - 23rd February 2025
 
- * Fix wrong conditionality on inclusion of **stlsoft/conversion/sas_to_string.hpp**;
+* added support (including coloured output) for (in)equality testing of UDTs;
+* `temp_directory` now finds and deletes sockets (in addition to files);
+* fixed defect (when on UNIX) in `temp_file`;
+* now ensures that does not emit ANSI colour sequences when running on Windows on an old terminal that does not support them;
 
 
-23rd April 2025 - 0.26.0
-========================
+## 0.26.0-beta1 - 31st December 2024
 
- * Improved compatibility to types that provide shims `stlsoft::c_str_data_a()` and `stlsoft::c_str_len_a()`, rather than `stlsoft::c_str_ptr_a()`;
- * Fixed inconsistency in handling of verbosity levels (esp. `XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR`);
- * Visual C++ compatibility;
- * Further application of terse api in example and test programs;
- * Various tidyings;
- * Improved scope and consistency in example and test programs;
+* now uses `stlsoft::integral_traits<>` for integer test macros (in C++) to allow for custom integral types to be tested;
+* `temp_file` now takes a `hint_dir` parameter to allow specification of directory for (temporary) file;
+* added missing test macros `XTESTS_TEST_FLOATINGPOINT_GREATER()`, `XTESTS_TEST_FLOATINGPOINT_GREATER_OR_EQUAL()`, `XTESTS_TEST_FLOATINGPOINT_LESS()`, `XTESTS_TEST_FLOATINGPOINT_LESS_OR_EQUAL()`;
+* added macro `XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY()`, which allows for a unified command-line parsing in test programs;
+* added terse forms of macros, available by including **xtests/terse-api.h**;
+* `XTESTS_COMMANDLINE_PARSE_VERBOSITY()` now also recognises, if the command-line argument `"--verbosity= . . ."` is not found, the enviroment variables `"XTESTS_VERBOSITY"` and `"TEST_VERBOSITY"`;
+* added test programs **test.scratch.all_failure_messages**, **test.scratch.basics2**, **test.scratch.custom_integral_types**;
+* substantial internal refactoring;
+* minor tidying to CMake facilities;
+* minor improvements to examples;
+* minor improvements to project boilerplate files;
+* updated **STLSoft** constructs, incl. macros;
 
 
-23rd February 2025 - 0.26.0-beta3
-=================================
+## 0.25.4 - 18th November 2024
 
- * added support (including coloured output) for (in)equality testing of UDTs;
- * `temp_directory` now finds and deletes sockets (in addition to files);
- * fixed defect (when on UNIX) in `temp_file`;
- * now ensures that does not emit ANSI colour sequences when running on Windows on an old terminal that does not support them;
+* added CMake MSVC MT support;
 
 
-31st December 2024 - 0.26.0-beta1
-=================================
+## 0.25.3 - 25th October 2024
 
- * now uses `stlsoft::integral_traits<>` for integer test macros (in C++) to allow for custom integral types to be tested;
- * `temp_file` now takes a `hint_dir` parameter to allow specification of directory for (temporary) file;
- * added missing test macros `XTESTS_TEST_FLOATINGPOINT_GREATER()`, `XTESTS_TEST_FLOATINGPOINT_GREATER_OR_EQUAL()`, `XTESTS_TEST_FLOATINGPOINT_LESS()`, `XTESTS_TEST_FLOATINGPOINT_LESS_OR_EQUAL()`;
- * added macro `XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY()`, which allows for a unified command-line parsing in test programs;
- * added terse forms of macros, available by including **xtests/terse-api.h**;
- * `XTESTS_COMMANDLINE_PARSE_VERBOSITY()` now also recognises, if the command-line argument `"--verbosity= . . ."` is not found, the enviroment variables `"XTESTS_VERBOSITY"` and `"TEST_VERBOSITY"`;
- * added test programs **test.scratch.all_failure_messages**, **test.scratch.basics2**, **test.scratch.custom_integral_types**,
- * substantial internal refactoring;
- * minor tidying to CMake facilities;
- * minor improvements to examples;
- * minor improvements to project boilerplate files;
- * updated **STLSoft** constructs, incl. macros;
+* Fix to colour output at high verbosity levels;
 
 
-18th November 2024 - 0.25.4
-===========================
+## 0.25.2 - 22nd October 2024
 
- * added CMake MSVC MT support;
+* Added and applied CMake functions for examples and test programs;
+* Some refactoring in main header **include/xtests/xtests.h**;
+* VC++ 19+ warnings;
+* Fixed vulnerability in length-limited string comparisons;
+* Renamed project **test.scratch.string_slices.c** => **test.unit.string_slices.c**;
 
 
-25th October 2024 - 0.25.3
-==========================
+## 0.25.0 - 20th October 2024
 
- * Fix to colour output at high verbosity levels;
+* no changes;
 
 
-22nd October 2024 - 0.25.2
-==========================
+## 0.24.0-alpha7 - 18th October 2024
 
- * Added and applied CMake functions for examples and test programs;
- * Some refactoring in main header **include/xtests/xtests.h**;
- * VC++ 19+ warnings;
- * Fixed vulnerability in length-limited string comparisons;
- * Renamed project **test.scratch.string_slices.c** => **test.unit.string_slices.c**;
+* Coloured output now bold;
+* Minor fixes to CMake build scripts;
 
 
-20th October 2024 - 0.25.0
-==========================
+## 0.24.0-alpha6 - 17th October 2024
 
-NO CHANGES
+* Expanded shwild integration (including CMake detection);
+* Significant enhancement and refactoring around use of CMake;
+* Added coloured output for test-case / runner names;
+* General tidying;
+* Compatibility with legacy versions of Visual C++;
 
 
-18th October 2024 - 0.24.0-alpha7
-=================================
+## 0.24.0-alpha5 - 15th October 2024
 
-Summary:
---------
+* Refactored common aspects of example and test `main()` functions;
+* Language/compiler compatibility fixes, including **MinGW-W64** compatibility;
+* CMake build scripts enhancements;
 
- * Coloured output now bold;
- * Minor fixes to CMake build scripts;
 
+## 0.24.0-alpha4 - 5th August 2024
 
-17th October 2024 - 0.24.0-alpha6
-=================================
+* compatibility with STLSoft 1.11.1-alpha13 or later;
 
-Summary:
---------
 
- * Expanded shwild integration (including CMake detection);
- * Significant enhancement and refactoring around use of CMake;
- * Added coloured output for test-case / runner names;
- * General tidying;
- * Compatibility with legacy versions of Visual C++;
+## 0.24.0-alpha3 - 4th August 2024
 
-Changes:
---------
+* minimal coloured console output;
 
-Expanded shwild integration (including CMake detection):
- * detects **shwild** in CMakeLists.txt;
- * added `XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH()`;
- * added **test.component.shwild_patterns**;
 
-Significant enhancement and refactoring around use of CMake:
- * added **cmake/LanguageFullVersion.cmake** file, which defines CMake variable `X_CMAKE_CXX_FULLSTANDARD`;
- * added **cmake/TargetMacros.cmake** file, which defines CMake functions `define_automated_test_program()` and `define_example_program()`, and applied them throughout examples and test programs;
- * Significant refactoring of ./CMakeLists.txt;
- * enhanced CMake build scripts in line with recent STLSoft release;
+## 0.24.0-alpha2 - 4th August 2024
 
-General tidying:
- * portable suppression of fall-through warnings;
- * scratch-tests better header block descriptions;
- * enhancing test-case names;
- * code canonicalisation;
+* fixed VC++ / CMake configuration;
 
 
-15th October 2024 - 0.24.0-alpha5
-=================================
+## 0.24.0-alpha1 - 3rd August 2024
 
-Summary:
---------
+* `XTESTS_TEST_INTEGER_EQUAL_EXACT()`, `XTESTS_TEST_INTEGER_NOT_EQUAL()`, `XTESTS_TEST_INTEGER_GREATER()`, `XTESTS_TEST_INTEGER_GREATER_OR_EQUAL()`, `XTESTS_TEST_INTEGER_LESS()`, `XTESTS_TEST_INTEGER_LESS_OR_EQUAL()` are all implemented in terms of `_Generic` (where supported) in C compilation units in order to be able to report the expected and actual values upon failure (as is done in C++ compilation units);
+* general tidying;
 
- * Refactored common aspects of example and test `main()` functions;
- * Language/compiler compatibility fixes, including **MinGW-W64** compatibility;
- * CMake build scripts enhancements;
 
-Changes:
---------
+## 0.23.1 - 14th July 2024
 
-Refactored common aspects of example and test `main()` functions:
- * added **xtests/internal/checked_main.h** and **xtests/internal/checked_main.hpp** and reduced all example and test programs;
+* Various CMake standardisations and simplifications;
 
-Language/compiler compatibility fixes:
- * added and applied `XTESTS_FALLTHROUGH_()`;
- * MinGW-W64 compatibility;
 
-CMake build scripts enhancements:
- * CMake (Bash) build scripts now recognise environment variable `SIS_CMAKE_BUILD_DIR` to build in a custom directory, defaulting to stock directory **./_build**;
- * CMake (Bash) build scripts now recognise environment variable `SIS_CMAKE_COMMAND` as make command, defaulting to **make**;
- * added **run_all_examples.sh**;
+## 0.22.1 - 9th July 2024
 
+* Visual C++ 17 (2022) compatibility;
+* CMake Windows compatibility;
+* Small improvements for `temp_directory` and `temp_file`;
+* now depends on STLSoft 1.11;
 
-5th August 2024 - 0.24.0-alpha4
-===============================
 
- * compatibility with STLSoft 1.11.1-alpha13 or later;
+## 0.21.4 - 28th January 2024
 
+* Clang 14+ compatibility;
+* CMake scripts improvements;
+* now depends on STLSoft 1.10.6;
 
-4th August 2024 - 0.24.0-alpha3
-===============================
 
- * minimal coloured console output;
+## 0.21.3 - 28th January 2024
 
+* Clang 14+ compatibility;
 
-4th August 2024 - 0.24.0-alpha2
-===============================
 
- * fixed VC++ / CMake configuration;
+## 0.21.2 - 28th January 2024
 
+* CMake support minor improvements;
 
-3rd August 2024 - 0.24.0-alpha1
-===============================
 
- * `XTESTS_TEST_INTEGER_EQUAL_EXACT()`, `XTESTS_TEST_INTEGER_NOT_EQUAL()`, `XTESTS_TEST_INTEGER_GREATER()`, `XTESTS_TEST_INTEGER_GREATER_OR_EQUAL()`, `XTESTS_TEST_INTEGER_LESS()`, `XTESTS_TEST_INTEGER_LESS_OR_EQUAL()` are all implemented in terms of `_Generic` (where supported) in C compilation units in order to be able to report the expected and actual values upon failure (as is done in C++ compilation units)
- * general tidying
+## 0.21.1 - 11th January 2024
 
+* fixed include of **STLSoft** header-file in presence of **shwild**;
 
-14th July 2024 - 0.23.1
-=======================
 
- * Various CMake standardisations and simplifications
+## 0.21.0 - 2nd January 2024
 
+* added `XTESTS_TEST_MULTIBYTE_STRING_MATCHES()` that, in the presence of the shwild library, provides pattern matching;
 
-9th July 2024 - 0.22.1
-======================
 
-Summary:
---------
+## 0.20.5 - 2nd January 2024
 
- * Visual C++ 17 (2022) compatibility
- * CMake Windows compatibility
- * Small improvements for `temp_directory` and `temp_file`
- * now depends on STLSoft 1.11
+* completed CMake support, with flexible mechanism to select STLSoft dependency;
 
-Details:
---------
 
- Visual C++ 17 (2022) compatibility:
- ~ full Windows / VC++ 17 support;
+## 0.20.4 - 14th December 2023
 
- CMake Windows compatibility:
- ~ ensuring all headers are installed by CMake;
- ~ Windows 32-bit and 64-bit compatibility;
+* added CMake support;
+* added Doxygen;
+* added makefile(s) for GCC generic version;
+* fix to xtests::cpp::util::temp_directory;
+* fix defect in example;
 
- Small improvements for `temp_directory` and `temp_file`:
- + added stream insertion operator(s) for `xtests::cpp::util::temp_directory` and `xtests::cpp::util::temp_file`
- ~ fixed minor defect in `temp_file` to have it use `""/tmp/xtests-temp-file.*"`;
- + added **example.cpp.temp_directory**;
- + added **example.cpp.temp_file**;
- + added **test.component.temp_file**;
 
- Misc. other fixes:
- ~ adjusted dependency on as-yet-unreleased STLSoft functionality forward to 1.12;
- + added run_all_scratch_tests.sh, which executes scratch and performance test programs;
- ~ modified run_all_unit_tests.sh to execute unit and component test programs;
- ~ build_cmake.sh can now take multiple build-target argument(s);
+## 0.20.3 - 13th December 2020
 
+* fixed xtests::cpp::util::temp_directory dtor semantics for EmptyOnClose and RemoveOnClose;
+* compatibility with Visual Studio 2019 (16.8.2);
 
-28th January 2024 - 0.21.4
-==========================
 
-Summary:
---------
+## 0.20.2 - 30th July 2020
 
- * Clang 14+ compatibility
- * CMake scripts improvements
- * now depends on STLSoft 1.10.6
+* added implicit-link support for VC++ 15 and VC++16;
+* added makefile(s) for VC++ 15 and VC++16;
+* various makefile improvements;
+* GCC 8 compatibility;
 
-Details:
---------
 
- STLSoft dependency:
- * CMakeLists.txt
+## 0.20.1 - 12th October 2019
 
- CMake scripts improvements
- * build_cmake.sh,
- * prepare_cmake.sh
- * run_all_unit_tests.sh
+* added xtests::cpp::util::temp_file ctor that takes a callback function that is used to provide initial contents of the file;
+* added VC++ 10 project and solution files;
+* fixed range comparison tests;
+* fixing up VC++-specific non-standard token-pasting;
+* removed dependency on/discrimination for STLSoft 1.10 delta (though now works perfectly well with STLSoft 1.10 proper);
 
- Clang 14+ compatibility:
- * test/scratch/test.scratch.temp_directory/CMakeLists.txt
- * test/scratch/test.scratch.temp_file/CMakeLists.txt
 
+## 0.18.9 - 22nd July 2016
 
+* fix to 0.18.8 release;
+* NOTE: requires STLSoft 1.9.128;
+* bundles shwild 0.10.1;
 
-28th January 2024 - 0.21.3
-==========================
 
-Summary:
---------
+## 0.18.8 - 22nd July 2016
 
- * Clang 14+ compatibility
+* changed no-throw declaration from stlsoft_throw_0() to STLSOFT_NOEXCEPT;
+* support for Borland C++ 6.2x;
+* added makefiles for Borland 5.82, 6.1x, 6.2x;
+* significant refactoring of structure of makefiles;
+* strict C-compilation compatibility;
+* NOTE: requires STLSoft 1.9.128;
+* bundles shwild 0.10.1;
 
 
-28th January 2024 - 0.21.2
-==========================
+## 0.18.4 - 7th October 2015
 
-Summary:
---------
+* added temp_directory and temp_file utility classes;
+* now supports test cases that have void* param (for setup param);
+* support for cdecl and stdcall test cases;
+* support for Clang;
+* support for VC++ 11;
+* support for VC++ 12;
+* support for VC++ 14;
+* NOTE: requires STLSoft 1.9.121;
+* bundles shwild 0.10.1;
 
- *  CMake support minor improvements;
 
+## 0.17.1 - 1st March 2013
 
+* added XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL() / XTESTS_TEST_WIDE_STRING_SLICE_EQUAL() macros for testing string slices;
+* expected/unexpected exception event messages now include file+line;
+* refactoring of implementation;
+* tidying up of makefile gripes;
+* NOTE: requires STLSoft 1.9.117;
+* bundles shwild 0.9.18;
 
-11th January 2024 - 0.21.1
-==========================
 
-Summary:
---------
+## 0.16.6 - 16th February 2013
 
- * fixed include of **STLSoft** header-file in presence of **shwild**
+* improved handling of booleans;
+* VC++ 11 compatibility;
+* NOTE: requires STLSoft 1.9.115;
+* bundles shwild 0.9.18;
 
 
-2nd January 2024 - 0.21.0
-=========================
+## 0.16.3 - 2nd December 2011
 
-Summary:
---------
+* workaround for strange behaviour (probably code-generation fault) in GCC 4.2 on Mac OS-X 10.7;
+* NOTE: requires STLSoft 1.9.111;
 
- * added `XTESTS_TEST_MULTIBYTE_STRING_MATCHES()` that, in the presence of the shwild library, provides pattern matching
 
+## 0.16.2 - 13th August 2010
 
-2nd January 2024 - 0.20.5
-===========================
+* various minor modifications for compatibility with recent versions of GCC 4.X;
+* NOTE: requires STLSoft 1.9.111;
 
-Summary:
---------
 
- * completed CMake support, with flexible mechanism to select STLSoft dependency
+## 0.16.1 - 13th August 2010
 
+* added function pointer testing, via XTESTS_TEST_FUNCTION_POINTER_EQUAL() and XTESTS_TEST_FUNCTION_POINTER_NOT_EQUAL();
+* added implicit-link support for VC++ 10;
+* fixes for 64-bit compatibility;
+* NOTE: requires STLSoft 1.9.100;
 
-14th December 2023 - 0.20.4
-===========================
 
-Summary:
---------
+## 0.15.2 - 21st June 2010
 
- * added CMake support
- * added Doxygen
- * added makefile(s) for GCC generic version
- * fix to xtests::cpp::util::temp_directory
- * fix defect in example
+* minimal compatibility enhancements;
+* NOTE: requires STLSoft 1.9.97;
 
 
-13th December 2020 - 0.20.3
-===========================
+## 0.15.1 - 4th April 2010
 
-Summary:
---------
+* added in-range testing, via XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE() and XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE();
+* added XTESTS_ARRAY_END_POST;
+* VC6 compatibility for signed __int16, unsigned __int16, & signed __int1632;
+* NOTE: requires STLSoft 1.9.97;
 
- * fixed xtests::cpp::util::temp_directory dtor semantics for EmptyOnClose and RemoveOnClose
- * compatibility with Visual Studio 2019 (16.8.2)
 
-Details:
---------
+## 0.14.4 - 20th January 2010
 
-General:
+* workaround for erroneous Borland compilation error;
+* NOTE: requires STLSoft 1.9.89;
 
- ~ include/xtests/implicit_link.h:
-    ~ compatibility with Visual Studio 2019 (16.8.2)
 
- ~ include/xtests/util/temp_directory.hpp:
-    ~ fixed dtor semantics for EmptyOnClose and RemoveOnClose
+## 0.14.3 - 19th January 2010
 
-Core:
+* removed erroneous debug information in UNIXem release builds;
+* NOTE: requires STLSoft 1.9.89;
 
-Util:
 
-Distribution:
+## 0.14.2 - 11th August 2009
 
-Makefiles / Project-files:
+* workaround for minor warning;
+* NOTE: requires STLSoft 1.9.87;
 
-Examples:
 
-Test:
+## 0.14.1 - 13th July 2009
 
-Test.Unit:
+* added ability to display a summary of only the first case to fail;
+* renamed and add to enumerators of xtests_verbosity_t;
+* NOTE: requires STLSoft 1.9.85;
 
-Test.Component:
 
-Test.Scratch:
+## 0.13.3 - 8th July 2009
 
-Depends on:
+* workaround for Intel C/C++ compiler defect;
+* NOTE: requires STLSoft 1.9.85;
 
- * STLSoft 1.9.135 or later
-   (http://stlsoft.org/)
 
+## 0.13.2 - 16th June 2009
 
+* added XTESTS_REQUIRE(), to allow testing to stop after test failure, to avoid contract violations;
+* NOTE: requires STLSoft 1.9.85;
 
-30th July 2020 - 0.20.2
-=======================
 
-Summary:
---------
+## 0.12.1 - 1st May 2009
 
- * added implicit-link support for VC++ 15 and VC++16
- * added makefile(s) for VC++ 15 and VC++16
- * various makefile improvements
- * GCC 8 compatibility
+* added XTESTS_FLOATINGPOINT_FACTOR_SCOPE scoping class;
+* added XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_EXACT, XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_APPROX, and XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL test macros;
+* NOTE: requires STLSoft 1.9.78;
 
-Details:
---------
 
-General:
+## 0.11.5 - 25th April 2009
 
- ~ include/xtests/implicit_link.h:
-    + added implicit-link support for VC++ 15 and VC++16
+* fixed defect in XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS_AND_SETUP_FNS();
+* added implicit link support for Intel C/C++ 10 & 11;
+* allows stream to be NULL, and assumes stdout if no reporter specified;
+* NOTE: requires STLSoft 1.9.77;
 
- ~ include/xtests/xtests.h:
-    ~ GCC 8 compatibility
 
-Core:
+## 0.11.4 - 17th April 2009
 
- ~ src/xtests.core.cpp:
-    ~ GCC 8 compatibility
+* changes to defn of exceptions & RTTI, for conformance to other library (e.g. Pantheios) makefile templates;
+* now allows compilation absent RTTI;
+* NOTE: now requires STLSoft 1.9.77;
 
-Util:
 
-Distribution:
+## 0.11.3 - 15th April 2009
 
-Makefiles / Project-files:
+* fixed defect in internal snprintf() abstraction, which faults on Linux;
+* NOTE: now requires STLSoft 1.9.77;
 
- + build/vc15.unixem/makefile:
- + build/vc15.x64/makefile:
- + build/vc15/makefile:
-    + added makefile(s) for VC++ 15 and VC++16
 
- + build/vc16.unixem/makefile:
- + build/vc16.x64/makefile:
- + build/vc16/makefile:
-    + added makefile(s) for VC++ 15 and VC++16
+## 0.11.2 - 9th March 2009
 
-Examples:
+* fixed defect in core, whereby snprintf() overrun led to fault;
+* NOTE: now requires STLSoft 1.9.76;
 
-Test:
 
-Test.Unit:
+## 0.11.1 - 6th March 2009
 
-Test.Component:
+* added setup / teardown functionality;
+* NOTE: now requires STLSoft 1.9.75;
 
-Test.Scratch:
 
-Depends on:
+## 0.10.4 - 13th February 2009
 
- * STLSoft 1.9.134 or later
-   (http://stlsoft.org/)
+* added support for Borland 5.9.x and 6.1.x;
+* added workaround for over-eager warnings in GCC 4.3;
+* NOTE: now requires STLSoft 1.9.74;
 
 
+## 0.10.3 - 1st February 2009
 
-12th October 2019 - 0.20.1
-==========================
+* added ability to suppress reporting of empty test cases;
+* added XTESTS_START_RUNNER_WITH_FLAGS();
+* now uses Windows debugging support when emulating UNIX on Windows;
 
-Summary:
---------
 
- * added xtests::cpp::util::temp_file ctor that takes a callback function that is used to provide initial contents of the file
- * added VC++ 10 project and solution files
- * fixed range comparison tests
- * fixing up VC++-specific non-standard token-pasting
- * removed dependency on/discrimination for STLSoft 1.10 delta (though now works perfectly well with STLSoft 1.10 proper)
+## 0.10.2 - 20th January 2009
 
-Details:
---------
+* added facilities for length-limiting string comparison;
+* added missing macros for case-insensitive string inequality;
+* added full support for custom reporter functionality;
+* corrected defect whereby s/uint64 integer failures were not counted towards the total;
+* fixed various minor defects;
 
-General:
 
- ~ include/xtests/xtests.h:
-    ~ fixing up VC++-specific non-standard token-pasting
-    ~ fixing range comparison
+## 0.9.3 - 29th December 2008
 
-Core:
+* added XTESTS_TEST_ENUM_TRUE() and XTESTS_TEST_ENUM_FALSE();
 
- ~ src/xtests.core.cpp:
-    ~ fixed defect (submitted in PR by Mikkoi https://github.com/synesissoftware/xTests/commit/02b6667c3090ce94de41a7a3c46a90e0f03c45aa)
 
-Util:
+## 0.9.2 - 18th November 2008
 
- ~ include/xtests/util/temp_file.hpp:
-    + added callback writing constructor to temp_file
+* added XTESTS_TEST_BOOLEAN_TRUE() and XTESTS_TEST_BOOLEAN_FALSE();
+* avoid precipitating warnings about unused return values;
 
-Distribution:
 
-Makefiles / Project-files:
+## 0.9.1 - 25th October 2008
 
- + projects/core/vc10/xtests.core.vcxproj:
- + projects/core/vc10/xtests.core.vcxproj.filters:
- + xtests.vc10.sln:
-    + added VC++ 10 project and solution files
+* added xtestsComparisonApproxNotEqual comparison enumerator, and adjusted all comparison operations accordingly;
+* added xtests_testMultibyteStringContains() and xtests_testWideStringContains(), and all corresponding test macros;
+* cleared up some wrong (but benign) code exercised when compiling with exception-support switched off;
 
- ~ projects/core/vc6/xtests.core.dsp:
- ~ test/scratch/test.scratch.basics1/vc6/test.scratch.basics1.dsp:
- ~ test/scratch/test.scratch.basics2/vc6/test.scratch.basics2.dsp:
- ~ test/scratch/test.scratch.fail_all.1/vc6/test.scratch.fail_all.1.dsp:
- ~ test/scratch/test.scratch.setup.fail/vc6/test.scratch.setup.fail.dsp:
- ~ test/scratch/test.scratch.string_slices.c/vc6/test.scratch.string_slices.c.dsp:
- ~ test/scratch/test.scratch.temp_directory/vc6/test.scratch.temp_directory.dsp:
- ~ test/scratch/test.scratch.temp_file/vc6/test.scratch.temp_file.dsp:
- ~ test/scratch/test.scratch.verbosity_levels/vc6/test.scratch.verbosity_levels.dsp:
-    - removed dependency on/discrimination for STLSoft 1.10 delta (though now works perfectly well with STLSoft 1.10 proper)
 
- + test/scratch/test.scratch.basics1/vc10/test.scratch.basics1.vcxproj:
- + test/scratch/test.scratch.basics1/vc10/test.scratch.basics1.vcxproj.filters:
- + test/scratch/test.scratch.basics2/vc10/test.scratch.basics2.vcxproj:
- + test/scratch/test.scratch.basics2/vc10/test.scratch.basics2.vcxproj.filters:
- + test/scratch/test.scratch.fail_all.1/vc10/test.scratch.fail_all.1.vcxproj:
- + test/scratch/test.scratch.fail_all.1/vc10/test.scratch.fail_all.1.vcxproj.filters:
- + test/scratch/test.scratch.setup.fail/vc10/test.scratch.setup.fail.vcxproj:
- + test/scratch/test.scratch.setup.fail/vc10/test.scratch.setup.fail.vcxproj.filters:
- + test/scratch/test.scratch.string_slices.c/vc10/test.scratch.string_slices.c.vcxproj:
- + test/scratch/test.scratch.string_slices.c/vc10/test.scratch.string_slices.c.vcxproj.filters:
- + test/scratch/test.scratch.temp_directory/vc10/test.scratch.temp_directory.vcxproj:
- + test/scratch/test.scratch.temp_directory/vc10/test.scratch.temp_directory.vcxproj.filters:
- + test/scratch/test.scratch.temp_file/vc10/test.scratch.temp_file.vcxproj:
- + test/scratch/test.scratch.temp_file/vc10/test.scratch.temp_file.vcxproj.filters:
- + test/scratch/test.scratch.verbosity_levels/vc10/test.scratch.verbosity_levels.vcxproj:
- + test/scratch/test.scratch.verbosity_levels/vc10/test.scratch.verbosity_levels.vcxproj.filters:
-    + added VC++ 10 project and solution files
+## 0.8.7 - 25th October 2008
 
-Examples:
+* fixed defective != comparison of signed & unsigned 64-bit integers;
 
-Test:
 
-Test.Unit:
+## 0.8.6 - 19th October 2008
 
-Test.Component:
+* added more integer specialisations of xtests_failure_reporter<>;
 
-Test.Scratch:
 
- ~ test/scratch/test.scratch.temp_directory/test.scratch.temp_directory.cpp:
- ~ test/scratch/test.scratch.temp_file/test.scratch.temp_file.cpp:
-    ~ warnings
+## 0.8.5 - 23rd August 2008
 
-Depends on:
+* added call to XTESTS_TEST_PASSED() when an expected exception is received;
+* added more integer specialisations of xtests_failure_reporter<>;
+* fixed a defect in the approximate comparison of negative floating-point numbers;
 
- * STLSoft 1.9.121 or later
-   (http://stlsoft.org/)
 
+## 0.8.4 - 10th August 2008
 
+* fixed a bug in the reporting mechanism for boolean enforcement failures;
 
-22nd July 2016 - 0.18.9
-=======================
 
-Summary:
---------
+## 0.8.2 - 16th June 2008
 
- * fix to 0.18.8 release
- * NOTE: requires STLSoft 1.9.128
- * bundles shwild 0.10.1
+* elimination of compiler warning on VC++ 8+;
 
 
-22nd July 2016 - 0.18.8
-=======================
+## 0.8.1 - 5th June 2008
 
-Summary:
---------
+* added ability to specify output stream (FILE*) when starting a test runner;
 
- * changed no-throw declaration from stlsoft_throw_0() to STLSOFT_NOEXCEPT
- * support for Borland C++ 6.2x
- * added makefiles for Borland 5.82, 6.1x, 6.2x
- * significant refactoring of structure of makefiles
- * strict C-compilation compatibility
- * NOTE: requires STLSoft 1.9.128
- * bundles shwild 0.10.1
 
-Details:
---------
+## 0.7.4 - 4th June 2008
 
-General:
+* addition of missing makefiles in the distro;
+* bundles shwild 0.9.18;
 
- ~ include/xtests/xtests.h:
-    ~ substantially reworked makefile structure
-    ~ changed no-throw declaration from stlsoft_throw_0() to STLSOFT_NOEXCEPT
-    ~ strict C-compilation compatibility
 
- ~ include/xtests/util/filesystem_exception.hpp:
-    ~ GCC compatibility
-    ~ Clang compatibility
-    ~ defect fix
+## 0.7.3 - 20th May 2008
 
- ~ include/xtests/util/temp_directory.hpp:
-    ~ changed no-throw declaration from stlsoft_throw_0() to STLSOFT_NOEXCEPT
-    ~ GCC compatibility
-    ~ Clang compatibility
-    ~ UNIX compatibility
+* minor weakening of string comparison;
+* bundles shwild 0.9.17;
 
- ~ include/xtests/util/temp_file.hpp:
-    ~ changed no-throw declaration from stlsoft_throw_0() to STLSOFT_NOEXCEPT
-    ~ GCC compatibility
-    ~ Clang compatibility
-    ~ UNIX compatibility
 
-Core:
+## 0.7.2 - 11th May 2008
 
-Distribution:
+* minor compatibility enhancements;
 
-Makefiles / Project-files:
 
- ~ build/ar/makefile:
- ~ build/bc56/makefile:
- ~ build/bc582/makefile:
-    ~ substantially reworked makefile structure
+## 0.7.1 - 4th May 2008
 
- + build/bc59x/makefile:
- + build/bc61x/makefile:
- + build/bc62x/makefile:
-    + added makefiles for Borland 5.82, 6.1x, 6.2x
+* added Win64-compatibility;
 
- ~ build/como433.unix/makefile:
- ~ build/como433.win32/makefile:
- ~ build/cw8.unix/makefile:
- ~ build/cw8.win32/makefile:
- ~ build/dm/makefile:
- ~ build/gcc34.unix/makefile:
- ~ build/gcc34.win32/makefile:
- ~ build/gcc40.mac/makefile:
- ~ build/gcc40.unix/makefile:
- ~ build/gcc41.mac/makefile:
- ~ build/gcc41.unix/makefile:
- ~ build/gcc42.mac/makefile:
- ~ build/gcc42.unix/makefile:
- ~ build/gcc43.unix/makefile:
- ~ build/gcc44.unix/makefile:
- ~ build/gcc45.unix/makefile:
- ~ build/gcc46.unix/makefile:
- ~ build/gcc47.unix/makefile:
- ~ build/icl8.win32/makefile:
- ~ build/icl9.win32/makefile:
- ~ build/vc10.unixem/makefile:
- ~ build/vc10.x64/makefile:
- ~ build/vc10/makefile:
- ~ build/vc11.unixem/makefile:
- ~ build/vc11.x64/makefile:
- ~ build/vc11/makefile:
- ~ build/vc12.unixem/makefile:
- ~ build/vc12.x64/makefile:
- ~ build/vc12/makefile:
- ~ build/vc14.unixem/makefile:
- ~ build/vc14.x64/makefile:
- ~ build/vc14/makefile:
- ~ build/vc6.unixem/makefile:
- ~ build/vc6/makefile:
- ~ build/vc71/makefile:
- ~ build/vc8.unixem/makefile:
- ~ build/vc8.x64/makefile:
- ~ build/vc8/makefile:
- ~ build/vc9.unixem/makefile:
- ~ build/vc9.x64/makefile:
- ~ build/vc9/makefile:
-    ~ substantially reworked makefile structure
 
-Examples:
+## 0.6.5 - 29th April 2008
 
-Test:
+* added compatibity with heterogeneous string types to xtests_writeFailMessage();
 
-Test.Unit:
 
-Test.Component:
+## 0.6.4 - 25th April 2008
 
-Test.Scratch:
+* fix for Sun Pro compatibility;
 
-Depends on:
 
- * STLSoft 1.9.121 or later
-   (http://stlsoft.org/)
+## 0.6.3 - 22nd April 2008
 
+* fix for Borland compilation error with widestring macros;
 
 
-7th October 2015 - 0.18.4
-=========================
+## 0.6.2 - 21st April 2008
 
-Summary:
---------
+* added makefiles for VC9, GCC 4.1 and GCC 4.2;
+* altered library names to use UNIX libXXXX naming convention in UNIX builds;
 
- * added temp_directory and temp_file utility classes
- * now supports test cases that have void* param (for setup param)
- * support for cdecl and stdcall test cases
- * support for Clang
- * support for VC++ 11
- * support for VC++ 12
- * support for VC++ 14
- * NOTE: requires STLSoft 1.9.121
- * bundles shwild 0.10.1
 
-Details:
---------
+## 0.6.1 - 20th April 2008
 
-General:
+* added evaluation of heterogeneous string types, using shim-based type-tunneling;
 
- ~ include/xtests/xtests.h:
-    ~ handling cdecl and stdcall test cases
-    ~ Clang support
-    ~ changed namespaces, such that C++-only constructs are in xtests::cpp not xtests::c::cpp
-    ~ C test constructs now include (some semblance of) meaningful contextual message
-    + xtests_getSetupParam() for obtaining setup
-    + xtests_getSetupParam() for obtaining setup
-    + added XTESTS_COMMANDLINE_PARSEVERBOSITY_DEFAULT(), which parses command-line and allows a default verbosity to be specified programmatically
 
- ~ include/xtests/implicit_link.h:
-    + added VC++ 11 support
-    + added VC++ 12 support
-    + added VC++ 14 support
+## 0.5.2 - 19th April 2008
 
- + include/xtests/util/filesystem_exception.hpp:
-    + xtests::cpp::util::filesystem_exception
+* added implicit link support for VC++ 9;
 
- + include/xtests/util/temp_directory.hpp:
-    + xtests::cpp::util::temp_directory
 
- + include/xtests/util/temp_file.hpp:
-    + xtests::cpp::util::temp_file
+## 0.5.1 - 16th April 2008
 
-Core:
+* added explicit support for character tests;
+* fixed bug in formatting of != tests;
 
- ~ src/xtests.core.cpp:
-    ~ forward compatibility with STLSoft 1.12
-    ~ fixed nasty nested loop variable hiding (that Clang refused to chew)
-    + handlers for failure (such as by filesystem_exception thrown by temp_directory / temp_file)
 
- + src/xtests.internal.exception_macros.hpp:
-    ~ Clang compatibility
+## 0.4.1 - 13th April 2008
 
-Distribution:
+* added explicit support for boolean tests;
 
-Makefiles / Project-files:
 
- ~ build/ar/makefile:
- ~ build/bc56/makefile:
- ~ build/bc582/makefile:
- ~ build/como433.unix/makefile:
- ~ build/como433.win32/makefile:
- ~ build/cw8.unix/makefile:
- ~ build/cw8.win32/makefile:
- ~ build/dm/makefile:
- ~ build/gcc34.unix/makefile:
- ~ build/gcc34.win32/makefile:
- ~ build/gcc40.mac/makefile:
- ~ build/gcc40.unix/makefile:
- ~ build/gcc41.mac/makefile:
- ~ build/gcc41.unix/makefile:
- ~ build/gcc42.mac/makefile:
- ~ build/gcc42.unix/makefile:
- + build/gcc43.unix/makefile:
- + build/gcc44.unix/makefile:
- + build/gcc45.unix/makefile:
- + build/gcc46.unix/makefile:
- + build/gcc47.unix/makefile:
- ~ build/icl8.win32/makefile:
- ~ build/icl9.win32/makefile:
- ~ build/vc10/makefile:
- + build/vc10.unixem/makefile:
- + build/vc10.x64/makefile:
- + build/vc11.unixem/makefile:
- + build/vc11.x64/makefile:
- + build/vc11/makefile:
- ~ build/vc6.unixem/makefile:
- ~ build/vc6/makefile:
- ~ build/vc71/makefile:
- ~ build/vc8.unixem/makefile:
- ~ build/vc8.x64/makefile:
- ~ build/vc8/makefile:
- ~ build/vc9.unixem/makefile:
- ~ build/vc9.x64/makefile:
- ~ build/vc9/makefile:
-    ~ now supports caller-defined/environment variable XTESTS_SHWILD_BASE_DIR to use non-bundled shwild
+## 0.3.3 - 18th March 2008
 
- + build/vc12.unixem/makefile:
- + build/vc12.x64/makefile:
- + build/vc12/makefile:
-    + VC++ 12 makefile
+* fix for wide string support;
 
- + build/vc14.unixem/makefile:
- + build/vc14.x64/makefile:
- + build/vc14/makefile:
-    + VC++ 14 makefile
 
- ~ projects/core/vc6/xtests.core.dsp:
+## 0.3.2 - 15th March 2008
 
-Examples:
+* minor bug fix to prevent confusion about threading models on some UNIX operating systems;
 
-Test:
 
-Test.Unit:
+## 0.3.1 - 15th March 2008
 
-Test.Component:
+* added wide string comparison;
+* enhanced multibyte string comparison;
 
-Test.Scratch:
 
- + test/scratch/test.scratch.temp_directory
+## 0.2.2 - 13th March 2008
 
- + test/scratch/test.scratch.temp_file
+* minor bug fix in definition of XTEST_TEST_POINTER_???? macros;
 
-Depends on:
 
- * STLSoft 1.9.121 or later
-   (http://stlsoft.org/)
+## 0.2.1 - 12th March 2008
 
+* added support for pointer testing;
+* enhanced string testing;
+* fixed implicit link bug;
 
 
-1st March 2013 - 0.17.1
-=======================
+## 0.1.15 - 24th February 2008
 
-Summary:
---------
+* fixed compilation bug when exception-handling support not enabled;
 
- * added XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL() / XTESTS_TEST_WIDE_STRING_SLICE_EQUAL() macros for testing string slices
- * expected/unexpected exception event messages now include file+line
- * refactoring of implementation
- * tidying up of makefile gripes
- * NOTE: requires STLSoft 1.9.117
- * bundles shwild 0.9.18
 
-Details:
---------
+## 0.1.14 - 23rd February 2008
 
-General:
+* fix in main header for bug encountered in C compilation units;
+* enhancements to test & example programs;
 
- ~ include/xtests/xtests.h:
-    ~ expected/unexpected exception event messages now include file+line
-    + added XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL()
-    + added XTESTS_TEST_WIDE_STRING_SLICE_EQUAL()
-    ~ merged from 0.16
 
-Core:
+## 0.1.13 - 23rd February 2008
 
- ~ src/xtests.core.cpp:
-    ~ expected/unexpected exception event messages now include file+line
-    ~ moving string functions to utility file(s)
-    ~ moving conditional try-catch to header
-    ~ merging from 0.16
+* minor bug fix for Borland compilation;
 
- + src/xtests.internal.exception_macros.hpp:
-    ~ moving conditional try-catch to header
 
- ~ src/xtests.internal.string.c:
-    ~ moving string functions to utility file(s)
-    ~ merging from 0.16
+## 0.1.12 - 22nd February 2008
 
- + src/xtests.internal.string.h:
-    ~ moving string functions to utility file(s)
+* First public release;
 
-Distribution:
 
-Makefiles / Project-files:
-
- ~ build/ar/makefile:
- ~ build/bc56/makefile:
- ~ build/bc582/makefile:
- ~ build/como433.unix/makefile:
- ~ build/como433.win32/makefile:
- ~ build/cw8.unix/makefile:
- ~ build/cw8.win32/makefile:
- ~ build/dm/makefile:
- ~ build/gcc34.unix/makefile:
- ~ build/gcc34.win32/makefile:
- ~ build/gcc40.mac/makefile:
- ~ build/gcc40.unix/makefile:
- ~ build/gcc41.mac/makefile:
- ~ build/gcc41.unix/makefile:
- ~ build/gcc42.mac/makefile:
- ~ build/gcc42.unix/makefile:
- ~ build/icl8.win32/makefile:
- ~ build/icl9.win32/makefile:
- ~ build/vc10/makefile:
- ~ build/vc6.unixem/makefile:
- ~ build/vc6/makefile:
- ~ build/vc71/makefile:
- ~ build/vc8.unixem/makefile:
- ~ build/vc8.x64/makefile:
- ~ build/vc8/makefile:
- ~ build/vc9.unixem/makefile:
- ~ build/vc9.x64/makefile:
- ~ build/vc9/makefile:
-    ~ tidying up clean target(s)
-    ~ slight refactoring of makefiles
-
- + build/gcc43.unix/makefile:
- + build/gcc44.unix/makefile:
- + build/gcc45.unix/makefile:
- + build/gcc46.unix/makefile:
- + build/gcc47.unix/makefile:
- + build/vc10.unixem/makefile:
- + build/vc10.x64/makefile:
- + build/vc11.unixem/makefile:
- + build/vc11.x64/makefile:
- + build/vc11/makefile:
-    ~ tidying up clean target(s)
-    ~ slight refactoring of makefiles
-
- ~ projects/core/vc6/xtests.core.dsp:
-    + added XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL()
-    + added XTESTS_TEST_WIDE_STRING_SLICE_EQUAL()
-    ~ merging from 0.16
-    ~ fixups to project files
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
- ~ test/scratch/test.scratch.fail_all.1/test.scratch.fail_all.1.cpp:
-    ~ compatibility with NoX build
-
- + test/scratch/test.scratch.string_slices.c/test.scratch.string_slices.c.c:
-    + scratch test for string-slices
-
- + test/scratch/test.scratch.string_slices.c/vc6/test.scratch.string_slices.c.dsp:
-    + scratch test for string-slices
-
-Depends on:
-
- * STLSoft 1.9.117 or later
-   (http://stlsoft.org/)
-
-
-
-16th February 2013 - 0.16.6
-===========================
-
-Summary:
---------
-
- * improved handling of booleans
- * VC++ 11 compatibility
- * NOTE: requires STLSoft 1.9.115
- * bundles shwild 0.9.18
-
-Details:
---------
-
-General:
-
- ~ include/xtests/xtests.h:
-    ~ better enforces (and informs) that boolean tests must involve boolean parameters (with special case for int)
-
-Core:
-
- ~ src/xtests.core.cpp:
-    ~ 64-bit compatibility
-
-Distribution:
-
-Makefiles / Project-files:
-
- ~ build/cw8.unix/makefile:
- ~ build/cw8.win32/makefile:
-    ~ merging from 0.17
-    + added  -warn nounusedexpr to CodeWarrior makefile(s)
-
- + build/gcc47.unix/makefile:
-    + GCC 4.7 makefile
-
- + build/vc11.unixem/makefile:
- + build/vc11.x64/makefile:
- + build/vc11/makefile:
-    + VC++ 11
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.115 or later
-   (http://stlsoft.org/)
-
-
-
-2nd December 2011 - 0.16.3
-==========================
-
-Summary:
---------
-
- * workaround for strange behaviour (probably code-generation fault) in GCC 4.2 on Mac OS-X 10.7
- * NOTE: requires STLSoft 1.9.111
-
-Details:
---------
-
-General:
-
- ~ include/xtests/xtests.h:
-    ~ workaround for strange behaviour (probably code-generation fault) in GCC 4.2 on Mac OS-X 10.7
-
-Core:
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.111 or later
-   (http://stlsoft.org/)
-
-
-
-13th August 2010 - 0.16.2
-=========================
-
-Summary:
---------
-
- * various minor modifications for compatibility with recent versions of GCC 4.X
- * NOTE: requires STLSoft 1.9.111
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ include/xtests/xtests.h:
-    + XTESTS_TEST_INTEGER_EQUAL_ANY_OF2()
-    + XTESTS_TEST_INTEGER_EQUAL_ANY_OF3()
-
- ~ src/xtests.core.cpp:
-    ~ compatibility with strictness of NULL in GCC 4.5+
-    ~ trivial casting
-    ~ fix to avoid naming conflict
-    ~ fixed defect whereby string-N comparison failures read from beyond the valid range of the length-limited string
-
-Distribution:
-
-Makefiles / Project-files:
-
- ~ build/ar/makefile:
- ~ build/bc56/makefile:
- ~ build/bc582/makefile:
- ~ build/como433.unix/makefile:
- ~ build/como433.win32/makefile:
- ~ build/cw8.unix/makefile:
- ~ build/cw8.win32/makefile:
- ~ build/dm/makefile:
- ~ build/gcc34.unix/makefile:
- ~ build/gcc34.win32/makefile:
- ~ build/gcc40.mac/makefile:
- ~ build/gcc40.unix/makefile:
- ~ build/gcc41.mac/makefile:
- ~ build/gcc41.unix/makefile:
- ~ build/gcc42.mac/makefile:
- ~ build/gcc42.unix/makefile:
-    ~ simplified the naming of bin and lib targets within the makefiles
-
- + build/gcc43.unix/makefile:
-    + added GCC 4.3 makefile
-
- + build/gcc44.unix/makefile:
-    + added GCC 4.4 makefile
-
- + build/gcc45.unix/makefile:
-    + added GCC 4.5 makefile
-
- + build/gcc46.unix/makefile:
-    + added GCC 4.6 makefile
-
- ~ build/icl8.win32/makefile:
- ~ build/icl9.win32/makefile:
- ~ build/vc6.unixem/makefile:
- ~ build/vc6/makefile:
- ~ build/vc71/makefile:
- ~ build/vc8.unixem/makefile:
- ~ build/vc8.x64/makefile:
- ~ build/vc8/makefile:
- ~ build/vc9.unixem/makefile:
- ~ build/vc9.x64/makefile:
- ~ build/vc9/makefile:
-    ~ simplified the naming of bin and lib targets within the makefiles
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.111 or later
-   (http://stlsoft.org/)
-
-
-
-13th August 2010 - 0.16.1
-=========================
-
-Summary:
---------
-
- * added function pointer testing, via XTESTS_TEST_FUNCTION_POINTER_EQUAL() and XTESTS_TEST_FUNCTION_POINTER_NOT_EQUAL()
- * added implicit-link support for VC++ 10
- * fixes for 64-bit compatibility
- * NOTE: requires STLSoft 1.9.100
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ include/xtests/implicit_link.h:
-    + added implicit-link support for VC++ 10
-
- ~ include/xtests/xtests.h:
-    ~ 64-bit compatibility
-    + added XTESTS_TEST_FUNCTION_POINTER_EQUAL()
-    + added XTESTS_TEST_FUNCTION_POINTER_NOT_EQUAL()
-
- ~ src/xtests.core.cpp:
-    ~ 64-bit compatibility
-    + added function pointer tests
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.100 or later
-   (http://stlsoft.org/)
-
-
-
-21st June 2010 - 0.15.2
-=======================
-
-Summary:
---------
-
- * minimal compatibility enhancements
- * NOTE: requires STLSoft 1.9.97
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ include/xtests/xtests.h:
-    + added STLSOFT_MINIMUM_SAS_INCLUDES, to restrict how many of the string access shims are included
-
- ~ src/xtests.core.cpp:
-    ~ handling NULL passed to xtests_caseExcepted()
-    ~ GCC compatibility-fixes
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.99 or later
-   (http://stlsoft.org/)
-
-
-
-4th April 2010 - 0.15.1
-=======================
-
-Summary:
---------
-
- * added in-range testing, via XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE() and XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE()
- * added XTESTS_ARRAY_END_POST
- * VC6 compatibility for signed __int16, unsigned __int16, & signed __int1632
- * NOTE: requires STLSoft 1.9.97
-
-Details:
---------
-
-General:
-
- ~ include/xtests/xtests.h:
-   + XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE
-    + XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE
-   + XTESTS_ARRAY_END_POST
-    ~ VC6 compatibility for signed __int16, unsigned __int16, & signed __int1632
-
-Core:
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.89 or later
-   (http://stlsoft.org/)
-
-
-
-20th January 2010 - 0.14.4
-==========================
-
-Summary:
---------
-
- * workaround for erroneous Borland compilation error
- * NOTE: requires STLSoft 1.9.89
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ src/xtests.core.cpp:
-    ~ fix for Borland (5.6) compilation error (due to confusion about inner anonymous namespace symbol visibility)
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.89 or later
-   (http://stlsoft.org/)
-
-
-
-19th January 2010 - 0.14.3
-==========================
-
-Summary:
---------
-
- * removed erroneous debug information in UNIXem release builds
- * NOTE: requires STLSoft 1.9.89
-
-Details:
---------
-
-General:
-
-Core:
-
-Distribution:
-
-Makefiles / Project-files:
-
- ~ build/vc6.unixem/makefile:
- ~ build/vc8.unixem/makefile:
- ~ build/vc9.unixem/makefile:
-    ~ removed erroneous debug information in UNIXem release builds
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.89 or later
-   (http://stlsoft.org/)
-
-
-
-11th August 2009 - 0.14.2
-=========================
-
-Summary:
---------
-
- * workaround for minor warning
- * NOTE: requires STLSoft 1.9.87
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ include/xtests/xtests.h:
- ~ src/xtests.core.cpp:
-    ~ workaround for minor warning
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.87 or later
-   (http://stlsoft.org/)
-
-
-
-13th July 2009 - 0.14.1
-=======================
-
-Summary:
---------
-
- * added ability to display a summary of only the first case to fail
- * renamed and add to enumerators of xtests_verbosity_t
- * NOTE: requires STLSoft 1.9.85
-
-Details:
---------
-
-General:
-
- ~ expanded range of verbosity enumerators
- ~ added ability to display a summary of only the first case to fail
-
-Core:
-
- ~ include/xtests/xtests.h:
-    ~ renamed and add to enumerators of xtests_verbosity_t
-
- ~ src/xtests.core.cpp:
-    ~ expanded range of verbosity enumerators
-    ~ added ability to display a summary of only the first case to fail
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.85 or later
-   (http://stlsoft.org/)
-
-
-
-8th July 2009 - 0.13.3
-======================
-
-Summary:
---------
-
- * workaround for Intel C/C++ compiler defect
- * NOTE: requires STLSoft 1.9.85
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ src/xtests.core.cpp:
-    ~ workaround for Intel C/C++ compiler defect
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.85 or later
-   (http://stlsoft.org/)
-
-
-
-16th June 2009 - 0.13.2
-=======================
-
-Summary:
---------
-
- * added XTESTS_REQUIRE(), to allow testing to stop after test failure, to avoid contract violations
- * NOTE: requires STLSoft 1.9.85
-
-Details:
---------
-
-General:
-
- ~ include/xtests/xtests.h:
-    + XTESTS_REQUIRE()
-
-Core:
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.85 or later
-   (http://stlsoft.org/)
-
-
-
-1st May 2009 - 0.12.1
-=====================
-
-Summary:
---------
-
- * added XTESTS_FLOATINGPOINT_FACTOR_SCOPE scoping class
- * added XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_EXACT, XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_APPROX, and XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL test macros
- * NOTE: requires STLSoft 1.9.78
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ include/xtests/xtests.h:
-    + added XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_EXACT test macro
-    + added XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_APPROX test macro
-    + added XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL test macro
-    + added XTESTS_FLOATINGPOINT_FACTOR_SCOPE scoping class
-    ~ now depends on STLSoft 1.9.78
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.78 or later
-   (http://stlsoft.org/)
-
-
-
-25th April 2009 - 0.11.5
-========================
-
-Summary:
---------
-
- * fixed defect in XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS_AND_SETUP_FNS()
- * added implicit link support for Intel C/C++ 10 & 11
- * allows stream to be NULL, and assumes stdout if no reporter specified
- * NOTE: requires STLSoft 1.9.77
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ include/xtests/xtests.h:
-    ~ now assumes stdout if given stream is NULL (and no reporter specified)
-    ~ corrected defective definition of XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS_AND_SETUP_FNS()
-
- ~ include/xtests/implicit_link.h:
-    ~ refactored implicit_link file to correspond to other libraries (e.g. Pantheios, FastFormat)
-    + added support for Intel C/C++ 10 & 11
-
- ~ src/xtests.core.cpp:
-    ~ now assumes stdout if given stream is NULL (and no reporter specified)
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.77 or later
-   (http://stlsoft.org/)
-
-
-
-17th April 2009 - 0.11.4
-========================
-
-Summary:
---------
-
- * changes to defn of exceptions & RTTI, for conformance to other library (e.g. Pantheios) makefile templates
- * now allows compilation absent RTTI
- * NOTE: now requires STLSoft 1.9.77
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ include/xtests/xtests.h:
- ~ src/xtests.core.cpp:
-    ~ now allows compilation absent RTTI
-
-Distribution:
-
-Makefiles / Project-files:
-
- ~ build/ar/makefile:
- ~ build/bc56/makefile:
- ~ build/bc582/makefile:
- ~ build/cw8.unix/makefile:
- ~ build/cw8.win32/makefile:
- ~ build/dm/makefile:
- ~ build/gcc34.unix/makefile:
- ~ build/gcc34.win32/makefile:
- ~ build/gcc40.mac/makefile:
- ~ build/gcc40.unix/makefile:
- ~ build/gcc41.mac/makefile:
- ~ build/gcc41.unix/makefile:
- ~ build/gcc42.mac/makefile:
- ~ build/gcc42.unix/makefile:
- ~ build/icl8.win32/makefile:
- ~ build/icl9.win32/makefile:
- ~ build/vc6.unixem/makefile:
- ~ build/vc6/makefile:
- ~ build/vc71/makefile:
- ~ build/vc8.unixem/makefile:
- ~ build/vc8.x64/makefile:
- ~ build/vc8/makefile:
- ~ build/vc9.unixem/makefile:
- ~ build/vc9.x64/makefile:
- ~ build/vc9/makefile:
-    ~ changes to defn of exceptions & RTTI, for conformance to other library (e.g. Pantheios) makefile templates
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.77 or later
-   (http://stlsoft.org/)
-
-
-
-15th April 2009 - 0.11.3
-========================
-
-Summary:
---------
-
- * fixed defect in internal snprintf() abstraction, which faults on Linux
- * NOTE: now requires STLSoft 1.9.77
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ src/xtests.core.cpp:
-    ~ fixed defect whereby args (va_list) used multiple times (which causes failure on UNIX, but not on Windows or Mac)
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.77 or later
-   (http://stlsoft.org/)
-
-
-
-9th March 2009 - 0.11.2
-=======================
-
-Summary:
---------
-
- * fixed defect in core, whereby snprintf() overrun led to fault
- * NOTE: now requires STLSoft 1.9.76
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ src/xtests.core.cpp:
-    ~ fixed defect in xtests_mxnprintf_(), whereby overrun of snprintf() was only tested against the non-standard return of -1, and not the standard return of the required buffer size
-
-
-
-6th March 2009 - 0.11.1
-=======================
-
-Summary:
---------
-
- * added setup / teardown functionality
- * NOTE: now requires STLSoft 1.9.75
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ include/xtests/xtests.h:
-    + added setup / teardown functionality
-    + added XTESTS_START_RUNNER_WITH_SETUP_FNS(), XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS_AND_SETUP_FNS(),
-    ~ workaround for warnings from _Wp64 compilation with unsigned <=> size_t
-
- ~ src/xtests.core.cpp:
-    + added setup / teardown functionality
-
-
-
-13th February 2009 - 0.10.4
-===========================
-
-Summary:
---------
-
- * added support for Borland 5.9.x and 6.1.x
- * added workaround for over-eager warnings in GCC 4.3
- * NOTE: now requires STLSoft 1.9.74
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ include/xtests/xtests.h:
-    ~ now requires STLSoft 1.9.74
-
- ~ include/xtests/implicit_link.h:
-    + support for Borland 5.9.x and 6.1.x
-
- ~ src/xtests.core.cpp:
-    ~ added fatuous empty string argument to fprintf() to workaround overly pedantic warnings in GCC 4.3+
-    + support for Borland 5.9.x and 6.1.x
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.74 or later
-   (http://stlsoft.org/)
-
-
-
-1st February 2009 - 0.10.3
-==========================
-
-Summary:
---------
-
- * added ability to suppress reporting of empty test cases
- * added XTESTS_START_RUNNER_WITH_FLAGS()
- * now uses Windows debugging support when emulating UNIX on Windows
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ include/xtests/xtests.h:
-    + added runner start flag xtestsReportOnlyNonEmptyCases, which suppresses
-      reporting of empty test cases
-    + added XTESTS_START_RUNNER_WITH_FLAGS()
-    ~ fixed defect to function template form of xtests_writeFailMessage() introduced in 0.10.2
-
- ~ src/xtests.core.cpp:
-    + now uses Windows debugging support when emulating UNIX on Windows
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.72 or later
-   (http://stlsoft.org/)
-
-
-
-1st February 2009 - 0.10.3
-==========================
-
-Summary:
---------
-
- * added ability to suppress reporting of empty test cases
- * added XTESTS_START_RUNNER_WITH_FLAGS()
- * now uses Windows debugging support when emulating UNIX on Windows
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ include/xtests/xtests.h:
-    + added runner start flag xtestsReportOnlyNonEmptyCases, which suppresses
-      reporting of empty test cases
-    + added XTESTS_START_RUNNER_WITH_FLAGS()
-    ~ fixed defect to function template form of xtests_writeFailMessage() introduced in 0.10.2
-
- ~ src/xtests.core.cpp:
-    + now uses Windows debugging support when emulating UNIX on Windows
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.72 or later
-   (http://stlsoft.org/)
-
-
-
-20th January 2009 - 0.10.2
-==========================
-
-Summary:
---------
-
- Numerous substantial enhancements, including the following:
-
- * added facilities for length-limiting string comparison
- * added missing macros for case-insensitive string inequality
- * added full support for custom reporter functionality
- * corrected defect whereby s/uint64 integer failures were not counted towards the total
- * fixed various minor defects
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ include/xtests/xtests.h:
-
-    + added XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_APPROX()
-    + added XTESTS_TEST_WIDE_STRING_NOT_EQUAL_APPROX()
-
-    + added XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N()
-    + added XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N_APPROX()
-    + added XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N()
-    + added XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N_APPROX()
-
-    + added XTESTS_TEST_WIDE_STRING_EQUAL_N()
-    + added XTESTS_TEST_WIDE_STRING_EQUAL_N_APPROX()
-    + added XTESTS_TEST_WIDE_STRING_NOT_EQUAL_N()
-    + added XTESTS_TEST_WIDE_STRING_NOT_EQUAL_N_APPROX()
-
-    + added XTESTS_ABEND()
-
-    + added XTESTS_RUN_CASE_THAT_THROWS_WITH_DESC()
-
-    ~ renamed XTESTS_RUN_CASE_THAT_THROWS_WITH_DESC() => XTESTS_RUN_CASE_THAT_THROWS_WITH_NAME_AND_DESC()
-
-    ~ full implementation of callback reporter functionality
-
-    + added enumeration xtests_runner_flags_t, and macro XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS(), which support specifying flags to xtests_startRunner()
-
-    ~ modified XTESTS_TEST_PASSED() to include file+line+function information
-
-    ~ changed definition of xTests_runner_results_t
-
-    + added xtests_variable_type_t enumeration, xtests_variable_value_t union and xtests_variable_t structure types, for describing variable values
-
-    + added onWriteFailMessage() to reporter interface, and implemented xtests_writeFailMessage() in terms of it
-
- ~ src/xtests.core.cpp:
-    ~ full implementation of callback reporter functionality
-
-    + added ability to write to multiple output streams; on Windows, writes to given output stream (defaults to stdout), and also to Windows Debugger (via OutputDebugString())
-
-    ~ corrected defect whereby s/uint64 integer failures were not counted towards the total
-
-    ~ changed case of defect detection messages
-
-    ~ fixed STRING_N tests defect, whereby condition where required length != expected length was not handled, leading to wrong test evaluations
-
-    ~ fixed buffer overflow defects
-
-    + added enumeration xtests_runner_flags_t, and macro XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS(), which support specifying flags to xtests_startRunner()
-
-    ~ fixed defect in "contains" comparison, whereby full (nul-terminated) length  forms of string slices were used
-
-    + added onWriteFailMessage() to reporter interface, and implemented xtests_writeFailMessage() in terms of it
-
-    ~ now reports results via reporter's onPrintRunnerResults() method
-    ~ refactored RunnerInfo::PrintResults()
-
-    ~ renaming of internal member variables to more precisely match function
-    + implemented default handler's onDefect() method
-
-    ~ API functions now return -2 on memory exhaustion
-
-    ~ tidying up of "safe" string functionality
-    ~ re-implemented xtests_strncpy_() and xtests_wcsncpy_() to avoid reliance on undesired behaviour in "safe" string library
-
-    ~ factored out detection of unstarted test-case into report_unstartedCase_defect_()
-
-Distribution:
-
-Makefiles / Project-files:
-
- ~ refactoring of build directories, such that every makefile is now in its
-   own directory, and is called 'makefile'. The following examples
-   illustrate:
-      build/vc9/makefile            =>  build/vc9/makefile
-      build/vc9_x64/makefile        =>  build/vc9.x64/makefile
-      build/gcc34/makefile.win32    =>  build/gcc34.win32/makefile
-      build/gcc34/makefile.unix     =>  build/gcc34.unix/makefile
-      build/gcc41/makefile.unix     =>  build/gcc41.unix/makefile
-      ...
-
- ~ VC++ project file moved to projects/core/vc6
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
- ~ test/scratch/test.scratch.basics1
- ~ test/scratch/test.scratch.basics2
-    ~ added code to exercise new 0.10 features
-
- + test/scratch/test.scratch.fail_all.1
-
-Depends on:
-
- * STLSoft 1.9.70 or later
-   (http://stlsoft.org/)
-
-
-
-29th December 2008 - 0.9.3
-==========================
-
-Summary:
---------
-
- * added XTESTS_TEST_ENUM_TRUE() and XTESTS_TEST_ENUM_FALSE()
-
-Details:
---------
-
-General:
-
-Core:
-
- + added XTESTS_TEST_ENUM_TRUE() and XTESTS_TEST_ENUM_FALSE()
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.60 or later
-   (http://stlsoft.org/)
-
-
-
-18th November 2008 - 0.9.2
-==========================
-
-Summary:
---------
-
- * added XTESTS_TEST_BOOLEAN_TRUE() and XTESTS_TEST_BOOLEAN_FALSE()
- * avoid precipitating warnings about unused return values
-
-Details:
---------
-
-General:
-
- ~ avoid precipitating warnings about unused return values
-
-Core:
-
- + added XTESTS_TEST_BOOLEAN_TRUE() and XTESTS_TEST_BOOLEAN_FALSE()
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.60 or later
-   (http://stlsoft.org/)
-
-
-
-25th October 2008 - 0.9.1
-=========================
-
-Summary:
---------
-
- * added xtestsComparisonApproxNotEqual comparison enumerator, and adjusted
-   all comparison operations accordingly
- * added xtests_testMultibyteStringContains() and
-   xtests_testWideStringContains(), and all corresponding test macros
- * cleared up some wrong (but benign) code exercised when compiling with
-   exception-support switched off
-
-Details:
---------
-
-General:
-
-Core:
-
- + added xtestsComparisonApproxNotEqual comparison enumerator, and adjusted all comparison operations accordingly: with integers and pointers it is treated the same as xtestsComparisonNotEqual; with floating-points it tests whether the values are not-equal within the limits of xtests_floatingPointClose(); with characters and strings it tests whether two values are not equal when ignoring case;
- + added xtests_testMultibyteStringContains(), xtests_testWideStringContains()
- + added XTESTS_TEST_MULTIBYTE_STRING_CONTAIN(), XTESTS_TEST_MULTIBYTE_STRING_CONTAIN_APPROX(), XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN(), XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN_APPROX()
- + added XTESTS_TEST_WIDE_STRING_CONTAIN(), XTESTS_TEST_WIDE_STRING_CONTAIN_APPROX(), XTESTS_TEST_WIDE_STRING_NOT_CONTAIN(), XTESTS_TEST_WIDE_STRING_NOT_CONTAIN_APPROX(),
- ~ cleared up some wrong (but benign) code exercised when compiling with exception-support switched off
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.59 or later
-   (http://stlsoft.org/)
-
-
-
-25th October 2008 - 0.8.7
-=========================
-
-Summary:
---------
-
- * fixed defective != comparison of signed & unsigned 64-bit integers
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ fixed defective != comparison of signed & unsigned 64-bit integers
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.59 or later
-   (http://stlsoft.org/)
-
-
-
-19th October 2008 - 0.8.6
-=========================
-
-Summary:
---------
-
- * added more integer specialisations of xtests_failure_reporter<>
-
-Details:
---------
-
-General:
-
-Core:
-
- + added xtests_failure_reporter<unsigned int>
- + added xtests_failure_reporter<signed char>
- + added xtests_failure_reporter<unsigned char>
- ~ changed xtests_failure_reporter<size_t> to xtests_failure_reporter<unsigned long>
- + added  xtests_failure_reporter<uint64_t>
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.58 or later
-   (http://stlsoft.org/)
-
-
-
-23rd August 2008 - 0.8.5
-========================
-
-Summary:
---------
-
- * added call to XTESTS_TEST_PASSED() when an expected exception is received
- * added more integer specialisations of xtests_failure_reporter<>
- * fixed a defect in the approximate comparison of negative floating-point
-   numbers
-
-Details:
---------
-
-General:
-
-Core:
-
- + now invokes XTESTS_TEST_PASSED() when an expected exception is received
- + added xtests_failure_reporter<short> specialisation
- + added xtests_failure_reporter<uint32_t> specialisation
- ~ fixed bug in xtests_floatingPointClose(), that meant that approximate
-   comparison of -ve floating-point numbers failed
- ~ tightening up of contract of xtests_setFloatingPointCloseFactor(),
-   requiring factor to be in range [1.0, 2.0)
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.48 or later
-   (http://stlsoft.org/)
-
-
-
-10th August 2008 - 0.8.4
-========================
-
-Summary:
---------
-
- * fixed a bug in the reporting mechanism for boolean enforcement failures
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ fixed a bug in the reporting mechanism for boolean enforcement failures
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.45 or later
-   (http://stlsoft.org/)
-
-
-
-16th June 2008 - 0.8.2
-======================
-
-Summary:
---------
-
- * elimination of compiler warning on VC++ 8+
-
-Details:
---------
-
-General:
-
-Core:
-
- + casts (and corresponding safety checks) in implementation of
-   struct xtests_failure_reporter<size_t> to avoid spurious warning of
-   conversion from size_t to unsigned long on 32-bit architectures with
-   VC++ 8+
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.44 or later
-   (http://stlsoft.org/)
-
-
-
-5th June 2008 - 0.8.1
-=====================
-
-Summary:
---------
-
- * added ability to specify output stream (FILE*) when starting a test
-   runner
-
-Details:
---------
-
-General:
-
-Core:
-
- + can now specify output stream (FILE*) when starting a test runner
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.44 or later
-   (http://stlsoft.org/)
-
-
-
-4th June 2008 - 0.7.4
-=====================
-
-Summary:
---------
-
- * addition of missing makefiles in the distro
- * bundles shwild 0.9.18
-
-Details:
---------
-
-General:
-
-Core:
-
-Distribution:
-
-Makefiles / Project-files:
-
- + missed vc9 makefile
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.44 or later
-   (http://stlsoft.org/)
-
-
-
-20th May 2008 - 0.7.3
-=====================
-
-Summary:
---------
-
- * minor weakening of string comparison
- * bundles shwild 0.9.17
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ the library now treats the null string and the empty string as the same
-   in multibyte and wide string comparisons
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.42 or later
-   (http://stlsoft.org/)
-
-
-
-11th May 2008 - 0.7.2
-=====================
-
-Summary:
---------
-
- * minor compatibility enhancements
-
-Details:
---------
-
-General:
-
-Core:
-
- + minor modifications as a start towards compatibility with Open Watcom
- ~ modified XTESTS_TEST_FAIL() to be compatible with heterogeneous message
-   string types
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.39 or later
-   (http://stlsoft.org/)
-
-
-
-4th May 2008 - 0.7.1
-====================
-
-Summary:
---------
-
- * added Win64-compatibility
-
-Details:
---------
-
-General:
-
-Core:
-
- + xtests_testFailed_ulonglong()
- ~ xtests_failure_reporter<size_t>::xtests_report_failure_equal() now
-   invokes xtests_testFailed_ulonglong() on 64-bit architectures
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.38 or later
-   (http://stlsoft.org/)
-
-
-
-29th April 2008 - 0.6.5
-=======================
-
-Summary:
---------
-
- * added compatibity with heterogeneous string types to
-   xtests_writeFailMessage()
-
-Details:
---------
-
-General:
-
-Core:
-
- + added compatibity with heterogeneous string types to
-   xtests_writeFailMessage()
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.34 or later
-   (http://stlsoft.org/)
-
-
-
-25th April 2008 - 0.6.4
-=======================
-
-Summary:
---------
-
- * fix for Sun Pro compatibility
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ calling std::make_pair() with string_t, since Sun Pro C++'s
-   standard library (with -library=libCstd) can't handle passing
-   a char const* to it.
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.34 or later
-   (http://stlsoft.org/)
-
-
-
-22nd April 2008 - 0.6.3
-=======================
-
-Summary:
---------
-
- * fix for Borland compilation error with widestring macros
-
-Details:
---------
-
-General:
-
- ~ fixed up the inappropriately constructed macros string and pointer
-   macros, which used the form MACRO1(abc(xyz, 123, MACRO1(mno))) rather
-   than the correct form MACRO1(abc)(xyz, 123, MACRO1(mno)). This was
-   only a problem with Borland, but it could conceivably have been a
-   problem with any compiler.
-
-Core:
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.31 or later
-   (http://stlsoft.org/)
-
-
-
-21st April 2008 - 0.6.2
-=======================
-
-Summary:
---------
-
- * added makefiles for VC9, GCC 4.1 and GCC 4.2
- * altered library names to use UNIX libXXXX naming convention in
-   UNIX builds
-
-Details:
---------
-
-General:
-
-Core:
-
-Distribution:
-
-Makefiles / Project-files:
-
- + added makefiles for VC9, GCC 4.1 and GCC 4.2
- ~ altered library names to use UNIX libXXXX naming convention in
-   UNIX builds
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.31 or later
-   (http://stlsoft.org/)
-
-
-
-20th April 2008 - 0.6.1
-=======================
-
-Summary:
---------
-
- * added evaluation of heterogeneous string types, using shim-based
-   type-tunneling
-
-Details:
---------
-
-General:
-
-Core:
-
- + added evaluation of heterogeneous string types, using shim-based
-   type-tunneling
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.31 or later
-   (http://stlsoft.org/)
-
-
-
-19th April 2008 - 0.5.2
-=======================
-
-Summary:
---------
-
- * added implicit link support for VC++ 9
-
-Details:
---------
-
-General:
-
-Core:
-
- + added implicit link support for VC++ 9
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.31 or later
-   (http://stlsoft.org/)
-
-
-
-16th April 2008 - 0.5.1
-=======================
-
-Summary:
---------
-
- * added explicit support for character tests
- * fixed bug in formatting of != tests
-
-Details:
---------
-
-General:
-
-Core:
-
- + added explicit support for boolean tests
- ~ fixed bug in formatting of != tests
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.31 or later
-   (http://stlsoft.org/)
-
-
-
-13th April 2008 - 0.4.1
-=======================
-
-Summary:
---------
-
- * added explicit support for boolean tests
-
-Details:
---------
-
-General:
-
-Core:
-
- + added explicit support for boolean tests
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.30 or later
-   (http://stlsoft.org/)
-
-
-
-18th March 2008 - 0.3.3
-=======================
-
-Summary:
---------
-
- * fix for wide string support
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ corrected widestring version of the string_traits used in the
-   case-insensitive comparison testing
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.27 or later
-   (http://stlsoft.org/)
-
-
-
-15th March 2008 - 0.3.2
-=======================
-
-Summary:
---------
-
- * minor bug fix to prevent confusion about threading models on some UNIX
-   operating systems
-
-Details:
---------
-
-General:
-
- ~ minor bug fix to prevent confusion about threading models on some UNIX
-   operating systems
-
-Core:
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.27 or later
-   (http://stlsoft.org/)
-
-
-
-15th March 2008 - 0.3.1
-=======================
-
-Summary:
---------
-
- * added wide string comparison
- * enhanced multibyte string comparison
-
-Details:
---------
-
-General:
-
-Core:
-
- + added XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX(), which performs
-   case-insensitive comparison
-
- + added wide string support equivalent to multibyte support, in the form of
-    XTESTS_TEST_WIDE_STRING_EQUAL(),
-    XTESTS_TEST_WIDE_STRING_EQUAL_APPROX(),
-    XTESTS_TEST_WIDE_STRING_NOT_EQUAL()
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.25 or later
-   (http://stlsoft.org/)
-
-
-
-13th March 2008 - 0.2.2
-=======================
-
-Summary:
---------
-
- * minor bug fix in definition of XTEST_TEST_POINTER_???? macros
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ minor bug fix in definition of XTEST_TEST_POINTER_???? macros
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.25 or later
-   (http://stlsoft.org/)
-
-
-
-12th March 2008 - 0.2.1
-=======================
-
-Summary:
---------
-
- * added support for pointer testing
- * enhanced string testing
- * fixed implicit link bug
-
-Details:
---------
-
-General:
-
- ~ fixed "bug" whereby implicit link sees "xtests.(0).*", rather than
-   "xtests.0.*"
-
-Core:
-
- + added XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL() test
- + added XTESTS_TEST_POINTER_EQUAL() test
- + added XTESTS_TEST_POINTER_NOT_EQUAL() test
- + added XTESTS_TEST_POINTER_GREATER() test
- + added XTESTS_TEST_POINTER_LESS() test
- + added XTESTS_TEST_POINTER_GREATER_OR_EQUAL() test
- + added XTESTS_TEST_POINTER_LESS_OR_EQUAL() test
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.25 or later
-   (http://stlsoft.org/)
-
-
-
-24th February 2008 - 0.1.15
-===========================
-
-Summary:
---------
-
- * fixed compilation bug when exception-handling support not enabled
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ fixed compilation bug when exception-handling support not enabled
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.23 or later
-   (http://stlsoft.org/)
-
-
-
-23rd February 2008 - 0.1.14
-===========================
-
-Summary:
---------
-
- * fix in main header for bug encountered in C compilation units
- * enhancements to test & example programs
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ fixed bad definitions of XTESTS_TEST_FLOATINGPOINT_EQUAL() and
-   XTESTS_TEST_INTEGER_EQUAL() in C compilation
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
- + more tests in existing test cases in existing examples
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
- + more tests in existing test cases in existing test programs
-
-Depends on:
-
- * STLSoft 1.9.23 or later
-   (http://stlsoft.org/)
-
-
-
-23rd February 2008 - 0.1.13
-===========================
-
-Summary:
---------
-
- * minor bug fix for Borland compilation
-
-Details:
---------
-
-General:
-
-Core:
-
- ~ fixed namespace confusion with Borland compiler
-
-Distribution:
-
-Makefiles / Project-files:
-
- ~ fixed bug whereby the Borland plus/minus syntax was not in place
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.23 or later
-   (http://stlsoft.org/)
-
-
-
-22nd February 2008 - 0.1.12
-===========================
-
-Summary:
---------
-
- * First public release
-
-Details:
---------
-
-General:
-
-Core:
-
-Distribution:
-
-Makefiles / Project-files:
-
-Examples:
-
-Test:
-
-Test.Unit:
-
-Test.Component:
-
-Test.Scratch:
-
-Depends on:
-
- * STLSoft 1.9.23 or later
-   (http://stlsoft.org/)
-
-=============================== end of file ================================
-
+<!-- ########################### end of file ########################### -->
