@@ -3,6 +3,7 @@
 
 ## Functional improvements
 
+* [ ] Fix multibyte string-equality helpers (`XTESTS_TEST_MULTIBYTE_STRING_EQUAL` / `sas_to_string_m`) so string-access shims (e.g. `c_str_data_a`) declared after **xtests.h** is included are found under GCC/MinGW two-phase lookup; unblocks **Pantheios** **test.unit.bec.COMErrorObject** on MinGW;
 * [x] ~~~GitHub Actions~~~:
   * [x] ~~~Build~~~;
   * [x] ~~~Unit-tests~~~;
