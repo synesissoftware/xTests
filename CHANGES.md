@@ -1,6 +1,24 @@
 # **xTests** Changes <!-- omit in toc -->
 
 
+## 0.26.4 - 2nd August 2026
+
+* Added modular GitHub Actions CI (**ci.yml** / **ci-cell.yml**) with install-smoke coverage;
+* Converted **CHANGES.txt** to **CHANGES.md** and removed **HISTORY.md**;
+* README CI badge now targets **ci.yml**; tagline and TOC tidy;
+* Updated **INSTALL.md** / **README.md** for consolidated **STLSoft** repository URL;
+* CMake improvements (incl. legacy MSVC warning suppression, absolute **STLSoft** include path, public **STLSoft** include for core target);
+* Enhanced **run_all_unit_tests.sh** (`--unit-only` / `--component-only` and `--no-make` guard);
+* Project boilerplate updates (**.gitattributes**, **.vimrc**, **.vscode/settings.json**, **AUTHORS.md**, **KNOWN_ISSUES.md**, **TODO.md**, **LICENSE**);
+
+
+## 0.26.4 (alpha 4) - 7th September 2025
+
+* Removed legacy Visual Studio project/solution files;
+* Added **run_all_unit_tests.cmd**;
+* Further CMake, CTest, and GitHub Actions polish;
+
+
 ## 0.26.4 (alpha 3) - 30th August 2025
 
 * CTest compatibility;

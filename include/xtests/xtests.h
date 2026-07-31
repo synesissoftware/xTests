@@ -5,11 +5,11 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 7th September 2025
+ * Updated: 2nd August 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
- * Copyright (c) 2019-2025, Matthew Wilson and Synesis Information Systems
+ * Copyright (c) 2019-2026, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 1999-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       51
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    11
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        411
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    12
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        412
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -82,7 +82,7 @@
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       26
 #define _XTESTS_VER_PATCH       4
-#define _XTESTS_VER_ALPHABETA   0x44
+#define _XTESTS_VER_ALPHABETA   0xC1
 
 #define _XTESTS_VER \
     (0\
