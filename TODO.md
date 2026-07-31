@@ -1,6 +1,13 @@
 # xTests - TODO <!-- omit in toc -->
 
 
+## Table of Contents <!-- omit in toc -->
+
+- [Functional improvements](#functional-improvements)
+- [Performance improvements](#performance-improvements)
+- [Packaging improvements](#packaging-improvements)
+
+
 ## Functional improvements
 
 * [ ] Fix multibyte string-equality helpers (`XTESTS_TEST_MULTIBYTE_STRING_EQUAL` / `sas_to_string_m`) so string-access shims (e.g. `c_str_data_a`) declared after **xtests.h** is included are found under GCC/MinGW two-phase lookup; unblocks **Pantheios** **test.unit.bec.COMErrorObject** on MinGW;
@@ -18,7 +25,7 @@
 * [ ] allow `TEST_INT_EQ(0, stlsoft::ss_uint32_t(1))` such that the comparison works without needing to specify u suffix;;
 * [ ] refactor internally params { file+line+function } into a structure;
 * [ ] internal printf translates `%zu` transparently for those (older) standard libraries that do not support;
-* [ ] summary should list #cases that failed/succeeded - CHECK THIS - ❔;
+* [x] ~~~summary should list #cases that failed/succeeded~~~ - ✅;
 * [ ] C: integer equal etc should produce message that logs both exp and act, like **BDUT**;
 * [ ] refactor out default reporter into separate implementation file;
 * [ ] remove most/all static_cast in implementation files;
@@ -30,12 +37,19 @@
 * [x] ~~~enhance C-form of macros using `_Generic` - this provided as of version 0.24.0~~~ - ✅;
 * [x] ~~~simplified (shorter) macros, via opt-in header(s)~~~ - ✅;
 * [x] ~~~ensuring different verbosity levels handled appropriately, in summary and expanded form(s)~~~ - ✅;
-* [x] ~~~**CMake** build setup should be able to infer **STLSoft** if available via a **CMake** find mechanism  (e.g. `find_package()`) - this provided as of version 0.20.5~~~ - ✅;
 
 
 ## Performance improvements
 
-\<none>
+* \<none>
+
+
+## Packaging improvements
+
+* [x] ~~~GitHub Actions~~~ - ✅:
+  * [x] ~~~Build~~~ - ✅;
+  * [x] ~~~Unit-tests~~~ - ✅;
+* [x] ~~~**CMake** build setup should be able to infer **STLSoft** if available via a **CMake** find mechanism  (e.g. `find_package()`) - this provided as of version 0.20.5~~~ - ✅;
 
 
 <!-- ########################### end of file ########################### -->
