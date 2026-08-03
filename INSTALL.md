@@ -24,19 +24,19 @@ The primary choice for installation is by use of **CMake**.
    ```
 
 2. Obtain the latest distribution of **STLSoft**, from
-   https://github.com/synesissoftware/STLSoft-1.11/, e.g.
+   https://github.com/synesissoftware/STLSoft/, e.g.
 
    ```bash
    $ mkdir -p ~/open-source
    $ cd ~/open-source
-   $ git clone https://github.com/synesissoftware/STLSoft-1.11/
+   $ git clone https://github.com/synesissoftware/STLSoft/
    ```
 
    (**NOTE**: As of the time of writing, the **STLSoft** libraries are
    still available in separate forms - 1.9 (via
    https://github.com/synesissoftware/STLSoft-1.9), 1.10 (via
    https://github.com/synesissoftware/STLSoft-1.10), 1.11 (via
-   https://github.com/synesissoftware/STLSoft-1.11) - but this will be
+   https://github.com/synesissoftware/STLSoft) - but this will be
    rectified sometime in 2023/24. Until such time as a consolidated
    project is available - via https://github.com/synesissoftware/STLSoft -
    you are advised to prefer **1.11**.)
@@ -46,9 +46,9 @@ The primary choice for installation is by use of **CMake**.
    `--stlsoft-root-dir` option, as in:
 
    ```bash
-   # Assuming step-2 cloned into ~/open-source/STLSoft-1.11
+   # Assuming step-2 cloned into ~/open-source/STLSoft
    $ cd ~/open-source/xTests
-   $ ./prepare_cmake.sh --stlsoft-root-dir ~/open-source/STLSoft-1.11 -v
+   $ ./prepare_cmake.sh --stlsoft-root-dir ~/open-source/STLSoft -v
    ```
 
    (**Hint**: execute `$ ./prepare_cmake.sh --help` for more information.)
@@ -65,7 +65,7 @@ The primary choice for installation is by use of **CMake**.
    or:
 
    ```bash
-   $ STLSOFT=~/open-source/STLSoft-1.11 ./prepare_cmake.sh -v
+   $ STLSOFT=~/open-source/STLSoft ./prepare_cmake.sh -v
    ```
 
    As of version **0.20.5**, if you have already obtained **STLSoft** and
@@ -161,7 +161,22 @@ The primary choice for installation is by use of **CMake**.
 
 ## Bundled
 
-T.B.C.
+**xTests** is small and portable enough that it is commonly bundled into
+other projects (for example **Pantheios**). In that case:
+
+* ensure **STLSoft**'s **include** directory is on your project's include
+  path (required for both the interface and the implementation);
+* add **xTests**'s **include** directory to your project's include path;
+* compile **src/xtests.core.cpp** into your build (or link a previously
+  built **libxtests.core**); and
+* `#include <xtests/xtests.h>` (and, optionally, **xtests/terse-api.h**
+  for the shorter assertion macros).
+
+If **shwild** is available — either installed or itself bundled — and
+either `XTESTS_HAS_SHWILD` is defined or **shwild**'s headers are
+included before **xtests.h**, the pattern-matching macros
+`XTESTS_TEST_MULTIBYTE_STRING_MATCHES` and
+`XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH` are enabled.
 
 
 <!-- ########################### end of file ########################### -->

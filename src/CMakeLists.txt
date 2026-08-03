@@ -90,6 +90,14 @@ target_link_libraries(core
 		$<$<STREQUAL:${STLSOFT_INCLUDE_DIR},>:STLSoft::STLSoft>
 )
 
+if(DEFINED STLSOFT_INCLUDE_DIR)
+
+	target_include_directories(core
+		PUBLIC
+			${STLSOFT_INCLUDE_DIR}
+	)
+endif()
+
 target_compile_options(core
 	PRIVATE
 		$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:

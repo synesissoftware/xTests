@@ -1,28 +1,29 @@
 # xTests <!-- omit in toc -->
 
+Simple, easy-to-use, efficient testing library, for C, C++. It's not particularly great, but it's small and portable enough to be bundled with other, more important, libraries.
+
+
 ![C](https://img.shields.io/badge/C-00599C?style=flat&logo=c&logoColor=white)
 ![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=flat&logo=c%2B%2B&logoColor=white)
 [![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![GitHub release](https://img.shields.io/github/v/release/synesissoftware/xTests.svg)](https://github.com/synesissoftware/xTests/releases/latest)
 [![Last Commit](https://img.shields.io/github/last-commit/synesissoftware/xTests)](https://github.com/synesissoftware/xTests/commits/master)
-[![CMake on multiple platforms](https://github.com/mwsis/xTests/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/mwsis/xTests/actions/workflows/cmake-multi-platform.yml)
-
-Simple, easy-to-use, efficient testing library, for C, C++. It's not particularly great, but it's small and portable enough to be bundled with other, more important, libraries.
+[![CMake on multiple platforms](https://github.com/synesissoftware/xTests/actions/workflows/ci.yml/badge.svg)](https://github.com/synesissoftware/xTests/actions/workflows/ci.yml)
 
 
 ## Table of Contents <!-- omit in toc -->
 
-- [Introduction](#introduction)
-- [Installation](#installation)
-- [Components](#components)
-- [Examples](#examples)
-- [Project Information](#project-information)
-  - [Compatibility](#compatibility)
-  - [Where to get help](#where-to-get-help)
-  - [Contribution guidelines](#contribution-guidelines)
-  - [Dependencies](#dependencies)
-  - [Related projects](#related-projects)
-  - [License](#license)
+* [Introduction](#introduction)
+* [Installation](#installation)
+* [Components](#components)
+* [Examples](#examples)
+* [Project Information](#project-information)
+  * [Compatibility](#compatibility)
+  * [Where to get help](#where-to-get-help)
+  * [Contribution guidelines](#contribution-guidelines)
+  * [Dependencies](#dependencies)
+  * [Related projects](#related-projects)
+  * [License](#license)
 
 
 ## Introduction
@@ -31,13 +32,13 @@ Simple, easy-to-use, efficient testing library, for C, C++. It's not particularl
 lightweight, portable, simple unit- and component-test framework suitable
 for exercising C and C++ libraries. Its primary design features are:
 
-- **Portability**. It relies on no platform-specific or compiler-specific
+* **Portability**. It relies on no platform-specific or compiler-specific
 constructs. The only library it relies on is the 100% header-only,
 open-source **STLSoft** library. It works with a large number of C/C++
 compilers. Importantly, it is sufficiently simple and lightweight that it
 is bundled with several other open-source libraries, and is an integral
 part of their automated unit- and component-testing in their builds;
-- **Simplicity**. It doesn't require pre-processing of your source code by
+* **Simplicity**. It doesn't require pre-processing of your source code by
 scripting languages. It doesn't use macros to create secret classes that
 use Schwarz counters to register test cases. It relies on you to simply
 code what you want, and nothing that you don't want.
@@ -45,9 +46,10 @@ code what you want, and nothing that you don't want.
 **xTests** is completely free and includes source released under a BSD-style
 license.
 
+
 ## Installation
 
-Detailed instructions — via **CMake** — are provided in the accompanying [INSTALL.md](./INSTALL.md) file.
+Detailed instructions — via **CMake**, via bundling — are provided in the accompanying [INSTALL.md](./INSTALL.md) file.
 
 
 ## Components
@@ -57,15 +59,15 @@ Detailed instructions — via **CMake** — are provided in the accompanying [IN
 <details>
 <summary markdown="span">Test-runner and Test-case functions that are used to set up the test context</summary>
 <blockquote>
- <details>
- <summary markdown="span">Test runner functions</summary>
+<details>
+<summary markdown="span">Test runner functions</summary>
 
 | Function Name & Usage (Test runner functions)                                                                                      |
 |:-----------------------------------------------------------------------------------------------------------------------------------|
 |`XTESTS_START_RUNNER(name, verbosity)`<br>Starts a test runner that will report to stdout<br>- A test runner is a logically-related group of test cases.<br>- param **name** The name of the test-runner<br>- param **verbosity** The verbosity (see xtests_verbosity_t) at which the runner will be executed |
 |`XTESTS_START_RUNNER_WITH_STREAM(name, verbosity, stm)`<br>Starts a test runner<br>- A test runner is a logically-related group of test cases.<br>- param **name** The name of the test-runner<br>- param **verbosity** The verbosity (see xtests_verbosity_t) at which the runner will be executed<br>- param **stm** The stream to which output will be written |
 |`XTESTS_START_RUNNER_WITH_REPORTER(name, verbosity, reporter, reporterParam)`<br>Starts a test runner with the given callback reporter<br>- A test runner is a logically-related group of test cases.<br>- param **name** The name of the test-runner<br>- param **verbosity** The verbosity (see xtests_verbosity_t) at which the runner will be executed<br>- param **reporter** The reporter instance<br>- param **reporterParam** A caller-supplied parameter that is passed with every callback |
-|`XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM(name, verbosity, reporter, reporterParam, stm)`<br>Starts a test runner with the given callback reporter<br>- A test runner is a logically-related group of test cases.<br>- param **name** The name of the test-runner<br>- param **verbosity** The verbosity (see xtests_verbosity_t) at which the runner will be executed<br>- param **reporter** The reporter instance<br>- param **reporterParam** A caller-supplied parameter that is passed with every callback<br>- param **stm** The stream to which output will be written
+|`XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM(name, verbosity, reporter, reporterParam, stm)`<br>Starts a test runner with the given callback reporter<br>- A test runner is a logically-related group of test cases.<br>- param **name** The name of the test-runner<br>- param **verbosity** The verbosity (see xtests_verbosity_t) at which the runner will be executed<br>- param **reporter** The reporter instance<br>- param **reporterParam** A caller-supplied parameter that is passed with every callback<br>- param **stm** The stream to which output will be written |
 |`XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS(name, verbosity, reporter, reporterParam, stm, flags)`<br>Starts a test runner with the given callback reporter<br>- A test runner is a logically-related group of test cases.<br>- param **name** The name of the test-runner<br>- param **verbosity** The verbosity (see xtests_verbosity_t) at which the runner will be executed<br>- param **reporter** The reporter instance<br>- param **reporterParam** A caller-supplied parameter that is passed with every callback<br>- param **stm** The stream to which output will be written<br>- param **flags** The flags that moderate the runner behaviour<br>- see xtests::c::xtests_runner_flags_t |
 |`XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS_AND_SETUP_FNS(name, verbosity, reporter, reporterParam, stm, flags, setup, teardown, setupParam)`<br>Starts a test runner with the given callback reporter<br>- A test runner is a logically-related group of test cases.<br>- param **name** The name of the test-runner<br>- param **verbosity** The verbosity (see xtests_verbosity_t) at which the runner will be executed<br>- param **reporter** The reporter instance<br>- param **reporterParam** A caller-supplied parameter that is passed with every invocation of the reporter<br>- param **stm** The stream to which output will be written<br>- param **flags** The \link xtests::c::xtests_runner_flags_t flags\endlink that moderate the runner behaviour<br>- param **setup** The function to be called before each test<br>- param **teardown** The function to be called after each test<br>- param **setupParam** A caller-supplied parameter that is passed with each invocation of the setup and teardown functions |
 |`XTESTS_START_RUNNER_WITH_FLAGS(name, verbosity, flags)`<br>Starts a test runner that will report to stdout<br>- A test runner is a logically-related group of test cases.<br>- param **name** The name of the test-runner<br>- param **verbosity** The verbosity (see xtests_verbosity_t) at which the runner will be executed<br>- param **flags** The \link xtests::c::xtests_runner_flags_t flags\endlink that moderate the runner behaviour |
@@ -74,9 +76,9 @@ Detailed instructions — via **CMake** — are provided in the accompanying [IN
 |`XTESTS_ABEND(terminationMessage)`<br>Abnormal end of tests, and process termination.|
 |`XTESTS_END_RUNNER_UPDATE_EXITCODE()`<br>Ends a test runner, and modifies a caller-supplied exit code parameter<br>- param **retCode** A pointer to a variable of type <code>int</code> that will receive an exit code.<br>- remarks The variable should have been initialised to <code>EXIT_SUCCESS</code>, and each invocation of XTESTS_END_RUNNER_UPDATE_EXITCODE() (for each separate test-runner in a given application) will only set it to <code>EXIT_FAILURE</code> in the case where that runner has failed one or more tests. |
 
- </details>
- <details>
- <summary markdown="span">Test case functions</summary>
+</details>
+<details>
+<summary markdown="span">Test case functions</summary>
 
 | Function Name & Usage (Test case functions)                                                                                        |
 |:-----------------------------------------------------------------------------------------------------------------------------------|
@@ -89,7 +91,7 @@ Detailed instructions — via **CMake** — are provided in the accompanying [IN
 |`XTESTS_RUN_CASE_THAT_THROWS_WITH_DESC(fn, desc, type)`<br>[C++-only] Runs the given test case function.<br>- param **fn** A function, taking no parameters and returning <code>void</code>, that executes a number of tests representing a test case;<br>- param **desc** Description of the test case;<br>- param **type** The type of the exception that is expected to be thrown;<br>**Note**: This can only be invoked after a successful invocation of `XTESTS_CASE_BEGIN()` and before invocation of `XTESTS_CASE_END()`.|
 |`XTESTS_RUN_CASE_THAT_THROWS_WITH_NAME_AND_DESC(name, desc, fn, type)`<br>[C++-only] Runs the given test case function.<br>- param **name** Name of the test case;<br>- param **desc** Description of the test case;<br>- param **fn** A function, taking no parameters and returning <code>void</code>, that executes a number of tests representing a test case;<br>- param **type** The type of the exception that is expected to be thrown;<br>**Note**: This can only be invoked after a successful invocation of `XTESTS_CASE_BEGIN()` and before invocation of `XTESTS_CASE_END()`.|
 
- </details>
+</details>
 </blockquote>
 </details>
 
@@ -97,10 +99,10 @@ Detailed instructions — via **CMake** — are provided in the accompanying [IN
 <summary markdown="span">Test assertion macros</summary>
 <blockquote>
 
- <!-- integers and floating-point -->
- <details>
- <summary markdown="span">Numeric - Integer, Floating Point - Assertion Macros</summary>
- <blockquote>
+<!-- integers and floating-point -->
+<details>
+<summary markdown="span">Numeric - Integer, Floating Point - Assertion Macros</summary>
+<blockquote>
   <details>
   <summary markdown="span">Integer Assertion Macros</summary>
 
@@ -131,13 +133,13 @@ Detailed instructions — via **CMake** — are provided in the accompanying [IN
 
   </details>
 
- </blockquote>
- </details>
+</blockquote>
+</details>
 
- <!-- characters and strings -->
- <details>
- <summary markdown="span">Character/String (Multi-Byte and Wide) Assertion Macros</summary>
- <blockquote>
+<!-- characters and strings -->
+<details>
+<summary markdown="span">Character/String (Multi-Byte and Wide) Assertion Macros</summary>
+<blockquote>
   <details>
   <summary markdown="span">Character Assertion Macros</summary>
 
@@ -197,12 +199,12 @@ Detailed instructions — via **CMake** — are provided in the accompanying [IN
 
   </details>
 
- </blockquote>
- </details>
+</blockquote>
+</details>
 
- <!-- booleans -->
- <details>
- <summary markdown="span">Boolean Assertion Macros</summary>
+<!-- booleans -->
+<details>
+<summary markdown="span">Boolean Assertion Macros</summary>
 
 | Category |Test Item                                                              |
 |:---------|:----------------------------------------------------------------------|
@@ -211,22 +213,22 @@ Detailed instructions — via **CMake** — are provided in the accompanying [IN
 | Boolean  |XTESTS_TEST_BOOLEAN_TRUE(actual)                                       |
 | Boolean  |XTESTS_TEST_BOOLEAN_FALSE(actual)                                      |
 
- </details>
+</details>
 
- <!-- enums -->
- <details>
- <summary markdown="span">Enum Assertion Macros</summary>
+<!-- enums -->
+<details>
+<summary markdown="span">Enum Assertion Macros</summary>
 
 | Category |Test Item                                                              |
 |:---------|:----------------------------------------------------------------------|
 | Enum     |XTESTS_TEST_ENUM_EQUAL(expected, actual)                               |
 | Enum     |XTESTS_TEST_ENUM_NOT_EQUAL(expected, actual)                           |
 
- </details>
+</details>
 
- <!-- pointers -->
- <details>
- <summary markdown="span">Pointer Assertion Macros</summary>
+<!-- pointers -->
+<details>
+<summary markdown="span">Pointer Assertion Macros</summary>
 
 | Category |Test Item                                                              |
 |:---------|:----------------------------------------------------------------------|
@@ -239,11 +241,11 @@ Detailed instructions — via **CMake** — are provided in the accompanying [IN
 | Pointer  |XTESTS_TEST_FUNCTION_POINTER_EQUAL(expected, actual)                   |
 | Pointer  |XTESTS_TEST_FUNCTION_POINTER_NOT_EQUAL(expected, actual)               |
 
- </details>
+</details>
 
- <!-- direct results -->
- <details>
- <summary markdown="span">Directed-result Assertion Macros</summary>
+<!-- direct results -->
+<details>
+<summary markdown="span">Directed-result Assertion Macros</summary>
 
 | Category |Test Item                                                              |
 |:---------|:----------------------------------------------------------------------|
@@ -254,7 +256,7 @@ Detailed instructions — via **CMake** — are provided in the accompanying [IN
 | Utility  |XTESTS_TEST_WITH_MESSAGE(expr, msg)                                    |
 | Utility  |XTESTS_REQUIRE(test)                                                   |
 
- </details>
+</details>
 
 </blockquote>
 </details>
@@ -262,8 +264,8 @@ Detailed instructions — via **CMake** — are provided in the accompanying [IN
 <details>
 <summary markdown="span">Utility functions and miscellaneous constructs</summary>
 <blockquote>
- <details>
- <summary markdown="span">Utility functions</summary>
+<details>
+<summary markdown="span">Utility functions</summary>
 
 | Function Name & Usage (Utility functions)  |
 |:-------------------------------------------|
@@ -271,17 +273,17 @@ Detailed instructions — via **CMake** — are provided in the accompanying [IN
 |`XTESTS_COMMANDLINE_PARSE_VERBOSITY_WITH_DEFAULT(argc, argv, pverbosity, defaultVerbosity)`<br>Parses the verbosity from the command-line arguments, looking for an argument of the form `"--verbosity=<N>"`, where `N` is a non-negative integer.<br>- param `argc`  The `argc` parameter passed into `main()`;<br>- param `argv` The `argv` parameter passed into `main()`;<br>- param `pverbosity` A pointer to an integer to receive the verbosity. Will be set to `xtestsVerbositySummaryOnSuccess` upon success, or if no verbosity argument is found. May not be `NULL`;<br>- param `defaultVerbosity` The default verbosity to be applied if none specified on the command-line|
 |`XTESTS_COMMANDLINE_PARSE_HELP(argc, argv)`<br>Parses the `"--help"` flag from the command-line and, if found, issues usage information to the standard output stream and exits (with `EXIT_SUCCESS`).<br>- param `argc`  The `argc` parameter passed into `main()`;<br>- param `argv` The `argv` parameter passed into `main()`;|
 
- </details>
+</details>
 
- <details>
- <summary markdown="span">Miscellaneous constructs</summary>
+<details>
+<summary markdown="span">Miscellaneous constructs</summary>
 
 | Constructs                                                                                                                       |
 |:---------------------------------------------------------------------------------------------------------------------------------|
 |`XTESTS_FLOATINGPOINT_FACTOR_SCOPE()`<br>[C++ only] Macro used to declare an instance of the class xtests::cpp::xtest_floatingpoint_factor_scope, which causes the floating point factor to be set to a new value for the lifetime of the object, and then returned to its prior value.|
 |`XTESTS_FP_APPROXIMATE_FACTOR(argc, argv)`<br>The factor within which floating point numbers are deemed to be approximately equal.|
 
- </details>
+</details>
 </blockquote>
 </details>
 
@@ -402,7 +404,7 @@ If you'd like to help out with the project, please raise an issue via [GitHub Pa
 
 **xTests** has two dependencies:
 
-* [STLSoft 1.11](http://github.com/synesissoftware/STLSoft-1.11/) is required, both for the implementation and for the interface, providing:
+* [STLSoft 1.11](http://github.com/synesissoftware/STLSoft/) is required, both for the implementation and for the interface, providing:
   * essential compiler and platform discrimination;
   * string compatibility;
   * string conversions (for C++ API);
@@ -435,6 +437,7 @@ Projects in which **xTests** is used for testing include:
 * [**recls**](https://github.com/synesissoftware/recls);
 * [**rstrip**](https://github.com/sistools/rstrip);
 * [**ss-win-diskutil**](https://github.com/synesissoftware/ss-win-diskutil);
+* [**STLSoft**](https://github.com/synesissoftware/STLSoft);
 * [**STLSoft-1.10**](https://github.com/synesissoftware/STLSoft-1.10);
 * [**STLSoft-1.11**](https://github.com/synesissoftware/STLSoft-1.11);
 * [**SyLVReDxx**](https://github.com/synesissoftware/SyLVReDxx);
@@ -448,4 +451,3 @@ Projects in which **xTests** is used for testing include:
 
 
 <!-- ########################### end of file ########################### -->
-
