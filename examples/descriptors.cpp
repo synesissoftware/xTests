@@ -20,7 +20,7 @@
  * A simple example of the use of xtests::cpp::util::temp_file
  */
 
-/** \example{lineno} example.cpp.temp_file/main.cpp
+/** \example{lineno} example.cpp.udt/main.cpp
  * An example of the unit-testing of a user-defined type
  */
 

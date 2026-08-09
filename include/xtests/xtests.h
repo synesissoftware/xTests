@@ -74,6 +74,10 @@
  *
  * The patch number of the xTests library
  *
+ * \def _XTESTS_VER_ALPHABETA
+ *
+ * The alpha/beta/release candidate version of the xTests library
+ *
  * \def _XTESTS_VER
  *
  * The composite version of the xTests library
@@ -92,7 +96,9 @@
         |   (   _XTESTS_VER_ALPHABETA   <<  0   ) \
     )
 
-#define _XTESTS_VER_REVISION    _XTESTS_VER_PATCH
+#ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
+# define _XTESTS_VER_REVISION                               _XTESTS_VER_PATCH
+#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -1088,7 +1094,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * \ingroup group__xtests__test_assertion_functions
  *
  * Tests that two user-defined type values are exactly equal, passing an
- * explanatory message to be used in the case of failure..
+ * explanatory message to be used in the case of failure.
  *
  * \param expected The expected value
  * \param actual The actual value
@@ -1127,7 +1133,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * \ingroup group__xtests__test_assertion_functions
  *
  * Tests that two user-defined type values are not equal, passing an
- * explanatory message to be used in the case of failure..
+ * explanatory message to be used in the case of failure.
  *
  * \param expected The expected value
  * \param actual The actual value
@@ -2184,9 +2190,9 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * \param expected The expected value of the string
  * \param actual The string slice to be evaluated, which is expected to have
- *   the member <code>#len</code> and <code>#ptr</code>
+ *   the members <code>len</code> and <code>ptr</code>
  *
- * \note This can only be invoked after a successful invocation of
+ * \note This can only be invoked after a successful invocation of the macro
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
 #define XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL(expected, actual)          \
