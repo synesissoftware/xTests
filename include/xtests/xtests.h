@@ -868,7 +868,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
 #define XTESTS_CASE_BEGIN(name, desc)                       \
     (0 == XTESTS_NS_C_QUAL(xtests_beginTestCase)((name), (desc)))
 
-/** \def XTESTS_CASE_END(name, desc)
+/** \def XTESTS_CASE_END(name)
  *
  * \ingroup group__xtests__test_case_functions
  *
