@@ -85,8 +85,8 @@
 
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       26
-#define _XTESTS_VER_PATCH       4
-#define _XTESTS_VER_ALPHABETA   0xFF
+#define _XTESTS_VER_PATCH       5
+#define _XTESTS_VER_ALPHABETA   0x41
 
 #define _XTESTS_VER \
     (0\

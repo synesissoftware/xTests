@@ -1,6 +1,19 @@
 # **xTests** Changes <!-- omit in toc -->
 
 
+## 0.26.5 (alpha 1) - 10th August 2026
+
+* Added minimal C and C++ usage examples to **README.md**;
+* Created a custom **Doxygen** main page (**doc/mainpage.md**) and a **generate_doxygen.sh** script for automated documentation building, bringing documentation generation on parity with peer projects;
+* Excluded **README.md** and **INSTALL.md** from **Doxygen** input to eliminate unresolved cross-reference warnings, and corrected obsolete configuration parameters in **Doxyfile**;
+* Clarified test suite expectations in **INSTALL.md** and **FAQ.md**, clearly distinguishing passing **unit** and **component** tests from failing **scratch** programs;
+* Corrected the signature and usage documentation of the `XTESTS_CASE_END` macro in **xtests.h** and **README.md**, removing the legacy description parameter;
+* Corrected linkage advice in **INSTALL.md** to target the **xtests.core** library artifact and documented proper modern **CMake** `find_package` consumption;
+* Documented known compiler-specific two-phase lookup and wide-character support gaps in **KNOWN_ISSUES.md**;
+* Corrected double-period parsing warnings and invalid slice member reference comments in **xtests.h**'s Doxygen blocks;
+* Corrected multiple miscellaneous typos, file header metadata, and file/module description blocks across project headers and tests;
+
+
 ## 0.26.4 - 4th August 2026
 
 * Added modular GitHub Actions CI (**ci.yml** / **ci-cell.yml**) with install-smoke coverage;
