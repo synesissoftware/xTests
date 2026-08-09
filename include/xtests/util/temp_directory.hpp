@@ -4,11 +4,11 @@
  * Purpose: Definition of the temp_directory class.
  *
  * Created: 1st October 2015
- * Updated: 28th April 2025
+ * Updated: 9th August 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
- * Copyright (c) 2019-2025, Matthew Wilson and Synesis Information Systems
+ * Copyright (c) 2019-2026, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 2015-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -22,7 +22,7 @@
  *   notice, this list of conditions and the following disclaimer in the
  *   documentation and/or other materials provided with the distribution;
  * - Neither the name of the copyright holder nor the names of its
- *   ontributors may be used to endorse or promote products derived from
+ *   contributors may be used to endorse or promote products derived from
  *   this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
@@ -52,7 +52,7 @@
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MAJOR    0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MINOR    2
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_REVISION 5
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     20
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     21
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 

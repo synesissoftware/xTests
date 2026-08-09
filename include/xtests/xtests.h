@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 4th August 2026
+ * Updated: 9th August 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -23,7 +23,7 @@
  *   notice, this list of conditions and the following disclaimer in the
  *   documentation and/or other materials provided with the distribution;
  * - Neither the name of the copyright holder nor the names of its
- *   ontributors may be used to endorse or promote products derived from
+ *   contributors may be used to endorse or promote products derived from
  *   this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
@@ -53,7 +53,7 @@
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       51
 # define XTESTS_VER_XTESTS_H_XTESTS_REVISION    13
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        413
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        414
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 

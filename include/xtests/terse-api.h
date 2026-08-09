@@ -5,11 +5,11 @@
  *          the assertion macros (and other simplifications).
  *
  * Created: 20th November 2024
- * Updated: 23rd April 2025
+ * Updated: 9th August 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
- * Copyright (c) 2024-2025, Matthew Wilson and Synesis Information Systems
+ * Copyright (c) 2024-2026, Matthew Wilson and Synesis Information Systems
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -22,7 +22,7 @@
  *   notice, this list of conditions and the following disclaimer in the
  *   documentation and/or other materials provided with the distribution;
  * - Neither the name of the copyright holder nor the names of its
- *   ontributors may be used to endorse or promote products derived from
+ *   contributors may be used to endorse or promote products derived from
  *   this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
@@ -53,7 +53,7 @@
 # define XTESTS_VER_XTESTS_H_XTESTS_TERSE_MAJOR     1
 # define XTESTS_VER_XTESTS_H_XTESTS_TERSE_MINOR     2
 # define XTESTS_VER_XTESTS_H_XTESTS_TERSE_REVISION  0
-# define XTESTS_VER_XTESTS_H_XTESTS_TERSE_EDIT      5
+# define XTESTS_VER_XTESTS_H_XTESTS_TERSE_EDIT      6
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
