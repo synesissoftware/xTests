@@ -1,5 +1,5 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.test.unit.string_comparisons/entry.cpp
+ * File:    test.unit.string_comparisons/entry.cpp
  *
  * Purpose: Component-tests for `xtests::cpp::util::temp_file`.
  *
