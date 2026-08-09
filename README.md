@@ -290,7 +290,78 @@ Detailed instructions — via **CMake**, via bundling — are provided in the ac
 
 ## Examples
 
-Extensive examples are provided in the ```examples``` directory, along with a markdown description for each. Here, it is worth just providing a simplest-possible useful example, as shown below:
+Extensive examples are provided in the **examples** directory, along with a markdown description for each. Below are the simplest-possible starting examples for both C and C++, followed by a more complete C scenario.
+
+
+### Minimal C Example
+
+```c
+#include <xtests/xtests.h>
+#include <stdlib.h>
+
+int main(int argc, char* argv[])
+{
+    int retCode = EXIT_SUCCESS;
+    int verbosity;
+
+    XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, &verbosity);
+
+    if (XTESTS_START_RUNNER("minimal_c_test", verbosity))
+    {
+        if (XTESTS_CASE_BEGIN("math", "Checking basic addition"))
+        {
+            XTESTS_TEST_INTEGER_EQUAL(4, 2 + 2);
+
+            XTESTS_CASE_END("math");
+        }
+
+        XTESTS_PRINT_RESULTS();
+        XTESTS_END_RUNNER_UPDATE_EXITCODE(&retCode);
+    }
+
+    return retCode;
+}
+```
+
+
+### Minimal C++ Example
+
+```cpp
+#include <xtests/xtests.h>
+#include <vector>
+#include <stdlib.h>
+
+int main(int argc, char* argv[])
+{
+    int retCode = EXIT_SUCCESS;
+    int verbosity;
+
+    XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, &verbosity);
+
+    if (XTESTS_START_RUNNER("minimal_cpp_test", verbosity))
+    {
+        if (XTESTS_CASE_BEGIN("vector", "Checking vector size"))
+        {
+            std::vector<int> v;
+            v.push_back(42);
+
+            XTESTS_TEST_INTEGER_EQUAL(1, v.size());
+
+            XTESTS_CASE_END("vector");
+        }
+
+        XTESTS_PRINT_RESULTS();
+        XTESTS_END_RUNNER_UPDATE_EXITCODE(&retCode);
+    }
+
+    return retCode;
+}
+```
+
+
+### Complete C Example (Factorial)
+
+Here is a more complete C example illustrating the use of the terse assertion API and separate test case functions:
 
 ```c
 /* file: example.c.factorial.c */
@@ -353,7 +424,7 @@ int main(int argc, char* argv[])
 }
 ```
 
-**NOTE**: the language shown is **C**, but a **C++** version of this example program would be very similar. **C++** test programs have additional support for facilities such as the throwing of exceptions.
+**NOTE**: **C++** test programs have additional support for facilities such as the throwing of exceptions and native C++ User-Defined Type (UDT) comparisons.
 
 
 ## Project Information
