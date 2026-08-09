@@ -143,10 +143,19 @@ The primary choice for installation is by use of **CMake**.
    3. Link your project against **xTests**:
 
       Due to the installation step (Step 6 above) there is no requirement
-      for an explicit library directory for **xTests**:
+      for an explicit library directory for **xTests**. The installed
+      library artefact is named **xtests.core** (e.g. **libxtests.core**):
 
       ```bash
-      $ g++ main.o -lxtests
+      $ g++ main.o -lxtests.core
+      ```
+
+      Preferable, when using **CMake**, is to consume the exported package
+      target:
+
+      ```cmake
+      find_package(xTests REQUIRED)
+      target_link_libraries(your_app PRIVATE xTests::core)
       ```
 
    4. Test your project:
