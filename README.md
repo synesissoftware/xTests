@@ -353,7 +353,7 @@ int main(int argc, char* argv[])
 }
 ```
 
-**NOTE**: the language shown is **C**, but a **C++** version of this example program would be very similar. **C++** test programs have additiona support for facilities such as the throwing of exceptions.
+**NOTE**: the language shown is **C**, but a **C++** version of this example program would be very similar. **C++** test programs have additional support for facilities such as the throwing of exceptions.
 
 
 ## Project Information

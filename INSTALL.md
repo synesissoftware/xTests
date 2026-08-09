@@ -87,7 +87,7 @@ The primary choice for installation is by use of **CMake**.
    not need this step.)
 
 5. As a check, execute the built test program files via the
-   **build_run_all_unit_tests.sh** script, as in:
+   **run_all_unit_tests.sh** script, as in:
 
    ```bash
    $ ./run_all_unit_tests.sh

@@ -22,7 +22,7 @@
 * [ ] `_Generic` to select type(s) in API macros;
 * [ ] wide-character testing and compiler-specific handling of `“%C”`;
 * [ ] each case should have access to a FILE* variable that is like stderr, but contents only printed when case fails;
-* [ ] allow `TEST_INT_EQ(0, stlsoft::ss_uint32_t(1))` such that the comparison works without needing to specify u suffix;;
+* [ ] allow `TEST_INT_EQ(0, stlsoft::ss_uint32_t(1))` such that the comparison works without needing to specify u suffix;
 * [ ] refactor internally params { file+line+function } into a structure;
 * [ ] internal printf translates `%zu` transparently for those (older) standard libraries that do not support;
 * [x] ~~~summary should list #cases that failed/succeeded~~~ - ✅;
