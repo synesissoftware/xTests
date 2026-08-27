@@ -6,6 +6,8 @@ Basename=$(basename "$ScriptPath")
 CMakeDir=${SIS_CMAKE_BUILD_DIR:-$Dir/_build}
 [[ -n "$MSYSTEM" ]] && DefaultMakeCmd=mingw32-make.exe || DefaultMakeCmd=make
 MakeCmd=${SIS_CMAKE_MAKE_COMMAND:-${SIS_CMAKE_COMMAND:-$DefaultMakeCmd}}
+ProjectNameFile="$Dir/.sis/project_name.txt"
+ProjectName=$(tr -d '[:space:]' < "$ProjectNameFile")
 
 CMakeVerbose=
 RunMake=1
@@ -39,7 +41,7 @@ Flags/options:
 
     -M
     --no-make
-        does not execute CMake and make before running tests
+        does not execute make before running tests
 
     -V
     --verbose
@@ -74,7 +76,7 @@ status=0
 
 if [ $RunMake -ne 0 ]; then
 
-  echo "Executing build (via command \`$MakeCmd\`) and then running all component and unit test programs"
+  echo "Executing build of ${ProjectName} (via command \`$MakeCmd\`) and then running automated tests"
 
   mkdir -p $CMakeDir || exit 1
 
@@ -94,7 +96,7 @@ fi
 
 if [ $status -eq 0 ]; then
 
-  echo "Running CMake tests"
+  echo "Running ${ProjectName} CMake tests"
 
   ctest --test-dir $CMakeDir $CMakeVerbose
   status=$?
