@@ -176,7 +176,17 @@ jobs:
         run: |
           set -euo pipefail
           test -f "${INSTALL_PREFIX}/include/xtests/xtests.h"
-          test -f "${INSTALL_PREFIX}/lib/cmake/xtests/xtests-config.cmake"
+          config="${INSTALL_PREFIX}/lib/cmake/xtests/xtests-config.cmake"
+          test -f "$config"
+          # these jobs build against the STLSoft package, so the guard must
+          # be TRUE; asserting the literal catches an undefined substitution
+          # variable, which would expand to an empty - and silently false -
+          # `if()` instead
+          if ! grep -q '^if(TRUE)' "$config"; then
+            echo "expected the find_dependency(STLSoft) guard to be TRUE" >&2
+            cat "$config" >&2
+            exit 1
+          fi
 
       - name: Configure and run install smoke consumer
         shell: bash

@@ -85,16 +85,21 @@ target_include_directories(core
 		$<INSTALL_INTERFACE:include>
 )
 
-target_link_libraries(core
-	PUBLIC
-		$<$<STREQUAL:${STLSOFT_INCLUDE_DIR},>:STLSoft::STLSoft>
-)
+if(STLSoft_IS_PACKAGE_)
 
-if(DEFINED STLSOFT_INCLUDE_DIR)
+	target_link_libraries(core
+		PUBLIC
+			STLSoft::STLSoft
+	)
+else()
 
+	# BUILD_INTERFACE, because this is the builder's own directory: without
+	# the guard it is written into the installed export, which is then
+	# meaningless anywhere else. See cmake/xtests-config.cmake.in for what
+	# the installed package tells a consumer about STLSoft in this case.
 	target_include_directories(core
 		PUBLIC
-			${STLSOFT_INCLUDE_DIR}
+			$<BUILD_INTERFACE:${STLSOFT_INCLUDE_DIR}>
 	)
 endif()
 

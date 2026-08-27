@@ -1,14 +1,39 @@
 @PACKAGE_INIT@
 
-# the exported target links `STLSoft::STLSoft` only when xTests itself was
-# built against STLSoft as a CMake package; when built against an `STLSOFT`
-# directory variable the STLSoft include directory is baked into the target
-# instead, and there is no package for a consumer to re-find
+# xTests' public headers include STLSoft's, so a consumer needs STLSoft
+# either way; how it is obtained depends on how xTests itself was built.
 if(@STLSoft_IS_PACKAGE_@)
 
+	# built against the STLSoft package, which the exported target links
 	include(CMakeFindDependencyMacro)
 
 	find_dependency(STLSoft @STLSoft_REQUIRED_VERSION_@)
-endif()
 
-include("${CMAKE_CURRENT_LIST_DIR}/@EXPORT_NAME@-targets.cmake")
+	include("${CMAKE_CURRENT_LIST_DIR}/@EXPORT_NAME@-targets.cmake")
+else()
+
+	# built against an STLSOFT directory, which is a property of that build
+	# machine and so is deliberately not part of the installed export; the
+	# package is the only portable way for a consumer to get STLSoft here
+	include("${CMAKE_CURRENT_LIST_DIR}/@EXPORT_NAME@-targets.cmake")
+
+	if(NOT TARGET STLSoft::STLSoft)
+
+		find_package(STLSoft @STLSoft_REQUIRED_VERSION_@ QUIET)
+	endif()
+
+	if(TARGET STLSoft::STLSoft)
+
+		set_property(TARGET @PROJECT_NAME@::core APPEND
+			PROPERTY INTERFACE_LINK_LIBRARIES STLSoft::STLSoft
+		)
+	else()
+
+		message(WARNING
+			"xTests was built against an STLSOFT directory rather than the "
+			"STLSoft package, so this package cannot supply STLSoft's include "
+			"path. Its public headers include STLSoft's, so provide STLSoft "
+			"yourself - most simply by making the STLSoft package findable."
+		)
+	endif()
+endif()
