@@ -21,6 +21,9 @@ on:
       - update
   pull_request:
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -55,10 +58,13 @@ jobs:
             os: windows-latest
             c_compiler: cl
             cpp_compiler: cl
+          # `toolchain` carries what is not a compiler: MinGW needs its own
+          # generator and PATH, but the compilers it drives are gcc and g++
           - id: windows-mingw
             os: windows-latest
-            c_compiler: mingw
+            c_compiler: gcc
             cpp_compiler: g++
+            toolchain: mingw
     uses: ./.github/workflows/ci-cell.yml
     with:
       cell-id: ${{ matrix.id }}
@@ -66,10 +72,11 @@ jobs:
       c-compiler: ${{ matrix.c_compiler }}
       cpp-compiler: ${{ matrix.cpp_compiler }}
       build-type: Release
+      toolchain: ${{ matrix.toolchain }}
     secrets: inherit
 
   install-smoke:
-    name: Install smoke (${{ matrix.os }}, ${{ matrix.c_compiler }})
+    name: Install smoke (${{ matrix.os }}, ${{ matrix.toolchain || matrix.c_compiler }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -88,8 +95,9 @@ jobs:
             c_compiler: cl
             cpp_compiler: cl
           - os: windows-latest
-            c_compiler: mingw
+            c_compiler: gcc
             cpp_compiler: g++
+            toolchain: mingw
 
     steps:
       - uses: actions/checkout@v4
@@ -99,7 +107,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y clang
 
       - name: Setup MSYS2 MinGW
-        if: runner.os == 'Windows' && matrix.c_compiler == 'mingw'
+        if: runner.os == 'Windows' && matrix.toolchain == 'mingw'
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
@@ -116,6 +124,7 @@ jobs:
           c-compiler: ${{ matrix.c_compiler }}
           cpp-compiler: ${{ matrix.cpp_compiler }}
           dependencies: STLSoft
+          toolchain: ${{ matrix.toolchain }}
 
       - name: Configure
         shell: bash
@@ -127,12 +136,12 @@ jobs:
               -DCMAKE_PREFIX_PATH="${{ env.SIS_DEPS }}" \
               -DBUILD_EXAMPLES=OFF \
               -DBUILD_TESTING=OFF
-          elif [ "${{ matrix.c_compiler }}" = "mingw" ]; then
+          elif [ "${{ matrix.toolchain }}" = "mingw" ]; then
             export PATH="/mingw64/bin:$PATH"
-            cmake -B build -G "MinGW Makefiles" \
+            cmake -B build -S . -G "MinGW Makefiles" \
               -DCMAKE_BUILD_TYPE="${{ env.BUILD_TYPE }}" \
-              -DCMAKE_C_COMPILER=gcc \
-              -DCMAKE_CXX_COMPILER=g++ \
+              -DCMAKE_C_COMPILER="${{ matrix.c_compiler }}" \
+              -DCMAKE_CXX_COMPILER="${{ matrix.cpp_compiler }}" \
               -DCMAKE_PREFIX_PATH="${{ env.SIS_DEPS }}" \
               -DBUILD_EXAMPLES=OFF \
               -DBUILD_TESTING=OFF
@@ -152,7 +161,7 @@ jobs:
           set -euo pipefail
           if [ "${{ matrix.c_compiler }}" = "cl" ]; then
             cmake --build build --config "${{ env.BUILD_TYPE }}" --parallel
-          elif [ "${{ matrix.c_compiler }}" = "mingw" ]; then
+          elif [ "${{ matrix.toolchain }}" = "mingw" ]; then
             export PATH="/mingw64/bin:$PATH"
             cmake --build build --parallel 2
           else
@@ -212,10 +221,12 @@ jobs:
               -DCMAKE_PREFIX_PATH="${INSTALL_PREFIX};${{ env.SIS_DEPS }}"
             cmake --build consumer-build --config "${{ env.BUILD_TYPE }}" --parallel
             consumer-build/${{ env.BUILD_TYPE }}/consumer.exe
-          elif [ "${{ matrix.c_compiler }}" = "mingw" ]; then
+          elif [ "${{ matrix.toolchain }}" = "mingw" ]; then
             export PATH="/mingw64/bin:$PATH"
             cmake -S "$CONSUMER" -B consumer-build -G "MinGW Makefiles" \
               -DCMAKE_BUILD_TYPE="${{ env.BUILD_TYPE }}" \
+              -DCMAKE_C_COMPILER="${{ matrix.c_compiler }}" \
+              -DCMAKE_CXX_COMPILER="${{ matrix.cpp_compiler }}" \
               -DCMAKE_PREFIX_PATH="${INSTALL_PREFIX};${{ env.SIS_DEPS }}"
             cmake --build consumer-build --parallel 2
             consumer-build/consumer.exe
@@ -329,10 +340,10 @@ jobs:
             exit 1
           fi
 
-      # KNOWN FAILURE until K7 is fixed: the STLSoft include directory is
-      # added to core's PUBLIC includes with no BUILD_INTERFACE guard, so
-      # the builder's own absolute path is written into the installed export
-      # and the install tree is not relocatable
+      # this is the regression test for K7: without a BUILD_INTERFACE guard
+      # on the STLSoft include directory, the builder's own absolute path is
+      # written into the installed export, and the install tree is then not
+      # relocatable
       - name: Assert the exported target is relocatable
         shell: bash
         run: |

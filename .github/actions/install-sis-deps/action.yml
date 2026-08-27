@@ -10,10 +10,10 @@ inputs:
     required: false
     default: Release
   c-compiler:
-    description: C compiler name, or the selector `cl` or `mingw`
+    description: C compiler name, or the selector `cl`
     required: true
   cpp-compiler:
-    description: C++ compiler name; unused for the `cl` and `mingw` selectors
+    description: C++ compiler name; unused for the `cl` selector
     required: true
   dependencies:
     description: >-
@@ -23,6 +23,13 @@ inputs:
     required: true
   install-prefix:
     description: Directory into which every dependency is installed
+    required: false
+    default: ''
+  toolchain:
+    description: >-
+      Toolchain selector, for a toolchain that is not implied by the compiler
+      names and needs its own generator; presently only `mingw`. Empty
+      otherwise, in which case the compiler names alone select the toolchain.
     required: false
     default: ''
 
@@ -45,7 +52,7 @@ runs:
 
         mkdir -p "$PREFIX"
 
-        if [ "${{ inputs.c-compiler }}" = "mingw" ]; then
+        if [ "${{ inputs.toolchain }}" = "mingw" ]; then
           export PATH="/mingw64/bin:$PATH"
         fi
 
@@ -71,11 +78,13 @@ runs:
               -DCMAKE_PREFIX_PATH="$PREFIX"
             cmake --build "$BUILD" --config "${{ inputs.build-type }}" --parallel
             cmake --install "$BUILD" --config "${{ inputs.build-type }}"
-          elif [ "${{ inputs.c-compiler }}" = "mingw" ]; then
+          elif [ "${{ inputs.toolchain }}" = "mingw" ]; then
             cmake -S "$SRC" -B "$BUILD" -G "MinGW Makefiles" \
               -DBUILD_EXAMPLES=OFF \
               -DBUILD_TESTING=OFF \
               -DCMAKE_BUILD_TYPE="${{ inputs.build-type }}" \
+              -DCMAKE_C_COMPILER="${{ inputs.c-compiler }}" \
+              -DCMAKE_CXX_COMPILER="${{ inputs.cpp-compiler }}" \
               -DCMAKE_INSTALL_PREFIX="$PREFIX" \
               -DCMAKE_PREFIX_PATH="$PREFIX"
             cmake --build "$BUILD" --parallel 2

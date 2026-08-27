@@ -19,6 +19,13 @@ on:
         required: false
         type: string
         default: Release
+      toolchain:
+        required: false
+        type: string
+        default: ''
+
+permissions:
+  contents: read
 
 jobs:
   build-and-test:
@@ -33,7 +40,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y clang
 
       - name: Setup MSYS2 MinGW
-        if: runner.os == 'Windows' && inputs.c-compiler == 'mingw'
+        if: runner.os == 'Windows' && inputs.toolchain == 'mingw'
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
@@ -50,6 +57,7 @@ jobs:
           c-compiler: ${{ inputs.c-compiler }}
           cpp-compiler: ${{ inputs.cpp-compiler }}
           dependencies: STLSoft shwild
+          toolchain: ${{ inputs.toolchain }}
 
       - name: Configure
         shell: bash
@@ -61,12 +69,12 @@ jobs:
               -DCMAKE_PREFIX_PATH="${{ env.SIS_DEPS }}" \
               -DBUILD_EXAMPLES=ON \
               -DBUILD_TESTING=ON
-          elif [ "${{ inputs.c-compiler }}" = "mingw" ]; then
+          elif [ "${{ inputs.toolchain }}" = "mingw" ]; then
             export PATH="/mingw64/bin:$PATH"
-            cmake -B build -G "MinGW Makefiles" \
+            cmake -B build -S . -G "MinGW Makefiles" \
               -DCMAKE_BUILD_TYPE="${{ inputs.build-type }}" \
-              -DCMAKE_C_COMPILER=gcc \
-              -DCMAKE_CXX_COMPILER=g++ \
+              -DCMAKE_C_COMPILER="${{ inputs.c-compiler }}" \
+              -DCMAKE_CXX_COMPILER="${{ inputs.cpp-compiler }}" \
               -DCMAKE_PREFIX_PATH="${{ env.SIS_DEPS }}" \
               -DBUILD_EXAMPLES=ON \
               -DBUILD_TESTING=ON
@@ -86,7 +94,7 @@ jobs:
           set -euo pipefail
           if [ "${{ inputs.c-compiler }}" = "cl" ]; then
             cmake --build build --config "${{ inputs.build-type }}" --parallel
-          elif [ "${{ inputs.c-compiler }}" = "mingw" ]; then
+          elif [ "${{ inputs.toolchain }}" = "mingw" ]; then
             export PATH="/mingw64/bin:$PATH"
             cmake --build build --parallel 2
           else
@@ -97,7 +105,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [ "${{ inputs.c-compiler }}" = "mingw" ]; then
+          if [ "${{ inputs.toolchain }}" = "mingw" ]; then
             export PATH="/mingw64/bin:$PATH"
           fi
           ctest --test-dir build --output-on-failure \
@@ -108,7 +116,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [ "${{ inputs.c-compiler }}" = "mingw" ]; then
+          if [ "${{ inputs.toolchain }}" = "mingw" ]; then
             export PATH="/mingw64/bin:$PATH"
           fi
           SIS_CMAKE_BUILD_DIR="${{ github.workspace }}/build" ./run_all_examples.sh -M
@@ -117,7 +125,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [ "${{ inputs.c-compiler }}" = "mingw" ]; then
+          if [ "${{ inputs.toolchain }}" = "mingw" ]; then
             export PATH="/mingw64/bin:$PATH"
           fi
           SIS_CMAKE_BUILD_DIR="${{ github.workspace }}/build" ./run_all_unit_tests.sh -M --unit-only
@@ -126,7 +134,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [ "${{ inputs.c-compiler }}" = "mingw" ]; then
+          if [ "${{ inputs.toolchain }}" = "mingw" ]; then
             export PATH="/mingw64/bin:$PATH"
           fi
           SIS_CMAKE_BUILD_DIR="${{ github.workspace }}/build" ./run_all_unit_tests.sh -M --component-only
@@ -136,7 +144,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [ "${{ inputs.c-compiler }}" = "mingw" ]; then
+          if [ "${{ inputs.toolchain }}" = "mingw" ]; then
             export PATH="/mingw64/bin:$PATH"
           fi
           SIS_CMAKE_BUILD_DIR="${{ github.workspace }}/build" ./run_all_scratch_tests.sh -M
