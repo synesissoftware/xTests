@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 4th August 2026
+ * Updated: 27th August 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       51
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    13
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        413
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    14
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        414
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -74,6 +74,15 @@
  *
  * The patch number of the xTests library
  *
+ * \def _XTESTS_VER_ALPHABETA
+ *
+ * The alpha/beta number of the xTests library, in the range 1-0xFE for
+ * prerelease versions, and 0xFF for a released version
+ *
+ * \def _XTESTS_VER_REVISION
+ *
+ * Equivalent to _XTESTS_VER_PATCH, and retained for backwards compatibility
+ *
  * \def _XTESTS_VER
  *
  * The composite version of the xTests library
@@ -81,8 +90,8 @@
 
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       26
-#define _XTESTS_VER_PATCH       4
-#define _XTESTS_VER_ALPHABETA   0xFF
+#define _XTESTS_VER_PATCH       5
+#define _XTESTS_VER_ALPHABETA   0x81
 
 #define _XTESTS_VER \
     (0\
@@ -1088,7 +1097,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * \ingroup group__xtests__test_assertion_functions
  *
  * Tests that two user-defined type values are exactly equal, passing an
- * explanatory message to be used in the case of failure..
+ * explanatory message to be used in the case of failure.
  *
  * \param expected The expected value
  * \param actual The actual value
@@ -1127,7 +1136,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * \ingroup group__xtests__test_assertion_functions
  *
  * Tests that two user-defined type values are not equal, passing an
- * explanatory message to be used in the case of failure..
+ * explanatory message to be used in the case of failure.
  *
  * \param expected The expected value
  * \param actual The actual value
@@ -1896,8 +1905,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that two integer values (of the same type) are equal.
  *
- * \param expected The expected integer value
- * \param actual The actual integer value
+ * \param expected The expected integer value;
+ * \param actual The actual integer value;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -1911,8 +1920,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that two floating point values (of the same type) are equal.
  *
- * \param expected The expected floating point value
- * \param actual The actual floating point value
+ * \param expected The expected floating point value;
+ * \param actual The actual floating point value;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -1926,8 +1935,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that two floating point values (of the same type) are not equal.
  *
- * \param expected The expected floating point value
- * \param actual The actual floating point value
+ * \param expected The expected floating point value;
+ * \param actual The actual floating point value;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -1942,8 +1951,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that two character values (of the same type) are equal.
  *
- * \param expected The expected character value
- * \param actual The actual character value
+ * \param expected The expected character value;
+ * \param actual The actual character value;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -1963,8 +1972,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that two (multibyte) strings are equal.
  *
- * \param expected The expected value of the string
- * \param actual The actual value of the string
+ * \param expected The expected value of the string;
+ * \param actual The actual value of the string;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -1981,8 +1990,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * Tests that two (multibyte) strings are approximately equal (by ignoring
  * case).
  *
- * \param expected The expected value of the string
- * \param actual The actual value of the string
+ * \param expected The expected value of the string;
+ * \param actual The actual value of the string;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -1998,8 +2007,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that two (multibyte) strings are not equal.
  *
- * \param expected The expected value of the string
- * \param actual The actual value of the string
+ * \param expected The expected value of the string;
+ * \param actual The actual value of the string;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2016,8 +2025,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * Tests that two (multibyte) strings are not equal (when ignoring
  * case).
  *
- * \param expected The expected value of the string
- * \param actual The actual value of the string
+ * \param expected The expected value of the string;
+ * \param actual The actual value of the string;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2033,8 +2042,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that two (multibyte) strings are equal up to a given limit.
  *
- * \param expected The expected value of the string
- * \param actual The actual value of the string
+ * \param expected The expected value of the string;
+ * \param actual The actual value of the string;
  * \param n The exact number of characters to compare if non-negative; the
  *  (inverse) maximum number of characters to compare if negative;
  *
@@ -2053,8 +2062,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * Tests that two (multibyte) strings are approximately equal (by ignoring
  * case), up to a given limit.
  *
- * \param expected The expected value of the string
- * \param actual The actual value of the string
+ * \param expected The expected value of the string;
+ * \param actual The actual value of the string;
  * \param n The exact number of characters to compare if non-negative; the
  *  (inverse) maximum number of characters to compare if negative;
  *
@@ -2092,8 +2101,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * Tests that two (multibyte) strings are not equal (when ignoring
  * case).
  *
- * \param expected The expected value of the string
- * \param actual The actual value of the string
+ * \param expected The expected value of the string;
+ * \param actual The actual value of the string;
  * \param n The exact number of characters to compare if non-negative; the
  *  (inverse) maximum number of characters to compare if negative;
  *
@@ -2111,8 +2120,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that the string contains the expected sub-sequence.
  *
- * \param expected The substring to find with the actual string
- * \param actual The actual value of the string
+ * \param expected The substring to find with the actual string;
+ * \param actual The actual value of the string;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2129,8 +2138,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * Tests that the string contains the expected sub-sequence (disregarding
  * case).
  *
- * \param expected The substring to find with the actual string
- * \param actual The actual value of the string
+ * \param expected The substring to find with the actual string;
+ * \param actual The actual value of the string;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2146,8 +2155,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that the string does not contain the expected sub-sequence.
  *
- * \param expected The substring to find with the actual string
- * \param actual The actual value of the string
+ * \param expected The substring to find with the actual string;
+ * \param actual The actual value of the string;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2164,8 +2173,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * Tests that the string does not contain the expected sub-sequence
  * (disregarding case).
  *
- * \param expected The substring to find with the actual string
- * \param actual The actual value of the string
+ * \param expected The substring to find with the actual string;
+ * \param actual The actual value of the string;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2182,9 +2191,9 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * Tests that a (multibyte) string slice is the same length
  * and has the same contents as an expected value.
  *
- * \param expected The expected value of the string
+ * \param expected The expected value of the string;
  * \param actual The string slice to be evaluated, which is expected to have
- *   the member <code>#len</code> and <code>#ptr</code>
+ *   the member <code>len</code> and <code>ptr</code>;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2202,8 +2211,9 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that a (multibyte) string matches a given pattern.
  *
- * \param pattern The pattern constraining the expected values of the string
- * \param value The value to be evaluated
+ * \param pattern The pattern constraining the expected values of the
+ *   string;
+ * \param value The value to be evaluated;
  *
  * \note This macro will be defined only given prior inclusion of one of
  *   **shwild**'s headers (**shwild/shwild.h** or **shwild/shwild.hpp**).
@@ -2218,8 +2228,9 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that a (multibyte) string does not match a given pattern.
  *
- * \param pattern The pattern constraining the expected values of the string
- * \param value The value to be evaluated
+ * \param pattern The pattern constraining the expected values of the
+ *   string;
+ * \param value The value to be evaluated;
  *
  * \note This macro will be defined only given prior inclusion of one of
  *   **shwild**'s headers (**shwild/shwild.h** or **shwild/shwild.hpp**).
@@ -2273,8 +2284,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that two (wide) strings are equal.
  *
- * \param expected The expected value of the string
- * \param actual The actual value of the string
+ * \param expected The expected value of the string;
+ * \param actual The actual value of the string;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2290,8 +2301,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that two (wide) strings are approximately equal (by ignoring case).
  *
- * \param expected The expected value of the string
- * \param actual The actual value of the string
+ * \param expected The expected value of the string;
+ * \param actual The actual value of the string;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2307,8 +2318,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that two (wide) strings are not equal.
  *
- * \param expected The expected value of the string
- * \param actual The actual value of the string
+ * \param expected The expected value of the string;
+ * \param actual The actual value of the string;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2325,8 +2336,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * Tests that two (wide) strings are not equal (when ignoring
  * case).
  *
- * \param expected The expected value of the string
- * \param actual The actual value of the string
+ * \param expected The expected value of the string;
+ * \param actual The actual value of the string;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2342,9 +2353,9 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that two (wide) strings are equal up to a given limit.
  *
- * \param expected The expected value of the string
- * \param actual The actual value of the string
- * \param n The maximum number of characters to compare
+ * \param expected The expected value of the string;
+ * \param actual The actual value of the string;
+ * \param n The maximum number of characters to compare;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2379,9 +2390,9 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that two (wide) strings are not equal.
  *
- * \param expected The expected value of the string
- * \param actual The actual value of the string
- * \param n The maximum number of characters to compare
+ * \param expected The expected value of the string;
+ * \param actual The actual value of the string;
+ * \param n The maximum number of characters to compare;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2397,9 +2408,9 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that two (wide) strings are not equal (when ignoring case).
  *
- * \param expected The expected value of the string
- * \param actual The actual value of the string
- * \param n The maximum number of characters to compare
+ * \param expected The expected value of the string;
+ * \param actual The actual value of the string;
+ * \param n The maximum number of characters to compare;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2415,8 +2426,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that the string contains the expected sub-sequence.
  *
- * \param expected The substring to find with the actual string
- * \param actual The actual value of the string
+ * \param expected The substring to find with the actual string;
+ * \param actual The actual value of the string;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2433,8 +2444,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * Tests that the string contains the expected sub-sequence (disregarding
  * case).
  *
- * \param expected The substring to find with the actual string
- * \param actual The actual value of the string
+ * \param expected The substring to find with the actual string;
+ * \param actual The actual value of the string;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2450,8 +2461,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that the string does not contain the expected sub-sequence.
  *
- * \param expected The substring to find with the actual string
- * \param actual The actual value of the string
+ * \param expected The substring to find with the actual string;
+ * \param actual The actual value of the string;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2467,8 +2478,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that the string does not contain the expected sub-sequence.
  *
- * \param expected The substring to find with the actual string
- * \param actual The actual value of the string
+ * \param expected The substring to find with the actual string;
+ * \param actual The actual value of the string;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2485,8 +2496,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * Tests that a (wide) string slice is the same length
  * and has the same contents as an expected value.
  *
- * \param expected The expected value of the string
- * \param actual The string slice to be evaluated
+ * \param expected The expected value of the string;
+ * \param actual The string slice to be evaluated;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2507,8 +2518,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that two pointers are equal.
  *
- * \param expected The expected value of the pointer
- * \param actual The actual value of the pointer
+ * \param expected The expected value of the pointer;
+ * \param actual The actual value of the pointer;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2524,8 +2535,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that two pointer values are not equal.
  *
- * \param expected The expected pointer value
- * \param actual The actual pointer value
+ * \param expected The expected pointer value;
+ * \param actual The actual pointer value;
  *
  * \remarks The pointers should be of the same type
  *
@@ -2543,8 +2554,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that the actual pointer value is greater than the expected value.
  *
- * \param expected The expected pointer value
- * \param actual The actual pointer value
+ * \param expected The expected pointer value;
+ * \param actual The actual pointer value;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2560,8 +2571,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that the actual pointer value is less than the expected value.
  *
- * \param expected The expected pointer value
- * \param actual The actual pointer value
+ * \param expected The expected pointer value;
+ * \param actual The actual pointer value;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2578,8 +2589,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * Tests that the actual pointer value is greater than or equal to the
  * expected value.
  *
- * \param expected The expected pointer value
- * \param actual The actual pointer value
+ * \param expected The expected pointer value;
+ * \param actual The actual pointer value;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2596,8 +2607,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * Tests that the actual pointer value is less than or equal to the expected
  * value.
  *
- * \param expected The expected pointer value
- * \param actual The actual pointer value
+ * \param expected The expected pointer value;
+ * \param actual The actual pointer value;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2618,8 +2629,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that two pointers are equal.
  *
- * \param expected The expected value of the pointer
- * \param actual The actual value of the pointer
+ * \param expected The expected value of the pointer;
+ * \param actual The actual value of the pointer;
  *
  * \note This can only be invoked after a successful invocation of
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
@@ -2635,8 +2646,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * Tests that two pointer values are not equal.
  *
- * \param expected The expected pointer value
- * \param actual The actual pointer value
+ * \param expected The expected pointer value;
+ * \param actual The actual pointer value;
  *
  * \remarks The pointers should be of the same type
  *
@@ -2958,7 +2969,7 @@ typedef struct xTests_Reporter_t                            xTests_Reporter_t;
  *
  * \param param The caller-supplied parameter passed to xtests_startRunner()
  *   (via XTESTS_START_RUNNER_WITH_SETUP_FNS() or
- *   XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS_AND_SETUP_FNS())
+ *   XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS_AND_SETUP_FNS());
  *
  * \return A value that indicates whether setup was successful
  * \retval 0 Setup was successful
@@ -2971,7 +2982,7 @@ typedef int (*xTests_Setup_t)(void* param);
  *
  * \param param The caller-supplied parameter passed to xtests_startRunner()
  *   (via XTESTS_START_RUNNER_WITH_SETUP_FNS() or
- *   XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS_AND_SETUP_FNS())
+ *   XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS_AND_SETUP_FNS());
  *
  * \return Ignored in the current version.
  */
@@ -3713,8 +3724,8 @@ xtests_floatingPointClose(
 /** Sets the floating-point number closesness factor, used in
  *   XTESTS_TEST_FLOATINGPOINT_EQUAL_APPROX()
  *
- * \param factor The factor. Must be >= 1.0 and < 2.0
- * \param old Optional pointer to receive the previous value. May be NULL
+ * \param factor The factor. Must be >= 1.0 and < 2.0;
+ * \param old Optional pointer to receive the previous value. May be NULL;
  *
  * \see XTESTS_FLOATINGPOINT_FACTOR_SCOPE
  */
@@ -5300,12 +5311,12 @@ xtests_commandLine_parseHelpOrVerbosity(
  * `"TEST_VERBOSITY"`.
  *
  * \param argc The <code>argc</code> parameter passed into
- *   <code>main()</code>
+ *   <code>main()</code>;
  * \param argv The <code>argv</code> parameter passed into
- *   <code>main()</code>
+ *   <code>main()</code>;
  * \param pverbosity A pointer to an integer to receive the verbosity. Will
  *   be set to xtestsVerbositySummaryOnSuccess even if no verbosity argument
- *   is found. May not be NULL.
+ *   is found. May not be NULL;
  *
  * \return The index of argument containing the verbosity, or 0 to indicate
  *   failure
@@ -5340,12 +5351,12 @@ xtests_commandLine_parseHelpOrVerbosity(
  * `"TEST_VERBOSITY"`.
  *
  * \param argc The <code>argc</code> parameter passed into
- *   <code>main()</code>
+ *   <code>main()</code>;
  * \param argv The <code>argv</code> parameter passed into
- *   <code>main()</code>
+ *   <code>main()</code>;
  * \param pverbosity A pointer to an integer to receive the verbosity. Will
  *   be set to xtestsVerbositySummaryOnSuccess even if no verbosity argument
- *   is found. May not be NULL.
+ *   is found. May not be NULL;
  *
  * \return The index of argument containing the verbosity, or 0 to indicate
  *   failure
@@ -5372,14 +5383,14 @@ xtests_commandLine_parseHelpOrVerbosity(
  * integer.
  *
  * \param argc The <code>argc</code> parameter passed into
- *   <code>main()</code>
+ *   <code>main()</code>;
  * \param argv The <code>argv</code> parameter passed into
- *   <code>main()</code>
+ *   <code>main()</code>;
  * \param pverbosity A pointer to an integer to receive the verbosity. Will
  *   be set to xtestsVerbositySummaryOnSuccess even if no verbosity argument
- *   is found. May not be NULL.
+ *   is found. May not be NULL;
  * \param defaultVerbosity The default verbosity to be applied if none
- *   specified on the command-line.
+ *   specified on the command-line;
  *
  * \see XTESTS_COMMANDLINE_PARSEVERBOSITY()
  */
@@ -5398,9 +5409,9 @@ xtests_commandLine_parseHelpOrVerbosity(
  * `EXIT_SUCCESS`)
  *
  * \param argc The <code>argc</code> parameter passed into
- *   <code>main()</code>
+ *   <code>main()</code>;
  * \param argv The <code>argv</code> parameter passed into
- *   <code>main()</code>
+ *   <code>main()</code>;
  *
  * \return nothing
  */
