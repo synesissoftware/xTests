@@ -169,34 +169,30 @@ if [ -z $STLSoftDirGiven ]; then CMakeSTLSoftVariable="" ; else CMakeSTLSoftVari
 if [ $TestingDisabled -eq 0 ]; then CMakeBuildTestingFlag="ON" ; else CMakeBuildTestingFlag="OFF" ; fi
 if [ $VerboseMakefile -eq 0 ]; then CMakeVerboseMakefileFlag="OFF" ; else CMakeVerboseMakefileFlag="ON" ; fi
 
+# NOTE: the generator is the *only* thing that may differ between the MinGW
+# and the default paths; every -D option is passed in both cases, so that no
+# flag can be silently ignored according to the generator selected.
+
+CMakeGeneratorArgs=()
+
 if [ $MinGW -ne 0 ]; then
 
-  cmake \
-    $CMakeSTLSoftVariable \
-    -DBUILD_EXAMPLES:BOOL=$CMakeBuildExamplesFlag \
-    -DBUILD_SHARED_LIBS:BOOL=$CMakeBuildSharedLibsFlag \
-    -DBUILD_TESTING:BOOL=$CMakeBuildTestingFlag \
-    -DCMAKE_BUILD_TYPE=$Configuration \
-    -DNO_SHWILD:BOOL=$CMakeNoShwild \
-    -G "MinGW Makefiles" \
-    -S $Dir \
-    -B $CMakeDir \
-    || (cd ->/dev/null ; exit 1)
-else
-
-  cmake \
-    $CMakeSTLSoftVariable \
-    -DBUILD_EXAMPLES:BOOL=$CMakeBuildExamplesFlag \
-    -DBUILD_SHARED_LIBS:BOOL=$CMakeBuildSharedLibsFlag \
-    -DBUILD_TESTING:BOOL=$CMakeBuildTestingFlag \
-    -DCMAKE_BUILD_TYPE=$Configuration \
-    -DCMAKE_VERBOSE_MAKEFILE:BOOL=$CMakeVerboseMakefileFlag \
-    -DMSVC_USE_MT:BOOL=$CMakeMsvcMtFlag \
-    -DNO_SHWILD:BOOL=$CMakeNoShwild \
-    -S $Dir \
-    -B $CMakeDir \
-    || (cd ->/dev/null ; exit 1)
+  CMakeGeneratorArgs=(-G "MinGW Makefiles")
 fi
+
+cmake \
+  $CMakeSTLSoftVariable \
+  -DBUILD_EXAMPLES:BOOL=$CMakeBuildExamplesFlag \
+  -DBUILD_SHARED_LIBS:BOOL=$CMakeBuildSharedLibsFlag \
+  -DBUILD_TESTING:BOOL=$CMakeBuildTestingFlag \
+  -DCMAKE_BUILD_TYPE=$Configuration \
+  -DCMAKE_VERBOSE_MAKEFILE:BOOL=$CMakeVerboseMakefileFlag \
+  -DMSVC_USE_MT:BOOL=$CMakeMsvcMtFlag \
+  -DNO_SHWILD:BOOL=$CMakeNoShwild \
+  "${CMakeGeneratorArgs[@]}" \
+  -S "$Dir" \
+  -B "$CMakeDir" \
+  || (cd ->/dev/null ; exit 1)
 
 status=0
 
