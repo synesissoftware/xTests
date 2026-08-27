@@ -1,7 +1,7 @@
 # xTests - Changes <!-- omit in toc -->
 
 
-## 0.26.4 - 2nd August 2026
+## 0.26.4 - 4th August 2026
 
 * Added modular GitHub Actions CI (**ci.yml** / **ci-cell.yml**) with install-smoke coverage;
 * Converted **CHANGES.txt** to **CHANGES.md** and removed **HISTORY.md**;

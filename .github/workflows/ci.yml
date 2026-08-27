@@ -5,11 +5,13 @@ on:
     branches:
       - master
       - dev
+      - boilerplate
       - rc1
       - rc2
       - rc3
       - rc4
       - rc5
+      - tidying
       - update
   pull_request:
 
