@@ -136,14 +136,21 @@ option(BUILD_TESTING "Build tests" ON)
 # 3. if the package STLSoft (via find_package()) is found then it is used; otherwise
 # 4. we abort
 
+set(STLSoft_REQUIRED_VERSION_ 1.11)
+
 if(NOT DEFINED STLSOFT AND NOT DEFINED ENV{STLSOFT})
 
-	set(STLSoft_REQUIRED_VERSION_ 1.11)
+	# the exported `xTests::core` target links `STLSoft::STLSoft` in this case
+	# only, so the installed package configuration must re-find it - see
+	# cmake/xtests-config.cmake.in
+	set(STLSoft_IS_PACKAGE_ TRUE)
 
 	find_package(STLSoft ${STLSoft_REQUIRED_VERSION_} REQUIRED)
 
 	message("-- CMake package STLSoft found (version ${STLSoft_VERSION}; ${STLSoft_REQUIRED_VERSION_} requested)")
 else()
+
+	set(STLSoft_IS_PACKAGE_ FALSE)
 
 	if(DEFINED STLSOFT)
 

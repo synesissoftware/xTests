@@ -1,3 +1,14 @@
 @PACKAGE_INIT@
-include("${CMAKE_CURRENT_LIST_DIR}/@EXPORT_NAME@-targets.cmake")
 
+# the exported target links `STLSoft::STLSoft` only when xTests itself was
+# built against STLSoft as a CMake package; when built against an `STLSOFT`
+# directory variable the STLSoft include directory is baked into the target
+# instead, and there is no package for a consumer to re-find
+if(@STLSoft_IS_PACKAGE_@)
+
+	include(CMakeFindDependencyMacro)
+
+	find_dependency(STLSoft @STLSoft_REQUIRED_VERSION_@)
+endif()
+
+include("${CMAKE_CURRENT_LIST_DIR}/@EXPORT_NAME@-targets.cmake")
