@@ -1,7 +1,7 @@
 # xTests - Changes <!-- omit in toc -->
 
 
-## 0.26.5 (alpha 1) - 10th August 2026
+## 0.26.5 (alpha 1) - 1st September 2026
 
 * Added minimal C and C++ usage examples to **README.md**;
 * Created a custom **Doxygen** main page (**doc/mainpage.md**) and a **generate_doxygen.sh** script for automated documentation building, bringing documentation generation on parity with peer projects;

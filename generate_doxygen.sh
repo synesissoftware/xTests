@@ -34,7 +34,7 @@ while [[ $# -gt 0 ]]; do
 
       [ -f "$Dir/.sis/script_info_lines.txt" ] && cat "$Dir/.sis/script_info_lines.txt"
       cat << EOF
-Generates HTML API documentation from public headers via Doxygen
+Generates HTML API documentation from the public headers via Doxygen
 
 $ScriptPath [ ... flags/options ... ]
 
