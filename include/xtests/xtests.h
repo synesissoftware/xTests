@@ -79,10 +79,6 @@
  * The alpha/beta number of the xTests library, in the range 1-0xFE for
  * prerelease versions, and 0xFF for a released version
  *
- * \def _XTESTS_VER_REVISION
- *
- * Equivalent to _XTESTS_VER_PATCH, and retained for backwards compatibility
- *
  * \def _XTESTS_VER
  *
  * The composite version of the xTests library
