@@ -1,7 +1,7 @@
 #! /bin/bash
 
 ScriptPath=$0
-Dir=$(cd $(dirname "$ScriptPath"); pwd)
+Dir=$(cd "$(dirname "$ScriptPath")"; pwd)
 Basename=$(basename "$ScriptPath")
 CMakeDir=${SIS_CMAKE_BUILD_DIR:-$Dir/_build}
 if [[ -n "$MSYSTEM" ]]; then
@@ -155,9 +155,9 @@ done
 # ##########################################################
 # main()
 
-mkdir -p $CMakeDir || exit 1
+mkdir -p "$CMakeDir" || exit 1
 
-cd $CMakeDir
+cd "$CMakeDir"
 
 echo "Executing CMake for ${ProjectName} (in ${CMakeDir})"
 
