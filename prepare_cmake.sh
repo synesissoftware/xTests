@@ -13,7 +13,10 @@ else
   DefaultMakeCmd=make
 fi
 MakeCmd=${SIS_CMAKE_MAKE_COMMAND:-${SIS_CMAKE_COMMAND:-$DefaultMakeCmd}}
+ProjectNameFile="$Dir/.sis/project_name.txt"
+ProjectName=$(tr -d '[:space:]' < "$ProjectNameFile")
 
+BuildSharedLibs=0
 Configuration=Release
 ExamplesDisabled=0
 MSVC_MT=0
@@ -31,6 +34,10 @@ VerboseMakefile=0
 while [[ $# -gt 0 ]]; do
 
   case $1 in
+    --build-shared-libs)
+
+      BuildSharedLibs=1
+      ;;
     --cmake-verbose-makefile|-v)
 
       VerboseMakefile=1
@@ -79,6 +86,10 @@ $ScriptPath [ ... flags/options ... ]
 Flags/options:
 
     behaviour:
+
+    --build-shared-libs
+        builds ${ProjectName} as a shared library (by setting
+        BUILD_SHARED_LIBS=ON); the default is a static library
 
     -v
     --cmake-verbose-makefile
@@ -148,8 +159,9 @@ mkdir -p $CMakeDir || exit 1
 
 cd $CMakeDir
 
-echo "Executing CMake (in ${CMakeDir})"
+echo "Executing CMake for ${ProjectName} (in ${CMakeDir})"
 
+if [ $BuildSharedLibs -eq 0 ]; then CMakeBuildSharedLibsFlag="OFF" ; else CMakeBuildSharedLibsFlag="ON" ; fi
 if [ $ExamplesDisabled -eq 0 ]; then CMakeBuildExamplesFlag="ON" ; else CMakeBuildExamplesFlag="OFF" ; fi
 if [ $MSVC_MT -eq 0 ]; then CMakeMsvcMtFlag="OFF" ; else CMakeMsvcMtFlag="ON" ; fi
 if [ $NO_shwild -eq 0 ]; then CMakeNoShwild="OFF" ; else CMakeNoShwild="ON" ; fi
@@ -157,39 +169,36 @@ if [ -z $STLSoftDirGiven ]; then CMakeSTLSoftVariable="" ; else CMakeSTLSoftVari
 if [ $TestingDisabled -eq 0 ]; then CMakeBuildTestingFlag="ON" ; else CMakeBuildTestingFlag="OFF" ; fi
 if [ $VerboseMakefile -eq 0 ]; then CMakeVerboseMakefileFlag="OFF" ; else CMakeVerboseMakefileFlag="ON" ; fi
 
+# NOTE: the generator is the *only* thing that may differ between the MinGW
+# and the default paths; every -D option is passed in both cases, so that no
+# flag can be silently ignored according to the generator selected.
+
+CMakeGeneratorArgs=()
+
 if [ $MinGW -ne 0 ]; then
 
-  cmake \
-    $CMakeSTLSoftVariable \
-    -DBUILD_EXAMPLES:BOOL=$CMakeBuildExamplesFlag \
-    -DBUILD_TESTING:BOOL=$CMakeBuildTestingFlag \
-    -DCMAKE_BUILD_TYPE=$Configuration \
-    -DNO_SHWILD:BOOL=$CMakeNoShwild \
-    -G "MinGW Makefiles" \
-    -S $Dir \
-    -B $CMakeDir \
-    || (cd ->/dev/null ; exit 1)
-else
-
-  cmake \
-    $CMakeSTLSoftVariable \
-    -DBUILD_EXAMPLES:BOOL=$CMakeBuildExamplesFlag \
-    -DBUILD_TESTING:BOOL=$CMakeBuildTestingFlag \
-    -DCMAKE_BUILD_TYPE=$Configuration \
-    -DCMAKE_VERBOSE_MAKEFILE:BOOL=$CMakeVerboseMakefileFlag \
-    -DMSVC_USE_MT:BOOL=$CMakeMsvcMtFlag \
-    -DNO_SHWILD:BOOL=$CMakeNoShwild \
-    -S $Dir \
-    -B $CMakeDir \
-    || (cd ->/dev/null ; exit 1)
+  CMakeGeneratorArgs=(-G "MinGW Makefiles")
 fi
 
+cmake \
+  $CMakeSTLSoftVariable \
+  -DBUILD_EXAMPLES:BOOL=$CMakeBuildExamplesFlag \
+  -DBUILD_SHARED_LIBS:BOOL=$CMakeBuildSharedLibsFlag \
+  -DBUILD_TESTING:BOOL=$CMakeBuildTestingFlag \
+  -DCMAKE_BUILD_TYPE=$Configuration \
+  -DCMAKE_VERBOSE_MAKEFILE:BOOL=$CMakeVerboseMakefileFlag \
+  -DMSVC_USE_MT:BOOL=$CMakeMsvcMtFlag \
+  -DNO_SHWILD:BOOL=$CMakeNoShwild \
+  "${CMakeGeneratorArgs[@]}" \
+  -S "$Dir" \
+  -B "$CMakeDir" \
+  || (cd ->/dev/null ; exit 1)
 
 status=0
 
 if [ $RunMake -ne 0 ]; then
 
-  echo "Executing build (via command \`$MakeCmd\`)"
+  echo "Executing build of ${ProjectName} (via command \`$MakeCmd\`)"
 
   $MakeCmd
   status=$?

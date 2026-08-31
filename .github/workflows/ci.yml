@@ -1,3 +1,8 @@
+#
+# Created: . . .
+# Updated: 27th August 2026
+#
+
 name: CI
 
 on:
@@ -5,13 +10,19 @@ on:
     branches:
       - master
       - dev
+      - boilerplate
+      - idiomatic
       - rc1
       - rc2
       - rc3
       - rc4
       - rc5
+      - tidying
       - update
   pull_request:
+
+permissions:
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -47,10 +58,13 @@ jobs:
             os: windows-latest
             c_compiler: cl
             cpp_compiler: cl
+          # `toolchain` carries what is not a compiler: MinGW needs its own
+          # generator and PATH, but the compilers it drives are gcc and g++
           - id: windows-mingw
             os: windows-latest
-            c_compiler: mingw
+            c_compiler: gcc
             cpp_compiler: g++
+            toolchain: mingw
     uses: ./.github/workflows/ci-cell.yml
     with:
       cell-id: ${{ matrix.id }}
@@ -58,10 +72,11 @@ jobs:
       c-compiler: ${{ matrix.c_compiler }}
       cpp-compiler: ${{ matrix.cpp_compiler }}
       build-type: Release
+      toolchain: ${{ matrix.toolchain }}
     secrets: inherit
 
   install-smoke:
-    name: Install smoke (${{ matrix.os }}, ${{ matrix.c_compiler }})
+    name: Install smoke (${{ matrix.os }}, ${{ matrix.toolchain || matrix.c_compiler }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -80,8 +95,9 @@ jobs:
             c_compiler: cl
             cpp_compiler: cl
           - os: windows-latest
-            c_compiler: mingw
+            c_compiler: gcc
             cpp_compiler: g++
+            toolchain: mingw
 
     steps:
       - uses: actions/checkout@v4
@@ -91,7 +107,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y clang
 
       - name: Setup MSYS2 MinGW
-        if: runner.os == 'Windows' && matrix.c_compiler == 'mingw'
+        if: runner.os == 'Windows' && matrix.toolchain == 'mingw'
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
@@ -102,43 +118,13 @@ jobs:
             mingw-w64-x86_64-make
 
       - name: Install STLSoft dependency
-        shell: bash
-        run: |
-          set -euo pipefail
-          DEPS="${RUNNER_TEMP}/sis-deps"
-          STLSRC="${RUNNER_TEMP}/stlsoft-src"
-          STLBUILD="${RUNNER_TEMP}/stlsoft-build"
-          mkdir -p "$DEPS"
-          git clone --depth 1 https://github.com/synesissoftware/STLSoft "$STLSRC"
-          if [ "${{ matrix.c_compiler }}" = "cl" ]; then
-            cmake -S "$STLSRC" -B "$STLBUILD" \
-              -DCMAKE_DISABLE_FIND_PACKAGE_MFC=TRUE \
-              -DCMAKE_INSTALL_PREFIX="$DEPS" \
-              -DBUILD_EXAMPLES=OFF \
-              -DBUILD_TESTING=OFF
-            cmake --build "$STLBUILD" --config "${{ env.BUILD_TYPE }}" --parallel
-            cmake --install "$STLBUILD" --config "${{ env.BUILD_TYPE }}"
-          elif [ "${{ matrix.c_compiler }}" = "mingw" ]; then
-            export PATH="/mingw64/bin:$PATH"
-            cmake -S "$STLSRC" -B "$STLBUILD" -G "MinGW Makefiles" \
-              -DCMAKE_BUILD_TYPE="${{ env.BUILD_TYPE }}" \
-              -DCMAKE_INSTALL_PREFIX="$DEPS" \
-              -DBUILD_EXAMPLES=OFF \
-              -DBUILD_TESTING=OFF
-            cmake --build "$STLBUILD" --parallel 2
-            cmake --install "$STLBUILD"
-          else
-            cmake -S "$STLSRC" -B "$STLBUILD" \
-              -DCMAKE_BUILD_TYPE="${{ env.BUILD_TYPE }}" \
-              -DCMAKE_C_COMPILER="${{ matrix.c_compiler }}" \
-              -DCMAKE_CXX_COMPILER="${{ matrix.cpp_compiler }}" \
-              -DCMAKE_INSTALL_PREFIX="$DEPS" \
-              -DBUILD_EXAMPLES=OFF \
-              -DBUILD_TESTING=OFF
-            cmake --build "$STLBUILD" --parallel
-            cmake --install "$STLBUILD"
-          fi
-          echo "SIS_DEPS=$DEPS" >> "$GITHUB_ENV"
+        uses: ./.github/actions/install-sis-deps
+        with:
+          build-type: ${{ env.BUILD_TYPE }}
+          c-compiler: ${{ matrix.c_compiler }}
+          cpp-compiler: ${{ matrix.cpp_compiler }}
+          dependencies: STLSoft
+          toolchain: ${{ matrix.toolchain }}
 
       - name: Configure
         shell: bash
@@ -150,12 +136,12 @@ jobs:
               -DCMAKE_PREFIX_PATH="${{ env.SIS_DEPS }}" \
               -DBUILD_EXAMPLES=OFF \
               -DBUILD_TESTING=OFF
-          elif [ "${{ matrix.c_compiler }}" = "mingw" ]; then
+          elif [ "${{ matrix.toolchain }}" = "mingw" ]; then
             export PATH="/mingw64/bin:$PATH"
-            cmake -B build -G "MinGW Makefiles" \
+            cmake -B build -S . -G "MinGW Makefiles" \
               -DCMAKE_BUILD_TYPE="${{ env.BUILD_TYPE }}" \
-              -DCMAKE_C_COMPILER=gcc \
-              -DCMAKE_CXX_COMPILER=g++ \
+              -DCMAKE_C_COMPILER="${{ matrix.c_compiler }}" \
+              -DCMAKE_CXX_COMPILER="${{ matrix.cpp_compiler }}" \
               -DCMAKE_PREFIX_PATH="${{ env.SIS_DEPS }}" \
               -DBUILD_EXAMPLES=OFF \
               -DBUILD_TESTING=OFF
@@ -175,7 +161,7 @@ jobs:
           set -euo pipefail
           if [ "${{ matrix.c_compiler }}" = "cl" ]; then
             cmake --build build --config "${{ env.BUILD_TYPE }}" --parallel
-          elif [ "${{ matrix.c_compiler }}" = "mingw" ]; then
+          elif [ "${{ matrix.toolchain }}" = "mingw" ]; then
             export PATH="/mingw64/bin:$PATH"
             cmake --build build --parallel 2
           else
@@ -199,7 +185,17 @@ jobs:
         run: |
           set -euo pipefail
           test -f "${INSTALL_PREFIX}/include/xtests/xtests.h"
-          test -f "${INSTALL_PREFIX}/lib/cmake/xtests/xtests-config.cmake"
+          config="${INSTALL_PREFIX}/lib/cmake/xtests/xtests-config.cmake"
+          test -f "$config"
+          # these jobs build against the STLSoft package, so the guard must
+          # be TRUE; asserting the literal catches an undefined substitution
+          # variable, which would expand to an empty - and silently false -
+          # `if()` instead
+          if ! grep -q '^if(TRUE)' "$config"; then
+            echo "expected the find_dependency(STLSoft) guard to be TRUE" >&2
+            cat "$config" >&2
+            exit 1
+          fi
 
       - name: Configure and run install smoke consumer
         shell: bash
@@ -210,7 +206,8 @@ jobs:
           cat > "$CONSUMER/CMakeLists.txt" <<'EOF'
           cmake_minimum_required(VERSION 3.13)
           project(xtests_install_smoke CXX)
-          find_package(STLSoft REQUIRED)
+          # deliberately does NOT find STLSoft itself: the xTests package
+          # configuration is responsible for re-finding its own dependency
           find_package(xTests REQUIRED)
           add_executable(consumer consumer.cpp)
           target_link_libraries(consumer PRIVATE xTests::core)
@@ -224,10 +221,12 @@ jobs:
               -DCMAKE_PREFIX_PATH="${INSTALL_PREFIX};${{ env.SIS_DEPS }}"
             cmake --build consumer-build --config "${{ env.BUILD_TYPE }}" --parallel
             consumer-build/${{ env.BUILD_TYPE }}/consumer.exe
-          elif [ "${{ matrix.c_compiler }}" = "mingw" ]; then
+          elif [ "${{ matrix.toolchain }}" = "mingw" ]; then
             export PATH="/mingw64/bin:$PATH"
             cmake -S "$CONSUMER" -B consumer-build -G "MinGW Makefiles" \
               -DCMAKE_BUILD_TYPE="${{ env.BUILD_TYPE }}" \
+              -DCMAKE_C_COMPILER="${{ matrix.c_compiler }}" \
+              -DCMAKE_CXX_COMPILER="${{ matrix.cpp_compiler }}" \
               -DCMAKE_PREFIX_PATH="${INSTALL_PREFIX};${{ env.SIS_DEPS }}"
             cmake --build consumer-build --parallel 2
             consumer-build/consumer.exe
@@ -239,4 +238,120 @@ jobs:
               -DCMAKE_PREFIX_PATH="${INSTALL_PREFIX};${{ env.SIS_DEPS }}"
             cmake --build consumer-build --parallel
             consumer-build/consumer
+          fi
+
+  # CMakeLists.txt offers three ways to locate STLSoft, of which the jobs
+  # above exercise only find_package(). These cells cover the other two,
+  # which short-circuit find_package() entirely and so are not merely a
+  # different spelling of the same code path.
+  stlsoft-routes:
+    name: STLSoft route (${{ matrix.route }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        route:
+          - environment
+          - variable
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # these routes consume STLSoft as a source tree, so it is cloned
+      # rather than built and installed
+      - name: Clone STLSoft
+        shell: bash
+        run: |
+          set -euo pipefail
+          STLSOFT_SRC="${RUNNER_TEMP}/stlsoft-src"
+          git clone --depth 1 https://github.com/synesissoftware/STLSoft "$STLSOFT_SRC"
+          echo "STLSOFT_SRC=$STLSOFT_SRC" >> "$GITHUB_ENV"
+
+      - name: Configure
+        shell: bash
+        run: |
+          set -euo pipefail
+          # deliberately no CMAKE_PREFIX_PATH: nothing here may fall back to
+          # the STLSoft package
+          if [ "${{ matrix.route }}" = "variable" ]; then
+            cmake -B build -S . \
+              -DCMAKE_BUILD_TYPE="${{ env.BUILD_TYPE }}" \
+              -DSTLSOFT="${STLSOFT_SRC}" \
+              -DBUILD_EXAMPLES=ON \
+              -DBUILD_TESTING=ON \
+              2>&1 | tee configure.log
+          else
+            STLSOFT="${STLSOFT_SRC}" cmake -B build -S . \
+              -DCMAKE_BUILD_TYPE="${{ env.BUILD_TYPE }}" \
+              -DBUILD_EXAMPLES=ON \
+              -DBUILD_TESTING=ON \
+              2>&1 | tee configure.log
+          fi
+
+      # without this, a regression that silently routed the build through
+      # find_package() would leave the cell green while testing nothing new
+      - name: Assert the intended route was taken
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.route }}" = "variable" ]; then
+            expected="STLSOFT provided as CMake variable"
+          else
+            expected="STLSOFT provided as environment variable"
+          fi
+          if ! grep -q "$expected" configure.log; then
+            echo "configure did not report '${expected}'" >&2
+            exit 1
+          fi
+
+      - name: Build
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmake --build build --parallel
+
+      - name: Test (CTest)
+        shell: bash
+        run: |
+          set -euo pipefail
+          ctest --test-dir build --output-on-failure \
+            --build-config "${{ env.BUILD_TYPE }}" --timeout 60 \
+            --no-tests=error
+
+      - name: Install
+        shell: bash
+        run: |
+          set -euo pipefail
+          PREFIX="${RUNNER_TEMP}/install-prefix"
+          echo "INSTALL_PREFIX=$PREFIX" >> "$GITHUB_ENV"
+          cmake --install build --prefix "$PREFIX"
+
+      # on these routes the export does not reference STLSoft::STLSoft, so
+      # the package configuration must not require the package either
+      - name: Assert package config does not require STLSoft
+        shell: bash
+        run: |
+          set -euo pipefail
+          config="${INSTALL_PREFIX}/lib/cmake/xtests/xtests-config.cmake"
+          test -f "$config"
+          if ! grep -q '^if(FALSE)' "$config"; then
+            echo "expected the find_dependency(STLSoft) guard to be FALSE" >&2
+            cat "$config" >&2
+            exit 1
+          fi
+
+      # this is the regression test for K7: without a BUILD_INTERFACE guard
+      # on the STLSoft include directory, the builder's own absolute path is
+      # written into the installed export, and the install tree is then not
+      # relocatable
+      - name: Assert the exported target is relocatable
+        shell: bash
+        run: |
+          set -euo pipefail
+          targets="${INSTALL_PREFIX}/lib/cmake/xtests/xtests-targets.cmake"
+          test -f "$targets"
+          if grep -q "${STLSOFT_SRC}" "$targets"; then
+            echo "installed export names the build machine's STLSoft path:" >&2
+            grep -n "${STLSOFT_SRC}" "$targets" >&2
+            exit 1
           fi

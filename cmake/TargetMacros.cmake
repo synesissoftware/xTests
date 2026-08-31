@@ -44,7 +44,7 @@ function(define_automated_test_program program_name entry_point_source_name)
 
 	target_link_libraries(${program_name}
 		PRIVATE
-			core
+			xTests::core
 			$<$<BOOL:${shwild_FOUND}>:shwild::core>
 	)
 
@@ -65,7 +65,7 @@ function(define_example_program program_name entry_point_source_name)
 
 	target_link_libraries(${program_name}
 		PRIVATE
-			core
+			xTests::core
 			$<$<BOOL:${shwild_FOUND}>:shwild::core>
 	)
 
