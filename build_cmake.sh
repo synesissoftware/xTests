@@ -1,11 +1,13 @@
 #! /bin/bash
 
 ScriptPath=$0
-Dir=$(cd $(dirname "$ScriptPath"); pwd)
+Dir=$(cd "$(dirname "$ScriptPath")"; pwd)
 Basename=$(basename "$ScriptPath")
 CMakeDir=${SIS_CMAKE_BUILD_DIR:-$Dir/_build}
 [[ -n "$MSYSTEM" ]] && DefaultMakeCmd=mingw32-make.exe || DefaultMakeCmd=make
 MakeCmd=${SIS_CMAKE_MAKE_COMMAND:-${SIS_CMAKE_COMMAND:-$DefaultMakeCmd}}
+ProjectNameFile="$Dir/.sis/project_name.txt"
+ProjectName=$(tr -d '[:space:]' < "$ProjectNameFile")
 
 IgnoreRemainingFlagsAndOptions=0
 Targets=()
@@ -58,6 +60,13 @@ Flags/options:
 
     behaviour:
 
+        (no arguments)
+            builds all default targets
+
+        <target> ...
+            builds one or more specific targets (e.g. test.unit.version,
+            version)
+
 
     standard flags:
 
@@ -90,7 +99,7 @@ if [ ! -d "$CMakeDir" ]; then
   exit 1
 else
 
-  cd $CMakeDir
+  cd "$CMakeDir"
 
   if [ ! -f "$CMakeDir/Makefile" ]; then
 
@@ -103,10 +112,10 @@ else
 
     if [ -z "$Targets" ]; then
 
-      echo "Executing build (via command \`$MakeCmd\`)"
+      echo "Executing build of ${ProjectName} (via command \`$MakeCmd\`)"
     else
 
-      echo "Executing build (via command \`$MakeCmd\`) with specific target(s) $(join_by , "${Targets[@]}")"
+      echo "Executing build of ${ProjectName} (via command \`$MakeCmd\`) with specific target(s) $(join_by , "${Targets[@]}")"
     fi
 
     $MakeCmd ${Targets[*]}

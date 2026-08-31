@@ -87,16 +87,19 @@ The primary choice for installation is by use of **CMake**.
    not need this step.)
 
 5. As a check, execute the built test program files via the
-   **build_run_all_unit_tests.sh** script, as in:
+   **run_all_unit_tests.sh** script, as in:
 
    ```bash
    $ ./run_all_unit_tests.sh
    ```
 
-   (**NOTE**: because **xTests** is a unit-testing library its own tests
-   are just scratch tests, and all fail _by-design_ so expect to see a
-   lot of output, which is indicative of what you will see when you
-   detect failure in your own tests using **xTests**.)
+   (**NOTE**: **run_all_unit_tests.sh** runs the automated **unit** and
+   **component** programs under **test/unit** and **test/component**;
+   those are expected to **pass**. Separately, programs under
+   **test/scratch** deliberately exercise failure reporting (and often
+   exit non-zero) so you can see the kind of output **xTests** produces
+   when assertions fail in your own work — use **run_all_scratch_tests.sh**
+   if you want to run those.)
 
 6. Install the library on the host, via `cmake`, as in:
 
@@ -143,10 +146,19 @@ The primary choice for installation is by use of **CMake**.
    3. Link your project against **xTests**:
 
       Due to the installation step (Step 6 above) there is no requirement
-      for an explicit library directory for **xTests**:
+      for an explicit library directory for **xTests**. The installed
+      library artefact is named **xtests.core** (e.g. **libxtests.core**):
 
       ```bash
-      $ g++ main.o -lxtests
+      $ g++ main.o -lxtests.core
+      ```
+
+      Preferable, when using **CMake**, is to consume the exported package
+      target:
+
+      ```cmake
+      find_package(xTests REQUIRED)
+      target_link_libraries(your_app PRIVATE xTests::core)
       ```
 
    4. Test your project:

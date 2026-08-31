@@ -1,13 +1,15 @@
 #! /bin/bash
 
 ScriptPath=$0
-Dir=$(cd $(dirname "$ScriptPath"); pwd)
+Dir=$(cd "$(dirname "$ScriptPath")"; pwd)
 Basename=$(basename "$ScriptPath")
 CMakeDir=${SIS_CMAKE_BUILD_DIR:-$Dir/_build}
 [[ -n "$MSYSTEM" ]] && DefaultMakeCmd=mingw32-make.exe || DefaultMakeCmd=make
 MakeCmd=${SIS_CMAKE_MAKE_COMMAND:-${SIS_CMAKE_COMMAND:-$DefaultMakeCmd}}
+ProjectNameFile="$Dir/.sis/project_name.txt"
+ProjectName=$(tr -d '[:space:]' < "$ProjectNameFile")
 
-CMakeVerbose=
+CTestVerbose=
 RunMake=1
 
 
@@ -23,7 +25,7 @@ while [[ $# -gt 0 ]]; do
       ;;
     --verbose|-V)
 
-      CMakeVerbose=--verbose
+      CTestVerbose=--verbose
       ;;
     --help)
 
@@ -39,11 +41,12 @@ Flags/options:
 
     -M
     --no-make
-        does not execute CMake and make before running tests
+        does not execute make before running tests
 
     -V
     --verbose
-        verbose test output
+        verbose test output, for passing tests as well as failing ones;
+        output from failing tests is shown regardless
 
 
     standard flags:
@@ -74,11 +77,11 @@ status=0
 
 if [ $RunMake -ne 0 ]; then
 
-  echo "Executing build (via command \`$MakeCmd\`) and then running all component and unit test programs"
+  echo "Executing build of ${ProjectName} (via command \`$MakeCmd\`) and then running automated tests"
 
-  mkdir -p $CMakeDir || exit 1
+  mkdir -p "$CMakeDir" || exit 1
 
-  cd $CMakeDir
+  cd "$CMakeDir"
 
   $MakeCmd
   status=$?
@@ -89,14 +92,16 @@ else
   if [ ! -d "$CMakeDir" ] || [ ! -f "$CMakeDir/CMakeCache.txt" ] || [ ! -d "$CMakeDir/CMakeFiles" ]; then
 
     >&2 echo "$ScriptPath: cannot run in '--no-make' mode without a previous successful build step"
+
+    exit 1
   fi
 fi
 
 if [ $status -eq 0 ]; then
 
-  echo "Running CMake tests"
+  echo "Running ${ProjectName} CMake tests"
 
-  ctest --test-dir $CMakeDir $CMakeVerbose
+  ctest --test-dir "$CMakeDir" --output-on-failure $CTestVerbose
   status=$?
 fi
 

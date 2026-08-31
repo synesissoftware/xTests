@@ -1,11 +1,13 @@
 #! /bin/bash
 
 ScriptPath=$0
-Dir=$(cd $(dirname "$ScriptPath"); pwd)
+Dir=$(cd "$(dirname "$ScriptPath")"; pwd)
 Basename=$(basename "$ScriptPath")
 CMakeDir=${SIS_CMAKE_BUILD_DIR:-$Dir/_build}
 [[ -n "$MSYSTEM" ]] && DefaultMakeCmd=mingw32-make.exe || DefaultMakeCmd=make
 MakeCmd=${SIS_CMAKE_MAKE_COMMAND:-${SIS_CMAKE_COMMAND:-$DefaultMakeCmd}}
+ProjectNameFile="$Dir/.sis/project_name.txt"
+ProjectName=$(tr -d '[:space:]' < "$ProjectNameFile")
 
 ListOnly=0
 RunMake=1
@@ -43,7 +45,7 @@ Flags/options:
 
     -M
     --no-make
-        does not execute CMake and make before running tests
+        does not execute make before running examples
 
 
     standard flags:
@@ -76,11 +78,11 @@ if [ $RunMake -ne 0 ]; then
 
   if [ $ListOnly -eq 0 ]; then
 
-    echo "Executing build (via command \`$MakeCmd\`) and then running all example programs"
+    echo "Executing build of ${ProjectName} (via command \`$MakeCmd\`) and then running all example programs"
 
-    mkdir -p $CMakeDir || exit 1
+    mkdir -p "$CMakeDir" || exit 1
 
-    cd $CMakeDir
+    cd "$CMakeDir"
 
     $MakeCmd
     status=$?
@@ -92,6 +94,8 @@ else
   if [ ! -d "$CMakeDir" ] || [ ! -f "$CMakeDir/CMakeCache.txt" ] || [ ! -d "$CMakeDir/CMakeFiles" ]; then
 
     >&2 echo "$ScriptPath: cannot run in '--no-make' mode without a previous successful build step"
+
+    exit 1
   fi
 fi
 
@@ -99,14 +103,19 @@ if [ $status -eq 0 ]; then
 
   if [ $ListOnly -ne 0 ]; then
 
-    echo "Listing all example programs"
+    echo "Listing all ${ProjectName} example programs"
   else
 
-    echo "Running all example programs"
+    echo "Running all ${ProjectName} example programs"
   fi
 
-  for f in $(find $CMakeDir/examples -type f -exec test -x {} \; -print)
-  do
+  # NUL-delimited, so that a path containing whitespace is one program and
+  # not several
+  NumPrograms=0
+
+  while IFS= read -r -d '' f; do
+
+    NumPrograms=$((NumPrograms + 1))
 
     if [ $ListOnly -ne 0 ]; then
 
@@ -118,8 +127,20 @@ if [ $status -eq 0 ]; then
     echo
     echo "executing $f:"
 
-    $f
-  done
+    # NOTE: we do not break on fail, because, this being a unit-testing
+    # library, several examples exist precisely to demonstrate failure
+    # reporting and so exit non-zero by design
+    "$f"
+  done < <(find "$CMakeDir/examples" -type f -exec test -x {} \; -print0 | sort -z)
+
+  # discovering nothing is a failure, not a success: it is how C1 stayed
+  # invisible, a whole CI matrix reporting green while running nothing
+  if [ $NumPrograms -eq 0 ]; then
+
+    >&2 echo "$ScriptPath: found no example programs under '$CMakeDir/examples'"
+
+    exit 1
+  fi
 fi
 
 exit $status

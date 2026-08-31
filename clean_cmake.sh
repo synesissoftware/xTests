@@ -1,11 +1,13 @@
 #! /bin/bash
 
 ScriptPath=$0
-Dir=$(cd $(dirname "$ScriptPath"); pwd)
+Dir=$(cd "$(dirname "$ScriptPath")"; pwd)
 Basename=$(basename "$ScriptPath")
 CMakeDir=${SIS_CMAKE_BUILD_DIR:-$Dir/_build}
 [[ -n "$MSYSTEM" ]] && DefaultMakeCmd=mingw32-make.exe || DefaultMakeCmd=make
 MakeCmd=${SIS_CMAKE_MAKE_COMMAND:-${SIS_CMAKE_COMMAND:-$DefaultMakeCmd}}
+ProjectNameFile="$Dir/.sis/project_name.txt"
+ProjectName=$(tr -d '[:space:]' < "$ProjectNameFile")
 
 
 # ##########################################################
@@ -58,7 +60,7 @@ if [ ! -d "$CMakeDir" ]; then
   exit 1
 else
 
-  cd $CMakeDir
+  cd "$CMakeDir"
 
   if [ ! -f "$CMakeDir/Makefile" ]; then
 
@@ -69,7 +71,7 @@ else
     exit 1
   else
 
-    echo "Cleaning build (via command \`$MakeCmd clean\`)"
+    echo "Cleaning build of ${ProjectName} (via command \`$MakeCmd clean\`)"
 
     $MakeCmd clean
     status=$?

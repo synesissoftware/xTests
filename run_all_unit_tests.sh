@@ -1,11 +1,13 @@
 #! /bin/bash
 
 ScriptPath=$0
-Dir=$(cd $(dirname "$ScriptPath"); pwd)
+Dir=$(cd "$(dirname "$ScriptPath")"; pwd)
 Basename=$(basename "$ScriptPath")
 CMakeDir=${SIS_CMAKE_BUILD_DIR:-$Dir/_build}
 [[ -n "$MSYSTEM" ]] && DefaultMakeCmd=mingw32-make.exe || DefaultMakeCmd=make
 MakeCmd=${SIS_CMAKE_MAKE_COMMAND:-${SIS_CMAKE_COMMAND:-$DefaultMakeCmd}}
+ProjectNameFile="$Dir/.sis/project_name.txt"
+ProjectName=$(tr -d '[:space:]' < "$ProjectNameFile")
 
 ListOnly=0
 RunMake=1
@@ -119,11 +121,11 @@ if [ $RunMake -ne 0 ]; then
 
   if [ $ListOnly -eq 0 ]; then
 
-    echo "Executing build (via command \`$MakeCmd\`) and then running all ${TestKindDescription} programs"
+    echo "Executing build (via command \`$MakeCmd\`) and then running all ${ProjectName} ${TestKindDescription} programs"
 
-    mkdir -p $CMakeDir || exit 1
+    mkdir -p "$CMakeDir" || exit 1
 
-    cd $CMakeDir
+    cd "$CMakeDir"
 
     $MakeCmd
     status=$?
@@ -144,10 +146,10 @@ if [ $status -eq 0 ]; then
 
   if [ $ListOnly -ne 0 ]; then
 
-    echo "Listing all ${TestKindDescription} programs"
+    echo "Listing all ${ProjectName} ${TestKindDescription} programs"
   else
 
-    echo "Running all ${TestKindDescription} programs"
+    echo "Running all ${ProjectName} ${TestKindDescription} programs"
   fi
 
   if [ $UnitOnly -ne 0 ]; then
@@ -161,8 +163,13 @@ if [ $status -eq 0 ]; then
     find_name_expr=( \( -name 'test_unit*' -o -name 'test.unit.*' -o -name 'test_component*' -o -name 'test.component.*' \) )
   fi
 
-  for f in $(find "$CMakeDir" -type f "${find_name_expr[@]}" -exec test -x {} \; -print | sort)
-  do
+  # NUL-delimited, so that a path containing whitespace is one program and
+  # not several
+  NumPrograms=0
+
+  while IFS= read -r -d '' f; do
+
+    NumPrograms=$((NumPrograms + 1))
 
     if [ $ListOnly -ne 0 ]; then
 
@@ -180,7 +187,7 @@ if [ $status -eq 0 ]; then
       echo "executing $f:"
     fi
 
-    if $f --verbosity=$Verbosity; then
+    if "$f" --verbosity="$Verbosity"; then
 
       :
     else
@@ -189,7 +196,16 @@ if [ $status -eq 0 ]; then
 
       break 1
     fi
-  done
+  done < <(find "$CMakeDir" -type f "${find_name_expr[@]}" -exec test -x {} \; -print0 | sort -z)
+
+  # discovering nothing is a failure, not a success: it is how C1 stayed
+  # invisible, a whole CI matrix reporting green while running no tests
+  if [ $NumPrograms -eq 0 ]; then
+
+    >&2 echo "$ScriptPath: found no ${TestKindDescription} programs under '$CMakeDir'"
+
+    exit 1
+  fi
 fi
 
 exit $status

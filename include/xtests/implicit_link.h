@@ -4,11 +4,11 @@
  * Purpose: Implicit linking for the xTests API
  *
  * Created: 3rd March 2003
- * Updated: 30th June 2024
+ * Updated: 9th August 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
- * Copyright (c) 2019-2024, Matthew Wilson and Synesis Information Systems
+ * Copyright (c) 2019-2026, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 2003-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -22,7 +22,7 @@
  *   notice, this list of conditions and the following disclaimer in the
  *   documentation and/or other materials provided with the distribution;
  * - Neither the name of the copyright holder nor the names of its
- *   ontributors may be used to endorse or promote products derived from
+ *   contributors may be used to endorse or promote products derived from
  *   this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
@@ -64,7 +64,7 @@
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MAJOR    1
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_MINOR    12
 # define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_REVISION 7
-# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_EDIT     43
+# define XTESTS_VER_XTESTS_H_IMPLICIT_LINK_EDIT     44
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 

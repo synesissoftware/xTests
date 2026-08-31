@@ -58,6 +58,18 @@ if NOT EXIST "%CMAKE_DIR%" (
     EXIT /B 1
 )
 
+SET "ProjectName="
+FOR /F "usebackq delims=" %%p IN ("%SCRIPT_DIRECTORY%.sis\project_name.txt") DO SET "ProjectName=%%p"
+
+IF NOT DEFINED ProjectName (
+
+    ECHO %SCRIPT_PATH_DOC%: could not read project name from .sis\project_name.txt 1>&2
+
+    EXIT /B 1
+)
+
+ECHO Running all %ProjectName% unit-test programs
+
 FOR /F "usebackq" %%f IN (`DIR /A:-D /B /S %CMAKE_DIR% ^| FINDSTR /I test.*unit.*\.exe$`) DO (
 	ECHO .
 	ECHO executing %%f
