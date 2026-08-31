@@ -17,7 +17,15 @@ See instructions in [INSTALL.md](./INSTALL.md).
 
 ## Q2: "Does xTests have its own unit-tests?"
 
-Yes, but because it is a unit-test library itself, those tests failed deliberately in order to illustrate the outputs given when you use **xTests** in your own work.
+Yes. Automated **unit** and **component** tests live under **test/unit**
+and **test/component**; they are expected to **pass** (see
+**run_all_unit_tests.sh** in [INSTALL.md](./INSTALL.md)).
+
+Separately, **scratch** programs under **test/scratch** deliberately
+exercise failure paths so you can see the kind of output **xTests**
+produces when assertions fail. Those often exit non-zero by design; they
+are not the automated unit/component suite (see
+**run_all_scratch_tests.sh**).
 
 ## Q3: "Why are the macros so verbose?"
 

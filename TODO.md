@@ -43,6 +43,7 @@
 
 ## Packaging improvements
 
+* [ ] Automated CI matrix for checking combinations of C and C++ language standards;
 * [x] ~~~GitHub Actions~~~ - ✅:
   * [x] ~~~Build~~~ - ✅;
   * [x] ~~~Unit-tests~~~ - ✅;

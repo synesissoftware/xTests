@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 27th August 2026
+ * Updated: 1st September 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -23,7 +23,7 @@
  *   notice, this list of conditions and the following disclaimer in the
  *   documentation and/or other materials provided with the distribution;
  * - Neither the name of the copyright holder nor the names of its
- *   ontributors may be used to endorse or promote products derived from
+ *   contributors may be used to endorse or promote products derived from
  *   this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
@@ -79,10 +79,6 @@
  * The alpha/beta number of the xTests library, in the range 1-0xFE for
  * prerelease versions, and 0xFF for a released version
  *
- * \def _XTESTS_VER_REVISION
- *
- * Equivalent to _XTESTS_VER_PATCH, and retained for backwards compatibility
- *
  * \def _XTESTS_VER
  *
  * The composite version of the xTests library
@@ -101,7 +97,9 @@
         |   (   _XTESTS_VER_ALPHABETA   <<  0   ) \
     )
 
-#define _XTESTS_VER_REVISION    _XTESTS_VER_PATCH
+#ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
+# define _XTESTS_VER_REVISION                               _XTESTS_VER_PATCH
+#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -877,7 +875,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
 #define XTESTS_CASE_BEGIN(name, desc)                       \
     (0 == XTESTS_NS_C_QUAL(xtests_beginTestCase)((name), (desc)))
 
-/** \def XTESTS_CASE_END(name, desc)
+/** \def XTESTS_CASE_END(name)
  *
  * \ingroup group__xtests__test_case_functions
  *
@@ -2193,9 +2191,9 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * \param expected The expected value of the string;
  * \param actual The string slice to be evaluated, which is expected to have
- *   the member <code>len</code> and <code>ptr</code>;
+ *   the members <code>len</code> and <code>ptr</code>;
  *
- * \note This can only be invoked after a successful invocation of
+ * \note This can only be invoked after a successful invocation of the macro
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
 #define XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL(expected, actual)          \
