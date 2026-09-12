@@ -59,9 +59,15 @@ set(CORE_SRCS
 	xtests.core.cpp
 )
 
-add_library(core
+# the real target is named for the library it produces, so that nothing as
+# generic as `core` is introduced into a parent project that adds xTests via
+# `add_subdirectory()`; EXPORT_NAME below keeps the exported target
+# `xTests::core`, as consumers already spell it
+add_library(xtests.core
 	${CORE_SRCS}
 )
+
+add_library(xTests::core ALIAS xtests.core)
 
 # specify the primary public headers for the library, which controls whether
 # they'll be installed
@@ -74,31 +80,37 @@ set(CORE_PUBLIC_HEADERS
 	"${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME_LOWER}/terse-api.h"
 )
 
-set_target_properties(core PROPERTIES
+set_target_properties(xtests.core PROPERTIES
+	EXPORT_NAME "core"
 	OUTPUT_NAME "xtests.core"
 	PUBLIC_HEADER "${CORE_PUBLIC_HEADERS}"
 )
 
-target_include_directories(core
+target_include_directories(xtests.core
 	PUBLIC
 		$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
-		$<INSTALL_INTERFACE:include>
+		$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-target_link_libraries(core
-	PUBLIC
-		$<$<STREQUAL:${STLSOFT_INCLUDE_DIR},>:STLSoft::STLSoft>
-)
+if(STLSoft_IS_PACKAGE_)
 
-if(DEFINED STLSOFT_INCLUDE_DIR)
-
-	target_include_directories(core
+	target_link_libraries(xtests.core
 		PUBLIC
-			${STLSOFT_INCLUDE_DIR}
+			STLSoft::STLSoft
+	)
+else()
+
+	# BUILD_INTERFACE, because this is the builder's own directory: without
+	# the guard it is written into the installed export, which is then
+	# meaningless anywhere else. See cmake/xtests-config.cmake.in for what
+	# the installed package tells a consumer about STLSoft in this case.
+	target_include_directories(xtests.core
+		PUBLIC
+			$<BUILD_INTERFACE:${STLSOFT_INCLUDE_DIR}>
 	)
 endif()
 
-target_compile_options(core
+target_compile_options(xtests.core
 	PRIVATE
 		$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
 			-Werror -Wall -Wextra -pedantic
@@ -114,7 +126,7 @@ target_compile_options(core
 # ##########################################################
 # install
 
-install(TARGETS core
+install(TARGETS xtests.core
 	EXPORT project-targets
 	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -130,14 +142,14 @@ install(TARGETS core
 
 install(
 	DIRECTORY ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME_LOWER}/util
-	DESTINATION include/${PROJECT_NAME_LOWER}
+	DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME_LOWER}
 	FILES_MATCHING
 	PATTERN "*.h*"
 )
 
 install(
 	DIRECTORY ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME_LOWER}/test/util
-	DESTINATION include/${PROJECT_NAME_LOWER}/test
+	DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME_LOWER}/test
 	FILES_MATCHING
 	PATTERN "*.h*"
 )
