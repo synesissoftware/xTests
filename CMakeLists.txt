@@ -57,10 +57,29 @@ set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT
 
 # adhere strictly to C and C++ standards plus extensions. These are actually
 # useless since we do not compile anything; they merely state our intention.
-set(CMAKE_C_STANDARD 17)
+if(NOT DEFINED CMAKE_C_STANDARD)
+
+	if(MSVC AND MSVC_VERSION LESS 1930)
+
+		set(CMAKE_C_STANDARD 90)
+	else()
+
+		set(CMAKE_C_STANDARD 17)
+	endif()
+endif()
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS ON) # GNU extensions and POSIX standard
-set(CMAKE_CXX_STANDARD 20)
+
+if(NOT DEFINED CMAKE_CXX_STANDARD)
+
+	if(MSVC AND MSVC_VERSION LESS 1930)
+
+		set(CMAKE_CXX_STANDARD 98)
+	else()
+
+		set(CMAKE_CXX_STANDARD 20)
+	endif()
+endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
@@ -69,12 +88,6 @@ if(MSVC)
 	if(MSVC_VERSION LESS 1800)
 
 		add_compile_options("/wd4996")
-	endif()
-
-	if(MSVC_VERSION LESS 1930)
-
-		set(CMAKE_C_STANDARD 90)
-		set(CMAKE_CXX_STANDARD 98)
 	endif()
 
 	if(MSVC_USE_MT)
@@ -163,7 +176,7 @@ else()
 endif()
 
 # ############################
-# shwild (optional)
+# shwild (testing only; optional)
 
 if(NOT (NO_SHWILD))
 

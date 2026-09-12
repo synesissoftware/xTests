@@ -7,7 +7,6 @@ CMakeDir=${SIS_CMAKE_BUILD_DIR:-$Dir/_build}
 if [[ -n "$MSYSTEM" ]]; then
 
   DefaultMakeCmd=mingw32-make.exe
-  MinGW=1
 else
 
   DefaultMakeCmd=make
@@ -16,7 +15,7 @@ MakeCmd=${SIS_CMAKE_MAKE_COMMAND:-${SIS_CMAKE_COMMAND:-$DefaultMakeCmd}}
 
 Configuration=Release
 ExamplesDisabled=0
-MSVC_MT=0
+MSVC_MT="${MSVC_MT:=0}"
 MinGW="${MinGW:=0}"
 NO_shwild=0
 RunMake=0
@@ -183,7 +182,6 @@ else
     -B $CMakeDir \
     || (cd ->/dev/null ; exit 1)
 fi
-
 
 status=0
 

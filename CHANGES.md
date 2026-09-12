@@ -1,6 +1,11 @@
 # **xTests** Changes <!-- omit in toc -->
 
 
+## 0.26.5 (alpha 2) - 12th September 2026
+
+* Made **CMake** C and C++ language standards settings overrideable by external configurations (e.g., from command-line overrides or CI workflows);
+
+
 ## 0.26.5 (alpha 1) - 10th August 2026
 
 * Added minimal C and C++ usage examples to **README.md**;

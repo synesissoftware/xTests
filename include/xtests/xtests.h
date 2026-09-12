@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 9th August 2026
+ * Updated: 12th September 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -53,7 +53,7 @@
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       51
 # define XTESTS_VER_XTESTS_H_XTESTS_REVISION    13
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        414
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        415
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -86,7 +86,7 @@
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       26
 #define _XTESTS_VER_PATCH       5
-#define _XTESTS_VER_ALPHABETA   0x41
+#define _XTESTS_VER_ALPHABETA   0x42
 
 #define _XTESTS_VER \
     (0\
