@@ -42,7 +42,6 @@ autocmd BufWritePre * %s/\s\+$//e
 
 augroup sis_c_cxx
   autocmd!
-
   " [bat]
   autocmd FileType bat,dosbatch setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4 colorcolumn=60,76
 
@@ -52,8 +51,8 @@ augroup sis_c_cxx
   " [cmake]
   autocmd FileType cmake setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 
-  " [json] / [markdown] / [yaml] / [ruby]
-  autocmd FileType json,markdown,yaml,ruby setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
+  " [json] / [markdown] / [ruby] / [yaml]
+  autocmd FileType json,markdown,ruby,yaml setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
 
   " [python]
   autocmd FileType python setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4 colorcolumn=60,76
@@ -62,9 +61,10 @@ augroup sis_c_cxx
   autocmd FileType rs setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4 colorcolumn=76
 
   " [shellscript]
-  autocmd FileType sh,bash,zsh setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2 colorcolumn=60,76
+  autocmd FileType bash,sh,zsh setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2 colorcolumn=60,76
 
   " [toml]
   autocmd FileType toml setlocal noexpandtab tabstop=2 shiftwidth=2 softtabstop=2
+
 augroup END
 
