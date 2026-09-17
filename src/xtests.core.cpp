@@ -1176,13 +1176,13 @@ namespace
 #if 0
 #elif defined(PLATFORMSTL_OS_IS_WINDOWS)
 
-# ifdef STLSOFT_API_EXTERNAL_string_stricmp
+# ifdef STLSOFT_API_EXTERNAL_string_strnicmp
 
-    return 0 == STLSOFT_API_EXTERNAL_string_stricmp(s, sl.ptr, sl.len);
-# else /* ? STLSOFT_API_EXTERNAL_string_stricmp */
+    return 0 == STLSOFT_API_EXTERNAL_string_strnicmp(s, sl.ptr, sl.len);
+# else /* ? STLSOFT_API_EXTERNAL_string_strnicmp */
 
     return 0 == ::_strnicmp(s, sl.ptr, sl.len);
-# endif /* STLSOFT_API_EXTERNAL_string_stricmp */
+# endif /* STLSOFT_API_EXTERNAL_string_strnicmp */
 #else
 
         return 0 == ::strncmp(s, sl.ptr, sl.len);
