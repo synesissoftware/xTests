@@ -1238,7 +1238,7 @@ namespace
         winstl_C_path_classification_results_m_t    results;
         winstl_C_path_classification_t const        pc = winstl_C_path_classify(n.ptr, n.len, 0, &results);
 
-        if (UNIXSTL_C_PathType_SlashRooted != pc)
+        if (WINSTL_C_PathType_SlashRooted != pc)
 #else
 
         unixstl_C_path_classification_results_m_t   results;
