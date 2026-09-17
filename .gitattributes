@@ -1,4 +1,4 @@
-# .gitattributes — C (GitHub-hosted)
+# .gitattributes — C / C++ (GitHub-hosted)
 #
 # Sources: GitHub Docs (line endings), git-scm gitattributes (diff=cpp),
 # gitattributes/gitattributes C++.gitattributes + Common.gitattributes,
@@ -9,9 +9,20 @@
 
 # --- Source ---
 *.c text diff=cpp
+*.c++ text diff=cpp
+*.cc text diff=cpp
+*.cpp text diff=cpp
+*.cxx text diff=cpp
 *.h text diff=cpp
+*.h++ text diff=cpp
+*.hh text diff=cpp
+*.hpp text diff=cpp
+*.hxx text diff=cpp
 *.inc text
 *.inl text
+*.ipp text
+*.tcc text
+*.tpp text
 
 # --- Build / config ---
 *.am text
@@ -62,11 +73,15 @@ TODO text
 *.dylib binary
 *.exe binary
 *.gch binary
+*.la binary
+*.lai binary
 *.lib binary
+*.lo binary
 *.o binary
 *.obj binary
 *.out binary
 *.pch binary
+*.slo binary
 *.so binary
 
 # --- Archives / images (common) ---
@@ -80,6 +95,5 @@ TODO text
 *.zip binary
 
 # --- GitHub Linguist ---
-# Object / build trees if committed (prefer .gitignore; mark if present)
 **/build/** linguist-generated
 **/cmake-build-*/** linguist-generated
