@@ -1236,7 +1236,7 @@ namespace
 #elif defined(PLATFORMSTL_OS_IS_WINDOWS)
 
         winstl_C_path_classification_results_m_t    results;
-        winstl_C_path_classification_t const        pc = winßstl_C_path_classify(n.ptr, n.len, 0, &results);
+        winstl_C_path_classification_t const        pc = winstl_C_path_classify(n.ptr, n.len, 0, &results);
 
         if (UNIXSTL_C_PathType_SlashRooted != pc)
 #else
