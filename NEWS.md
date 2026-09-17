@@ -3,6 +3,7 @@
 
 | Date                  | News Item                           |
 | --------------------- | ----------------------------------- |
+| 17th September 2026   | [xTests 0.27.0-alpha1](https://github.com/synesissoftware/xTests/releases/tag/0.27.0-alpha1) released |
 | 1st September 2026    | [xTests 0.26.5 (alpha 1)](https://github.com/synesissoftware/xTests/releases/tag/0.26.5-alpha1) released |
 | 4th August 2026       | [xTests 0.26.4](https://github.com/synesissoftware/xTests/releases/tag/0.26.4) released |
 | 7th September 2025    | xTests 0.26.4 (alpha 4) released    |

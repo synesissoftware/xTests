@@ -13,6 +13,9 @@
 * [ ] Fix multibyte string-equality helpers (`XTESTS_TEST_MULTIBYTE_STRING_EQUAL` / `sas_to_string_m`) so string-access shims (e.g. `c_str_data_a`) declared after **xtests.h** is included are found under GCC/MinGW two-phase lookup; unblocks **Pantheios** **test.unit.bec.COMErrorObject** on MinGW;
 * [ ] support for `“--list”` flag;
 * [ ] support for named test case(s);
+* [ ] apply `XTESTS_START_RUNNER(__FILE__, …)` name inference in remaining test and example programs;
+* [ ] document `__FILE__` runner-name inference in **README.md** and Doxygen;
+* [ ] unit tests for runner-name inference from `__FILE__` / source paths;
 * [ ] support for `“—-timings”` flag;
 * [ ] support for `“—-leaks”` flag;
 * [ ] verbosity level 6 is to show all cases as they are executed, including successful results;

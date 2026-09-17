@@ -1,6 +1,12 @@
 # xTests - Changes <!-- omit in toc -->
 
 
+## 0.27.0-alpha1 - 17th September 2026
+
+* `XTESTS_START_RUNNER()` (and related start-runner APIs) now infer a runner name from a source path such as `__FILE__`, using the containing directory when the file stem is a stock `entry`/`main` and the extension is a C/C++ source suffix;
+* **test.component.temp_directory** now starts its runner with `__FILE__`;
+
+
 ## 0.26.5 (alpha 1) - 1st September 2026
 
 * Added minimal C and C++ usage examples to **README.md**;

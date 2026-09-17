@@ -4,11 +4,11 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 5th May 2025
+ * Updated: 17th September 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
- * Copyright (c) 2019-2025, Matthew Wilson and Synesis Information Systems
+ * Copyright (c) 2019-2026, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 1999-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -78,7 +78,11 @@
 #if 0
 #elif defined(PLATFORMSTL_OS_IS_WINDOWS)
 # include <winstl/system/system_version.hpp>
+# include <winstl/filesystem/path_classify_functions.h>
+#else
+# include <unixstl/filesystem/path_classify_functions.h>
 #endif
+#include <stlsoft/api/external/string.h>
 #include <stlsoft/conversion/char_conversions.hpp>
 #include <stlsoft/conversion/string_to_integer.hpp>
 #include <stlsoft/memory/auto_buffer.hpp>
@@ -368,6 +372,7 @@ namespace
     public: // construction
         RunnerInfo(
             char const*         name
+        ,   size_t              nameLen
         ,   int                 verbosity
         ,   xTests_Reporter_t*  reporter
         ,   void*               reporterParam
@@ -1161,6 +1166,142 @@ namespace
 
         return fmt_;
     }
+
+    bool
+    path_slice_matches_string_(
+        stlsoft_C_string_slice_m_t const    sl
+    ,   char const*                         s
+    )
+    {
+#if 0
+#elif defined(PLATFORMSTL_OS_IS_WINDOWS)
+
+# ifdef STLSOFT_API_EXTERNAL_string_stricmp
+
+    return 0 == STLSOFT_API_EXTERNAL_string_stricmp(s, sl.ptr, sl.len);
+# else /* ? STLSOFT_API_EXTERNAL_string_stricmp */
+
+    return 0 == ::_strnicmp(s, sl.ptr, sl.len);
+# endif /* STLSOFT_API_EXTERNAL_string_stricmp */
+#else
+
+        return 0 == ::strncmp(s, sl.ptr, sl.len);
+#endif
+    }
+
+    bool
+    basename_slice_matches_any_of_(
+        stlsoft_C_string_slice_m_t const    sl
+    ,   char const*                         names[]
+    ,   size_t const                        numNames
+    )
+    {
+        for (size_t i = 0; numNames != i; ++i)
+        {
+            if (path_slice_matches_string_(sl, names[i]))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool
+    extension_slice_matches_any_of_(
+        stlsoft_C_string_slice_m_t const    sl
+    ,   char const*                         extensions[]
+    ,   size_t const                        numExtensions
+    )
+    {
+        for (size_t i = 0; numExtensions != i; ++i)
+        {
+            if (path_slice_matches_string_(sl, extensions[i]))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    stlsoft_C_string_slice_m_t
+    infer_name_(
+        char const* name
+    )
+    {
+        stlsoft_C_string_slice_m_t const n = stlsoft_C_string_slice_m_t::create(name, ::strlen(name));
+
+#if 0
+#elif defined(PLATFORMSTL_OS_IS_WINDOWS)
+
+        winstl_C_path_classification_results_m_t    results;
+        winstl_C_path_classification_t const        pc = winßstl_C_path_classify(n.ptr, n.len, 0, &results);
+
+        if (UNIXSTL_C_PathType_SlashRooted != pc)
+#else
+
+        unixstl_C_path_classification_results_m_t   results;
+        unixstl_C_path_classification_t const       pc = unixstl_C_path_classify(n.ptr, n.len, 0, &results);
+
+        if (UNIXSTL_C_PathType_SlashRooted != pc)
+#endif
+        {
+            return n;
+        }
+        else
+        {
+            static char const* s_extensions[] =
+            {
+                ".c"
+            ,   ".cc"
+            ,   ".cpp"
+            ,   ".cxx"
+            };
+
+            if (!extension_slice_matches_any_of_(results.extension, s_extensions, STLSOFT_NUM_ELEMENTS(s_extensions)))
+            {
+                return n;
+            }
+
+            static char const* s_stockBasenames[] =
+            {
+                "entry"
+            ,   "main"
+            };
+
+            if (basename_slice_matches_any_of_(results.stem, s_stockBasenames, STLSOFT_NUM_ELEMENTS(s_stockBasenames)))
+            {
+                // `entry` === `basename`
+
+                if (0 != results.numDirectoryParts)
+                {
+#if 0
+#elif defined(PLATFORMSTL_OS_IS_WINDOWS)
+
+                    winstl_C_path_classification_results_m_t   results2;
+
+                    auto const pc2 = winstl_C_path_classify(results.location.ptr, results.location.len - 1, 0, &results2);
+#else
+
+                    unixstl_C_path_classification_results_m_t   results2;
+
+                    auto const pc2 = unixstl_C_path_classify(results.location.ptr, results.location.len - 1, 0, &results2);
+#endif
+
+                    ((void)pc2);
+
+                    return results2.entry;
+                }
+            }
+            else
+            {
+                return n;
+            }
+        }
+
+        return n;
+    }
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 #ifdef STLSOFT_CF_NAMESPACE_SUPPORT
 } // anonymous namespace
@@ -1186,9 +1327,11 @@ xtests_startRunner(
 {
     STLSOFT_MESSAGE_ASSERT("Runner already initialised in this process!", NULL == s_runner);
 
+    stlsoft_C_string_slice_m_t const inferredName = infer_name_(name);
+
     XTESTS_EXCEPTION_TRY_
 
-        s_runner = new RunnerInfo(name, verbosity, reporter, reporterParam, stm, flags, setup, teardown, setupParam);
+        s_runner = new RunnerInfo(inferredName.ptr, inferredName.len, verbosity, reporter, reporterParam, stm, flags, setup, teardown, setupParam);
 
         if (NULL == s_runner)
         {
@@ -3903,6 +4046,7 @@ namespace tty
 
 RunnerInfo::RunnerInfo(
     char const*             name
+,   size_t                  nameLen
 ,   int                     verbosity
 ,   xTests_Reporter_t*      reporter
 ,   void*                   reporterParam
@@ -3920,7 +4064,7 @@ RunnerInfo::RunnerInfo(
                         tty::ansi_supporter::determine_support()
                     ))
     , m_reporterParam(reporterParam)
-    , m_name(name)
+    , m_name(name, nameLen)
     , m_verbosity(verbosity)
     , m_flags(flags)
     , m_setup(setup)
