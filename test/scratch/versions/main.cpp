@@ -1,5 +1,5 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test/scratch/libver/main.cpp
+ * File:    test/scratch/versions/main.cpp
  *
  * Purpose: Scratch-test program for xTests showing version(s).
  *
@@ -27,7 +27,7 @@
  * includes
  */
 
-#define PROGRAM_NAME                                        "libver"
+#define PROGRAM_NAME                                        "versions"
 
 
 /* /////////////////////////////////////////////////////////////////////////
