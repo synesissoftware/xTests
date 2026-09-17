@@ -1,3 +1,17 @@
+/* /////////////////////////////////////////////////////////////////////////
+ * File:    test/scratch/libver/main.cpp
+ *
+ * Purpose: Scratch-test program for xTests showing version(s).
+ *
+ * Created: 30th June 2025
+ * Updated: 17th September 2026
+ *
+ * ////////////////////////////////////////////////////////////////////// */
+
+
+/* /////////////////////////////////////////////////////////////////////////
+ * includes
+ */
 
 #include <xtests/xtests.h>
 
@@ -9,7 +23,16 @@
 #include <stdlib.h>
 
 
+/* /////////////////////////////////////////////////////////////////////////
+ * includes
+ */
+
 #define PROGRAM_NAME                                        "libver"
+
+
+/* /////////////////////////////////////////////////////////////////////////
+ * helpers
+ */
 
 template<
     typename T_stream
@@ -18,13 +41,16 @@ template<
 void
 version(
     T_stream&   stm
+,   char const* prefix
 ,   char const* libname
+,   char const* macroname
 ,   T_integer   libver
 )
 {
     stm
+        << prefix
         << libname
-        << " v"
+        << ": v"
         << ((libver >> 24) & 0xff)
         << '.'
         << ((libver >> 16) & 0xff)
@@ -32,25 +58,40 @@ version(
         << ((libver >> 8) & 0xff)
         << '.'
         << ((libver >> 0) & 0xff)
+        << " ("
+        << macroname
+        << " = 0x"
+        << std::hex << std::setfill('0') << std::setw(8)
+        << static_cast<unsigned>(libver)
+        << std::dec
+        << ")"
         << std::endl
         ;
 }
 
 
+/* /////////////////////////////////////////////////////////////////////////
+ * main
+ */
+
 int main(int /* argc */, char* /* argv */[])
 {
     {
-        int const libver = _XTESTS_VER;
+        unsigned const libver = _XTESTS_VER;
 
-        version(std::cout, "\txTests", libver);
+        version(std::cout, "", "xTests", "_XTESTS_VER", libver);
     }
 
-    {
-        int const libver = _STLSOFT_VER;
+    std::cout << "\n" << "efferent dependencies:" << std::endl;
 
-        version(std::cout, "\tSTLSoft", libver);
+    {
+        unsigned const libver = _STLSOFT_VER;
+
+        version(std::cout, "\t", "STLSoft", "_STLSOFT_VER", libver);
     }
 
     return EXIT_SUCCESS;
 }
 
+
+/* ///////////////////////////// end of file //////////////////////////// */
