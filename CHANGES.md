@@ -3,13 +3,15 @@
 
 ## 0.26.5-beta2 - 20th September 2026
 
+* **example.cpp.temp_file** now removes files left by `temp_file::None` after illustrating that they persist, so `run_all_examples.sh` no longer pollutes the working tree;
+* UNIX `temp_file` now keeps the `mkstemp` descriptor and records the path as a C-string, rather than reopening and assigning `size() - 1`;
 * Replaced the nested `<details>` catalog in **README.md** **Components** with a short map linking to **COMPONENTS.md**, which lists each public construct with a small example;
 * Aligned **.gitattributes** with the **CLASP** C/C++ GitHub-hosted form, including C++ source extras, Linguist language classification, and `-linguist-detectable`;
 * Added a Rust FileType autocmd to **.vimrc**;
 * Normalised prerelease version headings in **CHANGES.md** to hyphen-compact SemVer form;
 * Added a **Details** column to **NEWS.md**;
 * Regenerated the **README.md** table of contents with hyphen markers and example subsections;
-* Added `_XTESTS_VER_AB` as an alias of `_XTESTS_VER_ALPHABETA` in **xtests.h**;
+* Set `_XTESTS_VER_ALPHABETA` to `0x82` (beta 2) and added `_XTESTS_VER_AB` as an alias of `_XTESTS_VER_ALPHABETA` in **xtests.h**;
 
 
 ## 0.26.5-beta1 - 1st September 2026
