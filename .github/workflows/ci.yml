@@ -2,11 +2,6 @@
 # Created: 30th July 2026
 # Updated: 20th September 2026
 #
-# TEMPORARY: this workflow is reduced to a language×toolchain build survey
-# for the README Compatibility matrix. Normal cell / install-smoke /
-# stlsoft-routes jobs are disabled until the survey is complete, then this
-# file should be restored to the modular Synesis layout.
-#
 
 name: CI
 
@@ -20,7 +15,6 @@ on:
       - rc1
       - rc2
       - rc3
-      - compiler-language-matrix
   pull_request:
 
 permissions:
@@ -34,89 +28,82 @@ env:
   BUILD_TYPE: Release
 
 jobs:
-  # Temporary Compatibility matrix survey (configure + build only).
-  # continue-on-error so expected ❌ cells do not hide sibling results.
-  # Job count: 5 toolchains × 19 language pairs = 95.
-  compat:
-    name: Compat (${{ matrix.tc.id }}, C++${{ matrix.cxx }}/C${{ matrix.c }})
-    runs-on: ${{ matrix.tc.os }}
-    continue-on-error: true
+  cell:
+    name: CI (${{ matrix.id }})
     strategy:
       fail-fast: false
       matrix:
-        tc:
+        include:
           - id: linux-clang
             os: ubuntu-latest
             c_compiler: clang
             cpp_compiler: clang++
-            toolchain: ''
           - id: linux-gcc
             os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
-            toolchain: ''
           - id: macos-clang
             os: macos-latest
             c_compiler: clang
             cpp_compiler: clang++
-            toolchain: ''
+          - id: macos-gcc
+            os: macos-latest
+            c_compiler: gcc
+            cpp_compiler: g++
           - id: windows-cl
             os: windows-latest
             c_compiler: cl
             cpp_compiler: cl
-            toolchain: ''
+          # `toolchain` carries what is not a compiler: MinGW needs its own
+          # generator and PATH, but the compilers it drives are gcc and g++
           - id: windows-mingw
             os: windows-latest
             c_compiler: gcc
             cpp_compiler: g++
             toolchain: mingw
-        cxx:
-          - 23
-          - 20
-          - 17
-          - 14
-          - 11
-          - 98
-        c:
-          - 23
-          - 17
-          - 11
-          - 99
-          - 90
-        exclude:
-          # Keep only the README Compatibility table pairs (19 of 30).
-          - cxx: 23
-            c: 11
-          - cxx: 23
-            c: 99
-          - cxx: 23
-            c: 90
-          - cxx: 17
-            c: 23
-          - cxx: 14
-            c: 23
-          - cxx: 14
-            c: 17
-          - cxx: 11
-            c: 23
-          - cxx: 11
-            c: 17
-          - cxx: 98
-            c: 23
-          - cxx: 98
-            c: 17
-          - cxx: 98
-            c: 11
+    uses: ./.github/workflows/ci-cell.yml
+    with:
+      cell-id: ${{ matrix.id }}
+      os: ${{ matrix.os }}
+      c-compiler: ${{ matrix.c_compiler }}
+      cpp-compiler: ${{ matrix.cpp_compiler }}
+      build-type: Release
+      toolchain: ${{ matrix.toolchain }}
+    secrets: inherit
+
+  install-smoke:
+    name: Install smoke (${{ matrix.os }}, ${{ matrix.toolchain || matrix.c_compiler }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            c_compiler: gcc
+            cpp_compiler: g++
+          - os: ubuntu-latest
+            c_compiler: clang
+            cpp_compiler: clang++
+          - os: macos-latest
+            c_compiler: clang
+            cpp_compiler: clang++
+          - os: windows-latest
+            c_compiler: cl
+            cpp_compiler: cl
+          - os: windows-latest
+            c_compiler: gcc
+            cpp_compiler: g++
+            toolchain: mingw
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Install Clang (Ubuntu)
-        if: runner.os == 'Linux' && matrix.tc.c_compiler == 'clang'
+        if: runner.os == 'Linux' && matrix.c_compiler == 'clang'
         run: sudo apt-get update && sudo apt-get install -y clang
 
       - name: Setup MSYS2 MinGW
-        if: runner.os == 'Windows' && matrix.tc.toolchain == 'mingw'
+        if: runner.os == 'Windows' && matrix.toolchain == 'mingw'
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
@@ -130,133 +117,237 @@ jobs:
         uses: ./.github/actions/install-sis-deps
         with:
           build-type: ${{ env.BUILD_TYPE }}
-          c-compiler: ${{ matrix.tc.c_compiler }}
-          cpp-compiler: ${{ matrix.tc.cpp_compiler }}
+          c-compiler: ${{ matrix.c_compiler }}
+          cpp-compiler: ${{ matrix.cpp_compiler }}
           dependencies: STLSoft
-          toolchain: ${{ matrix.tc.toolchain }}
+          toolchain: ${{ matrix.toolchain }}
 
-      # TEMPORARY: until these STLSoft fixes ship in a published release,
-      # patch the installed headers so survey cells are meaningful. Remove
-      # when SIS deps include both: (1) MinGW C++23 gmtime_r discrimination;
-      # (2) C90-safe STLSOFT_CUSTOM_C_INLINE (static, not extern inline).
-      - name: Patch installed STLSoft for compat survey
+      - name: Configure
         shell: bash
         run: |
           set -euo pipefail
-          python3 - "${{ env.SIS_DEPS }}" <<'PY'
-          import pathlib
-          import sys
-
-          root = pathlib.Path(sys.argv[1])
-
-          # --- (1) MinGW C++23 time discrimination ---
-          time_h = root / "include/stlsoft/api/external/time.h"
-          text = time_h.read_text()
-          needle = (
-              "# ifndef _MSC_VER\n"
-              "#  define STLSOFT_LF_SUPPORT_STD_gmtime_r\n"
-              "#  define STLSOFT_LF_SUPPORT_STD_localtime_r\n"
-              "# endif"
-          )
-          repl = (
-              "# if !defined(_MSC_VER) && \\\n"
-              "     !defined(__MINGW32__) && \\\n"
-              "     !defined(__MINGW64__)\n"
-              "#  define STLSOFT_LF_SUPPORT_STD_gmtime_r\n"
-              "#  define STLSOFT_LF_SUPPORT_STD_localtime_r\n"
-              "# endif"
-          )
-          if needle in text:
-              time_h.write_text(text.replace(needle, repl, 1))
-              print("patched", time_h)
-          elif "__MINGW64__" in text and "STLSOFT_LF_SUPPORT_STD_gmtime_r" in text:
-              print("STLSoft time.h already looks patched; leaving as-is")
-          else:
-              raise SystemExit(
-                  "expected MinGW C++23 discrimination block not found in "
-                  + str(time_h)
-              )
-
-          # --- (2) C90-safe CUSTOM_C_INLINE in clang/gcc cccap ---
-          inline_needle = (
-              "# if defined(__STDC_VERSION__) &&\\\n"
-              "     __STDC_VERSION__ >= 201112L\n"
-              "\n"
-              "#  define STLSOFT_CUSTOM_C_INLINE"
-              "                           static inline\n"
-              "# else /* ? C version */\n"
-              "\n"
-              "#  define STLSOFT_CUSTOM_C_INLINE"
-              "                           extern inline\n"
-              "# endif /* C version */\n"
-          )
-          inline_repl = (
-              "# if defined(__STDC_VERSION__) &&\\\n"
-              "     __STDC_VERSION__ >= 199901L\n"
-              "\n"
-              "#  define STLSOFT_CUSTOM_C_INLINE"
-              "                           static inline\n"
-              "# else /* ? C version */\n"
-              "\n"
-              "#  define STLSOFT_CUSTOM_C_INLINE"
-              "                           static __attribute__((unused))\n"
-              "# endif /* C version */\n"
-          )
-          for name in ("clang.h", "gcc.h"):
-              path = root / "include/stlsoft/internal/cccap" / name
-              text = path.read_text()
-              if inline_needle in text:
-                  path.write_text(text.replace(inline_needle, inline_repl, 1))
-                  print("patched", path)
-              elif (
-                  "STLSOFT_CUSTOM_C_INLINE" in text
-                  and "__STDC_VERSION__ >= 199901L" in text
-                  and "extern inline" not in text
-                  and "__attribute__((unused))" in text
-              ):
-                  print(name, "already looks C90-safe; leaving as-is")
-              else:
-                  raise SystemExit(
-                      "expected CUSTOM_C_INLINE block not found in " + str(path)
-                  )
-          PY
-
-      - name: Configure and build (prepare_cmake.sh)
-        if: matrix.tc.c_compiler != 'cl'
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [ "${{ matrix.tc.toolchain }}" = "mingw" ]; then
+          if [ "${{ matrix.c_compiler }}" = "cl" ]; then
+            cmake -B build -S . \
+              -DCMAKE_DISABLE_FIND_PACKAGE_MFC=TRUE \
+              -DCMAKE_PREFIX_PATH="${{ env.SIS_DEPS }}" \
+              -DBUILD_EXAMPLES=OFF \
+              -DBUILD_TESTING=OFF
+          elif [ "${{ matrix.toolchain }}" = "mingw" ]; then
             export PATH="/mingw64/bin:$PATH"
+            cmake -B build -S . -G "MinGW Makefiles" \
+              -DCMAKE_BUILD_TYPE="${{ env.BUILD_TYPE }}" \
+              -DCMAKE_C_COMPILER="${{ matrix.c_compiler }}" \
+              -DCMAKE_CXX_COMPILER="${{ matrix.cpp_compiler }}" \
+              -DCMAKE_PREFIX_PATH="${{ env.SIS_DEPS }}" \
+              -DBUILD_EXAMPLES=OFF \
+              -DBUILD_TESTING=OFF
+          else
+            cmake -B build -S . \
+              -DCMAKE_BUILD_TYPE="${{ env.BUILD_TYPE }}" \
+              -DCMAKE_C_COMPILER="${{ matrix.c_compiler }}" \
+              -DCMAKE_CXX_COMPILER="${{ matrix.cpp_compiler }}" \
+              -DCMAKE_PREFIX_PATH="${{ env.SIS_DEPS }}" \
+              -DBUILD_EXAMPLES=OFF \
+              -DBUILD_TESTING=OFF
           fi
-          export CC="${{ matrix.tc.c_compiler }}"
-          export CXX="${{ matrix.tc.cpp_compiler }}"
-          export CMAKE_PREFIX_PATH="${{ env.SIS_DEPS }}"
-          export SIS_CMAKE_BUILD_DIR="${{ github.workspace }}/build"
-          PREPARE_ARGS=(
-            --c-standard "${{ matrix.c }}"
-            --cxx-standard "${{ matrix.cxx }}"
-            --no-shwild
-            --run-make
-          )
-          if [ "${{ matrix.tc.toolchain }}" = "mingw" ]; then
-            PREPARE_ARGS+=(--mingw)
-          fi
-          echo "Survey cell: ${{ matrix.tc.id }} C++${{ matrix.cxx }}/C${{ matrix.c }}"
-          ./prepare_cmake.sh "${PREPARE_ARGS[@]}"
 
-      - name: Configure and build (MSVC / cl)
-        if: matrix.tc.c_compiler == 'cl'
+      - name: Build
         shell: bash
         run: |
           set -euo pipefail
-          echo "Survey cell: ${{ matrix.tc.id }} C++${{ matrix.cxx }}/C${{ matrix.c }}"
-          cmake -B build -S . \
-            -DCMAKE_DISABLE_FIND_PACKAGE_MFC=TRUE \
-            -DCMAKE_PREFIX_PATH="${{ env.SIS_DEPS }}" \
-            -DCMAKE_C_STANDARD="${{ matrix.c }}" \
-            -DCMAKE_CXX_STANDARD="${{ matrix.cxx }}" \
-            -DBUILD_EXAMPLES=ON \
-            -DBUILD_TESTING=ON \
-            -DNO_SHWILD=ON
-          cmake --build build --config "${{ env.BUILD_TYPE }}" --parallel
+          if [ "${{ matrix.c_compiler }}" = "cl" ]; then
+            cmake --build build --config "${{ env.BUILD_TYPE }}" --parallel
+          elif [ "${{ matrix.toolchain }}" = "mingw" ]; then
+            export PATH="/mingw64/bin:$PATH"
+            cmake --build build --parallel 2
+          else
+            cmake --build build --parallel
+          fi
+
+      - name: Install
+        shell: bash
+        run: |
+          set -euo pipefail
+          PREFIX="${RUNNER_TEMP}/install-prefix"
+          echo "INSTALL_PREFIX=$PREFIX" >> "$GITHUB_ENV"
+          if [ "${{ matrix.c_compiler }}" = "cl" ]; then
+            cmake --install build --config "${{ env.BUILD_TYPE }}" --prefix "$PREFIX"
+          else
+            cmake --install build --prefix "$PREFIX"
+          fi
+
+      - name: Verify install tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f "${INSTALL_PREFIX}/include/xtests/xtests.h"
+          config="${INSTALL_PREFIX}/lib/cmake/xtests/xtests-config.cmake"
+          test -f "$config"
+          # these jobs build against the STLSoft package, so the guard must
+          # be TRUE; asserting the literal catches an undefined substitution
+          # variable, which would expand to an empty - and silently false -
+          # `if()` instead
+          if ! grep -q '^if(TRUE)' "$config"; then
+            echo "expected the find_dependency(STLSoft) guard to be TRUE" >&2
+            cat "$config" >&2
+            exit 1
+          fi
+
+      - name: Configure and run install smoke consumer
+        shell: bash
+        run: |
+          set -euo pipefail
+          CONSUMER="${RUNNER_TEMP}/consumer"
+          mkdir -p "$CONSUMER"
+          cat > "$CONSUMER/CMakeLists.txt" <<'EOF'
+          cmake_minimum_required(VERSION 3.13)
+          project(xtests_install_smoke CXX)
+          # deliberately does NOT find STLSoft itself: the xTests package
+          # configuration is responsible for re-finding its own dependency
+          find_package(xTests REQUIRED)
+          add_executable(consumer consumer.cpp)
+          target_link_libraries(consumer PRIVATE xTests::core)
+          EOF
+          cat > "$CONSUMER/consumer.cpp" <<'EOF'
+          #include <xtests/xtests.h>
+          int main() { return 0; }
+          EOF
+          if [ "${{ matrix.c_compiler }}" = "cl" ]; then
+            cmake -S "$CONSUMER" -B consumer-build \
+              -DCMAKE_PREFIX_PATH="${INSTALL_PREFIX};${{ env.SIS_DEPS }}"
+            cmake --build consumer-build --config "${{ env.BUILD_TYPE }}" --parallel
+            consumer-build/${{ env.BUILD_TYPE }}/consumer.exe
+          elif [ "${{ matrix.toolchain }}" = "mingw" ]; then
+            export PATH="/mingw64/bin:$PATH"
+            cmake -S "$CONSUMER" -B consumer-build -G "MinGW Makefiles" \
+              -DCMAKE_BUILD_TYPE="${{ env.BUILD_TYPE }}" \
+              -DCMAKE_C_COMPILER="${{ matrix.c_compiler }}" \
+              -DCMAKE_CXX_COMPILER="${{ matrix.cpp_compiler }}" \
+              -DCMAKE_PREFIX_PATH="${INSTALL_PREFIX};${{ env.SIS_DEPS }}"
+            cmake --build consumer-build --parallel 2
+            consumer-build/consumer.exe
+          else
+            cmake -S "$CONSUMER" -B consumer-build \
+              -DCMAKE_BUILD_TYPE="${{ env.BUILD_TYPE }}" \
+              -DCMAKE_C_COMPILER="${{ matrix.c_compiler }}" \
+              -DCMAKE_CXX_COMPILER="${{ matrix.cpp_compiler }}" \
+              -DCMAKE_PREFIX_PATH="${INSTALL_PREFIX};${{ env.SIS_DEPS }}"
+            cmake --build consumer-build --parallel
+            consumer-build/consumer
+          fi
+
+  # CMakeLists.txt offers three ways to locate STLSoft, of which the jobs
+  # above exercise only find_package(). These cells cover the other two,
+  # which short-circuit find_package() entirely and so are not merely a
+  # different spelling of the same code path.
+  stlsoft-routes:
+    name: STLSoft route (${{ matrix.route }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        route:
+          - environment
+          - variable
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # these routes consume STLSoft as a source tree, so it is cloned
+      # rather than built and installed
+      - name: Clone STLSoft
+        shell: bash
+        run: |
+          set -euo pipefail
+          STLSOFT_SRC="${RUNNER_TEMP}/stlsoft-src"
+          git clone --depth 1 https://github.com/synesissoftware/STLSoft "$STLSOFT_SRC"
+          echo "STLSOFT_SRC=$STLSOFT_SRC" >> "$GITHUB_ENV"
+
+      - name: Configure
+        shell: bash
+        run: |
+          set -euo pipefail
+          # deliberately no CMAKE_PREFIX_PATH: nothing here may fall back to
+          # the STLSoft package
+          if [ "${{ matrix.route }}" = "variable" ]; then
+            cmake -B build -S . \
+              -DCMAKE_BUILD_TYPE="${{ env.BUILD_TYPE }}" \
+              -DSTLSOFT="${STLSOFT_SRC}" \
+              -DBUILD_EXAMPLES=ON \
+              -DBUILD_TESTING=ON \
+              2>&1 | tee configure.log
+          else
+            STLSOFT="${STLSOFT_SRC}" cmake -B build -S . \
+              -DCMAKE_BUILD_TYPE="${{ env.BUILD_TYPE }}" \
+              -DBUILD_EXAMPLES=ON \
+              -DBUILD_TESTING=ON \
+              2>&1 | tee configure.log
+          fi
+
+      # without this, a regression that silently routed the build through
+      # find_package() would leave the cell green while testing nothing new
+      - name: Assert the intended route was taken
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.route }}" = "variable" ]; then
+            expected="STLSOFT provided as CMake variable"
+          else
+            expected="STLSOFT provided as environment variable"
+          fi
+          if ! grep -q "$expected" configure.log; then
+            echo "configure did not report '${expected}'" >&2
+            exit 1
+          fi
+
+      - name: Build
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmake --build build --parallel
+
+      - name: Test (CTest)
+        shell: bash
+        run: |
+          set -euo pipefail
+          ctest --test-dir build --output-on-failure \
+            --build-config "${{ env.BUILD_TYPE }}" --timeout 60 \
+            --no-tests=error
+
+      - name: Install
+        shell: bash
+        run: |
+          set -euo pipefail
+          PREFIX="${RUNNER_TEMP}/install-prefix"
+          echo "INSTALL_PREFIX=$PREFIX" >> "$GITHUB_ENV"
+          cmake --install build --prefix "$PREFIX"
+
+      # on these routes the export does not reference STLSoft::STLSoft, so
+      # the package configuration must not require the package either
+      - name: Assert package config does not require STLSoft
+        shell: bash
+        run: |
+          set -euo pipefail
+          config="${INSTALL_PREFIX}/lib/cmake/xtests/xtests-config.cmake"
+          test -f "$config"
+          if ! grep -q '^if(FALSE)' "$config"; then
+            echo "expected the find_dependency(STLSoft) guard to be FALSE" >&2
+            cat "$config" >&2
+            exit 1
+          fi
+
+      # this is the regression test for K7: without a BUILD_INTERFACE guard
+      # on the STLSoft include directory, the builder's own absolute path is
+      # written into the installed export, and the install tree is then not
+      # relocatable
+      - name: Assert the exported target is relocatable
+        shell: bash
+        run: |
+          set -euo pipefail
+          targets="${INSTALL_PREFIX}/lib/cmake/xtests/xtests-targets.cmake"
+          test -f "$targets"
+          if grep -q "${STLSOFT_SRC}" "$targets"; then
+            echo "installed export names the build machine's STLSoft path:" >&2
+            grep -n "${STLSOFT_SRC}" "$targets" >&2
+            exit 1
+          fi

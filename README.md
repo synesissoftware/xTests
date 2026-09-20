@@ -209,47 +209,35 @@ int main(int argc, char* argv[])
 ### Compatibility
 
 Compiler/language pairs exercised for **xTests** (library, examples, and tests)
-with the public **STLSoft** dependency. Legend: ✅ ok, ❌ fail, ⏲️ not yet
-determined (pending re-survey after fixes).
+with the public **STLSoft** dependency. Legend: ✅ ok, ❌ fail.
 
-> **Round-2 notes:**
->
-> * Cells not listed as failing in round 2 are marked ✅ (including all
->   **Visual C++ 17.x** pairs).
-> * Round-2 failures addressed in-tree (reset to ⏲️ for re-survey):
->   * **Clang/GCC/MinGW + C90** — **STLSoft** `STLSOFT_CUSTOM_C_INLINE` must
->     be `static __attribute__((unused))` under ISO C90 (not GNU
->     `extern inline`); freelibs STLSoft fixed + temporary CI patch until
->     published; **xtests.h** also avoids `STLSOFT_INLINE` for its C90
->     helper and drops C++ `//` comments outside block comments (lexed even
->     inside `#ifdef __cplusplus` under ISO C90 pedantic);
->   * **GCC + C++98** — `STLSOFT_SUPPRESS_UNUSED(is_tty)` without taking the
->     address of a temporary;
->   * **MinGW + C++23** — **STLSoft** `api/external/time.h` must not claim
->     `gmtime_r` on MinGW; freelibs STLSoft fixed + temporary CI patch until
->     published.
+> All cells below passed configure+build in the language×toolchain CI survey
+> (Clang Linux/macOS, GCC Linux, MinGW, Visual C++ 17.x). Default CI remains
+> the modular **cell** / **install-smoke** / **stlsoft-routes** layout;
+> override standards via **prepare_cmake.sh** `--c-standard` /
+> `--cxx-standard` when re-checking a pair.
 
   | C++   | C   | Clang (Linux) | Clang (macOS) | GCC (Linux) | GCC(MinGW) (Windows) | Visual C++ 17.x (Windows) |
   | ----- | --- | :-----------: | :-----------: | :---------: | :------------------: | :-----------------------: |
-  | 23    | 23  | ✅             | ✅             | ✅           | ⏲️                    | ✅                         |
-  | 23    | 17  | ✅             | ✅             | ✅           | ⏲️                    | ✅                         |
+  | 23    | 23  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 23    | 17  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
   | 20    | 23  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
   | 20    | 17  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
   | 20    | 11  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
   | 20    | 99  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
-  | 20    | 90  | ⏲️             | ⏲️             | ⏲️           | ⏲️                    | ✅                         |
+  | 20    | 90  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
   | 17    | 17  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
   | 17    | 11  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
   | 17    | 99  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
-  | 17    | 90  | ⏲️             | ⏲️             | ⏲️           | ⏲️                    | ✅                         |
+  | 17    | 90  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
   | 14    | 11  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
   | 14    | 99  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
-  | 14    | 90  | ⏲️             | ⏲️             | ⏲️           | ⏲️                    | ✅                         |
+  | 14    | 90  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
   | 11    | 11  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
   | 11    | 99  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
-  | 11    | 90  | ⏲️             | ⏲️             | ⏲️           | ⏲️                    | ✅                         |
-  | 98    | 99  | ✅             | ✅             | ⏲️           | ✅                    | ✅                         |
-  | 98    | 90  | ⏲️             | ⏲️             | ⏲️           | ⏲️                    | ✅                         |
+  | 11    | 90  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 98    | 99  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 98    | 90  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
 
 
 ### Where to get help

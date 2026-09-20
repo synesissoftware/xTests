@@ -5,13 +5,12 @@
 
 * Made **CMake** C and C++ language standards settings overrideable by external configurations (e.g., from command-line overrides or CI workflows);
 * Extended **prepare_cmake.sh** with `--c-standard` and `--cxx-standard` (mirroring **sistools** / **chomp**), including C90 and the C++98–23 set used by the Compatibility matrix;
-* Added a **Clang (Linux)** column to the **README.md** Compatibility matrix and filled every cell with ✅ / ❌ / ⏲️;
-* Temporarily replaced normal CI with a language×toolchain build survey (95 cells; configure+build only via **prepare_cmake.sh**, MSVC via raw CMake) to complete the Compatibility matrix;
+* Added a **Clang (Linux)** column to the **README.md** Compatibility matrix and filled every surveyed cell ✅ after a temporary language×toolchain build survey; restored modular CI (**cell** / **install-smoke** / **stlsoft-routes**) with the canonical push-branch set;
 * Fixed ISO C90 pedantic failures in **xtests.h**: `#error` text no longer contains `//`; `XTESTS_GET_FUNCTION_()` avoids `__func__` when compiling as C90;
-* Fixed further ISO C90 pedantic failures: C90-safe inline for `xtests_internal_while_0_()`; converted remaining C++ `//` comments in **xtests.h** to `/* */` (lexed even inside `#ifdef __cplusplus`);
+* Fixed further ISO C90 pedantic failures: C90-safe inline for `xtests_internal_while_0_()`; converted remaining C++ `//` comments in **xtests.h** (and **test.unit.string_slices.c**) to `/* */` where they sit in active translation units;
 * Fixed **GCC C++98** build: `STLSOFT_SUPPRESS_UNUSED(is_tty)` without taking the address of a temporary in **xtests.core.cpp**;
-* **STLSoft** (freelibs tree): exclude MinGW from C++23 `STD_gmtime_r` / `localtime_r` claims in **api/external/time.h**; under ISO C90 set `STLSOFT_CUSTOM_C_INLINE` to `static __attribute__((unused))` (not GNU `extern inline`) in **cccap/clang.h** and **cccap/gcc.h**; temporary CI patch mirrors both until published;
-* Filled the **README.md** Compatibility matrix Clang (macOS) column from Apple Clang 15 builds; recorded C90 failures under pedantic `-Werror` (STLSoft `extern inline`);
+* **STLSoft** (freelibs tree): exclude MinGW from C++23 `STD_gmtime_r` / `localtime_r` claims in **api/external/time.h**; under ISO C90 set `STLSOFT_CUSTOM_C_INLINE` to `static __attribute__((unused))` (not GNU `extern inline`) in **cccap/clang.h** and **cccap/gcc.h**;
+* Filled the **README.md** Compatibility matrix Clang (macOS) column from Apple Clang 15 builds;
 * Removed a duplicate C++20/C17 Compatibility matrix row;
 * **example.cpp.temp_file** now removes files left by `temp_file::None` after illustrating that they persist, so `run_all_examples.sh` no longer pollutes the working tree;
 * UNIX `temp_file` now keeps the `mkstemp` descriptor and records the path as a C-string, rather than reopening and assigning `size() - 1`;
