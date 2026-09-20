@@ -208,28 +208,35 @@ int main(int argc, char* argv[])
 
 ### Compatibility
 
+Compiler/language pairs exercised for **xTests** (library, examples, and tests)
+with the public **STLSoft** dependency. Empty cells are not yet recorded.
+
+> **Note (Clang + C90):** Apple Clang 15 fails C90 builds under the project's
+> `-Werror -Wall -Wextra -pedantic` flags because **STLSoft** uses
+> `extern inline` (extension token). C99 and later are fine on the same
+> toolchain.
+
   | C++   | C   | Clang (macOS) | GCC (Linux) | GCC(MinGW) (Windows)  | Visual C++ 17.x (Windows) |
   | ----- | --- | :-----------: | :---------: | :-------------------: | :-----------------------: |
   | 23    | 23  | ✅             | ✅           |                       | ❌                         |
-  | 23    | 17  |               |             |                       |                           |
-  | 20    | 23  |               |             |                       |                           |
+  | 23    | 17  | ✅             |             |                       |                           |
+  | 20    | 23  | ✅             |             |                       |                           |
   | 20    | 17  | ✅             | ✅           |                       | ✅                         |
-  | 20    | 17  |               |             |                       |                           |
-  | 20    | 11  |               |             |                       |                           |
-  | 20    | 99  |               |             |                       |                           |
-  | 20    | 90  |               |             |                       |                           |
+  | 20    | 11  | ✅             |             |                       |                           |
+  | 20    | 99  | ✅             |             |                       |                           |
+  | 20    | 90  | ❌             |             |                       |                           |
   | 17    | 17  | ✅             | ✅           |                       | ✅                         |
-  | 17    | 11  |               |             |                       |                           |
-  | 17    | 99  |               |             |                       |                           |
-  | 17    | 90  |               |             |                       |                           |
+  | 17    | 11  | ✅             |             |                       |                           |
+  | 17    | 99  | ✅             |             |                       |                           |
+  | 17    | 90  | ❌             |             |                       |                           |
   | 14    | 11  | ✅             | ✅           |                       | ✅                         |
-  | 14    | 99  |               |             |                       |                           |
-  | 14    | 90  |               |             |                       |                           |
+  | 14    | 99  | ✅             |             |                       |                           |
+  | 14    | 90  | ❌             |             |                       |                           |
   | 11    | 11  | ✅             | ✅           |                       | ✅                         |
   | 11    | 99  | ✅             | ✅           |                       | ✅                         |
-  | 11    | 90  |               |             |                       | ✅                         |
+  | 11    | 90  | ❌             |             |                       | ✅                         |
   | 98    | 99  | ✅             | ❌           |                       | ✅                         |
-  | 98    | 90  |               |             |                       |                           |
+  | 98    | 90  | ❌             |             |                       |                           |
 
 
 ### Where to get help

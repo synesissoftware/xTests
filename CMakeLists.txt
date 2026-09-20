@@ -5,7 +5,7 @@
 # Purpose:  Top-level CMake lists file for xTests
 #
 # Created:  9th October 2019
-# Updated:  30th July 2026
+# Updated:  20th September 2026
 #
 # ######################################################################## #
 
@@ -55,8 +55,9 @@ set(PROJECT_VERSION_MINOR ${_VERSION_MINOR})
 set(PROJECT_VERSION_PATCH ${_VERSION_PATCH})
 set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
 
-# adhere strictly to C and C++ standards plus extensions. These are actually
-# useless since we do not compile anything; they merely state our intention.
+# Default language standards (overridable via -DCMAKE_C_STANDARD /
+# -DCMAKE_CXX_STANDARD, e.g. from prepare_cmake.sh --c-standard /
+# --cxx-standard). Older MSVC defaults stay conservative.
 if(NOT DEFINED CMAKE_C_STANDARD)
 
 	if(MSVC AND MSVC_VERSION LESS 1930)

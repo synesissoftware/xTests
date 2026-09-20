@@ -4,6 +4,9 @@
 ## 0.26.5-beta2 - 20th September 2026
 
 * Made **CMake** C and C++ language standards settings overrideable by external configurations (e.g., from command-line overrides or CI workflows);
+* Extended **prepare_cmake.sh** with `--c-standard` and `--cxx-standard` (mirroring **sistools** / **chomp**), including C90 and the C++98–23 set used by the Compatibility matrix;
+* Filled the **README.md** Compatibility matrix Clang (macOS) column from Apple Clang 15 builds; recorded C90 failures under pedantic `-Werror` (STLSoft `extern inline`);
+* Removed a duplicate C++20/C17 Compatibility matrix row;
 * **example.cpp.temp_file** now removes files left by `temp_file::None` after illustrating that they persist, so `run_all_examples.sh` no longer pollutes the working tree;
 * UNIX `temp_file` now keeps the `mkstemp` descriptor and records the path as a C-string, rather than reopening and assigning `size() - 1`;
 * Replaced the nested `<details>` catalog in **README.md** **Components** with a short map linking to **COMPONENTS.md**, which lists each public construct with a small example;

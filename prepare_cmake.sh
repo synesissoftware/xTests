@@ -17,6 +17,8 @@ ProjectName=$(tr -d '[:space:]' < "$ProjectNameFile")
 
 BuildSharedLibs=0
 Configuration=Release
+CStandard=
+CXXStandard=
 ExamplesDisabled=0
 MSVC_MT="${MSVC_MT:=0}"
 MinGW="${MinGW:=0}"
@@ -37,9 +39,39 @@ while [[ $# -gt 0 ]]; do
 
       BuildSharedLibs=1
       ;;
+    --c-standard)
+
+      shift
+      CStandard=$1
+      case $CStandard in
+        90|99|11|17|23)
+          ;;
+        *)
+
+          >&2 echo "$ScriptPath: invalid C standard '$CStandard'; expected 90, 99, 11, 17, or 23"
+
+          exit 1
+          ;;
+      esac
+      ;;
     --cmake-verbose-makefile|-v)
 
       VerboseMakefile=1
+      ;;
+    --cxx-standard)
+
+      shift
+      CXXStandard=$1
+      case $CXXStandard in
+        98|11|14|17|20|23)
+          ;;
+        *)
+
+          >&2 echo "$ScriptPath: invalid C++ standard '$CXXStandard'; expected 98, 11, 14, 17, 20, or 23"
+
+          exit 1
+          ;;
+      esac
       ;;
     --debug-configuration|-d)
 
@@ -90,10 +122,18 @@ Flags/options:
         builds ${ProjectName} as a shared library (by setting
         BUILD_SHARED_LIBS=ON); the default is a static library
 
+    --c-standard {90|99|11|17|23}
+        sets CMAKE_C_STANDARD; when omitted, CMakeLists.txt defaults apply
+        (C17, or C90 on older MSVC)
+
     -v
     --cmake-verbose-makefile
         configures CMake to run verbosely (by setting CMAKE_VERBOSE_MAKEFILE
         to be ON)
+
+    --cxx-standard {98|11|14|17|20|23}
+        sets CMAKE_CXX_STANDARD; when omitted, CMakeLists.txt defaults apply
+        (C++20, or C++98 on older MSVC)
 
     -d
     --debug-configuration
@@ -161,10 +201,12 @@ cd "$CMakeDir"
 echo "Executing CMake for ${ProjectName} (in ${CMakeDir})"
 
 if [ $BuildSharedLibs -eq 0 ]; then CMakeBuildSharedLibsFlag="OFF" ; else CMakeBuildSharedLibsFlag="ON" ; fi
+if [ -z "$CStandard" ]; then CMakeCStandardVariable="" ; else CMakeCStandardVariable="-DCMAKE_C_STANDARD=$CStandard" ; fi
+if [ -z "$CXXStandard" ]; then CMakeCXXStandardVariable="" ; else CMakeCXXStandardVariable="-DCMAKE_CXX_STANDARD=$CXXStandard" ; fi
 if [ $ExamplesDisabled -eq 0 ]; then CMakeBuildExamplesFlag="ON" ; else CMakeBuildExamplesFlag="OFF" ; fi
 if [ $MSVC_MT -eq 0 ]; then CMakeMsvcMtFlag="OFF" ; else CMakeMsvcMtFlag="ON" ; fi
 if [ $NO_shwild -eq 0 ]; then CMakeNoShwild="OFF" ; else CMakeNoShwild="ON" ; fi
-if [ -z $STLSoftDirGiven ]; then CMakeSTLSoftVariable="" ; else CMakeSTLSoftVariable="-DSTLSOFT=$STLSoftDirGiven/" ; fi
+if [ -z "$STLSoftDirGiven" ]; then CMakeSTLSoftVariable="" ; else CMakeSTLSoftVariable="-DSTLSOFT=$STLSoftDirGiven/" ; fi
 if [ $TestingDisabled -eq 0 ]; then CMakeBuildTestingFlag="ON" ; else CMakeBuildTestingFlag="OFF" ; fi
 if [ $VerboseMakefile -eq 0 ]; then CMakeVerboseMakefileFlag="OFF" ; else CMakeVerboseMakefileFlag="ON" ; fi
 
@@ -180,6 +222,8 @@ if [ $MinGW -ne 0 ]; then
 fi
 
 cmake \
+  $CMakeCStandardVariable \
+  $CMakeCXXStandardVariable \
   $CMakeSTLSoftVariable \
   -DBUILD_EXAMPLES:BOOL=$CMakeBuildExamplesFlag \
   -DBUILD_SHARED_LIBS:BOOL=$CMakeBuildSharedLibsFlag \
