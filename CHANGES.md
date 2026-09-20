@@ -3,6 +3,9 @@
 
 ## 0.26.5-beta2 - 20th September 2026
 
+* Added `XTESTS_TEST_POINTER_NULL()` and `XTESTS_TEST_POINTER_NOT_NULL()` (currently wrappers of `XTESTS_TEST_POINTER_EQUAL(NULL, …)` / `XTESTS_TEST_POINTER_NOT_EQUAL(NULL, …)`), with terse aliases `TEST_POINTER_NULL` / `TEST_PTR_NULL` and `TEST_POINTER_NOT_NULL` / `TEST_PTR_NOT_NULL`;
+* Illustrated the new pointer-null macros in **example.c.tests**, including deliberate failures that emit the null-expected wording;
+* Pointer equality/inequality failure messages now say the actual value "is not null as expected" (with the actual address) or "actual pointer is null not as expected" (without a redundant `'0x0'`) when the expected pointer is null, rather than comparing against a platform-formatted null address;
 * Replaced the nested `<details>` catalog in **README.md** **Components** with a short map linking to **COMPONENTS.md**, which lists each public construct with a small example;
 * Aligned **.gitattributes** with the **CLASP** C/C++ GitHub-hosted form, including C++ source extras, Linguist language classification, and `-linguist-detectable`;
 * Added a Rust FileType autocmd to **.vimrc**;

@@ -5,7 +5,7 @@
  *          the assertion macros (and other simplifications).
  *
  * Created: 20th November 2024
- * Updated: 9th August 2026
+ * Updated: 20th September 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -51,9 +51,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_TERSE_MAJOR     1
-# define XTESTS_VER_XTESTS_H_XTESTS_TERSE_MINOR     2
+# define XTESTS_VER_XTESTS_H_XTESTS_TERSE_MINOR     3
 # define XTESTS_VER_XTESTS_H_XTESTS_TERSE_REVISION  0
-# define XTESTS_VER_XTESTS_H_XTESTS_TERSE_EDIT      6
+# define XTESTS_VER_XTESTS_H_XTESTS_TERSE_EDIT      7
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -376,6 +376,14 @@
 # define TEST_POINTER_NOT_EQUAL                             XTESTS_TEST_POINTER_NOT_EQUAL
 # define TEST_PTR_NE                                        XTESTS_TEST_POINTER_NOT_EQUAL
 #endif /* XTESTS_TEST_POINTER_NOT_EQUAL */
+#ifdef XTESTS_TEST_POINTER_NOT_NULL
+# define TEST_POINTER_NOT_NULL                              XTESTS_TEST_POINTER_NOT_NULL
+# define TEST_PTR_NOT_NULL                                  XTESTS_TEST_POINTER_NOT_NULL
+#endif /* XTESTS_TEST_POINTER_NOT_NULL */
+#ifdef XTESTS_TEST_POINTER_NULL
+# define TEST_POINTER_NULL                                  XTESTS_TEST_POINTER_NULL
+# define TEST_PTR_NULL                                      XTESTS_TEST_POINTER_NULL
+#endif /* XTESTS_TEST_POINTER_NULL */
 #ifdef XTESTS_TEST_WIDE_STRING_CONTAIN
 # define TEST_WIDE_STRING_CONTAIN                           XTESTS_TEST_WIDE_STRING_CONTAIN
 # define TEST_WS_CONTAIN                                    XTESTS_TEST_WIDE_STRING_CONTAIN

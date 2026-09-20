@@ -25,6 +25,7 @@
 * [x] ~~~summary should list #cases that failed/succeeded~~~ - ✅;
 * [ ] C: integer equal etc should produce message that logs both exp and act, like **BDUT**;
 * [ ] refactor out default reporter into separate implementation file;
+* [ ] remove the function-local static default `fprintf_reporter` (`s_reporter` in `get_reporter_()`), which permanently binds the first `FILE*` / tty flags and breaks subsequent `XTESTS_START_RUNNER_WITH_STREAM` uses (e.g. capture-to-temp-file then a later stdout runner);
 * [ ] remove most/all static_cast in implementation files;
 * [ ] wide-character impl/tests on **Windows** (and maybe elide when on **UNIX**, or at least without full C++20 support);
 * [ ] change `uint32_t` type(s)??;

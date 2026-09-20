@@ -4,11 +4,11 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 5th May 2025
+ * Updated: 20th September 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
- * Copyright (c) 2019-2025, Matthew Wilson and Synesis Information Systems
+ * Copyright (c) 2019-2026, Matthew Wilson and Synesis Information Systems
  * Copyright (c) 1999-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
@@ -1157,6 +1157,112 @@ namespace
         }
 
         // EOL
+        fmt_ += '\n';
+
+        return fmt_;
+    }
+
+    std::string
+    colorise_pointer_null_expected_(
+        xtests_comparison_t comparison
+    ,   int                 verbosity
+    ,   int                 is_tty
+    )
+    {
+        switch (verbosity)
+        {
+        case XTESTS_VERBOSITY_SILENT:
+        case XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR:
+        case XTESTS_VERBOSITY_RUNNER_SUMMARY:
+        case XTESTS_VERBOSITY_FIRST_CASE_SUMMARY_ON_ERROR:
+
+            return "";
+        default:
+
+            STLSOFT_MESSAGE_ASSERT("verbosity not recognised", 0);
+        case XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR:
+        case XTESTS_VERBOSITY_CASE_SUMMARY:
+        XTESTS_VERBOSITY_VALID_MISSING_CASES
+        case XTESTS_VERBOSITY_VERBOSE:
+
+            break;
+        }
+
+        char const* phrase = NULL;
+        bool        include_actual_value = false;
+
+        switch (comparison)
+        {
+        case xtestsComparisonEqual:
+        case xtestsComparisonApproxEqual:
+
+            phrase = "is not null as expected";
+            include_actual_value = true;
+            break;
+        case xtestsComparisonNotEqual:
+        case xtestsComparisonApproxNotEqual:
+
+            phrase = "is null not as expected";
+            include_actual_value = false;
+            break;
+        default:
+
+            xtests_abend("VIOLATION: invalid `comparison`");
+            phrase = "";
+            break;
+        }
+
+        std::string fmt_;
+
+        fmt_ += "%s(%d): test condition failed: actual ";
+        if (is_tty)
+        {
+            fmt_ += "\033[1;36m";
+            fmt_ += "pointer";
+            fmt_ += "\033[0m";
+        }
+        else
+        {
+            fmt_ += "pointer";
+        }
+        if (include_actual_value)
+        {
+            fmt_ += " value '";
+            if (is_tty)
+            {
+                fmt_ += "\033[1;35m";
+                fmt_ += "%p";
+                fmt_ += "\033[0m";
+            }
+            else
+            {
+                fmt_ += "%p";
+            }
+            fmt_ += "' ";
+        }
+        else
+        {
+            fmt_ += ' ';
+        }
+        if (is_tty)
+        {
+            fmt_ += "\033[1;36m";
+        }
+        fmt_ += phrase;
+        if (is_tty)
+        {
+            fmt_ += "\033[0m";
+        }
+
+        if (is_tty)
+        {
+            fmt_ += "%s\033[1;36m%s\033[0m";
+        }
+        else
+        {
+            fmt_ += "%s%s";
+        }
+
         fmt_ += '\n';
 
         return fmt_;
@@ -3113,6 +3219,44 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
+                if (NULL == expectedValue &&
+                    (   xtestsComparisonEqual == comparison ||
+                        xtestsComparisonApproxEqual == comparison ||
+                        xtestsComparisonNotEqual == comparison ||
+                        xtestsComparisonApproxNotEqual == comparison))
+                {
+                    std::string const fmt_ =
+                    colorise_pointer_null_expected_(
+                        comparison
+                    ,   verbosity
+                    ,   is_tty
+                    );
+                    char const* const fmt = fmt_.c_str();
+
+                    if (xtestsComparisonEqual == comparison ||
+                        xtestsComparisonApproxEqual == comparison)
+                    {
+                        xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                        ,   fmt
+                        ,   file, line
+                        ,   actualValue
+                        ,   (NULL != function) ? " in function " : ""
+                        ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                        );
+                    }
+                    else
+                    {
+                        xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                        ,   fmt
+                        ,   file, line
+                        ,   (NULL != function) ? " in function " : ""
+                        ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
+                        );
+                    }
+
+                    return;
+                }
+
                 std::string fmt_ =
                 colorise_(
                     file
