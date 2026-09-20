@@ -4,7 +4,7 @@
  * Purpose: Definition of the temp_file class.
  *
  * Created: 8th May 2014
- * Updated: 9th August 2026
+ * Updated: 20th September 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -51,8 +51,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MAJOR     0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     4
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  3
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      27
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  4
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      28
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -523,24 +523,15 @@ temp_file::create_file_(
     tmp_path[n] = '\0';
 
 
-    int f;
+    int const f = ::mkstemp(&tmp_path[0]);
 
-    if (-1 != (f = ::mkstemp(&tmp_path[0])))
+    if (-1 != f)
     {
-        file_handle_type_ const hFile = fs_traits_type_::open_file(&tmp_path[0], O_WRONLY | O_CREAT | O_TRUNC, S_IWRITE);
+        stlsoft::scoped_handle<int> scoper(f, fs_traits_type_::close_file, -1);
 
-        int const e = errno;
+        path.assign(&tmp_path[0]);
 
-        fs_traits_type_::close_file(f);
-
-        errno = e;
-
-        if (fs_traits_type_::invalid_file_handle_value() != hFile)
-        {
-            path.assign(tmp_path.data(), tmp_path.size() - 1);
-
-            return hFile;
-        }
+        return scoper.detach();
     }
 
     int const e = errno;

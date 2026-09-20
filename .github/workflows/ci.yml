@@ -1,6 +1,6 @@
 #
 # Created: 30th July 2026
-# Updated: 1st September 2026
+# Updated: 20th September 2026
 #
 
 name: CI
@@ -15,10 +15,6 @@ on:
       - rc1
       - rc2
       - rc3
-      - rc4
-      - rc5
-      - tidying
-      - update
   pull_request:
 
 permissions:

@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 20th September 2026
+ * Updated: 21st September 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -53,7 +53,7 @@
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       51
 # define XTESTS_VER_XTESTS_H_XTESTS_REVISION    15
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        415
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        417
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -87,7 +87,7 @@
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       26
 #define _XTESTS_VER_PATCH       5
-#define _XTESTS_VER_ALPHABETA   0x42
+#define _XTESTS_VER_ALPHABETA   0x82
 
 #define _XTESTS_VER \
     (0\
@@ -124,7 +124,11 @@
 # define XTESTS_STLSOFT_1_12_OR_LATER
 #elif _STLSOFT_VER < 0x010b01c2
 
-# error xTests requires version 1.11.1 release candidate 2, or later, of STLSoft; obtain from https://github.com/synesissoftware/
+/* NOTE: do not put "https://" (or any "//") in this #error text: under
+ * ISO C90 + -Werror=pedantic, "//" is treated as a C++ comment introducer
+ * and fails the build (seen with GCC/MinGW in the language matrix survey).
+ */
+# error xTests requires STLSoft 1.11.1-rc2 or later; obtain from github.com/synesissoftware/STLSoft
 #endif /* _STLSOFT_VER */
 
 
@@ -258,7 +262,15 @@ namespace c
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
+    /* C90 + pedantic rejects GNU `extern inline` (STLSOFT_INLINE on Clang);
+     * a file-static helper is sufficient for this trivial always-0 predicate.
+     */
+# if !defined(__cplusplus) && \
+     !(defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L)
+    static
+# else
     STLSOFT_INLINE
+# endif
     int
     xtests_internal_while_0_(void)
     {
@@ -325,9 +337,17 @@ namespace c
 #   ifdef __cplusplus
 
 #    define XTESTS_GET_FUNCTION_()                          __FUNCTION__
-#   else /* ? __cplusplus */
+#   elif defined(__STDC_VERSION__) && \
+         __STDC_VERSION__ >= 199901L
 
+    /* C99 (or later): __func__ is standard */
 #    define XTESTS_GET_FUNCTION_()                          __func__
+#   else /* ? C90 */
+
+    /* ISO C90 has neither __func__ nor a portable function-name macro under
+     * -Wpedantic -Werror (GCC/MinGW language-matrix survey).
+     */
+#    define XTESTS_GET_FUNCTION_()                          ""
 #   endif /* __cplusplus */
 #  else
 
@@ -2896,7 +2916,7 @@ public:
     explicit xtests_variable_t(wchar_t const* s, xtests_test_type_t testType = xtestsTestFullComparison);
     explicit xtests_variable_t(double const& d);
     explicit xtests_variable_t(void const volatile* pv);
-    explicit xtests_variable_t(char const* s, xtests_variable_type_t type); // UDT
+    explicit xtests_variable_t(char const* s, xtests_variable_type_t type); /* UDT */
 };
 
 /** Summary of results for a single test case, or for all test cases
@@ -4483,11 +4503,12 @@ xtests_test_integer_is_different_sign_max_(
 ,   xtests_comparison_t comp
 )
 {
-    // this is the only function where the integer types / signs are not
-    // resolvable entirely at compile-time, so algorithm:
-    //
-    // 1. promote both to their largest possible type/value;
-    // 2. determine whether their actual values are comparable;
+    /* this is the only function where the integer types / signs are not
+     * resolvable entirely at compile-time, so algorithm:
+     *
+     * 1. promote both to their largest possible type/value;
+     * 2. determine whether their actual values are comparable;
+     */
 
     if (!integer_values_are_comparable(expected, actual))
     {
@@ -4505,12 +4526,12 @@ xtests_test_integer_is_different_sign_max_(
 
         throw std::logic_error(message);
     }
-    // else
+    /* else */
     {
-        // One is signed, but not negative, and the other is unsigned but
-        // within the range of the (non-negative) signed, so we can cast to
-        // either and process
-
+        /* One is signed, but not negative, and the other is unsigned but
+         * within the range of the (non-negative) signed, so we can cast to
+         * either and process
+         */
         STLSOFT_NS_QUAL(ss_sint64_t) const  expected_s64    =   static_cast<STLSOFT_NS_QUAL(ss_sint64_t)>(expected);
         STLSOFT_NS_QUAL(ss_sint64_t) const  actual_s64      =   static_cast<STLSOFT_NS_QUAL(ss_sint64_t)>(actual);
 
