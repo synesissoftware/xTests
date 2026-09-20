@@ -209,34 +209,35 @@ int main(int argc, char* argv[])
 ### Compatibility
 
 Compiler/language pairs exercised for **xTests** (library, examples, and tests)
-with the public **STLSoft** dependency. Empty cells are not yet recorded.
+with the public **STLSoft** dependency. Legend: ✅ ok, ❌ fail, ⏲️ not yet
+determined.
 
 > **Note (Clang + C90):** Apple Clang 15 fails C90 builds under the project's
 > `-Werror -Wall -Wextra -pedantic` flags because **STLSoft** uses
 > `extern inline` (extension token). C99 and later are fine on the same
-> toolchain.
+> toolchain. Linux Clang may differ — those cells are under survey.
 
-  | C++   | C   | Clang (macOS) | GCC (Linux) | GCC(MinGW) (Windows)  | Visual C++ 17.x (Windows) |
-  | ----- | --- | :-----------: | :---------: | :-------------------: | :-----------------------: |
-  | 23    | 23  | ✅             | ✅           |                       | ❌                         |
-  | 23    | 17  | ✅             |             |                       |                           |
-  | 20    | 23  | ✅             |             |                       |                           |
-  | 20    | 17  | ✅             | ✅           |                       | ✅                         |
-  | 20    | 11  | ✅             |             |                       |                           |
-  | 20    | 99  | ✅             |             |                       |                           |
-  | 20    | 90  | ❌             |             |                       |                           |
-  | 17    | 17  | ✅             | ✅           |                       | ✅                         |
-  | 17    | 11  | ✅             |             |                       |                           |
-  | 17    | 99  | ✅             |             |                       |                           |
-  | 17    | 90  | ❌             |             |                       |                           |
-  | 14    | 11  | ✅             | ✅           |                       | ✅                         |
-  | 14    | 99  | ✅             |             |                       |                           |
-  | 14    | 90  | ❌             |             |                       |                           |
-  | 11    | 11  | ✅             | ✅           |                       | ✅                         |
-  | 11    | 99  | ✅             | ✅           |                       | ✅                         |
-  | 11    | 90  | ❌             |             |                       | ✅                         |
-  | 98    | 99  | ✅             | ❌           |                       | ✅                         |
-  | 98    | 90  | ❌             |             |                       |                           |
+  | C++   | C   | Clang (Linux) | Clang (macOS) | GCC (Linux) | GCC(MinGW) (Windows) | Visual C++ 17.x (Windows) |
+  | ----- | --- | :-----------: | :-----------: | :---------: | :------------------: | :-----------------------: |
+  | 23    | 23  | ⏲️             | ✅             | ✅           | ⏲️                    | ❌                         |
+  | 23    | 17  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ⏲️                         |
+  | 20    | 23  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ⏲️                         |
+  | 20    | 17  | ⏲️             | ✅             | ✅           | ⏲️                    | ✅                         |
+  | 20    | 11  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ⏲️                         |
+  | 20    | 99  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ⏲️                         |
+  | 20    | 90  | ⏲️             | ❌             | ⏲️           | ⏲️                    | ⏲️                         |
+  | 17    | 17  | ⏲️             | ✅             | ✅           | ⏲️                    | ✅                         |
+  | 17    | 11  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ⏲️                         |
+  | 17    | 99  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ⏲️                         |
+  | 17    | 90  | ⏲️             | ❌             | ⏲️           | ⏲️                    | ⏲️                         |
+  | 14    | 11  | ⏲️             | ✅             | ✅           | ⏲️                    | ✅                         |
+  | 14    | 99  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ⏲️                         |
+  | 14    | 90  | ⏲️             | ❌             | ⏲️           | ⏲️                    | ⏲️                         |
+  | 11    | 11  | ⏲️             | ✅             | ✅           | ⏲️                    | ✅                         |
+  | 11    | 99  | ⏲️             | ✅             | ✅           | ⏲️                    | ✅                         |
+  | 11    | 90  | ⏲️             | ❌             | ⏲️           | ⏲️                    | ✅                         |
+  | 98    | 99  | ⏲️             | ✅             | ❌           | ⏲️                    | ✅                         |
+  | 98    | 90  | ⏲️             | ❌             | ⏲️           | ⏲️                    | ⏲️                         |
 
 
 ### Where to get help
@@ -284,6 +285,7 @@ Projects in which **xTests** is used for testing include:
 * [**libpath**](https://github.com/synesissoftware/libpath);
 * [**lstrip**](https://github.com/sistools/lstrip);
 * [**mksock**](https://github.com/sistools/mksock);
+* [**Pantheios.Extras.AtExit**](https://github.com/synesissoftware/Pantheios.Extras.AtExit);
 * [**Pantheios.Extras.DiagUtil**](https://github.com/synesissoftware/Pantheios.Extras.DiagUtil);
 * [**Pantheios.Extras.Main**](https://github.com/synesissoftware/Pantheios.Extras.Main);
 * [**Pantheios.Extras.xHelpers**](https://github.com/synesissoftware/Pantheios.Extras.xHelpers);
