@@ -124,7 +124,11 @@
 # define XTESTS_STLSOFT_1_12_OR_LATER
 #elif _STLSOFT_VER < 0x010b01c2
 
-# error xTests requires version 1.11.1 release candidate 2, or later, of STLSoft; obtain from https://github.com/synesissoftware/
+/* NOTE: do not put "https://" (or any "//") in this #error text: under
+ * ISO C90 + -Werror=pedantic, "//" is treated as a C++ comment introducer
+ * and fails the build (seen with GCC/MinGW in the language matrix survey).
+ */
+# error xTests requires STLSoft 1.11.1-rc2 or later; obtain from github.com/synesissoftware/STLSoft
 #endif /* _STLSOFT_VER */
 
 
@@ -325,9 +329,17 @@ namespace c
 #   ifdef __cplusplus
 
 #    define XTESTS_GET_FUNCTION_()                          __FUNCTION__
-#   else /* ? __cplusplus */
+#   elif defined(__STDC_VERSION__) && \
+         __STDC_VERSION__ >= 199901L
 
+    /* C99 (or later): __func__ is standard */
 #    define XTESTS_GET_FUNCTION_()                          __func__
+#   else /* ? C90 */
+
+    /* ISO C90 has neither __func__ nor a portable function-name macro under
+     * -Wpedantic -Werror (GCC/MinGW language-matrix survey).
+     */
+#    define XTESTS_GET_FUNCTION_()                          ""
 #   endif /* __cplusplus */
 #  else
 

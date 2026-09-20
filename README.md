@@ -212,32 +212,39 @@ Compiler/language pairs exercised for **xTests** (library, examples, and tests)
 with the public **STLSoft** dependency. Legend: ✅ ok, ❌ fail, ⏲️ not yet
 determined.
 
-> **Note (Clang + C90):** Apple Clang 15 fails C90 builds under the project's
-> `-Werror -Wall -Wextra -pedantic` flags because **STLSoft** uses
-> `extern inline` (extension token). C99 and later are fine on the same
-> toolchain. Linux Clang may differ — those cells are under survey.
+> **Notes (from language-matrix survey):**
+>
+> * **Clang + C90** (Apple Clang 15 / Linux Clang 18): ❌ — **STLSoft**
+>   `extern inline` is a language-extension token under
+>   `-Werror -Wpedantic`. C99+ is fine on the same toolchains.
+> * **GCC/MinGW + C90**: previously failed on xTests `#error` containing `//`
+>   and on `__func__` under pedantic C90; those xTests fixes are in tree —
+>   related cells reset to ⏲️ for re-survey.
+> * **MinGW + C++23/C23**: ❌ — **STLSoft** `time.h` selects `gmtime_r` /
+>   `localtime_r` (undeclared; MinGW wants `*_s`). Dependency follow-up.
+> * **Visual C++ 17.x**: all table pairs ✅ in the CI survey (incl. C++23/C23).
 
   | C++   | C   | Clang (Linux) | Clang (macOS) | GCC (Linux) | GCC(MinGW) (Windows) | Visual C++ 17.x (Windows) |
   | ----- | --- | :-----------: | :-----------: | :---------: | :------------------: | :-----------------------: |
-  | 23    | 23  | ⏲️             | ✅             | ✅           | ⏲️                    | ❌                         |
-  | 23    | 17  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ⏲️                         |
-  | 20    | 23  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ⏲️                         |
+  | 23    | 23  | ⏲️             | ✅             | ✅           | ❌                    | ✅                         |
+  | 23    | 17  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ✅                         |
+  | 20    | 23  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ✅                         |
   | 20    | 17  | ⏲️             | ✅             | ✅           | ⏲️                    | ✅                         |
-  | 20    | 11  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ⏲️                         |
-  | 20    | 99  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ⏲️                         |
-  | 20    | 90  | ⏲️             | ❌             | ⏲️           | ⏲️                    | ⏲️                         |
+  | 20    | 11  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ✅                         |
+  | 20    | 99  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ✅                         |
+  | 20    | 90  | ❌             | ❌             | ⏲️           | ⏲️                    | ✅                         |
   | 17    | 17  | ⏲️             | ✅             | ✅           | ⏲️                    | ✅                         |
-  | 17    | 11  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ⏲️                         |
-  | 17    | 99  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ⏲️                         |
-  | 17    | 90  | ⏲️             | ❌             | ⏲️           | ⏲️                    | ⏲️                         |
+  | 17    | 11  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ✅                         |
+  | 17    | 99  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ✅                         |
+  | 17    | 90  | ❌             | ❌             | ⏲️           | ⏲️                    | ✅                         |
   | 14    | 11  | ⏲️             | ✅             | ✅           | ⏲️                    | ✅                         |
-  | 14    | 99  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ⏲️                         |
-  | 14    | 90  | ⏲️             | ❌             | ⏲️           | ⏲️                    | ⏲️                         |
+  | 14    | 99  | ⏲️             | ✅             | ⏲️           | ⏲️                    | ✅                         |
+  | 14    | 90  | ❌             | ❌             | ⏲️           | ⏲️                    | ✅                         |
   | 11    | 11  | ⏲️             | ✅             | ✅           | ⏲️                    | ✅                         |
   | 11    | 99  | ⏲️             | ✅             | ✅           | ⏲️                    | ✅                         |
-  | 11    | 90  | ⏲️             | ❌             | ⏲️           | ⏲️                    | ✅                         |
+  | 11    | 90  | ❌             | ❌             | ⏲️           | ⏲️                    | ✅                         |
   | 98    | 99  | ⏲️             | ✅             | ❌           | ⏲️                    | ✅                         |
-  | 98    | 90  | ⏲️             | ❌             | ⏲️           | ⏲️                    | ⏲️                         |
+  | 98    | 90  | ❌             | ❌             | ⏲️           | ⏲️                    | ✅                         |
 
 
 ### Where to get help

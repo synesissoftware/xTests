@@ -7,6 +7,7 @@
 * Extended **prepare_cmake.sh** with `--c-standard` and `--cxx-standard` (mirroring **sistools** / **chomp**), including C90 and the C++98–23 set used by the Compatibility matrix;
 * Added a **Clang (Linux)** column to the **README.md** Compatibility matrix and filled every cell with ✅ / ❌ / ⏲️;
 * Temporarily replaced normal CI with a language×toolchain build survey (95 cells; configure+build only via **prepare_cmake.sh**, MSVC via raw CMake) to complete the Compatibility matrix;
+* Fixed ISO C90 pedantic failures in **xtests.h**: `#error` text no longer contains `//`; `XTESTS_GET_FUNCTION_()` avoids `__func__` when compiling as C90;
 * Filled the **README.md** Compatibility matrix Clang (macOS) column from Apple Clang 15 builds; recorded C90 failures under pedantic `-Werror` (STLSoft `extern inline`);
 * Removed a duplicate C++20/C17 Compatibility matrix row;
 * **example.cpp.temp_file** now removes files left by `temp_file::None` after illustrating that they persist, so `run_all_examples.sh` no longer pollutes the working tree;
