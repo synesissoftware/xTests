@@ -13,17 +13,20 @@ Simple, easy-to-use, efficient testing library, for C, C++. It's not particularl
 
 ## Table of Contents <!-- omit in toc -->
 
-* [Introduction](#introduction)
-* [Installation](#installation)
-* [Components](#components)
-* [Examples](#examples)
-* [Project Information](#project-information)
-  * [Compatibility](#compatibility)
-  * [Where to get help](#where-to-get-help)
-  * [Contribution guidelines](#contribution-guidelines)
-  * [Dependencies](#dependencies)
-  * [Related projects](#related-projects)
-  * [License](#license)
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Components](#components)
+- [Examples](#examples)
+  - [Minimal C Example](#minimal-c-example)
+  - [Minimal C++ Example](#minimal-c-example-1)
+  - [Complete C Example (Factorial)](#complete-c-example-factorial)
+- [Project Information](#project-information)
+  - [Compatibility](#compatibility)
+  - [Where to get help](#where-to-get-help)
+  - [Contribution guidelines](#contribution-guidelines)
+  - [Dependencies](#dependencies)
+  - [Related projects](#related-projects)
+  - [License](#license)
 
 
 ## Introduction
