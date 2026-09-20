@@ -294,8 +294,8 @@ Projects in which **xTests** is used for testing include:
 * [**rstrip**](https://github.com/sistools/rstrip);
 * [**ss-win-diskutil**](https://github.com/synesissoftware/ss-win-diskutil);
 * [**STLSoft**](https://github.com/synesissoftware/STLSoft);
-* [**STLSoft-1.10**](https://github.com/synesissoftware/STLSoft-1.10);
-* [**STLSoft-1.11**](https://github.com/synesissoftware/STLSoft-1.11);
+* [**STLSoft-1.10**](https://github.com/synesissoftware/STLSoft-1.10) (now deprecated);
+* [**STLSoft-1.11**](https://github.com/synesissoftware/STLSoft-1.11) (now deprecated);
 * [**SyLVReDxx**](https://github.com/synesissoftware/SyLVReDxx);
 * [**UNIXem**](https://github.com/synesissoftware/UNIXem);
 * [**xTests**](https://github.com/synesissoftware/xTests);

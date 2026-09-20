@@ -1,7 +1,7 @@
 # xTests - Changes <!-- omit in toc -->
 
 
-## 0.26.5-beta2 - 21st September 2026
+## 0.26.5 - 21st September 2026
 
 * Made **CMake** C and C++ language standards settings overrideable by external configurations (e.g., from command-line overrides or CI workflows);
 * Extended **prepare_cmake.sh** with `--c-standard` and `--cxx-standard` (mirroring **sistools** / **chomp**), including C90 and the C++98–23 set used by the Compatibility matrix;

@@ -87,7 +87,7 @@
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       26
 #define _XTESTS_VER_PATCH       5
-#define _XTESTS_VER_ALPHABETA   0x82
+#define _XTESTS_VER_ALPHABETA   0xFF
 
 #define _XTESTS_VER \
     (0\
@@ -122,13 +122,13 @@
     STLSOFT_VER >= 0x010c0000
 
 # define XTESTS_STLSOFT_1_12_OR_LATER
-#elif _STLSOFT_VER < 0x010b01c2
+#elif _STLSOFT_VER < 0x010b01c6
 
 /* NOTE: do not put "https://" (or any "//") in this #error text: under
  * ISO C90 + -Werror=pedantic, "//" is treated as a C++ comment introducer
  * and fails the build (seen with GCC/MinGW in the language matrix survey).
  */
-# error xTests requires STLSoft 1.11.1-rc2 or later; obtain from github.com/synesissoftware/STLSoft
+# error xTests requires STLSoft 1.11.1-rc5 or later; obtain from github.com/synesissoftware/STLSoft
 #endif /* _STLSOFT_VER */
 
 
