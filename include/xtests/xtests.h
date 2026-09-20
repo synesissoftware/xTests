@@ -262,7 +262,15 @@ namespace c
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
+    /* C90 + pedantic rejects GNU `extern inline` (STLSOFT_INLINE on Clang);
+     * a file-static helper is sufficient for this trivial always-0 predicate.
+     */
+# if !defined(__cplusplus) && \
+     !(defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L)
+    static
+# else
     STLSOFT_INLINE
+# endif
     int
     xtests_internal_while_0_(void)
     {
@@ -2908,7 +2916,7 @@ public:
     explicit xtests_variable_t(wchar_t const* s, xtests_test_type_t testType = xtestsTestFullComparison);
     explicit xtests_variable_t(double const& d);
     explicit xtests_variable_t(void const volatile* pv);
-    explicit xtests_variable_t(char const* s, xtests_variable_type_t type); // UDT
+    explicit xtests_variable_t(char const* s, xtests_variable_type_t type); /* UDT */
 };
 
 /** Summary of results for a single test case, or for all test cases
@@ -4495,11 +4503,12 @@ xtests_test_integer_is_different_sign_max_(
 ,   xtests_comparison_t comp
 )
 {
-    // this is the only function where the integer types / signs are not
-    // resolvable entirely at compile-time, so algorithm:
-    //
-    // 1. promote both to their largest possible type/value;
-    // 2. determine whether their actual values are comparable;
+    /* this is the only function where the integer types / signs are not
+     * resolvable entirely at compile-time, so algorithm:
+     *
+     * 1. promote both to their largest possible type/value;
+     * 2. determine whether their actual values are comparable;
+     */
 
     if (!integer_values_are_comparable(expected, actual))
     {
@@ -4517,12 +4526,12 @@ xtests_test_integer_is_different_sign_max_(
 
         throw std::logic_error(message);
     }
-    // else
+    /* else */
     {
-        // One is signed, but not negative, and the other is unsigned but
-        // within the range of the (non-negative) signed, so we can cast to
-        // either and process
-
+        /* One is signed, but not negative, and the other is unsigned but
+         * within the range of the (non-negative) signed, so we can cast to
+         * either and process
+         */
         STLSOFT_NS_QUAL(ss_sint64_t) const  expected_s64    =   static_cast<STLSOFT_NS_QUAL(ss_sint64_t)>(expected);
         STLSOFT_NS_QUAL(ss_sint64_t) const  actual_s64      =   static_cast<STLSOFT_NS_QUAL(ss_sint64_t)>(actual);
 

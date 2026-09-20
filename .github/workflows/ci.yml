@@ -135,6 +135,92 @@ jobs:
           dependencies: STLSoft
           toolchain: ${{ matrix.tc.toolchain }}
 
+      # TEMPORARY: until these STLSoft fixes ship in a published release,
+      # patch the installed headers so survey cells are meaningful. Remove
+      # when SIS deps include both: (1) MinGW C++23 gmtime_r discrimination;
+      # (2) C90-safe STLSOFT_CUSTOM_C_INLINE (static, not extern inline).
+      - name: Patch installed STLSoft for compat survey
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - "${{ env.SIS_DEPS }}" <<'PY'
+          import pathlib
+          import sys
+
+          root = pathlib.Path(sys.argv[1])
+
+          # --- (1) MinGW C++23 time discrimination ---
+          time_h = root / "include/stlsoft/api/external/time.h"
+          text = time_h.read_text()
+          needle = (
+              "# ifndef _MSC_VER\n"
+              "#  define STLSOFT_LF_SUPPORT_STD_gmtime_r\n"
+              "#  define STLSOFT_LF_SUPPORT_STD_localtime_r\n"
+              "# endif"
+          )
+          repl = (
+              "# if !defined(_MSC_VER) && \\\n"
+              "     !defined(__MINGW32__) && \\\n"
+              "     !defined(__MINGW64__)\n"
+              "#  define STLSOFT_LF_SUPPORT_STD_gmtime_r\n"
+              "#  define STLSOFT_LF_SUPPORT_STD_localtime_r\n"
+              "# endif"
+          )
+          if needle in text:
+              time_h.write_text(text.replace(needle, repl, 1))
+              print("patched", time_h)
+          elif "__MINGW64__" in text and "STLSOFT_LF_SUPPORT_STD_gmtime_r" in text:
+              print("STLSoft time.h already looks patched; leaving as-is")
+          else:
+              raise SystemExit(
+                  "expected MinGW C++23 discrimination block not found in "
+                  + str(time_h)
+              )
+
+          # --- (2) C90-safe CUSTOM_C_INLINE in clang/gcc cccap ---
+          inline_needle = (
+              "# if defined(__STDC_VERSION__) &&\\\n"
+              "     __STDC_VERSION__ >= 201112L\n"
+              "\n"
+              "#  define STLSOFT_CUSTOM_C_INLINE"
+              "                           static inline\n"
+              "# else /* ? C version */\n"
+              "\n"
+              "#  define STLSOFT_CUSTOM_C_INLINE"
+              "                           extern inline\n"
+              "# endif /* C version */\n"
+          )
+          inline_repl = (
+              "# if defined(__STDC_VERSION__) &&\\\n"
+              "     __STDC_VERSION__ >= 199901L\n"
+              "\n"
+              "#  define STLSOFT_CUSTOM_C_INLINE"
+              "                           static inline\n"
+              "# else /* ? C version */\n"
+              "\n"
+              "#  define STLSOFT_CUSTOM_C_INLINE"
+              "                           static __attribute__((unused))\n"
+              "# endif /* C version */\n"
+          )
+          for name in ("clang.h", "gcc.h"):
+              path = root / "include/stlsoft/internal/cccap" / name
+              text = path.read_text()
+              if inline_needle in text:
+                  path.write_text(text.replace(inline_needle, inline_repl, 1))
+                  print("patched", path)
+              elif (
+                  "STLSOFT_CUSTOM_C_INLINE" in text
+                  and "__STDC_VERSION__ >= 199901L" in text
+                  and "extern inline" not in text
+                  and "__attribute__((unused))" in text
+              ):
+                  print(name, "already looks C90-safe; leaving as-is")
+              else:
+                  raise SystemExit(
+                      "expected CUSTOM_C_INLINE block not found in " + str(path)
+                  )
+          PY
+
       - name: Configure and build (prepare_cmake.sh)
         if: matrix.tc.c_compiler != 'cl'
         shell: bash
