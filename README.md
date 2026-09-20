@@ -208,28 +208,36 @@ int main(int argc, char* argv[])
 
 ### Compatibility
 
-  | C++   | C   | Clang (macOS) | GCC (Linux) | GCC(MinGW) (Windows)  | Visual C++ 17.x (Windows) |
-  | ----- | --- | :-----------: | :---------: | :-------------------: | :-----------------------: |
-  | 23    | 23  | ✅             | ✅           |                       | ❌                         |
-  | 23    | 17  |               |             |                       |                           |
-  | 20    | 23  |               |             |                       |                           |
-  | 20    | 17  | ✅             | ✅           |                       | ✅                         |
-  | 20    | 17  |               |             |                       |                           |
-  | 20    | 11  |               |             |                       |                           |
-  | 20    | 99  |               |             |                       |                           |
-  | 20    | 90  |               |             |                       |                           |
-  | 17    | 17  | ✅             | ✅           |                       | ✅                         |
-  | 17    | 11  |               |             |                       |                           |
-  | 17    | 99  |               |             |                       |                           |
-  | 17    | 90  |               |             |                       |                           |
-  | 14    | 11  | ✅             | ✅           |                       | ✅                         |
-  | 14    | 99  |               |             |                       |                           |
-  | 14    | 90  |               |             |                       |                           |
-  | 11    | 11  | ✅             | ✅           |                       | ✅                         |
-  | 11    | 99  | ✅             | ✅           |                       | ✅                         |
-  | 11    | 90  |               |             |                       | ✅                         |
-  | 98    | 99  | ✅             | ❌           |                       | ✅                         |
-  | 98    | 90  |               |             |                       |                           |
+Compiler/language pairs exercised for **xTests** (library, examples, and tests)
+with the public **STLSoft** dependency. Legend: ✅ ok, ❌ fail.
+
+> All cells below passed configure+build in the language×toolchain CI survey
+> (Clang Linux/macOS, GCC Linux, MinGW, Visual C++ 17.x). Default CI remains
+> the modular **cell** / **install-smoke** / **stlsoft-routes** layout;
+> override standards via **prepare_cmake.sh** `--c-standard` /
+> `--cxx-standard` when re-checking a pair.
+
+  | C++   | C   | Clang (Linux) | Clang (macOS) | GCC (Linux) | GCC(MinGW) (Windows) | Visual C++ 17.x (Windows) |
+  | ----- | --- | :-----------: | :-----------: | :---------: | :------------------: | :-----------------------: |
+  | 23    | 23  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 23    | 17  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 20    | 23  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 20    | 17  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 20    | 11  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 20    | 99  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 20    | 90  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 17    | 17  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 17    | 11  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 17    | 99  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 17    | 90  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 14    | 11  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 14    | 99  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 14    | 90  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 11    | 11  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 11    | 99  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 11    | 90  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 98    | 99  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
+  | 98    | 90  | ✅             | ✅             | ✅           | ✅                    | ✅                         |
 
 
 ### Where to get help
@@ -277,6 +285,7 @@ Projects in which **xTests** is used for testing include:
 * [**libpath**](https://github.com/synesissoftware/libpath);
 * [**lstrip**](https://github.com/sistools/lstrip);
 * [**mksock**](https://github.com/sistools/mksock);
+* [**Pantheios.Extras.AtExit**](https://github.com/synesissoftware/Pantheios.Extras.AtExit);
 * [**Pantheios.Extras.DiagUtil**](https://github.com/synesissoftware/Pantheios.Extras.DiagUtil);
 * [**Pantheios.Extras.Main**](https://github.com/synesissoftware/Pantheios.Extras.Main);
 * [**Pantheios.Extras.xHelpers**](https://github.com/synesissoftware/Pantheios.Extras.xHelpers);

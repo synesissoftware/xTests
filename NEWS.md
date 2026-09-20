@@ -3,7 +3,7 @@
 
 | Date                | News Item                        | Details                                                  |
 |---------------------|----------------------------------|----------------------------------------------------------|
-| 20th September 2026 | [**xTests** 0.26.5 (beta 2)](https://github.com/synesissoftware/xTests/releases/tag/0.26.5-beta2) released | UNIX `temp_file` `mkstemp` keep, **COMPONENTS.md** catalog |
+| 20th September 2026 | [**xTests** 0.26.5 (beta 2)](https://github.com/synesissoftware/xTests/releases/tag/0.26.5-beta2) released | CMake language-std overrideable; compiler matrix; UNIX `temp_file`; **COMPONENTS.md** |
 | 1st September 2026  | [**xTests** 0.26.5 (beta 1)](https://github.com/synesissoftware/xTests/releases/tag/0.26.5-beta1) released | README examples, Doxygen, **INSTALL.md** |
 | 4th August 2026     | [**xTests** 0.26.4](https://github.com/synesissoftware/xTests/releases/tag/0.26.4) released | modular **ci.yml**, **CHANGES.md**, CMake |
 | 7th September 2025  | [**xTests** 0.26.4 (alpha 4)](https://github.com/synesissoftware/xTests/releases/tag/0.26.4-alpha4) released | removed VS projects, **run_all_unit_tests.cmd** |
