@@ -3,6 +3,7 @@
 
 ## 0.26.5-beta2 - 20th September 2026
 
+* Replaced the nested `<details>` catalog in **README.md** **Components** with a short map linking to **COMPONENTS.md**, which lists each public construct with a small example;
 * Aligned **.gitattributes** with the **CLASP** C/C++ GitHub-hosted form, including C++ source extras, Linguist language classification, and `-linguist-detectable`;
 * Added a Rust FileType autocmd to **.vimrc**;
 * Normalised prerelease version headings in **CHANGES.md** to hyphen-compact SemVer form;
