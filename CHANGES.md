@@ -1,7 +1,17 @@
 # xTests - Changes <!-- omit in toc -->
 
 
-## 0.26.5 (alpha 1) - 1st September 2026
+## 0.26.5-beta2 - 20th September 2026
+
+* Aligned **.gitattributes** with the **CLASP** C/C++ GitHub-hosted form, including C++ source extras, Linguist language classification, and `-linguist-detectable`;
+* Added a Rust FileType autocmd to **.vimrc**;
+* Normalised prerelease version headings in **CHANGES.md** to hyphen-compact SemVer form;
+* Added a **Details** column to **NEWS.md**;
+* Regenerated the **README.md** table of contents with hyphen markers and example subsections;
+* Added `_XTESTS_VER_AB` as an alias of `_XTESTS_VER_ALPHABETA` in **xtests.h**;
+
+
+## 0.26.5-beta1 - 1st September 2026
 
 * Added minimal C and C++ usage examples to **README.md**;
 * Created a custom **Doxygen** main page (**doc/mainpage.md**) and a **generate_doxygen.sh** script for automated documentation building, bringing documentation generation on parity with peer projects;
@@ -25,26 +35,26 @@
 * Project boilerplate updates (**.gitattributes**, **.vimrc**, **.vscode/settings.json**, **AUTHORS.md**, **KNOWN_ISSUES.md**, **TODO.md**, **LICENSE**);
 
 
-## 0.26.4 (alpha 4) - 7th September 2025
+## 0.26.4-alpha4 - 7th September 2025
 
 * Removed legacy Visual Studio project/solution files;
 * Added **run_all_unit_tests.cmd**;
 * Further CMake, CTest, and GitHub Actions polish;
 
 
-## 0.26.4 (alpha 3) - 30th August 2025
+## 0.26.4-alpha3 - 30th August 2025
 
 * CTest compatibility;
 * GitHub Actions;
 
 
-## 0.26.4 (alpha 2) - 30th June 2025
+## 0.26.4-alpha2 - 30th June 2025
 
 * Allowing comparisons between integer values/variables of arbitrary type and sign;
 * C++-98 compatibility;
 
 
-## 0.26.4 (alpha 1) - 6th May 2025
+## 0.26.4-alpha1 - 6th May 2025
 
 * MinGW compatibility;
 * Various CMake scripts canonicalisation;
