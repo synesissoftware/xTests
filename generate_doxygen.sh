@@ -11,8 +11,6 @@ ScriptPath=$0
 Dir=$(cd "$(dirname "$ScriptPath")" && pwd)
 Basename=$(basename "$ScriptPath")
 CMakeDir=${SIS_CMAKE_BUILD_DIR:-$Dir/_build}
-<<<<<<< HEAD
-=======
 ProjectNameFile="$Dir/.sis/project_name.txt"
 ProjectName=$(tr -d '[:space:]' < "$ProjectNameFile")
 
@@ -20,7 +18,6 @@ DoxygenOptions=()
 DoxyfilePath="$Dir/Doxyfile"
 OutputDir="$CMakeDir/doxygen"
 VersionHeader="$Dir/include/xtests/xtests.h"
->>>>>>> master
 
 
 # ##########################################################
@@ -29,29 +26,20 @@ VersionHeader="$Dir/include/xtests/xtests.h"
 while [[ $# -gt 0 ]]; do
 
   case $1 in
-<<<<<<< HEAD
-=======
     --quiet|-q)
 
       DoxygenOptions=(-q)
       ;;
->>>>>>> master
     --help)
 
       [ -f "$Dir/.sis/script_info_lines.txt" ] && cat "$Dir/.sis/script_info_lines.txt"
       cat << EOF
-<<<<<<< HEAD
-Generates HTML API documentation from public headers via Doxygen
-=======
 Generates HTML API documentation from the public headers via Doxygen
->>>>>>> master
 
 $ScriptPath [ ... flags/options ... ]
 
 Flags/options:
 
-<<<<<<< HEAD
-=======
     behaviour:
 
     -q
@@ -60,7 +48,6 @@ Flags/options:
         if QUIET=YES has been set
 
 
->>>>>>> master
     standard flags:
 
     --help
@@ -91,29 +78,6 @@ done
 # ##########################################################
 # main()
 
-<<<<<<< HEAD
-cd "$Dir" || exit 1
-
-if ! command -v doxygen >/dev/null 2>&1; then
-  >&2 echo "$ScriptPath: doxygen not found on PATH"
-  exit 1
-fi
-
-mkdir -p "${CMakeDir}/doxygen"
-
-{
-  cat Doxyfile
-  echo ""
-  echo "# Output directory (overridden by ${Basename})"
-  echo "OUTPUT_DIRECTORY = ${CMakeDir}/doxygen"
-} | doxygen -
-
-echo "API documentation written to ${CMakeDir}/doxygen/html/index.html"
-
-
-# ############################## end of file ############################# #
-
-=======
 if ! command -v doxygen >/dev/null 2>&1; then
 
   >&2 echo "$ScriptPath: doxygen not found on PATH"
@@ -169,4 +133,3 @@ exit 0
 
 
 # ############################## end of file ############################# #
->>>>>>> master
