@@ -27,9 +27,12 @@ produces when assertions fail. Those often exit non-zero by design; they
 are not the automated unit/component suite (see
 **run_all_scratch_tests.sh**).
 
+
 ## Q3: "Why are the macros so verbose?"
 
 Because **xTests** is deliberately targeted at both C and C++. When the library was created there weren't that many unit-test libraries available for C++, and there were many fewer available that supported C.
+
+If you prefer short names in C or C++, include **xtests/terse-api.h** (for example `TEST_INT_EQ` instead of `XTESTS_TEST_INTEGER_EQUAL`). The mapping is listed in [**COMPONENTS.md**](./COMPONENTS.md#terse-api).
 
 If you are starting a new project that is entirely C++, we recommend that you instead use a more sophisticated and full-featured library, such as [**Catch2**](https://github.com/catchorg/Catch2).
 

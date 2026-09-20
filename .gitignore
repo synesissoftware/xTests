@@ -13,8 +13,7 @@
 /__pycache__
 /node_modules
 
-/_build/
-/_build-ci/
+/_build*/
 /_internal/
 /_analyses/
 
