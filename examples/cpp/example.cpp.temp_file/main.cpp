@@ -9,7 +9,7 @@
  *                array;
  *
  * Created: ... mid 2010s ...
- * Updated: 23rd April 2025
+ * Updated: 20th September 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -23,6 +23,7 @@
 #include <platformstl/filesystem/path_functions.h>
 
 #include <iostream>
+#include <string>
 
 #include <stdlib.h>
 #include <string.h>
@@ -99,30 +100,53 @@ int main(int argc, char* argv[])
 
     /* 2: various uses of `xtests::cpp::util::temp_file` */
 
-    /* Use `None`, which means no special behaviour */
+    /* Use `None`, which means no special behaviour: the file remains after
+     * destruction. Capture the path so the example can remove it afterwards
+     * and not pollute the working tree or temp directory.
+     */
     {
         std::cout << "temp_file::None (without hint directory):" << std::endl;
 
-        temp_file tf(temp_file::None);
+        std::string path;
 
-        std::cout << "\tpath:     \t" << tf << std::endl;
-        std::cout << "\texist?:   \t" << fs_traits_t::file_exists(tf.c_str()) << std::endl;
-        std::cout << "\tfile?:    \t" << fs_traits_t::is_file(tf.c_str()) << std::endl;
-        std::cout << "\tdir?:     \t" << fs_traits_t::is_directory(tf.c_str()) << std::endl;
-        std::cout << "\tfile-size:\t" << get_file_size(tf) << std::endl;
+        {
+            temp_file tf(temp_file::None);
+
+            path = tf.c_str();
+
+            std::cout << "\tpath:     \t" << tf << std::endl;
+            std::cout << "\texist?:   \t" << fs_traits_t::file_exists(tf.c_str()) << std::endl;
+            std::cout << "\tfile?:    \t" << fs_traits_t::is_file(tf.c_str()) << std::endl;
+            std::cout << "\tdir?:     \t" << fs_traits_t::is_directory(tf.c_str()) << std::endl;
+            std::cout << "\tfile-size:\t" << get_file_size(tf) << std::endl;
+        }
+
+        std::cout << "\texist after destruction?:\t" << fs_traits_t::file_exists(path.c_str()) << std::endl;
+
+        fs_traits_t::unlink_file(path.c_str());
     }
 
     /* Use `None`, but in a specific directory */
     {
         std::cout << "temp_file::None (with hint directory '" << hint_dir << "'):" << std::endl;
 
-        temp_file tf(temp_file::None, hint_dir);
+        std::string path;
 
-        std::cout << "\tpath:     \t" << tf << std::endl;
-        std::cout << "\texist?:   \t" << fs_traits_t::file_exists(tf.c_str()) << std::endl;
-        std::cout << "\tfile?:    \t" << fs_traits_t::is_file(tf.c_str()) << std::endl;
-        std::cout << "\tdir?:     \t" << fs_traits_t::is_directory(tf.c_str()) << std::endl;
-        std::cout << "\tfile-size:\t" << get_file_size(tf) << std::endl;
+        {
+            temp_file tf(temp_file::None, hint_dir);
+
+            path = tf.c_str();
+
+            std::cout << "\tpath:     \t" << tf << std::endl;
+            std::cout << "\texist?:   \t" << fs_traits_t::file_exists(tf.c_str()) << std::endl;
+            std::cout << "\tfile?:    \t" << fs_traits_t::is_file(tf.c_str()) << std::endl;
+            std::cout << "\tdir?:     \t" << fs_traits_t::is_directory(tf.c_str()) << std::endl;
+            std::cout << "\tfile-size:\t" << get_file_size(tf) << std::endl;
+        }
+
+        std::cout << "\texist after destruction?:\t" << fs_traits_t::file_exists(path.c_str()) << std::endl;
+
+        fs_traits_t::unlink_file(path.c_str());
     }
 
     /* Use `DeleteOnClose`, which causes the file to be deleted when the

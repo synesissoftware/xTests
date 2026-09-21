@@ -90,6 +90,7 @@ UReleaseMt/
 
 # directories (by pattern)
 
+/_build*/
 /include-*/
 
 
