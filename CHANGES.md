@@ -1,6 +1,17 @@
 # xTests - Changes <!-- omit in toc -->
 
 
+## 0.26.6-beta1 - 10th October 2026
+
+* Applied **misc-dev-scripts** **0.6.0** editor/Git/`.sis` drop-in templates on **boilerplate**;
+* Restored historical **.gitignore** patterns as a sorted union with **misc-dev-scripts** gold section layout;
+* Aligned the common CMake helper scripts (**prepare_cmake.sh**, **build_cmake.sh**, **ctest_cmake.sh**, **clean_cmake.sh**, **remove_cmake_artefacts.sh**, and the **run_all_\*.sh** / **run_all_\*.cmd** runners) with **misc-dev-scripts** gold (SisClr), retaining `--c-standard`, `--cxx-standard`, `--no-shwild`, and `--stlsoft-root-dir` in **prepare_cmake.sh**;
+* Renamed the scratch version reporter target from `versions` to `test.scratch.versions` (**test/scratch/versions/**), so that **run_all_scratch_tests.sh** discovers it;
+* Added **.sis/ci_examples_allowed_to_fail.txt** (`example.c.runner`, `example.c.tests`, `example.cpp.udt`) and adopted the **BDUT** **run_all_examples.sh** / **run_all_examples.cmd** runners, so that examples which demonstrate failure by design are reported as anticipated rather than failing the run;
+* Fixed **ci-cell.yml** so that the component-test step invokes **run_all_component_tests.sh** (**run_all_unit_tests.sh** does not accept `--component-only`);
+* Made the Windows cells of **ci-cell.yml** (MSVC **cl** and MinGW) dogfood the native **run_all_\*.cmd** runners under `shell: cmd`, with the Bash runners retained for non-Windows cells;
+
+
 ## 0.26.5 - 21st September 2026
 
 * Made **CMake** C and C++ language standards settings overrideable by external configurations (e.g., from command-line overrides or CI workflows);

@@ -3,6 +3,7 @@
 
 | Date                | News Item                        | Details                                                  |
 |---------------------|----------------------------------|----------------------------------------------------------|
+| 10th October 2026   | [**xTests** 0.26.6-beta1](https://github.com/synesissoftware/xTests/releases/tag/0.26.6-beta1) released | CMake helper canonicalisation, **test.scratch.versions**, boilerplate |
 | 21st September 2026 | [**xTests** 0.26.5](https://github.com/synesissoftware/xTests/releases/tag/0.26.5) released | CMake language-std overrideable; compiler matrix; UNIX `temp_file`; **COMPONENTS.md** |
 | 1st September 2026  | [**xTests** 0.26.5-beta1](https://github.com/synesissoftware/xTests/releases/tag/0.26.5-beta1) released | README examples, Doxygen, **INSTALL.md** |
 | 4th August 2026     | [**xTests** 0.26.4](https://github.com/synesissoftware/xTests/releases/tag/0.26.4) released | modular **ci.yml**, **CHANGES.md**, CMake |

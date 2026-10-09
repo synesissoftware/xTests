@@ -1,0 +1,9 @@
+# Example programs that are allowed to fail: xTests is a unit-testing
+# library, so some of its examples demonstrate assertion failures.
+# run_all_examples.{sh,cmd} still executes each of them, but reports a
+# non-zero exit as anticipated rather than failing the run.
+# List program names or stems (example.c.runner and example.c.runner.exe
+# are equivalent).
+example.c.runner
+example.c.tests
+example.cpp.udt
