@@ -2469,7 +2469,7 @@ xtests_variable_t::xtests_variable_t(wchar_t const* s, size_t n, xtests_test_typ
     , valueLen(n)
 {}
 
-xtests_variable_t::xtests_variable_t(char const* s, xtests_variable_type_t type) // UDT
+xtests_variable_t::xtests_variable_t(char const* s, xtests_variable_type_t type) /* UDT */
     : variableType(type)
     , testType(xtestsTestFullComparison)
     , value(s)
@@ -2916,9 +2916,9 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
-                // TODO: implement colour when fix the wide-character issue
+                /* TODO: implement colour when fix the wide-character issue */
 
-                STLSOFT_SUPPRESS_UNUSED(&is_tty);
+                STLSOFT_SUPPRESS_UNUSED(is_tty);
 
                 static char const*  s_fmts[] =
                 {

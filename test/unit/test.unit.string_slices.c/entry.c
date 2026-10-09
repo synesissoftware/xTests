@@ -4,7 +4,7 @@
  * Purpose: Illustrates xTests string slice comparison macros (C code).
  *
  * Created: 16th February 2013
- * Updated: 23rd April 2025
+ * Updated: 20th September 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -35,7 +35,9 @@
  */
 
 static void test_against_empty_string(void);
-// static void test_against_empty_slice(void);
+/*
+static void test_against_empty_slice(void);
+ */
 static void test_against_short_string(void);
 
 

@@ -1,11 +1,44 @@
 # xTests - Changes <!-- omit in toc -->
 
 
-## 0.27.0-alpha1 - 22nd September 2026
+## 0.27.0-alpha1 - 11th October 2026
 
 * Added `XTESTS_TEST_POINTER_NULL()` and `XTESTS_TEST_POINTER_NOT_NULL()` (currently wrappers of `XTESTS_TEST_POINTER_EQUAL(NULL, …)` / `XTESTS_TEST_POINTER_NOT_EQUAL(NULL, …)`), with terse aliases `TEST_POINTER_NULL` / `TEST_PTR_NULL` and `TEST_POINTER_NOT_NULL` / `TEST_PTR_NOT_NULL`;
 * Illustrated the new pointer-null macros in **example.c.tests**, including deliberate failures that emit the null-expected wording;
 * Pointer equality/inequality failure messages now say the actual value "is not null as expected" (with the actual address) or "actual pointer is null not as expected" (without a redundant `'0x0'`) when the expected pointer is null, rather than comparing against a platform-formatted null address;
+
+
+## 0.26.6-beta1 - 10th October 2026
+
+* Applied **misc-dev-scripts** **0.6.0** editor/Git/`.sis` drop-in templates on **boilerplate**;
+* Restored historical **.gitignore** patterns as a sorted union with **misc-dev-scripts** gold section layout;
+* Aligned the common CMake helper scripts (**prepare_cmake.sh**, **build_cmake.sh**, **ctest_cmake.sh**, **clean_cmake.sh**, **remove_cmake_artefacts.sh**, and the **run_all_\*.sh** / **run_all_\*.cmd** runners) with **misc-dev-scripts** gold (SisClr), retaining `--c-standard`, `--cxx-standard`, `--no-shwild`, and `--stlsoft-root-dir` in **prepare_cmake.sh**;
+* Renamed the scratch version reporter target from `versions` to `test.scratch.versions` (**test/scratch/versions/**), so that **run_all_scratch_tests.sh** discovers it;
+* Added **.sis/ci_examples_allowed_to_fail.txt** (`example.c.runner`, `example.c.tests`, `example.cpp.udt`) and adopted the **BDUT** **run_all_examples.sh** / **run_all_examples.cmd** runners, so that examples which demonstrate failure by design are reported as anticipated rather than failing the run;
+* Fixed **ci-cell.yml** so that the component-test step invokes **run_all_component_tests.sh** (**run_all_unit_tests.sh** does not accept `--component-only`);
+* Made the Windows cells of **ci-cell.yml** (MSVC **cl** and MinGW) dogfood the native **run_all_\*.cmd** runners under `shell: cmd`, with the Bash runners retained for non-Windows cells;
+
+
+## 0.26.5 - 21st September 2026
+
+* Made **CMake** C and C++ language standards settings overrideable by external configurations (e.g., from command-line overrides or CI workflows);
+* Extended **prepare_cmake.sh** with `--c-standard` and `--cxx-standard` (mirroring **sistools** / **chomp**), including C90 and the C++98–23 set used by the Compatibility matrix;
+* Added a **Clang (Linux)** column to the **README.md** Compatibility matrix and filled every surveyed cell ✅ after a temporary language×toolchain build survey; restored modular CI (**cell** / **install-smoke** / **stlsoft-routes**) with the canonical push-branch set;
+* Filled the **README.md** Compatibility matrix Clang (macOS) column from Apple Clang 15 builds;
+* Fixed ISO C90 pedantic failures in **xtests.h**: `#error` text no longer contains `//`; `XTESTS_GET_FUNCTION_()` avoids `__func__` when compiling as C90;
+* Fixed further ISO C90 pedantic failures: C90-safe inline for `xtests_internal_while_0_()`; converted remaining C++ `//` comments in **xtests.h** (and **test.unit.string_slices.c**) to `/* */` where they sit in active translation units;
+* Fixed **GCC C++98** build: `STLSOFT_SUPPRESS_UNUSED(is_tty)` without taking the address of a temporary in **xtests.core.cpp**;
+* **STLSoft** (freelibs tree): exclude MinGW from C++23 `STD_gmtime_r` / `localtime_r` claims in **api/external/time.h**; under ISO C90 set `STLSOFT_CUSTOM_C_INLINE` to `static __attribute__((unused))` (not GNU `extern inline`) in **cccap/clang.h** and **cccap/gcc.h**;
+* Removed a duplicate C++20/C17 Compatibility matrix row;
+* **example.cpp.temp_file** now removes files left by `temp_file::None` after illustrating that they persist, so `run_all_examples.sh` no longer pollutes the working tree;
+* UNIX `temp_file` now keeps the `mkstemp` descriptor and records the path as a C-string, rather than reopening and assigning `size() - 1`;
+* Replaced the nested `<details>` catalog in **README.md** **Components** with a short map linking to **COMPONENTS.md**, which lists each public construct with a small example;
+* Aligned **.gitattributes** with the **CLASP** C/C++ GitHub-hosted form, including C++ source extras, Linguist language classification, and `-linguist-detectable`;
+* Added a Rust FileType autocmd to **.vimrc**;
+* Normalised prerelease version headings in **CHANGES.md** to hyphen-compact SemVer form;
+* Added a **Details** column to **NEWS.md**;
+* Regenerated the **README.md** table of contents with hyphen markers and example subsections;
+* Set `_XTESTS_VER_ALPHABETA` to `0x82` (beta 2) and added `_XTESTS_VER_AB` as an alias of `_XTESTS_VER_ALPHABETA` in **xtests.h**;
 
 
 ## 0.26.5-beta1 - 1st September 2026
