@@ -1,13 +1,12 @@
 # xTests - Changes <!-- omit in toc -->
 
 
-## Unreleased
+## 0.26.6-beta1 - 10th October 2026
 
 * Applied **misc-dev-scripts** **0.6.0** editor/Git/`.sis` drop-in templates on **boilerplate**;
 * Restored historical **.gitignore** patterns as a sorted union with **misc-dev-scripts** gold section layout;
 * Aligned the common CMake helper scripts (**prepare_cmake.sh**, **build_cmake.sh**, **ctest_cmake.sh**, **clean_cmake.sh**, **remove_cmake_artefacts.sh**, and the **run_all_\*.sh** / **run_all_\*.cmd** runners) with **misc-dev-scripts** gold (SisClr), retaining `--c-standard`, `--cxx-standard`, `--no-shwild`, and `--stlsoft-root-dir` in **prepare_cmake.sh**;
 * Renamed the scratch version reporter target from `versions` to `test.scratch.versions` (**test/scratch/versions/**), so that **run_all_scratch_tests.sh** discovers it;
-
 
 
 ## 0.26.5 - 21st September 2026
