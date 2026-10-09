@@ -117,6 +117,8 @@ Catalog of the public **xTests** API. Each construct has a short description and
 - [Pointer assertion macros](#pointer-assertion-macros)
   - [`XTESTS_TEST_POINTER_EQUAL(expected, actual)`](#xtests_test_pointer_equalexpected-actual)
   - [`XTESTS_TEST_POINTER_NOT_EQUAL(expected, actual)`](#xtests_test_pointer_not_equalexpected-actual)
+  - [`XTESTS_TEST_POINTER_NULL(actual)`](#xtests_test_pointer_nullactual)
+  - [`XTESTS_TEST_POINTER_NOT_NULL(actual)`](#xtests_test_pointer_not_nullactual)
   - [`XTESTS_TEST_POINTER_GREATER(expected, actual)`](#xtests_test_pointer_greaterexpected-actual)
   - [`XTESTS_TEST_POINTER_LESS(expected, actual)`](#xtests_test_pointer_lessexpected-actual)
   - [`XTESTS_TEST_POINTER_GREATER_OR_EQUAL(expected, actual)`](#xtests_test_pointer_greater_or_equalexpected-actual)
@@ -1072,6 +1074,24 @@ XTESTS_TEST_POINTER_NOT_EQUAL(NULL, p);
 ```
 
 
+### `XTESTS_TEST_POINTER_NULL(actual)`
+
+Tests that `actual` is a null pointer. Currently equivalent to `XTESTS_TEST_POINTER_EQUAL(NULL, actual)`.
+
+```c
+XTESTS_TEST_POINTER_NULL(p);
+```
+
+
+### `XTESTS_TEST_POINTER_NOT_NULL(actual)`
+
+Tests that `actual` is not a null pointer. Currently equivalent to `XTESTS_TEST_POINTER_NOT_EQUAL(NULL, actual)`.
+
+```c
+XTESTS_TEST_POINTER_NOT_NULL(q);
+```
+
+
 ### `XTESTS_TEST_POINTER_GREATER(expected, actual)`
 
 ```c
@@ -1211,6 +1231,8 @@ XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL(5.05, 5.06);
 | `XTESTS_TEST_MULTIBYTE_STRING_EQUAL` | `TEST_MULTIBYTE_STRING_EQUAL` | `TEST_MS_EQ` |
 | `XTESTS_TEST_WIDE_STRING_EQUAL` | `TEST_WIDE_STRING_EQUAL` | `TEST_WS_EQ` |
 | `XTESTS_TEST_BOOLEAN_TRUE` | `TEST_BOOLEAN_TRUE` | |
+| `XTESTS_TEST_POINTER_NULL` | `TEST_POINTER_NULL` | `TEST_PTR_NULL` |
+| `XTESTS_TEST_POINTER_NOT_NULL` | `TEST_POINTER_NOT_NULL` | `TEST_PTR_NOT_NULL` |
 | `XTESTS_TEST_POINTER_NOT_EQUAL` | `TEST_POINTER_NOT_EQUAL` | `TEST_PTR_NE` |
 | `XTESTS_REQUIRE` | `REQUIRE` | |
 | `XTESTS_TEST_FAIL` | `TEST_FAIL` | `FAIL` |

@@ -4,7 +4,7 @@
  * Purpose: Illustrates each failure message.
  *
  * Created: 1st December 2024
- * Updated: 28th June 2025
+ * Updated: 20th September 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -129,6 +129,10 @@ int main(int argc, char* argv[])
 
             TEST_PTR_EQ(int1, int2);
             TEST_PTR_NE(int1, int1);
+            TEST_PTR_EQ(NULL, int1);
+            TEST_PTR_NE(NULL, NULL);
+            TEST_PTR_NULL(int1);
+            TEST_PTR_NOT_NULL(NULL);
             TEST_PTR_GT(int1, int1);
             TEST_PTR_LT(int1, int1);
             TEST_PTR_GE(ints[1], ints[0]);

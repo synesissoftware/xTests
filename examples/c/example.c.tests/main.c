@@ -4,7 +4,7 @@
  * Purpose: Example of use of separate test-case functions.
  *
  * Created: 20th February 2008
- * Updated: 31st December 2024
+ * Updated: 20th September 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -32,6 +32,7 @@ static void test_relative_sizes(void);
 static void test_signedness_integer_sizes(void);
 static void test_always_pass(void);
 static void test_integer_values(void);
+static void test_pointer_values(void);
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -51,6 +52,7 @@ int main(int argc, char* argv[])
         XTESTS_RUN_CASE_WITH_DESC(test_signedness_integer_sizes, "checking equality of sizes of signed and unsigned integer types");
         XTESTS_RUN_CASE_WITH_DESC(test_always_pass, "tests that always pass");
         XTESTS_RUN_CASE_WITH_DESC(test_integer_values, "evaluating relationships between numbers");
+        XTESTS_RUN_CASE_WITH_DESC(test_pointer_values, "evaluating null and non-null pointers (incl. deliberate failures)");
 
         XTESTS_PRINT_RESULTS();
 
@@ -116,6 +118,25 @@ static void test_integer_values(void)
             }
         }}
     }}
+}
+
+static void test_pointer_values(void)
+{
+    int  i = 0;
+    int* p_null = NULL;
+    int* p_i = &i;
+
+    /* passing forms */
+    XTESTS_TEST_POINTER_NULL(p_null);
+    XTESTS_TEST_POINTER_NOT_NULL(p_i);
+    XTESTS_TEST_POINTER_EQUAL(p_i, &i);
+    XTESTS_TEST_POINTER_NOT_EQUAL(p_null, p_i);
+
+    /* deliberate failures — illustrate null-expected wording */
+    XTESTS_TEST_POINTER_NULL(p_i);
+    XTESTS_TEST_POINTER_NOT_NULL(p_null);
+    XTESTS_TEST_POINTER_EQUAL(NULL, p_i);
+    XTESTS_TEST_POINTER_NOT_EQUAL(NULL, p_null);
 }
 
 

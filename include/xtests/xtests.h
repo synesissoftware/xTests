@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 10th October 2026
+ * Updated: 11th October 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -51,9 +51,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
-# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       51
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    15
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        417
+# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       52
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        418
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -85,9 +85,9 @@
  */
 
 #define _XTESTS_VER_MAJOR       0
-#define _XTESTS_VER_MINOR       26
-#define _XTESTS_VER_PATCH       6
-#define _XTESTS_VER_ALPHABETA   0x81
+#define _XTESTS_VER_MINOR       27
+#define _XTESTS_VER_PATCH       0
+#define _XTESTS_VER_ALPHABETA   0x41
 
 #define _XTESTS_VER \
     (0\
@@ -2636,6 +2636,34 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
         ? XTESTS_NS_C_QUAL(xtests_testPointers)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThanOrEqual)) \
         : (0))
+
+/** \def XTESTS_TEST_POINTER_NULL(actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that the pointer is `NULL` / `nullptr`.
+ *
+ * \param actual The actual value of the pointer;
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_POINTER_NULL(actual)                                    \
+    XTESTS_TEST_POINTER_EQUAL(NULL, actual)
+
+/** \def XTESTS_TEST_POINTER_NOT_NULL(actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that the pointer is not `NULL` / `nullptr`.
+ *
+ * \param actual The actual value of the pointer;
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_POINTER_NOT_NULL(actual)                                \
+    XTESTS_TEST_POINTER_NOT_EQUAL(NULL, actual)
 
 
 /* /////////////////////////////////////////////////////////
