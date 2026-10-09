@@ -6,3 +6,4 @@
 # are equivalent).
 example.c.runner
 example.c.tests
+example.cpp.udt

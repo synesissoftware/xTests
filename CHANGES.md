@@ -7,7 +7,7 @@
 * Restored historical **.gitignore** patterns as a sorted union with **misc-dev-scripts** gold section layout;
 * Aligned the common CMake helper scripts (**prepare_cmake.sh**, **build_cmake.sh**, **ctest_cmake.sh**, **clean_cmake.sh**, **remove_cmake_artefacts.sh**, and the **run_all_\*.sh** / **run_all_\*.cmd** runners) with **misc-dev-scripts** gold (SisClr), retaining `--c-standard`, `--cxx-standard`, `--no-shwild`, and `--stlsoft-root-dir` in **prepare_cmake.sh**;
 * Renamed the scratch version reporter target from `versions` to `test.scratch.versions` (**test/scratch/versions/**), so that **run_all_scratch_tests.sh** discovers it;
-* Added **.sis/ci_examples_allowed_to_fail.txt** (`example.c.runner`, `example.c.tests`) and adopted the **BDUT** **run_all_examples.sh** / **run_all_examples.cmd** runners, so that examples which demonstrate failure by design are reported as anticipated rather than failing the run;
+* Added **.sis/ci_examples_allowed_to_fail.txt** (`example.c.runner`, `example.c.tests`, `example.cpp.udt`) and adopted the **BDUT** **run_all_examples.sh** / **run_all_examples.cmd** runners, so that examples which demonstrate failure by design are reported as anticipated rather than failing the run;
 
 
 ## 0.26.5 - 21st September 2026
