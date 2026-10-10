@@ -2,8 +2,8 @@
  * File:    test.unit.string_slices.c/entry.c
  *
  * Purpose: Unit-tests for multibyte and wide string slice comparison
- *          macros (`TEST_MULTIBYTE_STRING_SLICE_EQUAL` /
- *          `TEST_WIDE_STRING_SLICE_EQUAL`).
+ *          macros (`TEST_*_STRING_SLICE_EQUAL` /
+ *          `TEST_*_STRING_SLICE_NOT_EQUAL`).
  *
  * Created: 16th February 2013
  * Updated: 11th October 2026
@@ -39,8 +39,10 @@
 
 static void test_mb_against_empty_string(void);
 static void test_mb_against_short_string(void);
+static void test_mb_not_equal(void);
 static void test_ws_against_empty_string(void);
 static void test_ws_against_short_string(void);
+static void test_ws_not_equal(void);
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -58,8 +60,10 @@ int main(int argc, char* argv[])
     {
         XTESTS_RUN_CASE(test_mb_against_empty_string);
         XTESTS_RUN_CASE(test_mb_against_short_string);
+        XTESTS_RUN_CASE(test_mb_not_equal);
         XTESTS_RUN_CASE(test_ws_against_empty_string);
         XTESTS_RUN_CASE(test_ws_against_short_string);
+        XTESTS_RUN_CASE(test_ws_not_equal);
 
         XTESTS_PRINT_RESULTS();
         XTESTS_END_RUNNER_UPDATE_EXITCODE(&retCode);
@@ -145,6 +149,46 @@ static void test_mb_against_short_string(void)
     }
 }
 
+static void test_mb_not_equal(void)
+{
+    /* Length mismatch. */
+    {
+        struct slice_t
+        {
+            size_t      len;
+            char const* ptr;
+
+        } slice = { 3, "abcdef" };
+
+        TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL("ab", slice);
+        TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL("abcd", slice);
+    }
+
+    /* Same length, different contents. */
+    {
+        struct slice_t
+        {
+            size_t      len;
+            char const* ptr;
+
+        } slice = { 3, "abcdef" };
+
+        TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL("abX", slice);
+    }
+
+    /* Empty slice is not equal to a non-empty expected string. */
+    {
+        struct slice_t
+        {
+            size_t      len;
+            char const* ptr;
+
+        } slice = { 0, ss_nullptr_k };
+
+        TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL("a", slice);
+    }
+}
+
 static void test_ws_against_empty_string(void)
 {
     {
@@ -214,6 +258,46 @@ static void test_ws_against_short_string(void)
         } slice = { 6, L"abcdef" };
 
         TEST_WIDE_STRING_SLICE_EQUAL(L"abcdef", slice);
+    }
+}
+
+static void test_ws_not_equal(void)
+{
+    /* Length mismatch. */
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 3, L"abcdef" };
+
+        TEST_WIDE_STRING_SLICE_NOT_EQUAL(L"ab", slice);
+        TEST_WIDE_STRING_SLICE_NOT_EQUAL(L"abcd", slice);
+    }
+
+    /* Same length, different contents. */
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 3, L"abcdef" };
+
+        TEST_WIDE_STRING_SLICE_NOT_EQUAL(L"abX", slice);
+    }
+
+    /* Empty slice is not equal to a non-empty expected string. */
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 0, ss_nullptr_k };
+
+        TEST_WIDE_STRING_SLICE_NOT_EQUAL(L"a", slice);
     }
 }
 

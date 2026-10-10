@@ -5,7 +5,7 @@
  *          the assertion macros (and other simplifications).
  *
  * Created: 20th November 2024
- * Updated: 9th August 2026
+ * Updated: 11th October 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -352,6 +352,9 @@
 #ifdef XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL
 # define TEST_MULTIBYTE_STRING_SLICE_EQUAL                  XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL
 #endif /* XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL */
+#ifdef XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL
+# define TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL              XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL
+#endif /* XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL */
 #ifdef XTESTS_TEST_POINTER_EQUAL
 # define TEST_POINTER_EQUAL                                 XTESTS_TEST_POINTER_EQUAL
 # define TEST_PTR_EQ                                        XTESTS_TEST_POINTER_EQUAL
@@ -426,6 +429,9 @@
 #ifdef XTESTS_TEST_WIDE_STRING_SLICE_EQUAL
 # define TEST_WIDE_STRING_SLICE_EQUAL                       XTESTS_TEST_WIDE_STRING_SLICE_EQUAL
 #endif /* XTESTS_TEST_WIDE_STRING_SLICE_EQUAL */
+#ifdef XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL
+# define TEST_WIDE_STRING_SLICE_NOT_EQUAL                   XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL
+#endif /* XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL */
 
 #ifdef XTESTS_FAIL
 # define FAIL                                               XTESTS_FAIL

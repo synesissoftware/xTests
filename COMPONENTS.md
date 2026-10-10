@@ -90,6 +90,7 @@ Catalog of the public **xTests** API. Each construct has a short description and
   - [`XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN(expected, actual)`](#xtests_test_multibyte_string_not_containexpected-actual)
   - [`XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN_APPROX(expected, actual)`](#xtests_test_multibyte_string_not_contain_approxexpected-actual)
   - [`XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL(expected, actual)`](#xtests_test_multibyte_string_slice_equalexpected-actual)
+  - [`XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL(expected, actual)`](#xtests_test_multibyte_string_slice_not_equalexpected-actual)
   - [`XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)`](#xtests_test_multibyte_string_matchespattern-value)
   - [`XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH(pattern, value)`](#xtests_test_multibyte_string_does_not_matchpattern-value)
 - [Wide string assertion macros](#wide-string-assertion-macros)
@@ -106,6 +107,7 @@ Catalog of the public **xTests** API. Each construct has a short description and
   - [`XTESTS_TEST_WIDE_STRING_NOT_CONTAIN(expected, actual)`](#xtests_test_wide_string_not_containexpected-actual)
   - [`XTESTS_TEST_WIDE_STRING_NOT_CONTAIN_APPROX(expected, actual)`](#xtests_test_wide_string_not_contain_approxexpected-actual)
   - [`XTESTS_TEST_WIDE_STRING_SLICE_EQUAL(expected, actual)`](#xtests_test_wide_string_slice_equalexpected-actual)
+  - [`XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL(expected, actual)`](#xtests_test_wide_string_slice_not_equalexpected-actual)
 - [Boolean assertion macros](#boolean-assertion-macros)
   - [`XTESTS_TEST_BOOLEAN_EQUAL(expected, actual)`](#xtests_test_boolean_equalexpected-actual)
   - [`XTESTS_TEST_BOOLEAN_NOT_EQUAL(expected, actual)`](#xtests_test_boolean_not_equalexpected-actual)
@@ -890,6 +892,17 @@ XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL("hello", slice);
 ```
 
 
+### `XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL(expected, actual)`
+
+Succeeds when the slice differs in length and/or contents from **expected**.
+
+```c
+struct { size_t len; char const* ptr; } slice = { 5, "hello, world" };
+XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL("world", slice);
+XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL("hello!", slice);
+```
+
+
 ### `XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)`
 
 Defined only when **shwild** is present (`shwild/shwild.h` or `shwild/shwild.hpp` included, so `XTESTS_USE_SHWILD` is set). **shwild** is optional; **xTests** does not require it, and **shwild** itself uses **xTests**.
@@ -1002,6 +1015,15 @@ XTESTS_TEST_WIDE_STRING_NOT_CONTAIN_APPROX(L"XYZ", L"hello");
 ```c
 struct { size_t len; wchar_t const* ptr; } slice = { 5, L"hello, world" };
 XTESTS_TEST_WIDE_STRING_SLICE_EQUAL(L"hello", slice);
+```
+
+
+### `XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL(expected, actual)`
+
+```c
+struct { size_t len; wchar_t const* ptr; } slice = { 5, L"hello, world" };
+XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL(L"world", slice);
+XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL(L"hello!", slice);
 ```
 
 
