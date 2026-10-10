@@ -4,6 +4,8 @@
 ## Unreleased
 
 * Added **example.c.string_comparisons_n**, illustrating exact (`n > 0`) and limit (`n < 0`) forms of `TEST_MS_EQ_N` / `TEST_MS_NE_N`, including non-NUL-terminated buffers;
+* Added **example.cpp.string_comparisons_n**, illustrating the same `_N` contract for wide strings, `std::wstring`, and non-NUL-terminated buffers;
+* Extended **test.unit.string_slices.c** with `TEST_WIDE_STRING_SLICE_EQUAL` coverage parallel to the multibyte cases;
 * Applied **misc-dev-scripts** **0.6.0** editor/Git/`.sis` drop-in templates on **boilerplate**;
 * Restored historical **.gitignore** patterns as a sorted union with **misc-dev-scripts** gold section layout;
 

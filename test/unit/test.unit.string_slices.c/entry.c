@@ -1,10 +1,12 @@
 /* /////////////////////////////////////////////////////////////////////////
  * File:    test.unit.string_slices.c/entry.c
  *
- * Purpose: Illustrates xTests string slice comparison macros (C code).
+ * Purpose: Unit-tests for multibyte and wide string slice comparison
+ *          macros (`TEST_MULTIBYTE_STRING_SLICE_EQUAL` /
+ *          `TEST_WIDE_STRING_SLICE_EQUAL`).
  *
  * Created: 16th February 2013
- * Updated: 20th September 2026
+ * Updated: 11th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -22,8 +24,9 @@
 #include <stlsoft/stlsoft.h>
 
 /* Standard C Header Files */
-#include <stdio.h>
+#include <stddef.h>
 #include <stdlib.h>
+#include <wchar.h>
 
 #include <xtests/internal/checked_main.h>
 
@@ -34,11 +37,10 @@
  * forward declarations
  */
 
-static void test_against_empty_string(void);
-/*
-static void test_against_empty_slice(void);
- */
-static void test_against_short_string(void);
+static void test_mb_against_empty_string(void);
+static void test_mb_against_short_string(void);
+static void test_ws_against_empty_string(void);
+static void test_ws_against_short_string(void);
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -54,8 +56,10 @@ int main(int argc, char* argv[])
 
     if (XTESTS_START_RUNNER("test.unit.string_slices.c", verbosity))
     {
-        XTESTS_RUN_CASE(test_against_empty_string);
-        XTESTS_RUN_CASE(test_against_short_string);
+        XTESTS_RUN_CASE(test_mb_against_empty_string);
+        XTESTS_RUN_CASE(test_mb_against_short_string);
+        XTESTS_RUN_CASE(test_ws_against_empty_string);
+        XTESTS_RUN_CASE(test_ws_against_short_string);
 
         XTESTS_PRINT_RESULTS();
         XTESTS_END_RUNNER_UPDATE_EXITCODE(&retCode);
@@ -69,7 +73,7 @@ int main(int argc, char* argv[])
  * test function implementations
  */
 
-static void test_against_empty_string(void)
+static void test_mb_against_empty_string(void)
 {
     {
         struct slice_t
@@ -105,7 +109,7 @@ static void test_against_empty_string(void)
     }
 }
 
-static void test_against_short_string(void)
+static void test_mb_against_short_string(void)
 {
     {
         struct slice_t
@@ -141,6 +145,77 @@ static void test_against_short_string(void)
     }
 }
 
+static void test_ws_against_empty_string(void)
+{
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 0, ss_nullptr_k };
+
+        TEST_WIDE_STRING_SLICE_EQUAL(L"", slice);
+    }
+
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 0, L"" };
+
+        TEST_WIDE_STRING_SLICE_EQUAL(L"", slice);
+    }
+
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 0, L"abcdef" };
+
+        TEST_WIDE_STRING_SLICE_EQUAL(L"", slice);
+    }
+}
+
+static void test_ws_against_short_string(void)
+{
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 1, L"abcdef" };
+
+        TEST_WIDE_STRING_SLICE_EQUAL(L"a", slice);
+    }
+
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 3, L"abcdef" };
+
+        TEST_WIDE_STRING_SLICE_EQUAL(L"abc", slice);
+    }
+
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 6, L"abcdef" };
+
+        TEST_WIDE_STRING_SLICE_EQUAL(L"abcdef", slice);
+    }
+}
+
 
 /* ///////////////////////////// end of file //////////////////////////// */
-
