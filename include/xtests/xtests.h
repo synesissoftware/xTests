@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 10th October 2026
+ * Updated: 11th October 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -3435,7 +3435,7 @@ xtests_testWideStringsN(
 ,   char const*         expr
 ,   wchar_t const*      expected
 ,   wchar_t const*      actual
-,   int                 n /* exact if +ve; limit if -ve */
+,   ptrdiff_t           n /* exact if +ve; limit if -ve */
 ,   xtests_comparison_t comp
 );
 # ifndef _XTESTS_NO_CPP_API

@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 20th September 2026
+ * Updated: 11th October 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -1731,7 +1731,7 @@ xtests_testWideStringsN(
 ,   char const*         expr
 ,   wchar_t const*      expected
 ,   wchar_t const*      actual
-,   int                 n /* exact if +ve; limit if -ve */
+,   ptrdiff_t           n /* exact if +ve; limit if -ve */
 ,   xtests_comparison_t comp
 )
 {
@@ -1744,7 +1744,7 @@ xtests_testWideStringsN(
     ,   actual
     ,   n
     ,   (0 != n && NULL != expected) ? ::wcslen(expected) : 0u
-    ,   (0 != n && NULL != actual) ? xtests_wcsnlen_(actual, static_cast<size_t>(::abs(n))) : 0u
+    ,   (0 != n && NULL != actual) ? xtests_wcsnlen_(actual, static_cast<size_t>((n < 0) ? -n : n)) : 0u
     ,   comp);
 }
 

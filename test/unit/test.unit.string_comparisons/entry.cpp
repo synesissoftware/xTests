@@ -4,7 +4,7 @@
  * Purpose: Component-tests for `xtests::cpp::util::temp_file`.
  *
  * Created: 21st October 2024
- * Updated: 9th August 2026
+ * Updated: 11th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -30,6 +30,7 @@
 #include <string>
 
 /* Standard C header files */
+#include <stddef.h>
 #include <stdlib.h>
 
 /* /////////////////////////////////////
@@ -51,6 +52,7 @@ namespace
     static void TEST_MS_COMPARE_TO_N_WITH_std_string();
     static void TEST_WS_COMPARE_TO_N();
     static void TEST_WS_COMPARE_TO_N_WITH_std_wstring();
+    static void TEST_WS_COMPARE_TO_N_WITH_ptrdiff_t();
 
     static void test_Pantheios_broken_example();
 } // anonymous namespace
@@ -73,6 +75,7 @@ int main(int argc, char* argv[])
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WITH_std_string);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WITH_std_wstring);
+        XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WITH_ptrdiff_t);
 
         XTESTS_RUN_CASE(test_Pantheios_broken_example);
 
@@ -370,6 +373,50 @@ static void TEST_WS_COMPARE_TO_N_WITH_std_wstring()
         TEST_WS_NE_N(s2, s3, -4);
         TEST_WS_EQ_N_APPROX(s2, s3, -4);
     }
+}
+
+static void TEST_WS_COMPARE_TO_N_WITH_ptrdiff_t()
+{
+    wchar_t const*  expected    =   L"abc";
+    wchar_t const*  actual      =   L"abcdef";
+    ptrdiff_t       n_exact     =   3;
+    ptrdiff_t       n_limit     =   -4;
+    ptrdiff_t       n_too_long  =   4;
+
+    /* Prefer the C API overload of xtests_testWideStringsN (wchar_t const*,
+     * ptrdiff_t) over the C++ template when both arguments are pointers and
+     * n is an explicit ptrdiff_t.
+     */
+    TEST_WS_EQ_N(expected, actual, n_exact);
+    TEST_WS_EQ_N(expected, actual, n_limit);
+    TEST_WS_NE_N(expected, actual, n_too_long);
+
+    TEST_INT_EQ(
+        1
+    ,   XTESTS_NS_C_QUAL(xtests_testWideStringsN)(
+            __FILE__
+        ,   __LINE__
+        ,   XTESTS_GET_FUNCTION_()
+        ,   "xtests_testWideStringsN(expected, actual, n_exact, Equal)"
+        ,   expected
+        ,   actual
+        ,   n_exact
+        ,   XTESTS_NS_C_QUAL(xtestsComparisonEqual)
+        )
+    );
+    TEST_INT_EQ(
+        1
+    ,   XTESTS_NS_C_QUAL(xtests_testWideStringsN)(
+            __FILE__
+        ,   __LINE__
+        ,   XTESTS_GET_FUNCTION_()
+        ,   "xtests_testWideStringsN(expected, actual, n_limit, Equal)"
+        ,   expected
+        ,   actual
+        ,   n_limit
+        ,   XTESTS_NS_C_QUAL(xtestsComparisonEqual)
+        )
+    );
 }
 
 static void test_Pantheios_broken_example()
