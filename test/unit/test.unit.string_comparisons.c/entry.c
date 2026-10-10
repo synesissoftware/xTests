@@ -38,7 +38,9 @@
  */
 
 static void TEST_MS_COMPARE_TO_N(void);
+static void TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N(void);
 static void TEST_WS_COMPARE_TO_N(void);
+static void TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N(void);
 static void TEST_WS_COMPARE_TO_N_WITH_ptrdiff_t(void);
 
 
@@ -56,7 +58,9 @@ int main(int argc, char* argv[])
     if (XTESTS_START_RUNNER("test.unit.string_comparisons.c", verbosity))
     {
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N);
+        XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N);
+        XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WITH_ptrdiff_t);
 
         XTESTS_PRINT_RESULTS();
@@ -141,6 +145,56 @@ static void TEST_MS_COMPARE_TO_N(void)
     }
 }
 
+static void TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N(void)
+{
+    /* Expected is longer than |n|. The C API must bound cchExpected to
+     * |n| (as the C++ c_str_len_n_* path does), so exact and limit
+     * comparisons that agree on the first |n| characters succeed.
+     */
+    char const* expected    =   "abcdef";
+    char const* actual_eq   =   "abcXYZ";
+    char const* actual_ne   =   "abWXYZ";
+
+    {
+        TEST_MS_EQ_N(expected, actual_eq, 3);
+        TEST_MS_EQ_N(expected, actual_eq, -3);
+        TEST_MS_NE_N(expected, actual_eq, 4);
+        TEST_MS_NE_N(expected, actual_eq, -4);
+    }
+
+    {
+        TEST_MS_NE_N(expected, actual_ne, 3);
+        TEST_MS_NE_N(expected, actual_ne, -3);
+    }
+
+    TEST_INT_EQ(
+        1
+    ,   XTESTS_NS_C_QUAL(xtests_testMultibyteStringsN)(
+            __FILE__
+        ,   __LINE__
+        ,   XTESTS_GET_FUNCTION_()
+        ,   "xtests_testMultibyteStringsN(expected, actual_eq, 3, Equal)"
+        ,   expected
+        ,   actual_eq
+        ,   3
+        ,   XTESTS_NS_C_QUAL(xtestsComparisonEqual)
+        )
+    );
+    TEST_INT_EQ(
+        1
+    ,   XTESTS_NS_C_QUAL(xtests_testMultibyteStringsN)(
+            __FILE__
+        ,   __LINE__
+        ,   XTESTS_GET_FUNCTION_()
+        ,   "xtests_testMultibyteStringsN(expected, actual_eq, -3, Equal)"
+        ,   expected
+        ,   actual_eq
+        ,   -3
+        ,   XTESTS_NS_C_QUAL(xtestsComparisonEqual)
+        )
+    );
+}
+
 static void TEST_WS_COMPARE_TO_N(void)
 {
     wchar_t s1[]    =   L"abc";
@@ -209,6 +263,54 @@ static void TEST_WS_COMPARE_TO_N(void)
         TEST_WS_NE_N(s2, s3, -4);
         TEST_WS_EQ_N_APPROX(s2, s3, -4);
     }
+}
+
+static void TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N(void)
+{
+    /* Wide counterpart of TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N.
+     */
+    wchar_t const*  expected    =   L"abcdef";
+    wchar_t const*  actual_eq   =   L"abcXYZ";
+    wchar_t const*  actual_ne   =   L"abWXYZ";
+
+    {
+        TEST_WS_EQ_N(expected, actual_eq, 3);
+        TEST_WS_EQ_N(expected, actual_eq, -3);
+        TEST_WS_NE_N(expected, actual_eq, 4);
+        TEST_WS_NE_N(expected, actual_eq, -4);
+    }
+
+    {
+        TEST_WS_NE_N(expected, actual_ne, 3);
+        TEST_WS_NE_N(expected, actual_ne, -3);
+    }
+
+    TEST_INT_EQ(
+        1
+    ,   XTESTS_NS_C_QUAL(xtests_testWideStringsN)(
+            __FILE__
+        ,   __LINE__
+        ,   XTESTS_GET_FUNCTION_()
+        ,   "xtests_testWideStringsN(expected, actual_eq, 3, Equal)"
+        ,   expected
+        ,   actual_eq
+        ,   3
+        ,   XTESTS_NS_C_QUAL(xtestsComparisonEqual)
+        )
+    );
+    TEST_INT_EQ(
+        1
+    ,   XTESTS_NS_C_QUAL(xtests_testWideStringsN)(
+            __FILE__
+        ,   __LINE__
+        ,   XTESTS_GET_FUNCTION_()
+        ,   "xtests_testWideStringsN(expected, actual_eq, -3, Equal)"
+        ,   expected
+        ,   actual_eq
+        ,   -3
+        ,   XTESTS_NS_C_QUAL(xtestsComparisonEqual)
+        )
+    );
 }
 
 static void TEST_WS_COMPARE_TO_N_WITH_ptrdiff_t(void)

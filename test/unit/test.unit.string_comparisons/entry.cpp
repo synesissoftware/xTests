@@ -49,8 +49,10 @@ namespace
 {
 
     static void TEST_MS_COMPARE_TO_N();
+    static void TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N();
     static void TEST_MS_COMPARE_TO_N_WITH_std_string();
     static void TEST_WS_COMPARE_TO_N();
+    static void TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N();
     static void TEST_WS_COMPARE_TO_N_WITH_std_wstring();
     static void TEST_WS_COMPARE_TO_N_WITH_ptrdiff_t();
 
@@ -72,8 +74,10 @@ int main(int argc, char* argv[])
     if (XTESTS_START_RUNNER("test.test.unit.string_comparisons", verbosity))
     {
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N);
+        XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N);
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WITH_std_string);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N);
+        XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WITH_std_wstring);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WITH_ptrdiff_t);
 
@@ -163,6 +167,36 @@ static void TEST_MS_COMPARE_TO_N()
         TEST_MS_NE_N(s2, s3, -4);
         TEST_MS_EQ_N_APPROX(s2, s3, -4);
     }
+}
+
+static void TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N()
+{
+    /* Expected is longer than |n|. Both the C API and the C++ template
+     * path must bound cchExpected to |n|.
+     */
+    char const* expected    =   "abcdef";
+    char const* actual_eq   =   "abcXYZ";
+    char const* actual_ne   =   "abWXYZ";
+
+    {
+        TEST_MS_EQ_N(expected, actual_eq, 3);
+        TEST_MS_EQ_N(expected, actual_eq, -3);
+        TEST_MS_NE_N(expected, actual_eq, 4);
+        TEST_MS_NE_N(expected, actual_eq, -4);
+    }
+
+    {
+        TEST_MS_NE_N(expected, actual_ne, 3);
+        TEST_MS_NE_N(expected, actual_ne, -3);
+    }
+
+    std::string const   expected_s(expected);
+    std::string const   actual_eq_s(actual_eq);
+
+    TEST_MS_EQ_N(expected_s, actual_eq_s, 3);
+    TEST_MS_EQ_N(expected_s, actual_eq_s, -3);
+    TEST_MS_NE_N(expected_s, actual_eq_s, 4);
+    TEST_MS_NE_N(expected_s, actual_eq_s, -4);
 }
 
 static void TEST_MS_COMPARE_TO_N_WITH_std_string()
@@ -303,6 +337,33 @@ static void TEST_WS_COMPARE_TO_N()
         TEST_WS_NE_N(s2, s3, -4);
         TEST_WS_EQ_N_APPROX(s2, s3, -4);
     }
+}
+
+static void TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N()
+{
+    wchar_t const*  expected    =   L"abcdef";
+    wchar_t const*  actual_eq   =   L"abcXYZ";
+    wchar_t const*  actual_ne   =   L"abWXYZ";
+
+    {
+        TEST_WS_EQ_N(expected, actual_eq, 3);
+        TEST_WS_EQ_N(expected, actual_eq, -3);
+        TEST_WS_NE_N(expected, actual_eq, 4);
+        TEST_WS_NE_N(expected, actual_eq, -4);
+    }
+
+    {
+        TEST_WS_NE_N(expected, actual_ne, 3);
+        TEST_WS_NE_N(expected, actual_ne, -3);
+    }
+
+    std::wstring const  expected_s(expected);
+    std::wstring const  actual_eq_s(actual_eq);
+
+    TEST_WS_EQ_N(expected_s, actual_eq_s, 3);
+    TEST_WS_EQ_N(expected_s, actual_eq_s, -3);
+    TEST_WS_NE_N(expected_s, actual_eq_s, 4);
+    TEST_WS_NE_N(expected_s, actual_eq_s, -4);
 }
 
 static void TEST_WS_COMPARE_TO_N_WITH_std_wstring()
