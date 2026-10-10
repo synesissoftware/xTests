@@ -90,7 +90,9 @@ Catalog of the public **xTests** API. Each construct has a short description and
   - [`XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN(expected, actual)`](#xtests_test_multibyte_string_not_containexpected-actual)
   - [`XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN_APPROX(expected, actual)`](#xtests_test_multibyte_string_not_contain_approxexpected-actual)
   - [`XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL(expected, actual)`](#xtests_test_multibyte_string_slice_equalexpected-actual)
+  - [`XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL_APPROX(expected, actual)`](#xtests_test_multibyte_string_slice_equal_approxexpected-actual)
   - [`XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL(expected, actual)`](#xtests_test_multibyte_string_slice_not_equalexpected-actual)
+  - [`XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL_APPROX(expected, actual)`](#xtests_test_multibyte_string_slice_not_equal_approxexpected-actual)
   - [`XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)`](#xtests_test_multibyte_string_matchespattern-value)
   - [`XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH(pattern, value)`](#xtests_test_multibyte_string_does_not_matchpattern-value)
 - [Wide string assertion macros](#wide-string-assertion-macros)
@@ -107,7 +109,9 @@ Catalog of the public **xTests** API. Each construct has a short description and
   - [`XTESTS_TEST_WIDE_STRING_NOT_CONTAIN(expected, actual)`](#xtests_test_wide_string_not_containexpected-actual)
   - [`XTESTS_TEST_WIDE_STRING_NOT_CONTAIN_APPROX(expected, actual)`](#xtests_test_wide_string_not_contain_approxexpected-actual)
   - [`XTESTS_TEST_WIDE_STRING_SLICE_EQUAL(expected, actual)`](#xtests_test_wide_string_slice_equalexpected-actual)
+  - [`XTESTS_TEST_WIDE_STRING_SLICE_EQUAL_APPROX(expected, actual)`](#xtests_test_wide_string_slice_equal_approxexpected-actual)
   - [`XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL(expected, actual)`](#xtests_test_wide_string_slice_not_equalexpected-actual)
+  - [`XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL_APPROX(expected, actual)`](#xtests_test_wide_string_slice_not_equal_approxexpected-actual)
 - [Boolean assertion macros](#boolean-assertion-macros)
   - [`XTESTS_TEST_BOOLEAN_EQUAL(expected, actual)`](#xtests_test_boolean_equalexpected-actual)
   - [`XTESTS_TEST_BOOLEAN_NOT_EQUAL(expected, actual)`](#xtests_test_boolean_not_equalexpected-actual)
@@ -892,6 +896,16 @@ XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL("hello", slice);
 ```
 
 
+### `XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL_APPROX(expected, actual)`
+
+Same as `XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL`, ignoring case.
+
+```c
+struct { size_t len; char const* ptr; } slice = { 5, "Hello, world" };
+XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL_APPROX("HELLO", slice);
+```
+
+
 ### `XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL(expected, actual)`
 
 Succeeds when the slice differs in length and/or contents from **expected**.
@@ -900,6 +914,16 @@ Succeeds when the slice differs in length and/or contents from **expected**.
 struct { size_t len; char const* ptr; } slice = { 5, "hello, world" };
 XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL("world", slice);
 XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL("hello!", slice);
+```
+
+
+### `XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL_APPROX(expected, actual)`
+
+Succeeds when the slice differs in length and/or contents from **expected**, ignoring case.
+
+```c
+struct { size_t len; char const* ptr; } slice = { 5, "hello, world" };
+XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL_APPROX("WORLD", slice);
 ```
 
 
@@ -1018,12 +1042,28 @@ XTESTS_TEST_WIDE_STRING_SLICE_EQUAL(L"hello", slice);
 ```
 
 
+### `XTESTS_TEST_WIDE_STRING_SLICE_EQUAL_APPROX(expected, actual)`
+
+```c
+struct { size_t len; wchar_t const* ptr; } slice = { 5, L"Hello, world" };
+XTESTS_TEST_WIDE_STRING_SLICE_EQUAL_APPROX(L"HELLO", slice);
+```
+
+
 ### `XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL(expected, actual)`
 
 ```c
 struct { size_t len; wchar_t const* ptr; } slice = { 5, L"hello, world" };
 XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL(L"world", slice);
 XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL(L"hello!", slice);
+```
+
+
+### `XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL_APPROX(expected, actual)`
+
+```c
+struct { size_t len; wchar_t const* ptr; } slice = { 5, L"hello, world" };
+XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL_APPROX(L"WORLD", slice);
 ```
 
 
