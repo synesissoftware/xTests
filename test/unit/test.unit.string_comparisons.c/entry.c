@@ -39,8 +39,10 @@
 
 static void TEST_MS_COMPARE_TO_N(void);
 static void TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N(void);
+static void TEST_MS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS(void);
 static void TEST_WS_COMPARE_TO_N(void);
 static void TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N(void);
+static void TEST_WS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS(void);
 static void TEST_WS_COMPARE_TO_N_WITH_ptrdiff_t(void);
 
 
@@ -59,8 +61,10 @@ int main(int argc, char* argv[])
     {
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N);
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N);
+        XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N);
+        XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WITH_ptrdiff_t);
 
         XTESTS_PRINT_RESULTS();
@@ -195,6 +199,56 @@ static void TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N(void)
     );
 }
 
+static void TEST_MS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS(void)
+{
+    /* Neither buffer is NUL-terminated. |n| equals the readable extent, so
+     * the C API must not call strlen()/walk past the arrays when obtaining
+     * cchExpected / cchActual.
+     */
+    char    expected_eq[]   =   { 'a', 'b', 'c', 'd' };
+    char    actual_eq[]     =   { 'a', 'b', 'c', 'd' };
+    char    actual_ne[]     =   { 'a', 'b', 'c', 'X' };
+    char    expected_approx[]   =   { 'A', 'b', 'C', 'd' };
+    char    actual_approx[]     =   { 'a', 'B', 'c', 'D' };
+    ptrdiff_t const n_exact =   4;
+    ptrdiff_t const n_limit =   -4;
+
+    TEST_MS_EQ_N(expected_eq, actual_eq, n_exact);
+    TEST_MS_EQ_N(expected_eq, actual_eq, n_limit);
+    TEST_MS_NE_N(expected_eq, actual_ne, n_exact);
+    TEST_MS_NE_N(expected_eq, actual_ne, n_limit);
+
+    TEST_MS_EQ_N_APPROX(expected_approx, actual_approx, n_exact);
+    TEST_MS_EQ_N_APPROX(expected_approx, actual_approx, n_limit);
+
+    TEST_INT_EQ(
+        1
+    ,   XTESTS_NS_C_QUAL(xtests_testMultibyteStringsN)(
+            __FILE__
+        ,   __LINE__
+        ,   XTESTS_GET_FUNCTION_()
+        ,   "xtests_testMultibyteStringsN(non-NUL, n_exact, Equal)"
+        ,   expected_eq
+        ,   actual_eq
+        ,   n_exact
+        ,   XTESTS_NS_C_QUAL(xtestsComparisonEqual)
+        )
+    );
+    TEST_INT_EQ(
+        1
+    ,   XTESTS_NS_C_QUAL(xtests_testMultibyteStringsN)(
+            __FILE__
+        ,   __LINE__
+        ,   XTESTS_GET_FUNCTION_()
+        ,   "xtests_testMultibyteStringsN(non-NUL, n_limit, Equal)"
+        ,   expected_eq
+        ,   actual_eq
+        ,   n_limit
+        ,   XTESTS_NS_C_QUAL(xtestsComparisonEqual)
+        )
+    );
+}
+
 static void TEST_WS_COMPARE_TO_N(void)
 {
     wchar_t s1[]    =   L"abc";
@@ -308,6 +362,55 @@ static void TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N(void)
         ,   expected
         ,   actual_eq
         ,   -3
+        ,   XTESTS_NS_C_QUAL(xtestsComparisonEqual)
+        )
+    );
+}
+
+static void TEST_WS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS(void)
+{
+    /* Wide counterpart of
+     * TEST_MS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS.
+     */
+    wchar_t expected_eq[]   =   { L'a', L'b', L'c', L'd' };
+    wchar_t actual_eq[]     =   { L'a', L'b', L'c', L'd' };
+    wchar_t actual_ne[]     =   { L'a', L'b', L'c', L'X' };
+    wchar_t expected_approx[]   =   { L'A', L'b', L'C', L'd' };
+    wchar_t actual_approx[]     =   { L'a', L'B', L'c', L'D' };
+    ptrdiff_t const n_exact =   4;
+    ptrdiff_t const n_limit =   -4;
+
+    TEST_WS_EQ_N(expected_eq, actual_eq, n_exact);
+    TEST_WS_EQ_N(expected_eq, actual_eq, n_limit);
+    TEST_WS_NE_N(expected_eq, actual_ne, n_exact);
+    TEST_WS_NE_N(expected_eq, actual_ne, n_limit);
+
+    TEST_WS_EQ_N_APPROX(expected_approx, actual_approx, n_exact);
+    TEST_WS_EQ_N_APPROX(expected_approx, actual_approx, n_limit);
+
+    TEST_INT_EQ(
+        1
+    ,   XTESTS_NS_C_QUAL(xtests_testWideStringsN)(
+            __FILE__
+        ,   __LINE__
+        ,   XTESTS_GET_FUNCTION_()
+        ,   "xtests_testWideStringsN(non-NUL, n_exact, Equal)"
+        ,   expected_eq
+        ,   actual_eq
+        ,   n_exact
+        ,   XTESTS_NS_C_QUAL(xtestsComparisonEqual)
+        )
+    );
+    TEST_INT_EQ(
+        1
+    ,   XTESTS_NS_C_QUAL(xtests_testWideStringsN)(
+            __FILE__
+        ,   __LINE__
+        ,   XTESTS_GET_FUNCTION_()
+        ,   "xtests_testWideStringsN(non-NUL, n_limit, Equal)"
+        ,   expected_eq
+        ,   actual_eq
+        ,   n_limit
         ,   XTESTS_NS_C_QUAL(xtestsComparisonEqual)
         )
     );

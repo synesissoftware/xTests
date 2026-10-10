@@ -50,9 +50,11 @@ namespace
 
     static void TEST_MS_COMPARE_TO_N();
     static void TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N();
+    static void TEST_MS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS();
     static void TEST_MS_COMPARE_TO_N_WITH_std_string();
     static void TEST_WS_COMPARE_TO_N();
     static void TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N();
+    static void TEST_WS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS();
     static void TEST_WS_COMPARE_TO_N_WITH_std_wstring();
     static void TEST_WS_COMPARE_TO_N_WITH_ptrdiff_t();
 
