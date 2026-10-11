@@ -40,6 +40,10 @@ id.
   - [RX — Parallel / external initiatives](#rx--parallel--external-initiatives)
 - [Branch absorption](#branch-absorption)
 - [Blast radius](#blast-radius)
+- [Task status](#task-status)
+  - [Programme hygiene](#programme-hygiene)
+  - [Stage rollup](#stage-rollup)
+  - [All tasks](#all-tasks)
 - [How to use this document](#how-to-use-this-document)
 
 
@@ -62,6 +66,7 @@ progress status.
 | Review 4 — transcript-derived modernisation summary | Multi-chat distillate |
 | Review 5 — machine transfer brief (StringsN / 0.27) | Active branch + boilerplate |
 | Operator decision answers (incl. verbosity, path-classify, STLSoft preference) | Locked decisions |
+| Operator naming lock (11 Oct 2026): macros / types / functions families | **D12** |
 | Existing [**TODO.md**](../TODO.md) / [**KNOWN_ISSUES.md**](../KNOWN_ISSUES.md) | Pre-existing backlog |
 
 
@@ -117,6 +122,7 @@ Retire apologetic README voice. FAQ Catch2 advice remains guidance, not a stall.
 | D9 | Verbosity | Detailed review (and possible modification) of what command-line verbosities imply; programs also observe **environment variables**. |
 | D10 | Path classification | Use **STLSoft** path-classify C functions (once fixed/extended). |
 | D11 | C command-line parsing | If the implementation moves to C, prefer a **STLSoft** C string-slice flag/option/value layer over a private parser in **xTests**. |
+| D12 | Identifier families (1.x) | **Macros** `XTESTS_*`; **types** `xTests_*`; **functions** `xTests_*`. Legacy `xtests_*` (and other 0.x dual spellings) remain as **aliases** (D1). Product brand / CMake / include path / C++ namespace `xtests` unchanged. |
 
 
 ## Compatibility policy
@@ -433,14 +439,42 @@ Fix early; largely independent of redesign. Where known, cites review-1 loci.
 
 #### R5.2 — Naming normalisation
 
-* Normalise `xTests` / `xtests` / `XTESTS_` / `xTests_*` soup in 1.x with
-  **aliases for 0.x** (D1).
+* **Locked (D12):** three public identifier families for 1.x:
+  * **Macros** — `XTESTS_*` (already the dominant form);
+  * **Types** — `xTests_*` (e.g. `xTests_Reporter_t`, `xTests_verbosity_t`,
+    `xTests_comparison_t`, `xTests_runner_results_t`);
+  * **Functions** — `xTests_*` (e.g. `xTests_startRunner`,
+    `xTests_hasRequiredConditionFailed`).
+* **Out of scope for rename:** product brand **xTests**; include path
+  `xtests/…`; C++ namespaces `xtests` / `xtests::c` / `xtests::cpp`; CMake
+  project / exported target namespace `xTests::…`.
+* **Enumerator constants** in public C enums follow the same `xTests_*`
+  family as types/functions (today mostly `xtestsComparison*`); provide
+  `xtests*` aliases (D1).
+* **Implementation:** rename primaries to the D12 forms; keep every 0.x
+  spelling as a typedef / `#define` / using-alias so the SIS corpus need not
+  change in lockstep.
+* **Terse API** (`TEST_INT_EQ`, …) remains an opt-in short layer — not a
+  competing public family.
 
 
 #### R5.3 — Dual spellings
 
-* e.g. `XTESTS_COMMANDLINE_PARSEVERBOSITY` vs `…_PARSE_VERBOSITY`;
-  `xTests_*` vs `xtests_*` — pick canonical forms; alias the rest.
+* Apply D12: where both `xTests_*` and `xtests_*` exist (or will exist after
+  rename), **`xTests_*` is canonical**; `xtests_*` is the permanent
+  compatibility alias (D1).
+* Known macro duals (canonical → keep alias):
+  * `XTESTS_COMMANDLINE_PARSE_VERBOSITY` ← `XTESTS_COMMANDLINE_PARSEVERBOSITY`
+    (corpus heavily uses the packed form — alias must never be removed);
+  * `XTESTS_COMMANDLINE_PARSE_VERBOSITY_WITH_DEFAULT` ←
+    `XTESTS_COMMANDLINE_PARSEVERBOSITY_DEFAULT`;
+  * `XTESTS_TEST_MULTIBYTE_STRING_EQUAL` ←
+    `XTESTS_TEST_MULTIBYTE_STRINGS_EQUAL`.
+* Function / type duals introduced by R5.2: every former `xtests_*` primary
+  becomes `#define` / `typedef` to the matching `xTests_*` primary (or
+  equivalent nonmutating alias).
+* Document the map in **COMPONENTS.md** (or a dedicated naming section) when
+  the aliases land.
 
 
 #### R5.4 — Install vs internal headers
@@ -826,12 +860,156 @@ FastFormat, CLASP, collect, cstring, recls, Diagnosticism, libpath, UNIXem,
 …). Any redesign must be additive or shimmed at the macro level (D1).
 
 
+## Task status
+
+Full catalogue item matrix. Keep in sync with the umbrella
+[**REVAMP-PROGRAMME.md**](../../.management/strategy/xTests/REVAMP-PROGRAMME.md)
+(*Progress snapshot* / *Task status*).
+
+Status legend: ✅ done · 🟡 in progress · ⬜ not started · ⏸️ postponed · ❌ blocked.
+
+Completed catalogue items use the white-on-green tick (✅). Design locks (e.g.
+**D12**) are tracked in the decision log and in *Programme hygiene* — they do
+not mark the corresponding `R*` implementation row ✅ until the work lands.
+
+
+### Programme hygiene
+
+| Id  | Summary                                             | Stage | Status |
+| --- | --------------------------------------------------- | ----- | ------ |
+| DOC | Catalogue + programme baseline written              | —     | ✅      |
+| D12 | Identifier families locked (macros/types/functions) | —     | ✅      |
+
+
+### Stage rollup
+
+Rollup counts each item under its **primary** (first) stage when the Stage
+column lists more than one (e.g. `A/H` → counted under **A**).
+
+
+| Stage | Name                                | Done     | Status |
+| ----- | ----------------------------------- | -------- | ------ |
+| 0     | Absorb near-term branches           | 0/4      | ⬜      |
+| A     | Trustworthy baseline                | 0/13     | ⬜      |
+| B     | Messages and assertion DX           | 0/11     | ⬜      |
+| C     | Runner architecture                 | 0/12     | ⬜      |
+| D     | CLI, verbosity, machine-readable    | 0/11     | ⬜      |
+| E     | Colour and woad                     | 0/5      | ⬜      |
+| F     | Fixtures and context                | 0/2      | ⬜      |
+| G     | C-ward core and STLSoft consumption | 0/11     | ⬜      |
+| H     | Self-test maturity                  | 0/4      | ⬜      |
+| I     | Docs, naming, packaging             | 0/14     | ⬜      |
+| J     | Flexibility and competitive scan    | 0/3      | ⬜      |
+| ext   | External / parallel                 | 0/3      | ⬜      |
+
+
+### All tasks
+
+| Id    | Summary                                               | Stage | Status |
+| ----- | ----------------------------------------------------- | ----- | ------ |
+| R0.1  | StringsN / slice work (`fix-TEST_MS_EQ_N`)            | 0     | ⬜      |
+| R0.2  | Null-pointer helpers (`mwsis/null-ptr`)               | 0     | ⬜      |
+| R0.3  | Runner name from `__FILE__`                           | 0     | ⬜      |
+| R0.4  | Boilerplate / modernisation leftovers                 | 0     | ⬜      |
+| R1.1  | Setup failure yields green SUCCESS                    | A     | ⬜      |
+| R1.2  | Stuck runner after teardown failure / setup exception | A     | ⬜      |
+| R1.3  | `XTESTS_END_RUNNER()` discards failure                | A     | ⬜      |
+| R1.4  | Messages treated as printf formats                    | A     | ⬜      |
+| R1.5  | Summary swaps expected vs unexpected exception counts | A     | ⬜      |
+| R1.6  | Mislabelled `…_ANY_NOT_IN_RANGE` message              | A     | ⬜      |
+| R1.7  | Floating-point comparison contract                    | A/B   | ⬜      |
+| R1.8  | Library calls `exit()` in abend and `--help`          | A     | ⬜      |
+| R1.9  | Case invoke catches `std::exception` but not `...`    | A     | ⬜      |
+| R1.10 | Case-name uniqueness via `std::map`                   | C/J   | ⬜      |
+| R2.1  | Remove function-local static default reporter         | A     | ⬜      |
+| R2.2  | Extract default reporter into its own TU              | A     | ⬜      |
+| R2.3  | C-implementable reporter                              | C     | ⬜      |
+| R2.4  | Visitor / custom outputs                              | C     | ⬜      |
+| R3.1  | C expected+actual parity (BDUT-like)                  | B     | ⬜      |
+| R3.2  | Expression text in failures                           | B     | ⬜      |
+| R3.3  | Wording and narrow/wide consistency                   | B     | ⬜      |
+| R3.4  | Paths in failure output (STLSoft path-classify)       | B     | ⬜      |
+| R3.5  | Wide / `%C` / Windows parity                          | B     | ⬜      |
+| R3.6  | Soften integral literal vs `ss_uint32_t` comparisons  | B     | ⬜      |
+| R3.7  | Broader `_Generic` selection                          | B     | ⬜      |
+| R3.8  | Internal `%zu` translation                            | B     | ⬜      |
+| R3.9  | `uint32_t` / fixed-width type policy                  | B     | ⬜      |
+| R3.10 | Terse-api dead alias                                  | B     | ⬜      |
+| R3.11 | Pantheios char-type-generic string assertion gap      | B     | ⬜      |
+| R4.1  | No core global runner state                           | C     | ⬜      |
+| R4.2  | Explicit runner handle                                | C     | ⬜      |
+| R4.3  | Multiple concurrent runners (inter-runner)            | C     | ⬜      |
+| R4.4  | Intra-runner concurrency out of scope for 1.x         | C     | ⬜      |
+| R4.5  | Config struct replaces combinatorial start macros     | C     | ⬜      |
+| R4.6  | Source-location struct                                | C     | ⬜      |
+| R4.7  | Data-driven / parametrised cases (API TBD)            | C/J   | ⬜      |
+| R4.8  | Parallel-run assists for client libraries             | C     | ⬜      |
+| R5.1  | Segregate `include/xtests/xtests.h`                   | C/G   | ⬜      |
+| R5.2  | Naming normalisation (D12)                            | I     | ⬜      |
+| R5.3  | Dual spellings (aliases for 0.x)                      | I     | ⬜      |
+| R5.4  | Install vs internal headers                           | I     | ⬜      |
+| R6.1  | Move implementation toward C                          | G     | ⬜      |
+| R6.2  | C client STLSoft opt-out                              | G     | ⬜      |
+| R6.3  | Prefer STLSoft string facilities in src/              | G     | ⬜      |
+| R6.4  | STLSoft C command-line parsing layer                  | D/G   | ⬜      |
+| R6.5  | Use STLSoft path-classify C functions                 | G     | ⬜      |
+| R6.6  | Enhance C logic with modern language facilities       | G     | ⬜      |
+| R6.7  | shwild auto-enable                                    | G     | ⬜      |
+| R6.8  | Avoid `-Werror` on exported library target            | G     | ⬜      |
+| R7.1  | `--list`                                              | D     | ⬜      |
+| R7.2  | `--filter` / named case selection                     | D     | ⬜      |
+| R7.3  | Grouping and selection features                       | D     | ⬜      |
+| R7.4  | Simple `--timings`                                    | D     | ⬜      |
+| R7.5  | `--leaks` (as feasible)                               | D     | ⬜      |
+| R7.6  | Verbosity semantics review                            | D     | ⬜      |
+| R7.7  | Environment variables for verbosity (and related)     | D     | ⬜      |
+| R7.8  | Deduplicate `--help`                                  | D     | ⬜      |
+| R7.9  | Machine-readable output (JSON/TSV)                    | D     | ⬜      |
+| R7.10 | ForceColour / NoColour runner flags                   | D     | ⬜      |
+| R8.1  | Colour private to default reporter                    | E     | ⬜      |
+| R8.2  | Colour Phase 0 (before woad dependency)               | E     | ⬜      |
+| R8.3  | Colour Phase 1 (link woad PRIVATE)                    | E     | ⬜      |
+| R8.4  | Later colour work                                     | E     | ⬜      |
+| R8.5  | Do not block colour on the full C rewrite             | E     | ⬜      |
+| R9.1  | Execution context object                              | F     | ⬜      |
+| R9.2  | Fail-only case `FILE*` buffer                         | F     | ⬜      |
+| R10.1 | Invert quality ownership                              | H     | ⬜      |
+| R10.2 | Automated failure-path proof                          | A/H   | ⬜      |
+| R10.3 | Golden / captured failure-output suites               | H     | ⬜      |
+| R10.4 | Custom runners for self-test                          | H     | ⬜      |
+| R10.5 | Short-term BDUT                                       | H     | ⬜      |
+| R10.6 | Self-test hygiene                                     | A/H   | ⬜      |
+| R11.1 | xTests xTras packaging                                | G/I   | ⬜      |
+| R11.2 | Header independence goal                              | G/I   | ⬜      |
+| R11.3 | Install as first-class public surface                 | G/I   | ⬜      |
+| R11.4 | Example hygiene                                       | G/I   | ⬜      |
+| R12.1 | EXAMPLES.md                                           | I     | ⬜      |
+| R12.2 | README voice                                          | I     | ⬜      |
+| R12.3 | COMPONENTS.md + terse map                             | I     | ⬜      |
+| R12.4 | NEWS interdependency policy                           | I     | ⬜      |
+| R12.5 | Doxygen / online API                                  | I     | ⬜      |
+| R13.1 | Language-standard CI matrix                           | I     | ⬜      |
+| R13.2 | CI push-branch set                                    | I     | ⬜      |
+| R13.3 | STLSoft bootstrap semantics                           | I     | ⬜      |
+| R13.4 | Version / CHANGES / header drift                      | I     | ⬜      |
+| R13.5 | Retire stale CMake aliases                            | I     | ⬜      |
+| R13.6 | install-sis-deps gold (incl. woad)                    | I     | ⬜      |
+| R14.1 | Compile-time `bool` enforcement (C++)                 | J     | ⬜      |
+| R14.2 | Flexibility extension mechanism (investigation)       | J     | ⬜      |
+| R15.1 | Survey popular C unit-test libraries                  | J     | ⬜      |
+| RX.1  | SAS / MinGW two-phase lookup (separate initiative)    | ext   | ⬜      |
+| RX.2  | STLSoft path-classify readiness                       | ext   | ⬜      |
+| RX.3  | STLSoft C cmdline slice parser                        | ext   | ⬜      |
+
+
 ## How to use this document
 
 * Add or split items here when scope grows; give each a stable `R*` id.
 * Mirror short checklist lines in [**TODO.md**](../TODO.md).
-* Update stage status only in the umbrella programme document unless an item
-  is completed and struck in **TODO.md**.
+* When an item completes, set its **Status** to ✅ in *Task status* here **and**
+  in the umbrella programme table; strike the matching [**TODO.md**](../TODO.md)
+  checklist line per **markdown-standards**.
+* Keep stage rollup counts consistent with the task matrix.
 * Do not treat chat transcripts as superseding this file after the Updated
   date; amend this file instead.
 
