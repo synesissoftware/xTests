@@ -4,7 +4,7 @@
  * Purpose: Component-tests for `xtests::cpp::util::temp_file`.
  *
  * Created: 21st October 2024
- * Updated: 9th August 2026
+ * Updated: 11th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -30,6 +30,7 @@
 #include <string>
 
 /* Standard C header files */
+#include <stddef.h>
 #include <stdlib.h>
 
 /* /////////////////////////////////////
@@ -48,9 +49,14 @@ namespace
 {
 
     static void TEST_MS_COMPARE_TO_N();
+    static void TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N();
+    static void TEST_MS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS();
     static void TEST_MS_COMPARE_TO_N_WITH_std_string();
     static void TEST_WS_COMPARE_TO_N();
+    static void TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N();
+    static void TEST_WS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS();
     static void TEST_WS_COMPARE_TO_N_WITH_std_wstring();
+    static void TEST_WS_COMPARE_TO_N_WITH_ptrdiff_t();
 
     static void test_Pantheios_broken_example();
 } // anonymous namespace
@@ -70,9 +76,14 @@ int main(int argc, char* argv[])
     if (XTESTS_START_RUNNER("test.test.unit.string_comparisons", verbosity))
     {
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N);
+        XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N);
+        XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS);
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WITH_std_string);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N);
+        XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N);
+        XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WITH_std_wstring);
+        XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WITH_ptrdiff_t);
 
         XTESTS_RUN_CASE(test_Pantheios_broken_example);
 
@@ -160,6 +171,85 @@ static void TEST_MS_COMPARE_TO_N()
         TEST_MS_NE_N(s2, s3, -4);
         TEST_MS_EQ_N_APPROX(s2, s3, -4);
     }
+}
+
+static void TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N()
+{
+    /* Expected is longer than |n|. Both the C API and the C++ template
+     * path must bound cchExpected to |n|.
+     */
+    char const* expected    =   "abcdef";
+    char const* actual_eq   =   "abcXYZ";
+    char const* actual_ne   =   "abWXYZ";
+
+    {
+        TEST_MS_EQ_N(expected, actual_eq, 3);
+        TEST_MS_EQ_N(expected, actual_eq, -3);
+        TEST_MS_NE_N(expected, actual_eq, 4);
+        TEST_MS_NE_N(expected, actual_eq, -4);
+    }
+
+    {
+        TEST_MS_NE_N(expected, actual_ne, 3);
+        TEST_MS_NE_N(expected, actual_ne, -3);
+    }
+
+    std::string const   expected_s(expected);
+    std::string const   actual_eq_s(actual_eq);
+
+    TEST_MS_EQ_N(expected_s, actual_eq_s, 3);
+    TEST_MS_EQ_N(expected_s, actual_eq_s, -3);
+    TEST_MS_NE_N(expected_s, actual_eq_s, 4);
+    TEST_MS_NE_N(expected_s, actual_eq_s, -4);
+}
+
+static void TEST_MS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS()
+{
+    /* Neither buffer is NUL-terminated. |n| equals the readable extent, so
+     * length discovery must not call strlen() past the arrays.
+     */
+    char    expected_eq[]   =   { 'a', 'b', 'c', 'd' };
+    char    actual_eq[]     =   { 'a', 'b', 'c', 'd' };
+    char    actual_ne[]     =   { 'a', 'b', 'c', 'X' };
+    char    expected_approx[]   =   { 'A', 'b', 'C', 'd' };
+    char    actual_approx[]     =   { 'a', 'B', 'c', 'D' };
+    ptrdiff_t const n_exact =   4;
+    ptrdiff_t const n_limit =   -4;
+
+    TEST_MS_EQ_N(expected_eq, actual_eq, n_exact);
+    TEST_MS_EQ_N(expected_eq, actual_eq, n_limit);
+    TEST_MS_NE_N(expected_eq, actual_ne, n_exact);
+    TEST_MS_NE_N(expected_eq, actual_ne, n_limit);
+
+    TEST_MS_EQ_N_APPROX(expected_approx, actual_approx, n_exact);
+    TEST_MS_EQ_N_APPROX(expected_approx, actual_approx, n_limit);
+
+    TEST_INT_EQ(
+        1
+    ,   XTESTS_NS_C_QUAL(xtests_testMultibyteStringsN)(
+            __FILE__
+        ,   __LINE__
+        ,   XTESTS_GET_FUNCTION_()
+        ,   "xtests_testMultibyteStringsN(non-NUL, n_exact, Equal)"
+        ,   expected_eq
+        ,   actual_eq
+        ,   n_exact
+        ,   XTESTS_NS_C_QUAL(xtestsComparisonEqual)
+        )
+    );
+    TEST_INT_EQ(
+        1
+    ,   XTESTS_NS_C_QUAL(xtests_testMultibyteStringsN)(
+            __FILE__
+        ,   __LINE__
+        ,   XTESTS_GET_FUNCTION_()
+        ,   "xtests_testMultibyteStringsN(non-NUL, n_limit, Equal)"
+        ,   expected_eq
+        ,   actual_eq
+        ,   n_limit
+        ,   XTESTS_NS_C_QUAL(xtestsComparisonEqual)
+        )
+    );
 }
 
 static void TEST_MS_COMPARE_TO_N_WITH_std_string()
@@ -302,6 +392,79 @@ static void TEST_WS_COMPARE_TO_N()
     }
 }
 
+static void TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N()
+{
+    wchar_t const*  expected    =   L"abcdef";
+    wchar_t const*  actual_eq   =   L"abcXYZ";
+    wchar_t const*  actual_ne   =   L"abWXYZ";
+
+    {
+        TEST_WS_EQ_N(expected, actual_eq, 3);
+        TEST_WS_EQ_N(expected, actual_eq, -3);
+        TEST_WS_NE_N(expected, actual_eq, 4);
+        TEST_WS_NE_N(expected, actual_eq, -4);
+    }
+
+    {
+        TEST_WS_NE_N(expected, actual_ne, 3);
+        TEST_WS_NE_N(expected, actual_ne, -3);
+    }
+
+    std::wstring const  expected_s(expected);
+    std::wstring const  actual_eq_s(actual_eq);
+
+    TEST_WS_EQ_N(expected_s, actual_eq_s, 3);
+    TEST_WS_EQ_N(expected_s, actual_eq_s, -3);
+    TEST_WS_NE_N(expected_s, actual_eq_s, 4);
+    TEST_WS_NE_N(expected_s, actual_eq_s, -4);
+}
+
+static void TEST_WS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS()
+{
+    wchar_t expected_eq[]   =   { L'a', L'b', L'c', L'd' };
+    wchar_t actual_eq[]     =   { L'a', L'b', L'c', L'd' };
+    wchar_t actual_ne[]     =   { L'a', L'b', L'c', L'X' };
+    wchar_t expected_approx[]   =   { L'A', L'b', L'C', L'd' };
+    wchar_t actual_approx[]     =   { L'a', L'B', L'c', L'D' };
+    ptrdiff_t const n_exact =   4;
+    ptrdiff_t const n_limit =   -4;
+
+    TEST_WS_EQ_N(expected_eq, actual_eq, n_exact);
+    TEST_WS_EQ_N(expected_eq, actual_eq, n_limit);
+    TEST_WS_NE_N(expected_eq, actual_ne, n_exact);
+    TEST_WS_NE_N(expected_eq, actual_ne, n_limit);
+
+    TEST_WS_EQ_N_APPROX(expected_approx, actual_approx, n_exact);
+    TEST_WS_EQ_N_APPROX(expected_approx, actual_approx, n_limit);
+
+    TEST_INT_EQ(
+        1
+    ,   XTESTS_NS_C_QUAL(xtests_testWideStringsN)(
+            __FILE__
+        ,   __LINE__
+        ,   XTESTS_GET_FUNCTION_()
+        ,   "xtests_testWideStringsN(non-NUL, n_exact, Equal)"
+        ,   expected_eq
+        ,   actual_eq
+        ,   n_exact
+        ,   XTESTS_NS_C_QUAL(xtestsComparisonEqual)
+        )
+    );
+    TEST_INT_EQ(
+        1
+    ,   XTESTS_NS_C_QUAL(xtests_testWideStringsN)(
+            __FILE__
+        ,   __LINE__
+        ,   XTESTS_GET_FUNCTION_()
+        ,   "xtests_testWideStringsN(non-NUL, n_limit, Equal)"
+        ,   expected_eq
+        ,   actual_eq
+        ,   n_limit
+        ,   XTESTS_NS_C_QUAL(xtestsComparisonEqual)
+        )
+    );
+}
+
 static void TEST_WS_COMPARE_TO_N_WITH_std_wstring()
 {
     std::wstring const  s1(L"abc");
@@ -372,6 +535,50 @@ static void TEST_WS_COMPARE_TO_N_WITH_std_wstring()
     }
 }
 
+static void TEST_WS_COMPARE_TO_N_WITH_ptrdiff_t()
+{
+    wchar_t const*  expected    =   L"abc";
+    wchar_t const*  actual      =   L"abcdef";
+    ptrdiff_t       n_exact     =   3;
+    ptrdiff_t       n_limit     =   -4;
+    ptrdiff_t       n_too_long  =   4;
+
+    /* Prefer the C API overload of xtests_testWideStringsN (wchar_t const*,
+     * ptrdiff_t) over the C++ template when both arguments are pointers and
+     * n is an explicit ptrdiff_t.
+     */
+    TEST_WS_EQ_N(expected, actual, n_exact);
+    TEST_WS_EQ_N(expected, actual, n_limit);
+    TEST_WS_NE_N(expected, actual, n_too_long);
+
+    TEST_INT_EQ(
+        1
+    ,   XTESTS_NS_C_QUAL(xtests_testWideStringsN)(
+            __FILE__
+        ,   __LINE__
+        ,   XTESTS_GET_FUNCTION_()
+        ,   "xtests_testWideStringsN(expected, actual, n_exact, Equal)"
+        ,   expected
+        ,   actual
+        ,   n_exact
+        ,   XTESTS_NS_C_QUAL(xtestsComparisonEqual)
+        )
+    );
+    TEST_INT_EQ(
+        1
+    ,   XTESTS_NS_C_QUAL(xtests_testWideStringsN)(
+            __FILE__
+        ,   __LINE__
+        ,   XTESTS_GET_FUNCTION_()
+        ,   "xtests_testWideStringsN(expected, actual, n_limit, Equal)"
+        ,   expected
+        ,   actual
+        ,   n_limit
+        ,   XTESTS_NS_C_QUAL(xtestsComparisonEqual)
+        )
+    );
+}
+
 static void test_Pantheios_broken_example()
 {
    struct s {
@@ -391,10 +598,14 @@ static void test_Pantheios_broken_example()
 
    {
        char  sz[4];
+       char  expected_non_nul[] = { '0', '0', '0', '0' };
 
        s::pantheios_util_formatYearToString4(0, &sz);
 
        TEST_MS_EQ_N("0000", sz, 4);
+       /* Both sides non-NUL-terminated, exact length 4. */
+       TEST_MS_EQ_N(expected_non_nul, sz, 4);
+       TEST_MS_EQ_N(expected_non_nul, sz, -4);
    }
 
    {

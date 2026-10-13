@@ -1,10 +1,12 @@
 /* /////////////////////////////////////////////////////////////////////////
  * File:    test.unit.string_slices.c/entry.c
  *
- * Purpose: Illustrates xTests string slice comparison macros (C code).
+ * Purpose: Unit-tests for multibyte and wide string slice comparison
+ *          macros (`TEST_*_STRING_SLICE_EQUAL[_APPROX]` /
+ *          `TEST_*_STRING_SLICE_NOT_EQUAL[_APPROX]`).
  *
  * Created: 16th February 2013
- * Updated: 20th September 2026
+ * Updated: 11th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -22,8 +24,9 @@
 #include <stlsoft/stlsoft.h>
 
 /* Standard C Header Files */
-#include <stdio.h>
+#include <stddef.h>
 #include <stdlib.h>
+#include <wchar.h>
 
 #include <xtests/internal/checked_main.h>
 
@@ -34,11 +37,16 @@
  * forward declarations
  */
 
-static void test_against_empty_string(void);
-/*
-static void test_against_empty_slice(void);
- */
-static void test_against_short_string(void);
+static void test_mb_against_empty_string(void);
+static void test_mb_against_short_string(void);
+static void test_mb_equal_approx(void);
+static void test_mb_not_equal(void);
+static void test_mb_not_equal_approx(void);
+static void test_ws_against_empty_string(void);
+static void test_ws_against_short_string(void);
+static void test_ws_equal_approx(void);
+static void test_ws_not_equal(void);
+static void test_ws_not_equal_approx(void);
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -54,8 +62,16 @@ int main(int argc, char* argv[])
 
     if (XTESTS_START_RUNNER("test.unit.string_slices.c", verbosity))
     {
-        XTESTS_RUN_CASE(test_against_empty_string);
-        XTESTS_RUN_CASE(test_against_short_string);
+        XTESTS_RUN_CASE(test_mb_against_empty_string);
+        XTESTS_RUN_CASE(test_mb_against_short_string);
+        XTESTS_RUN_CASE(test_mb_equal_approx);
+        XTESTS_RUN_CASE(test_mb_not_equal);
+        XTESTS_RUN_CASE(test_mb_not_equal_approx);
+        XTESTS_RUN_CASE(test_ws_against_empty_string);
+        XTESTS_RUN_CASE(test_ws_against_short_string);
+        XTESTS_RUN_CASE(test_ws_equal_approx);
+        XTESTS_RUN_CASE(test_ws_not_equal);
+        XTESTS_RUN_CASE(test_ws_not_equal_approx);
 
         XTESTS_PRINT_RESULTS();
         XTESTS_END_RUNNER_UPDATE_EXITCODE(&retCode);
@@ -69,7 +85,7 @@ int main(int argc, char* argv[])
  * test function implementations
  */
 
-static void test_against_empty_string(void)
+static void test_mb_against_empty_string(void)
 {
     {
         struct slice_t
@@ -105,7 +121,7 @@ static void test_against_empty_string(void)
     }
 }
 
-static void test_against_short_string(void)
+static void test_mb_against_short_string(void)
 {
     {
         struct slice_t
@@ -141,6 +157,249 @@ static void test_against_short_string(void)
     }
 }
 
+static void test_mb_equal_approx(void)
+{
+    {
+        struct slice_t
+        {
+            size_t      len;
+            char const* ptr;
+
+        } slice = { 3, "AbCdef" };
+
+        TEST_MULTIBYTE_STRING_SLICE_EQUAL_APPROX("abc", slice);
+        TEST_MULTIBYTE_STRING_SLICE_EQUAL_APPROX("ABC", slice);
+        TEST_MULTIBYTE_STRING_SLICE_EQUAL_APPROX("aBc", slice);
+    }
+
+    {
+        struct slice_t
+        {
+            size_t      len;
+            char const* ptr;
+
+        } slice = { 6, "AbCdEf" };
+
+        TEST_MULTIBYTE_STRING_SLICE_EQUAL_APPROX("abcdef", slice);
+        TEST_MULTIBYTE_STRING_SLICE_EQUAL_APPROX("ABCDEF", slice);
+    }
+}
+
+static void test_mb_not_equal(void)
+{
+    /* Length mismatch. */
+    {
+        struct slice_t
+        {
+            size_t      len;
+            char const* ptr;
+
+        } slice = { 3, "abcdef" };
+
+        TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL("ab", slice);
+        TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL("abcd", slice);
+    }
+
+    /* Same length, different contents. */
+    {
+        struct slice_t
+        {
+            size_t      len;
+            char const* ptr;
+
+        } slice = { 3, "abcdef" };
+
+        TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL("abX", slice);
+    }
+
+    /* Empty slice is not equal to a non-empty expected string. */
+    {
+        struct slice_t
+        {
+            size_t      len;
+            char const* ptr;
+
+        } slice = { 0, ss_nullptr_k };
+
+        TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL("a", slice);
+    }
+}
+
+static void test_mb_not_equal_approx(void)
+{
+    /* Content/length mismatch ignoring case. */
+    {
+        struct slice_t
+        {
+            size_t      len;
+            char const* ptr;
+
+        } slice = { 3, "abcdef" };
+
+        TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL_APPROX("ab", slice);
+        TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL_APPROX("ABCD", slice);
+        TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL_APPROX("abX", slice);
+        TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL_APPROX("ABX", slice);
+    }
+}
+
+static void test_ws_against_empty_string(void)
+{
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 0, ss_nullptr_k };
+
+        TEST_WIDE_STRING_SLICE_EQUAL(L"", slice);
+    }
+
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 0, L"" };
+
+        TEST_WIDE_STRING_SLICE_EQUAL(L"", slice);
+    }
+
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 0, L"abcdef" };
+
+        TEST_WIDE_STRING_SLICE_EQUAL(L"", slice);
+    }
+}
+
+static void test_ws_against_short_string(void)
+{
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 1, L"abcdef" };
+
+        TEST_WIDE_STRING_SLICE_EQUAL(L"a", slice);
+    }
+
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 3, L"abcdef" };
+
+        TEST_WIDE_STRING_SLICE_EQUAL(L"abc", slice);
+    }
+
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 6, L"abcdef" };
+
+        TEST_WIDE_STRING_SLICE_EQUAL(L"abcdef", slice);
+    }
+}
+
+static void test_ws_equal_approx(void)
+{
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 3, L"AbCdef" };
+
+        TEST_WIDE_STRING_SLICE_EQUAL_APPROX(L"abc", slice);
+        TEST_WIDE_STRING_SLICE_EQUAL_APPROX(L"ABC", slice);
+        TEST_WIDE_STRING_SLICE_EQUAL_APPROX(L"aBc", slice);
+    }
+
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 6, L"AbCdEf" };
+
+        TEST_WIDE_STRING_SLICE_EQUAL_APPROX(L"abcdef", slice);
+        TEST_WIDE_STRING_SLICE_EQUAL_APPROX(L"ABCDEF", slice);
+    }
+}
+
+static void test_ws_not_equal(void)
+{
+    /* Length mismatch. */
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 3, L"abcdef" };
+
+        TEST_WIDE_STRING_SLICE_NOT_EQUAL(L"ab", slice);
+        TEST_WIDE_STRING_SLICE_NOT_EQUAL(L"abcd", slice);
+    }
+
+    /* Same length, different contents. */
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 3, L"abcdef" };
+
+        TEST_WIDE_STRING_SLICE_NOT_EQUAL(L"abX", slice);
+    }
+
+    /* Empty slice is not equal to a non-empty expected string. */
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 0, ss_nullptr_k };
+
+        TEST_WIDE_STRING_SLICE_NOT_EQUAL(L"a", slice);
+    }
+}
+
+static void test_ws_not_equal_approx(void)
+{
+    /* Content/length mismatch ignoring case. */
+    {
+        struct slice_t
+        {
+            size_t          len;
+            wchar_t const*  ptr;
+
+        } slice = { 3, L"abcdef" };
+
+        TEST_WIDE_STRING_SLICE_NOT_EQUAL_APPROX(L"ab", slice);
+        TEST_WIDE_STRING_SLICE_NOT_EQUAL_APPROX(L"ABCD", slice);
+        TEST_WIDE_STRING_SLICE_NOT_EQUAL_APPROX(L"abX", slice);
+        TEST_WIDE_STRING_SLICE_NOT_EQUAL_APPROX(L"ABX", slice);
+    }
+}
+
 
 /* ///////////////////////////// end of file //////////////////////////// */
-
