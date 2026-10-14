@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 12th October 2026
+ * Updated: 19th October 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       51
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    15
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        417
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    16
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        419
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -2222,6 +2222,63 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
      ?  XTESTS_NS_C_QUAL(xtests_testMultibyteStringSlice)(XTESTS_FLF_(), "", XTESTS_GET_EXPECTED_SLICE_MB_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
      : (0))
 
+/** \def XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL_APPROX(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a (multibyte) string slice is the same length and has the
+ * same contents as an expected value, ignoring case.
+ *
+ * \param expected The expected value of the string;
+ * \param actual The string slice to be evaluated, which is expected to have
+ *   the members <code>len</code> and <code>ptr</code>;
+ *
+ * \note This can only be invoked after a successful invocation of the macro
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL_APPROX(expected, actual)   \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+     ?  XTESTS_NS_C_QUAL(xtests_testMultibyteStringSlice)(XTESTS_FLF_(), "", XTESTS_GET_EXPECTED_SLICE_MB_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)) \
+     : (0))
+
+/** \def XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a (multibyte) string slice differs in length and/or
+ * contents from an expected value.
+ *
+ * \param expected The value that the slice is expected not to match;
+ * \param actual The string slice to be evaluated, which is expected to have
+ *   the members <code>len</code> and <code>ptr</code>;
+ *
+ * \note This can only be invoked after a successful invocation of the macro
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL(expected, actual)      \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+     ?  XTESTS_NS_C_QUAL(xtests_testMultibyteStringSlice)(XTESTS_FLF_(), "", XTESTS_GET_EXPECTED_SLICE_MB_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)) \
+     : (0))
+
+/** \def XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL_APPROX(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a (multibyte) string slice differs in length and/or
+ * contents from an expected value, ignoring case.
+ *
+ * \param expected The value that the slice is expected not to match;
+ * \param actual The string slice to be evaluated, which is expected to have
+ *   the members <code>len</code> and <code>ptr</code>;
+ *
+ * \note This can only be invoked after a successful invocation of the macro
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL_APPROX(expected, actual)   \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                     \
+     ?  XTESTS_NS_C_QUAL(xtests_testMultibyteStringSlice)(XTESTS_FLF_(), "", XTESTS_GET_EXPECTED_SLICE_MB_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)) \
+     : (0))
+
 #ifdef XTESTS_USE_SHWILD
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)
@@ -2524,6 +2581,60 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
 #define XTESTS_TEST_WIDE_STRING_SLICE_EQUAL(expected, actual)               \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
         ? XTESTS_NS_C_QUAL(xtests_testWideStringSlice)(XTESTS_FLF_(), "", XTESTS_GET_EXPECTED_SLICE_WIDE_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+        : (0))
+
+/** \def XTESTS_TEST_WIDE_STRING_SLICE_EQUAL_APPROX(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a (wide) string slice is the same length and has the same
+ * contents as an expected value, ignoring case.
+ *
+ * \param expected The expected value of the string;
+ * \param actual The string slice to be evaluated;
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_WIDE_STRING_SLICE_EQUAL_APPROX(expected, actual)        \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testWideStringSlice)(XTESTS_FLF_(), "", XTESTS_GET_EXPECTED_SLICE_WIDE_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)) \
+        : (0))
+
+/** \def XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a (wide) string slice differs in length and/or contents
+ * from an expected value.
+ *
+ * \param expected The value that the slice is expected not to match;
+ * \param actual The string slice to be evaluated;
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL(expected, actual)           \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testWideStringSlice)(XTESTS_FLF_(), "", XTESTS_GET_EXPECTED_SLICE_WIDE_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)) \
+        : (0))
+
+/** \def XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL_APPROX(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a (wide) string slice differs in length and/or contents
+ * from an expected value, ignoring case.
+ *
+ * \param expected The value that the slice is expected not to match;
+ * \param actual The string slice to be evaluated;
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL_APPROX(expected, actual)    \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xtests_testWideStringSlice)(XTESTS_FLF_(), "", XTESTS_GET_EXPECTED_SLICE_WIDE_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)) \
         : (0))
 
 
@@ -3435,7 +3546,7 @@ xtests_testWideStringsN(
 ,   char const*         expr
 ,   wchar_t const*      expected
 ,   wchar_t const*      actual
-,   int                 n /* exact if +ve; limit if -ve */
+,   ptrdiff_t           n /* exact if +ve; limit if -ve */
 ,   xtests_comparison_t comp
 );
 # ifndef _XTESTS_NO_CPP_API

@@ -4,7 +4,7 @@
  * Purpose: Scratch-test program for xTests showing version(s).
  *
  * Created: 30th June 2025
- * Updated: 9th October 2026
+ * Updated: 11th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -21,13 +21,6 @@
 #include <iostream>
 
 #include <stdlib.h>
-
-
-/* /////////////////////////////////////////////////////////////////////////
- * includes
- */
-
-#define PROGRAM_NAME                                        "test.scratch.versions"
 
 
 /* /////////////////////////////////////////////////////////////////////////
