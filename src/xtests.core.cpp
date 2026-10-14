@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 20th September 2026
+ * Updated: 11th October 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -1773,6 +1773,11 @@ xtests_testMultibyteStringsN(
 ,   xtests_comparison_t comp
 )
 {
+    /* Bound both lengths to |n|, matching the C++
+     * xtests_testMultibyteStringsN_t / c_str_len_n_a path.
+     */
+    size_t const    n_limit =   (n < 0) ? static_cast<size_t>(-n) : static_cast<size_t>(n);
+
     return xtests_testMultibyteStringsN_(
         file
     ,   line
@@ -1781,8 +1786,8 @@ xtests_testMultibyteStringsN(
     ,   expected
     ,   actual
     ,   n
-    ,   (0 != n && NULL != expected) ? ::strlen(expected) : 0u
-    ,   (0 != n && NULL != actual) ? xtests_strnlen_(actual, static_cast<size_t>(::abs(static_cast<signed int>(n)))) : 0u
+    ,   (0 != n && NULL != expected) ? xtests_strnlen_(expected, n_limit) : 0u
+    ,   (0 != n && NULL != actual) ? xtests_strnlen_(actual, n_limit) : 0u
     ,   comp);
 }
 
@@ -1837,10 +1842,15 @@ xtests_testWideStringsN(
 ,   char const*         expr
 ,   wchar_t const*      expected
 ,   wchar_t const*      actual
-,   int                 n /* exact if +ve; limit if -ve */
+,   ptrdiff_t           n /* exact if +ve; limit if -ve */
 ,   xtests_comparison_t comp
 )
 {
+    /* Bound both lengths to |n|, matching the C++
+     * xtests_testWideStringsN_t / c_str_len_n_w path.
+     */
+    size_t const    n_limit =   (n < 0) ? static_cast<size_t>(-n) : static_cast<size_t>(n);
+
     return xtests_testWideStringsN_(
         file
     ,   line
@@ -1849,8 +1859,8 @@ xtests_testWideStringsN(
     ,   expected
     ,   actual
     ,   n
-    ,   (0 != n && NULL != expected) ? ::wcslen(expected) : 0u
-    ,   (0 != n && NULL != actual) ? xtests_wcsnlen_(actual, static_cast<size_t>(::abs(n))) : 0u
+    ,   (0 != n && NULL != expected) ? xtests_wcsnlen_(expected, n_limit) : 0u
+    ,   (0 != n && NULL != actual) ? xtests_wcsnlen_(actual, n_limit) : 0u
     ,   comp);
 }
 

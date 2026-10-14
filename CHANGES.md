@@ -1,11 +1,31 @@
 # xTests - Changes <!-- omit in toc -->
 
 
-## 0.27.0-alpha1 - 11th October 2026
+## 0.28.0-alpha1 - 18th October 2026
 
 * Added `XTESTS_TEST_POINTER_NULL()` and `XTESTS_TEST_POINTER_NOT_NULL()` (currently wrappers of `XTESTS_TEST_POINTER_EQUAL(NULL, …)` / `XTESTS_TEST_POINTER_NOT_EQUAL(NULL, …)`), with terse aliases `TEST_POINTER_NULL` / `TEST_PTR_NULL` and `TEST_POINTER_NOT_NULL` / `TEST_PTR_NOT_NULL`;
 * Illustrated the new pointer-null macros in **example.c.tests**, including deliberate failures that emit the null-expected wording;
 * Pointer equality/inequality failure messages now say the actual value "is not null as expected" (with the actual address) or "actual pointer is null not as expected" (without a redundant `'0x0'`) when the expected pointer is null, rather than comparing against a platform-formatted null address;
+
+
+## 0.27.0-beta1 - 13th October 2026
+
+* API:
+  * Fixed `xtests_testWideStringsN` length parameter type from `int` to `ptrdiff_t`, matching the multibyte API and avoiding truncation of large `|n|` values;
+  * Fixed C-API `xtests_testMultibyteStringsN` / `xtests_testWideStringsN` to bound compared lengths to `|n|` (via bounded `strnlen` / `wcsnlen`), aligning with the C++ path and enabling safe use with non-NUL-terminated buffers;
+  * Added case-insensitive slice macros `XTESTS_TEST_*_STRING_SLICE_EQUAL_APPROX` / `XTESTS_TEST_*_STRING_SLICE_NOT_EQUAL_APPROX` (multibyte and wide, with terse aliases);
+  * Added `XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL` / `XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL` (and terse aliases);
+* documentation:
+  * **COMPONENTS.md** entries for the new slice `EQUAL` / `NOT_EQUAL` / `APPROX` macros;
+  * **NEWS.md** chronology row for **0.27.0-beta1**;
+* examples:
+  * Added **example.c.string_comparisons_n**, illustrating exact (`n > 0`) and limit (`n < 0`) forms of `TEST_MS_EQ_N` / `TEST_MS_NE_N`, including non-NUL-terminated buffers;
+  * Added **example.cpp.string_comparisons_n**, illustrating the same `_N` contract for wide strings, `std::wstring`, and non-NUL-terminated buffers;
+* testing:
+  * Extended **test.unit.string_slices.c** with `TEST_WIDE_STRING_SLICE_EQUAL` coverage parallel to the multibyte cases, plus `NOT_EQUAL` / `APPROX` coverage for multibyte and wide slices;
+  * Extended **test.unit.string_comparisons** / **test.unit.string_comparisons.c** for the `StringsN` `|n|` contract and non-NUL-terminated buffers;
+* version:
+  * Bumped `_XTESTS_VER` to **0.27.0** (`_XTESTS_VER_ALPHABETA` `0x81`) in **xtests.h**; synced **Doxyfile** `PROJECT_NUMBER`;
 
 
 ## 0.26.6-beta1 - 10th October 2026
