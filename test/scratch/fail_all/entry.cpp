@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.scratch.fail_all.1/entry.cpp
+ * File:    test/scratch/fail_all/entry.cpp
  *
  * Purpose: Illustrates various test failures.
  *
  * Created: 26th January 2009
- * Updated: 23rd April 2025
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
 
     XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY(argc, argv, &verbosity);
 
-    if (XTESTS_START_RUNNER("test.scratch.fail_all.1", verbosity))
+    if (XTESTS_START_RUNNER("test.scratch.fail_all", verbosity))
     {
         XTESTS_RUN_CASE_WITH_DESC(test_int_comparison_failures, "expects failures in integer comparisons");
         XTESTS_RUN_CASE_WITH_DESC(test_multibyte_string_comparison_failures, "expects failures in multibyte string comparisons");

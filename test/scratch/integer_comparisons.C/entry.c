@@ -1,11 +1,11 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.scratch.integer_comparisons.c/entry.c
+ * File:    test/scratch/integer_comparisons.C/entry.c
  *
  * Purpose: Scratch tests of integer comparisons, given the new
  *          implementations in terms of `_Generic`.
  *
  * Created: 3rd August 2024
- * Updated: 31st May 2025
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
 
     XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY(argc, argv, &verbosity);
 
-    if (XTESTS_START_RUNNER("test.scratch.integer_comparisons.c", verbosity))
+    if (XTESTS_START_RUNNER("test.scratch.integer_comparisons.C", verbosity))
     {
         XTESTS_RUN_CASE(test_passes);
         XTESTS_RUN_CASE(test_fails);

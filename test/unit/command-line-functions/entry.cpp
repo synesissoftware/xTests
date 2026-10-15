@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.unit.utility.cmdline/entry.cpp
+ * File:    test/unit/command-line-functions/entry.cpp
  *
  * Purpose: Unit-tests for utility functions.
  *
  * Created: 30th December 2024
- * Updated: 28th June 2025
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -85,7 +85,7 @@ int main(int argc, char **argv)
 
     XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, &verbosity);
 
-    if (XTESTS_START_RUNNER("test.unit.utility.cmdline", verbosity))
+    if (XTESTS_START_RUNNER("test.unit.command-line-functions", verbosity))
     {
 #ifdef PLATFORMSTL_ENVVAR_ERASE_SUPPORTED
 

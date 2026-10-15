@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.scratch.basics1/entry.c
+ * File:    test/scratch/basics1/entry.c
  *
  * Purpose: Illustrates various xTests facilities available to C code.
  *
  * Created: 15th December 2007
- * Updated: 23rd April 2025
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
 
     XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY(argc, argv, &verbosity);
 
-    if (XTESTS_START_RUNNER("test.scratch.basics1.c", verbosity))
+    if (XTESTS_START_RUNNER("test.scratch.basics1", verbosity))
     {
         /* test 1 */
         if (XTESTS_CASE_BEGIN("test-1", "checking integer values"))

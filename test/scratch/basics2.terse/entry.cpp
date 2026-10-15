@@ -1,11 +1,11 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.scratch.basics2.terse/entry.cpp
+ * File:    test/scratch/basics2.terse/entry.cpp
  *
  * Purpose: Illustrates various xTests facilities available to C++ code,
  *          using the terse version of macros.
  *
  * Created: 20th November 2024
- * Updated: 28th June 2025
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 

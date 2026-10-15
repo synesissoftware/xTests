@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.unit.shwild_patterns/entry.cpp
+ * File:    test/unit/shwild-patterns/entry.cpp
  *
  * Purpose: Unit-tests for shwild extensions.
  *
  * Created: 17th October 2024
- * Updated: 23rd April 2025
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -69,7 +69,7 @@ int main(int argc, char **argv)
 
     XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, &verbosity);
 
-    if (XTESTS_START_RUNNER("test.unit.shwild_patterns", verbosity))
+    if (XTESTS_START_RUNNER("test.unit.shwild-patterns", verbosity))
     {
         XTESTS_RUN_CASE(test_empty);
         XTESTS_RUN_CASE(test_exact_matches);

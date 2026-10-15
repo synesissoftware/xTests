@@ -1,12 +1,12 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.unit.string_slices.c/entry.c
+ * File:    test/unit/string-slices.C/entry.c
  *
  * Purpose: Unit-tests for multibyte and wide string slice comparison
  *          macros (`TEST_*_STRING_SLICE_EQUAL[_APPROX]` /
  *          `TEST_*_STRING_SLICE_NOT_EQUAL[_APPROX]`).
  *
  * Created: 16th February 2013
- * Updated: 11th October 2026
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
 
     XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY(argc, argv, &verbosity);
 
-    if (XTESTS_START_RUNNER("test.unit.string_slices.c", verbosity))
+    if (XTESTS_START_RUNNER("test.unit.string-slices.C", verbosity))
     {
         XTESTS_RUN_CASE(test_mb_against_empty_string);
         XTESTS_RUN_CASE(test_mb_against_short_string);

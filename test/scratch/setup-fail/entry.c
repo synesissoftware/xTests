@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.scratch.setup.fail/entry.c
+ * File:    test/scratch/setup-fail/entry.c
  *
  * Purpose: Illustrates failure of setup function.
  *
  * Created: 31st January 2010
- * Updated: 30th December 2024
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
 
     XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY(argc, argv, &verbosity);
 
-    if (XTESTS_START_RUNNER_WITH_SETUP_FNS("test.scratch.setup.fail", verbosity, setup, teardown, NULL))
+    if (XTESTS_START_RUNNER_WITH_SETUP_FNS("test.scratch.setup-fail", verbosity, setup, teardown, NULL))
     {
         XTESTS_RUN_CASE(test_never_visited);
 

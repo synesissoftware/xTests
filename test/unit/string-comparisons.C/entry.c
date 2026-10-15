@@ -1,5 +1,5 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.unit.string_comparisons.c/entry.c
+ * File:    test/unit/string-comparisons.C/entry.c
  *
  * Purpose: Unit-tests for length-limited multibyte and wide string
  *          comparison macros via the C API
@@ -7,7 +7,7 @@
  *          `xtests_testWideStringsN`).
  *
  * Created: 11th October 2026
- * Updated: 11th October 2026
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
 
     XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY(argc, argv, &verbosity);
 
-    if (XTESTS_START_RUNNER("test.unit.string_comparisons.c", verbosity))
+    if (XTESTS_START_RUNNER("test.unit.string-comparisons.C", verbosity))
     {
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N);
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N);

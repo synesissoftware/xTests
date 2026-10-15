@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.scratch.temp_file/entry.cpp
+ * File:    test/scratch/temp_file/entry.cpp
  *
  * Purpose: Use of `xtests::cpp::util::temp_file`.
  *
  * Created: 1st October 2015
- * Updated: 20th November 2024
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 

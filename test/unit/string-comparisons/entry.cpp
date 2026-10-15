@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.unit.string_comparisons/entry.cpp
+ * File:    test/unit/string-comparisons/entry.cpp
  *
  * Purpose: Component-tests for `xtests::cpp::util::temp_file`.
  *
  * Created: 21st October 2024
- * Updated: 11th October 2026
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
 
     XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, &verbosity);
 
-    if (XTESTS_START_RUNNER("test.test.unit.string_comparisons", verbosity))
+    if (XTESTS_START_RUNNER("test.unit.string-comparisons", verbosity))
     {
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N);
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N);

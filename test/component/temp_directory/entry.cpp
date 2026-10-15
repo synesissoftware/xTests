@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.component.temp_directory/entry.cpp
+ * File:    test/component/temp_directory/entry.cpp
  *
  * Purpose: Component-tests for `xtests::cpp::util::temp_directory`.
  *
  * Created: 20th February 2025
- * Updated: 1st September 2025
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 

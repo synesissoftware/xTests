@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.scratch.all_failure_messages/entry.cpp
+ * File:    test/scratch/all_failure_messages/entry.cpp
  *
  * Purpose: Illustrates each failure message.
  *
  * Created: 1st December 2024
- * Updated: 28th June 2025
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 

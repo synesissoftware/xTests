@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.scratch.custom_integral_types/entry.cpp
+ * File:    test/scratch/custom_integral_types/entry.cpp
  *
  * Purpose: Illustrates facility for comparing custom integral types.
  *
  * Created: 23rd November 2024
- * Updated: 30th May 2025
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 

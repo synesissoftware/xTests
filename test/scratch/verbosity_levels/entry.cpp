@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.scratch.verbosity_levels/entry.cpp
+ * File:    test/scratch/verbosity_levels/entry.cpp
  *
  * Purpose: Illustrates some canonical failures (C++ code).
  *
  * Created: 28th January 2017
- * Updated: 23rd April 2025
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
