@@ -1,14 +1,14 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    examples/cpp/example.cpp.udt/main.cpp
+ * File:    examples/cpp/udt/main.cpp
  *
  * Purpose: Example use of unit-testing of a user-defined type.
  *
  * Created: 10th January 2025
- * Updated: 23rd April 2025
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
-/** \file example.cpp.udt/main.cpp
+/** \file examples/cpp/udt/main.cpp
  */
 
 
