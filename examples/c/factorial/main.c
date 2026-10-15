@@ -1,15 +1,15 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    examples/c/example.c.factorial/main.c
+ * File:    examples/c/factorial/main.c
  *
  * Purpose: Example of use of separate test-case function(s) and in-runner
  *          test case(s).
  *
  * Created: 7th December 2023
- * Updated: 31st December 2024
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
-/** \file example.c.factorial.c
+/** \file examples/c/factorial/main.c
  */
 
 
@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
 
     XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY(argc, argv, &verbosity);
 
-    if (XTESTS_START_RUNNER("example.factorial.factorial", verbosity))
+    if (XTESTS_START_RUNNER("example.c.factorial.factorial", verbosity))
     {
         /* runs test case "test_factorial_edge_cases" */
         XTESTS_RUN_CASE_WITH_DESC(test_factorial_edge_cases, "checking edge cases");

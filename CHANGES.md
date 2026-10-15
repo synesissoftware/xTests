@@ -1,6 +1,20 @@
 # xTests - Changes <!-- omit in toc -->
 
 
+## 0.27.0-beta3 - 16th October 2026
+
+* examples:
+  * Shortened **examples/** leaf directory names (dropped redundant `example.c.` / `example.cpp.` prefixes), e.g. **factorial**, **runner**, **string-comparisons-n**, **temp_directory**;
+  * Conformed each example **main.c** / **main.cpp** `File:` (and `\file`) banner to the slash-path form (e.g. `examples/c/factorial/main.c`);
+  * Aligned `XTESTS_START_RUNNER` names and CMake `define_example_program` targets with the shortened directories (notably **example.c.string-comparisons-n** / **example.cpp.string-comparisons-n**);
+  * Updated **examples/descriptors.cpp** `\example` paths for the shortened layout (and added the **string-comparisons-n** examples);
+* documentation:
+  * Restored missing **doc/mainpage.md** referenced by **Doxyfile** `USE_MDFILE_AS_MAINPAGE`;
+* version:
+  * Bumped `_XTESTS_VER_ALPHABETA` to `0x83` (beta 3) in **xtests.h**; synced **Doxyfile** `PROJECT_NUMBER`;
+  * **NEWS.md** chronology row for **0.27.0-beta3**;
+
+
 ## 0.27.0-beta2 - 16th October 2026
 
 * testing:
