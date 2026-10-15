@@ -2,7 +2,7 @@
 add_subdirectory(all_failure_messages)
 add_subdirectory(basics1)
 add_subdirectory(basics2)
-add_subdirectory(test.scratch.basics2.terse)
+add_subdirectory(basics2.terse)
 add_subdirectory(custom_integral_types)
 add_subdirectory(fail_all)
 add_subdirectory(integer_comparisons.c)
