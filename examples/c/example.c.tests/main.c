@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    examples/c/example.c.tests/entry.c
+ * File:    examples/c/example.c.tests/main.c
  *
  * Purpose: Example of use of separate test-case functions.
  *
  * Created: 20th February 2008
- * Updated: 20th September 2026
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 

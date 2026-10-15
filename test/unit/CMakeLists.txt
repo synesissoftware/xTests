@@ -1,11 +1,11 @@
 
 if(shwild_FOUND)
 
-	add_subdirectory(test.unit.shwild_patterns)
+	add_subdirectory(shwild-patterns)
 endif(shwild_FOUND)
 
 add_subdirectory(test.unit.pointer_comparisons)
-add_subdirectory(test.unit.string_comparisons)
-add_subdirectory(test.unit.string_comparisons.c)
-add_subdirectory(test.unit.string_slices.c)
-add_subdirectory(test.unit.utility.cmdline)
+add_subdirectory(string-comparisons)
+add_subdirectory(string-comparisons.C)
+add_subdirectory(string-slices.C)
+add_subdirectory(command-line-functions)

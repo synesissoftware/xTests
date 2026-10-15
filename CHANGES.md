@@ -8,6 +8,19 @@
 * Pointer equality/inequality failure messages now say the actual value "is not null as expected" (with the actual address) or "actual pointer is null not as expected" (without a redundant `'0x0'`) when the expected pointer is null, rather than comparing against a platform-formatted null address;
 
 
+## 0.27.0-beta2 - 16th October 2026
+
+* testing:
+  * Shortened **test/** leaf directory names (dropped redundant `test.<kind>.` prefixes), e.g. **command-line-functions**, **string-comparisons.C**, **setup-fail**;
+  * Conformed each **entry.c** / **entry.cpp** `File:` banner to the slash-path form (e.g. `test/unit/string-comparisons/entry.cpp`);
+  * Aligned `XTESTS_START_RUNNER` names and CMake `define_*` targets with the shortened directories (including **test.unit.command-line-functions**, **test.scratch.setup-fail**, **test.scratch.fail_all**, and `.C`-suffixed C-API programs);
+  * Fixed runner typo `test.test.unit.string_comparisons` → **test.unit.string-comparisons**;
+  * Fixed **test/scratch/CMakeLists.txt** `add_subdirectory` for **integer_comparisons.C**;
+* version:
+  * Bumped `_XTESTS_VER_ALPHABETA` to `0x82` (beta 2) in **xtests.h**; synced **Doxyfile** `PROJECT_NUMBER`;
+  * **NEWS.md** chronology row for **0.27.0-beta2**;
+
+
 ## 0.27.0-beta1 - 13th October 2026
 
 * API:
