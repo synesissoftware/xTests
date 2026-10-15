@@ -1,6 +1,11 @@
 # xTests - Changes <!-- omit in toc -->
 
 
+## 0.27.0 - 17th October 2026
+
+0.27.0
+
+
 ## 0.27.0-beta2 - 16th October 2026
 
 * testing:
