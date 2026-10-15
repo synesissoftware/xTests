@@ -1,10 +1,10 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    examples/cpp/example.cpp.temp_directory/main.cpp
+ * File:    examples/cpp/temp_directory/main.cpp
  *
  * Purpose: Example use of `xtests::cpp::util::temp_directory`.
  *
  * Created: ... mid 2010s ...
- * Updated: 23rd April 2025
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 

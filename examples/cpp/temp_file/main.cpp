@@ -1,5 +1,5 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    examples/cpp/example.cpp.temp_file/main.cpp
+ * File:    examples/cpp/temp_file/main.cpp
  *
  * Purpose: Example use of `xtests::cpp::util::temp_file`, illustrating:
  *              - use of various flags, including `DeleteOnOpen`, etc.;
@@ -9,7 +9,7 @@
  *                array;
  *
  * Created: ... mid 2010s ...
- * Updated: 20th September 2026
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 

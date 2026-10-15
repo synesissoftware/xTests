@@ -4,6 +4,7 @@
 | Date                | News Item                        | Details                                                  |
 |---------------------|----------------------------------|----------------------------------------------------------|
 | 17th October 2026   | [**xTests** 0.27.0](https://github.com/synesissoftware/xTests/releases/tag/0.27.0) released | 0.27.0 |
+| 16th October 2026   | [**xTests** 0.27.0-beta3](https://github.com/synesissoftware/xTests/releases/tag/0.27.0-beta3) released | Shortened example dirs |
 | 16th October 2026   | [**xTests** 0.27.0-beta2](https://github.com/synesissoftware/xTests/releases/tag/0.27.0-beta2) released | Shortened test dirs; `File:` / runner / CMake target alignment |
 | 13th October 2026   | [**xTests** 0.27.0-beta1](https://github.com/synesissoftware/xTests/releases/tag/0.27.0-beta1) released | `StringsN` length contract; slice `NOT_EQUAL` / `APPROX` |
 | 10th October 2026   | [**xTests** 0.26.6-beta1](https://github.com/synesissoftware/xTests/releases/tag/0.26.6-beta1) released | CMake helper canonicalisation, **test.scratch.versions**, boilerplate |

@@ -1,5 +1,5 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    examples/cpp/example.cpp.string_comparisons_n/main.cpp
+ * File:    examples/cpp/string-comparisons-n/main.cpp
  *
  * Purpose: Example of length-limited wide and multibyte string comparison
  *          macros (`TEST_WS_EQ_N` / `TEST_MS_EQ_N`): exact length when `n`
@@ -7,7 +7,7 @@
  *          illustrates `std::wstring` and non-NUL-terminated buffers.
  *
  * Created: 11th October 2026
- * Updated: 11th October 2026
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
 
     XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY(argc, argv, &verbosity);
 
-    if (XTESTS_START_RUNNER("example.cpp.string_comparisons_n", verbosity))
+    if (XTESTS_START_RUNNER("example.cpp.string-comparisons-n", verbosity))
     {
         XTESTS_RUN_CASE_WITH_DESC(
             test_exact_length
