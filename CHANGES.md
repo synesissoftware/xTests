@@ -1,6 +1,11 @@
 # xTests - Changes <!-- omit in toc -->
 
 
+## 0.27.0 - 17th October 2026
+
+0.27.0
+
+
 ## 0.27.0-rc1 - 16th October 2026
 
 * Migrated `_XTESTS_VER_*` from `_XTESTS_VER_ALPHABETA` to `_XTESTS_VER_RELSTATUS` (`0xC1`), with documentation-skip aliases for `_XTESTS_VER_ALPHABETA` and `_XTESTS_VER_AB`;
