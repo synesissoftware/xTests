@@ -4,6 +4,7 @@
 | Date                | News Item                        | Details                                                  |
 |---------------------|----------------------------------|----------------------------------------------------------|
 | 18th October 2026   | [**xTests** 0.28.0-alpha1](https://github.com/synesissoftware/xTests/releases/tag/0.28.0-alpha1) released | `XTESTS_TEST_POINTER_NULL`, **COMPONENTS.md**, `_XTESTS_VER_AB` |
+| 17th October 2026   | [**xTests** 0.27.0](https://github.com/synesissoftware/xTests/releases/tag/0.27.0) released | 0.27.0 |
 | 16th October 2026   | [**xTests** 0.27.0-rc1](https://github.com/synesissoftware/xTests/releases/tag/0.27.0-rc1) released | `_XTESTS_VER_RELSTATUS`; tip helpers; CI xbit |
 | 16th October 2026   | [**xTests** 0.27.0-beta3](https://github.com/synesissoftware/xTests/releases/tag/0.27.0-beta3) released | Shortened example dirs |
 | 16th October 2026   | [**xTests** 0.27.0-beta2](https://github.com/synesissoftware/xTests/releases/tag/0.27.0-beta2) released | Shortened test dirs; `File:` / runner / CMake target alignment |
