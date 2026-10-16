@@ -8,6 +8,30 @@
 * Pointer equality/inequality failure messages now say the actual value "is not null as expected" (with the actual address) or "actual pointer is null not as expected" (without a redundant `'0x0'`) when the expected pointer is null, rather than comparing against a platform-formatted null address;
 
 
+## 0.27.0-rc1 - 16th October 2026
+
+* Migrated `_XTESTS_VER_*` from `_XTESTS_VER_ALPHABETA` to `_XTESTS_VER_RELSTATUS` (`0xC1`), with documentation-skip aliases for `_XTESTS_VER_ALPHABETA` and `_XTESTS_VER_AB`;
+* Tip-synced **run_all_examples.sh**, **run_all_scratch_tests** (`.sh` / `.cmd`), and **run_all_unit_tests.sh** from **misc-dev-scripts** cmake-helpers;
+* Added empty **.sis** scratch ATF / skip-interactive list stubs (examples ATF retained);
+* Restructured **ci-cell.yml** to build → artifact → run jobs with non-Windows execute-bit restore (Windows **.cmd** dogfood, CTest, component, and scratch `continue-on-error` retained);
+* Added **README.md** **Developer Experience** section;
+* Synced **Doxyfile** `PROJECT_NUMBER` to **0.27.0-rc1**;
+
+
+## 0.27.0-beta3 - 16th October 2026
+
+* examples:
+  * Shortened **examples/** leaf directory names (dropped redundant `example.c.` / `example.cpp.` prefixes), e.g. **factorial**, **runner**, **string-comparisons-n**, **temp_directory**;
+  * Conformed each example **main.c** / **main.cpp** `File:` (and `\file`) banner to the slash-path form (e.g. `examples/c/factorial/main.c`);
+  * Aligned `XTESTS_START_RUNNER` names and CMake `define_example_program` targets with the shortened directories (notably **example.c.string-comparisons-n** / **example.cpp.string-comparisons-n**);
+  * Updated **examples/descriptors.cpp** `\example` paths for the shortened layout (and added the **string-comparisons-n** examples);
+* documentation:
+  * Restored missing **doc/mainpage.md** referenced by **Doxyfile** `USE_MDFILE_AS_MAINPAGE`;
+* version:
+  * Bumped `_XTESTS_VER_ALPHABETA` to `0x83` (beta 3) in **xtests.h**; synced **Doxyfile** `PROJECT_NUMBER`;
+  * **NEWS.md** chronology row for **0.27.0-beta3**;
+
+
 ## 0.27.0-beta2 - 16th October 2026
 
 * testing:

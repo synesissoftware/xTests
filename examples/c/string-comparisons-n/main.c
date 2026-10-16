@@ -1,5 +1,5 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    examples/c/example.c.string_comparisons_n/main.c
+ * File:    examples/c/string-comparisons-n/main.c
  *
  * Purpose: Example of length-limited multibyte string comparison macros
  *          (`TEST_MS_EQ_N` / `TEST_MS_NE_N`): exact length when `n` is
@@ -7,7 +7,7 @@
  *          illustrates comparison of non-NUL-terminated buffers.
  *
  * Created: 11th October 2026
- * Updated: 11th October 2026
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
 
     XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY(argc, argv, &verbosity);
 
-    if (XTESTS_START_RUNNER("example.c.string_comparisons_n", verbosity))
+    if (XTESTS_START_RUNNER("example.c.string-comparisons-n", verbosity))
     {
         XTESTS_RUN_CASE_WITH_DESC(
             test_exact_length

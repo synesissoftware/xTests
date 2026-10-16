@@ -1,14 +1,14 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    examples/c/example.c.runner/main.c
+ * File:    examples/c/runner/main.c
  *
  * Purpose: Example of in-runner test cases.
  *
  * Created: 20th February 2008
- * Updated: 31st December 2024
+ * Updated: 16th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
-/** \file example.c.runner.c
+/** \file examples/c/runner/main.c
  */
 
 
