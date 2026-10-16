@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       51
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    18
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        421
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    19
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        422
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -74,9 +74,9 @@
  *
  * The patch number of the xTests library
  *
- * \def _XTESTS_VER_ALPHABETA
+ * \def _XTESTS_VER_RELSTATUS
  *
- * The alpha/beta number of the xTests library, in the range 1-0xFE for
+ * The release status of the xTests library, in the range 1-0xFE for
  * prerelease versions, and 0xFF for a released version
  *
  * \def _XTESTS_VER
@@ -87,19 +87,20 @@
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       27
 #define _XTESTS_VER_PATCH       0
-#define _XTESTS_VER_ALPHABETA   0xFF
+#define _XTESTS_VER_RELSTATUS   0xFF
 
 #define _XTESTS_VER \
     (0\
         |   (   _XTESTS_VER_MAJOR       << 24   ) \
         |   (   _XTESTS_VER_MINOR       << 16   ) \
         |   (   _XTESTS_VER_PATCH       <<  8   ) \
-        |   (   _XTESTS_VER_ALPHABETA   <<  0   ) \
+        |   (   _XTESTS_VER_RELSTATUS   <<  0   ) \
     )
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define _XTESTS_VER_REVISION                               _XTESTS_VER_PATCH
-# define _XTESTS_VER_AB                                     _XTESTS_VER_ALPHABETA
+# define _XTESTS_VER_AB                                     _XTESTS_VER_RELSTATUS
+# define _XTESTS_VER_ALPHABETA                              _XTESTS_VER_RELSTATUS
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 

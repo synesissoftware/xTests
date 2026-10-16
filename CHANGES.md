@@ -6,6 +6,16 @@
 0.27.0
 
 
+## 0.27.0-rc1 - 16th October 2026
+
+* Migrated `_XTESTS_VER_*` from `_XTESTS_VER_ALPHABETA` to `_XTESTS_VER_RELSTATUS` (`0xC1`), with documentation-skip aliases for `_XTESTS_VER_ALPHABETA` and `_XTESTS_VER_AB`;
+* Tip-synced **run_all_examples.sh**, **run_all_scratch_tests** (`.sh` / `.cmd`), and **run_all_unit_tests.sh** from **misc-dev-scripts** cmake-helpers;
+* Added empty **.sis** scratch ATF / skip-interactive list stubs (examples ATF retained);
+* Restructured **ci-cell.yml** to build → artifact → run jobs with non-Windows execute-bit restore (Windows **.cmd** dogfood, CTest, component, and scratch `continue-on-error` retained);
+* Added **README.md** **Developer Experience** section;
+* Synced **Doxyfile** `PROJECT_NUMBER` to **0.27.0-rc1**;
+
+
 ## 0.27.0-beta3 - 16th October 2026
 
 * examples:
