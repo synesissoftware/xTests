@@ -1,5 +1,5 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    examples/c/example.c.tests/main.c
+ * File:    examples/c/tests/main.c
  *
  * Purpose: Example of use of separate test-case functions.
  *
@@ -8,7 +8,7 @@
  *
  * ////////////////////////////////////////////////////////////////////// */
 
-/** \file example.c.tests.c
+/** \file examples/c/tests/main.c
  */
 
 

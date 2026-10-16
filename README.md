@@ -14,6 +14,7 @@ Simple, easy-to-use, efficient testing library, for C, C++. It's not particularl
 ## Table of Contents <!-- omit in toc -->
 
 - [Introduction](#introduction)
+- [Developer Experience](#developer-experience)
 - [Installation](#installation)
 - [Components](#components)
 - [Examples](#examples)
@@ -48,6 +49,32 @@ code what you want, and nothing that you don't want.
 
 **xTests** is completely free and includes source released under a BSD-style
 license.
+
+
+## Developer Experience
+
+**xTests** needs [**STLSoft**](https://github.com/synesissoftware/STLSoft)
+(**1.11** or later) for the library itself, so just:
+
+```bash
+./prepare_cmake.sh -m -v -E -T
+./run_all_unit_tests.sh
+```
+
+For a full tree (examples and tests), also install via CMake:
+* [**shwild**](https://github.com/synesissoftware/shwild) (optional; enables
+  wildcard matching in tests);
+
+then:
+
+```bash
+./prepare_cmake.sh -m -v
+./run_all_automated_tests.sh
+```
+
+Try **examples/c/factorial**, the minimal samples under **Examples** below,
+or a unit suite under **test/unit/**. Full options: [INSTALL.md](./INSTALL.md);
+`./prepare_cmake.sh --help`.
 
 
 ## Installation
