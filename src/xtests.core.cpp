@@ -976,7 +976,7 @@ namespace
 
     // template <ss_typename_param_k T_value>
     std::string
-    colorise_(
+    colourise_(
         char const*         file
     ,   int                 line
     ,   char const*         function
@@ -1305,7 +1305,7 @@ namespace
     }
 
     std::string
-    colorise_pointer_null_expected_(
+    colourise_pointer_null_expected_(
         xtests_comparison_t comparison
     ,   int                 verbosity
     ,   int                 is_tty
@@ -2933,7 +2933,7 @@ RunnerInfo::get_reporter_(
 #endif
 
                 std::string fmt_ =
-                colorise_(
+                colourise_(
                     file
                 ,   line
                 ,   function
@@ -2979,7 +2979,7 @@ RunnerInfo::get_reporter_(
             )
             {
                 std::string fmt_ =
-                colorise_(
+                colourise_(
                     file
                 ,   line
                 ,   function
@@ -3025,7 +3025,7 @@ RunnerInfo::get_reporter_(
             )
             {
                 std::string fmt_ =
-                colorise_(
+                colourise_(
                     file
                 ,   line
                 ,   function
@@ -3164,7 +3164,7 @@ RunnerInfo::get_reporter_(
                     }
 
                     std::string fmt_ =
-                    colorise_(
+                    colourise_(
                         file
                     ,   line
                     ,   function
@@ -3259,9 +3259,6 @@ RunnerInfo::get_reporter_(
 
                     char const*     fmt =   fmt_.c_str();
 
-#ifndef EA_COLORISE
-#endif
-
                     switch (verbosity)
                     {
                     case XTESTS_VERBOSITY_SILENT:
@@ -3300,7 +3297,7 @@ RunnerInfo::get_reporter_(
                 else if (xtestsTestContainment == testType)
                 {
                     std::string fmt_ =
-                    colorise_(
+                    colourise_(
                         file
                     ,   line
                     ,   function
@@ -3370,7 +3367,7 @@ RunnerInfo::get_reporter_(
             ,   void const volatile*    actualValue
             ,   xtests_comparison_t     comparison
             ,   int                     verbosity
-            ,   int                 is_tty
+            ,   int                     is_tty
             )
             {
                 if (NULL == expectedValue &&
@@ -3380,7 +3377,7 @@ RunnerInfo::get_reporter_(
                         xtestsComparisonApproxNotEqual == comparison))
                 {
                     std::string const fmt_ =
-                    colorise_pointer_null_expected_(
+                    colourise_pointer_null_expected_(
                         comparison
                     ,   verbosity
                     ,   is_tty
@@ -3412,7 +3409,7 @@ RunnerInfo::get_reporter_(
                 }
 
                 std::string fmt_ =
-                colorise_(
+                colourise_(
                     file
                 ,   line
                 ,   function
@@ -3458,7 +3455,7 @@ RunnerInfo::get_reporter_(
             )
             {
                 std::string fmt_ =
-                colorise_(
+                colourise_(
                     file
                 ,   line
                 ,   function
@@ -3504,7 +3501,7 @@ RunnerInfo::get_reporter_(
             )
             {
                 std::string fmt_ =
-                colorise_(
+                colourise_(
                     file
                 ,   line
                 ,   function
@@ -3551,7 +3548,7 @@ RunnerInfo::get_reporter_(
             )
             {
                 std::string fmt_ =
-                colorise_(
+                colourise_(
                     file
                 ,   line
                 ,   function
@@ -3601,7 +3598,7 @@ RunnerInfo::get_reporter_(
             )
             {
                 std::string fmt_ =
-                colorise_(
+                colourise_(
                     file
                 ,   line
                 ,   function
