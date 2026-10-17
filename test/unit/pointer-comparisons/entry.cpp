@@ -1,11 +1,11 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    test.unit.pointer_comparisons/entry.cpp
+ * File:    test/unit/pointer-comparisons/entry.cpp
  *
  * Purpose: Unit-tests for pointer assertion macros, including
  *          XTESTS_TEST_POINTER_NULL / XTESTS_TEST_POINTER_NOT_NULL.
  *
  * Created: 20th September 2026
- * Updated: 20th September 2026
+ * Updated: 18th October 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
