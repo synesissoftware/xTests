@@ -7,6 +7,18 @@
 * **test.component.temp_directory** now starts its runner with `__FILE__`;
 
 
+## 0.28.0-alpha1 - 18th October 2026
+
+* Added `XTESTS_TEST_POINTER_NULL()` and `XTESTS_TEST_POINTER_NOT_NULL()` (currently wrappers of `XTESTS_TEST_POINTER_EQUAL(NULL, …)` / `XTESTS_TEST_POINTER_NOT_EQUAL(NULL, …)`), with terse aliases `TEST_POINTER_NULL` / `TEST_PTR_NULL` and `TEST_POINTER_NOT_NULL` / `TEST_PTR_NOT_NULL`;
+* Illustrated the new pointer-null macros in **example.c.tests**, including deliberate failures that emit the null-expected wording;
+* Pointer equality/inequality failure messages now say the actual value "is not null as expected" (with the actual address) or "actual pointer is null not as expected" (without a redundant `'0x0'`) when the expected pointer is null, rather than comparing against a platform-formatted null address;
+
+
+## 0.27.0 - 17th October 2026
+
+0.27.0
+
+
 ## 0.27.0-rc1 - 16th October 2026
 
 * Migrated `_XTESTS_VER_*` from `_XTESTS_VER_ALPHABETA` to `_XTESTS_VER_RELSTATUS` (`0xC1`), with documentation-skip aliases for `_XTESTS_VER_ALPHABETA` and `_XTESTS_VER_AB`;
