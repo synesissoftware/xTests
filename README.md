@@ -18,6 +18,7 @@ Simple, easy-to-use, efficient testing library, for C, C++. It's not particularl
 - [Installation](#installation)
 - [Components](#components)
 - [Examples](#examples)
+  - [Runner Names](#runner-names)
   - [Minimal C Example](#minimal-c-example)
   - [Minimal C++ Example](#minimal-c-example-1)
   - [Complete C Example (Factorial)](#complete-c-example-factorial)
@@ -94,6 +95,23 @@ A typical program parses verbosity, starts a runner, executes cases, prints resu
 ## Examples
 
 Extensive examples are provided in the **examples** directory, along with a markdown description for each. Below are the simplest-possible starting examples for both C and C++, followed by a more complete C scenario.
+
+
+### Runner Names
+
+The name given to `XTESTS_START_RUNNER()` (and its variants) may be `__FILE__`, in which case a name is inferred from the path. This happens only if the path has a C/C++ extension (`.c`, `.cc`, `.cpp`, `.cxx`) and **either**:
+
+* its stem is `entry` or `main`, in which case the result is the leaf directory if that begins `example.` or `test.`, otherwise the nearest ancestor directory named `example`, `examples` (as `example`), or `test` followed by the directories below it, joined with `.`; **or**
+* its stem equals its leaf directory, in which case the result is the stem.
+
+Any other value is used as given. For example:
+
+| `__FILE__` | Runner name |
+| --- | --- |
+| `examples/cpp/udt/main.cpp` | `example.cpp.udt` |
+| `test/unit/bec.AnsiConsole/entry.cpp` | `test.unit.bec.AnsiConsole` |
+| `test/unit/test.unit.cpp.1/test.unit.cpp.1.cpp` | `test.unit.cpp.1` |
+| `test/unit/test.unit.utils.fs/entry.cpp` | `test.unit.utils.fs` |
 
 
 ### Minimal C Example

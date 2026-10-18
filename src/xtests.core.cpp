@@ -109,6 +109,7 @@
 /* Standard C++ Header Files */
 #include <map>
 #include <string>
+#include <vector>
 
 /* Standard C Header Files */
 #include <ctype.h>
@@ -1168,37 +1169,26 @@ namespace
     }
 
     bool
-    path_slice_matches_string_(
+    slice_equals_(
         stlsoft_C_string_slice_m_t const    sl
     ,   char const*                         s
     )
     {
-#if 0
-#elif defined(PLATFORMSTL_OS_IS_WINDOWS)
+        size_t const n = ::strlen(s);
 
-# ifdef STLSOFT_API_EXTERNAL_string_strnicmp
-
-    return 0 == STLSOFT_API_EXTERNAL_string_strnicmp(s, sl.ptr, sl.len);
-# else /* ? STLSOFT_API_EXTERNAL_string_strnicmp */
-
-    return 0 == ::_strnicmp(s, sl.ptr, sl.len);
-# endif /* STLSOFT_API_EXTERNAL_string_strnicmp */
-#else
-
-        return 0 == ::strncmp(s, sl.ptr, sl.len);
-#endif
+        return sl.len == n && 0 == ::strncmp(sl.ptr, s, n);
     }
 
     bool
-    basename_slice_matches_any_of_(
+    slice_equals_any_of_(
         stlsoft_C_string_slice_m_t const    sl
-    ,   char const*                         names[]
-    ,   size_t const                        numNames
+    ,   char const* const                   strings[]
+    ,   size_t const                        numStrings
     )
     {
-        for (size_t i = 0; numNames != i; ++i)
+        for (size_t i = 0; numStrings != i; ++i)
         {
-            if (path_slice_matches_string_(sl, names[i]))
+            if (slice_equals_(sl, strings[i]))
             {
                 return true;
             }
@@ -1207,101 +1197,210 @@ namespace
         return false;
     }
 
+    /** Indicates whether the slice begins with the given prefix and has
+     * at least one further character.
+     */
     bool
-    extension_slice_matches_any_of_(
+    slice_has_prefix_and_suffix_(
         stlsoft_C_string_slice_m_t const    sl
-    ,   char const*                         extensions[]
-    ,   size_t const                        numExtensions
+    ,   char const*                         prefix
     )
     {
-        for (size_t i = 0; numExtensions != i; ++i)
-        {
-            if (path_slice_matches_string_(sl, extensions[i]))
-            {
-                return true;
-            }
-        }
+        size_t const n = ::strlen(prefix);
 
-        return false;
+        return sl.len > n && 0 == ::strncmp(sl.ptr, prefix, n);
     }
 
-    stlsoft_C_string_slice_m_t
+    /** Infers the runner name from the name, in the case where it's the
+     * path of a C/C++ implementation file (i.e. `__FILE__`).
+     *
+     * The path must satisfy all of the following rules; otherwise the name
+     * is passed through as is:
+     *
+     * 1. It has an extension of ".c", ".cc", ".cpp", or ".cxx"; and
+     * 2. it has a leaf directory; and
+     * 3. its stem is "entry" or "main", or its stem is identical to the
+     *    leaf directory (in which case the result is the stem).
+     *
+     * For stems of "entry" or "main":
+     *
+     * 4. If the leaf directory has the form "example.<X>" or "test.<X>",
+     *    the result is the leaf directory; otherwise
+     * 5. the nearest ancestor directory named "example", "examples", or
+     *    "test" is located, and the result is that anchor (with
+     *    "examples" becoming "example") followed by each directory below it
+     *    down to the leaf, separated by '.'. If there is no such ancestor,
+     *    or the leaf directory is itself the anchor, the name is passed
+     *    through as is.
+     *
+     * Both '/' and '\\' are recognised as path separators.
+     */
+    std::string
     infer_name_(
         char const* name
     )
     {
-        stlsoft_C_string_slice_m_t const n = stlsoft_C_string_slice_m_t::create(name, ::strlen(name));
+        std::string const                       passThrough(name);
+        stlsoft_C_string_slice_m_t const        input = stlsoft_C_string_slice_m_t::create(name, passThrough.size());
+
+        stlsoft_C_string_slice_m_t              directory;
+        stlsoft_C_string_slice_m_t              entry;
+        stlsoft_C_string_slice_m_t              stem;
+        stlsoft_C_string_slice_m_t              extension;
 
 #if 0
 #elif defined(PLATFORMSTL_OS_IS_WINDOWS)
 
         winstl_C_path_classification_results_m_t    results;
-        winstl_C_path_classification_t const        pc = winstl_C_path_classify(n.ptr, n.len, 0, &results);
+        winstl_C_path_classification_t const        pc = winstl_C_path_classify(input.ptr, input.len, 0, &results);
 
-        if (WinSTL_C_PathType_SlashRooted != pc &&
-            WinSTL_C_PathType_DriveLetterRooted != pc)
+        switch (pc)
+        {
+        case WinSTL_C_PathType_DriveLetterRelative:
+        case WinSTL_C_PathType_DriveLetterRooted:
+        case WinSTL_C_PathType_Relative:
+        case WinSTL_C_PathType_SlashRooted:
+        case WinSTL_C_PathType_UncRooted:
+
+            break;
+        default:
+
+            return passThrough;
+        }
 #else
 
         unixstl_C_path_classification_results_m_t   results;
-        unixstl_C_path_classification_t const       pc = unixstl_C_path_classify(n.ptr, n.len, 0, &results);
+        unixstl_C_path_classification_t const       pc = unixstl_C_path_classify(input.ptr, input.len, 0, &results);
 
-        if (UNIXSTL_C_PathType_SlashRooted != pc)
-#endif
+        switch (pc)
         {
-            return n;
+        case UNIXSTL_C_PathType_Relative:
+        case UNIXSTL_C_PathType_SlashRooted:
+
+            break;
+        default:
+
+            return passThrough;
         }
-        else
-        {
-            static char const* s_extensions[] =
-            {
-                ".c"
-            ,   ".cc"
-            ,   ".cpp"
-            ,   ".cxx"
-            };
-
-            if (!extension_slice_matches_any_of_(results.extension, s_extensions, STLSOFT_NUM_ELEMENTS(s_extensions)))
-            {
-                return n;
-            }
-
-            static char const* s_stockBasenames[] =
-            {
-                "entry"
-            ,   "main"
-            };
-
-            if (basename_slice_matches_any_of_(results.stem, s_stockBasenames, STLSOFT_NUM_ELEMENTS(s_stockBasenames)))
-            {
-                // `entry` === `basename`
-
-                if (0 != results.numDirectoryParts)
-                {
-#if 0
-#elif defined(PLATFORMSTL_OS_IS_WINDOWS)
-
-                    winstl_C_path_classification_results_m_t   results2;
-
-                    auto const pc2 = winstl_C_path_classify(results.location.ptr, results.location.len - 1, 0, &results2);
-#else
-
-                    unixstl_C_path_classification_results_m_t   results2;
-
-                    auto const pc2 = unixstl_C_path_classify(results.location.ptr, results.location.len - 1, 0, &results2);
 #endif
 
-                    ((void)pc2);
+        directory   =   results.directory;
+        entry       =   results.entry;
+        stem        =   results.stem;
+        extension   =   results.extension;
 
-                    return results2.entry;
+        // Rule 1: C/C++ implementation file
+
+        static char const* const s_extensions[] =
+        {
+            ".c"
+        ,   ".cc"
+        ,   ".cpp"
+        ,   ".cxx"
+        };
+
+        if (0 == entry.len ||
+            !slice_equals_any_of_(extension, s_extensions, STLSOFT_NUM_ELEMENTS(s_extensions)))
+        {
+            return passThrough;
+        }
+
+        // Rule 2: split the directory into its (non-empty) parts
+
+        std::vector<stlsoft_C_string_slice_m_t> parts;
+
+        {
+            char const* const   end     =   directory.ptr + directory.len;
+            char const*         begin   =   directory.ptr;
+
+            for (char const* p = directory.ptr; ; ++p)
+            {
+                if (end == p ||
+                    '/' == *p ||
+                    '\\' == *p)
+                {
+                    if (begin != p)
+                    {
+                        parts.push_back(stlsoft_C_string_slice_m_t::create(begin, static_cast<size_t>(p - begin)));
+                    }
+
+                    begin = p + 1;
+
+                    if (end == p)
+                    {
+                        break;
+                    }
                 }
             }
-            else
+        }
+
+        if (parts.empty())
+        {
+            return passThrough;
+        }
+
+        size_t const                        numParts    =   parts.size();
+        stlsoft_C_string_slice_m_t const    leaf        =   parts[numParts - 1];
+
+        // Rule 3: stem is "entry" or "main", or is the leaf directory
+
+        static char const* const s_stockStems[] =
+        {
+            "entry"
+        ,   "main"
+        };
+
+        if (!slice_equals_any_of_(stem, s_stockStems, STLSOFT_NUM_ELEMENTS(s_stockStems)))
+        {
+            if (stem.len == leaf.len && 0 == ::strncmp(stem.ptr, leaf.ptr, stem.len))
             {
-                return n;
+                return std::string(stem.ptr, stem.len);
+            }
+
+            return passThrough;
+        }
+
+        // Rule 4: leaf is "example.<X>" or "test.<X>"
+
+        if (slice_has_prefix_and_suffix_(leaf, "example.") ||
+            slice_has_prefix_and_suffix_(leaf, "test."))
+        {
+            return std::string(leaf.ptr, leaf.len);
+        }
+
+        // Rule 5: nearest anchor ancestor
+
+        for (size_t i = numParts - 1; 0 != i; --i)
+        {
+            stlsoft_C_string_slice_m_t const    part     =   parts[i - 1];
+            char const*                         anchor   =   NULL;
+
+            if (slice_equals_(part, "example") ||
+                slice_equals_(part, "examples"))
+            {
+                anchor = "example";
+            }
+            else
+            if (slice_equals_(part, "test"))
+            {
+                anchor = "test";
+            }
+
+            if (NULL != anchor)
+            {
+                std::string result(anchor);
+
+                for (size_t j = i; numParts != j; ++j)
+                {
+                    result += '.';
+                    result.append(parts[j].ptr, parts[j].len);
+                }
+
+                return result;
             }
         }
 
-        return n;
+        return passThrough;
     }
 
     std::string
@@ -1434,11 +1533,11 @@ xtests_startRunner(
 {
     STLSOFT_MESSAGE_ASSERT("Runner already initialised in this process!", NULL == s_runner);
 
-    stlsoft_C_string_slice_m_t const inferredName = infer_name_(name);
+    std::string const inferredName = infer_name_(name);
 
     XTESTS_EXCEPTION_TRY_
 
-        s_runner = new RunnerInfo(inferredName.ptr, inferredName.len, verbosity, reporter, reporterParam, stm, flags, setup, teardown, setupParam);
+        s_runner = new RunnerInfo(inferredName.data(), inferredName.size(), verbosity, reporter, reporterParam, stm, flags, setup, teardown, setupParam);
 
         if (NULL == s_runner)
         {
