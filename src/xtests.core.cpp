@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 18th October 2026
+ * Updated: 19th October 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -78,7 +78,11 @@
 #if 0
 #elif defined(PLATFORMSTL_OS_IS_WINDOWS)
 # include <winstl/system/system_version.hpp>
+# include <winstl/filesystem/path_classify_functions.h>
+#else
+# include <unixstl/filesystem/path_classify_functions.h>
 #endif
+#include <stlsoft/api/external/string.h>
 #include <stlsoft/conversion/char_conversions.hpp>
 #include <stlsoft/conversion/string_to_integer.hpp>
 #include <stlsoft/memory/auto_buffer.hpp>
@@ -105,6 +109,7 @@
 /* Standard C++ Header Files */
 #include <map>
 #include <string>
+#include <vector>
 
 /* Standard C Header Files */
 #include <ctype.h>
@@ -409,6 +414,7 @@ namespace
     public: // construction
         RunnerInfo(
             char const*         name
+        ,   size_t              nameLen
         ,   int                 verbosity
         ,   xTests_Reporter_t*  reporter
         ,   void*               reporterParam
@@ -942,7 +948,7 @@ namespace
 
     // template <ss_typename_param_k T_value>
     std::string
-    colorise_(
+    colourise_(
         flfe_t              flfe
     ,   char const*         type_qualifier      // might say "Boolean", "character", ...
 #if 0
@@ -1127,8 +1133,243 @@ namespace
         return fmt_;
     }
 
+    bool
+    slice_equals_(
+        stlsoft_C_string_slice_m_t const    sl
+    ,   char const*                         s
+    )
+    {
+        size_t const n = ::strlen(s);
+
+        return sl.len == n && 0 == ::strncmp(sl.ptr, s, n);
+    }
+
+    bool
+    slice_equals_any_of_(
+        stlsoft_C_string_slice_m_t const    sl
+    ,   char const* const                   strings[]
+    ,   size_t const                        numStrings
+    )
+    {
+        for (size_t i = 0; numStrings != i; ++i)
+        {
+            if (slice_equals_(sl, strings[i]))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /** Indicates whether the slice begins with the given prefix and has
+     * at least one further character.
+     */
+    bool
+    slice_has_prefix_and_suffix_(
+        stlsoft_C_string_slice_m_t const    sl
+    ,   char const*                         prefix
+    )
+    {
+        size_t const n = ::strlen(prefix);
+
+        return sl.len > n && 0 == ::strncmp(sl.ptr, prefix, n);
+    }
+
+    /** Infers the runner name from the name, in the case where it's the
+     * path of a C/C++ implementation file (i.e. `__FILE__`).
+     *
+     * The path must satisfy all of the following rules; otherwise the name
+     * is passed through as is:
+     *
+     * 1. It has an extension of ".c", ".cc", ".cpp", or ".cxx"; and
+     * 2. it has a leaf directory; and
+     * 3. its stem is "entry" or "main", or its stem is identical to the
+     *    leaf directory (in which case the result is the stem).
+     *
+     * For stems of "entry" or "main":
+     *
+     * 4. If the leaf directory has the form "example.<X>" or "test.<X>",
+     *    the result is the leaf directory; otherwise
+     * 5. the nearest ancestor directory named "example", "examples", or
+     *    "test" is located, and the result is that anchor (with
+     *    "examples" becoming "example") followed by each directory below it
+     *    down to the leaf, separated by '.'. If there is no such ancestor,
+     *    or the leaf directory is itself the anchor, the name is passed
+     *    through as is.
+     *
+     * Both '/' and '\\' are recognised as path separators.
+     */
     std::string
-    colorise_pointer_null_expected_(
+    infer_name_(
+        char const* name
+    )
+    {
+        std::string const                       passThrough(name);
+        stlsoft_C_string_slice_m_t const        input = stlsoft_C_string_slice_m_t::create(name, passThrough.size());
+
+        stlsoft_C_string_slice_m_t              directory;
+        stlsoft_C_string_slice_m_t              entry;
+        stlsoft_C_string_slice_m_t              stem;
+        stlsoft_C_string_slice_m_t              extension;
+
+#if 0
+#elif defined(PLATFORMSTL_OS_IS_WINDOWS)
+
+        winstl_C_path_classification_results_m_t    results;
+        winstl_C_path_classification_t const        pc = winstl_C_path_classify(input.ptr, input.len, 0, &results);
+
+        switch (pc)
+        {
+        case WinSTL_C_PathType_DriveLetterRelative:
+        case WinSTL_C_PathType_DriveLetterRooted:
+        case WinSTL_C_PathType_Relative:
+        case WinSTL_C_PathType_SlashRooted:
+        case WinSTL_C_PathType_UncRooted:
+
+            break;
+        default:
+
+            return passThrough;
+        }
+#else
+
+        unixstl_C_path_classification_results_m_t   results;
+        unixstl_C_path_classification_t const       pc = unixstl_C_path_classify(input.ptr, input.len, 0, &results);
+
+        switch (pc)
+        {
+        case UNIXSTL_C_PathType_Relative:
+        case UNIXSTL_C_PathType_SlashRooted:
+
+            break;
+        default:
+
+            return passThrough;
+        }
+#endif
+
+        directory   =   results.directory;
+        entry       =   results.entry;
+        stem        =   results.stem;
+        extension   =   results.extension;
+
+        // Rule 1: C/C++ implementation file
+
+        static char const* const s_extensions[] =
+        {
+            ".c"
+        ,   ".cc"
+        ,   ".cpp"
+        ,   ".cxx"
+        };
+
+        if (0 == entry.len ||
+            !slice_equals_any_of_(extension, s_extensions, STLSOFT_NUM_ELEMENTS(s_extensions)))
+        {
+            return passThrough;
+        }
+
+        // Rule 2: split the directory into its (non-empty) parts
+
+        std::vector<stlsoft_C_string_slice_m_t> parts;
+
+        {
+            char const* const   end     =   directory.ptr + directory.len;
+            char const*         begin   =   directory.ptr;
+
+            for (char const* p = directory.ptr; ; ++p)
+            {
+                if (end == p ||
+                    '/' == *p ||
+                    '\\' == *p)
+                {
+                    if (begin != p)
+                    {
+                        parts.push_back(stlsoft_C_string_slice_m_t::create(begin, static_cast<size_t>(p - begin)));
+                    }
+
+                    begin = p + 1;
+
+                    if (end == p)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (parts.empty())
+        {
+            return passThrough;
+        }
+
+        size_t const                        numParts    =   parts.size();
+        stlsoft_C_string_slice_m_t const    leaf        =   parts[numParts - 1];
+
+        // Rule 3: stem is "entry" or "main", or is the leaf directory
+
+        static char const* const s_stockStems[] =
+        {
+            "entry"
+        ,   "main"
+        };
+
+        if (!slice_equals_any_of_(stem, s_stockStems, STLSOFT_NUM_ELEMENTS(s_stockStems)))
+        {
+            if (stem.len == leaf.len && 0 == ::strncmp(stem.ptr, leaf.ptr, stem.len))
+            {
+                return std::string(stem.ptr, stem.len);
+            }
+
+            return passThrough;
+        }
+
+        // Rule 4: leaf is "example.<X>" or "test.<X>"
+
+        if (slice_has_prefix_and_suffix_(leaf, "example.") ||
+            slice_has_prefix_and_suffix_(leaf, "test."))
+        {
+            return std::string(leaf.ptr, leaf.len);
+        }
+
+        // Rule 5: nearest anchor ancestor
+
+        for (size_t i = numParts - 1; 0 != i; --i)
+        {
+            stlsoft_C_string_slice_m_t const    part     =   parts[i - 1];
+            char const*                         anchor   =   NULL;
+
+            if (slice_equals_(part, "example") ||
+                slice_equals_(part, "examples"))
+            {
+                anchor = "example";
+            }
+            else
+            if (slice_equals_(part, "test"))
+            {
+                anchor = "test";
+            }
+
+            if (NULL != anchor)
+            {
+                std::string result(anchor);
+
+                for (size_t j = i; numParts != j; ++j)
+                {
+                    result += '.';
+                    result.append(parts[j].ptr, parts[j].len);
+                }
+
+                return result;
+            }
+        }
+
+        return passThrough;
+    }
+
+    std::string
+    colourise_pointer_null_expected_(
         xtests_comparison_t comparison
     ,   int                 verbosity
     ,   int                 is_tty
@@ -1257,9 +1498,11 @@ xtests_startRunner(
 {
     STLSOFT_MESSAGE_ASSERT("Runner already initialised in this process!", NULL == s_runner);
 
+    std::string const inferredName = infer_name_(name);
+
     XTESTS_EXCEPTION_TRY_
 
-        s_runner = new RunnerInfo(name, verbosity, reporter, reporterParam, stm, flags, setup, teardown, setupParam);
+        s_runner = new RunnerInfo(inferredName.data(), inferredName.size(), verbosity, reporter, reporterParam, stm, flags, setup, teardown, setupParam);
 
         if (NULL == s_runner)
         {
@@ -2753,7 +2996,7 @@ RunnerInfo::get_reporter_(
 #endif
 
                 std::string fmt_ =
-                colorise_(
+                colourise_(
                     flfe
                 ,   ""
 # if 0
@@ -2793,7 +3036,7 @@ RunnerInfo::get_reporter_(
             )
             {
                 std::string fmt_ =
-                colorise_(
+                colourise_(
                     flfe
                 ,   ""
 # if 0
@@ -2833,7 +3076,7 @@ RunnerInfo::get_reporter_(
             )
             {
                 std::string fmt_ =
-                colorise_(
+                colourise_(
                     flfe
                 ,   "character"
 # if 0
@@ -2963,7 +3206,7 @@ RunnerInfo::get_reporter_(
                     }
 
                     std::string fmt_ =
-                    colorise_(
+                    colourise_(
                         flfe
                     ,   type_qualifier
 # if 0
@@ -3055,9 +3298,6 @@ RunnerInfo::get_reporter_(
 
                     char const*     fmt =   fmt_.c_str();
 
-#ifndef EA_COLORISE
-#endif
-
                     switch (verbosity)
                     {
                     case XTESTS_VERBOSITY_SILENT:
@@ -3096,7 +3336,7 @@ RunnerInfo::get_reporter_(
                 else if (xtestsTestContainment == testType)
                 {
                     std::string fmt_ =
-                    colorise_(
+                    colourise_(
                         flfe
                     ,   "string"
 # if 0
@@ -3167,7 +3407,7 @@ RunnerInfo::get_reporter_(
                         xtestsComparisonApproxNotEqual == comparison))
                 {
                     std::string const fmt_ =
-                    colorise_pointer_null_expected_(
+                    colourise_pointer_null_expected_(
                         comparison
                     ,   verbosity
                     ,   is_tty
@@ -3199,7 +3439,7 @@ RunnerInfo::get_reporter_(
                 }
 
                 std::string fmt_ =
-                colorise_(
+                colourise_(
                     flfe
                 ,   "pointer"
 # if 0
@@ -3239,7 +3479,7 @@ RunnerInfo::get_reporter_(
             )
             {
                 std::string fmt_ =
-                colorise_(
+                colourise_(
                     flfe
                 ,   ""
 # if 0
@@ -3279,7 +3519,7 @@ RunnerInfo::get_reporter_(
             )
             {
                 std::string fmt_ =
-                colorise_(
+                colourise_(
                     flfe
                 ,   ""
 # if 0
@@ -3320,7 +3560,7 @@ RunnerInfo::get_reporter_(
             )
             {
                 std::string fmt_ =
-                colorise_(
+                colourise_(
                     flfe
                 ,   ""
 # if 0
@@ -3364,7 +3604,7 @@ RunnerInfo::get_reporter_(
             )
             {
                 std::string fmt_ =
-                colorise_(
+                colourise_(
                     flfe
                 ,   ""
 # if 0
@@ -3958,6 +4198,7 @@ namespace tty
 
 RunnerInfo::RunnerInfo(
     char const*             name
+,   size_t                  nameLen
 ,   int                     verbosity
 ,   xTests_Reporter_t*      reporter
 ,   void*                   reporterParam
@@ -3975,7 +4216,7 @@ RunnerInfo::RunnerInfo(
                         tty::ansi_supporter::determine_support()
                     ))
     , m_reporterParam(reporterParam)
-    , m_name(name)
+    , m_name(name, nameLen)
     , m_verbosity(verbosity)
     , m_flags(flags)
     , m_setup(setup)

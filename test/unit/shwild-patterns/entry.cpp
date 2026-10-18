@@ -4,7 +4,7 @@
  * Purpose: Unit-tests for shwild extensions.
  *
  * Created: 17th October 2024
- * Updated: 16th October 2026
+ * Updated: 19th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -69,7 +69,7 @@ int main(int argc, char **argv)
 
     XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, &verbosity);
 
-    if (XTESTS_START_RUNNER("test.unit.shwild-patterns", verbosity))
+    if (XTESTS_START_RUNNER(__FILE__, verbosity))
     {
         XTESTS_RUN_CASE(test_empty);
         XTESTS_RUN_CASE(test_exact_matches);
