@@ -3817,8 +3817,8 @@ xtests_testFunctionPointers(
 ,   int                     line
 ,   char const*             function
 ,   char const*             expr
-,   void                    (*expected)(void)
-,   void                    (*actual)(void)
+,   void                  (*expected)(void)
+,   void                  (*actual)(void)
 ,   xtests_comparison_t     comp
 );
 

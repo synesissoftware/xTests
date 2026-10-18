@@ -1693,10 +1693,6 @@ xtests_testUdtPassed(
 ,   char const*         message     /* = NULL */
 )
 {
-    STLSOFT_SUPPRESS_UNUSED(file);
-    STLSOFT_SUPPRESS_UNUSED(line);
-    STLSOFT_SUPPRESS_UNUSED(function);
-    STLSOFT_SUPPRESS_UNUSED(expr);
     STLSOFT_SUPPRESS_UNUSED(expected);
     STLSOFT_SUPPRESS_UNUSED(actual);
     STLSOFT_SUPPRESS_UNUSED(comp);
@@ -4438,11 +4434,11 @@ RunnerInfo::RegisterFailedCondition(
 
 int
 RunnerInfo::RegisterFailedCondition_udt(
-        flfe_t                  flfe
-    ,   char const*             expected
-    ,   char const*             actual
-    ,   xtests_comparison_t     comp
-    ,   char const*             message
+    flfe_t                  flfe
+,   char const*             expected
+,   char const*             actual
+,   xtests_comparison_t     comp
+,   char const*             message
 )
 {
     STLSOFT_ASSERT(NULL != m_reporter);
