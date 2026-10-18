@@ -53,7 +53,7 @@
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       52
 # define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        423
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        424
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -3798,8 +3798,8 @@ xtests_testFunctionPointers(
 ,   int                     line
 ,   char const*             function
 ,   char const*             expr
-,   void                    (*expected)(void)
-,   void                    (*actual)(void)
+,   void                  (*expected)(void)
+,   void                  (*actual)(void)
 ,   xtests_comparison_t     comp
 );
 

@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 11th October 2026
+ * Updated: 18th October 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -560,8 +560,8 @@ namespace
         ,   int                     line
         ,   char const*             function
         ,   char const*             expr
-        ,   void                    (*expected)()
-        ,   void                    (*actual)()
+        ,   void                  (*expected)()
+        ,   void                  (*actual)()
         ,   xtests_comparison_t     comp
         );
         int TestCharacters(
@@ -1970,8 +1970,8 @@ xtests_testFunctionPointers(
 ,   int                     line
 ,   char const*             function
 ,   char const*             expr
-,   void                    (*expected)()
-,   void                    (*actual)()
+,   void                  (*expected)()
+,   void                  (*actual)()
 ,   xtests_comparison_t     comp
 )
 {
@@ -5611,8 +5611,8 @@ RunnerInfo::TestFunctionPointers(
 ,   int                     line
 ,   char const*             function
 ,   char const*             expr
-,   void                    (*expected)()
-,   void                    (*actual)()
+,   void                  (*expected)()
+,   void                  (*actual)()
 ,   xtests_comparison_t     comp
 )
 {
