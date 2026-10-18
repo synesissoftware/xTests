@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 18th October 2026
+ * Updated: 19th October 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -87,7 +87,7 @@
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       28
 #define _XTESTS_VER_PATCH       0
-#define _XTESTS_VER_RELSTATUS   0x41
+#define _XTESTS_VER_RELSTATUS   0x42
 
 #define _XTESTS_VER \
     (0\
@@ -682,7 +682,19 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * A test runner is a logically-related group of test cases.
  *
- * \param name The name of the test-runner
+ * \param name The name of the test-runner, or the path of the source file
+ *   in which the runner is started (i.e. `__FILE__`), from which a name is
+ *   inferred. The name is inferred only if the path has a C/C++
+ *   extension (".c", ".cc", ".cpp", ".cxx") and either its stem is
+ *   "entry" or "main", or its stem equals its leaf directory (in which
+ *   case the stem is the name). For a stem of "entry" or "main", the
+ *   leaf directory is the name if it begins "example." or "test.";
+ *   otherwise the name is the nearest ancestor directory named "example",
+ *   "examples" (becoming "example"), or "test", followed by each
+ *   directory down to the leaf, joined with '.' (e.g.
+ *   ".../examples/cpp/udt/main.cpp" gives "example.cpp.udt", and
+ *   ".../test/unit/bec.AnsiConsole/entry.cpp" gives
+ *   "test.unit.bec.AnsiConsole"). Any other value is used as given
  * \param verbosity The verbosity (see xtests_verbosity_t) at which the
  *   runner will be executed
  */
@@ -697,7 +709,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * A test runner is a logically-related group of test cases.
  *
- * \param name The name of the test-runner
+ * \param name The name of the test-runner, or `__FILE__` (see
+ *   XTESTS_START_RUNNER())
  * \param verbosity The verbosity (see xtests_verbosity_t) at which the
  *   runner will be executed
  * \param setup The function to be called before each test
@@ -719,7 +732,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * A test runner is a logically-related group of test cases.
  *
- * \param name The name of the test-runner
+ * \param name The name of the test-runner, or `__FILE__` (see
+ *   XTESTS_START_RUNNER())
  * \param verbosity The verbosity (see xtests_verbosity_t) at which the
  *   runner will be executed
  * \param stm The stream to which output will be written
@@ -735,7 +749,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * A test runner is a logically-related group of test cases.
  *
- * \param name The name of the test-runner
+ * \param name The name of the test-runner, or `__FILE__` (see
+ *   XTESTS_START_RUNNER())
  * \param verbosity The verbosity (see xtests_verbosity_t) at which the
  *   runner will be executed
  * \param reporter The reporter instance
@@ -753,7 +768,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * A test runner is a logically-related group of test cases.
  *
- * \param name The name of the test-runner
+ * \param name The name of the test-runner, or `__FILE__` (see
+ *   XTESTS_START_RUNNER())
  * \param verbosity The verbosity (see xtests_verbosity_t) at which the
  *   runner will be executed
  * \param reporter The reporter instance
@@ -772,7 +788,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * A test runner is a logically-related group of test cases.
  *
- * \param name The name of the test-runner
+ * \param name The name of the test-runner, or `__FILE__` (see
+ *   XTESTS_START_RUNNER())
  * \param verbosity The verbosity (see xtests_verbosity_t) at which the
  *   runner will be executed
  * \param reporter The reporter instance
@@ -793,7 +810,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * A test runner is a logically-related group of test cases.
  *
- * \param name The name of the test-runner
+ * \param name The name of the test-runner, or `__FILE__` (see
+ *   XTESTS_START_RUNNER())
  * \param verbosity The verbosity (see xtests_verbosity_t) at which the
  *   runner will be executed
  * \param reporter The reporter instance
@@ -818,7 +836,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *
  * A test runner is a logically-related group of test cases.
  *
- * \param name The name of the test-runner
+ * \param name The name of the test-runner, or `__FILE__` (see
+ *   XTESTS_START_RUNNER())
  * \param verbosity The verbosity (see xtests_verbosity_t) at which the
  *   runner will be executed
  * \param flags The \link xtests::c::xtests_runner_flags_t flags\endlink

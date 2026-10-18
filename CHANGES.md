@@ -1,6 +1,13 @@
 # xTests - Changes <!-- omit in toc -->
 
 
+## 0.28.0-alpha2 - 19th October 2026
+
+* `XTESTS_START_RUNNER()` (and related start-runner APIs) now infer a runner name from a source path such as `__FILE__`, when the path has a C/C++ extension (`.c`, `.cc`, `.cpp`, `.cxx`) and either its stem is `entry` or `main` (result: the leaf directory if it begins `example.` or `test.`, otherwise the nearest `example`/`examples`/`test` ancestor joined with the directories below it by `.`, e.g. `example.cpp.udt`) or its stem equals its leaf directory (result: the stem); any other value is used as given;
+* Documented the `__FILE__` runner-name rules in the `XTESTS_START_RUNNER*()` Doxygen markup in **xtests.h** and in a new **README.md** *Runner Names* section;
+* **test.component.temp_directory** now starts its runner with `__FILE__`;
+
+
 ## 0.28.0-alpha1 - 18th October 2026
 
 * Added `XTESTS_TEST_POINTER_NULL()` and `XTESTS_TEST_POINTER_NOT_NULL()` (currently wrappers of `XTESTS_TEST_POINTER_EQUAL(NULL, …)` / `XTESTS_TEST_POINTER_NOT_EQUAL(NULL, …)`), with terse aliases `TEST_POINTER_NULL` / `TEST_PTR_NULL` and `TEST_POINTER_NOT_NULL` / `TEST_PTR_NOT_NULL`;
