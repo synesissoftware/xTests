@@ -13,6 +13,9 @@
 * [ ] Fix multibyte string-equality helpers (`XTESTS_TEST_MULTIBYTE_STRING_EQUAL` / `sas_to_string_m`) so string-access shims (e.g. `c_str_data_a`) declared after **xtests.h** is included are found under GCC/MinGW two-phase lookup; unblocks **Pantheios** **test.unit.bec.COMErrorObject** on MinGW;
 * [ ] support for `“--list”` flag;
 * [ ] support for named test case(s);
+* [ ] apply `XTESTS_START_RUNNER(__FILE__, …)` name inference in remaining test and example programs;
+* [x] ~~~document `__FILE__` runner-name inference in **README.md** and Doxygen~~~ - ✅;
+* [ ] unit tests for runner-name inference from `__FILE__` / source paths;
 * [ ] support for `“—-timings”` flag;
 * [ ] support for `“—-leaks”` flag;
 * [ ] verbosity level 6 is to show all cases as they are executed, including successful results;
@@ -20,7 +23,7 @@
 * [ ] wide-character testing and compiler-specific handling of `“%C”`;
 * [ ] each case should have access to a FILE* variable that is like stderr, but contents only printed when case fails;
 * [ ] allow `TEST_INT_EQ(0, stlsoft::ss_uint32_t(1))` such that the comparison works without needing to specify `u` suffix;
-* [ ] refactor internally params { file+line+function } into a structure;
+* [x] ~~~refactor internally params { file+line+function } into a structure~~~ - ✅;
 * [ ] internal printf translates `%zu` transparently for those (older) standard libraries that do not support;
 * [x] ~~~summary should list #cases that failed/succeeded~~~ - ✅;
 * [ ] C: integer equal etc should produce message that logs both exp and act, like **BDUT**;

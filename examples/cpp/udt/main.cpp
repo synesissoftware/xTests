@@ -4,7 +4,7 @@
  * Purpose: Example use of unit-testing of a user-defined type.
  *
  * Created: 10th January 2025
- * Updated: 16th October 2026
+ * Updated: 19th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -107,7 +107,7 @@ int main(int argc, char **argv)
 
     XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, &verbosity);
 
-    if (XTESTS_START_RUNNER("example.cpp.udt", verbosity))
+    if (XTESTS_START_RUNNER(__FILE__, verbosity))
     {
         XTESTS_RUN_CASE(TEST_PriceQuantity_1);
 

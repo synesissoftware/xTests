@@ -230,14 +230,14 @@ static int teardown(void* param)
 
 ## Test runner functions
 
-A **test runner** is a logically-related group of test cases.
+A **test runner** is a logically-related group of test cases. The **name** may be a literal runner name, or a C/C++ source path such as `__FILE__`, from which a name is inferred (see [Runner Names](./README.md#runner-names)).
 
 
 ### `XTESTS_START_RUNNER(name, verbosity)`
 
 Starts a runner that reports to stdout.
 
-* **name** — runner name;
+* **name** — runner name, or `__FILE__`;
 * **verbosity** — `xtests_verbosity_t` (or parsed `int`);
 
 ```c
