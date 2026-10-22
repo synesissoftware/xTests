@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 21st October 2026
+ * Updated: 23rd October 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *

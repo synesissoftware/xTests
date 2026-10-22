@@ -1,7 +1,7 @@
 # xTests - Changes <!-- omit in toc -->
 
 
-## 0.28.0-beta1 - 21st October 2026
+## 0.28.0-beta1 - 23rd October 2026
 
 * Expanded **xtests/terse-api.h** with further short aliases matching the established `TYPE_OP` vocabulary (`BOOL`, `CHAR`/`FP`/`INT` + `EQ`/`NE`, `MS`/`WS` + `SLICE`, and message / exit-code helpers):
   * `TEST_BOOL_TRUE` / `TEST_BOOL_FALSE` / `TEST_BOOL_EQ` / `TEST_BOOL_NE`;
@@ -14,11 +14,12 @@
 * Updated **COMPONENTS.md** Terse API table for the new boolean short forms;
 
 
-## 0.28.0-alpha2 - 19th October 2026
+## 0.28.0-alpha2 - 22nd October 2026
 
 * `XTESTS_START_RUNNER()` (and related start-runner APIs) now infer a runner name from a source path such as `__FILE__`, when the path has a C/C++ extension (`.c`, `.cc`, `.cpp`, `.cxx`) and either its stem is `entry` or `main` (result: the leaf directory if it begins `example.` or `test.`, otherwise the nearest `example`/`examples`/`test` ancestor joined with the directories below it by `.`, e.g. `example.cpp.udt`) or its stem equals its leaf directory (result: the stem); any other value is used as given;
-* Documented the `__FILE__` runner-name rules in the `XTESTS_START_RUNNER*()` Doxygen markup in **xtests.h** and in a new **README.md** *Runner Names* section;
-* **test.component.temp_directory** now starts its runner with `__FILE__`;
+* Documented the `__FILE__` runner-name rules in the `XTESTS_START_RUNNER*()` Doxygen markup in **xtests.h**, in the test-runner section of **COMPONENTS.md**, and in a new **README.md** *Runner Names* section;
+* **example.cpp.udt**, **test.component.temp_directory**, **test.scratch.fail_all**, and **test.unit.shwild-patterns** now start their runners with `__FILE__`;
+* Collapsed the internal file, line, function, and expression parameters into an `flfe_t` helper in **xtests.core.cpp**;
 
 
 ## 0.28.0-alpha1 - 18th October 2026
