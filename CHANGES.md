@@ -1,6 +1,19 @@
 # xTests - Changes <!-- omit in toc -->
 
 
+## 0.28.0-beta1 - 23rd October 2026
+
+* Expanded **xtests/terse-api.h** with further short aliases matching the established `TYPE_OP` vocabulary (`BOOL`, `CHAR`/`FP`/`INT` + `EQ`/`NE`, `MS`/`WS` + `SLICE`, and message / exit-code helpers):
+  * `TEST_BOOL_TRUE` / `TEST_BOOL_FALSE` / `TEST_BOOL_EQ` / `TEST_BOOL_NE`;
+  * `TEST_CHAR_EQ_EXACT`, `TEST_FP_EQ_EXACT` / `TEST_FP_NE_EXACT`, `TEST_INT_EQ_EXACT`;
+  * `TEST_INT_EQ_ANY_IN_RANGE` / `TEST_INT_EQ_ANY_NOT_IN_RANGE` / `TEST_INT_EQ_ANY_OF` / `TEST_INT_EQ_ANY_OF2` / `TEST_INT_EQ_ANY_OF3`;
+  * `TEST_MS_SLICE_EQ` / `TEST_MS_SLICE_EQ_APPROX` / `TEST_MS_SLICE_NE` / `TEST_MS_SLICE_NE_APPROX` and the `TEST_WS_SLICE_*` counterparts;
+  * `TEST_WS_NOT_CONTAIN_APPROX` (parity with `TEST_MS_NOT_CONTAIN_APPROX`);
+  * `TEST_EQUAL_WITH_MESSAGE` / `TEST_EQ_WITH_MSG`, `TEST_NOT_EQUAL_WITH_MESSAGE` / `TEST_NE_WITH_MSG`, and `END_RUNNER_UPDATE_EXITCODE`;
+* Bumped `_XTESTS_VER_RELSTATUS` to `0x81` (beta 1) in **xtests.h**; synced **Doxyfile** `PROJECT_NUMBER`;
+* Updated **COMPONENTS.md** Terse API table for the new boolean short forms;
+
+
 ## 0.28.0-alpha2 - 22nd October 2026
 
 * `XTESTS_START_RUNNER()` (and related start-runner APIs) now infer a runner name from a source path such as `__FILE__`, when the path has a C/C++ extension (`.c`, `.cc`, `.cpp`, `.cxx`) and either its stem is `entry` or `main` (result: the leaf directory if it begins `example.` or `test.`, otherwise the nearest `example`/`examples`/`test` ancestor joined with the directories below it by `.`, e.g. `example.cpp.udt`) or its stem equals its leaf directory (result: the stem); any other value is used as given;
