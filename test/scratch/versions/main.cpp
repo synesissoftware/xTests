@@ -4,7 +4,7 @@
  * Purpose: Scratch-test program for xTests showing version(s).
  *
  * Created: 30th June 2025
- * Updated: 11th October 2026
+ * Updated: 23rd October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -16,6 +16,9 @@
 #include <xtests/xtests.h>
 
 #include <stlsoft/stlsoft.h>
+#ifdef XTESTS_USE_SHWILD
+# include <shwild/shwild.h>
+#endif /* XTESTS_USE_SHWILD */
 
 #include <iomanip>
 #include <iostream>
@@ -75,16 +78,30 @@ int main(int /* argc */, char* /* argv */[])
         version(std::cout, "", "xTests", "_XTESTS_VER", libver);
     }
 
+#if defined(_STLSOFT_VER) || defined(SHWILD_VER)
+
     std::cout << "\n" << "efferent dependencies:" << std::endl;
+#endif /* _STLSOFT_VER || SHWILD_VER */
+
+#ifdef _STLSOFT_VER
 
     {
         unsigned const libver = _STLSOFT_VER;
 
         version(std::cout, "\t", "STLSoft", "_STLSOFT_VER", libver);
     }
+#endif /* _STLSOFT_VER */
+
+#ifdef SHWILD_VER
+
+    {
+        unsigned const libver = SHWILD_VER;
+
+        version(std::cout, "\t", "shwild", "SHWILD_VER", libver);
+    }
+#endif /* SHWILD_VER */
 
     return EXIT_SUCCESS;
 }
-
 
 /* ///////////////////////////// end of file //////////////////////////// */
