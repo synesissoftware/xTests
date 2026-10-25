@@ -3,6 +3,7 @@
 
 | Date                | News Item                        | Details                                                  |
 |---------------------|----------------------------------|----------------------------------------------------------|
+| 26th October 2026   | [**xTests** 0.28.0](https://github.com/synesissoftware/xTests/releases/tag/0.28.0) released | 0.28.0 |
 | 23rd October 2026   | [**xTests** 0.28.0-beta1](https://github.com/synesissoftware/xTests/releases/tag/0.28.0-beta1) released | Further terse API short aliases (`TEST_BOOL_*`, slice/`EXACT`/`ANY_*`) |
 | 22nd October 2026   | [**xTests** 0.28.0-alpha2](https://github.com/synesissoftware/xTests/releases/tag/0.28.0-alpha2) released | `__FILE__` runner-name inference in `XTESTS_START_RUNNER()`; internal `flfe_t` |
 | 18th October 2026   | [**xTests** 0.28.0-alpha1](https://github.com/synesissoftware/xTests/releases/tag/0.28.0-alpha1) released | `XTESTS_TEST_POINTER_NULL`, **COMPONENTS.md**, `_XTESTS_VER_AB` |

@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 23rd October 2026
+ * Updated: 26th October 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,8 +52,8 @@
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       52
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        424
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    2
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        425
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -87,7 +87,7 @@
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       28
 #define _XTESTS_VER_PATCH       0
-#define _XTESTS_VER_RELSTATUS   0x81
+#define _XTESTS_VER_RELSTATUS   0xFF
 
 #define _XTESTS_VER \
     (0\
@@ -123,13 +123,13 @@
     STLSOFT_VER >= 0x010c0000
 
 # define XTESTS_STLSOFT_1_12_OR_LATER
-#elif _STLSOFT_VER < 0x010b01c6
+#elif _STLSOFT_VER < 0x010b02FF
 
 /* NOTE: do not put "https://" (or any "//") in this #error text: under
  * ISO C90 + -Werror=pedantic, "//" is treated as a C++ comment introducer
  * and fails the build (seen with GCC/MinGW in the language matrix survey).
  */
-# error xTests requires STLSoft 1.11.1-rc5 or later; obtain from github.com/synesissoftware/STLSoft
+# error xTests requires STLSoft 1.11.2 or later; obtain from github.com/synesissoftware/STLSoft
 #endif /* _STLSOFT_VER */
 
 

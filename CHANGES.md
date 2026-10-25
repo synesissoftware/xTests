@@ -1,6 +1,30 @@
 # xTests - Changes <!-- omit in toc -->
 
 
+## 0.28.0 - 26th October 2026
+
+* additions:
+  * `XTESTS_TEST_POINTER_NULL()` and `XTESTS_TEST_POINTER_NOT_NULL()`, with terse aliases `TEST_POINTER_NULL` / `TEST_PTR_NULL` and `TEST_POINTER_NOT_NULL` / `TEST_PTR_NOT_NULL`;
+  * further short aliases in **xtests/terse-api.h**: `TEST_BOOL_*`, `TEST_CHAR_EQ_EXACT`, `TEST_FP_*_EXACT`, `TEST_INT_EQ_EXACT`, `TEST_INT_EQ_ANY_*`, `TEST_MS_SLICE_*` / `TEST_WS_SLICE_*`, `TEST_WS_NOT_CONTAIN_APPROX`, `TEST_EQUAL_WITH_MESSAGE` / `TEST_EQ_WITH_MSG`, `TEST_NOT_EQUAL_WITH_MESSAGE` / `TEST_NE_WITH_MSG`, and `END_RUNNER_UPDATE_EXITCODE`;
+  * `XTESTS_START_RUNNER()` (and related start-runner APIs) now infer a runner name from a source path such as `__FILE__` when it has a C/C++ extension (`.c`, `.cc`, `.cpp`, `.cxx`) and a stem of `entry` / `main` or equal to its leaf directory; any other value is used as given;
+* changes:
+  * pointer equality/inequality failure messages now say the actual value "is not null as expected" or "actual pointer is null not as expected" when the expected pointer is null, rather than comparing against a platform-formatted null address;
+  * collapsed the internal file, line, function, and expression parameters into an `flfe_t` helper in **xtests.core.cpp**;
+* dependencies:
+  * requires **STLSoft** 1.11.2 or later (`_STLSOFT_VER` >= `0x010b02FF`);
+* documentation:
+  * documented the `__FILE__` runner-name rules in the `XTESTS_START_RUNNER*()` Doxygen markup in **xtests.h**, in **COMPONENTS.md**, and in a new **README.md** *Runner Names* section;
+  * updated the **COMPONENTS.md** Terse API table;
+* examples:
+  * illustrated the new pointer-null macros in **example.c.tests**;
+  * **example.cpp.udt** now starts its runner with `__FILE__`;
+* testing:
+  * **test.component.temp_directory**, **test.scratch.fail_all**, and **test.unit.shwild-patterns** now start their runners with `__FILE__`;
+  * **test.scratch.versions** now also reports **shwild** (when `XTESTS_USE_SHWILD`) under `efferent dependencies:`, and omits the heading when no dependency is printed;
+* version:
+  * bumped `_XTESTS_VER_RELSTATUS` to `0xFF` (released) in **xtests.h**; synced **Doxyfile** `PROJECT_NUMBER`;
+
+
 ## 0.28.0-beta1 - 23rd October 2026
 
 * Expanded **xtests/terse-api.h** with further short aliases matching the established `TYPE_OP` vocabulary (`BOOL`, `CHAR`/`FP`/`INT` + `EQ`/`NE`, `MS`/`WS` + `SLICE`, and message / exit-code helpers):
