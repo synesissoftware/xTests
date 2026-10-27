@@ -5,7 +5,7 @@
 # Purpose:  Top-level CMake lists file for xTests
 #
 # Created:  9th October 2019
-# Updated:  20th September 2026
+# Updated:  27th October 2026
 #
 # ######################################################################## #
 
@@ -196,7 +196,12 @@ if(NOT (NO_SHWILD))
 
 			message("-- CMake package shwild found (version ${shwild_VERSION})")
 
-			add_compile_definitions(XTESTS_HAS_SHWILD)
+			add_compile_definitions(
+				HAS_shwild
+				HAS_SHWILD
+			)
+
+			add_compile_definitions(XTESTS_HAS_SHWILD) # Unlike in other projects, this is cromulent here
 		endif(shwild_FOUND)
 	endif(BUILD_TESTING)
 endif()
