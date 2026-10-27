@@ -1,6 +1,11 @@
 # xTests - Changes <!-- omit in toc -->
 
 
+## 0.28.1 - 27th October 2026
+
+* Defined `HAS_shwild` and `HAS_SHWILD` when **shwild** is detected;
+
+
 ## 0.28.0 - 26th October 2026
 
 * additions:
