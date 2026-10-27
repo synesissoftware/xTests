@@ -183,6 +183,12 @@ else()
 	include_directories(${STLSOFT_INCLUDE_DIR})
 endif()
 
+if(DEFINED STLSOFT_INCLUDE_DIR OR DEFINED STLSoft_FOUND)
+
+	add_compile_definitions(HAS_STLSOFT)
+	add_compile_definitions(HAS_STLSoft)
+endif()
+
 # ############################
 # shwild (testing only; optional)
 
