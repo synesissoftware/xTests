@@ -5,7 +5,7 @@
  *          the assertion macros (and other simplifications).
  *
  * Created: 20th November 2024
- * Updated: 29th October 2026
+ * Updated: 30th October 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -51,7 +51,7 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_TERSE_MAJOR     1
-# define XTESTS_VER_XTESTS_H_XTESTS_TERSE_MINOR     4
+# define XTESTS_VER_XTESTS_H_XTESTS_TERSE_MINOR     5
 # define XTESTS_VER_XTESTS_H_XTESTS_TERSE_REVISION  0
 # define XTESTS_VER_XTESTS_H_XTESTS_TERSE_EDIT      10
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
