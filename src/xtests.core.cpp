@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 29th October 2026
+ * Updated: 30th October 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -4821,7 +4821,7 @@ xtests_format_multibyte_string_set_(
             expecteds, expecteds + cExpecteds
         ,   stlsoft::string_concatenator(
                 display
-            ,   " | "
+            ,   "|"
             ,   stlsoft::string_concatenation_flags::AlwaysSeparate
             )
         );
