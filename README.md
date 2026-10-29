@@ -55,7 +55,7 @@ license.
 ## Developer Experience
 
 **xTests** needs [**STLSoft**](https://github.com/synesissoftware/STLSoft)
-(**1.11** or later) for the library itself, so just:
+(**1.11.4** or later) for the library itself, so just:
 
 ```bash
 ./prepare_cmake.sh -m -v -E -T
@@ -304,7 +304,7 @@ If you'd like to help out with the project, please raise an issue via [GitHub Pa
 
 **xTests** has two dependencies:
 
-* [STLSoft 1.11](http://github.com/synesissoftware/STLSoft/) is required, both for the implementation and for the interface, providing:
+* [STLSoft 1.11.4](http://github.com/synesissoftware/STLSoft/) is required, both for the implementation and for the interface, providing:
   * essential compiler and platform discrimination;
   * string compatibility;
   * string conversions (for C++ API);
