@@ -1,10 +1,12 @@
 /* /////////////////////////////////////////////////////////////////////////
  * File:    test/unit/string-comparisons/entry.cpp
  *
- * Purpose: Component-tests for `xtests::cpp::util::temp_file`.
+ * Purpose: Unit-tests for multibyte and wide string comparison macros,
+ *          including length-limited forms, `std::string`, and
+ *          equal-any-of.
  *
  * Created: 21st October 2024
- * Updated: 16th October 2026
+ * Updated: 29th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -52,6 +54,7 @@ namespace
     static void TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N();
     static void TEST_MS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS();
     static void TEST_MS_COMPARE_TO_N_WITH_std_string();
+    static void TEST_MS_EQUAL_ANY_OF();
     static void TEST_WS_COMPARE_TO_N();
     static void TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N();
     static void TEST_WS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS();
@@ -79,6 +82,7 @@ int main(int argc, char* argv[])
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N);
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS);
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WITH_std_string);
+        XTESTS_RUN_CASE(TEST_MS_EQUAL_ANY_OF);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS);
@@ -320,6 +324,21 @@ static void TEST_MS_COMPARE_TO_N_WITH_std_string()
         TEST_MS_NE_N(s2, s3, -4);
         TEST_MS_EQ_N_APPROX(s2, s3, -4);
     }
+}
+
+static void TEST_MS_EQUAL_ANY_OF()
+{
+    char const* const   colours[]   =   {
+        "red",
+        "green",
+        "blue",
+    };
+    std::string const   actual("green");
+
+    TEST_MS_EQ_ANY_OF(colours, STLSOFT_NUM_ELEMENTS(colours), "red");
+    TEST_MS_EQ_ANY_OF(colours, STLSOFT_NUM_ELEMENTS(colours), actual);
+    TEST_MS_EQ_ANY_OF2("red", std::string("green"), actual);
+    TEST_MS_EQ_ANY_OF3("red", actual, std::string("blue"), "blue");
 }
 
 static void TEST_WS_COMPARE_TO_N()

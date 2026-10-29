@@ -1,7 +1,25 @@
 # xTests - Changes <!-- omit in toc -->
 
 
-## 0.28.2 - 30th October 2026
+## 0.29.0-alpha1 - 30th October 2026
+
+* additions:
+  * `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF()`, `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2()`, and `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3()`, with terse aliases `TEST_MS_EQ_ANY_OF`, `TEST_MS_EQ_ANY_OF2`, and `TEST_MS_EQ_ANY_OF3`; C++ string types are accepted via the string-access shims;
+* changes:
+  * equal-any-of failure reports say the actual multibyte string should be equal to one of the expected values;
+* examples:
+  * **example.c.string-equal-any-of** exercises membership of an actual multibyte string in a set, includes deliberate assertion failures, and is listed in **.sis/ci_examples_allowed_to_fail.txt**;
+  * **example.cpp.string-comparisons-n** includes deliberate `_N` assertion failures, and is listed in **.sis/ci_examples_allowed_to_fail.txt**;
+* testing:
+  * **test.unit.string-comparisons** and **test.unit.string-comparisons.C** cover the new macros;
+* documentation:
+  * updated the **COMPONENTS.md** multibyte-string section and Terse API table;
+* version:
+  * set `_XTESTS_VER` to **0.29.0-alpha1** (`_XTESTS_VER_RELSTATUS` `0x41`) in **xtests.h**; synced **Doxyfile** `PROJECT_NUMBER`;
+  * set the **xtests.h** include-file quadruple to 3.53.1 edit 428;
+
+
+## 0.28.2 - 29th October 2026
 
 * Case-insensitive bounded compare and search (`xtests_strnicmp_a_` / `xtests_strnicmp_w_` / `xtests_stristr_` / `xtests_stristr_w_`) now call `stlsoft_C_strnicmp`, `stlsoft_C_wcsnicmp`, `stlsoft_C_strnistrn`, and `stlsoft_C_wcsnistrn` without allocating; char fold is ASCII `a`-`z` by 32, and `stristr` returns a pointer into the caller's haystack;
 * Requires **STLSoft** 1.11.4 or later (`_STLSOFT_VER` >= `0x010B04FF`);

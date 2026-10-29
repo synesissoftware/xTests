@@ -2,5 +2,6 @@
 add_subdirectory(factorial)
 add_subdirectory(runner)
 add_subdirectory(string-comparisons-n)
+add_subdirectory(string-equal-any-of)
 add_subdirectory(tests)
 

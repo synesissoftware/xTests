@@ -78,6 +78,9 @@ Catalog of the public **xTests** API. Each construct has a short description and
   - [`XTESTS_TEST_CHARACTER_LESS_OR_EQUAL(expected, actual)`](#xtests_test_character_less_or_equalexpected-actual)
 - [Multibyte string assertion macros](#multibyte-string-assertion-macros)
   - [`XTESTS_TEST_MULTIBYTE_STRING_EQUAL(expected, actual)`](#xtests_test_multibyte_string_equalexpected-actual)
+  - [`XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF(expecteds, cExpecteds, actual)`](#xtests_test_multibyte_string_equal_any_ofexpecteds-cexpecteds-actual)
+  - [`XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2(expected0, expected1, actual)`](#xtests_test_multibyte_string_equal_any_of2expected0-expected1-actual)
+  - [`XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3(expected0, expected1, expected2, actual)`](#xtests_test_multibyte_string_equal_any_of3expected0-expected1-expected2-actual)
   - [`XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX(expected, actual)`](#xtests_test_multibyte_string_equal_approxexpected-actual)
   - [`XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL(expected, actual)`](#xtests_test_multibyte_string_not_equalexpected-actual)
   - [`XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_APPROX(expected, actual)`](#xtests_test_multibyte_string_not_equal_approxexpected-actual)
@@ -801,13 +804,38 @@ XTESTS_TEST_CHARACTER_LESS_OR_EQUAL('A', 'A');
 
 ## Multibyte string assertion macros
 
-`_APPROX` forms are case-insensitive. `_N` forms compare at most **n** characters (`n < 0` means “full length” on the signed-length overloads).
+`_APPROX` forms are case-insensitive. `_N` forms compare at most **n** characters (`n < 0` means “full length” on the signed-length overloads). `_ANY_OF` forms require the actual string to equal one element of a set: `_ANY_OF` takes an array and a count; `_ANY_OF2` and `_ANY_OF3` take the expected strings directly. Expected values come first and the actual value is last, as with the integer `ANY_OF` macros.
 
 
 ### `XTESTS_TEST_MULTIBYTE_STRING_EQUAL(expected, actual)`
 
 ```c
 XTESTS_TEST_MULTIBYTE_STRING_EQUAL("hello", greet());
+```
+
+
+### `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF(expecteds, cExpecteds, actual)`
+
+Passes when `actual` equals one element of `expecteds`. An empty set fails. Comparison is exact and case-sensitive.
+
+```c
+char const* const colours[] = { "red", "green", "blue" };
+
+XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF(colours, 3, "green");
+```
+
+
+### `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2(expected0, expected1, actual)`
+
+```c
+XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2("red", "green", colour);
+```
+
+
+### `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3(expected0, expected1, expected2, actual)`
+
+```c
+XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3("red", "green", "blue", colour);
 ```
 
 
@@ -1291,6 +1319,7 @@ XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL(5.05, 5.06);
 | `XTESTS_TEST_INTEGER_EQUAL` | `TEST_INTEGER_EQUAL` | `TEST_INT_EQ` |
 | `XTESTS_TEST_INTEGER_NOT_EQUAL` | `TEST_INTEGER_NOT_EQUAL` | `TEST_INT_NE` |
 | `XTESTS_TEST_MULTIBYTE_STRING_EQUAL` | `TEST_MULTIBYTE_STRING_EQUAL` | `TEST_MS_EQ` |
+| `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF` | `TEST_MULTIBYTE_STRING_EQUAL_ANY_OF` | `TEST_MS_EQ_ANY_OF` |
 | `XTESTS_TEST_WIDE_STRING_EQUAL` | `TEST_WIDE_STRING_EQUAL` | `TEST_WS_EQ` |
 | `XTESTS_TEST_BOOLEAN_EQUAL` | `TEST_BOOLEAN_EQUAL` | `TEST_BOOLEAN_EQ`, `TEST_BOOL_EQ` |
 | `XTESTS_TEST_BOOLEAN_FALSE` | `TEST_BOOLEAN_FALSE` | `TEST_BOOL_FALSE` |
