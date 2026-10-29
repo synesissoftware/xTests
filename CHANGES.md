@@ -1,6 +1,12 @@
 # xTests - Changes <!-- omit in toc -->
 
 
+## 0.28.2 - 30th October 2026
+
+* Case-insensitive bounded compare and search (`xtests_strnicmp_a_` / `xtests_strnicmp_w_` / `xtests_stristr_` / `xtests_stristr_w_`) now call `stlsoft_C_strnicmp`, `stlsoft_C_wcsnicmp`, `stlsoft_C_strnistrn`, and `stlsoft_C_wcsnistrn` without allocating; char fold is ASCII `a`-`z` by 32, and `stristr` returns a pointer into the caller's haystack;
+* Requires **STLSoft** 1.11.4 or later (`_STLSOFT_VER` >= `0x010B04FF`);
+
+
 ## 0.28.1 - 27th October 2026
 
 * Defined `HAS_shwild` and `HAS_SHWILD` when **shwild** is detected;

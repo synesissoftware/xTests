@@ -5,7 +5,7 @@
  *          XTESTS_TEST_POINTER_NULL / XTESTS_TEST_POINTER_NOT_NULL.
  *
  * Created: 20th September 2026
- * Updated: 18th October 2026
+ * Updated: 29th October 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -89,7 +89,7 @@ int main(int argc, char* argv[])
 
     XTESTS_COMMANDLINE_PARSEVERBOSITY(argc, argv, &verbosity);
 
-    if (XTESTS_START_RUNNER("test.unit.pointer_comparisons", verbosity))
+    if (XTESTS_START_RUNNER("test.unit.pointer-comparisons", verbosity))
     {
         XTESTS_RUN_CASE(TEST_POINTER_NULL_PASSES_WHEN_ACTUAL_IS_NULL);
         XTESTS_RUN_CASE(TEST_POINTER_NOT_NULL_PASSES_WHEN_ACTUAL_IS_NOT_NULL);

@@ -5,7 +5,7 @@
 # Purpose:  Top-level CMake lists file for xTests
 #
 # Created:  9th October 2019
-# Updated:  27th October 2026
+# Updated:  30th October 2026
 #
 # ######################################################################## #
 
@@ -150,7 +150,7 @@ option(BUILD_TESTING "Build tests" ON)
 # 3. if the package STLSoft (via find_package()) is found then it is used; otherwise
 # 4. we abort
 
-set(STLSoft_REQUIRED_VERSION_ 1.11)
+set(STLSoft_REQUIRED_VERSION_ 1.11.4)
 
 if(NOT DEFINED STLSOFT AND NOT DEFINED ENV{STLSOFT})
 
