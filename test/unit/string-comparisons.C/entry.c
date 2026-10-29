@@ -1,13 +1,12 @@
 /* /////////////////////////////////////////////////////////////////////////
  * File:    test/unit/string-comparisons.C/entry.c
  *
- * Purpose: Unit-tests for length-limited multibyte and wide string
- *          comparison macros via the C API
- *          (`xtests_testMultibyteStringsN` /
- *          `xtests_testWideStringsN`).
+ * Purpose: Unit-tests for multibyte and wide string comparison macros
+ *          via the C API, including length-limited forms and
+ *          equal-any-of.
  *
  * Created: 11th October 2026
- * Updated: 16th October 2026
+ * Updated: 29th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -40,6 +39,7 @@
 static void TEST_MS_COMPARE_TO_N(void);
 static void TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N(void);
 static void TEST_MS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS(void);
+static void TEST_MS_EQUAL_ANY_OF(void);
 static void TEST_WS_COMPARE_TO_N(void);
 static void TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N(void);
 static void TEST_WS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS(void);
@@ -62,6 +62,7 @@ int main(int argc, char* argv[])
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N);
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N);
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS);
+        XTESTS_RUN_CASE(TEST_MS_EQUAL_ANY_OF);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS);
@@ -245,6 +246,41 @@ static void TEST_MS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS(void)
         ,   actual_eq
         ,   n_limit
         ,   XTESTS_NS_C_QUAL(xtestsComparisonEqual)
+        )
+    );
+}
+
+static void TEST_MS_EQUAL_ANY_OF(void)
+{
+    char const* const colours[] = {
+        "red",
+        "green",
+        "blue",
+        "",
+    };
+    char        actual[]        =   "blue";
+
+    TEST_MS_EQ_ANY_OF(colours, STLSOFT_NUM_ELEMENTS(colours), "red");
+    TEST_MS_EQ_ANY_OF(colours, STLSOFT_NUM_ELEMENTS(colours), "green");
+    TEST_MS_EQ_ANY_OF(colours, STLSOFT_NUM_ELEMENTS(colours), actual);
+    TEST_MS_EQ_ANY_OF(colours, STLSOFT_NUM_ELEMENTS(colours), "");
+
+    TEST_MS_EQ_ANY_OF2("red", "green", "red");
+    TEST_MS_EQ_ANY_OF2("red", "green", "green");
+    TEST_MS_EQ_ANY_OF3("red", "green", "blue", "red");
+    TEST_MS_EQ_ANY_OF3("red", "green", "blue", "green");
+    TEST_MS_EQ_ANY_OF3("red", "green", "blue", actual);
+
+    TEST_INT_EQ(
+        1
+    ,   XTESTS_NS_C_QUAL(xtests_testMultibyteStringsEqualAnyOf)(
+            __FILE__
+        ,   __LINE__
+        ,   XTESTS_GET_FUNCTION_()
+        ,   "xtests_testMultibyteStringsEqualAnyOf(colours, green)"
+        ,   colours
+        ,   STLSOFT_NUM_ELEMENTS(colours)
+        ,   "green"
         )
     );
 }

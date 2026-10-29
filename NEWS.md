@@ -3,7 +3,8 @@
 
 | Date                | News Item                        | Details                                                  |
 |---------------------|----------------------------------|----------------------------------------------------------|
-| 30th October 2026   | [**xTests** 0.28.2](https://github.com/synesissoftware/xTests/releases/tag/0.28.2) released | `stlsoft_C_strnicmp` / `strnistrn`; **STLSoft** 1.11.4 |
+| 30th October 2026   | [**xTests** 0.29.0-alpha1](https://github.com/synesissoftware/xTests/releases/tag/0.29.0-alpha1) released | Multibyte string equal-any-of (`TEST_MS_EQ_ANY_OF`) |
+| 29th October 2026   | [**xTests** 0.28.2](https://github.com/synesissoftware/xTests/releases/tag/0.28.2) released | `stlsoft_C_strnicmp` / `strnistrn`; **STLSoft** 1.11.4 |
 | 27th October 2026   | Release of [xTests 0.28.1](https://github.com/synesissoftware/xTests/releases/tag/0.28.1) | `HAS_shwild` / `HAS_SHWILD` when **shwild** is detected  |
 | 26th October 2026   | [**xTests** 0.28.0](https://github.com/synesissoftware/xTests/releases/tag/0.28.0) released | 0.28.0 |
 | 23rd October 2026   | [**xTests** 0.28.0-beta1](https://github.com/synesissoftware/xTests/releases/tag/0.28.0-beta1) released | Further terse API short aliases (`TEST_BOOL_*`, slice/`EXACT`/`ANY_*`) |

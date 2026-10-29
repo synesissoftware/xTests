@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 19th October 2026
+ * Updated: 29th October 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -85,6 +85,7 @@
 #include <stlsoft/api/external/string.h>
 #include <stlsoft/conversion/char_conversions.hpp>
 #include <stlsoft/conversion/string_to_integer.hpp>
+#include <stlsoft/iterators/string_concatenator_iterator.hpp>
 #include <stlsoft/memory/auto_buffer.hpp>
 #include <stlsoft/shims/access/string/std/c_string.h>
 #include <stlsoft/string/case_functions.hpp>
@@ -107,6 +108,7 @@
 #include <stlsoft/util/string/snprintf.h>
 
 /* Standard C++ Header Files */
+#include <algorithm>
 #include <map>
 #include <string>
 #include <vector>
@@ -489,6 +491,12 @@ namespace
         ,   char const*             expected
         ,   char const*             actual
         ,   xtests_comparison_t     comp
+        );
+        int TestMultibyteStringsEqualAnyOf(
+            flfe_t                  flfe
+        ,   char const* const*      expecteds
+        ,   size_t                  cExpecteds
+        ,   char const*             actual
         );
         int TestMultibyteStringsN(
             flfe_t                  flfe
@@ -964,6 +972,7 @@ namespace
     ,   int                 verbosity
     ,   int                 is_tty
     ,   char const*       (*pfn_relation)(xtests_comparison_t comparison)
+    ,   char const*         expected_label = " the expected value "
     )
     {
         STLSOFT_SUPPRESS_UNUSED(flfe);
@@ -1071,7 +1080,7 @@ namespace
         }
 
         // expected
-        fmt_ += " the expected value ";
+        fmt_ += expected_label;
         switch (quote_type)
         {
         case 1:
@@ -2730,6 +2739,7 @@ RunnerInfo::get_reporter_(
 # define xtestsTestFullComparison                           ::xtests::c::xtestsTestFullComparison
 # define xtestsTestPartialComparison                        ::xtests::c::xtestsTestPartialComparison
 # define xtestsTestContainment                              ::xtests::c::xtestsTestContainment
+# define xtestsTestEqualAnyOf                               ::xtests::c::xtestsTestEqualAnyOf
 
 # define xtestsVariableNone                                 ::xtests::c::xtestsVariableNone
 # define xtestsVariableBoolean                              ::xtests::c::xtestsVariableBoolean
@@ -3178,9 +3188,16 @@ RunnerInfo::get_reporter_(
                 expectedValue   =   stlsoft::c_str_ptr_a(expectedValue);
                 actualValue     =   stlsoft::c_str_ptr_a(actualValue);
 
-                if (xtestsTestFullComparison == testType)
+                if (xtestsTestFullComparison == testType ||
+                    xtestsTestEqualAnyOf == testType)
                 {
                     char const* type_qualifier = NULL;
+                    char const* expected_label = " the expected value ";
+
+                    if (xtestsTestEqualAnyOf == testType)
+                    {
+                        expected_label = " one of the expected values ";
+                    }
 
                     switch (variable_type)
                     {
@@ -3218,6 +3235,7 @@ RunnerInfo::get_reporter_(
                     ,   verbosity
                     ,   is_tty
                     ,   relation_equals_
+                    ,   expected_label
                     );
                     char const* fmt = fmt_.c_str();
 
@@ -4782,6 +4800,161 @@ RunnerInfo::TestMultibyteStrings(
     }
 
     RETURN_UNUSED(-1);
+}
+
+static
+std::string
+xtests_format_multibyte_string_set_(
+    char const* const*  expecteds
+,   size_t const        cExpecteds
+)
+{
+    if (0 == cExpecteds || NULL == expecteds)
+    {
+        return std::string("(empty)");
+    }
+    else
+    {
+        std::string display;
+
+        std::copy(
+            expecteds, expecteds + cExpecteds
+        ,   stlsoft::string_concatenator(
+                display
+            ,   " | "
+            ,   stlsoft::string_concatenation_flags::AlwaysSeparate
+            )
+        );
+
+        return display;
+    }
+}
+
+int
+RunnerInfo::TestMultibyteStringsEqualAnyOf(
+    flfe_t              flfe
+,   char const* const*  expecteds
+,   size_t              cExpecteds
+,   char const*         actual
+)
+{
+    STLSOFT_ASSERT(NULL != m_reporter);
+    STLSOFT_MESSAGE_ASSERT("null expecteds with a non-zero count", NULL != expecteds || 0 == cExpecteds);
+
+    if (NULL == expecteds)
+    {
+        cExpecteds = 0;
+    }
+
+    if (m_testCases.end() == m_currentCase)
+    {
+        report_unstartedCase_defect_();
+
+        return -1;
+    }
+    else
+    {
+        TestInfo& testInfo = (*m_currentCase).second;
+
+        ++testInfo.totalConditions;
+
+        for (size_t i = 0; cExpecteds != i; ++i)
+        {
+            if (0 == xtests_strcmp_a_(expecteds[i], actual))
+            {
+                return 1;
+            }
+        }
+
+        ++testInfo.failedConditions;
+
+        std::string const   expected_display = xtests_format_multibyte_string_set_(expecteds, cExpecteds);
+
+        xtests_variable_t   expectedValue(expected_display.c_str(), xtestsTestEqualAnyOf);
+        xtests_variable_t   actualValue(actual, xtestsTestEqualAnyOf);
+
+        Call_onTestFailed(m_reporter, m_reporterParam, flfe, &expectedValue, &actualValue, -1, xtestsComparisonEqual, m_verbosity);
+
+        return 0;
+    }
+
+    RETURN_UNUSED(-1);
+}
+
+XTESTS_CALL(int)
+xtests_testMultibyteStringsEqualAnyOf(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const* const*  expecteds
+,   size_t              cExpecteds
+,   char const*         actual
+)
+{
+    STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
+
+    XTESTS_EXCEPTION_TRY_
+
+        return s_runner->TestMultibyteStringsEqualAnyOf(flfe_t(file, line, function, expr), expecteds, cExpecteds, actual);
+
+    XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
+}
+
+XTESTS_CALL(int)
+xtests_testMultibyteStringsEqualAnyOf2(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const*         expected0
+,   char const*         expected1
+,   char const*         actual
+)
+{
+    char const* expecteds[2];
+
+    expecteds[0] = expected0;
+    expecteds[1] = expected1;
+
+    return xtests_testMultibyteStringsEqualAnyOf(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   expecteds
+    ,   2u
+    ,   actual
+    );
+}
+
+XTESTS_CALL(int)
+xtests_testMultibyteStringsEqualAnyOf3(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const*         expected0
+,   char const*         expected1
+,   char const*         expected2
+,   char const*         actual
+)
+{
+    char const* expecteds[3];
+
+    expecteds[0] = expected0;
+    expecteds[1] = expected1;
+    expecteds[2] = expected2;
+
+    return xtests_testMultibyteStringsEqualAnyOf(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   expecteds
+    ,   3u
+    ,   actual
+    );
 }
 
 int

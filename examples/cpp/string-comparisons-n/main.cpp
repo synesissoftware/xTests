@@ -4,10 +4,11 @@
  * Purpose: Example of length-limited wide and multibyte string comparison
  *          macros (`TEST_WS_EQ_N` / `TEST_MS_EQ_N`): exact length when `n`
  *          is non-negative, and maximum length when `n` is negative; also
- *          illustrates `std::wstring` and non-NUL-terminated buffers.
+ *          illustrates `std::wstring`, non-NUL-terminated buffers, and
+ *          deliberate assertion failures.
  *
  * Created: 11th October 2026
- * Updated: 16th October 2026
+ * Updated: 29th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -39,6 +40,7 @@ namespace {
     static void test_maximum_length();
     static void test_with_std_wstring();
     static void test_non_nul_terminated_buffers();
+    static void test_deliberate_failures();
 } // anonymous namespace
 
 
@@ -70,6 +72,10 @@ int main(int argc, char* argv[])
         XTESTS_RUN_CASE_WITH_DESC(
             test_non_nul_terminated_buffers
         ,   "fixed-size buffers without a trailing NUL, with |n| = extent"
+        );
+        XTESTS_RUN_CASE_WITH_DESC(
+            test_deliberate_failures
+        ,   "deliberate failures: exact-n mismatch, short side, limit form"
         );
 
         XTESTS_PRINT_RESULTS();
@@ -157,7 +163,34 @@ static void test_non_nul_terminated_buffers()
     TEST_WS_NE_N(expected, actual_ne, n_limit);
 }
 
+static void test_deliberate_failures()
+{
+    /* These assertions fail on purpose, so a run shows the length-limited
+     * report: content mismatch at exact n, a side shorter than n, a
+     * negative-n prefix mismatch, and the same for multibyte and
+     * `std::wstring`.
+     */
+    wchar_t const*  short_prefix    =   L"abc";
+    wchar_t const*  longer          =   L"abcdef";
+    wchar_t const*  longer_mismatch =   L"abcXYZ";
+
+    TEST_WS_EQ_N(longer, longer_mismatch, 4);
+    TEST_WS_EQ_N(short_prefix, longer, 4);
+    TEST_WS_EQ_N(longer, longer_mismatch, -4);
+    TEST_WS_NE_N(short_prefix, longer, 3);
+
+    TEST_MS_EQ_N("abcdef", "abcXYZ", 4);
+    TEST_MS_EQ_N("abc", "abcdef", 4);
+    TEST_MS_EQ_N("abcdef", "abcXYZ", -4);
+
+    std::wstring const  w_longer(L"abcdef");
+    std::wstring const  w_mismatch(L"abcXYZ");
+
+    TEST_WS_EQ_N(w_longer, w_mismatch, 4);
+}
+
 } // anonymous namespace
 
-
 /* ///////////////////////////// end of file //////////////////////////// */
+
+
