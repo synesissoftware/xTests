@@ -1,7 +1,7 @@
 # xTests - Changes <!-- omit in toc -->
 
 
-## 0.29.0-alpha3 - 31st October 2026
+## 0.29.0-alpha2 - 31st October 2026
 
 * additions:
   * `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF_APPROX()`, `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2_APPROX()`, and `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3_APPROX()`, with terse aliases `TEST_MS_EQ_ANY_OF_APPROX`, `TEST_MS_EQ_ANY_OF2_APPROX`, and `TEST_MS_EQ_ANY_OF3_APPROX`; comparison ignores case as with `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX()`;
@@ -12,7 +12,7 @@
 * documentation:
   * updated the **COMPONENTS.md** multibyte-string section and Terse API table;
 * version:
-  * set `_XTESTS_VER` to **0.29.0-alpha3** (`_XTESTS_VER_RELSTATUS` `0x43`) in **xtests.h**; synced **Doxyfile** `PROJECT_NUMBER`;
+  * set `_XTESTS_VER` to **0.29.0-alpha2** (`_XTESTS_VER_RELSTATUS` `0x43`) in **xtests.h**; synced **Doxyfile** `PROJECT_NUMBER`;
   * set the **xtests.h** include-file quadruple to 3.55.1 edit 430;
   * set the **terse-api.h** include-file quadruple to 1.6.0 edit 11;
 

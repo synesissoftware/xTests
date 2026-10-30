@@ -2038,7 +2038,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * \note An empty set fails. Comparison is exact and case-sensitive, as with
  *   XTESTS_TEST_MULTIBYTE_STRING_EQUAL(). On failure the report says the
  *   actual value should be equal to one of the expected values, and the set
- *   is shown joined by " | ".
+ *   is shown joined by "|".
  */
 #define XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF(expecteds, cExpecteds, actual)    \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                         \
@@ -2122,7 +2122,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * \note An empty set fails. Comparison ignores case, as with
  *   XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX(). On failure the report says
  *   the actual value should be approximately equal to one of the expected
- *   values, and the set is shown joined by " | ".
+ *   values, and the set is shown joined by "|".
  *
  * \sa XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF()
  */
