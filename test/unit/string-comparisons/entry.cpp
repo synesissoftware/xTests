@@ -2,11 +2,11 @@
  * File:    test/unit/string-comparisons/entry.cpp
  *
  * Purpose: Unit-tests for multibyte and wide string comparison macros,
- *          including length-limited forms, `std::string`, and
- *          equal-any-of.
+ *          including length-limited forms, `std::string`, and equal-any-of,
+ *          exact and case-insensitive.
  *
  * Created: 21st October 2024
- * Updated: 29th October 2026
+ * Updated: 31st October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -55,6 +55,7 @@ namespace
     static void TEST_MS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS();
     static void TEST_MS_COMPARE_TO_N_WITH_std_string();
     static void TEST_MS_EQUAL_ANY_OF();
+    static void TEST_MS_EQUAL_ANY_OF_APPROX();
     static void TEST_WS_COMPARE_TO_N();
     static void TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N();
     static void TEST_WS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS();
@@ -83,6 +84,7 @@ int main(int argc, char* argv[])
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS);
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WITH_std_string);
         XTESTS_RUN_CASE(TEST_MS_EQUAL_ANY_OF);
+        XTESTS_RUN_CASE(TEST_MS_EQUAL_ANY_OF_APPROX);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS);
@@ -339,6 +341,21 @@ static void TEST_MS_EQUAL_ANY_OF()
     TEST_MS_EQ_ANY_OF(colours, STLSOFT_NUM_ELEMENTS(colours), actual);
     TEST_MS_EQ_ANY_OF2("red", std::string("green"), actual);
     TEST_MS_EQ_ANY_OF3("red", actual, std::string("blue"), "blue");
+}
+
+static void TEST_MS_EQUAL_ANY_OF_APPROX()
+{
+    char const* const   colours[]   =   {
+        "red",
+        "green",
+        "blue",
+    };
+    std::string const   actual("Green");
+
+    TEST_MS_EQ_ANY_OF_APPROX(colours, STLSOFT_NUM_ELEMENTS(colours), "RED");
+    TEST_MS_EQ_ANY_OF_APPROX(colours, STLSOFT_NUM_ELEMENTS(colours), actual);
+    TEST_MS_EQ_ANY_OF2_APPROX("red", std::string("green"), actual);
+    TEST_MS_EQ_ANY_OF3_APPROX("red", actual, std::string("blue"), "BLUE");
 }
 
 static void TEST_WS_COMPARE_TO_N()

@@ -11,7 +11,7 @@
 ## Functional improvements
 
 * [ ] Fix multibyte string-equality helpers (`XTESTS_TEST_MULTIBYTE_STRING_EQUAL` / `sas_to_string_m`) so string-access shims (e.g. `c_str_data_a`) declared after **xtests.h** is included are found under GCC/MinGW two-phase lookup; unblocks **Pantheios** **test.unit.bec.COMErrorObject** on MinGW;
-* [ ] wide-string and `_APPROX` forms of string equal-any-of;
+* [ ] wide-string forms of string equal-any-of;
 * [ ] support for `“--list”` flag;
 * [ ] support for named test case(s);
 * [ ] apply `XTESTS_START_RUNNER(__FILE__, …)` name inference in remaining test and example programs;

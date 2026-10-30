@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 30th October 2026
+ * Updated: 31st October 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -51,9 +51,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
-# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       54
+# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       55
 # define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        429
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        430
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -87,7 +87,7 @@
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       29
 #define _XTESTS_VER_PATCH       0
-#define _XTESTS_VER_RELSTATUS   0x41
+#define _XTESTS_VER_RELSTATUS   0x43
 
 #define _XTESTS_VER \
     (0\
@@ -2105,6 +2105,94 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
         )                                                                           \
         : (0))
 
+/** \def XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF_APPROX(expecteds, cExpecteds, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a multibyte string equals one of the strings in a set,
+ * ignoring case.
+ *
+ * \param expecteds Array of expected multibyte strings;
+ * \param cExpecteds Number of elements in \c expecteds;
+ * \param actual The actual multibyte string;
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ *
+ * \note An empty set fails. Comparison ignores case, as with
+ *   XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX(). On failure the report says
+ *   the actual value should be approximately equal to one of the expected
+ *   values, and the set is shown joined by " | ".
+ *
+ * \sa XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF()
+ */
+#define XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF_APPROX(expecteds, cExpecteds, actual)  \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                             \
+        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStringsEqualAnyOfApprox)(                \
+            XTESTS_FLF_()                                                               \
+        ,   "XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF_APPROX(" #expecteds ", " #cExpecteds ", " #actual ")" \
+        ,   (expecteds)                                                                 \
+        ,   (cExpecteds)                                                                \
+        ,   (actual)                                                                    \
+        )                                                                               \
+        : (0))
+
+/** \def XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2_APPROX(expected0, expected1, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a multibyte string equals one of two expected strings,
+ * ignoring case.
+ *
+ * \param expected0 The first expected string;
+ * \param expected1 The second expected string;
+ * \param actual The actual multibyte string;
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ *
+ * \sa XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF_APPROX()
+ */
+#define XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2_APPROX(expected0, expected1, actual)  \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                             \
+        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStringsEqualAnyOf2Approx)(               \
+            XTESTS_FLF_()                                                               \
+        ,   "XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2_APPROX(" #expected0 ", " #expected1 ", " #actual ")" \
+        ,   (expected0)                                                                 \
+        ,   (expected1)                                                                 \
+        ,   (actual)                                                                    \
+        )                                                                               \
+        : (0))
+
+/** \def XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3_APPROX(expected0, expected1, expected2, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a multibyte string equals one of three expected strings,
+ * ignoring case.
+ *
+ * \param expected0 The first expected string;
+ * \param expected1 The second expected string;
+ * \param expected2 The third expected string;
+ * \param actual The actual multibyte string;
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ *
+ * \sa XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF_APPROX()
+ */
+#define XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3_APPROX(expected0, expected1, expected2, actual) \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                             \
+        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStringsEqualAnyOf3Approx)(               \
+            XTESTS_FLF_()                                                               \
+        ,   "XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3_APPROX(" #expected0 ", " #expected1 ", " #expected2 ", " #actual ")" \
+        ,   (expected0)                                                                 \
+        ,   (expected1)                                                                 \
+        ,   (expected2)                                                                 \
+        ,   (actual)                                                                    \
+        )                                                                               \
+        : (0))
+
 /** \def XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX(expected, actual)
  *
  * \ingroup group__xtests__test_assertion_functions
@@ -3449,6 +3537,40 @@ xtests_testMultibyteStringsEqualAnyOf3(
 );
 
 XTESTS_CALL(int)
+xtests_testMultibyteStringsEqualAnyOfApprox(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const* const*  expecteds
+,   size_t              cExpecteds
+,   char const*         actual
+);
+
+XTESTS_CALL(int)
+xtests_testMultibyteStringsEqualAnyOf2Approx(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const*         expected0
+,   char const*         expected1
+,   char const*         actual
+);
+
+XTESTS_CALL(int)
+xtests_testMultibyteStringsEqualAnyOf3Approx(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const*         expected0
+,   char const*         expected1
+,   char const*         expected2
+,   char const*         actual
+);
+
+XTESTS_CALL(int)
 xtests_testMultibyteStringsN(
     char const*         file
 ,   int                 line
@@ -3679,6 +3801,91 @@ xtests_testMultibyteStringsEqualAnyOf3(
 )
 {
     return xtests_testMultibyteStringsEqualAnyOf3(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected0).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected1).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected2).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(actual).c_str()
+    );
+}
+
+template<
+    typename S
+>
+inline
+int
+xtests_testMultibyteStringsEqualAnyOfApprox(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const* const*  expecteds
+,   size_t              cExpecteds
+,   S const&            actual
+)
+{
+    return xtests_testMultibyteStringsEqualAnyOfApprox(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   expecteds
+    ,   cExpecteds
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(actual).c_str()
+    );
+}
+
+template<
+    typename S0
+,   typename S1
+,   typename S2
+>
+inline
+int
+xtests_testMultibyteStringsEqualAnyOf2Approx(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   S0 const&           expected0
+,   S1 const&           expected1
+,   S2 const&           actual
+)
+{
+    return xtests_testMultibyteStringsEqualAnyOf2Approx(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected0).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected1).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(actual).c_str()
+    );
+}
+
+template<
+    typename S0
+,   typename S1
+,   typename S2
+,   typename S3
+>
+inline
+int
+xtests_testMultibyteStringsEqualAnyOf3Approx(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   S0 const&           expected0
+,   S1 const&           expected1
+,   S2 const&           expected2
+,   S3 const&           actual
+)
+{
+    return xtests_testMultibyteStringsEqualAnyOf3Approx(
         file
     ,   line
     ,   function
