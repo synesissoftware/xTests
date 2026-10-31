@@ -4,10 +4,11 @@
  * Purpose: Example of multibyte string equal-any-of macros, where the
  *          actual value must equal one element of a set
  *          (`TEST_MS_EQ_ANY_OF`, `TEST_MS_EQ_ANY_OF2`,
- *          `TEST_MS_EQ_ANY_OF3`), including deliberate assertion failures.
+ *          `TEST_MS_EQ_ANY_OF3`, and the `_APPROX` forms), including
+ *          deliberate assertion failures.
  *
  * Created: 29th October 2026
- * Updated: 29th October 2026
+ * Updated: 31st October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -36,6 +37,7 @@
 static void test_fixed_arity(void);
 static void test_set(void);
 static void test_buffer_actual(void);
+static void test_approx(void);
 static void test_deliberate_failures(void);
 
 
@@ -65,8 +67,12 @@ int main(int argc, char* argv[])
         ,   "the actual value may be a writable character buffer"
         );
         XTESTS_RUN_CASE_WITH_DESC(
+            test_approx
+        ,   "case-insensitive membership, as with TEST_MS_EQ_APPROX"
+        );
+        XTESTS_RUN_CASE_WITH_DESC(
             test_deliberate_failures
-        ,   "deliberate failures: miss, and an empty expected set"
+        ,   "deliberate failures: miss, empty set, and approx miss"
         );
 
         XTESTS_PRINT_RESULTS();
@@ -121,11 +127,28 @@ static void test_buffer_actual(void)
     TEST_MS_EQ_ANY_OF2("yes", "no", actual);
 }
 
+static void test_approx(void)
+{
+    /* Same membership as the exact macros, ignoring case, as with
+     * TEST_MS_EQ_APPROX.
+     */
+    char const* const colours[] = {
+        "red",
+        "green",
+        "blue",
+    };
+
+    TEST_MS_EQ_ANY_OF_APPROX(colours, STLSOFT_NUM_ELEMENTS(colours), "RED");
+    TEST_MS_EQ_ANY_OF_APPROX(colours, STLSOFT_NUM_ELEMENTS(colours), "Green");
+    TEST_MS_EQ_ANY_OF2_APPROX("red", "green", "GREEN");
+    TEST_MS_EQ_ANY_OF3_APPROX("red", "green", "blue", "Blue");
+}
+
 static void test_deliberate_failures(void)
 {
     /* These assertions fail on purpose, so a run shows a value outside the
-     * expected list (joined as "red | green | blue") and an empty set,
-     * which is reported as "(empty)".
+     * expected list (joined as "red | green | blue"), an empty set, which
+     * is reported as "(empty)", and a case-insensitive miss.
      */
     char const* const colours[] = {
         "red",
@@ -139,6 +162,9 @@ static void test_deliberate_failures(void)
     TEST_MS_EQ_ANY_OF(colours, STLSOFT_NUM_ELEMENTS(colours), "yellow");
     TEST_MS_EQ_ANY_OF2("yes", "no", actual);
     TEST_MS_EQ_ANY_OF(colours, 0, "red");
+
+    TEST_MS_EQ_ANY_OF2_APPROX("red", "green", "blue");
+    TEST_MS_EQ_ANY_OF_APPROX(colours, STLSOFT_NUM_ELEMENTS(colours), "yellow");
 }
 
 /* ///////////////////////////// end of file //////////////////////////// */

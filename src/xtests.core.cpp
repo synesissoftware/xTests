@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 30th October 2026
+ * Updated: 31st October 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -497,6 +497,7 @@ namespace
         ,   char const* const*      expecteds
         ,   size_t                  cExpecteds
         ,   char const*             actual
+        ,   xtests_comparison_t     comp
         );
         int TestMultibyteStringsN(
             flfe_t                  flfe
@@ -4836,6 +4837,7 @@ RunnerInfo::TestMultibyteStringsEqualAnyOf(
 ,   char const* const*  expecteds
 ,   size_t              cExpecteds
 ,   char const*         actual
+,   xtests_comparison_t comp
 )
 {
     STLSOFT_ASSERT(NULL != m_reporter);
@@ -4844,6 +4846,19 @@ RunnerInfo::TestMultibyteStringsEqualAnyOf(
     if (NULL == expecteds)
     {
         cExpecteds = 0;
+    }
+
+    int (*pfn_equal)(char const*, char const*);
+
+    if (xtestsComparisonApproxEqual == comp)
+    {
+        pfn_equal = xtests_stricmp_a_;
+    }
+    else
+    {
+        STLSOFT_MESSAGE_ASSERT("comparison must be Equal or ApproxEqual", xtestsComparisonEqual == comp);
+
+        pfn_equal = xtests_strcmp_a_;
     }
 
     if (m_testCases.end() == m_currentCase)
@@ -4860,7 +4875,7 @@ RunnerInfo::TestMultibyteStringsEqualAnyOf(
 
         for (size_t i = 0; cExpecteds != i; ++i)
         {
-            if (0 == xtests_strcmp_a_(expecteds[i], actual))
+            if (0 == (*pfn_equal)(expecteds[i], actual))
             {
                 return 1;
             }
@@ -4873,7 +4888,7 @@ RunnerInfo::TestMultibyteStringsEqualAnyOf(
         xtests_variable_t   expectedValue(expected_display.c_str(), xtestsTestEqualAnyOf);
         xtests_variable_t   actualValue(actual, xtestsTestEqualAnyOf);
 
-        Call_onTestFailed(m_reporter, m_reporterParam, flfe, &expectedValue, &actualValue, -1, xtestsComparisonEqual, m_verbosity);
+        Call_onTestFailed(m_reporter, m_reporterParam, flfe, &expectedValue, &actualValue, -1, comp, m_verbosity);
 
         return 0;
     }
@@ -4896,7 +4911,7 @@ xtests_testMultibyteStringsEqualAnyOf(
 
     XTESTS_EXCEPTION_TRY_
 
-        return s_runner->TestMultibyteStringsEqualAnyOf(flfe_t(file, line, function, expr), expecteds, cExpecteds, actual);
+        return s_runner->TestMultibyteStringsEqualAnyOf(flfe_t(file, line, function, expr), expecteds, cExpecteds, actual, xtestsComparisonEqual);
 
     XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
 }
@@ -4947,6 +4962,82 @@ xtests_testMultibyteStringsEqualAnyOf3(
     expecteds[2] = expected2;
 
     return xtests_testMultibyteStringsEqualAnyOf(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   expecteds
+    ,   3u
+    ,   actual
+    );
+}
+
+XTESTS_CALL(int)
+xtests_testMultibyteStringsEqualAnyOfApprox(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const* const*  expecteds
+,   size_t              cExpecteds
+,   char const*         actual
+)
+{
+    STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
+
+    XTESTS_EXCEPTION_TRY_
+
+        return s_runner->TestMultibyteStringsEqualAnyOf(flfe_t(file, line, function, expr), expecteds, cExpecteds, actual, xtestsComparisonApproxEqual);
+
+    XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_("cannot update test", "Cannot update test")
+}
+
+XTESTS_CALL(int)
+xtests_testMultibyteStringsEqualAnyOf2Approx(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const*         expected0
+,   char const*         expected1
+,   char const*         actual
+)
+{
+    char const* expecteds[2];
+
+    expecteds[0] = expected0;
+    expecteds[1] = expected1;
+
+    return xtests_testMultibyteStringsEqualAnyOfApprox(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   expecteds
+    ,   2u
+    ,   actual
+    );
+}
+
+XTESTS_CALL(int)
+xtests_testMultibyteStringsEqualAnyOf3Approx(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const*         expected0
+,   char const*         expected1
+,   char const*         expected2
+,   char const*         actual
+)
+{
+    char const* expecteds[3];
+
+    expecteds[0] = expected0;
+    expecteds[1] = expected1;
+    expecteds[2] = expected2;
+
+    return xtests_testMultibyteStringsEqualAnyOfApprox(
         file
     ,   line
     ,   function
