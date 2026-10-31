@@ -1,7 +1,7 @@
 # xTests - Changes <!-- omit in toc -->
 
 
-## 0.29.0-alpha2 - 31st October 2026
+## 0.29.0-alpha2 - 1st November 2026
 
 * additions:
   * `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF_APPROX()`, `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2_APPROX()`, and `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3_APPROX()`, with terse aliases `TEST_MS_EQ_ANY_OF_APPROX`, `TEST_MS_EQ_ANY_OF2_APPROX`, and `TEST_MS_EQ_ANY_OF3_APPROX`; comparison ignores case as with `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX()`;
