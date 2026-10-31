@@ -2,11 +2,11 @@
  * File:    test/unit/string-comparisons.C/entry.c
  *
  * Purpose: Unit-tests for multibyte and wide string comparison macros
- *          via the C API, including length-limited forms and
- *          equal-any-of.
+ *          via the C API, including length-limited forms and equal-any-of,
+ *          exact and case-insensitive.
  *
  * Created: 11th October 2026
- * Updated: 29th October 2026
+ * Updated: 31st October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -40,6 +40,7 @@ static void TEST_MS_COMPARE_TO_N(void);
 static void TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N(void);
 static void TEST_MS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS(void);
 static void TEST_MS_EQUAL_ANY_OF(void);
+static void TEST_MS_EQUAL_ANY_OF_APPROX(void);
 static void TEST_WS_COMPARE_TO_N(void);
 static void TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N(void);
 static void TEST_WS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS(void);
@@ -63,6 +64,7 @@ int main(int argc, char* argv[])
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N);
         XTESTS_RUN_CASE(TEST_MS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS);
         XTESTS_RUN_CASE(TEST_MS_EQUAL_ANY_OF);
+        XTESTS_RUN_CASE(TEST_MS_EQUAL_ANY_OF_APPROX);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WHEN_EXPECTED_LONGER_THAN_N);
         XTESTS_RUN_CASE(TEST_WS_COMPARE_TO_N_WITH_NON_NUL_TERMINATED_BUFFERS);
@@ -281,6 +283,41 @@ static void TEST_MS_EQUAL_ANY_OF(void)
         ,   colours
         ,   STLSOFT_NUM_ELEMENTS(colours)
         ,   "green"
+        )
+    );
+}
+
+static void TEST_MS_EQUAL_ANY_OF_APPROX(void)
+{
+    char const* const colours[] = {
+        "red",
+        "green",
+        "blue",
+        "",
+    };
+    char        actual[]        =   "Blue";
+
+    TEST_MS_EQ_ANY_OF_APPROX(colours, STLSOFT_NUM_ELEMENTS(colours), "RED");
+    TEST_MS_EQ_ANY_OF_APPROX(colours, STLSOFT_NUM_ELEMENTS(colours), "Green");
+    TEST_MS_EQ_ANY_OF_APPROX(colours, STLSOFT_NUM_ELEMENTS(colours), actual);
+    TEST_MS_EQ_ANY_OF_APPROX(colours, STLSOFT_NUM_ELEMENTS(colours), "");
+
+    TEST_MS_EQ_ANY_OF2_APPROX("red", "green", "RED");
+    TEST_MS_EQ_ANY_OF2_APPROX("red", "green", "GREEN");
+    TEST_MS_EQ_ANY_OF3_APPROX("red", "green", "blue", "Red");
+    TEST_MS_EQ_ANY_OF3_APPROX("red", "green", "blue", "GREEN");
+    TEST_MS_EQ_ANY_OF3_APPROX("red", "green", "blue", actual);
+
+    TEST_INT_EQ(
+        1
+    ,   XTESTS_NS_C_QUAL(xtests_testMultibyteStringsEqualAnyOfApprox)(
+            __FILE__
+        ,   __LINE__
+        ,   XTESTS_GET_FUNCTION_()
+        ,   "xtests_testMultibyteStringsEqualAnyOfApprox(colours, GREEN)"
+        ,   colours
+        ,   STLSOFT_NUM_ELEMENTS(colours)
+        ,   "GREEN"
         )
     );
 }
