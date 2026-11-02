@@ -1,6 +1,11 @@
 # xTests - Changes <!-- omit in toc -->
 
 
+## 0.29.0-alpha3 - 2nd November 2026
+
+* compatibility:
+  * requires **STLSoft** **1.11.5** or later (`_STLSOFT_VER` >= `0x010B05FF`);
+
 ## 0.29.0-alpha2 - 1st November 2026
 
 * additions:

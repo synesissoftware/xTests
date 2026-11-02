@@ -3,6 +3,7 @@
 
 | Date                | News Item                        | Details                                                  |
 |---------------------|----------------------------------|----------------------------------------------------------|
+| 2nd November 2026   | [**xTests** 0.29.0-alpha3](https://github.com/synesissoftware/xTests/releases/tag/0.29.0-alpha3) released | **STLSoft** **1.11.5** |
 | 1st November 2026   | [**xTests** 0.29.0-alpha2](https://github.com/synesissoftware/xTests/releases/tag/0.29.0-alpha2) released | Case-insensitive equal-any-of (`TEST_MS_EQ_ANY_OF_APPROX`) |
 | 30th October 2026   | [**xTests** 0.29.0-alpha1](https://github.com/synesissoftware/xTests/releases/tag/0.29.0-alpha1) released | Multibyte string equal-any-of (`TEST_MS_EQ_ANY_OF`) |
 | 29th October 2026   | [**xTests** 0.28.2](https://github.com/synesissoftware/xTests/releases/tag/0.28.2) released | `stlsoft_C_strnicmp` / `strnistrn`; **STLSoft** 1.11.4 |
