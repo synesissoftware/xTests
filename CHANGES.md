@@ -9,6 +9,9 @@
   * implemented case-insensitive compare via `stlsoft_C_strnicmp` / `stlsoft_C_wcsnicmp`, substring search via `stlsoft_C_strnstrn` / `stlsoft_C_wcsnstrn` (and the `stristr` pair via `stlsoft_C_strnistrn` / `stlsoft_C_wcsnistrn`), and bounded copy via `stlsoft_C_string_copy_a` / `stlsoft_C_string_copy_w`;
   * marked the internal string functions `STLSOFT_NOEXCEPT` and documented their contracts in **src/xtests.internal.string.h**;
   * replaced the unused numeric ANSI colour constants in **xtests.core.cpp** with bold SGR sequences (`XTESTS_ANSI_FG_BOLD_AND_RED_`, `XTESTS_ANSI_FG_BOLD_AND_GREEN_`, `XTESTS_ANSI_FG_BOLD_AND_BLUE_`, `XTESTS_ANSI_FG_BOLD_AND_MAGENTA_`, `XTESTS_ANSI_FG_BOLD_AND_CYAN_`, and `XTESTS_ANSI_RESET_`);
+* dependencies:
+  * requires **woad** **0.2** or later; **xtests.core.cpp** includes **woad/woad.h** and defines those SGR macros from `WOAD_BOLD`, `WOAD_FG_*`, and `WOAD_RESET`; the include path is `PRIVATE` on **xtests.core** and **woad** is not linked;
+  * CI installs **woad** with **STLSoft** and **shwild**; the STLSoft source-tree routes install **woad** alone and pass that prefix as `CMAKE_PREFIX_PATH`;
 * version:
   * set `_XTESTS_VER` to **0.29.0-beta1** (`_XTESTS_VER_RELSTATUS` `0x81`) in **xtests.h**; synced **Doxyfile** `PROJECT_NUMBER`;
   * set the **xtests.h** include-file quadruple to 3.55.1 edit 432;
