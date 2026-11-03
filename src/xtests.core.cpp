@@ -222,7 +222,8 @@
 
 #define XTESTS_ANSI_FG_RED_                                 (31)
 #define XTESTS_ANSI_FG_GREEN_                               (32)
-#define XTESTS_ANSI_FG_BLUE_                                (34)
+
+#define XTESTS_ANSI_FG_BOLD_AND_BLUE_                       "\033[1;34m"
 
 #define XTESTS_ANSI_RESET_                                  "\033[0m"
 
@@ -803,7 +804,7 @@ namespace
         {
             buff.resize(11 + cchName + 1);
 
-            int const n         =   stlsoft::snprintf(&buff[0], buff.size(), "\033[1;34m%s" XTESTS_ANSI_RESET_, name);
+            int const n         =   stlsoft::snprintf(&buff[0], buff.size(), XTESTS_ANSI_FG_BOLD_AND_BLUE_ "%s" XTESTS_ANSI_RESET_, name);
             int const buf_size  =   static_cast<signed int>(buff.size());
 
             STLSOFT_ASSERT(n < 0 || n == (buf_size - 1));
