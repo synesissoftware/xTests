@@ -204,8 +204,8 @@ jobs:
           cat > "$CONSUMER/CMakeLists.txt" <<'EOF'
           cmake_minimum_required(VERSION 3.13)
           project(xtests_install_smoke CXX)
-          # deliberately does NOT find STLSoft itself: the xTests package
-          # configuration is responsible for re-finding its own dependency
+          # deliberately does NOT find STLSoft or woad itself: the xTests
+          # package configuration is responsible for re-finding both
           find_package(xTests REQUIRED)
           add_executable(consumer consumer.cpp)
           target_link_libraries(consumer PRIVATE xTests::core)

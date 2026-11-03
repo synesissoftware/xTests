@@ -111,22 +111,14 @@ else()
 	)
 endif()
 
-# Header-only use of the fixed SGR macros. find_package() does not add
-# the include path, and a prefix install is not on the compiler's default
-# search path. Read the directory now: a TARGET_PROPERTY generator
-# expression for this property is dropped and never reaches the compiler.
-# PRIVATE keeps that path out of the installed export. The library is not
-# linked: these macros need no binding.
-get_target_property(WOAD_INCLUDE_DIRS_ woad::woad INTERFACE_INCLUDE_DIRECTORIES)
-
-if(NOT WOAD_INCLUDE_DIRS_)
-
-	message(FATAL_ERROR "woad::woad has no INTERFACE_INCLUDE_DIRECTORIES")
-endif()
-
-target_include_directories(xtests.core
+# Implementation dependency only: the public headers do not include woad.
+# PRIVATE still propagates the link through this static library, and does
+# not publish woad's include path to consumers. Linking also supplies the
+# headers, including when the package is installed under a prefix that is
+# not on the compiler's default search path.
+target_link_libraries(xtests.core
 	PRIVATE
-		${WOAD_INCLUDE_DIRS_}
+		woad::woad
 )
 
 target_compile_options(xtests.core
