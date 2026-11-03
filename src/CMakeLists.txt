@@ -5,7 +5,7 @@
 # Purpose:  CMake lists file for xTests core library
 #
 # Created:  ...
-# Updated:  6th May 2025
+# Updated:  3rd November 2026
 #
 # ######################################################################## #
 
@@ -57,6 +57,7 @@ endif()
 
 set(CORE_SRCS
 	xtests.core.cpp
+	xtests.internal.string.c
 )
 
 # the real target is named for the library it produces, so that nothing as
