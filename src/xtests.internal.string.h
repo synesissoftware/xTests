@@ -79,6 +79,10 @@ extern "C"
  * Walks @a s until a NUL is found or @a limit characters have been
  * examined, whichever comes first.
  *
+ * Implemented as a local scan rather than CRT @c strnlen, which is not
+ * in ISO C90/C99 (POSIX.1-2008 / later) and is absent or feature-gated
+ * on some toolchains xTests still supports.
+ *
  * @param s Pointer to the string to measure. Must not be @c NULL.
  * @param limit Maximum number of characters to examine.
  *
@@ -89,9 +93,6 @@ extern "C"
  * @pre NULL != s
  * @pre @a s is either NUL-terminated within the first @a limit
  *  characters, or is readable for at least @a limit characters
- *
- * @note Unlike some CRT @c strnlen implementations, @a s may not be
- *  @c NULL.
  */
 size_t
 xtests_strnlen_(
@@ -101,7 +102,8 @@ xtests_strnlen_(
 
 /** Counts characters in a wide C-string, bounded by @a limit.
  *
- * Wide-character counterpart of xtests_strnlen_().
+ * Wide-character counterpart of xtests_strnlen_(). Likewise avoids CRT
+ * @c wcsnlen for the same portability reason.
  *
  * @param s Pointer to the string to measure. Must not be @c NULL.
  * @param limit Maximum number of wide characters to examine.
@@ -113,9 +115,6 @@ xtests_strnlen_(
  * @pre NULL != s
  * @pre @a s is either NUL-terminated within the first @a limit wide
  *  characters, or is readable for at least @a limit wide characters
- *
- * @note Unlike some CRT @c wcsnlen implementations, @a s may not be
- *  @c NULL.
  */
 size_t
 xtests_wcsnlen_(
@@ -246,27 +245,27 @@ xtests_wcscmp_(
  * Comparison order:
  *
  * - if @a str1 and @a str2 are the same pointer, returns 0;
- * - if @a str1 is @c NULL, returns a negative value;
- * - if @a str2 is @c NULL, returns a positive value;
- * - otherwise copies both strings, folds them to upper case, and
- *   compares the folded forms with @c strcmp.
+ * - if @a str1 is @c NULL, returns 0 when @a str2 is an empty string,
+ *   otherwise a negative value;
+ * - if @a str2 is @c NULL, returns 0 when @a str1 is an empty string,
+ *   otherwise a positive value;
+ * - otherwise returns
+ *   <code>stlsoft_C_strnicmp(str1, str2, ~(size_t)0)</code>.
  *
  * @param str1 First string; may be @c NULL.
  * @param str2 Second string; may be @c NULL.
  *
- * @retval 0 The folded strings are equal.
- * @retval &lt;0 @a str1 is less than @a str2, or @a str1 is @c NULL.
- * @retval &gt;0 @a str1 is greater than @a str2, or @a str2 is @c NULL
- *  (or, when exceptions are disabled, temporary-buffer allocation
- *  fails).
+ * @retval 0 The folded strings are equal (including @c NULL vs empty).
+ * @retval &lt;0 @a str1 is less than @a str2 (or @a str1 is @c NULL and
+ *  @a str2 is non-empty).
+ * @retval &gt;0 @a str1 is greater than @a str2 (or @a str2 is @c NULL
+ *  and @a str1 is non-empty).
  *
- * @note Unlike xtests_strcmp_(), a @c NULL argument does
- *  <em>not</em> compare equal to an empty string: @c NULL is always
- *  ordered strictly less / greater than a non-@c NULL argument
- *  (including empty).
+ * @note NULL-vs-empty handling matches xtests_strcmp_() /
+ *  xtests_strnicmp_().
  *
- * @note Case folding uses <code>stlsoft::make_upper</code> on temporary
- *  copies; locale / encoding behaviour follows that facility.
+ * @note Case folding follows <code>stlsoft_C_strnicmp</code> (ASCII
+ *  letters fold by 32; other bytes unchanged).
  */
 int
 xtests_stricmp_(
@@ -277,15 +276,9 @@ xtests_stricmp_(
 /** Case-insensitive lexicographic comparison of two wide C-strings,
  * tolerating @c NULL.
  *
- * Comparison order:
- *
- * - if @a str1 and @a str2 are the same pointer, returns 0;
- * - if @a str1 is @c NULL, returns 0 when @a str2 is an empty string,
- *   otherwise a negative value;
- * - if @a str2 is @c NULL, returns 0 when @a str1 is an empty string,
- *   otherwise a positive value;
- * - otherwise copies both strings, folds them to upper case, and
- *   compares the folded forms with @c wcscmp.
+ * Wide-character counterpart of xtests_stricmp_(), implemented in terms
+ * of <code>stlsoft_C_wcsnicmp</code> when both arguments are
+ * non-@c NULL.
  *
  * @param str1 First string; may be @c NULL.
  * @param str2 Second string; may be @c NULL.
@@ -294,15 +287,9 @@ xtests_stricmp_(
  * @retval &lt;0 @a str1 is less than @a str2 (or @a str1 is @c NULL and
  *  @a str2 is non-empty).
  * @retval &gt;0 @a str1 is greater than @a str2 (or @a str2 is @c NULL
- *  and @a str1 is non-empty; or, when exceptions are disabled,
- *  temporary-buffer allocation fails).
+ *  and @a str1 is non-empty).
  *
- * @note NULL-vs-empty handling follows xtests_strcmp_() /
- *  xtests_wcscmp_(), <em>not</em> xtests_stricmp_(): a @c NULL wide
- *  argument compares equal to an empty wide string.
- *
- * @note Case folding uses <code>stlsoft::make_upper</code> on temporary
- *  copies; locale / encoding behaviour follows that facility.
+ * @note Case folding follows <code>stlsoft_C_wcsnicmp</code>.
  */
 int
 xtests_wcsicmp_(
@@ -395,7 +382,7 @@ xtests_wcsncmp_(
  *  (or @a str2 is @c NULL and @a str1 is non-empty).
  *
  * @note Both arguments may be @c NULL when @a n is non-zero; that case
- *  yields 0 (unlike xtests_stricmp_()).
+ *  yields 0, matching xtests_stricmp_().
  */
 int
 xtests_strnicmp_(

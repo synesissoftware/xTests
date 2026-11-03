@@ -47,12 +47,8 @@
 
 #include "xtests.internal.string.h"
 
-#include "char_buffer.hpp"
-#include <xtests/internal/safestr.h>
-
 #include <stlsoft/string/c_string/strnicmp.h>
 #include <stlsoft/string/c_string/strnistrn.h>
-#include <stlsoft/string/case_functions.hpp>
 
 #include <string.h>
 #include <wchar.h>
@@ -66,26 +62,6 @@
 extern "C"
 {
 #endif /* __cplusplus */
-
-
-/* /////////////////////////////////////////////////////////////////////////
- * compatibility
- */
-
-#ifdef XTESTS_USING_SAFE_STR_FUNCTIONS
-
-# define xtests_strcpy_(d, n, s)                            ::strcpy_s(d, n, s)
-# define xtests_wcscpy_(d, n, s)                            ::wcscpy_s(d, n, s)
-#else /* ? XTESTS_USING_SAFE_STR_FUNCTIONS */
-
-# define xtests_strcpy_(d, n, s)                            ::strcpy(d, s)
-# define xtests_wcscpy_(d, n, s)                            ::wcscpy(d, s)
-#endif
-
-
-/* /////////////////////////////////////////////////////////////////////////
- * types
- */
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -232,36 +208,17 @@ xtests_stricmp_(
     {
         STLSOFT_ASSERT(NULL != str2);
 
-        return -1;
+        return ('\0' == *str2) ? 0 : -1;
     }
     else if (NULL == str2)
     {
         STLSOFT_ASSERT(NULL != str1);
 
-        return +1;
+        return ('\0' == *str1) ? 0 : +1;
     }
     else
     {
-        const size_t        len1    =   ::strlen(str1);
-        const size_t        len2    =   ::strlen(str2);
-        char_buffer_m_t_    str1_(1 + len1);
-        char_buffer_m_t_    str2_(1 + len2);
-
-#ifndef STLSOFT_CF_EXCEPTION_SUPPORT
-        if (str1_.empty() ||
-            str2_.empty())
-        {
-            return 1;
-        }
-#endif /* !STLSOFT_CF_EXCEPTION_SUPPORT */
-
-        xtests_strcpy_(&str1_[0], str1_.size(), str1);
-        xtests_strcpy_(&str2_[0], str2_.size(), str2);
-
-        ::stlsoft::make_upper(str1_);
-        ::stlsoft::make_upper(str2_);
-
-        return ::strcmp(str1_.data(), str2_.data());
+        return stlsoft_C_strnicmp(str1, str2, ~(size_t)0);
     }
 }
 
@@ -279,36 +236,17 @@ xtests_wcsicmp_(
     {
         STLSOFT_ASSERT(NULL != str2);
 
-        return ('\0' == *str2) ? 0 : -1;
+        return (L'\0' == *str2) ? 0 : -1;
     }
     else if (NULL == str2)
     {
         STLSOFT_ASSERT(NULL != str1);
 
-        return ('\0' == *str1) ? 0 : +1;
+        return (L'\0' == *str1) ? 0 : +1;
     }
     else
     {
-        const size_t        len1    =   ::wcslen(str1);
-        const size_t        len2    =   ::wcslen(str2);
-        char_buffer_w_t_    str1_(1 + len1);
-        char_buffer_w_t_    str2_(1 + len2);
-
-#ifndef STLSOFT_CF_EXCEPTION_SUPPORT
-        if (str1_.empty() ||
-            str2_.empty())
-        {
-            return 1;
-        }
-#endif /* !STLSOFT_CF_EXCEPTION_SUPPORT */
-
-        xtests_wcscpy_(&str1_[0], str1_.size(), str1);
-        xtests_wcscpy_(&str2_[0], str2_.size(), str2);
-
-        ::stlsoft::make_upper(str1_);
-        ::stlsoft::make_upper(str2_);
-
-        return ::wcscmp(str1_.data(), str2_.data());
+        return stlsoft_C_wcsnicmp(str1, str2, ~(size_t)0);
     }
 }
 
