@@ -49,6 +49,7 @@
 
 #include <stlsoft/string/c_string/strnicmp.h>
 #include <stlsoft/string/c_string/strnistrn.h>
+#include <stlsoft/string/c_string/strnstrn.h>
 
 #include <string.h>
 #include <wchar.h>
@@ -394,7 +395,7 @@ xtests_strstr_(
     }
     else
     {
-        return strstr(str1, str2);
+        return stlsoft_C_strnstrn(str1, strlen(str1), str2, strlen(str2));
     }
 }
 
@@ -414,7 +415,7 @@ xtests_wcsstr_(
     }
     else
     {
-        return wcsstr(str1, str2);
+        return stlsoft_C_wcsnstrn(str1, wcslen(str1), str2, wcslen(str2));
     }
 }
 
