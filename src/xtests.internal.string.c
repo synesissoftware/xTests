@@ -130,7 +130,7 @@ xtests_wcsncpy_(
     if (l < n)
     {
         memcpy(d, s, sizeof(wchar_t) * l);
-        d[l] = '\0';
+        d[l] = L'\0';
     }
     else
     {
@@ -180,13 +180,13 @@ xtests_wcscmp_(
     {
         STLSOFT_ASSERT(NULL != str2);
 
-        return ('\0' == *str2) ? 0 : -1;
+        return (L'\0' == *str2) ? 0 : -1;
     }
     else if (NULL == str2)
     {
         STLSOFT_ASSERT(NULL != str1);
 
-        return ('\0' == *str1) ? 0 : +1;
+        return (L'\0' == *str1) ? 0 : +1;
     }
     else
     {
@@ -302,13 +302,13 @@ xtests_wcsncmp_(
     {
         STLSOFT_ASSERT(NULL != str2);
 
-        return ('\0' == *str2) ? 0 : -1;
+        return (L'\0' == *str2) ? 0 : -1;
     }
     else if (NULL == str2)
     {
         STLSOFT_ASSERT(NULL != str1);
 
-        return ('\0' == *str1) ? 0 : +1;
+        return (L'\0' == *str1) ? 0 : +1;
     }
     else
     {
@@ -364,13 +364,13 @@ xtests_wcsnicmp_(
     }
     else if (NULL == str1)
     {
-        return (NULL == str2 || '\0' == *str2) ? 0 : -1;
+        return (NULL == str2 || L'\0' == *str2) ? 0 : -1;
     }
     else if (NULL == str2)
     {
         STLSOFT_ASSERT(NULL != str1);
 
-        return ('\0' == *str1) ? 0 : +1;
+        return (L'\0' == *str1) ? 0 : +1;
     }
     else
     {
