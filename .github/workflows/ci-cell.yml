@@ -51,13 +51,13 @@ jobs:
             mingw-w64-x86_64-cmake
             mingw-w64-x86_64-make
 
-      - name: Install test dependencies (STLSoft + shwild)
+      - name: Install test dependencies (STLSoft + shwild + woad)
         uses: ./.github/actions/install-sis-deps
         with:
           build-type: ${{ inputs.build-type }}
           c-compiler: ${{ inputs.c-compiler }}
           cpp-compiler: ${{ inputs.cpp-compiler }}
-          dependencies: STLSoft shwild
+          dependencies: STLSoft shwild woad
           toolchain: ${{ inputs.toolchain }}
 
       - name: Configure
