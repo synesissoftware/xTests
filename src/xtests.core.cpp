@@ -1384,9 +1384,7 @@ namespace
             fmt_ += " value '";
             if (is_tty)
             {
-                fmt_ += XTESTS_ANSI_FG_BOLD_AND_MAGENTA_;
-                fmt_ += "%p";
-                fmt_ += XTESTS_ANSI_RESET_;
+                fmt_ += XTESTS_ANSI_FG_BOLD_AND_MAGENTA_ "%p" XTESTS_ANSI_RESET_;
             }
             else
             {
@@ -3198,7 +3196,7 @@ RunnerInfo::get_reporter_(
                     // actual
                     if (is_tty)
                     {
-                        fmt_ += "actual string value '" XTESTS_ANSI_FG_BOLD_AND_MAGENTA_ "%.*s\033[0m'";
+                        fmt_ += "actual string value '" XTESTS_ANSI_FG_BOLD_AND_MAGENTA_ "%.*s" XTESTS_ANSI_RESET_ "'";
                     }
                     else
                     {
@@ -3221,7 +3219,7 @@ RunnerInfo::get_reporter_(
                     // expected
                     if (is_tty)
                     {
-                        fmt_ += " the expected value '" XTESTS_ANSI_FG_BOLD_AND_MAGENTA_ "%.*s\033[0m'";
+                        fmt_ += " the expected value '" XTESTS_ANSI_FG_BOLD_AND_MAGENTA_ "%.*s" XTESTS_ANSI_RESET_ "'";
                     }
                     else
                     {
