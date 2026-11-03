@@ -139,12 +139,6 @@
 # endif /* STLSOFT_CF_RTTI_SUPPORT */
 #endif /* compiler */
 
-#ifdef _WIN32
-# ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
-#  define ENABLE_VIRTUAL_TERMINAL_PROCESSING	(0x0004)
-# endif
-#endif
-
 
 /* /////////////////////////////////////////////////////////////////////////
  * implementation
@@ -162,6 +156,12 @@
 /* /////////////////////////////////////////////////////////////////////////
  * compatiblity
  */
+
+#ifdef _WIN32
+# ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+#  define ENABLE_VIRTUAL_TERMINAL_PROCESSING	            (0x0004)
+# endif
+#endif
 
 /* Windows debugging support
  *
@@ -220,39 +220,13 @@
 # define RETURN_UNUSED(x)
 #endif /* compiler */
 
-#define XTESTS_ANSI_BG_BLACK_                               (40)
-#define XTESTS_ANSI_BG_RED_                                 (41)
-#define XTESTS_ANSI_BG_GREEN_                               (42)
-#define XTESTS_ANSI_BG_YELLOW_                              (43)
-#define XTESTS_ANSI_BG_BLUE_                                (44)
-#define XTESTS_ANSI_BG_MAGENTA_                             (45)
-#define XTESTS_ANSI_BG_CYAN_                                (46)
-#define XTESTS_ANSI_BG_WHITE_                               (47)
-#define XTESTS_ANSI_BG_BRIGHT_BLACK_                        (100)
-#define XTESTS_ANSI_BG_BRIGHT_RED_                          (101)
-#define XTESTS_ANSI_BG_BRIGHT_GREEN_                        (102)
-#define XTESTS_ANSI_BG_BRIGHT_YELLOW_                       (103)
-#define XTESTS_ANSI_BG_BRIGHT_BLUE_                         (104)
-#define XTESTS_ANSI_BG_BRIGHT_MAGENTA_                      (105)
-#define XTESTS_ANSI_BG_BRIGHT_CYAN_                         (106)
-#define XTESTS_ANSI_BG_BRIGHT_WHITE_                        (107)
+#define XTESTS_ANSI_FG_BOLD_AND_RED_                        "\033[1;31m"
+#define XTESTS_ANSI_FG_BOLD_AND_GREEN_                      "\033[1;32m"
+#define XTESTS_ANSI_FG_BOLD_AND_BLUE_                       "\033[1;34m"
+#define XTESTS_ANSI_FG_BOLD_AND_MAGENTA_                    "\033[1;35m"
+#define XTESTS_ANSI_FG_BOLD_AND_CYAN_                       "\033[1;36m"
 
-#define XTESTS_ANSI_FG_BLACK_                               (30)
-#define XTESTS_ANSI_FG_RED_                                 (31)
-#define XTESTS_ANSI_FG_GREEN_                               (32)
-#define XTESTS_ANSI_FG_YELLOW_                              (33)
-#define XTESTS_ANSI_FG_BLUE_                                (34)
-#define XTESTS_ANSI_FG_MAGENTA_                             (35)
-#define XTESTS_ANSI_FG_CYAN_                                (36)
-#define XTESTS_ANSI_FG_WHITE_                               (37)
-#define XTESTS_ANSI_FG_BRIGHT_BLACK_                        (90)
-#define XTESTS_ANSI_FG_BRIGHT_RED_                          (91)
-#define XTESTS_ANSI_FG_BRIGHT_GREEN_                        (92)
-#define XTESTS_ANSI_FG_BRIGHT_YELLOW_                       (93)
-#define XTESTS_ANSI_FG_BRIGHT_BLUE_                         (94)
-#define XTESTS_ANSI_FG_BRIGHT_MAGENTA_                      (95)
-#define XTESTS_ANSI_FG_BRIGHT_CYAN_                         (96)
-#define XTESTS_ANSI_FG_BRIGHT_WHITE_                        (97)
+#define XTESTS_ANSI_RESET_                                  "\033[0m"
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -831,7 +805,7 @@ namespace
         {
             buff.resize(11 + cchName + 1);
 
-            int const n         =   stlsoft::snprintf(&buff[0], buff.size(), "\033[1;%dm%s\033[0m", XTESTS_ANSI_FG_BLUE_, name);
+            int const n         =   stlsoft::snprintf(&buff[0], buff.size(), XTESTS_ANSI_FG_BOLD_AND_BLUE_ "%s" XTESTS_ANSI_RESET_, name);
             int const buf_size  =   static_cast<signed int>(buff.size());
 
             STLSOFT_ASSERT(n < 0 || n == (buf_size - 1));
@@ -856,7 +830,7 @@ namespace
 
         if (is_tty)
         {
-            stlsoft::snprintf(&buff[0], 101, "\033[1;%dm%s\033[0m", succeeded ? XTESTS_ANSI_FG_GREEN_ : XTESTS_ANSI_FG_RED_, response);
+            stlsoft::snprintf(&buff[0], 101, "%s%s" XTESTS_ANSI_RESET_, succeeded ? XTESTS_ANSI_FG_BOLD_AND_GREEN_ : XTESTS_ANSI_FG_BOLD_AND_RED_, response);
         }
         else
         {
@@ -974,9 +948,9 @@ namespace
         {
             if (is_tty)
             {
-                fmt_ += "\033[1;36m";
+                fmt_ += XTESTS_ANSI_FG_BOLD_AND_CYAN_;
                 fmt_ += type_qualifier;
-                fmt_ += "\033[0m";
+                fmt_ += XTESTS_ANSI_RESET_;
             }
             else
             {
@@ -1002,9 +976,9 @@ namespace
         }
         if (is_tty)
         {
-            fmt_ += "\033[1;35m";
+            fmt_ += XTESTS_ANSI_FG_BOLD_AND_MAGENTA_;
             fmt_ += fmt_specifier;
-            fmt_ += "\033[0m";
+            fmt_ += XTESTS_ANSI_RESET_;
         }
         else
         {
@@ -1036,12 +1010,12 @@ namespace
         // comparison
         if (is_tty)
         {
-            fmt_ += "\033[1;36m";
+            fmt_ += XTESTS_ANSI_FG_BOLD_AND_CYAN_;
         }
         fmt_ += (*pfn_relation)(comparison);
         if (is_tty)
         {
-            fmt_ += "\033[0m";
+            fmt_ += XTESTS_ANSI_RESET_;
         }
 
         // expected
@@ -1062,9 +1036,9 @@ namespace
         }
         if (is_tty)
         {
-            fmt_ += "\033[1;35m";
+            fmt_ += XTESTS_ANSI_FG_BOLD_AND_MAGENTA_;
             fmt_ += fmt_specifier;
-            fmt_ += "\033[0m";
+            fmt_ += XTESTS_ANSI_RESET_;
         }
         else
         {
@@ -1094,7 +1068,7 @@ namespace
         // function (?)
         if (is_tty)
         {
-            fmt_ += "%s\033[1;36m%s\033[0m";
+            fmt_ += "%s" XTESTS_ANSI_FG_BOLD_AND_CYAN_ "%s" XTESTS_ANSI_RESET_;
         }
         else
         {
@@ -1397,9 +1371,9 @@ namespace
         fmt_ += "%s(%d): test condition failed: actual ";
         if (is_tty)
         {
-            fmt_ += "\033[1;36m";
+            fmt_ += XTESTS_ANSI_FG_BOLD_AND_CYAN_;
             fmt_ += "pointer";
-            fmt_ += "\033[0m";
+            fmt_ += XTESTS_ANSI_RESET_;
         }
         else
         {
@@ -1410,9 +1384,7 @@ namespace
             fmt_ += " value '";
             if (is_tty)
             {
-                fmt_ += "\033[1;35m";
-                fmt_ += "%p";
-                fmt_ += "\033[0m";
+                fmt_ += XTESTS_ANSI_FG_BOLD_AND_MAGENTA_ "%p" XTESTS_ANSI_RESET_;
             }
             else
             {
@@ -1426,17 +1398,17 @@ namespace
         }
         if (is_tty)
         {
-            fmt_ += "\033[1;36m";
+            fmt_ += XTESTS_ANSI_FG_BOLD_AND_CYAN_;
         }
         fmt_ += phrase;
         if (is_tty)
         {
-            fmt_ += "\033[0m";
+            fmt_ += XTESTS_ANSI_RESET_;
         }
 
         if (is_tty)
         {
-            fmt_ += "%s\033[1;36m%s\033[0m";
+            fmt_ += "%s" XTESTS_ANSI_FG_BOLD_AND_CYAN_ "%s" XTESTS_ANSI_RESET_;
         }
         else
         {
@@ -3224,7 +3196,7 @@ RunnerInfo::get_reporter_(
                     // actual
                     if (is_tty)
                     {
-                        fmt_ += "actual string value '\033[1;35m%.*s\033[0m'";
+                        fmt_ += "actual string value '" XTESTS_ANSI_FG_BOLD_AND_MAGENTA_ "%.*s" XTESTS_ANSI_RESET_ "'";
                     }
                     else
                     {
@@ -3236,18 +3208,18 @@ RunnerInfo::get_reporter_(
                     // comparison
                     if (is_tty)
                     {
-                        fmt_ += "\033[1;36m";
+                        fmt_ += XTESTS_ANSI_FG_BOLD_AND_CYAN_;
                     }
                     fmt_ += relation_equals_(comparison);
                     if (is_tty)
                     {
-                        fmt_ += "\033[0m";
+                        fmt_ += XTESTS_ANSI_RESET_;
                     }
 
                     // expected
                     if (is_tty)
                     {
-                        fmt_ += " the expected value '\033[1;35m%.*s\033[0m'";
+                        fmt_ += " the expected value '" XTESTS_ANSI_FG_BOLD_AND_MAGENTA_ "%.*s" XTESTS_ANSI_RESET_ "'";
                     }
                     else
                     {
@@ -3257,7 +3229,7 @@ RunnerInfo::get_reporter_(
                     //  to the length %d
                     if (is_tty)
                     {
-                        fmt_ += " to the length \033[1;35m%d\033[0m";
+                        fmt_ += " to the length " XTESTS_ANSI_FG_BOLD_AND_MAGENTA_ "%d" XTESTS_ANSI_RESET_;
                     }
                     else
                     {
@@ -3267,7 +3239,7 @@ RunnerInfo::get_reporter_(
                     // function (?)
                     if (is_tty)
                     {
-                        fmt_ += "%s\033[1;36m%s\033[0m";
+                        fmt_ += "%s" XTESTS_ANSI_FG_BOLD_AND_CYAN_ "%s" XTESTS_ANSI_RESET_;
                     }
                     else
                     {
@@ -3679,10 +3651,10 @@ RunnerInfo::get_reporter_(
 
                 if (m_is_tty)
                 {
-                    fn_pre      =   "\033[1;36m";
-                    fn_post     =   "\033[0m";
-                    msg_pre     =   "\033[1;35m";
-                    msg_post    =   "\033[0m";
+                    fn_pre      =   XTESTS_ANSI_FG_BOLD_AND_CYAN_;
+                    fn_post     =   XTESTS_ANSI_RESET_;
+                    msg_pre     =   XTESTS_ANSI_FG_BOLD_AND_MAGENTA_;
+                    msg_post    =   XTESTS_ANSI_RESET_;
                 }
                 else
                 {
@@ -3775,14 +3747,14 @@ RunnerInfo::get_reporter_(
 
                 if (m_is_tty)
                 {
-                    case_pre    =   "\033[1;36m";
-                    case_post   =   "\033[0m";
-                    rsn_pre     =   "\033[1;36m";
-                    rsn_post    =   "\033[0m";
-                    msg_pre     =   "\033[1;36m";
-                    msg_post    =   "\033[0m";
-                    xt_pre      =   "\033[1;35m";
-                    xt_post     =   "\033[0m";
+                    case_pre    =   XTESTS_ANSI_FG_BOLD_AND_CYAN_;
+                    case_post   =   XTESTS_ANSI_RESET_;
+                    rsn_pre     =   XTESTS_ANSI_FG_BOLD_AND_CYAN_;
+                    rsn_post    =   XTESTS_ANSI_RESET_;
+                    msg_pre     =   XTESTS_ANSI_FG_BOLD_AND_CYAN_;
+                    msg_post    =   XTESTS_ANSI_RESET_;
+                    xt_pre      =   XTESTS_ANSI_FG_BOLD_AND_MAGENTA_;
+                    xt_post     =   XTESTS_ANSI_RESET_;
                 }
                 else
                 {
@@ -3854,14 +3826,14 @@ RunnerInfo::get_reporter_(
 
                 if (m_is_tty)
                 {
-                    case_pre    =   "\033[1;36m";
-                    case_post   =   "\033[0m";
-                    rsn_pre     =   "\033[1;36m";
-                    rsn_post    =   "\033[0m";
-                    rx_pre      =   "\033[1;36m";
-                    rx_post     =   "\033[0m";
-                    xt_pre      =   "\033[1;35m";
-                    xt_post     =   "\033[0m";
+                    case_pre    =   XTESTS_ANSI_FG_BOLD_AND_CYAN_;
+                    case_post   =   XTESTS_ANSI_RESET_;
+                    rsn_pre     =   XTESTS_ANSI_FG_BOLD_AND_CYAN_;
+                    rsn_post    =   XTESTS_ANSI_RESET_;
+                    rx_pre      =   XTESTS_ANSI_FG_BOLD_AND_CYAN_;
+                    rx_post     =   XTESTS_ANSI_RESET_;
+                    xt_pre      =   XTESTS_ANSI_FG_BOLD_AND_MAGENTA_;
+                    xt_post     =   XTESTS_ANSI_RESET_;
                 }
                 else
                 {
