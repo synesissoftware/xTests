@@ -111,6 +111,24 @@ else()
 	)
 endif()
 
+# Header-only use of the fixed SGR macros. find_package() does not add
+# the include path, and a prefix install is not on the compiler's default
+# search path. Read the directory now: a TARGET_PROPERTY generator
+# expression for this property is dropped and never reaches the compiler.
+# PRIVATE keeps that path out of the installed export. The library is not
+# linked: these macros need no binding.
+get_target_property(WOAD_INCLUDE_DIRS_ woad::woad INTERFACE_INCLUDE_DIRECTORIES)
+
+if(NOT WOAD_INCLUDE_DIRS_)
+
+	message(FATAL_ERROR "woad::woad has no INTERFACE_INCLUDE_DIRECTORIES")
+endif()
+
+target_include_directories(xtests.core
+	PRIVATE
+		${WOAD_INCLUDE_DIRS_}
+)
+
 target_compile_options(xtests.core
 	PRIVATE
 		$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
