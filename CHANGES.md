@@ -1,6 +1,13 @@
 # xTests - Changes <!-- omit in toc -->
 
 
+## 0.29.0-beta1 - 4th November 2026
+
+* version:
+  * set `_XTESTS_VER` to **0.29.0-beta1** (`_XTESTS_VER_RELSTATUS` `0x81`) in **xtests.h**; synced **Doxyfile** `PROJECT_NUMBER`;
+  * set the **xtests.h** include-file quadruple to 3.55.1 edit 432;
+
+
 ## 0.29.0-alpha3 - 2nd November 2026
 
 * compatibility:
