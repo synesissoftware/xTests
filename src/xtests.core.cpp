@@ -139,12 +139,6 @@
 # endif /* STLSOFT_CF_RTTI_SUPPORT */
 #endif /* compiler */
 
-#ifdef _WIN32
-# ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
-#  define ENABLE_VIRTUAL_TERMINAL_PROCESSING	(0x0004)
-# endif
-#endif
-
 
 /* /////////////////////////////////////////////////////////////////////////
  * implementation
@@ -162,6 +156,12 @@
 /* /////////////////////////////////////////////////////////////////////////
  * compatiblity
  */
+
+#ifdef _WIN32
+# ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+#  define ENABLE_VIRTUAL_TERMINAL_PROCESSING	            (0x0004)
+# endif
+#endif
 
 /* Windows debugging support
  *
