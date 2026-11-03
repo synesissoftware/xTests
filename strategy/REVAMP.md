@@ -122,7 +122,7 @@ Retire apologetic README voice. FAQ Catch2 advice remains guidance, not a stall.
 | D9 | Verbosity | Detailed review (and possible modification) of what command-line verbosities imply; programs also observe **environment variables**. |
 | D10 | Path classification | Use **STLSoft** path-classify C functions (once fixed/extended). |
 | D11 | C command-line parsing | If the implementation moves to C, prefer a **STLSoft** C string-slice flag/option/value layer over a private parser in **xTests**. |
-| D12 | Identifier families (1.x) | **Macros** `XTESTS_*`; **types** `xTests_*`; **functions** `xTests_*`. Legacy `xtests_*` (and other 0.x dual spellings) remain as **aliases** (D1). Product brand / CMake / include path / C++ namespace `xtests` unchanged. |
+| D12 | Identifier families (1.x) | **Macros** `XTESTS_*`; **types** / **functions** / **enumerators** `xTests_*` (e.g. `xTests_VariableNone`). Legacy `xtests_*` / `xtests*` and intermediate `xTests*` (no underscore) remain as **aliases** (D1). Product brand / CMake / include path / C++ namespace `xtests` unchanged. |
 
 
 ## Compatibility policy
@@ -439,6 +439,7 @@ Fix early; largely independent of redesign. Where known, cites review-1 loci.
 
 #### R5.2 — Naming normalisation
 
+* **Status:** ✅ implemented (11th October 2026);
 * **Locked (D12):** three public identifier families for 1.x:
   * **Macros** — `XTESTS_*` (already the dominant form);
   * **Types** — `xTests_*` (e.g. `xTests_Reporter_t`, `xTests_verbosity_t`,
@@ -448,18 +449,20 @@ Fix early; largely independent of redesign. Where known, cites review-1 loci.
 * **Out of scope for rename:** product brand **xTests**; include path
   `xtests/…`; C++ namespaces `xtests` / `xtests::c` / `xtests::cpp`; CMake
   project / exported target namespace `xTests::…`.
-* **Enumerator constants** in public C enums follow the same `xTests_*`
-  family as types/functions (today mostly `xtestsComparison*`); provide
-  `xtests*` aliases (D1).
-* **Implementation:** rename primaries to the D12 forms; keep every 0.x
-  spelling as a typedef / `#define` / using-alias so the SIS corpus need not
-  change in lockstep.
+* **Enumerator constants** in public C enums use the `xTests_*` family
+  (e.g. `xTests_ComparisonEqual`, `xTests_VariableNone`); `xtests*` and
+  intermediate `xTests*` (no underscore) spellings remain `#define`
+  aliases (D1).
+* **Implementation:** primaries renamed to the D12 forms in **xtests.h** /
+  **xtests.core.cpp** (and internal string helpers); 0.x spellings kept as
+  `#define` aliases so the SIS corpus need not change in lockstep.
 * **Terse API** (`TEST_INT_EQ`, …) remains an opt-in short layer — not a
   competing public family.
 
 
 #### R5.3 — Dual spellings
 
+* **Status:** ✅ implemented (11th October 2026);
 * Apply D12: where both `xTests_*` and `xtests_*` exist (or will exist after
   rename), **`xTests_*` is canonical**; `xtests_*` is the permanent
   compatibility alias (D1).
@@ -898,7 +901,7 @@ column lists more than one (e.g. `A/H` → counted under **A**).
 | F     | Fixtures and context                | 0/2      | ⬜      |
 | G     | C-ward core and STLSoft consumption | 0/11     | ⬜      |
 | H     | Self-test maturity                  | 0/4      | ⬜      |
-| I     | Docs, naming, packaging             | 0/14     | ⬜      |
+| I     | Docs, naming, packaging             | 2/14      | 🟡      |
 | J     | Flexibility and competitive scan    | 0/3      | ⬜      |
 | ext   | External / parallel                 | 0/3      | ⬜      |
 
@@ -945,8 +948,8 @@ column lists more than one (e.g. `A/H` → counted under **A**).
 | R4.7  | Data-driven / parametrised cases (API TBD)            | C/J   | ⬜      |
 | R4.8  | Parallel-run assists for client libraries             | C     | ⬜      |
 | R5.1  | Segregate `include/xtests/xtests.h`                   | C/G   | ⬜      |
-| R5.2  | Naming normalisation (D12)                            | I     | ⬜      |
-| R5.3  | Dual spellings (aliases for 0.x)                      | I     | ⬜      |
+| R5.2  | Naming normalisation (D12)                            | I     | ✅      |
+| R5.3  | Dual spellings (aliases for 0.x)                      | I     | ✅      |
 | R5.4  | Install vs internal headers                           | I     | ⬜      |
 | R6.1  | Move implementation toward C                          | G     | ⬜      |
 | R6.2  | C client STLSoft opt-out                              | G     | ⬜      |

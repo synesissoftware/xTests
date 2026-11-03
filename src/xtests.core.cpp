@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 20th September 2026
+ * Updated: 11th October 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -183,25 +183,25 @@
 #endif
 
 #ifdef XTESTS_USING_SAFE_STR_FUNCTIONS
-# define xtests_strcpy_(d, n, s)                            ::strcpy_s(d, n, s)
-# define xtests_wcscpy_(d, n, s)                            ::wcscpy_s(d, n, s)
-//# define xtests_strncpy_(d, n, s, l)                        ::strncpy_s(d, n, s, l)
-//# define xtests_wcsncpy_(d, n, s, l)                        ::wcsncpy_s(d, n, s, l)
-# define xtests_sprintf_2_(s, n, fmt, a0, a1)               ::sprintf_s(s, n, fmt, a0, a1)
-# define xtests_sprintf_3_(s, n, fmt, a0, a1, a2)           ::sprintf_s(s, n, fmt, a0, a1, a2)
-# define xtests_vsnprintf_(s, z, n, fmt, args)              ::vsnprintf_s(s, z, n, fmt, args)
+# define xTests_strcpy_(d, n, s)                            ::strcpy_s(d, n, s)
+# define xTests_wcscpy_(d, n, s)                            ::wcscpy_s(d, n, s)
+//# define xTests_strncpy_(d, n, s, l)                        ::strncpy_s(d, n, s, l)
+//# define xTests_wcsncpy_(d, n, s, l)                        ::wcsncpy_s(d, n, s, l)
+# define xTests_sprintf_2_(s, n, fmt, a0, a1)               ::sprintf_s(s, n, fmt, a0, a1)
+# define xTests_sprintf_3_(s, n, fmt, a0, a1, a2)           ::sprintf_s(s, n, fmt, a0, a1, a2)
+# define xTests_vsnprintf_(s, z, n, fmt, args)              ::vsnprintf_s(s, z, n, fmt, args)
 #else /* ? XTESTS_USING_SAFE_STR_FUNCTIONS */
-# define xtests_strcpy_(d, n, s)                            ::strcpy(d, s)
-# define xtests_wcscpy_(d, n, s)                            ::wcscpy(d, s)
-//# define xtests_strncpy_(d, n, s, l)                        ::strncpy(d, s, l)
-//# define xtests_wcsncpy_(d, n, s, l)                        ::wcsncpy(d, s, l)
+# define xTests_strcpy_(d, n, s)                            ::strcpy(d, s)
+# define xTests_wcscpy_(d, n, s)                            ::wcscpy(d, s)
+//# define xTests_strncpy_(d, n, s, l)                        ::strncpy(d, s, l)
+//# define xTests_wcsncpy_(d, n, s, l)                        ::wcsncpy(d, s, l)
 # if defined(__clang__) && \
      __clang_major__ >= 14
-#  define xtests_sprintf_2_(s, n, fmt, a0, a1)              ::snprintf(s, n, fmt, a0, a1)
-#  define xtests_sprintf_3_(s, n, fmt, a0, a1, a2)          ::snprintf(s, n, fmt, a0, a1, a2)
+#  define xTests_sprintf_2_(s, n, fmt, a0, a1)              ::snprintf(s, n, fmt, a0, a1)
+#  define xTests_sprintf_3_(s, n, fmt, a0, a1, a2)          ::snprintf(s, n, fmt, a0, a1, a2)
 # else
-#  define xtests_sprintf_2_(s, n, fmt, a0, a1)              ::sprintf(s, fmt, a0, a1)
-#  define xtests_sprintf_3_(s, n, fmt, a0, a1, a2)          ::sprintf(s, fmt, a0, a1, a2)
+#  define xTests_sprintf_2_(s, n, fmt, a0, a1)              ::sprintf(s, fmt, a0, a1)
+#  define xTests_sprintf_3_(s, n, fmt, a0, a1, a2)          ::sprintf(s, fmt, a0, a1, a2)
 # endif
 # if defined(STLSOFT_COMPILER_IS_DMC) || \
      (   (   defined(WIN32) || \
@@ -210,9 +210,9 @@
              (   defined(STLSOFT_COMPILER_IS_COMO) && \
                  defined(_MSC_VER)))) || \
      defined(STLSOFT_COMPILER_IS_MSVC)
-#  define xtests_vsnprintf_(s, z, n, fmt, args)             ::_vsnprintf(s, n, fmt, args)
+#  define xTests_vsnprintf_(s, z, n, fmt, args)             ::_vsnprintf(s, n, fmt, args)
 # else /* ? compiler / OS */
-#  define xtests_vsnprintf_(s, z, n, fmt, args)             ::vsnprintf(s, n, fmt, args)
+#  define xTests_vsnprintf_(s, z, n, fmt, args)             ::vsnprintf(s, n, fmt, args)
 # endif /* compiler / OS */
 #endif /* XTESTS_USING_SAFE_STR_FUNCTIONS */
 
@@ -263,8 +263,8 @@
  */
 
 #if XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_
-static void xtests_OutputDebugStringA_(char const*);
-# define OutputDebugStringA                                 xtests_OutputDebugStringA_
+static void xTests_OutputDebugStringA_(char const*);
+# define OutputDebugStringA                                 xTests_OutputDebugStringA_
 #endif /* XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_ */
 
 
@@ -405,7 +405,7 @@ namespace
         ,   char const*             expr
         ,   char const*             expected
         ,   char const*             actual
-        ,   xtests_comparison_t     comp
+        ,   xTests_comparison_t     comp
         ,   char const*             message
         );
         int RegisterFailedCondition_long(
@@ -415,7 +415,7 @@ namespace
         ,   char const*             expr
         ,   long                    expected
         ,   long                    actual
-        ,   xtests_comparison_t     comp
+        ,   xTests_comparison_t     comp
         );
         int RegisterFailedCondition_ulong(
             char const*             file
@@ -424,7 +424,7 @@ namespace
         ,   char const*             expr
         ,   unsigned long           expected
         ,   unsigned long           actual
-        ,   xtests_comparison_t     comp
+        ,   xTests_comparison_t     comp
         );
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
         int RegisterFailedCondition_sint64(
@@ -434,7 +434,7 @@ namespace
         ,   char const*             expr
         ,   sint64_t                expected
         ,   sint64_t                actual
-        ,   xtests_comparison_t     comp
+        ,   xTests_comparison_t     comp
         );
         int RegisterFailedCondition_uint64(
             char const*             file
@@ -443,7 +443,7 @@ namespace
         ,   char const*             expr
         ,   uint64_t                expected
         ,   uint64_t                actual
-        ,   xtests_comparison_t     comp
+        ,   xTests_comparison_t     comp
         );
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
         int RegisterFailedCondition_boolean(
@@ -453,7 +453,7 @@ namespace
         ,   char const*             expr
         ,   bool                    expected
         ,   bool                    actual
-        ,   xtests_comparison_t     comp
+        ,   xTests_comparison_t     comp
         );
         int RegisterFailedCondition_double(
             char const*             file
@@ -462,7 +462,7 @@ namespace
         ,   char const*             expr
         ,   double const&           expected
         ,   double const&           actual
-        ,   xtests_comparison_t     comp
+        ,   xTests_comparison_t     comp
         );
         int TestMultibyteStrings(
             char const*             file
@@ -471,7 +471,7 @@ namespace
         ,   char const*             expr
         ,   char const*             expected
         ,   char const*             actual
-        ,   xtests_comparison_t     comp
+        ,   xTests_comparison_t     comp
         );
         int TestMultibyteStringsN(
             char const*             file
@@ -483,7 +483,7 @@ namespace
         ,   ptrdiff_t               n /* exact if +ve; limit if -ve */
         ,   size_t                  cchExpected
         ,   size_t                  cchActual
-        ,   xtests_comparison_t     comp
+        ,   xTests_comparison_t     comp
         );
         int TestWideStrings(
             char const*             file
@@ -492,7 +492,7 @@ namespace
         ,   char const*             expr
         ,   wchar_t const*          expected
         ,   wchar_t const*          actual
-        ,   xtests_comparison_t     comp
+        ,   xTests_comparison_t     comp
         );
         int TestWideStringsN(
             char const*             file
@@ -504,7 +504,7 @@ namespace
         ,   ptrdiff_t               n /* exact if +ve; limit if -ve */
         ,   size_t                  cchExpected
         ,   size_t                  cchActual
-        ,   xtests_comparison_t     comp
+        ,   xTests_comparison_t     comp
         );
         int TestMultibyteStringContains(
             char const*             file
@@ -513,7 +513,7 @@ namespace
         ,   char const*             expr
         ,   char const*             expected
         ,   char const*             actual
-        ,   xtests_comparison_t     comp
+        ,   xTests_comparison_t     comp
         );
         int TestWideStringContains(
             char const*             file
@@ -522,7 +522,7 @@ namespace
         ,   char const*             expr
         ,   wchar_t const*          expected
         ,   wchar_t const*          actual
-        ,   xtests_comparison_t     comp
+        ,   xTests_comparison_t     comp
         );
         int TestMultibyteStringSlice(
             char const*             file
@@ -533,7 +533,7 @@ namespace
         ,   char const*             expectedPtr
         ,   size_t                  actualLen
         ,   char const*             actualPtr
-        ,   xtests_comparison_t     comp
+        ,   xTests_comparison_t     comp
         );
         int TestWideStringSlice(
             char const*             file
@@ -544,7 +544,7 @@ namespace
         ,   wchar_t const*          expectedPtr
         ,   size_t                  actualLen
         ,   wchar_t const*          actualPtr
-        ,   xtests_comparison_t     comp
+        ,   xTests_comparison_t     comp
         );
         int TestPointers(
             char const*             file
@@ -553,7 +553,7 @@ namespace
         ,   char const*             expr
         ,   void volatile const*    expected
         ,   void volatile const*    actual
-        ,   xtests_comparison_t     comp
+        ,   xTests_comparison_t     comp
         );
         int TestFunctionPointers(
             char const*             file
@@ -562,7 +562,7 @@ namespace
         ,   char const*             expr
         ,   void                    (*expected)()
         ,   void                    (*actual)()
-        ,   xtests_comparison_t     comp
+        ,   xTests_comparison_t     comp
         );
         int TestCharacters(
             char const*             file
@@ -571,7 +571,7 @@ namespace
         ,   char const*             expr
         ,   char                    expected
         ,   char                    actual
-        ,   xtests_comparison_t     comp
+        ,   xTests_comparison_t     comp
         );
         int TestCharacters(
             char const*             file
@@ -580,7 +580,7 @@ namespace
         ,   char const*             expr
         ,   wchar_t                 expected
         ,   wchar_t                 actual
-        ,   xtests_comparison_t     comp
+        ,   xTests_comparison_t     comp
         );
         int WriteFailMessage(
             char const*             file
@@ -628,10 +628,10 @@ namespace
         ,   int                         line
         ,   char const*                 function
         ,   char const*                 expr
-        ,   xtests_variable_t const*    expectedValue
-        ,   xtests_variable_t const*    actualValue
+        ,   xTests_variable_t const*    expectedValue
+        ,   xTests_variable_t const*    actualValue
         ,   ptrdiff_t                   length
-        ,   xtests_comparison_t         comparison
+        ,   xTests_comparison_t         comparison
         ,   int                         verbosity
         );
 
@@ -685,22 +685,22 @@ namespace
 {
 #endif /* STLSOFT_CF_NAMESPACE_SUPPORT */
 
-    enum xtests_severity_t
+    enum xTests_severity_t
     {
-            xtestsEmergency     =   0
-        ,   xtestsAlert         =   1
-        ,   xtestsCritical      =   2
-        ,   xtestsError         =   3
-        ,   xtestsWarning       =   4
-        ,   xtestsNotice        =   5
-        ,   xtestsInformational =   6
-        ,   xtestsDebug         =   7
+            xTests_Emergency     =   0
+        ,   xTests_Alert         =   1
+        ,   xTests_Critical      =   2
+        ,   xTests_Error         =   3
+        ,   xTests_Warning       =   4
+        ,   xTests_Notice        =   5
+        ,   xTests_Informational =   6
+        ,   xTests_Debug         =   7
     };
 
     static
     int
-    xtests_output_(
-        xtests_severity_t   sev
+    xTests_output_(
+        xTests_severity_t   sev
     ,   char const*         message
     )
     {
@@ -715,7 +715,7 @@ namespace
         return 1;
 #else /* ? XTESTS_USE_PANTHEIOS */
 
-        FILE*   stm = (sev < xtestsNotice) ? stderr : stdout;
+        FILE*   stm = (sev < xTests_Notice) ? stderr : stdout;
 
         /* NOTE: the empty string is required to forestall GCC 4.3+'s over-eager
          * warnings
@@ -765,7 +765,7 @@ namespace
 
     /** Sink structure.
      */
-    struct xtests_sink_t_
+    struct xTests_sink_t_
     {
         sink_pfn_t_ pfn;
         void*       param;
@@ -782,8 +782,8 @@ namespace
      *  the operation failed.
      */
     int
-    xtests_mxnprintf_(
-        xtests_sink_t_ const    sinks[]
+    xTests_mxnprintf_(
+        xTests_sink_t_ const    sinks[]
     ,   size_t                  numSinks
     ,   size_t                  requiredLen
     ,   char const*             fmt
@@ -794,8 +794,8 @@ namespace
     __attribute__((format(printf, 4, 5)))
     ;
     int
-    xtests_mxnprintf_(
-        xtests_sink_t_ const    sinks[]
+    xTests_mxnprintf_(
+        xTests_sink_t_ const    sinks[]
     ,   size_t                  numSinks
     ,   size_t                  requiredLen
     ,   char const*             fmt
@@ -818,7 +818,7 @@ namespace
             {
                 { for (size_t j = 0; j != numSinks; ++j)
                 {
-                    xtests_sink_t_ const&   sink    =   sinks[j];
+                    xTests_sink_t_ const&   sink    =   sinks[j];
                     static const char       oom[]   =   "out of memory\n";
 
                     sink.pfn(oom, STLSOFT_NUM_ELEMENTS(oom) - 1, sink.param);
@@ -831,7 +831,7 @@ namespace
 
             va_start(args, fmt);
 
-            r = xtests_vsnprintf_(&buff[0], buff.size(), buff.size() - 1, fmt, args);
+            r = xTests_vsnprintf_(&buff[0], buff.size(), buff.size() - 1, fmt, args);
 
             va_end(args);
 
@@ -857,7 +857,7 @@ namespace
 
             { for (size_t i = 0; i != numSinks; ++i)
             {
-                xtests_sink_t_ const& sink = sinks[i];
+                xTests_sink_t_ const& sink = sinks[i];
 
                 sink.pfn(&buff[0], n, sink.param);
             }}
@@ -867,7 +867,7 @@ namespace
     }
 
     stlsoft::string_view
-    xtests_name_(
+    xTests_name_(
         char_buffer_t_& buff
     ,   char const*     name
     ,   int             is_tty
@@ -896,7 +896,7 @@ namespace
     }
 
     char const*
-    xtests_success_or_failure_(
+    xTests_success_or_failure_(
         int     succeeded
     ,   char  (&buff)[101]
     ,   int     is_tty
@@ -918,24 +918,24 @@ namespace
 
     char const*
     relation_equals_(
-        xtests_comparison_t comparison
+        xTests_comparison_t comparison
     )
     {
         char const* fmt;
 
         switch (comparison)
         {
-        case xtestsComparisonEqual:                 fmt = "be equal to";                    break;
-        case xtestsComparisonNotEqual:              fmt = "be not equal to";                break;
-        case xtestsComparisonGreaterThan:           fmt = "be greater than";                break;
-        case xtestsComparisonLessThan:              fmt = "be less than";                   break;
-        case xtestsComparisonGreaterThanOrEqual:    fmt = "be greater than or equal to";    break;
-        case xtestsComparisonLessThanOrEqual:       fmt = "be less than or equal to";       break;
-        case xtestsComparisonApproxEqual:           fmt = "be approximately equal to";      break;
-        case xtestsComparisonApproxNotEqual:        fmt = "be not approximately equal to";  break;
+        case xTests_ComparisonEqual:                 fmt = "be equal to";                    break;
+        case xTests_ComparisonNotEqual:              fmt = "be not equal to";                break;
+        case xTests_ComparisonGreaterThan:           fmt = "be greater than";                break;
+        case xTests_ComparisonLessThan:              fmt = "be less than";                   break;
+        case xTests_ComparisonGreaterThanOrEqual:    fmt = "be greater than or equal to";    break;
+        case xTests_ComparisonLessThanOrEqual:       fmt = "be less than or equal to";       break;
+        case xTests_ComparisonApproxEqual:           fmt = "be approximately equal to";      break;
+        case xTests_ComparisonApproxNotEqual:        fmt = "be not approximately equal to";  break;
         default:
 
-            xtests_abend("VIOLATION: invalid `comparison`");
+            xTests_abend("VIOLATION: invalid `comparison`");
             break;
         }
 
@@ -944,24 +944,24 @@ namespace
 
     char const*
     relation_contains_(
-        xtests_comparison_t comparison
+        xTests_comparison_t comparison
     )
     {
         char const* fmt;
 
         switch (comparison)
         {
-        case xtestsComparisonEqual:                 fmt = "contain";                    break;
-        case xtestsComparisonNotEqual:              fmt = "not contain";                break;
-        case xtestsComparisonGreaterThan:           fmt = "";                           break;
-        case xtestsComparisonLessThan:              fmt = "";                           break;
-        case xtestsComparisonGreaterThanOrEqual:    fmt = "";                           break;
-        case xtestsComparisonLessThanOrEqual:       fmt = "";                           break;
-        case xtestsComparisonApproxEqual:           fmt = "contain approximately";      break;
-        case xtestsComparisonApproxNotEqual:        fmt = "not contain approximately";  break;
+        case xTests_ComparisonEqual:                 fmt = "contain";                    break;
+        case xTests_ComparisonNotEqual:              fmt = "not contain";                break;
+        case xTests_ComparisonGreaterThan:           fmt = "";                           break;
+        case xTests_ComparisonLessThan:              fmt = "";                           break;
+        case xTests_ComparisonGreaterThanOrEqual:    fmt = "";                           break;
+        case xTests_ComparisonLessThanOrEqual:       fmt = "";                           break;
+        case xTests_ComparisonApproxEqual:           fmt = "contain approximately";      break;
+        case xTests_ComparisonApproxNotEqual:        fmt = "not contain approximately";  break;
         default:
 
-            xtests_abend("VIOLATION: invalid `comparison`");
+            xTests_abend("VIOLATION: invalid `comparison`");
             break;
         }
 
@@ -986,10 +986,10 @@ namespace
 #endif
     ,   int                 quote_type /* 0, 1, or 2 */
     ,   char const*         secondary_fmt_specifier
-    ,   xtests_comparison_t comparison
+    ,   xTests_comparison_t comparison
     ,   int                 verbosity
     ,   int                 is_tty
-    ,   char const*       (*pfn_relation)(xtests_comparison_t comparison)
+    ,   char const*       (*pfn_relation)(xTests_comparison_t comparison)
     )
     {
         STLSOFT_SUPPRESS_UNUSED(file);
@@ -1172,7 +1172,7 @@ namespace
  */
 
 XTESTS_CALL(int)
-xtests_startRunner(
+xTests_startRunner(
     char const*         name
 ,   int                 verbosity
 ,   xTests_Reporter_t*  reporter
@@ -1205,7 +1205,7 @@ xtests_startRunner(
 }
 
 XTESTS_CALL(int)
-xtests_endRunner(int* retCode)
+xTests_endRunner(int* retCode)
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
 
@@ -1234,7 +1234,7 @@ xtests_endRunner(int* retCode)
 }
 
 XTESTS_CALL(void)
-xtests_printRunnerResults()
+xTests_printRunnerResults()
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
 
@@ -1242,7 +1242,7 @@ xtests_printRunnerResults()
 }
 
 XTESTS_CALL(void)
-xtests_abend(char const* message)
+xTests_abend(char const* message)
 {
     XTESTS_EXCEPTION_TRY_
 
@@ -1255,7 +1255,7 @@ xtests_abend(char const* message)
             s_runner = NULL;
         }
 
-        xtests_output_(xtestsAlert, message);
+        xTests_output_(xTests_Alert, message);
 
     XTESTS_EXCEPTION_CATCH_QUENCH_ALL_
 
@@ -1263,7 +1263,7 @@ xtests_abend(char const* message)
 }
 
 XTESTS_CALL(int)
-xtests_beginTestCase(
+xTests_beginTestCase(
     char const* name
 ,   char const* description
 )
@@ -1278,7 +1278,7 @@ xtests_beginTestCase(
 }
 
 XTESTS_CALL(void*)
-xtests_getSetupParam()
+xTests_getSetupParam()
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
 
@@ -1286,7 +1286,7 @@ xtests_getSetupParam()
 }
 
 XTESTS_CALL(int)
-xtests_endTestCase(char const* name)
+xTests_endTestCase(char const* name)
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
 
@@ -1298,7 +1298,7 @@ xtests_endTestCase(char const* name)
 }
 
 XTESTS_CALL(int)
-xtests_testPassed(
+xTests_testPassed(
     char const* file
 ,   int         line
 ,   char const* function
@@ -1317,7 +1317,7 @@ xtests_testPassed(
 }
 
 XTESTS_CALL(void)
-xtests_caseExcepted(
+xTests_caseExcepted(
     char const* file
 ,   int         line
 ,   char const* exceptionType
@@ -1339,7 +1339,7 @@ xtests_caseExcepted(
 }
 
 XTESTS_CALL(void)
-xtests_caseExceptionExpected(
+xTests_caseExceptionExpected(
     char const* file
 ,   int         line
 ,   char const* exceptionType
@@ -1351,7 +1351,7 @@ xtests_caseExceptionExpected(
 }
 
 XTESTS_CALL(int)
-xtests_testFailed(
+xTests_testFailed(
     char const* file
 ,   int         line
 ,   char const* function
@@ -1368,14 +1368,14 @@ xtests_testFailed(
 }
 
 XTESTS_CALL(int)
-xtests_testUdtPassed(
+xTests_testUdtPassed(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   char const*         expected
 ,   char const*         actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 ,   char const*         message     /* = NULL */
 )
 {
@@ -1400,14 +1400,14 @@ xtests_testUdtPassed(
 }
 
 XTESTS_CALL(int)
-xtests_testUdtFailed(
+xTests_testUdtFailed(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   char const*         expected
 ,   char const*         actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 ,   char const*         message     /* = NULL */
 )
 {
@@ -1422,7 +1422,7 @@ xtests_testUdtFailed(
 
 
 XTESTS_CALL(int)
-xtests_floatingPointClose(
+xTests_floatingPointClose(
     double  expected
 ,   double  actual
 )
@@ -1450,7 +1450,7 @@ xtests_floatingPointClose(
 }
 
 XTESTS_CALL(double)
-xtests_setFloatingPointCloseFactor(
+xTests_setFloatingPointCloseFactor(
     double  factor
 ,   double* old /* = NULL */
 )
@@ -1471,14 +1471,14 @@ xtests_setFloatingPointCloseFactor(
 }
 
 XTESTS_CALL(int)
-xtests_testFailed_int(
+xTests_testFailed_int(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   int                 expected
 ,   int                 actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
@@ -1491,14 +1491,14 @@ xtests_testFailed_int(
 }
 
 XTESTS_CALL(int)
-xtests_testFailed_long(
+xTests_testFailed_long(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   long                expected
 ,   long                actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
@@ -1511,14 +1511,14 @@ xtests_testFailed_long(
 }
 
 XTESTS_CALL(int)
-xtests_testFailed_ulong(
+xTests_testFailed_ulong(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   unsigned long       expected
 ,   unsigned long       actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
@@ -1532,14 +1532,14 @@ xtests_testFailed_ulong(
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
 
 XTESTS_CALL(int)
-xtests_testFailed_longlong(
+xTests_testFailed_longlong(
     char const*                     file
 ,   int                             line
 ,   char const*                     function
 ,   char const*                     expr
 ,   STLSOFT_NS_QUAL(ss_sint64_t)    expected
 ,   STLSOFT_NS_QUAL(ss_sint64_t)    actual
-,   xtests_comparison_t             comp
+,   xTests_comparison_t             comp
 )
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
@@ -1552,14 +1552,14 @@ xtests_testFailed_longlong(
 }
 
 XTESTS_CALL(int)
-xtests_testFailed_ulonglong(
+xTests_testFailed_ulonglong(
     char const*                    file
 ,   int                             line
 ,   char const*                     function
 ,   char const*                     expr
 ,   STLSOFT_NS_QUAL(ss_uint64_t)    expected
 ,   STLSOFT_NS_QUAL(ss_uint64_t)    actual
-,   xtests_comparison_t             comp
+,   xTests_comparison_t             comp
 )
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
@@ -1573,14 +1573,14 @@ xtests_testFailed_ulonglong(
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
 XTESTS_CALL(int)
-xtests_testFailed_boolean(
+xTests_testFailed_boolean(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   int                 expected
 ,   int                 actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
@@ -1593,14 +1593,14 @@ xtests_testFailed_boolean(
 }
 
 XTESTS_CALL(int)
-xtests_testFailed_double(
+xTests_testFailed_double(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   double              expected
 ,   double              actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
@@ -1613,14 +1613,14 @@ xtests_testFailed_double(
 }
 
 XTESTS_CALL(int)
-xtests_testMultibyteStrings(
+xTests_testMultibyteStrings(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   char const*         expected
 ,   char const*         actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
@@ -1633,7 +1633,7 @@ xtests_testMultibyteStrings(
 }
 
 XTESTS_CALL(int)
-xtests_testMultibyteStringsN_(
+xTests_testMultibyteStringsN_(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -1643,7 +1643,7 @@ xtests_testMultibyteStringsN_(
 ,   ptrdiff_t           n /* exact if +ve; limit if -ve */
 ,   size_t              cchExpected
 ,   size_t              cchActual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
@@ -1656,7 +1656,7 @@ xtests_testMultibyteStringsN_(
 }
 
 XTESTS_CALL(int)
-xtests_testMultibyteStringsN(
+xTests_testMultibyteStringsN(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -1664,10 +1664,10 @@ xtests_testMultibyteStringsN(
 ,   char const*         expected
 ,   char const*         actual
 ,   ptrdiff_t           n /* exact if +ve; limit if -ve */
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
-    return xtests_testMultibyteStringsN_(
+    return xTests_testMultibyteStringsN_(
         file
     ,   line
     ,   function
@@ -1676,19 +1676,19 @@ xtests_testMultibyteStringsN(
     ,   actual
     ,   n
     ,   (0 != n && NULL != expected) ? ::strlen(expected) : 0u
-    ,   (0 != n && NULL != actual) ? xtests_strnlen_(actual, static_cast<size_t>(::abs(static_cast<signed int>(n)))) : 0u
+    ,   (0 != n && NULL != actual) ? xTests_strnlen_(actual, static_cast<size_t>(::abs(static_cast<signed int>(n)))) : 0u
     ,   comp);
 }
 
 XTESTS_CALL(int)
-xtests_testWideStrings(
+xTests_testWideStrings(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   wchar_t const*      expected
 ,   wchar_t const*      actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
@@ -1701,7 +1701,7 @@ xtests_testWideStrings(
 }
 
 XTESTS_CALL(int)
-xtests_testWideStringsN_(
+xTests_testWideStringsN_(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -1711,7 +1711,7 @@ xtests_testWideStringsN_(
 ,   ptrdiff_t           n /* exact if +ve; limit if -ve */
 ,   size_t              cchExpected
 ,   size_t              cchActual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
@@ -1724,7 +1724,7 @@ xtests_testWideStringsN_(
 }
 
 XTESTS_CALL(int)
-xtests_testWideStringsN(
+xTests_testWideStringsN(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -1732,10 +1732,10 @@ xtests_testWideStringsN(
 ,   wchar_t const*      expected
 ,   wchar_t const*      actual
 ,   int                 n /* exact if +ve; limit if -ve */
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
-    return xtests_testWideStringsN_(
+    return xTests_testWideStringsN_(
         file
     ,   line
     ,   function
@@ -1744,19 +1744,19 @@ xtests_testWideStringsN(
     ,   actual
     ,   n
     ,   (0 != n && NULL != expected) ? ::wcslen(expected) : 0u
-    ,   (0 != n && NULL != actual) ? xtests_wcsnlen_(actual, static_cast<size_t>(::abs(n))) : 0u
+    ,   (0 != n && NULL != actual) ? xTests_wcsnlen_(actual, static_cast<size_t>(::abs(n))) : 0u
     ,   comp);
 }
 
 XTESTS_CALL(int)
-xtests_testMultibyteStringContains(
+xTests_testMultibyteStringContains(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   char const*         expected
 ,   char const*         actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
@@ -1769,14 +1769,14 @@ xtests_testMultibyteStringContains(
 }
 
 XTESTS_CALL(int)
-xtests_testWideStringContains(
+xTests_testWideStringContains(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   wchar_t const*      expected
 ,   wchar_t const*      actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
@@ -1789,7 +1789,7 @@ xtests_testWideStringContains(
 }
 
 XTESTS_CALL(int)
-xtests_testMultibyteStringSlice(
+xTests_testMultibyteStringSlice(
     char const*             file
 ,   int                     line
 ,   char const*             function
@@ -1798,7 +1798,7 @@ xtests_testMultibyteStringSlice(
 ,   char const*             expectedPtr
 ,   size_t                  actualLen
 ,   char const*             actualPtr
-,   xtests_comparison_t     comp
+,   xTests_comparison_t     comp
 )
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
@@ -1811,7 +1811,7 @@ xtests_testMultibyteStringSlice(
 }
 
 XTESTS_CALL(int)
-xtests_testWideStringSlice(
+xTests_testWideStringSlice(
     char const*             file
 ,   int                     line
 ,   char const*             function
@@ -1820,7 +1820,7 @@ xtests_testWideStringSlice(
 ,   wchar_t const*          expectedPtr
 ,   size_t                  actualLen
 ,   wchar_t const*          actualPtr
-,   xtests_comparison_t     comp
+,   xTests_comparison_t     comp
 )
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
@@ -1833,14 +1833,14 @@ xtests_testWideStringSlice(
 }
 
 XTESTS_CALL(int)
-xtests_testPointers(
+xTests_testPointers(
     char const*             file
 ,   int                     line
 ,   char const*             function
 ,   char const*             expr
 ,   void volatile const*    expected
 ,   void volatile const*    actual
-,   xtests_comparison_t     comp
+,   xTests_comparison_t     comp
 )
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
@@ -1853,14 +1853,14 @@ xtests_testPointers(
 }
 
 XTESTS_CALL(int)
-xtests_testFunctionPointers(
+xTests_testFunctionPointers(
     char const*             file
 ,   int                     line
 ,   char const*             function
 ,   char const*             expr
 ,   void                    (*expected)()
 ,   void                    (*actual)()
-,   xtests_comparison_t     comp
+,   xTests_comparison_t     comp
 )
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
@@ -1873,14 +1873,14 @@ xtests_testFunctionPointers(
 }
 
 XTESTS_CALL(int)
-xtests_testCharactersA(
+xTests_testCharactersA(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   char                expected
 ,   char                actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
@@ -1893,14 +1893,14 @@ xtests_testCharactersA(
 }
 
 XTESTS_CALL(int)
-xtests_testCharactersW(
+xTests_testCharactersW(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   wchar_t             expected
 ,   wchar_t             actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_MESSAGE_ASSERT("runner not initialised in this process!", NULL != s_runner);
@@ -1913,7 +1913,7 @@ xtests_testCharactersW(
 }
 
 XTESTS_CALL(int)
-xtests_writeFailMessage(
+xTests_writeFailMessage(
     char const* file
 ,   int         line
 ,   char const* function
@@ -1932,7 +1932,7 @@ xtests_writeFailMessage(
 
 
 XTESTS_CALL(int)
-xtests_require_C(
+xTests_require_C(
     int success
 )
 {
@@ -1968,7 +1968,7 @@ xTests_hasRequiredConditionFailed()
  */
 
 XTESTS_CALL(int)
-xtests_commandLine_parseVerbosity(
+xTests_commandLine_parseVerbosity(
     int     argc
 ,   char*   argv[]
 ,   int*    verbosity
@@ -2037,18 +2037,18 @@ xtests_commandLine_parseVerbosity(
 }
 
 XTESTS_CALL(void)
-xtests_commandLine_parseHelp(
+xTests_commandLine_parseHelp(
     int     argc
 ,   char*   argv[]
 ,   FILE*   stm
 ,   int     exitCode
 )
 {
-    return xtests_commandLine_parseHelp2(argc, argv, stm, &exitCode);
+    return xTests_commandLine_parseHelp2(argc, argv, stm, &exitCode);
 }
 
 XTESTS_CALL(void)
-xtests_commandLine_parseHelp2(
+xTests_commandLine_parseHelp2(
     int         argc
 ,   char*       argv[]
 ,   FILE*       stm
@@ -2099,7 +2099,7 @@ xtests_commandLine_parseHelp2(
 }
 
 XTESTS_CALL(int)
-xtests_commandLine_parseHelpOrVerbosity(
+xTests_commandLine_parseHelpOrVerbosity(
     int         argc
 ,   char*       argv[]
 ,   FILE*       stm
@@ -2219,153 +2219,153 @@ xtests_commandLine_parseHelpOrVerbosity(
  * classes
  */
 
-xtests_variable_value_t::xtests_variable_value_t(bool b)
+xTests_variable_value_t::xTests_variable_value_t(bool b)
     : booleanValue(b)
 {}
 
-xtests_variable_value_t::xtests_variable_value_t(int i)
+xTests_variable_value_t::xTests_variable_value_t(int i)
     : intValue(i)
 {}
 
-xtests_variable_value_t::xtests_variable_value_t(long i)
+xTests_variable_value_t::xTests_variable_value_t(long i)
     : longValue(i)
 {}
 
-xtests_variable_value_t::xtests_variable_value_t(unsigned long i)
+xTests_variable_value_t::xTests_variable_value_t(unsigned long i)
     : ulongValue(i)
 {}
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
 
-xtests_variable_value_t::xtests_variable_value_t(sint64_t const& i)
+xTests_variable_value_t::xTests_variable_value_t(sint64_t const& i)
     : longlongValue(i)
 {}
 
-xtests_variable_value_t::xtests_variable_value_t(uint64_t const& i)
+xTests_variable_value_t::xTests_variable_value_t(uint64_t const& i)
     : ulonglongValue(i)
 {}
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
-xtests_variable_value_t::xtests_variable_value_t(char ch)
+xTests_variable_value_t::xTests_variable_value_t(char ch)
     : multibyteCharacterValue(ch)
 {}
 
-xtests_variable_value_t::xtests_variable_value_t(wchar_t ch, xtests_variable_type_t)
+xTests_variable_value_t::xTests_variable_value_t(wchar_t ch, xTests_variable_type_t)
     : wideCharacterValue(ch)
 {}
 
-xtests_variable_value_t::xtests_variable_value_t(double const& d)
+xTests_variable_value_t::xTests_variable_value_t(double const& d)
     : doubleValue(d)
 {}
 
-xtests_variable_value_t::xtests_variable_value_t(void const volatile* pv)
+xTests_variable_value_t::xTests_variable_value_t(void const volatile* pv)
     : opaquePointerValue(pv)
 {}
 
-xtests_variable_value_t::xtests_variable_value_t(char const* s)
+xTests_variable_value_t::xTests_variable_value_t(char const* s)
     : multibyteStringValue(s)
 {}
 
-xtests_variable_value_t::xtests_variable_value_t(wchar_t const* s)
+xTests_variable_value_t::xTests_variable_value_t(wchar_t const* s)
     : wideStringValue(s)
 {}
 
 
-xtests_variable_t::xtests_variable_t(bool b)
-    : variableType(xtestsVariableBoolean)
-    , testType(xtestsTestFullComparison)
+xTests_variable_t::xTests_variable_t(bool b)
+    : variableType(xTests_VariableBoolean)
+    , testType(xTests_TestFullComparison)
     , value(b)
     , valueLen(0u)
 {}
 
-xtests_variable_t::xtests_variable_t(char ch)
-    : variableType(xtestsVariableMultibyteCharacter)
-    , testType(xtestsTestFullComparison)
+xTests_variable_t::xTests_variable_t(char ch)
+    : variableType(xTests_VariableMultibyteCharacter)
+    , testType(xTests_TestFullComparison)
     , value(ch)
     , valueLen(0u)
 {}
 
-xtests_variable_t::xtests_variable_t(wchar_t ch, xtests_variable_type_t /* type */)
-    : variableType(xtestsVariableWideCharacter)
-    , testType(xtestsTestFullComparison)
-    , value(ch, xtestsVariableWideCharacter)
+xTests_variable_t::xTests_variable_t(wchar_t ch, xTests_variable_type_t /* type */)
+    : variableType(xTests_VariableWideCharacter)
+    , testType(xTests_TestFullComparison)
+    , value(ch, xTests_VariableWideCharacter)
     , valueLen(0u)
 {}
 
-xtests_variable_t::xtests_variable_t(long i)
-    : variableType(xtestsVariableLong)
-    , testType(xtestsTestFullComparison)
+xTests_variable_t::xTests_variable_t(long i)
+    : variableType(xTests_VariableLong)
+    , testType(xTests_TestFullComparison)
     , value(i)
     , valueLen(0u)
 {}
 
-xtests_variable_t::xtests_variable_t(unsigned long i)
-    : variableType(xtestsVariableUnsignedLong)
-    , testType(xtestsTestFullComparison)
+xTests_variable_t::xTests_variable_t(unsigned long i)
+    : variableType(xTests_VariableUnsignedLong)
+    , testType(xTests_TestFullComparison)
     , value(i)
     , valueLen(0u)
 {}
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
 
-xtests_variable_t::xtests_variable_t(sint64_t const& i)
-    : variableType(xtestsVariableLongLong)
-    , testType(xtestsTestFullComparison)
+xTests_variable_t::xTests_variable_t(sint64_t const& i)
+    : variableType(xTests_VariableLongLong)
+    , testType(xTests_TestFullComparison)
     , value(i)
     , valueLen(0u)
 {}
 
-xtests_variable_t::xtests_variable_t(uint64_t const& i)
-    : variableType(xtestsVariableUnsignedLongLong)
-    , testType(xtestsTestFullComparison)
+xTests_variable_t::xTests_variable_t(uint64_t const& i)
+    : variableType(xTests_VariableUnsignedLongLong)
+    , testType(xTests_TestFullComparison)
     , value(i)
     , valueLen(0u)
 {}
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
-xtests_variable_t::xtests_variable_t(double const& d)
-    : variableType(xtestsVariableDouble)
-    , testType(xtestsTestFullComparison)
+xTests_variable_t::xTests_variable_t(double const& d)
+    : variableType(xTests_VariableDouble)
+    , testType(xTests_TestFullComparison)
     , value(d)
     , valueLen(0u)
 {}
 
-xtests_variable_t::xtests_variable_t(void const volatile* pv)
-    : variableType(xtestsVariableOpaquePointer)
-    , testType(xtestsTestFullComparison)
+xTests_variable_t::xTests_variable_t(void const volatile* pv)
+    : variableType(xTests_VariableOpaquePointer)
+    , testType(xTests_TestFullComparison)
     , value(pv)
     , valueLen(0u)
 {}
 
-xtests_variable_t::xtests_variable_t(char const* s, xtests_test_type_t testType)
-    : variableType(xtestsVariableMultibyteString)
+xTests_variable_t::xTests_variable_t(char const* s, xTests_test_type_t testType)
+    : variableType(xTests_VariableMultibyteString)
     , testType(testType)
     , value(s)
     , valueLen(::stlsoft::c_str_len_a(s))
 {}
 
-xtests_variable_t::xtests_variable_t(wchar_t const* s, xtests_test_type_t testType)
-    : variableType(xtestsVariableWideString)
+xTests_variable_t::xTests_variable_t(wchar_t const* s, xTests_test_type_t testType)
+    : variableType(xTests_VariableWideString)
     , testType(testType)
     , value(s)
     , valueLen(::stlsoft::c_str_len_w(s))
 {}
 
-xtests_variable_t::xtests_variable_t(char const* s, size_t n, xtests_test_type_t testType)
-    : variableType(xtestsVariableMultibyteString)
+xTests_variable_t::xTests_variable_t(char const* s, size_t n, xTests_test_type_t testType)
+    : variableType(xTests_VariableMultibyteString)
     , testType(testType)
     , value(s)
     , valueLen(n)
 {}
 
-xtests_variable_t::xtests_variable_t(wchar_t const* s, size_t n, xtests_test_type_t testType)
-    : variableType(xtestsVariableWideString)
+xTests_variable_t::xTests_variable_t(wchar_t const* s, size_t n, xTests_test_type_t testType)
+    : variableType(xTests_VariableWideString)
     , testType(testType)
     , value(s)
     , valueLen(n)
 {}
 
-xtests_variable_t::xtests_variable_t(char const* s, xtests_variable_type_t type) /* UDT */
+xTests_variable_t::xTests_variable_t(char const* s, xTests_variable_type_t type) /* UDT */
     : variableType(type)
-    , testType(xtestsTestFullComparison)
+    , testType(xTests_TestFullComparison)
     , value(s)
     , valueLen(::stlsoft::c_str_len_a(s))
 {}
@@ -2393,44 +2393,44 @@ RunnerInfo::get_reporter_(
 # define XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR             ::xtests::c::XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR
 # define XTESTS_VERBOSITY_CASE_SUMMARY                      ::xtests::c::XTESTS_VERBOSITY_CASE_SUMMARY
 # define XTESTS_VERBOSITY_VERBOSE                           ::xtests::c::XTESTS_VERBOSITY_VERBOSE
-# define xtestsRunnerFlagsNoWindowsDebugString              ::xtests::c::xtestsRunnerFlagsNoWindowsDebugString
-# define xtests_variable_type_t                             ::xtests::c::xtests_variable_type_t
-# define xtests_test_type_t                                 ::xtests::c::xtests_test_type_t
+# define xTests_RunnerFlagsNoWindowsDebugString              ::xtests::c::xTests_RunnerFlagsNoWindowsDebugString
+# define xTests_variable_type_t                             ::xtests::c::xTests_variable_type_t
+# define xTests_test_type_t                                 ::xtests::c::xTests_test_type_t
 
-# define xtestsComparisonEqual                              ::xtests::c::xtestsComparisonEqual
-# define xtestsComparisonNotEqual                           ::xtests::c::xtestsComparisonNotEqual
-# define xtestsComparisonGreaterThan                        ::xtests::c::xtestsComparisonGreaterThan
-# define xtestsComparisonLessThan                           ::xtests::c::xtestsComparisonLessThan
-# define xtestsComparisonGreaterThanOrEqual                 ::xtests::c::xtestsComparisonGreaterThanOrEqual
-# define xtestsComparisonLessThanOrEqual                    ::xtests::c::xtestsComparisonLessThanOrEqual
-# define xtestsComparisonApproxEqual                        ::xtests::c::xtestsComparisonApproxEqual
-# define xtestsComparisonApproxNotEqual                     ::xtests::c::xtestsComparisonApproxNotEqual
-# define xtestsComparison_max_enumerator                    ::xtests::c::xtestsComparison_max_enumerator
+# define xTests_ComparisonEqual                              ::xtests::c::xTests_ComparisonEqual
+# define xTests_ComparisonNotEqual                           ::xtests::c::xTests_ComparisonNotEqual
+# define xTests_ComparisonGreaterThan                        ::xtests::c::xTests_ComparisonGreaterThan
+# define xTests_ComparisonLessThan                           ::xtests::c::xTests_ComparisonLessThan
+# define xTests_ComparisonGreaterThanOrEqual                 ::xtests::c::xTests_ComparisonGreaterThanOrEqual
+# define xTests_ComparisonLessThanOrEqual                    ::xtests::c::xTests_ComparisonLessThanOrEqual
+# define xTests_ComparisonApproxEqual                        ::xtests::c::xTests_ComparisonApproxEqual
+# define xTests_ComparisonApproxNotEqual                     ::xtests::c::xTests_ComparisonApproxNotEqual
+# define xTests_Comparison_max_enumerator                    ::xtests::c::xTests_Comparison_max_enumerator
 
-# define xtestsTestFullComparison                           ::xtests::c::xtestsTestFullComparison
-# define xtestsTestPartialComparison                        ::xtests::c::xtestsTestPartialComparison
-# define xtestsTestContainment                              ::xtests::c::xtestsTestContainment
+# define xTests_TestFullComparison                           ::xtests::c::xTests_TestFullComparison
+# define xTests_TestPartialComparison                        ::xtests::c::xTests_TestPartialComparison
+# define xTests_TestContainment                              ::xtests::c::xTests_TestContainment
 
-# define xtestsVariableNone                                 ::xtests::c::xtestsVariableNone
-# define xtestsVariableBoolean                              ::xtests::c::xtestsVariableBoolean
-# define xtestsVariableOpaquePointer                        ::xtests::c::xtestsVariableOpaquePointer
-# define xtestsVariableMultibyteCharacter                   ::xtests::c::xtestsVariableMultibyteCharacter
-# define xtestsVariableWideCharacter                        ::xtests::c::xtestsVariableWideCharacter
-# define xtestsVariableMultibyteString                      ::xtests::c::xtestsVariableMultibyteString
-# define xtestsVariableWideString                           ::xtests::c::xtestsVariableWideString
-# define xtestsVariableSignedChar                           ::xtests::c::xtestsVariableSignedChar
-# define xtestsVariableUnsignedChar                         ::xtests::c::xtestsVariableUnsignedChar
-# define xtestsVariableShort                                ::xtests::c::xtestsVariableShort
-# define xtestsVariableUnsignedShort                        ::xtests::c::xtestsVariableUnsignedShort
-# define xtestsVariableInt                                  ::xtests::c::xtestsVariableInt
-# define xtestsVariableUnsignedInt                          ::xtests::c::xtestsVariableUnsignedInt
-# define xtestsVariableLong                                 ::xtests::c::xtestsVariableLong
-# define xtestsVariableUnsignedLong                         ::xtests::c::xtestsVariableUnsignedLong
+# define xTests_VariableNone                                 ::xtests::c::xTests_VariableNone
+# define xTests_VariableBoolean                              ::xtests::c::xTests_VariableBoolean
+# define xTests_VariableOpaquePointer                        ::xtests::c::xTests_VariableOpaquePointer
+# define xTests_VariableMultibyteCharacter                   ::xtests::c::xTests_VariableMultibyteCharacter
+# define xTests_VariableWideCharacter                        ::xtests::c::xTests_VariableWideCharacter
+# define xTests_VariableMultibyteString                      ::xtests::c::xTests_VariableMultibyteString
+# define xTests_VariableWideString                           ::xtests::c::xTests_VariableWideString
+# define xTests_VariableSignedChar                           ::xtests::c::xTests_VariableSignedChar
+# define xTests_VariableUnsignedChar                         ::xtests::c::xTests_VariableUnsignedChar
+# define xTests_VariableShort                                ::xtests::c::xTests_VariableShort
+# define xTests_VariableUnsignedShort                        ::xtests::c::xTests_VariableUnsignedShort
+# define xTests_VariableInt                                  ::xtests::c::xTests_VariableInt
+# define xTests_VariableUnsignedInt                          ::xtests::c::xTests_VariableUnsignedInt
+# define xTests_VariableLong                                 ::xtests::c::xTests_VariableLong
+# define xTests_VariableUnsignedLong                         ::xtests::c::xTests_VariableUnsignedLong
 # ifdef STLSOFT_CF_64BIT_INT_SUPPORT
-#  define xtestsVariableLongLong                            ::xtests::c::xtestsVariableLongLong
-#  define xtestsVariableUnsignedLongLong                    ::xtests::c::xtestsVariableUnsignedLongLong
+#  define xTests_VariableLongLong                            ::xtests::c::xTests_VariableLongLong
+#  define xTests_VariableUnsignedLongLong                    ::xtests::c::xTests_VariableUnsignedLongLong
 # endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
-# define xtestsVariableDouble                               ::xtests::c::xtestsVariableDouble
+# define xTests_VariableDouble                               ::xtests::c::xTests_VariableDouble
 
 # define adapt_fputs                                        ::xtests::c::adapt_fputs
 # define adapt_OutputDebugStringA                           ::xtests::c::adapt_OutputDebugStringA
@@ -2460,7 +2460,7 @@ RunnerInfo::get_reporter_(
                 : m_flags(flags)
                 , m_is_tty(is_tty)
 #if XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_
-                , m_numSinks((xtestsRunnerFlagsNoWindowsDebugString & flags) ? 1u : 2u)
+                , m_numSinks((xTests_RunnerFlagsNoWindowsDebugString & flags) ? 1u : 2u)
 #else /* ? XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_ */
                 , m_numSinks(1)
 #endif /* XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_ */
@@ -2470,7 +2470,7 @@ RunnerInfo::get_reporter_(
 
 #if XTESTS_SUPPORT_WINDOWS_OUTPUTDEBUGSTRING_
 
-                if (0 == (xtestsRunnerFlagsNoWindowsDebugString & m_flags))
+                if (0 == (xTests_RunnerFlagsNoWindowsDebugString & m_flags))
                 {
                     m_sinks[1].pfn      =   adapt_OutputDebugStringA;
                     m_sinks[1].param    =   NULL;
@@ -2510,9 +2510,9 @@ RunnerInfo::get_reporter_(
                     {
                         char_buffer_t_ name_buff(0);
 
-                        xtests_mxnprintf_(  m_sinks, m_numSinks, stlsoft::c_str_len(name)
+                        xTests_mxnprintf_(  m_sinks, m_numSinks, stlsoft::c_str_len(name)
                         ,   "Test runner '%s' starting:\n"
-                        ,   xtests_name_(name_buff, name, m_is_tty).data()
+                        ,   xTests_name_(name_buff, name, m_is_tty).data()
                         );
                     }
                     break;
@@ -2536,7 +2536,7 @@ RunnerInfo::get_reporter_(
             ,   int /* line */
             ,   char const* /* function */
             ,   char const* /* expr */
-            ,   xtests_comparison_t /* comparison */
+            ,   xTests_comparison_t /* comparison */
             ,   int /* verbosity */
             ) ss_override_k
             {
@@ -2549,24 +2549,24 @@ RunnerInfo::get_reporter_(
             ,   int                         line
             ,   char const*                 function
             ,   char const*                 expr
-            ,   xtests_variable_t const*    expectedValue
-            ,   xtests_variable_t const*    actualValue
+            ,   xTests_variable_t const*    expectedValue
+            ,   xTests_variable_t const*    actualValue
             ,   ptrdiff_t                   length
-            ,   xtests_comparison_t         comparison
+            ,   xTests_comparison_t         comparison
             ,   int                         verbosity
             ) ss_override_k
             {
                 STLSOFT_MESSAGE_ASSERT("values must have same variable type", NULL == expectedValue || NULL == actualValue || actualValue->variableType == expectedValue->variableType);
                 STLSOFT_MESSAGE_ASSERT("values must have same test type", NULL == expectedValue || NULL == actualValue || actualValue->testType == expectedValue->testType);
 
-                xtests_variable_type_t variableType = xtestsVariableNone;
+                xTests_variable_type_t variableType = xTests_VariableNone;
 
                 if (NULL != expectedValue)
                 {
                     variableType = expectedValue->variableType;
                 }
 
-                xtests_test_type_t testType = xtestsTestFullComparison;
+                xTests_test_type_t testType = xTests_TestFullComparison;
 
                 if (NULL != expectedValue)
                 {
@@ -2575,61 +2575,61 @@ RunnerInfo::get_reporter_(
 
                 switch (variableType)
                 {
-                case xtestsVariableBoolean:
+                case xTests_VariableBoolean:
 
                     onTestFailed_Boolean_(file, line, function, expr, static_cast<bool>(0 != expectedValue->value.booleanValue), static_cast<bool>(0 != actualValue->value.booleanValue), comparison, verbosity, m_is_tty);
                     break;
-                case xtestsVariableOpaquePointer:
+                case xTests_VariableOpaquePointer:
 
                     onTestFailed_OpaquePointer_(file, line, function, expr, expectedValue->value.opaquePointerValue, actualValue->value.opaquePointerValue, comparison, verbosity, m_is_tty);
                     break;
-                case xtestsVariableMultibyteCharacter:
+                case xTests_VariableMultibyteCharacter:
 
                     onTestFailed_MultibyteCharacter_(file, line, function, expr, expectedValue->value.multibyteCharacterValue, actualValue->value.multibyteCharacterValue, comparison, verbosity, m_is_tty);
                     break;
-                case xtestsVariableWideCharacter:
+                case xTests_VariableWideCharacter:
 
                     onTestFailed_WideCharacter_(file, line, function, expr, expectedValue->value.wideCharacterValue, actualValue->value.wideCharacterValue, comparison, verbosity, m_is_tty);
                     break;
-                case xtestsVariableMultibyteString:
+                case xTests_VariableMultibyteString:
 
-                    onTestFailed_MultibyteString_(file, line, function, expr, expectedValue->value.multibyteStringValue, expectedValue->valueLen, actualValue->value.multibyteStringValue, actualValue->valueLen, length, testType, comparison, verbosity, m_is_tty, xtestsVariableMultibyteString);
+                    onTestFailed_MultibyteString_(file, line, function, expr, expectedValue->value.multibyteStringValue, expectedValue->valueLen, actualValue->value.multibyteStringValue, actualValue->valueLen, length, testType, comparison, verbosity, m_is_tty, xTests_VariableMultibyteString);
                     break;
-                case xtestsVariableWideString:
+                case xTests_VariableWideString:
 
                     onTestFailed_WideString_(file, line, function, expr, expectedValue->value.wideStringValue, expectedValue->valueLen, actualValue->value.wideStringValue, actualValue->valueLen, length, testType, comparison, verbosity, m_is_tty);
                     break;
-                case xtestsVariableLong:
+                case xTests_VariableLong:
 
                     onTestFailed_SignedLong_(file, line, function, expr, expectedValue->value.longValue, actualValue->value.longValue, comparison, verbosity, m_is_tty);
                     break;
-                case xtestsVariableUnsignedLong:
+                case xTests_VariableUnsignedLong:
 
                     onTestFailed_UnsignedLong_(file, line, function, expr, expectedValue->value.ulongValue, actualValue->value.ulongValue, comparison, verbosity, m_is_tty);
                     break;
 #ifdef STLSOFT_CF_64BIT_INT_SUPPORT
 
-                case xtestsVariableLongLong:
+                case xTests_VariableLongLong:
 
                     onTestFailed_sint64_(file, line, function, expr, expectedValue->value.longlongValue, actualValue->value.longlongValue, comparison, verbosity, m_is_tty);
                     break;
-                case xtestsVariableUnsignedLongLong:
+                case xTests_VariableUnsignedLongLong:
 
                     onTestFailed_uint64_(file, line, function, expr, expectedValue->value.ulonglongValue, actualValue->value.ulonglongValue, comparison, verbosity, m_is_tty);
                     break;
 #endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
-                case xtestsVariableDouble:
+                case xTests_VariableDouble:
 
                     onTestFailed_Double_(file, line, function, expr, expectedValue->value.doubleValue, actualValue->value.doubleValue, comparison, verbosity, m_is_tty);
                     break;
-                case xtestsVariableUdt:
+                case xTests_VariableUdt:
 
-                    onTestFailed_MultibyteString_(file, line, function, expr, expectedValue->value.multibyteStringValue, expectedValue->valueLen, actualValue->value.multibyteStringValue, actualValue->valueLen, length, testType, comparison, verbosity, m_is_tty, xtestsVariableUdt);
+                    onTestFailed_MultibyteString_(file, line, function, expr, expectedValue->value.multibyteStringValue, expectedValue->valueLen, actualValue->value.multibyteStringValue, actualValue->valueLen, length, testType, comparison, verbosity, m_is_tty, xTests_VariableUdt);
                     break;
                 default:
 
                     STLSOFT_MESSAGE_ASSERT("not currently defined for this type", 0);
-                case xtestsVariableNone:
+                case xTests_VariableNone:
 
                     onTestFailed_(file, line, function, expr, comparison, verbosity, m_is_tty);
                     break;
@@ -2644,7 +2644,7 @@ RunnerInfo::get_reporter_(
             ,   char const*         expr
             ,   bool                expectedValue
             ,   bool                actualValue
-            ,   xtests_comparison_t comparison
+            ,   xTests_comparison_t comparison
             ,   int                 verbosity
             ,   int                 is_tty
             )
@@ -2695,7 +2695,7 @@ RunnerInfo::get_reporter_(
                 );
                 char const* fmt = fmt_.c_str();
 
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                xTests_mxnprintf_(  m_sinks, m_numSinks, 50
                 ,   fmt
                 ,   file, line
                 ,   s_truthy_strings[!!actualValue]
@@ -2713,7 +2713,7 @@ RunnerInfo::get_reporter_(
             ,   char const*         expr
             ,   double const&       expectedValue
             ,   double const&       actualValue
-            ,   xtests_comparison_t comparison
+            ,   xTests_comparison_t comparison
             ,   int                 verbosity
             ,   int                 is_tty
             )
@@ -2741,7 +2741,7 @@ RunnerInfo::get_reporter_(
                 );
                 char const* fmt = fmt_.c_str();
 
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                xTests_mxnprintf_(  m_sinks, m_numSinks, 50
                 ,   fmt
                 ,   file, line
                 ,   actualValue
@@ -2759,7 +2759,7 @@ RunnerInfo::get_reporter_(
             ,   char const*         expr
             ,   char                expectedValue
             ,   char                actualValue
-            ,   xtests_comparison_t comparison
+            ,   xTests_comparison_t comparison
             ,   int                 verbosity
             ,   int                 is_tty
             )
@@ -2787,7 +2787,7 @@ RunnerInfo::get_reporter_(
                 );
                 char const* fmt = fmt_.c_str();
 
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                xTests_mxnprintf_(  m_sinks, m_numSinks, 50
                 ,   fmt
                 ,   file, line
                 ,   actualValue, actualValue
@@ -2805,7 +2805,7 @@ RunnerInfo::get_reporter_(
             ,   char const*      /* expr */
             ,   wchar_t             expectedValue
             ,   wchar_t             actualValue
-            ,   xtests_comparison_t comparison
+            ,   xTests_comparison_t comparison
             ,   int                 verbosity
             ,   int                 is_tty
             )
@@ -2825,7 +2825,7 @@ RunnerInfo::get_reporter_(
                     ,   "%s(%d): test condition failed: actual character value '%C' (0x%04x) should "   "be approximately equal to"     " the expected value '%C' (0x%04x)%s%s\n"
                     ,   "%s(%d): test condition failed: actual character value '%C' (0x%04x) should "   "be not approximately equal to" " the expected value '%C' (0x%04x)%s%s\n"
                 };
-                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xtestsComparison_max_enumerator);
+                STLSOFT_STATIC_ASSERT(STLSOFT_NUM_ELEMENTS_(s_fmts) == xTests_Comparison_max_enumerator);
                 char const*         fmt = s_fmts[comparison];
 
                 switch (verbosity)
@@ -2848,7 +2848,7 @@ RunnerInfo::get_reporter_(
                     break;
                 }
 
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                xTests_mxnprintf_(  m_sinks, m_numSinks, 50
                 ,   fmt
                 ,   file, line
                 ,   static_cast<char>(actualValue), actualValue
@@ -2869,32 +2869,32 @@ RunnerInfo::get_reporter_(
             ,   char const*             actualValue
             ,   size_t                  actualValueLen
             ,   ptrdiff_t               length
-            ,   xtests_test_type_t      testType
-            ,   xtests_comparison_t     comparison
+            ,   xTests_test_type_t      testType
+            ,   xTests_comparison_t     comparison
             ,   int                     verbosity
             ,   int                     is_tty
-            ,   xtests_variable_type_t  variable_type
+            ,   xTests_variable_type_t  variable_type
             )
             {
                 // eliminate NULL pointers
                 expectedValue   =   stlsoft::c_str_ptr_a(expectedValue);
                 actualValue     =   stlsoft::c_str_ptr_a(actualValue);
 
-                if (xtestsTestFullComparison == testType)
+                if (xTests_TestFullComparison == testType)
                 {
                     char const* type_qualifier = NULL;
 
                     switch (variable_type)
                     {
-                    case xtestsVariableMultibyteString:
+                    case xTests_VariableMultibyteString:
 
                         type_qualifier = "multibyte string";
                         break;
-                    case xtestsVariableWideString:
+                    case xTests_VariableWideString:
 
                         type_qualifier = "wide string";
                         break;
-                    case xtestsVariableUdt:
+                    case xTests_VariableUdt:
 
                         type_qualifier = "user-defined type";
                         break;
@@ -2926,7 +2926,7 @@ RunnerInfo::get_reporter_(
                     );
                     char const* fmt = fmt_.c_str();
 
-                    xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                    xTests_mxnprintf_(  m_sinks, m_numSinks, 50
                     ,   fmt
                     ,   file, line
                     ,   actualValue
@@ -2935,7 +2935,7 @@ RunnerInfo::get_reporter_(
                     ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
                     );
                 }
-                else if (xtestsTestPartialComparison == testType)
+                else if (xTests_TestPartialComparison == testType)
                 {
                     std::string     fmt_;
 
@@ -3027,7 +3027,7 @@ RunnerInfo::get_reporter_(
                         length = -length;
                     }
 
-                    xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                    xTests_mxnprintf_(  m_sinks, m_numSinks, 50
                     ,   fmt
                     ,   file, line
                     ,   int(actualValueLen), actualValue
@@ -3037,7 +3037,7 @@ RunnerInfo::get_reporter_(
                     ,   STLSOFT_NS_QUAL(c_str_ptr)(function)
                     );
                 }
-                else if (xtestsTestContainment == testType)
+                else if (xTests_TestContainment == testType)
                 {
                     std::string fmt_ =
                     colorise_(
@@ -3062,7 +3062,7 @@ RunnerInfo::get_reporter_(
                     );
                     char const* fmt = fmt_.c_str();
 
-                    xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                    xTests_mxnprintf_(  m_sinks, m_numSinks, 50
                     ,   fmt
                     ,   file, line
                     ,   actualValue
@@ -3088,8 +3088,8 @@ RunnerInfo::get_reporter_(
             ,   wchar_t const*      actualValue
             ,   size_t              actualValueLen
             ,   ptrdiff_t           length
-            ,   xtests_test_type_t  testType
-            ,   xtests_comparison_t comparison
+            ,   xTests_test_type_t  testType
+            ,   xTests_comparison_t comparison
             ,   int                 verbosity
             ,   int                 is_tty
             )
@@ -3097,7 +3097,7 @@ RunnerInfo::get_reporter_(
                 stlsoft::w2a    expected(expectedValue, expectedValueLen);
                 stlsoft::w2a    actual(actualValue, actualValueLen);
 
-                onTestFailed_MultibyteString_(file, line, function, expr, expected, expected.size(), actual, actual.size(), length, testType, comparison, verbosity, is_tty, xtestsVariableWideString);
+                onTestFailed_MultibyteString_(file, line, function, expr, expected, expected.size(), actual, actual.size(), length, testType, comparison, verbosity, is_tty, xTests_VariableWideString);
             }
 
             void
@@ -3108,7 +3108,7 @@ RunnerInfo::get_reporter_(
             ,   char const*             expr
             ,   void const volatile*    expectedValue
             ,   void const volatile*    actualValue
-            ,   xtests_comparison_t     comparison
+            ,   xTests_comparison_t     comparison
             ,   int                     verbosity
             ,   int                 is_tty
             )
@@ -3136,7 +3136,7 @@ RunnerInfo::get_reporter_(
                 );
                 char const* fmt = fmt_.c_str();
 
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                xTests_mxnprintf_(  m_sinks, m_numSinks, 50
                 ,   fmt
                 ,   file, line
                 ,   actualValue
@@ -3154,7 +3154,7 @@ RunnerInfo::get_reporter_(
             ,   char const*         expr
             ,   signed long         expectedValue
             ,   signed long         actualValue
-            ,   xtests_comparison_t comparison
+            ,   xTests_comparison_t comparison
             ,   int                 verbosity
             ,   int                 is_tty
             )
@@ -3182,7 +3182,7 @@ RunnerInfo::get_reporter_(
                 );
                 char const* fmt = fmt_.c_str();
 
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                xTests_mxnprintf_(  m_sinks, m_numSinks, 50
                 ,   fmt
                 ,   file, line
                 ,   actualValue
@@ -3200,7 +3200,7 @@ RunnerInfo::get_reporter_(
             ,   char const*         expr
             ,   unsigned long       expectedValue
             ,   unsigned long       actualValue
-            ,   xtests_comparison_t comparison
+            ,   xTests_comparison_t comparison
             ,   int                 verbosity
             ,   int                 is_tty
             )
@@ -3228,7 +3228,7 @@ RunnerInfo::get_reporter_(
                 );
                 char const* fmt = fmt_.c_str();
 
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                xTests_mxnprintf_(  m_sinks, m_numSinks, 50
                 ,   fmt
                 ,   file, line
                 ,   actualValue
@@ -3247,7 +3247,7 @@ RunnerInfo::get_reporter_(
             ,   char const*         expr
             ,   sint64_t            expectedValue
             ,   sint64_t            actualValue
-            ,   xtests_comparison_t comparison
+            ,   xTests_comparison_t comparison
             ,   int                 verbosity
             ,   int                 is_tty
             )
@@ -3279,7 +3279,7 @@ RunnerInfo::get_reporter_(
                 );
                 char const* fmt = fmt_.c_str();
 
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                xTests_mxnprintf_(  m_sinks, m_numSinks, 50
                 ,   fmt
                 ,   file, line
                 ,   actualValue
@@ -3297,7 +3297,7 @@ RunnerInfo::get_reporter_(
             ,   char const*         expr
             ,   uint64_t            expectedValue
             ,   uint64_t            actualValue
-            ,   xtests_comparison_t comparison
+            ,   xTests_comparison_t comparison
             ,   int                 verbosity
             ,   int                 is_tty
             )
@@ -3329,7 +3329,7 @@ RunnerInfo::get_reporter_(
                 );
                 char const* fmt = fmt_.c_str();
 
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                xTests_mxnprintf_(  m_sinks, m_numSinks, 50
                 ,   fmt
                 ,   file, line
                 ,   actualValue
@@ -3346,7 +3346,7 @@ RunnerInfo::get_reporter_(
             ,   int                     line
             ,   char const*             function
             ,   char const*             expr
-            ,   xtests_comparison_t  /* comparison */
+            ,   xTests_comparison_t  /* comparison */
             ,   int                     verbosity
             ,   int                     is_tty
             )
@@ -3378,7 +3378,7 @@ RunnerInfo::get_reporter_(
                     break;
                 }
 
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                xTests_mxnprintf_(  m_sinks, m_numSinks, 50
                 ,   fmt
                 ,   file, line
                 ,   is_tty ? "{" : ""
@@ -3432,7 +3432,7 @@ RunnerInfo::get_reporter_(
                 XTESTS_VERBOSITY_VALID_MISSING_CASES
                 case XTESTS_VERBOSITY_VERBOSE:
 
-                    xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                    xTests_mxnprintf_(  m_sinks, m_numSinks, 50
                     ,   s_fmt
                     ,   file, line
                     ,   msg_pre
@@ -3520,7 +3520,7 @@ RunnerInfo::get_reporter_(
                     xt_post     =   "";
                 }
 
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                xTests_mxnprintf_(  m_sinks, m_numSinks, 50
                 ,   fmt
                 ,   file, line
                 ,   case_pre, caseName, case_post
@@ -3599,7 +3599,7 @@ RunnerInfo::get_reporter_(
                     xt_post     =   "";
                 }
 
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                xTests_mxnprintf_(  m_sinks, m_numSinks, 50
                 ,   fmt
                 ,   file, line
                 ,   case_pre
@@ -3678,15 +3678,15 @@ RunnerInfo::get_reporter_(
                 char                success_or_failure[101];
                 char_buffer_t_      name_buff(0);
 
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                xTests_mxnprintf_(  m_sinks, m_numSinks, 50
                 ,   fmt
-                ,   xtests_name_(name_buff, results->name, m_is_tty).data()
+                ,   xTests_name_(name_buff, results->name, m_is_tty).data()
                 ,   static_cast<unsigned>(results->numTests)
                 ,   static_cast<unsigned>(results->numTests - results->numFailedTests)
                 ,   static_cast<unsigned>(results->numFailedTests)
                 ,   static_cast<unsigned>(results->numUnexpectedExceptions)
                 ,   static_cast<unsigned>(results->numMissingExpectedExceptions)
-                ,   xtests_success_or_failure_(
+                ,   xTests_success_or_failure_(
                         allTestsHavePassed
                     ,   success_or_failure
                     ,   m_is_tty
@@ -3766,9 +3766,9 @@ RunnerInfo::get_reporter_(
                 char                success_or_failure[101];
                 char_buffer_t_      name_buff(0);
 
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                xTests_mxnprintf_(  m_sinks, m_numSinks, 50
                 ,   fmt
-                ,   xtests_name_(name_buff, results->name, m_is_tty).data()
+                ,   xTests_name_(name_buff, results->name, m_is_tty).data()
                 ,   static_cast<unsigned>(results->numCases)
                 ,   static_cast<unsigned>(results->numFailedCases)
                 ,   static_cast<unsigned>(results->numTests)
@@ -3776,7 +3776,7 @@ RunnerInfo::get_reporter_(
                 ,   static_cast<unsigned>(results->numFailedTests)
                 ,   static_cast<unsigned>(results->numUnexpectedExceptions)
                 ,   static_cast<unsigned>(results->numMissingExpectedExceptions)
-                ,   xtests_success_or_failure_(
+                ,   xTests_success_or_failure_(
                         0u == results->numFailedTests &&
                         0u == results->numUnexpectedExceptions &&
                         0u == results->numMissingExpectedExceptions
@@ -3807,7 +3807,7 @@ RunnerInfo::get_reporter_(
                     qualifier = NULL;
                 }
 
-                xtests_mxnprintf_(  m_sinks, m_numSinks, 50
+                xTests_mxnprintf_(  m_sinks, m_numSinks, 50
                 ,   (NULL != qualifier) ? "defect: %s: %s\n" : "defect: %s\n"
                 ,   message
                 ,   qualifier
@@ -3826,7 +3826,7 @@ RunnerInfo::get_reporter_(
             int const       m_flags;
             int const       m_is_tty;
             size_t const    m_numSinks;
-            xtests_sink_t_  m_sinks[2];
+            xTests_sink_t_  m_sinks[2];
         };
 
 #if defined(STLSOFT_COMPILER_IS_BORLAND) && \
@@ -4068,7 +4068,7 @@ RunnerInfo::EndCase(char const* /* name */)
         m_currentCase = m_testCases.end();
 
         if (0 != testInfo.totalConditions ||
-            0 == (xtestsReportOnlyNonEmptyCases & m_flags))
+            0 == (xTests_ReportOnlyNonEmptyCases & m_flags))
         {
             m_reporter->onEndTestCase(m_reporterParam, results[0].name, &results[0], m_verbosity);
         }
@@ -4107,7 +4107,7 @@ RunnerInfo::RegisterSuccessfulCondition(
 
         ++testInfo.totalConditions;
 
-        m_reporter->onTestPassed(m_reporterParam, file, line, function, expr, xtestsComparisonEqual, m_verbosity);
+        m_reporter->onTestPassed(m_reporterParam, file, line, function, expr, xTests_ComparisonEqual, m_verbosity);
 
         return 0;
     }
@@ -4138,7 +4138,7 @@ RunnerInfo::RegisterFailedCondition(
         ++testInfo.failedConditions;
         ++testInfo.totalConditions;
 
-        Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, NULL, NULL, -1, xtestsComparisonEqual, m_verbosity);
+        Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, NULL, NULL, -1, xTests_ComparisonEqual, m_verbosity);
 
         return 0;
     }
@@ -4154,7 +4154,7 @@ RunnerInfo::RegisterFailedCondition_udt(
     ,   char const*             expr
     ,   char const*             expected
     ,   char const*             actual
-    ,   xtests_comparison_t     comp
+    ,   xTests_comparison_t     comp
     ,   char const*             message
 )
 {
@@ -4175,8 +4175,8 @@ RunnerInfo::RegisterFailedCondition_udt(
         ++testInfo.failedConditions;
         ++testInfo.totalConditions;
 
-        xtests_variable_t   expectedValue(expected, xtestsVariableUdt);
-        xtests_variable_t   actualValue(actual, xtestsVariableUdt);
+        xTests_variable_t   expectedValue(expected, xTests_VariableUdt);
+        xTests_variable_t   actualValue(actual, xTests_VariableUdt);
 
         Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, &expectedValue, &actualValue, -1, comp, m_verbosity);
 
@@ -4194,7 +4194,7 @@ RunnerInfo::RegisterFailedCondition_long(
 ,   char const*         expr
 ,   long                expected
 ,   long                actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_ASSERT(NULL != m_reporter);
@@ -4212,8 +4212,8 @@ RunnerInfo::RegisterFailedCondition_long(
         ++testInfo.failedConditions;
         ++testInfo.totalConditions;
 
-        xtests_variable_t   expectedValue(expected);
-        xtests_variable_t   actualValue(actual);
+        xTests_variable_t   expectedValue(expected);
+        xTests_variable_t   actualValue(actual);
 
         Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, &expectedValue, &actualValue, -1, comp, m_verbosity);
 
@@ -4231,7 +4231,7 @@ RunnerInfo::RegisterFailedCondition_ulong(
 ,   char const*         expr
 ,   unsigned long       expected
 ,   unsigned long       actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_ASSERT(NULL != m_reporter);
@@ -4249,8 +4249,8 @@ RunnerInfo::RegisterFailedCondition_ulong(
         ++testInfo.failedConditions;
         ++testInfo.totalConditions;
 
-        xtests_variable_t   expectedValue(expected);
-        xtests_variable_t   actualValue(actual);
+        xTests_variable_t   expectedValue(expected);
+        xTests_variable_t   actualValue(actual);
 
         Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, &expectedValue, &actualValue, -1, comp, m_verbosity);
 
@@ -4269,7 +4269,7 @@ RunnerInfo::RegisterFailedCondition_sint64(
 ,   char const*         expr
 ,   sint64_t            expected
 ,   sint64_t            actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_ASSERT(NULL != m_reporter);
@@ -4287,8 +4287,8 @@ RunnerInfo::RegisterFailedCondition_sint64(
         ++testInfo.failedConditions;
         ++testInfo.totalConditions;
 
-        xtests_variable_t   expectedValue(expected);
-        xtests_variable_t   actualValue(actual);
+        xTests_variable_t   expectedValue(expected);
+        xTests_variable_t   actualValue(actual);
 
         Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, &expectedValue, &actualValue, -1, comp, m_verbosity);
 
@@ -4306,7 +4306,7 @@ RunnerInfo::RegisterFailedCondition_uint64(
 ,   char const*         expr
 ,   uint64_t            expected
 ,   uint64_t            actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_ASSERT(NULL != m_reporter);
@@ -4324,8 +4324,8 @@ RunnerInfo::RegisterFailedCondition_uint64(
         ++testInfo.failedConditions;
         ++testInfo.totalConditions;
 
-        xtests_variable_t   expectedValue(expected);
-        xtests_variable_t   actualValue(actual);
+        xTests_variable_t   expectedValue(expected);
+        xTests_variable_t   actualValue(actual);
 
         Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, &expectedValue, &actualValue, -1, comp, m_verbosity);
 
@@ -4344,7 +4344,7 @@ RunnerInfo::RegisterFailedCondition_boolean(
 ,   char const*         expr
 ,   bool                expected
 ,   bool                actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_ASSERT(NULL != m_reporter);
@@ -4362,8 +4362,8 @@ RunnerInfo::RegisterFailedCondition_boolean(
         ++testInfo.failedConditions;
         ++testInfo.totalConditions;
 
-        xtests_variable_t   expectedValue(expected);
-        xtests_variable_t   actualValue(actual);
+        xTests_variable_t   expectedValue(expected);
+        xTests_variable_t   actualValue(actual);
 
         Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, &expectedValue, &actualValue, -1, comp, m_verbosity);
 
@@ -4381,7 +4381,7 @@ RunnerInfo::RegisterFailedCondition_double(
 ,   char const*         expr
 ,   double const&       expected
 ,   double const&       actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_ASSERT(NULL != m_reporter);
@@ -4399,8 +4399,8 @@ RunnerInfo::RegisterFailedCondition_double(
         ++testInfo.failedConditions;
         ++testInfo.totalConditions;
 
-        xtests_variable_t   expectedValue(expected);
-        xtests_variable_t   actualValue(actual);
+        xTests_variable_t   expectedValue(expected);
+        xTests_variable_t   actualValue(actual);
 
         Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, &expectedValue, &actualValue, -1, comp, m_verbosity);
 
@@ -4418,7 +4418,7 @@ RunnerInfo::TestMultibyteStrings(
 ,   char const*         expr
 ,   char const*         expected
 ,   char const*         actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_ASSERT(NULL != m_reporter);
@@ -4440,65 +4440,65 @@ RunnerInfo::TestMultibyteStrings(
 
         switch (comp)
         {
-        case xtestsComparisonEqual:
+        case xTests_ComparisonEqual:
 
-            if (0 == xtests_strcmp_a_(expected, actual))
+            if (0 == xTests_strcmp_a_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonApproxEqual:
+        case xTests_ComparisonApproxEqual:
 
-            if (0 == xtests_stricmp_a_(expected, actual))
+            if (0 == xTests_stricmp_a_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonNotEqual:
+        case xTests_ComparisonNotEqual:
 
-            if (0 != xtests_strcmp_a_(expected, actual))
+            if (0 != xTests_strcmp_a_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonApproxNotEqual:
+        case xTests_ComparisonApproxNotEqual:
 
-            if (0 != xtests_stricmp_a_(expected, actual))
+            if (0 != xTests_stricmp_a_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonGreaterThan:
+        case xTests_ComparisonGreaterThan:
 
-            if (0 > xtests_strcmp_a_(expected, actual))
+            if (0 > xTests_strcmp_a_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonLessThan:
+        case xTests_ComparisonLessThan:
 
-            if (0 < xtests_strcmp_a_(expected, actual))
+            if (0 < xTests_strcmp_a_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonGreaterThanOrEqual:
+        case xTests_ComparisonGreaterThanOrEqual:
 
-            if (0 >= xtests_strcmp_a_(expected, actual))
+            if (0 >= xTests_strcmp_a_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonLessThanOrEqual:
+        case xTests_ComparisonLessThanOrEqual:
 
-            if (0 <= xtests_strcmp_a_(expected, actual))
+            if (0 <= xTests_strcmp_a_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparison_max_enumerator:
+        case xTests_Comparison_max_enumerator:
 
-            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            xTests_abend("invalid test comparison type: test framework may be out of date!");
             break;
         }
 
@@ -4510,8 +4510,8 @@ RunnerInfo::TestMultibyteStrings(
         {
             ++testInfo.failedConditions;
 
-            xtests_variable_t   expectedValue(expected);
-            xtests_variable_t   actualValue(actual);
+            xTests_variable_t   expectedValue(expected);
+            xTests_variable_t   actualValue(actual);
 
             Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, &expectedValue, &actualValue, -1, comp, m_verbosity);
 
@@ -4533,7 +4533,7 @@ RunnerInfo::TestMultibyteStringsN(
 ,   ptrdiff_t           n
 ,   size_t              cchExpected
 ,   size_t              cchActual
-,   xtests_comparison_t comp)
+,   xTests_comparison_t comp)
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
@@ -4577,27 +4577,27 @@ RunnerInfo::TestMultibyteStringsN(
             // fails
             switch (comp)
             {
-            case xtestsComparisonEqual:
-            case xtestsComparisonApproxEqual:
+            case xTests_ComparisonEqual:
+            case xTests_ComparisonApproxEqual:
 
                 break;
-            case xtestsComparisonNotEqual:
-            case xtestsComparisonApproxNotEqual:
+            case xTests_ComparisonNotEqual:
+            case xTests_ComparisonApproxNotEqual:
 
                 comparisonSucceeded = true;
                 break;
-            case xtestsComparisonGreaterThan:
-            case xtestsComparisonLessThan:
-            case xtestsComparisonGreaterThanOrEqual:
-            case xtestsComparisonLessThanOrEqual:
+            case xTests_ComparisonGreaterThan:
+            case xTests_ComparisonLessThan:
+            case xTests_ComparisonGreaterThanOrEqual:
+            case xTests_ComparisonLessThanOrEqual:
 
                 break;
             default:
 
                 STLSOFT_ASSERT(0);
-            case xtestsComparison_max_enumerator:
+            case xTests_Comparison_max_enumerator:
 
-                xtests_abend("invalid test comparison type: test framework may be out of date!");
+                xTests_abend("invalid test comparison type: test framework may be out of date!");
                 break;
             }
         }
@@ -4605,65 +4605,65 @@ RunnerInfo::TestMultibyteStringsN(
         {
             switch (comp)
             {
-            case xtestsComparisonEqual:
+            case xTests_ComparisonEqual:
 
-                if (0 == xtests_strncmp_a_(expected, actual, ncmp))
+                if (0 == xTests_strncmp_a_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case xtestsComparisonApproxEqual:
+            case xTests_ComparisonApproxEqual:
 
-                if (0 == xtests_strnicmp_a_(expected, actual, ncmp))
+                if (0 == xTests_strnicmp_a_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case xtestsComparisonNotEqual:
+            case xTests_ComparisonNotEqual:
 
-                if (0 != xtests_strncmp_a_(expected, actual, ncmp))
+                if (0 != xTests_strncmp_a_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case xtestsComparisonApproxNotEqual:
+            case xTests_ComparisonApproxNotEqual:
 
-                if (0 != xtests_strnicmp_a_(expected, actual, ncmp))
+                if (0 != xTests_strnicmp_a_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case xtestsComparisonGreaterThan:
+            case xTests_ComparisonGreaterThan:
 
-                if (0 > xtests_strncmp_a_(expected, actual, ncmp))
+                if (0 > xTests_strncmp_a_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case xtestsComparisonLessThan:
+            case xTests_ComparisonLessThan:
 
-                if (0 < xtests_strncmp_a_(expected, actual, ncmp))
+                if (0 < xTests_strncmp_a_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case xtestsComparisonGreaterThanOrEqual:
+            case xTests_ComparisonGreaterThanOrEqual:
 
-                if (0 >= xtests_strncmp_a_(expected, actual, ncmp))
+                if (0 >= xTests_strncmp_a_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case xtestsComparisonLessThanOrEqual:
+            case xTests_ComparisonLessThanOrEqual:
 
-                if (0 <= xtests_strncmp_a_(expected, actual, ncmp))
+                if (0 <= xTests_strncmp_a_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case xtestsComparison_max_enumerator:
+            case xTests_Comparison_max_enumerator:
 
-                xtests_abend("invalid test comparison type: test framework may be out of date!");
+                xTests_abend("invalid test comparison type: test framework may be out of date!");
                 break;
             }
         }
@@ -4676,8 +4676,8 @@ RunnerInfo::TestMultibyteStringsN(
         {
             ++testInfo.failedConditions;
 
-            xtests_variable_t   expectedValue(expected, cchExpected, xtestsTestPartialComparison);
-            xtests_variable_t   actualValue(actual, cchActual, xtestsTestPartialComparison);
+            xTests_variable_t   expectedValue(expected, cchExpected, xTests_TestPartialComparison);
+            xTests_variable_t   actualValue(actual, cchActual, xTests_TestPartialComparison);
 
             Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, &expectedValue, &actualValue, n, comp, m_verbosity);
 
@@ -4696,7 +4696,7 @@ RunnerInfo::TestWideStrings(
 ,   char const*         expr
 ,   wchar_t const*      expected
 ,   wchar_t const*      actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_ASSERT(NULL != m_reporter);
@@ -4718,65 +4718,65 @@ RunnerInfo::TestWideStrings(
 
         switch (comp)
         {
-        case xtestsComparisonEqual:
+        case xTests_ComparisonEqual:
 
-            if (0 == xtests_strcmp_w_(expected, actual))
+            if (0 == xTests_strcmp_w_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonApproxEqual:
+        case xTests_ComparisonApproxEqual:
 
-            if (0 == xtests_stricmp_w_(expected, actual))
+            if (0 == xTests_stricmp_w_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonNotEqual:
+        case xTests_ComparisonNotEqual:
 
-            if (0 != xtests_strcmp_w_(expected, actual))
+            if (0 != xTests_strcmp_w_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonApproxNotEqual:
+        case xTests_ComparisonApproxNotEqual:
 
-            if (0 != xtests_stricmp_w_(expected, actual))
+            if (0 != xTests_stricmp_w_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonGreaterThan:
+        case xTests_ComparisonGreaterThan:
 
-            if (0 > xtests_strcmp_w_(expected, actual))
+            if (0 > xTests_strcmp_w_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonLessThan:
+        case xTests_ComparisonLessThan:
 
-            if (0 < xtests_strcmp_w_(expected, actual))
+            if (0 < xTests_strcmp_w_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonGreaterThanOrEqual:
+        case xTests_ComparisonGreaterThanOrEqual:
 
-            if (0 >= xtests_strcmp_w_(expected, actual))
+            if (0 >= xTests_strcmp_w_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonLessThanOrEqual:
+        case xTests_ComparisonLessThanOrEqual:
 
-            if (0 <= xtests_strcmp_w_(expected, actual))
+            if (0 <= xTests_strcmp_w_(expected, actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparison_max_enumerator:
+        case xTests_Comparison_max_enumerator:
 
-            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            xTests_abend("invalid test comparison type: test framework may be out of date!");
             break;
         }
 
@@ -4788,8 +4788,8 @@ RunnerInfo::TestWideStrings(
         {
             ++testInfo.failedConditions;
 
-            xtests_variable_t   expectedValue(expected);
-            xtests_variable_t   actualValue(actual);
+            xTests_variable_t   expectedValue(expected);
+            xTests_variable_t   actualValue(actual);
 
             Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, &expectedValue, &actualValue, -1, comp, m_verbosity);
 
@@ -4811,7 +4811,7 @@ RunnerInfo::TestWideStringsN(
 ,   ptrdiff_t           n
 ,   size_t              cchExpected
 ,   size_t              cchActual
-,   xtests_comparison_t comp)
+,   xTests_comparison_t comp)
 {
     STLSOFT_ASSERT(NULL != m_reporter);
 
@@ -4855,24 +4855,24 @@ RunnerInfo::TestWideStringsN(
             // fails
             switch (comp)
             {
-            case xtestsComparisonEqual:
-            case xtestsComparisonApproxEqual:
+            case xTests_ComparisonEqual:
+            case xTests_ComparisonApproxEqual:
 
                 break;
-            case xtestsComparisonNotEqual:
-            case xtestsComparisonApproxNotEqual:
+            case xTests_ComparisonNotEqual:
+            case xTests_ComparisonApproxNotEqual:
 
                 comparisonSucceeded = true;
                 break;
-            case xtestsComparisonGreaterThan:
-            case xtestsComparisonLessThan:
-            case xtestsComparisonGreaterThanOrEqual:
-            case xtestsComparisonLessThanOrEqual:
+            case xTests_ComparisonGreaterThan:
+            case xTests_ComparisonLessThan:
+            case xTests_ComparisonGreaterThanOrEqual:
+            case xTests_ComparisonLessThanOrEqual:
 
                 break;
-            case xtestsComparison_max_enumerator:
+            case xTests_Comparison_max_enumerator:
 
-                xtests_abend("invalid test comparison type: test framework may be out of date!");
+                xTests_abend("invalid test comparison type: test framework may be out of date!");
                 break;
             }
         }
@@ -4880,65 +4880,65 @@ RunnerInfo::TestWideStringsN(
         {
             switch (comp)
             {
-            case xtestsComparisonEqual:
+            case xTests_ComparisonEqual:
 
-                if (0 == xtests_strncmp_w_(expected, actual, ncmp))
+                if (0 == xTests_strncmp_w_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case xtestsComparisonApproxEqual:
+            case xTests_ComparisonApproxEqual:
 
-                if (0 == xtests_strnicmp_w_(expected, actual, ncmp))
+                if (0 == xTests_strnicmp_w_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case xtestsComparisonNotEqual:
+            case xTests_ComparisonNotEqual:
 
-                if (0 != xtests_strncmp_w_(expected, actual, ncmp))
+                if (0 != xTests_strncmp_w_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case xtestsComparisonApproxNotEqual:
+            case xTests_ComparisonApproxNotEqual:
 
-                if (0 != xtests_strnicmp_w_(expected, actual, ncmp))
+                if (0 != xTests_strnicmp_w_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case xtestsComparisonGreaterThan:
+            case xTests_ComparisonGreaterThan:
 
-                if (0 > xtests_strncmp_w_(expected, actual, ncmp))
+                if (0 > xTests_strncmp_w_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case xtestsComparisonLessThan:
+            case xTests_ComparisonLessThan:
 
-                if (0 < xtests_strncmp_w_(expected, actual, ncmp))
+                if (0 < xTests_strncmp_w_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case xtestsComparisonGreaterThanOrEqual:
+            case xTests_ComparisonGreaterThanOrEqual:
 
-                if (0 >= xtests_strncmp_w_(expected, actual, ncmp))
+                if (0 >= xTests_strncmp_w_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case xtestsComparisonLessThanOrEqual:
+            case xTests_ComparisonLessThanOrEqual:
 
-                if (0 <= xtests_strncmp_w_(expected, actual, ncmp))
+                if (0 <= xTests_strncmp_w_(expected, actual, ncmp))
                 {
                     comparisonSucceeded = true;
                 }
                 break;
-            case xtestsComparison_max_enumerator:
+            case xTests_Comparison_max_enumerator:
 
-                xtests_abend("invalid test comparison type: test framework may be out of date!");
+                xTests_abend("invalid test comparison type: test framework may be out of date!");
                 break;
             }
         }
@@ -4951,8 +4951,8 @@ RunnerInfo::TestWideStringsN(
         {
             ++testInfo.failedConditions;
 
-            xtests_variable_t   expectedValue(expected, cchExpected, xtestsTestPartialComparison);
-            xtests_variable_t   actualValue(actual, cchActual, xtestsTestPartialComparison);
+            xTests_variable_t   expectedValue(expected, cchExpected, xTests_TestPartialComparison);
+            xTests_variable_t   actualValue(actual, cchActual, xTests_TestPartialComparison);
 
             Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, &expectedValue, &actualValue, n, comp, m_verbosity);
 
@@ -4971,7 +4971,7 @@ RunnerInfo::TestMultibyteStringContains(
 ,   char const*         expr
 ,   char const*         expected
 ,   char const*         actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_ASSERT(NULL != m_reporter);
@@ -4993,44 +4993,44 @@ RunnerInfo::TestMultibyteStringContains(
 
         switch (comp)
         {
-        case xtestsComparisonEqual:
+        case xTests_ComparisonEqual:
 
-            if (NULL != xtests_strstr_(actual, expected))
+            if (NULL != xTests_strstr_(actual, expected))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonApproxEqual:
+        case xTests_ComparisonApproxEqual:
 
-            if (NULL != xtests_stristr_(actual, expected))
+            if (NULL != xTests_stristr_(actual, expected))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonNotEqual:
+        case xTests_ComparisonNotEqual:
 
-            if (NULL == xtests_strstr_(actual, expected))
+            if (NULL == xTests_strstr_(actual, expected))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonApproxNotEqual:
+        case xTests_ComparisonApproxNotEqual:
 
-            if (NULL == xtests_stristr_(actual, expected))
+            if (NULL == xTests_stristr_(actual, expected))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonGreaterThan:
-        case xtestsComparisonLessThan:
-        case xtestsComparisonGreaterThanOrEqual:
-        case xtestsComparisonLessThanOrEqual:
+        case xTests_ComparisonGreaterThan:
+        case xTests_ComparisonLessThan:
+        case xTests_ComparisonGreaterThanOrEqual:
+        case xTests_ComparisonLessThanOrEqual:
 
-            xtests_abend("comparison type not valid for string containing tests");
+            xTests_abend("comparison type not valid for string containing tests");
             break;
-        case xtestsComparison_max_enumerator:
+        case xTests_Comparison_max_enumerator:
 
-            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            xTests_abend("invalid test comparison type: test framework may be out of date!");
             break;
         }
 
@@ -5042,8 +5042,8 @@ RunnerInfo::TestMultibyteStringContains(
         {
             ++testInfo.failedConditions;
 
-            xtests_variable_t   expectedValue(expected, xtestsTestContainment);
-            xtests_variable_t   actualValue(actual, xtestsTestContainment);
+            xTests_variable_t   expectedValue(expected, xTests_TestContainment);
+            xTests_variable_t   actualValue(actual, xTests_TestContainment);
 
             Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, &expectedValue, &actualValue, -1, comp, m_verbosity);
 
@@ -5062,7 +5062,7 @@ RunnerInfo::TestWideStringContains(
 ,   char const*         expr
 ,   wchar_t const*      expected
 ,   wchar_t const*      actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_ASSERT(NULL != m_reporter);
@@ -5084,44 +5084,44 @@ RunnerInfo::TestWideStringContains(
 
         switch (comp)
         {
-        case xtestsComparisonEqual:
+        case xTests_ComparisonEqual:
 
-            if (NULL != xtests_strstr_w_(actual, expected))
+            if (NULL != xTests_strstr_w_(actual, expected))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonApproxEqual:
+        case xTests_ComparisonApproxEqual:
 
-            if (NULL != xtests_stristr_w_(actual, expected))
+            if (NULL != xTests_stristr_w_(actual, expected))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonNotEqual:
+        case xTests_ComparisonNotEqual:
 
-            if (NULL == xtests_strstr_w_(actual, expected))
+            if (NULL == xTests_strstr_w_(actual, expected))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonApproxNotEqual:
+        case xTests_ComparisonApproxNotEqual:
 
-            if (NULL == xtests_stristr_w_(actual, expected))
+            if (NULL == xTests_stristr_w_(actual, expected))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonGreaterThan:
-        case xtestsComparisonLessThan:
-        case xtestsComparisonGreaterThanOrEqual:
-        case xtestsComparisonLessThanOrEqual:
+        case xTests_ComparisonGreaterThan:
+        case xTests_ComparisonLessThan:
+        case xTests_ComparisonGreaterThanOrEqual:
+        case xTests_ComparisonLessThanOrEqual:
 
-            xtests_abend("comparison type not valid for string containing tests");
+            xTests_abend("comparison type not valid for string containing tests");
             break;
-        case xtestsComparison_max_enumerator:
+        case xTests_Comparison_max_enumerator:
 
-            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            xTests_abend("invalid test comparison type: test framework may be out of date!");
             break;
         }
 
@@ -5133,8 +5133,8 @@ RunnerInfo::TestWideStringContains(
         {
             ++testInfo.failedConditions;
 
-            xtests_variable_t   expectedValue(expected, xtestsTestContainment);
-            xtests_variable_t   actualValue(actual, xtestsTestContainment);
+            xTests_variable_t   expectedValue(expected, xTests_TestContainment);
+            xTests_variable_t   actualValue(actual, xTests_TestContainment);
 
             Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, &expectedValue, &actualValue, -1, comp, m_verbosity);
 
@@ -5155,7 +5155,7 @@ RunnerInfo::TestMultibyteStringSlice(
 ,   char const*             expectedPtr
 ,   size_t                  actualLen
 ,   char const*             actualPtr
-,   xtests_comparison_t     comp
+,   xTests_comparison_t     comp
 )
 {
     STLSOFT_ASSERT(NULL != m_reporter);
@@ -5179,48 +5179,48 @@ RunnerInfo::TestMultibyteStringSlice(
 
         switch (comp)
         {
-        case xtestsComparisonEqual:
+        case xTests_ComparisonEqual:
 
             if (sameLength &&
-                0 == xtests_strncmp_a_(expectedPtr, actualPtr, expectedLen))
+                0 == xTests_strncmp_a_(expectedPtr, actualPtr, expectedLen))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonApproxEqual:
+        case xTests_ComparisonApproxEqual:
 
             if (sameLength &&
-                0 == xtests_strnicmp_a_(expectedPtr, actualPtr, expectedLen))
+                0 == xTests_strnicmp_a_(expectedPtr, actualPtr, expectedLen))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonNotEqual:
+        case xTests_ComparisonNotEqual:
 
             if (!sameLength ||
-                0 != xtests_strncmp_a_(expectedPtr, actualPtr, expectedLen))
+                0 != xTests_strncmp_a_(expectedPtr, actualPtr, expectedLen))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonApproxNotEqual:
+        case xTests_ComparisonApproxNotEqual:
 
             if (!sameLength ||
-                0 != xtests_strnicmp_a_(expectedPtr, actualPtr, expectedLen))
+                0 != xTests_strnicmp_a_(expectedPtr, actualPtr, expectedLen))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonGreaterThan:
-        case xtestsComparisonLessThan:
-        case xtestsComparisonGreaterThanOrEqual:
-        case xtestsComparisonLessThanOrEqual:
+        case xTests_ComparisonGreaterThan:
+        case xTests_ComparisonLessThan:
+        case xTests_ComparisonGreaterThanOrEqual:
+        case xTests_ComparisonLessThanOrEqual:
 
             XTESTS_FALLTHROUGH_();
             // fall through
-        case xtestsComparison_max_enumerator:
+        case xTests_Comparison_max_enumerator:
 
-            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            xTests_abend("invalid test comparison type: test framework may be out of date!");
             break;
         }
 
@@ -5235,11 +5235,11 @@ RunnerInfo::TestMultibyteStringSlice(
             char_buffer_t_  expectedBuffer(expectedLen + 1);
             char_buffer_t_  actualBuffer(actualLen + 1);
 
-            xtests_strncpy_(&expectedBuffer[0], expectedBuffer.size(), expectedPtr, expectedLen);
-            xtests_strncpy_(&actualBuffer[0], actualBuffer.size(), actualPtr, actualLen);
+            xTests_strncpy_(&expectedBuffer[0], expectedBuffer.size(), expectedPtr, expectedLen);
+            xTests_strncpy_(&actualBuffer[0], actualBuffer.size(), actualPtr, actualLen);
 
-            xtests_variable_t   expectedValue(expectedBuffer.data(), expectedLen);
-            xtests_variable_t   actualValue(actualBuffer.data(), actualLen);
+            xTests_variable_t   expectedValue(expectedBuffer.data(), expectedLen);
+            xTests_variable_t   actualValue(actualBuffer.data(), actualLen);
 
             Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, &expectedValue, &actualValue, -1, comp, m_verbosity);
 
@@ -5260,7 +5260,7 @@ RunnerInfo::TestWideStringSlice(
 ,   wchar_t const*          expectedPtr
 ,   size_t                  actualLen
 ,   wchar_t const*          actualPtr
-,   xtests_comparison_t     comp
+,   xTests_comparison_t     comp
 )
 {
     STLSOFT_ASSERT(NULL != m_reporter);
@@ -5284,48 +5284,48 @@ RunnerInfo::TestWideStringSlice(
 
         switch (comp)
         {
-        case xtestsComparisonEqual:
+        case xTests_ComparisonEqual:
 
             if (sameLength &&
-                0 == xtests_strncmp_w_(expectedPtr, actualPtr, expectedLen))
+                0 == xTests_strncmp_w_(expectedPtr, actualPtr, expectedLen))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonApproxEqual:
+        case xTests_ComparisonApproxEqual:
 
             if (sameLength &&
-                0 == xtests_strnicmp_w_(expectedPtr, actualPtr, expectedLen))
+                0 == xTests_strnicmp_w_(expectedPtr, actualPtr, expectedLen))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonNotEqual:
+        case xTests_ComparisonNotEqual:
 
             if (!sameLength ||
-                0 != xtests_strncmp_w_(expectedPtr, actualPtr, expectedLen))
+                0 != xTests_strncmp_w_(expectedPtr, actualPtr, expectedLen))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonApproxNotEqual:
+        case xTests_ComparisonApproxNotEqual:
 
             if (!sameLength ||
-                0 != xtests_strnicmp_w_(expectedPtr, actualPtr, expectedLen))
+                0 != xTests_strnicmp_w_(expectedPtr, actualPtr, expectedLen))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonGreaterThan:
-        case xtestsComparisonLessThan:
-        case xtestsComparisonGreaterThanOrEqual:
-        case xtestsComparisonLessThanOrEqual:
+        case xTests_ComparisonGreaterThan:
+        case xTests_ComparisonLessThan:
+        case xTests_ComparisonGreaterThanOrEqual:
+        case xTests_ComparisonLessThanOrEqual:
 
             XTESTS_FALLTHROUGH_();
             // fall through
-        case xtestsComparison_max_enumerator:
+        case xTests_Comparison_max_enumerator:
 
-            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            xTests_abend("invalid test comparison type: test framework may be out of date!");
             break;
         }
 
@@ -5340,11 +5340,11 @@ RunnerInfo::TestWideStringSlice(
             char_buffer_w_t_    expectedBuffer(expectedLen + 1);
             char_buffer_w_t_    actualBuffer(actualLen + 1);
 
-            xtests_wcsncpy_(&expectedBuffer[0], expectedBuffer.size(), expectedPtr, expectedLen);
-            xtests_wcsncpy_(&actualBuffer[0], actualBuffer.size(), actualPtr, actualLen);
+            xTests_wcsncpy_(&expectedBuffer[0], expectedBuffer.size(), expectedPtr, expectedLen);
+            xTests_wcsncpy_(&actualBuffer[0], actualBuffer.size(), actualPtr, actualLen);
 
-            xtests_variable_t   expectedValue(expectedBuffer.data(), expectedLen);
-            xtests_variable_t   actualValue(actualBuffer.data(), actualLen);
+            xTests_variable_t   expectedValue(expectedBuffer.data(), expectedLen);
+            xTests_variable_t   actualValue(actualBuffer.data(), actualLen);
 
             Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, &expectedValue, &actualValue, -1, comp, m_verbosity);
 
@@ -5363,7 +5363,7 @@ RunnerInfo::TestPointers(
 ,   char const*             expr
 ,   void volatile const*    expected
 ,   void volatile const*    actual
-,   xtests_comparison_t     comp
+,   xTests_comparison_t     comp
 )
 {
     STLSOFT_ASSERT(NULL != m_reporter);
@@ -5385,53 +5385,53 @@ RunnerInfo::TestPointers(
 
         switch (comp)
         {
-        case xtestsComparisonEqual:
-        case xtestsComparisonApproxEqual:
+        case xTests_ComparisonEqual:
+        case xTests_ComparisonApproxEqual:
 
             if (expected == actual)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonNotEqual:
-        case xtestsComparisonApproxNotEqual:
+        case xTests_ComparisonNotEqual:
+        case xTests_ComparisonApproxNotEqual:
 
             if (expected != actual)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonGreaterThan:
+        case xTests_ComparisonGreaterThan:
 
             if (actual > expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonLessThan:
+        case xTests_ComparisonLessThan:
 
             if (actual < expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonGreaterThanOrEqual:
+        case xTests_ComparisonGreaterThanOrEqual:
 
             if (actual >= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonLessThanOrEqual:
+        case xTests_ComparisonLessThanOrEqual:
 
             if (actual <= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparison_max_enumerator:
+        case xTests_Comparison_max_enumerator:
 
-            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            xTests_abend("invalid test comparison type: test framework may be out of date!");
             break;
         }
 
@@ -5443,8 +5443,8 @@ RunnerInfo::TestPointers(
         {
             ++testInfo.failedConditions;
 
-            xtests_variable_t   expectedValue(expected);
-            xtests_variable_t   actualValue(actual);
+            xTests_variable_t   expectedValue(expected);
+            xTests_variable_t   actualValue(actual);
 
             Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, &expectedValue, &actualValue, -1, comp, m_verbosity);
 
@@ -5463,10 +5463,10 @@ RunnerInfo::TestFunctionPointers(
 ,   char const*             expr
 ,   void                    (*expected)()
 ,   void                    (*actual)()
-,   xtests_comparison_t     comp
+,   xTests_comparison_t     comp
 )
 {
-    STLSOFT_ASSERT(xtestsComparisonEqual == comp || xtestsComparisonNotEqual == comp);
+    STLSOFT_ASSERT(xTests_ComparisonEqual == comp || xTests_ComparisonNotEqual == comp);
 
     STLSOFT_STATIC_ASSERT(sizeof(void*) == sizeof(void(*)()));
 
@@ -5499,7 +5499,7 @@ RunnerInfo::TestCharacters(
 ,   char const*         expr
 ,   char                expected
 ,   char                actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_ASSERT(NULL != m_reporter);
@@ -5521,65 +5521,65 @@ RunnerInfo::TestCharacters(
 
         switch (comp)
         {
-        case xtestsComparisonEqual:
+        case xTests_ComparisonEqual:
 
             if (expected == actual)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonApproxEqual:
+        case xTests_ComparisonApproxEqual:
 
             if (::toupper(expected) == ::toupper(actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonNotEqual:
+        case xTests_ComparisonNotEqual:
 
             if (expected != actual)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonApproxNotEqual:
+        case xTests_ComparisonApproxNotEqual:
 
             if (::toupper(expected) != ::toupper(actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonGreaterThan:
+        case xTests_ComparisonGreaterThan:
 
             if (actual > expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonLessThan:
+        case xTests_ComparisonLessThan:
 
             if (actual < expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonGreaterThanOrEqual:
+        case xTests_ComparisonGreaterThanOrEqual:
 
             if (actual >= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonLessThanOrEqual:
+        case xTests_ComparisonLessThanOrEqual:
 
             if (actual <= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparison_max_enumerator:
+        case xTests_Comparison_max_enumerator:
 
-            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            xTests_abend("invalid test comparison type: test framework may be out of date!");
             break;
         }
 
@@ -5591,8 +5591,8 @@ RunnerInfo::TestCharacters(
         {
             ++testInfo.failedConditions;
 
-            xtests_variable_t   expectedValue(expected);
-            xtests_variable_t   actualValue(actual);
+            xTests_variable_t   expectedValue(expected);
+            xTests_variable_t   actualValue(actual);
 
             Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, &expectedValue, &actualValue, -1, comp, m_verbosity);
 
@@ -5611,7 +5611,7 @@ RunnerInfo::TestCharacters(
 ,   char const*         expr
 ,   wchar_t             expected
 ,   wchar_t             actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_ASSERT(NULL != m_reporter);
@@ -5633,65 +5633,65 @@ RunnerInfo::TestCharacters(
 
         switch (comp)
         {
-        case xtestsComparisonEqual:
+        case xTests_ComparisonEqual:
 
             if (expected == actual)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonApproxEqual:
+        case xTests_ComparisonApproxEqual:
 
             if (::towupper(expected) == ::towupper(actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonNotEqual:
+        case xTests_ComparisonNotEqual:
 
             if (expected != actual)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonApproxNotEqual:
+        case xTests_ComparisonApproxNotEqual:
 
             if (::towupper(expected) != ::towupper(actual))
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonGreaterThan:
+        case xTests_ComparisonGreaterThan:
 
             if (actual > expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonLessThan:
+        case xTests_ComparisonLessThan:
 
             if (actual < expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonGreaterThanOrEqual:
+        case xTests_ComparisonGreaterThanOrEqual:
 
             if (actual >= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparisonLessThanOrEqual:
+        case xTests_ComparisonLessThanOrEqual:
 
             if (actual <= expected)
             {
                 comparisonSucceeded = true;
             }
             break;
-        case xtestsComparison_max_enumerator:
+        case xTests_Comparison_max_enumerator:
 
-            xtests_abend("invalid test comparison type: test framework may be out of date!");
+            xTests_abend("invalid test comparison type: test framework may be out of date!");
             break;
         }
 
@@ -5703,8 +5703,8 @@ RunnerInfo::TestCharacters(
         {
             ++testInfo.failedConditions;
 
-            xtests_variable_t   expectedValue(expected, xtestsVariableWideCharacter);
-            xtests_variable_t   actualValue(actual, xtestsVariableWideCharacter);
+            xTests_variable_t   expectedValue(expected, xTests_VariableWideCharacter);
+            xTests_variable_t   actualValue(actual, xTests_VariableWideCharacter);
 
             Call_onTestFailed(m_reporter, m_reporterParam, file, line, function, expr, &expectedValue, &actualValue, -1, comp, m_verbosity);
 
@@ -5885,10 +5885,10 @@ RunnerInfo::Call_onTestFailed(
 ,   int                         line
 ,   char const*                 function
 ,   char const*                 expr
-,   xtests_variable_t const*    expectedValue
-,   xtests_variable_t const*    actualValue
+,   xTests_variable_t const*    expectedValue
+,   xTests_variable_t const*    actualValue
 ,   ptrdiff_t                   length
-,   xtests_comparison_t         comparison
+,   xTests_comparison_t         comparison
 ,   int                         verbosity
 )
 {
@@ -5922,7 +5922,7 @@ RunnerInfo::Call_onTestFailed(
 
 # undef OutputDebugStringA
 # include <windows.h>
-static void xtests_OutputDebugStringA_(char const*s)
+static void xTests_OutputDebugStringA_(char const*s)
 {
     OutputDebugStringA(s);
 }

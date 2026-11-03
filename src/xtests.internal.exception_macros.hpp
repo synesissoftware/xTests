@@ -77,7 +77,7 @@
     }                                                                               \
     catch (std::bad_alloc& /* x */)                                                 \
     {                                                                               \
-        xtests_output_(xtestsCritical, oom_msg " due to memory exhaustion\n");      \
+        xTests_output_(xTests_Critical, oom_msg " due to memory exhaustion\n");     \
                                                                                     \
         return 1;                                                                   \
     }                                                                               \
@@ -91,7 +91,7 @@
         msg += x.what();                                                            \
         msg += "\n";                                                                \
                                                                                     \
-        xtests_output_(xtestsCritical, msg.c_str());                                \
+        xTests_output_(xTests_Critical, msg.c_str());                               \
                                                                                     \
         return 1;                                                                   \
     }

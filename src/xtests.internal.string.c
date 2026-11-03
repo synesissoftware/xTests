@@ -5,7 +5,7 @@ extern "C"
 #endif /* __cplusplus */
 
 size_t
-xtests_strnlen_(
+xTests_strnlen_(
     char const* s
 ,   size_t      limit
 )
@@ -21,7 +21,7 @@ xtests_strnlen_(
 }
 
 size_t
-xtests_wcsnlen_(
+xTests_wcsnlen_(
     wchar_t const*  s
 ,   size_t          limit
 )
@@ -37,7 +37,7 @@ xtests_wcsnlen_(
 }
 
 void
-xtests_strncpy_(
+xTests_strncpy_(
     char*           d
 ,   size_t          n
 ,   char const*     s
@@ -56,7 +56,7 @@ xtests_strncpy_(
 }
 
 void
-xtests_wcsncpy_(
+xTests_wcsncpy_(
     wchar_t*        d
 ,   size_t          n
 ,   wchar_t const*  s
@@ -75,7 +75,7 @@ xtests_wcsncpy_(
 }
 
 size_t
-xtests_strnlen_a_(
+xTests_strnlen_a_(
     char const*     s
 ,   size_t          limit
 )
@@ -89,7 +89,7 @@ xtests_strnlen_a_(
 }
 
 size_t
-xtests_strnlen_w_(
+xTests_strnlen_w_(
     wchar_t const*  s
 ,   size_t          limit
 )
@@ -103,7 +103,7 @@ xtests_strnlen_w_(
 }
 
 int
-xtests_strcmp_a_(
+xTests_strcmp_a_(
     char const*     str1
 ,   char const*     str2
 )
@@ -131,7 +131,7 @@ xtests_strcmp_a_(
 }
 
 int
-xtests_strcmp_w_(
+xTests_strcmp_w_(
     wchar_t const*  str1
 ,   wchar_t const*  str2
 )
@@ -159,7 +159,7 @@ xtests_strcmp_w_(
 }
 
 int
-xtests_stricmp_a_(
+xTests_stricmp_a_(
     char const*     str1
 ,   char const*     str2
 )
@@ -195,8 +195,8 @@ xtests_stricmp_a_(
         }
 #endif /* !STLSOFT_CF_EXCEPTION_SUPPORT */
 
-        xtests_strcpy_(&str1_[0], str1_.size(), str1);
-        xtests_strcpy_(&str2_[0], str2_.size(), str2);
+        xTests_strcpy_(&str1_[0], str1_.size(), str1);
+        xTests_strcpy_(&str2_[0], str2_.size(), str2);
 
         ::stlsoft::make_upper(str1_);
         ::stlsoft::make_upper(str2_);
@@ -206,7 +206,7 @@ xtests_stricmp_a_(
 }
 
 int
-xtests_stricmp_w_(
+xTests_stricmp_w_(
     wchar_t const*  str1
 ,   wchar_t const*  str2
 )
@@ -242,8 +242,8 @@ xtests_stricmp_w_(
         }
 #endif /* !STLSOFT_CF_EXCEPTION_SUPPORT */
 
-        xtests_wcscpy_(&str1_[0], str1_.size(), str1);
-        xtests_wcscpy_(&str2_[0], str2_.size(), str2);
+        xTests_wcscpy_(&str1_[0], str1_.size(), str1);
+        xTests_wcscpy_(&str2_[0], str2_.size(), str2);
 
         ::stlsoft::make_upper(str1_);
         ::stlsoft::make_upper(str2_);
@@ -253,7 +253,7 @@ xtests_stricmp_w_(
 }
 
 int
-xtests_strncmp_a_(
+xTests_strncmp_a_(
     char const*     str1
 ,   char const*     str2
 ,   size_t          n
@@ -286,7 +286,7 @@ xtests_strncmp_a_(
 }
 
 int
-xtests_strncmp_w_(
+xTests_strncmp_w_(
     wchar_t const*  str1
 ,   wchar_t const*  str2
 ,   size_t          n
@@ -319,7 +319,7 @@ xtests_strncmp_w_(
 }
 
 int
-xtests_strnicmp_a_(
+xTests_strnicmp_a_(
     char const*     str1
 ,   char const*     str2
 ,   size_t          n
@@ -345,8 +345,8 @@ xtests_strnicmp_a_(
     }
     else
     {
-        const size_t    len1    =   xtests_strnlen_a_(str1, n);
-        const size_t    len2    =   xtests_strnlen_a_(str2, n);
+        const size_t    len1    =   xTests_strnlen_a_(str1, n);
+        const size_t    len2    =   xTests_strnlen_a_(str2, n);
         char_buffer_t_  str1_(len1);
         char_buffer_t_  str2_(len2);
 
@@ -358,8 +358,8 @@ xtests_strnicmp_a_(
         }
 #endif /* !STLSOFT_CF_EXCEPTION_SUPPORT */
 
-        xtests_strncpy_(&str1_[0], str1_.size(), str1, len1);
-        xtests_strncpy_(&str2_[0], str2_.size(), str2, len2);
+        xTests_strncpy_(&str1_[0], str1_.size(), str1, len1);
+        xTests_strncpy_(&str2_[0], str2_.size(), str2, len2);
 
         ::stlsoft::make_upper(str1_);
         ::stlsoft::make_upper(str2_);
@@ -369,7 +369,7 @@ xtests_strnicmp_a_(
 }
 
 int
-xtests_strnicmp_w_(
+xTests_strnicmp_w_(
     wchar_t const*  str1
 ,   wchar_t const*  str2
 ,   size_t          n
@@ -395,8 +395,8 @@ xtests_strnicmp_w_(
     }
     else
     {
-        const size_t        len1    =   xtests_strnlen_w_(str1, n);
-        const size_t        len2    =   xtests_strnlen_w_(str2, n);
+        const size_t        len1    =   xTests_strnlen_w_(str1, n);
+        const size_t        len2    =   xTests_strnlen_w_(str2, n);
         char_buffer_w_t_    str1_(len1);
         char_buffer_w_t_    str2_(len2);
 
@@ -408,8 +408,8 @@ xtests_strnicmp_w_(
         }
 #endif /* !STLSOFT_CF_EXCEPTION_SUPPORT */
 
-        xtests_wcsncpy_(&str1_[0], str1_.size(), str1, len1);
-        xtests_wcsncpy_(&str2_[0], str2_.size(), str2, len2);
+        xTests_wcsncpy_(&str1_[0], str1_.size(), str1, len1);
+        xTests_wcsncpy_(&str2_[0], str2_.size(), str2, len2);
 
         ::stlsoft::make_upper(str1_);
         ::stlsoft::make_upper(str2_);
@@ -419,7 +419,7 @@ xtests_strnicmp_w_(
 }
 
 char const*
-xtests_strstr_(
+xTests_strstr_(
     char const*     str1
 ,   char const*     str2
 )
@@ -439,7 +439,7 @@ xtests_strstr_(
 }
 
 wchar_t const*
-xtests_strstr_w_(
+xTests_strstr_w_(
     wchar_t const*  str1
 ,   wchar_t const*  str2
 )
@@ -459,7 +459,7 @@ xtests_strstr_w_(
 }
 
 char const*
-xtests_stristr_(
+xTests_stristr_(
     char const*     str1
 ,   char const*     str2
 )
@@ -487,8 +487,8 @@ xtests_stristr_(
         }
 #endif /* !STLSOFT_CF_EXCEPTION_SUPPORT */
 
-        xtests_strcpy_(&str1_[0], str1_.size(), str1);
-        xtests_strcpy_(&str2_[0], str2_.size(), str2);
+        xTests_strcpy_(&str1_[0], str1_.size(), str1);
+        xTests_strcpy_(&str2_[0], str2_.size(), str2);
 
         ::stlsoft::make_upper(str1_);
         ::stlsoft::make_upper(str2_);
@@ -498,7 +498,7 @@ xtests_stristr_(
 }
 
 wchar_t const*
-xtests_stristr_w_(
+xTests_stristr_w_(
     wchar_t const*  str1
 ,   wchar_t const*  str2
 )
@@ -526,8 +526,8 @@ xtests_stristr_w_(
         }
 #endif /* !STLSOFT_CF_EXCEPTION_SUPPORT */
 
-        xtests_wcscpy_(&str1_[0], str1_.size(), str1);
-        xtests_wcscpy_(&str2_[0], str2_.size(), str2);
+        xTests_wcscpy_(&str1_[0], str1_.size(), str1);
+        xTests_wcscpy_(&str2_[0], str2_.size(), str2);
 
         ::stlsoft::make_upper(str1_);
         ::stlsoft::make_upper(str2_);

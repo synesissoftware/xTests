@@ -6,10 +6,11 @@ Catalog of the public **xTests** API. Each construct has a short description and
 ## Table of Contents <!-- omit in toc -->
 
 - [Introduction](#introduction)
+  - [Identifier naming](#identifier-naming)
 - [Headers](#headers)
 - [Verbosity and runner flags](#verbosity-and-runner-flags)
-  - [`xtests_verbosity_t`](#xtests_verbosity_t)
-  - [`xtests_runner_flags_t`](#xtests_runner_flags_t)
+  - [`xTests_verbosity_t`](#xtests_verbosity_t)
+  - [`xTests_runner_flags_t`](#xtests_runner_flags_t)
   - [`xTests_Setup_t` / `xTests_Teardown_t`](#xtests_setup_t--xtests_teardown_t)
 - [Test runner functions](#test-runner-functions)
   - [`XTESTS_START_RUNNER(name, verbosity)`](#xtests_start_runnername-verbosity)
@@ -152,9 +153,23 @@ Catalog of the public **xTests** API. Each construct has a short description and
 Unless a snippet is a runner, command-line, or helper fragment, examples assume an active case — after a successful `XTESTS_START_RUNNER(...)` and `XTESTS_CASE_BEGIN(...)` (or `XTESTS_RUN_CASE(...)`). Comparison macros take **expected** then **actual**. Relational macros (`GREATER`, `LESS`, …) mean *actual* compared with *expected* (`XTESTS_TEST_INTEGER_GREATER(3, 4)` passes because `4 > 3`).
 
 
+### Identifier naming
+
+Public identifiers follow these families (**D12** / **R5.2** / **R5.3**):
+
+| Family | Canonical form | Compatibility |
+| --- | --- | --- |
+| Macros | `XTESTS_*` | Packed duals kept (e.g. `XTESTS_COMMANDLINE_PARSEVERBOSITY`) |
+| Types | `xTests_*` | Legacy `xtests_*` as `#define` aliases |
+| Functions | `xTests_*` | Legacy `xtests_*` as `#define` aliases |
+| Enumerators | `xTests_*` (e.g. `xTests_VariableNone`) | Legacy `xtests*` and intermediate `xTests*` (no underscore) as `#define` aliases |
+
+Include path (`xtests/…`), C++ namespaces (`xtests` / `xtests::c` / `xtests::cpp`), and the product / CMake name **xTests** are unchanged. Prefer the canonical forms in new code; 0.x spellings remain valid.
+
+
 ## Headers
 
-* **xtests/xtests.h** — canonical API (`XTESTS_*` macros, verbosity and flags enumerations);
+* **xtests/xtests.h** — canonical API (`XTESTS_*` macros; `xTests_*` types and functions);
 * **xtests/terse-api.h** — includes **xtests.h** and defines short aliases (`TEST_INT_EQ`, `START_RUNNER`, …);
 * **xtests/implicit_link.h** — Windows implicit linking of the **xtests.core** archive (no-op on compilers without implicit link);
 * **xtests/util/temp_file.hpp** — C++ RAII temporary file ([C++ test helpers](#c-test-helpers));
@@ -172,9 +187,10 @@ Unless a snippet is a runner, command-line, or helper fragment, examples assume 
 ## Verbosity and runner flags
 
 
-### `xtests_verbosity_t`
+### `xTests_verbosity_t`
 
-Controls how much a runner writes. Values (from **xtests.h**):
+Controls how much a runner writes. Values (from **xtests.h**). The legacy
+name `xtests_verbosity_t` remains an alias:
 
 * `XTESTS_VERBOSITY_SILENT` (`-1`) — no output; status is the process return code;
 * `XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR` (`0`) — runner summary only on error;
@@ -189,12 +205,13 @@ int verbosity = XTESTS_VERBOSITY_CASE_SUMMARY_ON_ERROR;
 ```
 
 
-### `xtests_runner_flags_t`
+### `xTests_runner_flags_t`
 
-Flags passed to the `*_WITH_FLAGS*` runner macros:
+Flags passed to the `*_WITH_FLAGS*` runner macros. Legacy `xtests_runner_flags_t`
+and enumerator spellings remain aliases:
 
-* `xtestsRunnerFlagsNoWindowsDebugString` (`0x0001`) — do not also write via `OutputDebugString` on Windows;
-* `xtestsReportOnlyNonEmptyCases` (`0x0002`) — omit empty cases from the report;
+* `xTests_RunnerFlagsNoWindowsDebugString` (`0x0001`) — do not also write via `OutputDebugString` on Windows;
+* `xTests_ReportOnlyNonEmptyCases` (`0x0002`) — omit empty cases from the report;
 
 ```c
 unsigned flags = xtestsReportOnlyNonEmptyCases;

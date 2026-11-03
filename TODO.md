@@ -99,7 +99,7 @@ Standing principle: prefer **STLSoft** (or other SIS libraries) over private
 ### Headers and API shape (R5)
 
 * [ ] Segregate **include/xtests/xtests.h** into clearer, extensible headers (keep `#include <xtests/xtests.h>`) (**R5.1**);
-* [ ] Normalise to D12 families — macros `XTESTS_*`, types/functions `xTests_*` — with permanent `xtests_*` / packed-macro aliases (**R5.2**, **R5.3**, **D12**);
+* [x] ~~~Normalise to D12 families — macros `XTESTS_*`, types/functions `xTests_*` — with permanent `xtests_*` / packed-macro aliases~~~ - ✅ (**R5.2**, **R5.3**, **D12**);
 * [ ] Install or stop relying on **xtests/internal/**\* from tests (**R5.4**);
 
 

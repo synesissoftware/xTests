@@ -1,6 +1,17 @@
 # xTests - Changes <!-- omit in toc -->
 
 
+## 0.29.0-beta2 - 3rd November 2026
+
+* Normalised public identifier families (**R5.2** / **R5.3** / **D12**): types and functions use `xTests_*` as the canonical form, with permanent `xtests_*` (and packed-macro) aliases for 0.x compatibility; macros remain `XTESTS_*`;
+* Documented identifier naming in **COMPONENTS.md**;
+* Normalised enumerator spellings to `xTests_*` form (e.g. `xTests_VariableNone`, `xTests_ComparisonEqual`), with aliases for both `xtests*` and intermediate `xTests*` (no underscore) forms;
+
+
+
+
+
+
 ## 0.26.6-beta1 - 10th October 2026
 
 * Applied **misc-dev-scripts** **0.6.0** editor/Git/`.sis` drop-in templates on **boilerplate**;

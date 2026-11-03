@@ -5,7 +5,7 @@
  *          library for C and C++.
  *
  * Created: 20th June 1999
- * Updated: 10th October 2026
+ * Updated: 3rd November 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -53,7 +53,7 @@
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
 # define XTESTS_VER_XTESTS_H_XTESTS_MINOR       51
 # define XTESTS_VER_XTESTS_H_XTESTS_REVISION    15
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        417
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        421
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -87,7 +87,7 @@
 #define _XTESTS_VER_MAJOR       0
 #define _XTESTS_VER_MINOR       26
 #define _XTESTS_VER_PATCH       6
-#define _XTESTS_VER_ALPHABETA   0x81
+#define _XTESTS_VER_ALPHABETA   0x82
 
 #define _XTESTS_VER \
     (0\
@@ -272,12 +272,12 @@ namespace c
     STLSOFT_INLINE
 # endif
     int
-    xtests_internal_while_0_(void)
+    xTests_internal_while_0_(void)
     {
         return 0;
     }
 
-# define XTESTS_WHILE_0_CLAUSE()                            XTESTS_NS_C_QUAL(xtests_internal_while_0_)()
+# define XTESTS_WHILE_0_CLAUSE()                            XTESTS_NS_C_QUAL(xTests_internal_while_0_)()
 
  /* XTESTS_NORETURN_ */
 # if 0
@@ -419,16 +419,16 @@ namespace c
      (  !defined(STLSOFT_COMPILER_IS_MSVC) || \
         _MSC_VER >= 1310)
 
-#  define XTESTS_REPORT_EXCEPTION_(f, l, x)                 XTESTS_NS_C_QUAL(xtests_caseExcepted)((f), (l), typeid(x).name(), x.what())
+#  define XTESTS_REPORT_EXCEPTION_(f, l, x)                 XTESTS_NS_C_QUAL(xTests_caseExcepted)((f), (l), typeid(x).name(), x.what())
 # else /* ? STLSOFT_CF_RTTI_SUPPORT */
 
-#  define XTESTS_REPORT_EXCEPTION_(f, l, x)                 XTESTS_NS_C_QUAL(xtests_caseExcepted)((f), (l), "<exception-type unknown: rtti not available>", x.what())
+#  define XTESTS_REPORT_EXCEPTION_(f, l, x)                 XTESTS_NS_C_QUAL(xTests_caseExcepted)((f), (l), "<exception-type unknown: rtti not available>", x.what())
 # endif /* STLSOFT_CF_RTTI_SUPPORT */
 
 
-# define XTESTS_REPORT_PREREQ_FAIL_(f, l, fn, m, q)         XTESTS_NS_C_QUAL(xtests_writeFailMessage)((f), (l), (fn), (m), (q))
+# define XTESTS_REPORT_PREREQ_FAIL_(f, l, fn, m, q)         XTESTS_NS_C_QUAL(xTests_writeFailMessage)((f), (l), (fn), (m), (q))
 
-# define XTESTS_GET_SETUPPARAM_()                           XTESTS_NS_C_QUAL(xtests_getSetupParam)()
+# define XTESTS_GET_SETUPPARAM_()                           XTESTS_NS_C_QUAL(xTests_getSetupParam)()
 
 # ifdef __cplusplus
 
@@ -495,7 +495,7 @@ namespace c
                                                                                         \
             XTESTS_INVOKE_TEST_CASE_FN_INNER_(fn, param);                               \
                                                                                         \
-            XTESTS_NS_C_QUAL(xtests_caseExceptionExpected)((file), (line), #type);      \
+            XTESTS_NS_C_QUAL(xTests_caseExceptionExpected)((file), (line), #type);      \
         }                                                                               \
         catch (XTESTS_NS_CPP_QUAL(prerequisite_failed_exception)& x)                    \
         {                                                                               \
@@ -607,7 +607,7 @@ namespace c
  * constants & definitions
  */
 
-/** Flags to be passed to xtests_startRunner
+/** Flags to be passed to xTests_startRunner
  *
  * \ingroup group__xtests__test_runner_functions
  *
@@ -618,13 +618,13 @@ namespace c
  * \see XTESTS_START_RUNNER_WITH_SETUP_FNS()
  * \see XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS_AND_SETUP_FNS()
  */
-enum xtests_runner_flags_t
+enum xTests_runner_flags_t
 {
-        xtestsRunnerFlagsNoWindowsDebugString   =   0x0001
-    ,   xtestsReportOnlyNonEmptyCases           =   0x0002
+        xTests_RunnerFlagsNoWindowsDebugString  =   0x0001
+    ,   xTests_ReportOnlyNonEmptyCases          =   0x0002
 };
 #ifndef __cplusplus
-typedef enum xtests_runner_flags_t                          xtests_runner_flags_t;
+typedef enum xTests_runner_flags_t                          xTests_runner_flags_t;
 #endif /* !__cplusplus */
 
 /** \def XTESTS_FP_APPROXIMATE_FACTOR
@@ -682,11 +682,11 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * A test runner is a logically-related group of test cases.
  *
  * \param name The name of the test-runner
- * \param verbosity The verbosity (see xtests_verbosity_t) at which the
+ * \param verbosity The verbosity (see xTests_verbosity_t) at which the
  *   runner will be executed
  */
 #define XTESTS_START_RUNNER(name, verbosity)                \
-    (0 == XTESTS_NS_C_QUAL(xtests_startRunner)((name), (verbosity), NULL, NULL, NULL, 0, NULL, NULL, NULL))
+    (0 == XTESTS_NS_C_QUAL(xTests_startRunner)((name), (verbosity), NULL, NULL, NULL, 0, NULL, NULL, NULL))
 
 /** \def XTESTS_START_RUNNER_WITH_SETUP_FNS(name, verbosity, setup, teardown, setupParam)
  *
@@ -697,7 +697,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * A test runner is a logically-related group of test cases.
  *
  * \param name The name of the test-runner
- * \param verbosity The verbosity (see xtests_verbosity_t) at which the
+ * \param verbosity The verbosity (see xTests_verbosity_t) at which the
  *   runner will be executed
  * \param setup The function to be called before each test
  * \param teardown The function to be called after each test
@@ -708,7 +708,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * \see xTests_Teardown_t
  */
 #define XTESTS_START_RUNNER_WITH_SETUP_FNS(name, verbosity, setup, teardown, setupParam)    \
-    (0 == XTESTS_NS_C_QUAL(xtests_startRunner)((name), (verbosity), NULL, NULL, NULL, 0, (setup), (teardown), (setupParam)))
+    (0 == XTESTS_NS_C_QUAL(xTests_startRunner)((name), (verbosity), NULL, NULL, NULL, 0, (setup), (teardown), (setupParam)))
 
 /** \def XTESTS_START_RUNNER_WITH_STREAM(name, verbosity, stm)
  *
@@ -719,12 +719,12 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * A test runner is a logically-related group of test cases.
  *
  * \param name The name of the test-runner
- * \param verbosity The verbosity (see xtests_verbosity_t) at which the
+ * \param verbosity The verbosity (see xTests_verbosity_t) at which the
  *   runner will be executed
  * \param stm The stream to which output will be written
  */
 #define XTESTS_START_RUNNER_WITH_STREAM(name, verbosity, stm)                       \
-    (0 == XTESTS_NS_C_QUAL(xtests_startRunner)((name), (verbosity), NULL, NULL, stm, 0, NULL, NULL, NULL))
+    (0 == XTESTS_NS_C_QUAL(xTests_startRunner)((name), (verbosity), NULL, NULL, stm, 0, NULL, NULL, NULL))
 
 /** \def XTESTS_START_RUNNER_WITH_REPORTER(name, verbosity, reporter, reporterParam)
  *
@@ -735,14 +735,14 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * A test runner is a logically-related group of test cases.
  *
  * \param name The name of the test-runner
- * \param verbosity The verbosity (see xtests_verbosity_t) at which the
+ * \param verbosity The verbosity (see xTests_verbosity_t) at which the
  *   runner will be executed
  * \param reporter The reporter instance
  * \param reporterParam A caller-supplied parameter that is passed with
  *   every callback
  */
 #define XTESTS_START_RUNNER_WITH_REPORTER(name, verbosity, reporter, reporterParam) \
-    (0 == XTESTS_NS_C_QUAL(xtests_startRunner)((name), (verbosity), (reporter), (reporterParam), NULL, 0, NULL, NULL, NULL))
+    (0 == XTESTS_NS_C_QUAL(xTests_startRunner)((name), (verbosity), (reporter), (reporterParam), NULL, 0, NULL, NULL, NULL))
 
 /** \def XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM(name, verbosity, reporter, reporterParam, stm)
  *
@@ -753,7 +753,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * A test runner is a logically-related group of test cases.
  *
  * \param name The name of the test-runner
- * \param verbosity The verbosity (see xtests_verbosity_t) at which the
+ * \param verbosity The verbosity (see xTests_verbosity_t) at which the
  *   runner will be executed
  * \param reporter The reporter instance
  * \param reporterParam A caller-supplied parameter that is passed with
@@ -761,7 +761,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * \param stm The stream to which output will be written
  */
 #define XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM(name, verbosity, reporter, reporterParam, stm) \
-    (0 == XTESTS_NS_C_QUAL(xtests_startRunner)((name), (verbosity), (reporter), (reporterParam), stm, 0, NULL, NULL, NULL))
+    (0 == XTESTS_NS_C_QUAL(xTests_startRunner)((name), (verbosity), (reporter), (reporterParam), stm, 0, NULL, NULL, NULL))
 
 /** \def XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS(name, verbosity, reporter, reporterParam, stm, flags)
  *
@@ -772,17 +772,17 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * A test runner is a logically-related group of test cases.
  *
  * \param name The name of the test-runner
- * \param verbosity The verbosity (see xtests_verbosity_t) at which the
+ * \param verbosity The verbosity (see xTests_verbosity_t) at which the
  *   runner will be executed
  * \param reporter The reporter instance
  * \param reporterParam A caller-supplied parameter that is passed with
  *   every callback
  * \param stm The stream to which output will be written
- * \param flags The \link xtests::c::xtests_runner_flags_t flags\endlink
+ * \param flags The \link xtests::c::xTests_runner_flags_t flags\endlink
  *   that moderate the runner behaviour
  */
 #define XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS(name, verbosity, reporter, reporterParam, stm, flags)    \
-    (0 == XTESTS_NS_C_QUAL(xtests_startRunner)((name), (verbosity), (reporter), (reporterParam), (stm), (flags), NULL, NULL, NULL))
+    (0 == XTESTS_NS_C_QUAL(xTests_startRunner)((name), (verbosity), (reporter), (reporterParam), (stm), (flags), NULL, NULL, NULL))
 
 /** \def XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS_AND_SETUP_FNS(name, verbosity, reporter, reporterParam, stm, flags, setup, teardown, setupParam)
  *
@@ -793,13 +793,13 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * A test runner is a logically-related group of test cases.
  *
  * \param name The name of the test-runner
- * \param verbosity The verbosity (see xtests_verbosity_t) at which the
+ * \param verbosity The verbosity (see xTests_verbosity_t) at which the
  *   runner will be executed
  * \param reporter The reporter instance
  * \param reporterParam A caller-supplied parameter that is passed with
  *   every invocation of the reporter
  * \param stm The stream to which output will be written
- * \param flags The \link xtests::c::xtests_runner_flags_t flags\endlink
+ * \param flags The \link xtests::c::xTests_runner_flags_t flags\endlink
  *   that moderate the runner behaviour
  * \param setup The function to be called before each test
  * \param teardown The function to be called after each test
@@ -807,7 +807,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *   each invocation of the setup and teardown functions
  */
 #define XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS_AND_SETUP_FNS(name, verbosity, reporter, reporterParam, stm, flags, setup, teardown, setupParam) \
-    (0 == XTESTS_NS_C_QUAL(xtests_startRunner)((name), (verbosity), (reporter), (reporterParam), (stm), (flags), (setup), (teardown), (setupParam)))
+    (0 == XTESTS_NS_C_QUAL(xTests_startRunner)((name), (verbosity), (reporter), (reporterParam), (stm), (flags), (setup), (teardown), (setupParam)))
 
 /** \def XTESTS_START_RUNNER_WITH_FLAGS(name, verbosity, flags)
  *
@@ -818,13 +818,13 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * A test runner is a logically-related group of test cases.
  *
  * \param name The name of the test-runner
- * \param verbosity The verbosity (see xtests_verbosity_t) at which the
+ * \param verbosity The verbosity (see xTests_verbosity_t) at which the
  *   runner will be executed
- * \param flags The \link xtests::c::xtests_runner_flags_t flags\endlink
+ * \param flags The \link xtests::c::xTests_runner_flags_t flags\endlink
  *   that moderate the runner behaviour
  */
 #define XTESTS_START_RUNNER_WITH_FLAGS(name, verbosity, flags)                          \
-    (0 == XTESTS_NS_C_QUAL(xtests_startRunner)((name), (verbosity), NULL, NULL, NULL, (flags), NULL, NULL, NULL))
+    (0 == XTESTS_NS_C_QUAL(xTests_startRunner)((name), (verbosity), NULL, NULL, NULL, (flags), NULL, NULL, NULL))
 
 /** \def XTESTS_PRINT_RESULTS()
  *
@@ -838,7 +838,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *   XTESTS_END_RUNNER_UPDATE_EXITCODE().
  */
 #define XTESTS_PRINT_RESULTS()                              \
-    XTESTS_NS_C_QUAL(xtests_printRunnerResults)()
+    XTESTS_NS_C_QUAL(xTests_printRunnerResults)()
 
 /** \def XTESTS_END_RUNNER()
  *
@@ -847,7 +847,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * Ends a test runner
  */
 #define XTESTS_END_RUNNER()                                 \
-    XTESTS_NS_C_QUAL(xtests_endRunner)(NULL)
+    XTESTS_NS_C_QUAL(xTests_endRunner)(NULL)
 
 /** \def XTESTS_ABEND(terminationMessage)
  *
@@ -858,7 +858,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * \param terminationMessage Message to be emitted upon termination
  */
 #define XTESTS_ABEND(terminationMessage)                    \
-    XTESTS_NS_C_QUAL(xtests_abend)(terminationMessage)
+    XTESTS_NS_C_QUAL(xTests_abend)(terminationMessage)
 
 /** \def XTESTS_END_RUNNER_UPDATE_EXITCODE()
  *
@@ -876,7 +876,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *   in the case where that runner has failed one or more tests.
  */
 #define XTESTS_END_RUNNER_UPDATE_EXITCODE(retCode)          \
-    STLSOFT_STATIC_CAST(void, XTESTS_NS_C_QUAL(xtests_endRunner)(retCode))
+    STLSOFT_STATIC_CAST(void, XTESTS_NS_C_QUAL(xTests_endRunner)(retCode))
 
 
 /* ///////////////////////////////////////////////////////////////////
@@ -894,7 +894,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *   or the empty string (<code>""</code>).
  */
 #define XTESTS_CASE_BEGIN(name, desc)                       \
-    (0 == XTESTS_NS_C_QUAL(xtests_beginTestCase)((name), (desc)))
+    (0 == XTESTS_NS_C_QUAL(xTests_beginTestCase)((name), (desc)))
 
 /** \def XTESTS_CASE_END(name)
  *
@@ -908,7 +908,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *   implementation, which can only run one test case at a time.
  */
 #define XTESTS_CASE_END(name)                               \
-    STLSOFT_STATIC_CAST(void, XTESTS_NS_C_QUAL(xtests_endTestCase)((name)))
+    STLSOFT_STATIC_CAST(void, XTESTS_NS_C_QUAL(xTests_endTestCase)((name)))
 
 /** \def XTESTS_RUN_CASE_WITH_NAME_AND_DESC(name, desc, fn)
  *
@@ -1044,7 +1044,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
 #define XTESTS_TEST_FAIL_WITH_QUALIFIER(msg, qualifier)                     \
-    XTESTS_NS_C_QUAL(xtests_writeFailMessage)(XTESTS_FLF_(), msg, qualifier)
+    XTESTS_NS_C_QUAL(xTests_writeFailMessage)(XTESTS_FLF_(), msg, qualifier)
 
 /** \def XTESTS_TEST_FAIL(msg)
  *
@@ -1070,7 +1070,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
  */
 #define XTESTS_TEST_PASSED()                                                \
-    XTESTS_NS_C_QUAL(xtests_testPassed)(XTESTS_FLF_(), "")
+    XTESTS_NS_C_QUAL(xTests_testPassed)(XTESTS_FLF_(), "")
 
 /** \def XTESTS_TEST_WITH_MESSAGE(expr, msg)
  *
@@ -1088,8 +1088,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
 #define XTESTS_TEST_WITH_MESSAGE(expr, msg)                                 \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
         ? ((expr)                                                           \
-            ? XTESTS_NS_C_QUAL(xtests_testPassed)(XTESTS_FLF_(), msg)       \
-            : XTESTS_NS_C_QUAL(xtests_testFailed)(XTESTS_FLF_(), msg))      \
+            ? XTESTS_NS_C_QUAL(xTests_testPassed)(XTESTS_FLF_(), msg)       \
+            : XTESTS_NS_C_QUAL(xTests_testFailed)(XTESTS_FLF_(), msg))      \
     : (0))
 
 /** \def XTESTS_TEST(expr)
@@ -1129,8 +1129,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
 #define XTESTS_TEST_EQUAL_WITH_MESSAGE(expected, actual, msg)               \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
         ? (((expected) == (actual))                                         \
-            ? XTESTS_NS_C_QUAL(xtests_testUdtPassed)(XTESTS_FLF_(), #expected " == " #actual, #expected, #actual, XTESTS_NS_C_QUAL(xtestsComparisonEqual), msg)     \
-            : XTESTS_NS_C_QUAL(xtests_testUdtFailed)(XTESTS_FLF_(), #expected " == " #actual, #expected, #actual, XTESTS_NS_C_QUAL(xtestsComparisonEqual), msg))    \
+            ? XTESTS_NS_C_QUAL(xTests_testUdtPassed)(XTESTS_FLF_(), #expected " == " #actual, #expected, #actual, XTESTS_NS_C_QUAL(xTests_ComparisonEqual), msg)    \
+            : XTESTS_NS_C_QUAL(xTests_testUdtFailed)(XTESTS_FLF_(), #expected " == " #actual, #expected, #actual, XTESTS_NS_C_QUAL(xTests_ComparisonEqual), msg))   \
     : (0))
 
 /** \def XTESTS_TEST_EQUAL(expected, actual)
@@ -1168,8 +1168,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
 #define XTESTS_TEST_NOT_EQUAL_WITH_MESSAGE(expected, actual, msg)           \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
         ? (((expected) != (actual))                                         \
-            ? XTESTS_NS_C_QUAL(xtests_testUdtPassed)(XTESTS_FLF_(), #expected " != " #actual, #expected, #actual, XTESTS_NS_C_QUAL(xtestsComparisonNotEqual), msg)     \
-            : XTESTS_NS_C_QUAL(xtests_testUdtFailed)(XTESTS_FLF_(), #expected " != " #actual, #expected, #actual, XTESTS_NS_C_QUAL(xtestsComparisonNotEqual), msg))    \
+            ? XTESTS_NS_C_QUAL(xTests_testUdtPassed)(XTESTS_FLF_(), #expected " != " #actual, #expected, #actual, XTESTS_NS_C_QUAL(xTests_ComparisonNotEqual), msg)    \
+            : XTESTS_NS_C_QUAL(xTests_testUdtFailed)(XTESTS_FLF_(), #expected " != " #actual, #expected, #actual, XTESTS_NS_C_QUAL(xTests_ComparisonNotEqual), msg))   \
     : (0))
 
 /** \def XTESTS_TEST_NOT_EQUAL(expected, actual)
@@ -1251,7 +1251,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_INTEGER_EQUAL_EXACT(expected, actual)                  \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_integer(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_integer(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonEqual))) \
         : (0))
 
 /** \def XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual)
@@ -1270,7 +1270,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual)                    \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_integer(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_integer(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonNotEqual))) \
         : (0))
 
 /** \def XTESTS_TEST_INTEGER_GREATER(expected, actual)
@@ -1287,7 +1287,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_INTEGER_GREATER(expected, actual)                      \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_integer(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThan))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_integer(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonGreaterThan))) \
         : (0))
 
 /** \def XTESTS_TEST_INTEGER_LESS(expected, actual)
@@ -1304,7 +1304,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_INTEGER_LESS(expected, actual)                         \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_integer(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThan))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_integer(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonLessThan))) \
         : (0))
 
 /** \def XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual)
@@ -1322,7 +1322,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual)             \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_integer(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThanOrEqual))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_integer(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonGreaterThanOrEqual))) \
         : (0))
 
 /** \def XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual)
@@ -1340,7 +1340,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual)                \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_integer(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThanOrEqual))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_integer(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonLessThanOrEqual))) \
         : (0))
 
 /** \def XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(begin, end, actual)
@@ -1362,7 +1362,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(begin, end, actual)         \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_integer_any_in_range(XTESTS_FLF_(), "XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(" #begin ", " #end ", " #actual ")", (begin), (end), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_integer_any_in_range(XTESTS_FLF_(), "XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(" #begin ", " #end ", " #actual ")", (begin), (end), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonEqual))) \
         : (0))
 
 /** \def XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(begin, end, actual)
@@ -1384,7 +1384,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_INTEGER_EQUAL_ANY_NOT_IN_RANGE(begin, end, actual)     \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_integer_any_in_range(XTESTS_FLF_(), "XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(" #begin ", " #end ", " #actual ")", (begin), (end), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_integer_any_in_range(XTESTS_FLF_(), "XTESTS_TEST_INTEGER_EQUAL_ANY_IN_RANGE(" #begin ", " #end ", " #actual ")", (begin), (end), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonNotEqual))) \
         : (0))
 
 #if 0
@@ -1402,12 +1402,12 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_INTEGER_EQUAL_ANY_OF(expected, actual)                 \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_integer_one_of(                    \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_integer_one_of(                    \
             XTESTS_FLF_()                                                   \
         ,   "XTESTS_TEST_INTEGER_EQUAL_ANY_OF(" #expected ", " #actual ")"  \
         ,   (expected)                                                      \
         ,   (actual)                                                        \
-        , XTESTS_NS_C_QUAL(xtestsComparisonEqual)))                         \
+        , XTESTS_NS_C_QUAL(xTests_ComparisonEqual)))                        \
         : (0))
 #endif /* 0 */
 
@@ -1426,13 +1426,13 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_INTEGER_EQUAL_ANY_OF2(expected0, expected1, actual)    \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ?  XTESTS_NS_CPP_QUAL(xtests_test_integer_one_of(                   \
+        ?  XTESTS_NS_CPP_QUAL(xTests_test_integer_one_of(                   \
             XTESTS_FLF_()                                                   \
         ,   "XTESTS_TEST_INTEGER_EQUAL_ANY_OF2(" #expected0 ", " #expected1 ", " #actual ")"    \
         ,   (actual)                                                        \
         ,   (expected0)                                                     \
         ,   (expected1)                                                     \
-        , XTESTS_NS_C_QUAL(xtestsComparisonEqual)))                         \
+        , XTESTS_NS_C_QUAL(xTests_ComparisonEqual)))                        \
         : (0))
 
 /** \def XTESTS_TEST_INTEGER_EQUAL_ANY_OF3(expected0, expected1, expected2, actual)
@@ -1451,14 +1451,14 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_INTEGER_EQUAL_ANY_OF3(expected0, expected1, expected2, actual) \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                         \
-     ?  XTESTS_NS_CPP_QUAL(xtests_test_integer_one_of(                              \
+     ?  XTESTS_NS_CPP_QUAL(xTests_test_integer_one_of(                              \
             XTESTS_FLF_()                                                           \
         ,   "XTESTS_TEST_INTEGER_EQUAL_ANY_OF3(" #expected0 ", " #expected1 ", " #expected2 ", " #actual ")" \
         ,   (actual)                                                                \
         ,   (expected0)                                                             \
         ,   (expected1)                                                             \
         ,   (expected2)                                                             \
-        , XTESTS_NS_C_QUAL(xtestsComparisonEqual)))                                 \
+        , XTESTS_NS_C_QUAL(xTests_ComparisonEqual)))                                \
         : (0))
 
 
@@ -1480,7 +1480,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_BOOLEAN_EQUAL(expected, actual)                        \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_boolean(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_boolean(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonEqual))) \
         : (0))
 
 /** \def XTESTS_TEST_BOOLEAN_NOT_EQUAL(expected, actual)
@@ -1497,7 +1497,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_BOOLEAN_NOT_EQUAL(expected, actual)                    \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_boolean(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_boolean(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonNotEqual))) \
         : (0))
 
 /** \def XTESTS_TEST_BOOLEAN_TRUE(actual)
@@ -1513,7 +1513,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_BOOLEAN_TRUE(actual)                                   \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_boolean(XTESTS_FLF_(), "", true, (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_boolean(XTESTS_FLF_(), "", true, (actual), XTESTS_NS_C_QUAL(xTests_ComparisonEqual))) \
         : (0))
 
 /** \def XTESTS_TEST_BOOLEAN_FALSE(actual)
@@ -1529,7 +1529,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_BOOLEAN_FALSE(actual)                                  \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_boolean(XTESTS_FLF_(), "", false, (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_boolean(XTESTS_FLF_(), "", false, (actual), XTESTS_NS_C_QUAL(xTests_ComparisonEqual))) \
         : (0))
 
 
@@ -1553,7 +1553,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_CHARACTER_EQUAL_EXACT(expected, actual)                \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_character(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_character(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonEqual))) \
         : (0))
 
 /** \def XTESTS_TEST_CHARACTER_NOT_EQUAL(expected, actual)
@@ -1572,7 +1572,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_CHARACTER_NOT_EQUAL(expected, actual)                  \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_character(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_character(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonNotEqual))) \
         : (0))
 
 /** \def XTESTS_TEST_CHARACTER_GREATER(expected, actual)
@@ -1589,7 +1589,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_CHARACTER_GREATER(expected, actual)                    \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_character(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThan))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_character(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonGreaterThan))) \
         : (0))
 
 /** \def XTESTS_TEST_CHARACTER_LESS(expected, actual)
@@ -1606,7 +1606,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_CHARACTER_LESS(expected, actual)                       \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_character(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThan))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_character(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonLessThan))) \
         : (0))
 
 /** \def XTESTS_TEST_CHARACTER_GREATER_OR_EQUAL(expected, actual)
@@ -1624,7 +1624,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_CHARACTER_GREATER_OR_EQUAL(expected, actual)           \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_character(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThanOrEqual))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_character(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonGreaterThanOrEqual))) \
         : (0))
 
 /** \def XTESTS_TEST_CHARACTER_LESS_OR_EQUAL(expected, actual)
@@ -1642,7 +1642,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_CHARACTER_LESS_OR_EQUAL(expected, actual)              \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_character(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThanOrEqual))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_character(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonLessThanOrEqual))) \
         : (0))
 
 
@@ -1664,7 +1664,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_FLOATINGPOINT_EQUAL_EXACT(expected, actual)            \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonEqual))) \
         : (0))
 
 /** \def XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_EXACT(expected, actual)
@@ -1681,7 +1681,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_EXACT(expected, actual)        \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonNotEqual))) \
         : (0))
 
 /** \def XTESTS_TEST_FLOATINGPOINT_EQUAL_APPROX(expected, actual)
@@ -1689,7 +1689,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * \ingroup group__xtests__test_assertion_functions
  *
  * Tests that two floating point values are approximately
- * equal (as defined by xtests_setFloatingPointCloseFactor()).
+ * equal (as defined by xTests_setFloatingPointCloseFactor()).
  *
  * \param expected The expected floating point value
  * \param actual The actual floating point value
@@ -1699,7 +1699,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_FLOATINGPOINT_EQUAL_APPROX(expected, actual)           \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonApproxEqual))) \
         : (0))
 
 /** \def XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_APPROX(expected, actual)
@@ -1707,7 +1707,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  * \ingroup group__xtests__test_assertion_functions
  *
  * Tests that two floating point values are not approximately
- * equal (as defined by xtests_setFloatingPointCloseFactor()).
+ * equal (as defined by xTests_setFloatingPointCloseFactor()).
  *
  * \param expected The expected floating point value
  * \param actual The actual floating point value
@@ -1717,7 +1717,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_APPROX(expected, actual)       \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonApproxNotEqual))) \
         : (0))
 
 /** \def XTESTS_TEST_FLOATINGPOINT_GREATER(expected, actual)
@@ -1735,7 +1735,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_FLOATINGPOINT_GREATER(expected, actual)                 \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThan))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonGreaterThan))) \
         : (0))
 
 /** \def XTESTS_TEST_FLOATINGPOINT_LESS(expected, actual)
@@ -1753,7 +1753,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_FLOATINGPOINT_LESS(expected, actual)                   \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThan))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonLessThan))) \
         : (0))
 
 /** \def XTESTS_TEST_FLOATINGPOINT_GREATER_OR_EQUAL(expected, actual)
@@ -1771,7 +1771,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_FLOATINGPOINT_GREATER_OR_EQUAL(expected, actual)       \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThanOrEqual))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonGreaterThanOrEqual))) \
         : (0))
 
 /** \def XTESTS_TEST_FLOATINGPOINT_LESS_OR_EQUAL(expected, actual)
@@ -1789,7 +1789,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # define XTESTS_TEST_FLOATINGPOINT_LESS_OR_EQUAL(expected, actual)          \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_CPP_QUAL(xtests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThanOrEqual))) \
+        ? XTESTS_NS_CPP_QUAL(xTests_test_floating_point(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonLessThanOrEqual))) \
         : (0))
 
 
@@ -1816,10 +1816,10 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 # if defined(STLSOFT_CF_EXCEPTION_SUPPORT)
 
-#  define XTESTS_REQUIRE(test)                              XTESTS_NS_CPP_QUAL(xtests_require)(!(!(test)))
+#  define XTESTS_REQUIRE(test)                              XTESTS_NS_CPP_QUAL(xTests_require)(!(!(test)))
 # else /* STLSOFT_CF_EXCEPTION_SUPPORT */
 
-#  define XTESTS_REQUIRE(test)                              XTESTS_NS_C_QUAL(xtests_require_C)(!(!(test)))
+#  define XTESTS_REQUIRE(test)                              XTESTS_NS_C_QUAL(xTests_require_C)(!(!(test)))
 # endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
 #else /* ? !_XTESTS_NO_CPP_API */
 
@@ -1832,55 +1832,55 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
      1) ||\
      0
 
-#  define xtests_testFailed_llx(expected)                   _Generic(expected, unsigned long long: xtests_testFailed_ulonglong, default: xtests_testFailed_longlong)
+#  define xTests_testFailed_llx(expected)                   _Generic(expected, unsigned long long: xTests_testFailed_ulonglong, default: xTests_testFailed_longlong)
 
 #  define XTESTS_TEST_INTEGER_EQUAL_EXACT(expected, actual)                 \
     (                                                                       \
         XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())               \
-            ? xtests_internal_while_0_()                                    \
+            ? xTests_internal_while_0_()                                    \
             : ((expected) == (actual))                                      \
-                ? xtests_testPassed(XTESTS_FLF_(), #expected " == " #actual)    \
-                : xtests_testFailed_llx((expected))(XTESTS_FLF_(), #expected " == " #actual, expected, actual, xtestsComparisonEqual)   \
+                ? xTests_testPassed(XTESTS_FLF_(), #expected " == " #actual)    \
+                : xTests_testFailed_llx((expected))(XTESTS_FLF_(), #expected " == " #actual, expected, actual, xTests_ComparisonEqual)  \
     )
 #  define XTESTS_TEST_INTEGER_NOT_EQUAL(expected, actual)                   \
     (                                                                       \
         XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())               \
-            ? xtests_internal_while_0_()                                    \
+            ? xTests_internal_while_0_()                                    \
             : ((expected) != (actual))                                      \
-                ? xtests_testPassed(XTESTS_FLF_(), #expected " != " #actual)    \
-                : xtests_testFailed_llx((expected))(XTESTS_FLF_(), #expected " != " #actual, expected, actual, xtestsComparisonNotEqual)    \
+                ? xTests_testPassed(XTESTS_FLF_(), #expected " != " #actual)    \
+                : xTests_testFailed_llx((expected))(XTESTS_FLF_(), #expected " != " #actual, expected, actual, xTests_ComparisonNotEqual)   \
     )
 #  define XTESTS_TEST_INTEGER_GREATER(expected, actual)                     \
     (                                                                       \
         XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())               \
-            ? xtests_internal_while_0_()                                    \
+            ? xTests_internal_while_0_()                                    \
             : ((expected) < (actual))                                       \
-                ? xtests_testPassed(XTESTS_FLF_(), #expected " < " #actual) \
-                : xtests_testFailed_llx((expected))(XTESTS_FLF_(), #expected " < " #actual, expected, actual, xtestsComparisonGreaterThan)   \
+                ? xTests_testPassed(XTESTS_FLF_(), #expected " < " #actual) \
+                : xTests_testFailed_llx((expected))(XTESTS_FLF_(), #expected " < " #actual, expected, actual, xTests_ComparisonGreaterThan)  \
     )
 #  define XTESTS_TEST_INTEGER_LESS(expected, actual)                        \
     (                                                                       \
         XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())               \
-            ? xtests_internal_while_0_()                                    \
+            ? xTests_internal_while_0_()                                    \
             : ((expected) > (actual))                                       \
-                ? xtests_testPassed(XTESTS_FLF_(), #expected " > " #actual) \
-                : xtests_testFailed_llx((expected))(XTESTS_FLF_(), #expected " > " #actual, expected, actual, xtestsComparisonLessThan) \
+                ? xTests_testPassed(XTESTS_FLF_(), #expected " > " #actual) \
+                : xTests_testFailed_llx((expected))(XTESTS_FLF_(), #expected " > " #actual, expected, actual, xTests_ComparisonLessThan) \
     )
 #  define XTESTS_TEST_INTEGER_GREATER_OR_EQUAL(expected, actual)            \
     (                                                                       \
         XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())               \
-            ? xtests_internal_while_0_()                                    \
+            ? xTests_internal_while_0_()                                    \
             : ((expected) <= (actual))                                      \
-                ? xtests_testPassed(XTESTS_FLF_(), #expected " <= " #actual)    \
-                : xtests_testFailed_llx((expected))(XTESTS_FLF_(), #expected " <= " #actual, expected, actual, xtestsComparisonGreaterThanOrEqual)  \
+                ? xTests_testPassed(XTESTS_FLF_(), #expected " <= " #actual)    \
+                : xTests_testFailed_llx((expected))(XTESTS_FLF_(), #expected " <= " #actual, expected, actual, xTests_ComparisonGreaterThanOrEqual) \
     )
 #  define XTESTS_TEST_INTEGER_LESS_OR_EQUAL(expected, actual)               \
     (                                                                       \
         XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())               \
-            ? xtests_internal_while_0_()                                    \
+            ? xTests_internal_while_0_()                                    \
             : ((expected) >= (actual))                                      \
-                ? xtests_testPassed(XTESTS_FLF_(), #expected " >= " #actual)    \
-                : xtests_testFailed_llx((expected))(XTESTS_FLF_(), #expected " >= " #actual, expected, actual, xtestsComparisonLessThanOrEqual) \
+                ? xTests_testPassed(XTESTS_FLF_(), #expected " >= " #actual)    \
+                : xTests_testFailed_llx((expected))(XTESTS_FLF_(), #expected " >= " #actual, expected, actual, xTests_ComparisonLessThanOrEqual) \
     )
 # else
 
@@ -1909,8 +1909,8 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
 # define XTESTS_TEST_CHARACTER_GREATER_OR_EQUAL(expected, actual)       XTESTS_TEST_WITH_MESSAGE((expected) <= (actual), #expected " <= " #actual)
 # define XTESTS_TEST_CHARACTER_LESS_OR_EQUAL(expected, actual)          XTESTS_TEST_WITH_MESSAGE((expected) >= (actual), #expected " >= " #actual)
 
-# define XTESTS_TEST_FLOATINGPOINT_EQUAL_APPROX(expected, actual)       XTESTS_TEST(xtests_floatingPointClose((expected), (actual)))
-# define XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_APPROX(expected, actual)   XTESTS_TEST(!xtests_floatingPointClose((expected), (actual)))
+# define XTESTS_TEST_FLOATINGPOINT_EQUAL_APPROX(expected, actual)       XTESTS_TEST(xTests_floatingPointClose((expected), (actual)))
+# define XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL_APPROX(expected, actual)   XTESTS_TEST(!xTests_floatingPointClose((expected), (actual)))
 #endif /* !_XTESTS_NO_CPP_API */
 
 
@@ -1999,7 +1999,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_MULTIBYTE_STRING_EQUAL(expected, actual)                \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStrings)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testMultibyteStrings)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX(expected, actual)
@@ -2017,7 +2017,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX(expected, actual)         \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStrings)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testMultibyteStrings)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonApproxEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL(expected, actual)
@@ -2034,7 +2034,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL(expected, actual)            \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStrings)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testMultibyteStrings)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonNotEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_APPROX(expected, actual)
@@ -2052,7 +2052,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_APPROX(expected, actual)     \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStrings)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testMultibyteStrings)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonApproxNotEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(expected, actual, n)
@@ -2071,7 +2071,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N(expected, actual, n)           \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStringsN)(XTESTS_FLF_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testMultibyteStringsN)(XTESTS_FLF_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xTests_ComparisonEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N_APPROX(expected, actual, n)
@@ -2091,7 +2091,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_MULTIBYTE_STRING_EQUAL_N_APPROX(expected, actual, n)    \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStringsN)(XTESTS_FLF_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testMultibyteStringsN)(XTESTS_FLF_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xTests_ComparisonApproxEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N(expected, actual, n)
@@ -2110,7 +2110,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N(expected, actual, n)       \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStringsN)(XTESTS_FLF_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testMultibyteStringsN)(XTESTS_FLF_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xTests_ComparisonNotEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N_APPROX(expected, actual, n)
@@ -2130,7 +2130,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_N_APPROX(expected, actual, n)    \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                     \
-        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStringsN)(XTESTS_FLF_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testMultibyteStringsN)(XTESTS_FLF_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xTests_ComparisonApproxNotEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_CONTAIN(expected, actual)
@@ -2147,7 +2147,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_MULTIBYTE_STRING_CONTAIN(expected, actual)              \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStringContains)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testMultibyteStringContains)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_CONTAIN_APPROX(expected, actual)
@@ -2165,7 +2165,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_MULTIBYTE_STRING_CONTAIN_APPROX(expected, actual)       \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStringContains)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testMultibyteStringContains)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonApproxEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN(expected, actual)
@@ -2182,7 +2182,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN(expected, actual)          \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStringContains)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testMultibyteStringContains)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonNotEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN_APPROX(expected, actual)
@@ -2200,7 +2200,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN_APPROX(expected, actual)   \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testMultibyteStringContains)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testMultibyteStringContains)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonApproxNotEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL(expected, actual)
@@ -2219,7 +2219,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL(expected, actual)          \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-     ?  XTESTS_NS_C_QUAL(xtests_testMultibyteStringSlice)(XTESTS_FLF_(), "", XTESTS_GET_EXPECTED_SLICE_MB_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+     ?  XTESTS_NS_C_QUAL(xTests_testMultibyteStringSlice)(XTESTS_FLF_(), "", XTESTS_GET_EXPECTED_SLICE_MB_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xTests_ComparisonEqual)) \
      : (0))
 
 #ifdef XTESTS_USE_SHWILD
@@ -2311,7 +2311,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_WIDE_STRING_EQUAL(expected, actual)                     \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testWideStrings)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testWideStrings)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_EQUAL_APPROX(expected, actual)
@@ -2328,7 +2328,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_WIDE_STRING_EQUAL_APPROX(expected, actual)              \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testWideStrings)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testWideStrings)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonApproxEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_NOT_EQUAL(expected, actual)
@@ -2345,7 +2345,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_WIDE_STRING_NOT_EQUAL(expected, actual)                 \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testWideStrings)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testWideStrings)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonNotEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_NOT_EQUAL_APPROX(expected, actual)
@@ -2363,7 +2363,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_WIDE_STRING_NOT_EQUAL_APPROX(expected, actual)          \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testWideStrings)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testWideStrings)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonApproxNotEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_EQUAL_N(expected, actual, n)
@@ -2381,7 +2381,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_WIDE_STRING_EQUAL_N(expected, actual, n)                \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testWideStringsN)(XTESTS_FLF_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testWideStringsN)(XTESTS_FLF_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xTests_ComparisonEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_EQUAL_N_APPROX(expected, actual, n)
@@ -2400,7 +2400,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_WIDE_STRING_EQUAL_N_APPROX(expected, actual, n)         \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testWideStringsN)(XTESTS_FLF_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testWideStringsN)(XTESTS_FLF_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xTests_ComparisonApproxEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_NOT_EQUAL_N(expected, actual, n)
@@ -2418,7 +2418,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_WIDE_STRING_NOT_EQUAL_N(expected, actual, n)            \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testWideStringsN)(XTESTS_FLF_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testWideStringsN)(XTESTS_FLF_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xTests_ComparisonNotEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_NOT_EQUAL_N_APPROX(expected, actual, n)
@@ -2436,7 +2436,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_WIDE_STRING_NOT_EQUAL_N_APPROX(expected, actual, n)     \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testWideStringsN)(XTESTS_FLF_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testWideStringsN)(XTESTS_FLF_(), "", (expected), (actual), n, XTESTS_NS_C_QUAL(xTests_ComparisonApproxNotEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_CONTAIN(expected, actual)
@@ -2453,7 +2453,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_WIDE_STRING_CONTAIN(expected, actual)                   \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testWideStringContains)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testWideStringContains)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_CONTAIN_APPROX(expected, actual)
@@ -2471,7 +2471,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_WIDE_STRING_CONTAIN_APPROX(expected, actual)            \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testWideStringContains)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testWideStringContains)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonApproxEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_NOT_CONTAIN(expected, actual)
@@ -2488,7 +2488,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_WIDE_STRING_NOT_CONTAIN(expected, actual)               \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testWideStringContains)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testWideStringContains)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonNotEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_NOT_CONTAIN_APPROX(expected, actual)
@@ -2505,7 +2505,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_WIDE_STRING_NOT_CONTAIN_APPROX(expected, actual)        \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testWideStringContains)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testWideStringContains)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonApproxNotEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_WIDE_STRING_SLICE_EQUAL(expected, actual)
@@ -2523,7 +2523,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_WIDE_STRING_SLICE_EQUAL(expected, actual)               \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testWideStringSlice)(XTESTS_FLF_(), "", XTESTS_GET_EXPECTED_SLICE_WIDE_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testWideStringSlice)(XTESTS_FLF_(), "", XTESTS_GET_EXPECTED_SLICE_WIDE_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xTests_ComparisonEqual)) \
         : (0))
 
 
@@ -2545,7 +2545,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_POINTER_EQUAL(expected, actual)                         \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testPointers)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testPointers)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_POINTER_NOT_EQUAL(expected, actual)
@@ -2564,7 +2564,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_POINTER_NOT_EQUAL(expected, actual)                     \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testPointers)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testPointers)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonNotEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_POINTER_GREATER(expected, actual)
@@ -2581,7 +2581,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_POINTER_GREATER(expected, actual)                       \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testPointers)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThan)) \
+        ? XTESTS_NS_C_QUAL(xTests_testPointers)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonGreaterThan)) \
         : (0))
 
 /** \def XTESTS_TEST_POINTER_LESS(expected, actual)
@@ -2598,7 +2598,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_POINTER_LESS(expected, actual)                          \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testPointers)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThan)) \
+        ? XTESTS_NS_C_QUAL(xTests_testPointers)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonLessThan)) \
         : (0))
 
 /** \def XTESTS_TEST_POINTER_GREATER_OR_EQUAL(expected, actual)
@@ -2616,7 +2616,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_POINTER_GREATER_OR_EQUAL(expected, actual)              \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testPointers)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonGreaterThanOrEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testPointers)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonGreaterThanOrEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_POINTER_LESS_OR_EQUAL(expected, actual)
@@ -2634,7 +2634,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_POINTER_LESS_OR_EQUAL(expected, actual)                 \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testPointers)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xtestsComparisonLessThanOrEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testPointers)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonLessThanOrEqual)) \
         : (0))
 
 
@@ -2656,7 +2656,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_FUNCTION_POINTER_EQUAL(expected, actual)                \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testFunctionPointers)(XTESTS_FLF_(), "", XTESTS_VOID_FUNCTION_CAST_(expected), XTESTS_VOID_FUNCTION_CAST_(actual), XTESTS_NS_C_QUAL(xtestsComparisonEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testFunctionPointers)(XTESTS_FLF_(), "", XTESTS_VOID_FUNCTION_CAST_(expected), XTESTS_VOID_FUNCTION_CAST_(actual), XTESTS_NS_C_QUAL(xTests_ComparisonEqual)) \
         : (0))
 
 /** \def XTESTS_TEST_FUNCTION_POINTER_NOT_EQUAL(expected, actual)
@@ -2675,7 +2675,7 @@ typedef enum xtests_runner_flags_t                          xtests_runner_flags_
  */
 #define XTESTS_TEST_FUNCTION_POINTER_NOT_EQUAL(expected, actual)            \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
-        ? XTESTS_NS_C_QUAL(xtests_testFunctionPointers)(XTESTS_FLF_(), "", XTESTS_VOID_FUNCTION_CAST_(expected), XTESTS_VOID_FUNCTION_CAST_(actual), XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)) \
+        ? XTESTS_NS_C_QUAL(xTests_testFunctionPointers)(XTESTS_FLF_(), "", XTESTS_VOID_FUNCTION_CAST_(expected), XTESTS_VOID_FUNCTION_CAST_(actual), XTESTS_NS_C_QUAL(xTests_ComparisonNotEqual)) \
         : (0))
 
 
@@ -2774,7 +2774,7 @@ c_str_len_n_w(
  * \see XTESTS_START_RUNNER()
  * \see XTESTS_START_RUNNER_WITH_REPORTER()
  */
-enum xtests_verbosity_t
+enum xTests_verbosity_t
 {
         XTESTS_VERBOSITY_SILENT                       =   -1  /*!< There is no output of any kind; status must be indicated by program return code */
     ,   XTESTS_VERBOSITY_RUNNER_SUMMARY_ON_ERROR      =   0   /*!< Outputs only a runner summary only on error */
@@ -2786,70 +2786,70 @@ enum xtests_verbosity_t
     ,   XTESTS_VERBOSITY_VERBOSE                      =   9   /*!< Maximum amount of output */
 };
 #ifndef __cplusplus
-typedef enum xtests_verbosity_t                             xtests_verbosity_t;
+typedef enum xTests_verbosity_t                             xTests_verbosity_t;
 #endif /* !__cplusplus */
 
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
-enum xtests_comparison_t
+enum xTests_comparison_t
 {
     /* NOTE: NEVER CHANGE THE ORDER OF THESE ENUMERATORS !!!!!!!!!!! */
 
-        xtestsComparisonEqual               =   0
-    ,   xtestsComparisonNotEqual
-    ,   xtestsComparisonGreaterThan
-    ,   xtestsComparisonLessThan
-    ,   xtestsComparisonGreaterThanOrEqual
-    ,   xtestsComparisonLessThanOrEqual
-    ,   xtestsComparisonApproxEqual
-    ,   xtestsComparisonApproxNotEqual
+        xTests_ComparisonEqual               =   0
+    ,   xTests_ComparisonNotEqual
+    ,   xTests_ComparisonGreaterThan
+    ,   xTests_ComparisonLessThan
+    ,   xTests_ComparisonGreaterThanOrEqual
+    ,   xTests_ComparisonLessThanOrEqual
+    ,   xTests_ComparisonApproxEqual
+    ,   xTests_ComparisonApproxNotEqual
 
     /* NOTE: NEVER CHANGE THE ORDER OF THESE ENUMERATORS !!!!!!!!!!! */
 
-    ,   xtestsComparison_max_enumerator
+    ,   xTests_Comparison_max_enumerator
 
 };
 # ifndef __cplusplus
-typedef enum xtests_comparison_t                            xtests_comparison_t;
+typedef enum xTests_comparison_t                            xTests_comparison_t;
 # endif /* !__cplusplus */
 
 
 # ifdef __cplusplus
 
-enum xtests_variable_type_t
+enum xTests_variable_type_t
 {
-        xtestsVariableNone                  =   0
-    ,   xtestsVariableBoolean               =   1
-    ,   xtestsVariableOpaquePointer         =   3
-    ,   xtestsVariableMultibyteCharacter    =   5
-    ,   xtestsVariableWideCharacter         =   6
-    ,   xtestsVariableMultibyteString       =   7
-    ,   xtestsVariableWideString            =   8
-    ,   xtestsVariableSignedChar            =   11
-    ,   xtestsVariableUnsignedChar          =   12
-    ,   xtestsVariableShort                 =   13
-    ,   xtestsVariableUnsignedShort         =   14
-    ,   xtestsVariableInt                   =   15
-    ,   xtestsVariableUnsignedInt           =   16
-    ,   xtestsVariableLong                  =   17
-    ,   xtestsVariableUnsignedLong          =   18
+        xTests_VariableNone                  =   0
+    ,   xTests_VariableBoolean               =   1
+    ,   xTests_VariableOpaquePointer         =   3
+    ,   xTests_VariableMultibyteCharacter    =   5
+    ,   xTests_VariableWideCharacter         =   6
+    ,   xTests_VariableMultibyteString       =   7
+    ,   xTests_VariableWideString            =   8
+    ,   xTests_VariableSignedChar            =   11
+    ,   xTests_VariableUnsignedChar          =   12
+    ,   xTests_VariableShort                 =   13
+    ,   xTests_VariableUnsignedShort         =   14
+    ,   xTests_VariableInt                   =   15
+    ,   xTests_VariableUnsignedInt           =   16
+    ,   xTests_VariableLong                  =   17
+    ,   xTests_VariableUnsignedLong          =   18
 #  ifdef STLSOFT_CF_64BIT_INT_SUPPORT
-    ,   xtestsVariableLongLong              =   19
-    ,   xtestsVariableUnsignedLongLong      =   20
+    ,   xTests_VariableLongLong              =   19
+    ,   xTests_VariableUnsignedLongLong      =   20
 #  endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
-    ,   xtestsVariableDouble                =   31
-    ,   xtestsVariableUdt                   =   32
+    ,   xTests_VariableDouble                =   31
+    ,   xTests_VariableUdt                   =   32
 };
 
-enum xtests_test_type_t
+enum xTests_test_type_t
 {
-        xtestsTestFullComparison            =   0
-    ,   xtestsTestPartialComparison         =   1
-    ,   xtestsTestContainment               =   2
+        xTests_TestFullComparison            =   0
+    ,   xTests_TestPartialComparison         =   1
+    ,   xTests_TestContainment               =   2
 };
 
-union xtests_variable_value_t
+union xTests_variable_value_t
 {
     int                             booleanValue;
     int                             intValue;
@@ -2867,56 +2867,56 @@ union xtests_variable_value_t
     double                          doubleValue;
     void const volatile*            opaquePointerValue;
 
-    explicit xtests_variable_value_t(bool b);
-    explicit xtests_variable_value_t(char ch);
-    explicit xtests_variable_value_t(wchar_t ch, xtests_variable_type_t type /* = xtestsVariableMultibyteCharacter */);
-    explicit xtests_variable_value_t(signed   int i);
-    explicit xtests_variable_value_t(unsigned int i);
-    explicit xtests_variable_value_t(signed   long i);
-    explicit xtests_variable_value_t(unsigned long i);
+    explicit xTests_variable_value_t(bool b);
+    explicit xTests_variable_value_t(char ch);
+    explicit xTests_variable_value_t(wchar_t ch, xTests_variable_type_t type /* = xTests_VariableMultibyteCharacter */);
+    explicit xTests_variable_value_t(signed   int i);
+    explicit xTests_variable_value_t(unsigned int i);
+    explicit xTests_variable_value_t(signed   long i);
+    explicit xTests_variable_value_t(unsigned long i);
 #  ifdef STLSOFT_CF_64BIT_INT_SUPPORT
-    explicit xtests_variable_value_t(STLSOFT_NS_QUAL(ss_sint64_t) const& i);
-    explicit xtests_variable_value_t(STLSOFT_NS_QUAL(ss_uint64_t) const& i);
+    explicit xTests_variable_value_t(STLSOFT_NS_QUAL(ss_sint64_t) const& i);
+    explicit xTests_variable_value_t(STLSOFT_NS_QUAL(ss_uint64_t) const& i);
 #  endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
-    explicit xtests_variable_value_t(char const* s);
-    explicit xtests_variable_value_t(wchar_t const* s);
-    explicit xtests_variable_value_t(char const* s, size_t n);
-    explicit xtests_variable_value_t(wchar_t const* s, size_t n);
-    explicit xtests_variable_value_t(double const& d);
-    explicit xtests_variable_value_t(void const volatile* pv);
+    explicit xTests_variable_value_t(char const* s);
+    explicit xTests_variable_value_t(wchar_t const* s);
+    explicit xTests_variable_value_t(char const* s, size_t n);
+    explicit xTests_variable_value_t(wchar_t const* s, size_t n);
+    explicit xTests_variable_value_t(double const& d);
+    explicit xTests_variable_value_t(void const volatile* pv);
 };
 
-struct xtests_variable_t
+struct xTests_variable_t
 {
-    xtests_variable_type_t  variableType;
-    xtests_test_type_t      testType;
-    xtests_variable_value_t value;
+    xTests_variable_type_t  variableType;
+    xTests_test_type_t      testType;
+    xTests_variable_value_t value;
     size_t                  valueLen;
 
 public:
-    explicit xtests_variable_t(char ch);
-    explicit xtests_variable_t(wchar_t ch, xtests_variable_type_t type /* = xtestsVariableMultibyteCharacter */);
-    explicit xtests_variable_t(bool b);
-    explicit xtests_variable_t(int b, xtests_variable_type_t type /* = xtestsVariableBoolean */);
-    explicit xtests_variable_t(signed   char i);
-    explicit xtests_variable_t(unsigned char i);
-    explicit xtests_variable_t(signed   short i);
-    explicit xtests_variable_t(unsigned short i);
-    explicit xtests_variable_t(signed   int i);
-    explicit xtests_variable_t(unsigned int i);
-    explicit xtests_variable_t(signed   long i);
-    explicit xtests_variable_t(unsigned long i);
+    explicit xTests_variable_t(char ch);
+    explicit xTests_variable_t(wchar_t ch, xTests_variable_type_t type /* = xTests_VariableMultibyteCharacter */);
+    explicit xTests_variable_t(bool b);
+    explicit xTests_variable_t(int b, xTests_variable_type_t type /* = xTests_VariableBoolean */);
+    explicit xTests_variable_t(signed   char i);
+    explicit xTests_variable_t(unsigned char i);
+    explicit xTests_variable_t(signed   short i);
+    explicit xTests_variable_t(unsigned short i);
+    explicit xTests_variable_t(signed   int i);
+    explicit xTests_variable_t(unsigned int i);
+    explicit xTests_variable_t(signed   long i);
+    explicit xTests_variable_t(unsigned long i);
 #  ifdef STLSOFT_CF_64BIT_INT_SUPPORT
-    explicit xtests_variable_t(STLSOFT_NS_QUAL(ss_sint64_t) const& i);
-    explicit xtests_variable_t(STLSOFT_NS_QUAL(ss_uint64_t) const& i);
+    explicit xTests_variable_t(STLSOFT_NS_QUAL(ss_sint64_t) const& i);
+    explicit xTests_variable_t(STLSOFT_NS_QUAL(ss_uint64_t) const& i);
 #  endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
-    explicit xtests_variable_t(char const* s, size_t n, xtests_test_type_t testType = xtestsTestFullComparison);
-    explicit xtests_variable_t(wchar_t const* s, size_t n, xtests_test_type_t testType = xtestsTestFullComparison);
-    explicit xtests_variable_t(char const* s, xtests_test_type_t testType = xtestsTestFullComparison);
-    explicit xtests_variable_t(wchar_t const* s, xtests_test_type_t testType = xtestsTestFullComparison);
-    explicit xtests_variable_t(double const& d);
-    explicit xtests_variable_t(void const volatile* pv);
-    explicit xtests_variable_t(char const* s, xtests_variable_type_t type); /* UDT */
+    explicit xTests_variable_t(char const* s, size_t n, xTests_test_type_t testType = xTests_TestFullComparison);
+    explicit xTests_variable_t(wchar_t const* s, size_t n, xTests_test_type_t testType = xTests_TestFullComparison);
+    explicit xTests_variable_t(char const* s, xTests_test_type_t testType = xTests_TestFullComparison);
+    explicit xTests_variable_t(wchar_t const* s, xTests_test_type_t testType = xTests_TestFullComparison);
+    explicit xTests_variable_t(double const& d);
+    explicit xTests_variable_t(void const volatile* pv);
+    explicit xTests_variable_t(char const* s, xTests_variable_type_t type); /* UDT */
 };
 
 /** Summary of results for a single test case, or for all test cases
@@ -2956,9 +2956,9 @@ public: /* Overrides */
 
       virtual void onBeginTestCase(void* reporterParam, char const* name, char const* desc, int verbosity) = 0;
 
-        virtual void onTestPassed(void* reporterParam, char const* file, int line, char const* function, char const* expr, xtests_comparison_t comparison, int verbosity) = 0;
+        virtual void onTestPassed(void* reporterParam, char const* file, int line, char const* function, char const* expr, xTests_comparison_t comparison, int verbosity) = 0;
 
-        virtual void onTestFailed(void* reporterParam, char const* file, int line, char const* function, char const* expr, xtests_variable_t const* expectedValue, xtests_variable_t const* actualValue, ptrdiff_t length, xtests_comparison_t comparison, int verbosity) = 0;
+        virtual void onTestFailed(void* reporterParam, char const* file, int line, char const* function, char const* expr, xTests_variable_t const* expectedValue, xTests_variable_t const* actualValue, ptrdiff_t length, xTests_comparison_t comparison, int verbosity) = 0;
 
         virtual void onWriteFailMessage(void* reporterParam, char const* file, int line, char const* function, char const* message, char const* qualifyingInformation, int verbosity) = 0;
 
@@ -2986,7 +2986,7 @@ typedef struct xTests_Reporter_t                            xTests_Reporter_t;
 
 /** Function that is used to setup the test environment for each test case
  *
- * \param param The caller-supplied parameter passed to xtests_startRunner()
+ * \param param The caller-supplied parameter passed to xTests_startRunner()
  *   (via XTESTS_START_RUNNER_WITH_SETUP_FNS() or
  *   XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS_AND_SETUP_FNS());
  *
@@ -2999,7 +2999,7 @@ typedef int (*xTests_Setup_t)(void* param);
 /** Function that is used to teardown the test environment for each test
  *   case
  *
- * \param param The caller-supplied parameter passed to xtests_startRunner()
+ * \param param The caller-supplied parameter passed to xTests_startRunner()
  *   (via XTESTS_START_RUNNER_WITH_SETUP_FNS() or
  *   XTESTS_START_RUNNER_WITH_REPORTER_AND_STREAM_AND_FLAGS_AND_SETUP_FNS());
  *
@@ -3010,7 +3010,7 @@ typedef int (*xTests_Teardown_t)(void* param);
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
 XTESTS_CALL(int)
-xtests_startRunner(
+xTests_startRunner(
     char const*         name
 ,   int                 verbosity
 ,   xTests_Reporter_t*  reporter        /* = NULL => reports to console (fprintf); also reports via OutputDebugString() on windows */
@@ -3023,29 +3023,29 @@ xtests_startRunner(
 );
 
 XTESTS_CALL(int)
-xtests_endRunner(int* retCode);
+xTests_endRunner(int* retCode);
 
 XTESTS_CALL(void)
-xtests_printRunnerResults(void);
+xTests_printRunnerResults(void);
 
 XTESTS_CALL_NORETURN(void)
-xtests_abend(char const* message);
+xTests_abend(char const* message);
 
 XTESTS_CALL(void*)
-xtests_getSetupParam(void);
+xTests_getSetupParam(void);
 
 XTESTS_CALL(int)
-xtests_beginTestCase(
+xTests_beginTestCase(
     char const* name
 ,   char const* desc
 );
 
 XTESTS_CALL(int)
-xtests_endTestCase(char const* name);
+xTests_endTestCase(char const* name);
 
 
 XTESTS_CALL(int)
-xtests_testPassed(
+xTests_testPassed(
     char const* file
 ,   int         line
 ,   char const* function
@@ -3053,7 +3053,7 @@ xtests_testPassed(
 );
 
 XTESTS_CALL(int)
-xtests_testFailed(
+xTests_testFailed(
     char const* file
 ,   int         line
 ,   char const* function
@@ -3061,118 +3061,118 @@ xtests_testFailed(
 );
 
 XTESTS_CALL(int)
-xtests_testUdtPassed(
+xTests_testUdtPassed(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   char const*         expected
 ,   char const*         actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 ,   char const*         message     /* = NULL */
 );
 
 XTESTS_CALL(int)
-xtests_testUdtFailed(
+xTests_testUdtFailed(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   char const*         expected
 ,   char const*         actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 ,   char const*         message     /* = NULL */
 );
 
 XTESTS_CALL(int)
-xtests_testFailed_int(
+xTests_testFailed_int(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   int                 expected
 ,   int                 actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 );
 
 XTESTS_CALL(int)
-xtests_testFailed_long(
+xTests_testFailed_long(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   long                expected
 ,   long                actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 );
 XTESTS_CALL(int)
-xtests_testFailed_ulong(
+xTests_testFailed_ulong(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   unsigned long       expected
 ,   unsigned long       actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 );
 # ifdef STLSOFT_CF_64BIT_INT_SUPPORT
 XTESTS_CALL(int)
-xtests_testFailed_longlong(
+xTests_testFailed_longlong(
     char const*                     file
 ,   int                             line
 ,   char const*                     function
 ,   char const*                     expr
 ,   STLSOFT_NS_QUAL(ss_sint64_t)    expected
 ,   STLSOFT_NS_QUAL(ss_sint64_t)    actual
-,   xtests_comparison_t             comp
+,   xTests_comparison_t             comp
 );
 XTESTS_CALL(int)
-xtests_testFailed_ulonglong(
+xTests_testFailed_ulonglong(
     char const*                     file
 ,   int                             line
 ,   char const*                     function
 ,   char const*                     expr
 ,   STLSOFT_NS_QUAL(ss_uint64_t)    expected
 ,   STLSOFT_NS_QUAL(ss_uint64_t)    actual
-,   xtests_comparison_t             comp
+,   xTests_comparison_t             comp
 );
 # endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
 
 XTESTS_CALL(int)
-xtests_testFailed_boolean(
+xTests_testFailed_boolean(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   int                 expected
 ,   int                 actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 );
 
 XTESTS_CALL(int)
-xtests_testFailed_double(
+xTests_testFailed_double(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   double              expected
 ,   double              actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 );
 
 XTESTS_CALL(int)
-xtests_testMultibyteStrings(
+xTests_testMultibyteStrings(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   char const*         expected
 ,   char const*         actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 );
 
 XTESTS_CALL(int)
-xtests_testMultibyteStringsN(
+xTests_testMultibyteStringsN(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -3180,11 +3180,11 @@ xtests_testMultibyteStringsN(
 ,   char const*         expected
 ,   char const*         actual
 ,   ptrdiff_t           n /* exact if +ve; limit if -ve */
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 );
 
 XTESTS_CALL(int)
-xtests_testMultibyteStringsN_(
+xTests_testMultibyteStringsN_(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -3194,7 +3194,7 @@ xtests_testMultibyteStringsN_(
 ,   ptrdiff_t           n /* exact if +ve; limit if -ve */
 ,   size_t              cchExpected
 ,   size_t              cchActual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 );
 # ifndef _XTESTS_NO_CPP_API
 
@@ -3203,100 +3203,100 @@ template<
 >
 inline
 void
-xtests_abend(S const& message)
+xTests_abend(S const& message)
 {
     STLSOFT_NS_USING(c_str_ptr_a);
 
-    xtests_abend(XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(message)));
+    xTests_abend(XTESTS_INVOKE_c_str_ptr_a_(XTESTS_INVOKE_c_str_ptr_a_(message)));
 }
 
 
 template <typename I>
-struct xtests_string_len_signed_form;
+struct xTests_string_len_signed_form;
 
 template <>
-struct xtests_string_len_signed_form<signed int>
+struct xTests_string_len_signed_form<signed int>
 {
     static long from(signed int i) STLSOFT_NOEXCEPT { return i; }
 };
 
 template <>
-struct xtests_string_len_signed_form<unsigned int>
+struct xTests_string_len_signed_form<unsigned int>
 {
     static long from(unsigned int i) STLSOFT_NOEXCEPT { return static_cast<long>(i); }
 };
 #  ifdef STLSOFT_CF_INT_DISTINCT_INT_TYPE
 
 template <>
-struct xtests_string_len_signed_form< STLSOFT_NS_QUAL(ss_sint32_t)>
+struct xTests_string_len_signed_form< STLSOFT_NS_QUAL(ss_sint32_t)>
 {
     static long from(STLSOFT_NS_QUAL(ss_sint32_t) i) STLSOFT_NOEXCEPT { return i; }
 };
 template <>
-struct xtests_string_len_signed_form< STLSOFT_NS_QUAL(ss_uint32_t)>
+struct xTests_string_len_signed_form< STLSOFT_NS_QUAL(ss_uint32_t)>
 {
     static long from(STLSOFT_NS_QUAL(ss_uint32_t) i) STLSOFT_NOEXCEPT { return static_cast<long>(i); }
 };
 #  endif /* STLSOFT_CF_INT_DISTINCT_INT_TYPE */
 
 template <>
-struct xtests_string_len_signed_form<signed char>
+struct xTests_string_len_signed_form<signed char>
 {
     static long from(signed char i) STLSOFT_NOEXCEPT { return i; }
 };
 
 template <>
-struct xtests_string_len_signed_form<unsigned char>
+struct xTests_string_len_signed_form<unsigned char>
 {
     static long from(unsigned char i) STLSOFT_NOEXCEPT { return static_cast<long>(i); }
 };
 
 template <>
-struct xtests_string_len_signed_form<signed short>
+struct xTests_string_len_signed_form<signed short>
 {
     static long from(signed short i) STLSOFT_NOEXCEPT { return i; }
 };
 
 template <>
-struct xtests_string_len_signed_form<unsigned short>
+struct xTests_string_len_signed_form<unsigned short>
 {
     static long from(unsigned short i) STLSOFT_NOEXCEPT { return static_cast<long>(i); }
 };
 #  ifdef STLSOFT_CF_SHORT_DISTINCT_INT_TYPE
 
 template <>
-struct xtests_string_len_signed_form< STLSOFT_NS_QUAL(ss_sint16_t)>
+struct xTests_string_len_signed_form< STLSOFT_NS_QUAL(ss_sint16_t)>
 {
     static long from(STLSOFT_NS_QUAL(ss_sint16_t) i) STLSOFT_NOEXCEPT { return i; }
 };
 template <>
-struct xtests_string_len_signed_form< STLSOFT_NS_QUAL(ss_uint16_t)>
+struct xTests_string_len_signed_form< STLSOFT_NS_QUAL(ss_uint16_t)>
 {
     static long from(STLSOFT_NS_QUAL(ss_uint16_t) i) STLSOFT_NOEXCEPT { return static_cast<long>(i); }
 };
 #  endif /* STLSOFT_CF_SHORT_DISTINCT_INT_TYPE */
 
 template <>
-struct xtests_string_len_signed_form<signed long>
+struct xTests_string_len_signed_form<signed long>
 {
     static long from(long i) STLSOFT_NOEXCEPT { return i; }
 };
 
 template <>
-struct xtests_string_len_signed_form<unsigned long>
+struct xTests_string_len_signed_form<unsigned long>
 {
     static long from(unsigned long i) STLSOFT_NOEXCEPT { return static_cast<long>(i); }
 };
 #  ifdef STLSOFT_CF_64BIT_INT_SUPPORT
 
 template <>
-struct xtests_string_len_signed_form< STLSOFT_NS_QUAL(ss_sint64_t)>
+struct xTests_string_len_signed_form< STLSOFT_NS_QUAL(ss_sint64_t)>
 {
     static STLSOFT_NS_QUAL(ss_sint64_t) from(STLSOFT_NS_QUAL(ss_sint64_t) i) STLSOFT_NOEXCEPT { return i; }
 };
 
 template <>
-struct xtests_string_len_signed_form< STLSOFT_NS_QUAL(ss_uint64_t)>
+struct xTests_string_len_signed_form< STLSOFT_NS_QUAL(ss_uint64_t)>
 {
     static STLSOFT_NS_QUAL(ss_sint64_t) from(STLSOFT_NS_QUAL(ss_uint64_t) i) STLSOFT_NOEXCEPT { return static_cast<STLSOFT_NS_QUAL(ss_sint64_t)>(i); }
 };
@@ -3309,17 +3309,17 @@ template<
 >
 inline
 int
-xtests_testMultibyteStrings(
+xTests_testMultibyteStrings(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   S0 const&           expected
 ,   S1 const&           actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
-    return xtests_testMultibyteStrings(
+    return xTests_testMultibyteStrings(
         file, line, function
     ,   expr
     ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected).c_str()
@@ -3335,7 +3335,7 @@ template<
 >
 inline
 int
-xtests_testMultibyteStringsN_t(
+xTests_testMultibyteStringsN_t(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -3343,7 +3343,7 @@ xtests_testMultibyteStringsN_t(
 ,   S0 const&           expected
 ,   S1 const&           actual
 ,   I                   n /* exact if +ve; limit if -ve */
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_NS_USING(c_str_data_a);
@@ -3351,7 +3351,7 @@ xtests_testMultibyteStringsN_t(
     STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_integral_type) < I > ::value);
     STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_signed_type) < I > ::value);
 
-    return xtests_testMultibyteStringsN_(
+    return xTests_testMultibyteStringsN_(
         file
     ,   line
     ,   function
@@ -3372,7 +3372,7 @@ template<
 >
 inline
 int
-xtests_testMultibyteStringsN(
+xTests_testMultibyteStringsN(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -3380,16 +3380,16 @@ xtests_testMultibyteStringsN(
 ,   S0 const&           expected
 ,   S1 const&           actual
 ,   I                   n /* exact if +ve; limit if -ve */
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_NS_USING(c_str_data_a);
 
     STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_integral_type)<I>::value);
 
-    typedef xtests_string_len_signed_form<I>                I_signed_form_t;
+    typedef xTests_string_len_signed_form<I>                I_signed_form_t;
 
-    return xtests_testMultibyteStringsN_t(
+    return xTests_testMultibyteStringsN_t(
         file
     ,   line
     ,   function
@@ -3403,18 +3403,18 @@ xtests_testMultibyteStringsN(
 # endif /* !_XTESTS_NO_CPP_API */
 
 XTESTS_CALL(int)
-xtests_testWideStrings(
+xTests_testWideStrings(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   wchar_t const*      expected
 ,   wchar_t const*      actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 );
 
 XTESTS_CALL(int)
-xtests_testWideStringsN_(
+xTests_testWideStringsN_(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -3424,11 +3424,11 @@ xtests_testWideStringsN_(
 ,   ptrdiff_t           n /* exact if +ve; limit if -ve */
 ,   size_t              cchExpected
 ,   size_t              cchActual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 );
 
 XTESTS_CALL(int)
-xtests_testWideStringsN(
+xTests_testWideStringsN(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -3436,7 +3436,7 @@ xtests_testWideStringsN(
 ,   wchar_t const*      expected
 ,   wchar_t const*      actual
 ,   int                 n /* exact if +ve; limit if -ve */
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 );
 # ifndef _XTESTS_NO_CPP_API
 
@@ -3446,17 +3446,17 @@ template<
 >
 inline
 int
-xtests_testWideStrings(
+xTests_testWideStrings(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   S0 const&           expected
 ,   S1 const&           actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
-    return xtests_testWideStrings(
+    return xTests_testWideStrings(
         file, line, function
     ,   expr
     ,   STLSOFT_NS_QUAL(sas_to_string_w)(expected).c_str()
@@ -3472,7 +3472,7 @@ template<
 >
 inline
 int
-xtests_testWideStringsN_t(
+xTests_testWideStringsN_t(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -3480,14 +3480,14 @@ xtests_testWideStringsN_t(
 ,   S0 const&           expected
 ,   S1 const&           actual
 ,   I                   n /* exact if +ve; limit if -ve */
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_NS_USING(c_str_data_w);
 
     STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_integral_type)<I>::value);
 
-    return xtests_testWideStringsN_(
+    return xTests_testWideStringsN_(
         file
     ,   line
     ,   function
@@ -3508,7 +3508,7 @@ template<
 >
 inline
 int
-xtests_testWideStringsN(
+xTests_testWideStringsN(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -3516,16 +3516,16 @@ xtests_testWideStringsN(
 ,   S0 const&           expected
 ,   S1 const&           actual
 ,   I                   n /* exact if +ve; limit if -ve */
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_NS_USING(c_str_data_w);
 
     STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_integral_type)<I>::value);
 
-    typedef xtests_string_len_signed_form<I>                I_signed_form_t;
+    typedef xTests_string_len_signed_form<I>                I_signed_form_t;
 
-    return xtests_testWideStringsN_t(
+    return xTests_testWideStringsN_t(
         file
     ,   line
     ,   function
@@ -3539,14 +3539,14 @@ xtests_testWideStringsN(
 # endif /* !_XTESTS_NO_CPP_API */
 
 XTESTS_CALL(int)
-xtests_testMultibyteStringContains(
+xTests_testMultibyteStringContains(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   char const*         expected
 ,   char const*         actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 );
 # ifndef _XTESTS_NO_CPP_API
 
@@ -3556,17 +3556,17 @@ template<
 >
 inline
 int
-xtests_testMultibyteStringContains(
+xTests_testMultibyteStringContains(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   S0 const&           expected
 ,   S1 const&           actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
-    return xtests_testMultibyteStringContains(
+    return xTests_testMultibyteStringContains(
         file, line, function
     ,   expr
     ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected).c_str()
@@ -3577,14 +3577,14 @@ xtests_testMultibyteStringContains(
 # endif /* !_XTESTS_NO_CPP_API */
 
 XTESTS_CALL(int)
-xtests_testWideStringContains(
+xTests_testWideStringContains(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   wchar_t const*      expected
 ,   wchar_t const*      actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 );
 # ifndef _XTESTS_NO_CPP_API
 
@@ -3594,17 +3594,17 @@ template<
 >
 inline
 int
-xtests_testWideStringContains(
+xTests_testWideStringContains(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   S0 const&           expected
 ,   S1 const&           actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
-    return xtests_testWideStringContains(
+    return xTests_testWideStringContains(
         file, line, function
     ,   expr
     ,   STLSOFT_NS_QUAL(sas_to_string_w)(expected).c_str()
@@ -3615,7 +3615,7 @@ xtests_testWideStringContains(
 # endif /* !_XTESTS_NO_CPP_API */
 
 XTESTS_CALL(int)
-xtests_testMultibyteStringSlice(
+xTests_testMultibyteStringSlice(
     char const*             file
 ,   int                     line
 ,   char const*             function
@@ -3624,11 +3624,11 @@ xtests_testMultibyteStringSlice(
 ,   char const*             expectedPtr
 ,   size_t                  actualLen
 ,   char const*             actualPtr
-,   xtests_comparison_t     comp
+,   xTests_comparison_t     comp
 );
 
 XTESTS_CALL(int)
-xtests_testWideStringSlice(
+xTests_testWideStringSlice(
     char const*             file
 ,   int                     line
 ,   char const*             function
@@ -3637,55 +3637,55 @@ xtests_testWideStringSlice(
 ,   wchar_t const*          expectedPtr
 ,   size_t                  actualLen
 ,   wchar_t const*          actualPtr
-,   xtests_comparison_t     comp
+,   xTests_comparison_t     comp
 );
 
 
 XTESTS_CALL(int)
-xtests_testPointers(
+xTests_testPointers(
     char const*             file
 ,   int                     line
 ,   char const*             function
 ,   char const*             expr
 ,   void volatile const*    expected
 ,   void volatile const*    actual
-,   xtests_comparison_t     comp
+,   xTests_comparison_t     comp
 );
 
 XTESTS_CALL(int)
-xtests_testFunctionPointers(
+xTests_testFunctionPointers(
     char const*             file
 ,   int                     line
 ,   char const*             function
 ,   char const*             expr
 ,   void                    (*expected)(void)
 ,   void                    (*actual)(void)
-,   xtests_comparison_t     comp
+,   xTests_comparison_t     comp
 );
 
 XTESTS_CALL(int)
-xtests_testCharactersA(
+xTests_testCharactersA(
     char const*             file
 ,   int                     line
 ,   char const*             function
 ,   char const*             expr
 ,   char                    expected
 ,   char                    actual
-,   xtests_comparison_t     comp
+,   xTests_comparison_t     comp
 );
 XTESTS_CALL(int)
-xtests_testCharactersW(
+xTests_testCharactersW(
     char const*             file
 ,   int                     line
 ,   char const*             function
 ,   char const*             expr
 ,   wchar_t                 expected
 ,   wchar_t                 actual
-,   xtests_comparison_t     comp
+,   xTests_comparison_t     comp
 );
 
 XTESTS_CALL(int)
-xtests_writeFailMessage(
+xTests_writeFailMessage(
     char const* file
 ,   int         line
 ,   char const* function
@@ -3700,7 +3700,7 @@ template<
 >
 inline
 int
-xtests_writeFailMessage(
+xTests_writeFailMessage(
     char const* file
 ,   int         line
 ,   char const* function
@@ -3708,7 +3708,7 @@ xtests_writeFailMessage(
 ,   S1 const&   qualifyingInformation
 )
 {
-    return xtests_writeFailMessage(
+    return xTests_writeFailMessage(
         file
     ,   line
     ,   function
@@ -3719,7 +3719,7 @@ xtests_writeFailMessage(
 # endif /* !_XTESTS_NO_CPP_API */
 
 XTESTS_CALL(void)
-xtests_caseExcepted(
+xTests_caseExcepted(
     char const* file
 ,   int         line
 ,   char const* exceptionType
@@ -3727,7 +3727,7 @@ xtests_caseExcepted(
 );
 
 XTESTS_CALL(void)
-xtests_caseExceptionExpected(
+xTests_caseExceptionExpected(
     char const* file
 ,   int         line
 ,   char const* exceptionType
@@ -3735,7 +3735,7 @@ xtests_caseExceptionExpected(
 
 
 XTESTS_CALL(int)
-xtests_floatingPointClose(
+xTests_floatingPointClose(
     double expected
 ,   double actual
 );
@@ -3749,7 +3749,7 @@ xtests_floatingPointClose(
  * \see XTESTS_FLOATINGPOINT_FACTOR_SCOPE
  */
 XTESTS_CALL(double)
-xtests_setFloatingPointCloseFactor(
+xTests_setFloatingPointCloseFactor(
     double  factor
 ,   double* old /* = NULL */
 );
@@ -3764,7 +3764,7 @@ xtests_setFloatingPointCloseFactor(
 } /* namespace c */
 namespace cpp
 {
-    using ::xtests::c::xtests_comparison_t;
+    using ::xtests::c::xTests_comparison_t;
 
 #endif /* !_XTESTS_NO_NAMESPACE */
 
@@ -3860,7 +3860,7 @@ public:
 
 inline
 void
-xtests_require(int success)
+xTests_require(int success)
 {
     if (!success)
     {
@@ -3873,21 +3873,21 @@ xtests_require(int success)
 /** Scoping class that sets the floating-point close factor for a
  *   controlled scope
  */
-class xtest_floatingpoint_factor_scope
+class xTests_floatingpoint_factor_scope
 {
 public:
     /** Sets the floating point close factor to the given value */
-    xtest_floatingpoint_factor_scope(double const& factor)
-        : m_original(XTESTS_NS_C_QUAL(xtests_setFloatingPointCloseFactor)(factor, NULL))
+    xTests_floatingpoint_factor_scope(double const& factor)
+        : m_original(XTESTS_NS_C_QUAL(xTests_setFloatingPointCloseFactor)(factor, NULL))
     {}
     /** Resets the floating point close factor to the original value */
-    ~xtest_floatingpoint_factor_scope() STLSOFT_NOEXCEPT
+    ~xTests_floatingpoint_factor_scope() STLSOFT_NOEXCEPT
     {
-        XTESTS_NS_C_QUAL(xtests_setFloatingPointCloseFactor)(m_original, NULL);
+        XTESTS_NS_C_QUAL(xTests_setFloatingPointCloseFactor)(m_original, NULL);
     }
 private:
-    xtest_floatingpoint_factor_scope(xtest_floatingpoint_factor_scope const&) STLSOFT_COPY_CONSTRUCTION_PROSCRIBED;
-    void operator =(xtest_floatingpoint_factor_scope const&) STLSOFT_COPY_ASSIGNMENT_PROSCRIBED;
+    xTests_floatingpoint_factor_scope(xTests_floatingpoint_factor_scope const&) STLSOFT_COPY_CONSTRUCTION_PROSCRIBED;
+    void operator =(xTests_floatingpoint_factor_scope const&) STLSOFT_COPY_ASSIGNMENT_PROSCRIBED;
 
 private:
     const double m_original;
@@ -3898,7 +3898,7 @@ private:
  * \ingroup group__xtests__misc
  *
  * [C++ only] Macro used to declare an instance of the
- * class xtests::cpp::xtest_floatingpoint_factor_scope, which causes the
+ * class xtests::cpp::xTests_floatingpoint_factor_scope, which causes the
  * floating point factor to be set to a new value for the lifetime of the
  * object, and then returned to its prior value
 <pre>
@@ -3909,179 +3909,179 @@ private:
   XTESTS_TEST_FLOATINGPOINT_EQUAL(5.05, 5.06);
 </pre>
  */
-# define XTESTS_FLOATINGPOINT_FACTOR_SCOPE                  XTESTS_NS_CPP_QUAL(xtest_floatingpoint_factor_scope)
+# define XTESTS_FLOATINGPOINT_FACTOR_SCOPE                  XTESTS_NS_CPP_QUAL(xTests_floatingpoint_factor_scope)
 
 # ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
 template <typename T>
-struct xtests_failure_reporter;
+struct xTests_failure_reporter;
 
 template <>
-struct xtests_failure_reporter<signed int>
+struct xTests_failure_reporter<signed int>
 {
-    static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, int expected, int actual, xtests_comparison_t comp)
+    static void xTests_report_failure_equal(char const* file, int line, char const* function, char const* expr, int expected, int actual, xTests_comparison_t comp)
     {
 #  ifndef _XTESTS_NO_NAMESPACE
         using namespace ::xtests::c;
 #  endif /* _XTESTS_NO_NAMESPACE */
 
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, expected, actual, comp));
+        STLSOFT_STATIC_CAST(void, xTests_testFailed_int(file, line, function, expr, expected, actual, comp));
     }
 };
 
 template <>
-struct xtests_failure_reporter<unsigned int>
+struct xTests_failure_reporter<unsigned int>
 {
-    static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, unsigned int expected, unsigned int actual, xtests_comparison_t comp)
+    static void xTests_report_failure_equal(char const* file, int line, char const* function, char const* expr, unsigned int expected, unsigned int actual, xTests_comparison_t comp)
     {
 #  ifndef _XTESTS_NO_NAMESPACE
         using namespace ::xtests::c;
 #  endif /* _XTESTS_NO_NAMESPACE */
 
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_ulong(file, line, function, expr, static_cast<unsigned long>(expected), static_cast<unsigned long>(actual), comp));
+        STLSOFT_STATIC_CAST(void, xTests_testFailed_ulong(file, line, function, expr, static_cast<unsigned long>(expected), static_cast<unsigned long>(actual), comp));
     }
 };
 
 template <>
-struct xtests_failure_reporter<signed char>
+struct xTests_failure_reporter<signed char>
 {
-    static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, signed char expected, signed char actual, xtests_comparison_t comp)
+    static void xTests_report_failure_equal(char const* file, int line, char const* function, char const* expr, signed char expected, signed char actual, xTests_comparison_t comp)
     {
-        STLSOFT_STATIC_CAST(void, xtests_failure_reporter<signed int>::xtests_report_failure_equal(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
+        STLSOFT_STATIC_CAST(void, xTests_failure_reporter<signed int>::xTests_report_failure_equal(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 
 template <>
-struct xtests_failure_reporter<unsigned char>
+struct xTests_failure_reporter<unsigned char>
 {
-    static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, unsigned char expected, unsigned char actual, xtests_comparison_t comp)
+    static void xTests_report_failure_equal(char const* file, int line, char const* function, char const* expr, unsigned char expected, unsigned char actual, xTests_comparison_t comp)
     {
-        STLSOFT_STATIC_CAST(void, xtests_failure_reporter<signed int>::xtests_report_failure_equal(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
+        STLSOFT_STATIC_CAST(void, xTests_failure_reporter<signed int>::xTests_report_failure_equal(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 
 template <>
-struct xtests_failure_reporter<signed short>
+struct xTests_failure_reporter<signed short>
 {
-    static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, int expected, int actual, xtests_comparison_t comp)
+    static void xTests_report_failure_equal(char const* file, int line, char const* function, char const* expr, int expected, int actual, xTests_comparison_t comp)
     {
-        STLSOFT_STATIC_CAST(void, xtests_failure_reporter<signed int>::xtests_report_failure_equal(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
+        STLSOFT_STATIC_CAST(void, xTests_failure_reporter<signed int>::xTests_report_failure_equal(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 
 template <>
-struct xtests_failure_reporter<unsigned short>
+struct xTests_failure_reporter<unsigned short>
 {
-    static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, int expected, int actual, xtests_comparison_t comp)
+    static void xTests_report_failure_equal(char const* file, int line, char const* function, char const* expr, int expected, int actual, xTests_comparison_t comp)
     {
-        STLSOFT_STATIC_CAST(void, xtests_failure_reporter<signed int>::xtests_report_failure_equal(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
+        STLSOFT_STATIC_CAST(void, xTests_failure_reporter<signed int>::xTests_report_failure_equal(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 #  ifdef STLSOFT_CF_SHORT_DISTINCT_INT_TYPE
 
 template <>
-struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_sint16_t)>
+struct xTests_failure_reporter< STLSOFT_NS_QUAL(ss_sint16_t)>
 {
-    static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, STLSOFT_NS_QUAL(ss_sint16_t) expected, STLSOFT_NS_QUAL(ss_sint16_t) actual, xtests_comparison_t comp)
+    static void xTests_report_failure_equal(char const* file, int line, char const* function, char const* expr, STLSOFT_NS_QUAL(ss_sint16_t) expected, STLSOFT_NS_QUAL(ss_sint16_t) actual, xTests_comparison_t comp)
     {
 #   ifndef _XTESTS_NO_NAMESPACE
         using namespace ::xtests::c;
 #   endif /* _XTESTS_NO_NAMESPACE */
 
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
+        STLSOFT_STATIC_CAST(void, xTests_testFailed_int(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 template <>
-struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_uint16_t)>
+struct xTests_failure_reporter< STLSOFT_NS_QUAL(ss_uint16_t)>
 {
-    static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, STLSOFT_NS_QUAL(ss_uint16_t) expected, STLSOFT_NS_QUAL(ss_uint16_t) actual, xtests_comparison_t comp)
+    static void xTests_report_failure_equal(char const* file, int line, char const* function, char const* expr, STLSOFT_NS_QUAL(ss_uint16_t) expected, STLSOFT_NS_QUAL(ss_uint16_t) actual, xTests_comparison_t comp)
     {
 #   ifndef _XTESTS_NO_NAMESPACE
         using namespace ::xtests::c;
 #   endif /* _XTESTS_NO_NAMESPACE */
 
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
+        STLSOFT_STATIC_CAST(void, xTests_testFailed_int(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 #  endif /* STLSOFT_CF_SHORT_DISTINCT_INT_TYPE */
 #  ifdef STLSOFT_CF_INT_DISTINCT_INT_TYPE
 
 template <>
-struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_sint32_t)>
+struct xTests_failure_reporter< STLSOFT_NS_QUAL(ss_sint32_t)>
 {
-    static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, STLSOFT_NS_QUAL(ss_sint32_t) expected, STLSOFT_NS_QUAL(ss_sint32_t) actual, xtests_comparison_t comp)
+    static void xTests_report_failure_equal(char const* file, int line, char const* function, char const* expr, STLSOFT_NS_QUAL(ss_sint32_t) expected, STLSOFT_NS_QUAL(ss_sint32_t) actual, xTests_comparison_t comp)
     {
 #   ifndef _XTESTS_NO_NAMESPACE
         using namespace ::xtests::c;
 #   endif /* _XTESTS_NO_NAMESPACE */
 
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
+        STLSOFT_STATIC_CAST(void, xTests_testFailed_int(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 template <>
-struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_uint32_t)>
+struct xTests_failure_reporter< STLSOFT_NS_QUAL(ss_uint32_t)>
 {
-    static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, STLSOFT_NS_QUAL(ss_uint32_t) expected, STLSOFT_NS_QUAL(ss_uint32_t) actual, xtests_comparison_t comp)
+    static void xTests_report_failure_equal(char const* file, int line, char const* function, char const* expr, STLSOFT_NS_QUAL(ss_uint32_t) expected, STLSOFT_NS_QUAL(ss_uint32_t) actual, xTests_comparison_t comp)
     {
 #   ifndef _XTESTS_NO_NAMESPACE
         using namespace ::xtests::c;
 #   endif /* _XTESTS_NO_NAMESPACE */
 
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_int(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
+        STLSOFT_STATIC_CAST(void, xTests_testFailed_int(file, line, function, expr, static_cast<signed int>(expected), static_cast<signed int>(actual), comp));
     }
 };
 #  endif /* STLSOFT_CF_INT_DISTINCT_INT_TYPE */
 
 template <>
-struct xtests_failure_reporter<signed long>
+struct xTests_failure_reporter<signed long>
 {
-    static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, long expected, long actual, xtests_comparison_t comp)
+    static void xTests_report_failure_equal(char const* file, int line, char const* function, char const* expr, long expected, long actual, xTests_comparison_t comp)
     {
 #  ifndef _XTESTS_NO_NAMESPACE
         using namespace ::xtests::c;
 #  endif /* _XTESTS_NO_NAMESPACE */
 
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_long(file, line, function, expr, expected, actual, comp));
+        STLSOFT_STATIC_CAST(void, xTests_testFailed_long(file, line, function, expr, expected, actual, comp));
     }
 };
 
 template <>
-struct xtests_failure_reporter<unsigned long>
+struct xTests_failure_reporter<unsigned long>
 {
-    static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, unsigned long expected, unsigned long actual, xtests_comparison_t comp)
+    static void xTests_report_failure_equal(char const* file, int line, char const* function, char const* expr, unsigned long expected, unsigned long actual, xTests_comparison_t comp)
     {
 #  ifndef _XTESTS_NO_NAMESPACE
         using namespace ::xtests::c;
 #  endif /* _XTESTS_NO_NAMESPACE */
 
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_ulong(file, line, function, expr, expected, actual, comp));
+        STLSOFT_STATIC_CAST(void, xTests_testFailed_ulong(file, line, function, expr, expected, actual, comp));
     }
 };
 #  ifdef STLSOFT_CF_64BIT_INT_SUPPORT
 
 template <>
-struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_sint64_t)>
+struct xTests_failure_reporter< STLSOFT_NS_QUAL(ss_sint64_t)>
 {
-    static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, STLSOFT_NS_QUAL(ss_sint64_t) expected, STLSOFT_NS_QUAL(ss_sint64_t) actual, xtests_comparison_t comp)
+    static void xTests_report_failure_equal(char const* file, int line, char const* function, char const* expr, STLSOFT_NS_QUAL(ss_sint64_t) expected, STLSOFT_NS_QUAL(ss_sint64_t) actual, xTests_comparison_t comp)
     {
 #   ifndef _XTESTS_NO_NAMESPACE
         using namespace ::xtests::c;
 #   endif /* _XTESTS_NO_NAMESPACE */
 
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_longlong(file, line, function, expr, expected, actual, comp));
+        STLSOFT_STATIC_CAST(void, xTests_testFailed_longlong(file, line, function, expr, expected, actual, comp));
     }
 };
 
 template <>
-struct xtests_failure_reporter< STLSOFT_NS_QUAL(ss_uint64_t)>
+struct xTests_failure_reporter< STLSOFT_NS_QUAL(ss_uint64_t)>
 {
-    static void xtests_report_failure_equal(char const* file, int line, char const* function, char const* expr, STLSOFT_NS_QUAL(ss_uint64_t) expected, STLSOFT_NS_QUAL(ss_uint64_t) actual, xtests_comparison_t comp)
+    static void xTests_report_failure_equal(char const* file, int line, char const* function, char const* expr, STLSOFT_NS_QUAL(ss_uint64_t) expected, STLSOFT_NS_QUAL(ss_uint64_t) actual, xTests_comparison_t comp)
     {
 #   ifndef _XTESTS_NO_NAMESPACE
         using namespace ::xtests::c;
 #   endif /* _XTESTS_NO_NAMESPACE */
 
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_ulonglong(file, line, function, expr, expected, actual, comp));
+        STLSOFT_STATIC_CAST(void, xTests_testFailed_ulonglong(file, line, function, expr, expected, actual, comp));
     }
 };
 #  endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
@@ -4091,7 +4091,7 @@ template<
     typename T1
 ,   typename T2
 >
-struct xtests_integer_failure_reporter_selector
+struct xTests_integer_failure_reporter_selector
 {
 private:
     enum { are_types_same       =   (0 != STLSOFT_NS_QUAL(is_same_type)<T1, T2>::value) };
@@ -4104,7 +4104,7 @@ private:
     >::type                                                 larger_type_;
 
 public:
-    typedef xtests_failure_reporter<larger_type_>           type;
+    typedef xTests_failure_reporter<larger_type_>           type;
 };
 
 template<
@@ -4113,14 +4113,14 @@ template<
 >
 inline
 void
-xtests_reportFailedIntegerComparison(
+xTests_reportFailedIntegerComparison(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   I1 const&           expected
 ,   I2 const&           actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
 #  ifndef _XTESTS_NO_NAMESPACE
@@ -4132,15 +4132,15 @@ xtests_reportFailedIntegerComparison(
 
 #  if defined(STLSOFT_COMPILER_IS_BORLAND)
 
-    xtests_integer_failure_reporter_selector<I1, I2>::type::xtests_report_failure_equal(file, line, function, expr, expected, actual, comp);
+    xTests_integer_failure_reporter_selector<I1, I2>::type::xTests_report_failure_equal(file, line, function, expr, expected, actual, comp);
 #  else /* ? compiler */
 
-    typedef typename xtests_integer_failure_reporter_selector<
+    typedef typename xTests_integer_failure_reporter_selector<
         I1
     ,   I2
     >::type                                                 failure_reporter_t;
 
-    failure_reporter_t::xtests_report_failure_equal(file, line, function, expr, expected, actual, comp);
+    failure_reporter_t::xTests_report_failure_equal(file, line, function, expr, expected, actual, comp);
 #  endif /* compiler */
 }
 #  if defined(STLSOFT_COMPILER_IS_MSVC) && \
@@ -4154,41 +4154,41 @@ xtests_reportFailedIntegerComparison(
  */
 inline
 void
-xtests_reportFailedIntegerComparison(
+xTests_reportFailedIntegerComparison(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   unsigned int        expected
 ,   size_t              actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
 #   ifndef _XTESTS_NO_NAMESPACE
     using namespace ::xtests::c;
 #   endif /* _XTESTS_NO_NAMESPACE */
 
-    STLSOFT_STATIC_CAST(void, xtests_testFailed_ulong(file, line, function, expr, static_cast<unsigned long>(expected), static_cast<unsigned long>(actual), comp));
+    STLSOFT_STATIC_CAST(void, xTests_testFailed_ulong(file, line, function, expr, static_cast<unsigned long>(expected), static_cast<unsigned long>(actual), comp));
 }
 #  endif
 
 inline
 void
-xtests_reportFailedFloatingPointComparison(
+xTests_reportFailedFloatingPointComparison(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   double const&       expected
 ,   double const&       actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
 #  ifndef _XTESTS_NO_NAMESPACE
     using namespace ::xtests::c;
 #  endif /* _XTESTS_NO_NAMESPACE */
 
-    STLSOFT_STATIC_CAST(void, xtests_testFailed_double(file, line, function, expr, expected, actual, comp));
+    STLSOFT_STATIC_CAST(void, xTests_testFailed_double(file, line, function, expr, expected, actual, comp));
 }
 
 
@@ -4254,7 +4254,7 @@ template<
 >
 inline
 int
-xtests_test_integer_compare_to_range_(
+xTests_test_integer_compare_to_range_(
     char const*         /* file */
 ,   int                 /* line */
 ,   char const*         /* function */
@@ -4262,7 +4262,7 @@ xtests_test_integer_compare_to_range_(
 ,   II                  begin
 ,   II                  end
 ,   I const&            actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
 #  ifndef _XTESTS_NO_NAMESPACE
@@ -4271,7 +4271,7 @@ xtests_test_integer_compare_to_range_(
 
     switch (comp)
     {
-    case xtestsComparisonEqual:
+    case xTests_ComparisonEqual:
 
         for (; begin != end; ++begin)
         {
@@ -4284,7 +4284,7 @@ xtests_test_integer_compare_to_range_(
         }
 
         return false;
-    case xtestsComparisonNotEqual:
+    case xTests_ComparisonNotEqual:
 
         for (; begin != end; ++begin)
         {
@@ -4297,24 +4297,24 @@ xtests_test_integer_compare_to_range_(
         }
 
         return true;
-    case xtestsComparisonApproxEqual:
-    case xtestsComparisonApproxNotEqual:
-    case xtestsComparisonGreaterThan:
-    case xtestsComparisonLessThan:
-    case xtestsComparisonGreaterThanOrEqual:
-    case xtestsComparisonLessThanOrEqual:
+    case xTests_ComparisonApproxEqual:
+    case xTests_ComparisonApproxNotEqual:
+    case xTests_ComparisonGreaterThan:
+    case xTests_ComparisonLessThan:
+    case xTests_ComparisonGreaterThanOrEqual:
+    case xTests_ComparisonLessThanOrEqual:
 
-        xtests_abend("invalid test comparison type: only == and != are valid when testing membership of ranges");
+        xTests_abend("invalid test comparison type: only == and != are valid when testing membership of ranges");
         break;
     default:
 
         STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
-    case xtestsComparison_max_enumerator:
-        xtests_abend("invalid test comparison type: test framework may be out of date!");
+    case xTests_Comparison_max_enumerator:
+        xTests_abend("invalid test comparison type: test framework may be out of date!");
         break;
     }
 
-    xtests_abend("should not get here!");
+    xTests_abend("should not get here!");
 
     return -1;
 }
@@ -4325,7 +4325,7 @@ template<
 >
 inline
 int
-xtests_test_integer_any_in_range(
+xTests_test_integer_any_in_range(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -4333,27 +4333,27 @@ xtests_test_integer_any_in_range(
 ,   II                  begin
 ,   II                  end
 ,   I const&            actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
 #  ifndef _XTESTS_NO_NAMESPACE
     using namespace ::xtests::c;
 #  endif /* _XTESTS_NO_NAMESPACE */
 
-    int const comparisonSucceeded = xtests_test_integer_compare_to_range_(file, line, function, expr, begin, end, actual, comp);
+    int const comparisonSucceeded = xTests_test_integer_compare_to_range_(file, line, function, expr, begin, end, actual, comp);
 
     if (comparisonSucceeded)
     {
-        xtests_testPassed(file, line, function, expr);
+        xTests_testPassed(file, line, function, expr);
     }
     else
     {
 #if 0
 
-        xtests_reportFailedIntegerComparison(file, line, function, expr, expected, actual, comp);
+        xTests_reportFailedIntegerComparison(file, line, function, expr, expected, actual, comp);
 #else /* ? 0 */
 
-        xtests_testFailed(file, line, function, expr);
+        xTests_testFailed(file, line, function, expr);
 #endif /* 0 */
     }
 
@@ -4366,14 +4366,14 @@ template<
 >
 inline
 int
-xtests_test_integer_when_same_sign_(
+xTests_test_integer_when_same_sign_(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   I1 const&           expected
 ,   I2 const&           actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
 #  ifndef _XTESTS_NO_NAMESPACE
@@ -4387,44 +4387,44 @@ xtests_test_integer_when_same_sign_(
 
     switch (comp)
     {
-    case xtestsComparisonEqual:
-    case xtestsComparisonApproxEqual:
+    case xTests_ComparisonEqual:
+    case xTests_ComparisonApproxEqual:
 
         if (expected == actual)
         {
             comparisonSucceeded = true;
         }
         break;
-    case xtestsComparisonNotEqual:
-    case xtestsComparisonApproxNotEqual:
+    case xTests_ComparisonNotEqual:
+    case xTests_ComparisonApproxNotEqual:
 
         if (expected != actual)
         {
             comparisonSucceeded = true;
         }
         break;
-    case xtestsComparisonGreaterThan:
+    case xTests_ComparisonGreaterThan:
 
         if (actual > expected)
         {
             comparisonSucceeded = true;
         }
         break;
-    case xtestsComparisonLessThan:
+    case xTests_ComparisonLessThan:
 
         if (actual < expected)
         {
             comparisonSucceeded = true;
         }
         break;
-    case xtestsComparisonGreaterThanOrEqual:
+    case xTests_ComparisonGreaterThanOrEqual:
 
         if (actual >= expected)
         {
             comparisonSucceeded = true;
         }
         break;
-    case xtestsComparisonLessThanOrEqual:
+    case xTests_ComparisonLessThanOrEqual:
 
         if (actual <= expected)
         {
@@ -4434,19 +4434,19 @@ xtests_test_integer_when_same_sign_(
     default:
 
         STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
-    case xtestsComparison_max_enumerator:
+    case xTests_Comparison_max_enumerator:
 
-        xtests_abend("invalid test comparison type: test framework may be out of date!");
+        xTests_abend("invalid test comparison type: test framework may be out of date!");
         break;
     }
 
     if (comparisonSucceeded)
     {
-        xtests_testPassed(file, line, function, expr);
+        xTests_testPassed(file, line, function, expr);
     }
     else
     {
-        xtests_reportFailedIntegerComparison(file, line, function, expr, expected, actual, comp);
+        xTests_reportFailedIntegerComparison(file, line, function, expr, expected, actual, comp);
     }
 
     return comparisonSucceeded;
@@ -4461,18 +4461,18 @@ template<
 >
 inline
 int
-xtests_test_integer_is_same_type_(
+xTests_test_integer_is_same_type_(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   I1 const&           expected
 ,   I2 const&           actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 ,   STLSOFT_NS_QUAL(yes_type)
 )
 {
-    return xtests_test_integer_when_same_sign_(
+    return xTests_test_integer_when_same_sign_(
         file
     ,   line
     ,   function
@@ -4493,14 +4493,14 @@ template<
 >
 inline
 int
-xtests_test_integer_is_different_sign_max_(
+xTests_test_integer_is_different_sign_max_(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   I1 const&           expected
 ,   I2 const&           actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     /* this is the only function where the integer types / signs are not
@@ -4535,7 +4535,7 @@ xtests_test_integer_is_different_sign_max_(
         STLSOFT_NS_QUAL(ss_sint64_t) const  expected_s64    =   static_cast<STLSOFT_NS_QUAL(ss_sint64_t)>(expected);
         STLSOFT_NS_QUAL(ss_sint64_t) const  actual_s64      =   static_cast<STLSOFT_NS_QUAL(ss_sint64_t)>(actual);
 
-        return xtests_test_integer_when_same_sign_(
+        return xTests_test_integer_when_same_sign_(
             file
         ,   line
         ,   function
@@ -4557,18 +4557,18 @@ template<
 >
 inline
 int
-xtests_test_integer_is_same_sign_(
+xTests_test_integer_is_same_sign_(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   I1 const&           expected
 ,   I2 const&           actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 ,   STLSOFT_NS_QUAL(no_type)
 )
 {
-    return xtests_test_integer_is_different_sign_max_(
+    return xTests_test_integer_is_different_sign_max_(
         file
     ,   line
     ,   function
@@ -4589,18 +4589,18 @@ template<
 >
 inline
 int
-xtests_test_integer_is_same_sign_(
+xTests_test_integer_is_same_sign_(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   I1 const&           expected
 ,   I2 const&           actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 ,   STLSOFT_NS_QUAL(yes_type)
 )
 {
-    return xtests_test_integer_when_same_sign_(
+    return xTests_test_integer_when_same_sign_(
         file
     ,   line
     ,   function
@@ -4620,14 +4620,14 @@ template<
 >
 inline
 int
-xtests_test_integer_is_same_type_(
+xTests_test_integer_is_same_type_(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   I1 const&           expected
 ,   I2 const&           actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 ,   STLSOFT_NS_QUAL(no_type)
 )
 {
@@ -4638,7 +4638,7 @@ xtests_test_integer_is_same_type_(
 
     typedef ss_typename_type_k STLSOFT_NS_QUAL(value_to_yesno_type)<_I1_and_I2_have_same_sign>::type    are_same_sign_t;
 
-    return xtests_test_integer_is_same_sign_(
+    return xTests_test_integer_is_same_sign_(
         file
     ,   line
     ,   function
@@ -4659,14 +4659,14 @@ template<
 >
 inline
 int
-xtests_test_integer_underlying_type_(
+xTests_test_integer_underlying_type_(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   I1 const&           expected
 ,   I2 const&           actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     STLSOFT_STATIC_ASSERT(0 != STLSOFT_NS_QUAL(is_integral_type) < I1 > ::value);
@@ -4674,7 +4674,7 @@ xtests_test_integer_underlying_type_(
 
     typedef ss_typename_type_k STLSOFT_NS_QUAL(is_same_type)<I1, I2>::type  I1_and_I2_are_same_type_t;
 
-    return xtests_test_integer_is_same_type_(
+    return xTests_test_integer_is_same_type_(
         file
     ,   line
     ,   function
@@ -4695,17 +4695,17 @@ template<
 >
 inline
 int
-xtests_test_integer(
+xTests_test_integer(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   I1 const&           expected
 ,   I2 const&           actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
-    return xtests_test_integer_underlying_type_(
+    return xTests_test_integer_underlying_type_(
         file
     ,   line
     ,   function
@@ -4738,28 +4738,28 @@ struct boolean_argument_traits<signed int>
 template <typename T>
 inline
 boolean_test_must_involve_boolean_parameters
-xtests_test_boolean_(
+xTests_test_boolean_(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   bool                expected
 ,   T const&            actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 ,   STLSOFT_NS_QUAL(no_type)
 );
 
 template <typename T>
 inline
 int
-xtests_test_boolean_(
+xTests_test_boolean_(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   bool                expected
 ,   T const&            actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 ,   STLSOFT_NS_QUAL(yes_type)
 )
 {
@@ -4773,16 +4773,16 @@ xtests_test_boolean_(
 
     switch (comp)
     {
-    case xtestsComparisonEqual:
-    case xtestsComparisonApproxEqual:
+    case xTests_ComparisonEqual:
+    case xTests_ComparisonApproxEqual:
 
         if (expected == actual_as_bool)
         {
             comparisonSucceeded = true;
         }
         break;
-    case xtestsComparisonNotEqual:
-    case xtestsComparisonApproxNotEqual:
+    case xTests_ComparisonNotEqual:
+    case xTests_ComparisonApproxNotEqual:
 
         if (expected != actual_as_bool)
         {
@@ -4791,28 +4791,28 @@ xtests_test_boolean_(
         break;
 #if 0 /* NOTE: currently don't support ordering of `bool` */
 
-    case xtestsComparisonGreaterThan:
+    case xTests_ComparisonGreaterThan:
 
         if (actual_as_bool > expected)
         {
             comparisonSucceeded = true;
         }
         break;
-    case xtestsComparisonLessThan:
+    case xTests_ComparisonLessThan:
 
         if (actual_as_bool < expected)
         {
             comparisonSucceeded = true;
         }
         break;
-    case xtestsComparisonGreaterThanOrEqual:
+    case xTests_ComparisonGreaterThanOrEqual:
 
         if (actual_as_bool >= expected)
         {
             comparisonSucceeded = true;
         }
         break;
-    case xtestsComparisonLessThanOrEqual:
+    case xTests_ComparisonLessThanOrEqual:
 
         if (actual_as_bool <= expected)
         {
@@ -4823,19 +4823,19 @@ xtests_test_boolean_(
     default:
 
         STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
-    case xtestsComparison_max_enumerator:
+    case xTests_Comparison_max_enumerator:
 
-        xtests_abend("invalid test comparison type: test framework may be out of date!");
+        xTests_abend("invalid test comparison type: test framework may be out of date!");
         break;
     }
 
     if (comparisonSucceeded)
     {
-        xtests_testPassed(file, line, function, expr);
+        xTests_testPassed(file, line, function, expr);
     }
     else
     {
-        STLSOFT_STATIC_CAST(void, xtests_testFailed_boolean(file, line, function, expr, expected, actual_as_bool, comp));
+        STLSOFT_STATIC_CAST(void, xTests_testFailed_boolean(file, line, function, expr, expected, actual_as_bool, comp));
     }
 
     return comparisonSucceeded;
@@ -4844,19 +4844,19 @@ xtests_test_boolean_(
 template <typename T>
 inline
 int
-xtests_test_boolean(
+xTests_test_boolean(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   bool                expected
 ,   T const&            actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     typedef ss_typename_type_k boolean_argument_traits<T>::yesno_type yesno_t;
 
-    return xtests_test_boolean_(file, line, function, expr, expected, actual, comp, yesno_t());
+    return xTests_test_boolean_(file, line, function, expr, expected, actual, comp, yesno_t());
 }
 
 template<
@@ -4865,7 +4865,7 @@ template<
 >
 inline
 int
-xtests_test_integer_one_of(
+xTests_test_integer_one_of(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -4879,7 +4879,7 @@ xtests_test_integer_one_of(
 ,   I0 const&           expected5
 ,   I0 const&           expected6
 ,   I0 const&           expected7
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
     I0 const range[] = {
@@ -4893,7 +4893,7 @@ xtests_test_integer_one_of(
     ,   expected7
     };
 
-    return xtests_test_integer_any_in_range(file, line, function, expr, &range[0], &range[0] + STLSOFT_NUM_ELEMENTS(range), actual, comp);
+    return xTests_test_integer_any_in_range(file, line, function, expr, &range[0], &range[0] + STLSOFT_NUM_ELEMENTS(range), actual, comp);
 }
 
 template<
@@ -4902,7 +4902,7 @@ template<
 >
 inline
 int
-xtests_test_integer_one_of(
+xTests_test_integer_one_of(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -4915,10 +4915,10 @@ xtests_test_integer_one_of(
 ,   I0 const&           expected4
 ,   I0 const&           expected5
 ,   I0 const&           expected6
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
-    return xtests_test_integer_one_of(
+    return xTests_test_integer_one_of(
         file, line, function, expr
     ,   actual
     ,   expected0, expected1, expected2, expected3, expected4, expected5, expected6, expected0
@@ -4932,7 +4932,7 @@ template<
 >
 inline
 int
-xtests_test_integer_one_of(
+xTests_test_integer_one_of(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -4944,10 +4944,10 @@ xtests_test_integer_one_of(
 ,   I0 const&           expected3
 ,   I0 const&           expected4
 ,   I0 const&           expected5
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
-    return xtests_test_integer_one_of(
+    return xTests_test_integer_one_of(
         file, line, function, expr
     ,   actual
     ,   expected0, expected1, expected2, expected3, expected4, expected5, expected0, expected0
@@ -4961,7 +4961,7 @@ template<
 >
 inline
 int
-xtests_test_integer_one_of(
+xTests_test_integer_one_of(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -4972,10 +4972,10 @@ xtests_test_integer_one_of(
 ,   I0 const&           expected2
 ,   I0 const&           expected3
 ,   I0 const&           expected4
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
-    return xtests_test_integer_one_of(
+    return xTests_test_integer_one_of(
         file, line, function, expr
     ,   actual
     ,   expected0, expected1, expected2, expected3, expected4, expected0, expected0, expected0
@@ -4989,7 +4989,7 @@ template<
 >
 inline
 int
-xtests_test_integer_one_of(
+xTests_test_integer_one_of(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -4999,10 +4999,10 @@ xtests_test_integer_one_of(
 ,   I0 const&           expected1
 ,   I0 const&           expected2
 ,   I0 const&           expected3
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
-    return xtests_test_integer_one_of(
+    return xTests_test_integer_one_of(
         file, line, function, expr
     ,   actual
     ,   expected0, expected1, expected2, expected3, expected0, expected0, expected0, expected0
@@ -5016,7 +5016,7 @@ template<
 >
 inline
 int
-xtests_test_integer_one_of(
+xTests_test_integer_one_of(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -5025,10 +5025,10 @@ xtests_test_integer_one_of(
 ,   I0 const&           expected0
 ,   I0 const&           expected1
 ,   I0 const&           expected2
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
-    return xtests_test_integer_one_of(
+    return xTests_test_integer_one_of(
         file, line, function, expr
     ,   actual
     ,   expected0, expected1, expected2, expected0, expected0, expected0, expected0, expected0
@@ -5042,7 +5042,7 @@ template<
 >
 inline
 int
-xtests_test_integer_one_of(
+xTests_test_integer_one_of(
     char const*         file
 ,   int                 line
 ,   char const*         function
@@ -5050,10 +5050,10 @@ xtests_test_integer_one_of(
 ,   I1 const&           actual
 ,   I0 const&           expected0
 ,   I0 const&           expected1
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
-    return xtests_test_integer_one_of(
+    return xTests_test_integer_one_of(
         file, line, function, expr
     ,   actual
     ,   expected0, expected1, expected0, expected0, expected0, expected0, expected0, expected0
@@ -5064,51 +5064,51 @@ xtests_test_integer_one_of(
 
 inline
 int
-xtests_test_character(
+xTests_test_character(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   char                expected
 ,   char                actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
 #  ifndef _XTESTS_NO_NAMESPACE
     using namespace ::xtests::c;
 #  endif /* _XTESTS_NO_NAMESPACE */
 
-    return xtests_testCharactersA(file, line, function, expr, expected, actual, comp);
+    return xTests_testCharactersA(file, line, function, expr, expected, actual, comp);
 }
 inline
 int
-xtests_test_character(
+xTests_test_character(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   wchar_t             expected
 ,   wchar_t             actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
 #  ifndef _XTESTS_NO_NAMESPACE
     using namespace ::xtests::c;
 #  endif /* _XTESTS_NO_NAMESPACE */
 
-    return xtests_testCharactersW(file, line, function, expr, expected, actual, comp);
+    return xTests_testCharactersW(file, line, function, expr, expected, actual, comp);
 }
 
 inline
 int
-xtests_test_floating_point(
+xTests_test_floating_point(
     char const*         file
 ,   int                 line
 ,   char const*         function
 ,   char const*         expr
 ,   double const&       expected
 ,   double const&       actual
-,   xtests_comparison_t comp
+,   xTests_comparison_t comp
 )
 {
 #  ifndef _XTESTS_NO_NAMESPACE
@@ -5119,56 +5119,56 @@ xtests_test_floating_point(
 
     switch (comp)
     {
-    case xtestsComparisonEqual:
+    case xTests_ComparisonEqual:
 
         if (expected == actual)
         {
             comparisonSucceeded = true;
         }
         break;
-    case xtestsComparisonApproxEqual:
+    case xTests_ComparisonApproxEqual:
 
-        if (xtests_floatingPointClose(expected, actual))
+        if (xTests_floatingPointClose(expected, actual))
         {
             comparisonSucceeded = true;
         }
         break;
-    case xtestsComparisonNotEqual:
+    case xTests_ComparisonNotEqual:
 
         if (expected != actual)
         {
             comparisonSucceeded = true;
         }
         break;
-    case xtestsComparisonApproxNotEqual:
+    case xTests_ComparisonApproxNotEqual:
 
-        if (!xtests_floatingPointClose(expected, actual))
+        if (!xTests_floatingPointClose(expected, actual))
         {
             comparisonSucceeded = true;
         }
         break;
-    case xtestsComparisonGreaterThan:
+    case xTests_ComparisonGreaterThan:
 
         if (actual > expected)
         {
             comparisonSucceeded = true;
         }
         break;
-    case xtestsComparisonLessThan:
+    case xTests_ComparisonLessThan:
 
         if (actual < expected)
         {
             comparisonSucceeded = true;
         }
         break;
-    case xtestsComparisonGreaterThanOrEqual:
+    case xTests_ComparisonGreaterThanOrEqual:
 
         if (actual >= expected)
         {
             comparisonSucceeded = true;
         }
         break;
-    case xtestsComparisonLessThanOrEqual:
+    case xTests_ComparisonLessThanOrEqual:
 
         if (actual <= expected)
         {
@@ -5178,19 +5178,19 @@ xtests_test_floating_point(
     default:
 
         STLSOFT_MESSAGE_ASSERT("unrecognised enumerator", false);
-    case xtestsComparison_max_enumerator:
+    case xTests_Comparison_max_enumerator:
 
-        xtests_abend("invalid test comparison type: test framework may be out of date!");
+        xTests_abend("invalid test comparison type: test framework may be out of date!");
         break;
     }
 
     if (comparisonSucceeded)
     {
-        STLSOFT_STATIC_CAST(void, xtests_testPassed(file, line, function, expr));
+        STLSOFT_STATIC_CAST(void, xTests_testPassed(file, line, function, expr));
     }
     else
     {
-        STLSOFT_STATIC_CAST(void, xtests_reportFailedFloatingPointComparison(file, line, function, expr, expected, actual, comp));
+        STLSOFT_STATIC_CAST(void, xTests_reportFailedFloatingPointComparison(file, line, function, expr, expected, actual, comp));
     }
 
     return comparisonSucceeded;
@@ -5204,13 +5204,13 @@ namespace c
 #endif /* !_XTESTS_NO_NAMESPACE */
 #ifdef _XTESTS_NO_CPP_API
 
-# define XTESTS_REQUIRE(test)                               XTESTS_NS_C_QUAL(xtests_require_C)(!(!(test)))
+# define XTESTS_REQUIRE(test)                               XTESTS_NS_C_QUAL(xTests_require_C)(!(!(test)))
 #endif /* _XTESTS_NO_CPP_API */
 
 /** [INTERNAL] Worker function for XTESTS_REQUIRE() (in C compilation units)
  */
 XTESTS_CALL(int)
-xtests_require_C(
+xTests_require_C(
     int success
 );
 
@@ -5239,7 +5239,7 @@ xTests_hasRequiredConditionFailed(void);
  * \retval !0 Verbosity was parsed from the command-line
  */
 XTESTS_CALL(int)
-xtests_commandLine_parseVerbosity(
+xTests_commandLine_parseVerbosity(
     int     argc
 ,   char*   argv[]
 ,   int*    verbosity
@@ -5256,7 +5256,7 @@ xtests_commandLine_parseVerbosity(
  * \param exitCode The exit code passed to <code>::exit()</code>;
  */
 XTESTS_CALL(void)
-xtests_commandLine_parseHelp(
+xTests_commandLine_parseHelp(
     int     argc
 ,   char*   argv[]
 ,   FILE*   stm
@@ -5277,7 +5277,7 @@ xtests_commandLine_parseHelp(
  *   to facilitate testing;
  */
 XTESTS_CALL(void)
-xtests_commandLine_parseHelp2(
+xTests_commandLine_parseHelp2(
     int         argc
 ,   char*       argv[]
 ,   FILE*       stm
@@ -5304,7 +5304,7 @@ xtests_commandLine_parseHelp2(
  *   of a value from <errno.h>;
  */
 XTESTS_CALL(int)
-xtests_commandLine_parseHelpOrVerbosity(
+xTests_commandLine_parseHelpOrVerbosity(
     int         argc
 ,   char*       argv[]
 ,   FILE*       stm
@@ -5335,7 +5335,7 @@ xtests_commandLine_parseHelpOrVerbosity(
  * \param argv The <code>argv</code> parameter passed into
  *   <code>main()</code>;
  * \param pverbosity A pointer to an integer to receive the verbosity. Will
- *   be set to xtestsVerbositySummaryOnSuccess even if no verbosity argument
+ *   be set to XTESTS_VERBOSITY_RUNNER_SUMMARY even if no verbosity argument
  *   is found. May not be NULL;
  *
  * \return The index of argument containing the verbosity, or 0 to indicate
@@ -5346,7 +5346,7 @@ xtests_commandLine_parseHelpOrVerbosity(
         int const exitCode = EXIT_SUCCESS;                                  \
                                                                             \
         STLSOFT_STATIC_CAST(void,                                           \
-            XTESTS_NS_C_QUAL(xtests_commandLine_parseHelpOrVerbosity)(      \
+            XTESTS_NS_C_QUAL(xTests_commandLine_parseHelpOrVerbosity)(      \
                 (argc)                                                      \
             ,   (argv)                                                      \
             ,   (stdout)                                                    \
@@ -5375,14 +5375,14 @@ xtests_commandLine_parseHelpOrVerbosity(
  * \param argv The <code>argv</code> parameter passed into
  *   <code>main()</code>;
  * \param pverbosity A pointer to an integer to receive the verbosity. Will
- *   be set to xtestsVerbositySummaryOnSuccess even if no verbosity argument
+ *   be set to XTESTS_VERBOSITY_RUNNER_SUMMARY even if no verbosity argument
  *   is found. May not be NULL;
  *
  * \return The index of argument containing the verbosity, or 0 to indicate
  *   failure
  */
 #define XTESTS_COMMANDLINE_PARSE_VERBOSITY(argc, argv, pverbosity)          \
-    STLSOFT_STATIC_CAST(void, XTESTS_NS_C_QUAL(xtests_commandLine_parseVerbosity)((argc), (argv), (pverbosity)))
+    STLSOFT_STATIC_CAST(void, XTESTS_NS_C_QUAL(xTests_commandLine_parseVerbosity)((argc), (argv), (pverbosity)))
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 
@@ -5407,7 +5407,7 @@ xtests_commandLine_parseHelpOrVerbosity(
  * \param argv The <code>argv</code> parameter passed into
  *   <code>main()</code>;
  * \param pverbosity A pointer to an integer to receive the verbosity. Will
- *   be set to xtestsVerbositySummaryOnSuccess even if no verbosity argument
+ *   be set to XTESTS_VERBOSITY_RUNNER_SUMMARY even if no verbosity argument
  *   is found. May not be NULL;
  * \param defaultVerbosity The default verbosity to be applied if none
  *   specified on the command-line;
@@ -5415,7 +5415,7 @@ xtests_commandLine_parseHelpOrVerbosity(
  * \see XTESTS_COMMANDLINE_PARSEVERBOSITY()
  */
 # define XTESTS_COMMANDLINE_PARSE_VERBOSITY_WITH_DEFAULT(argc, argv, pverbosity, defaultVerbosity)  \
-    STLSOFT_STATIC_CAST(void, ((0 != XTESTS_NS_C_QUAL(xtests_commandLine_parseVerbosity)((argc), (argv), (pverbosity)))) ? 1 : ((*(pverbosity) = (defaultVerbosity)), 0))
+    STLSOFT_STATIC_CAST(void, ((0 != XTESTS_NS_C_QUAL(xTests_commandLine_parseVerbosity)((argc), (argv), (pverbosity)))) ? 1 : ((*(pverbosity) = (defaultVerbosity)), 0))
 
 # define XTESTS_COMMANDLINE_PARSEVERBOSITY_DEFAULT          XTESTS_COMMANDLINE_PARSE_VERBOSITY_WITH_DEFAULT
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
@@ -5436,7 +5436,7 @@ xtests_commandLine_parseHelpOrVerbosity(
  * \return nothing
  */
 #define XTESTS_COMMANDLINE_PARSE_HELP(argc, argv)                           \
-    STLSOFT_STATIC_CAST(void, XTESTS_NS_C_QUAL(xtests_commandLine_parseHelp)((argc), (argv), stdout, EXIT_SUCCESS))
+    STLSOFT_STATIC_CAST(void, XTESTS_NS_C_QUAL(xTests_commandLine_parseHelp)((argc), (argv), stdout, EXIT_SUCCESS))
 
 /** \def XTESTS_ARRAY_END_POST(ar)
  *
@@ -5457,7 +5457,7 @@ xtests_commandLine_parseHelpOrVerbosity(
 
 
 /* /////////////////////////////////////////////////////////////////////////
- * obsolete names
+ * obsolete / compatibility names (R5.2 / R5.3 / D12)
  */
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
@@ -5465,6 +5465,168 @@ xtests_commandLine_parseHelpOrVerbosity(
 # define XTESTS_FAIL(msg)                                   XTESTS_TEST_FAIL(msg)
 # define XTESTS_PASSED()                                    XTESTS_TEST_PASSED()
 # define XTESTS_TEST_MULTIBYTE_STRINGS_EQUAL                XTESTS_TEST_MULTIBYTE_STRING_EQUAL
+#endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
+
+
+/* /////////////////////////////////////////////////////////////////////////
+ * backwards-compatibility aliases (R5.2 / R5.3 / D12)
+ *
+ * Canonical 1.x forms: macros XTESTS_*; types/functions xTests_*.
+ * Legacy xtests_* (and packed macro spellings) remain as aliases.
+ */
+
+#ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
+
+# define xtests_abend                                     xTests_abend
+# define xtests_beginTestCase                             xTests_beginTestCase
+# define xtests_caseExcepted                              xTests_caseExcepted
+# define xtests_caseExceptionExpected                     xTests_caseExceptionExpected
+# define xtests_commandLine_parseHelp                     xTests_commandLine_parseHelp
+# define xtests_commandLine_parseHelp2                    xTests_commandLine_parseHelp2
+# define xtests_commandLine_parseHelpOrVerbosity          xTests_commandLine_parseHelpOrVerbosity
+# define xtests_commandLine_parseVerbosity                xTests_commandLine_parseVerbosity
+# define xtests_comparison_t                              xTests_comparison_t
+# define xtests_endRunner                                 xTests_endRunner
+# define xtests_endTestCase                               xTests_endTestCase
+# define xtests_failure_reporter                          xTests_failure_reporter
+# define xtests_floatingPointClose                        xTests_floatingPointClose
+# define xtests_getSetupParam                             xTests_getSetupParam
+# define xtests_integer_failure_reporter_selector         xTests_integer_failure_reporter_selector
+# define xtests_internal_while_0_                         xTests_internal_while_0_
+# define xtests_printRunnerResults                        xTests_printRunnerResults
+# define xtests_reportFailedFloatingPointComparison       xTests_reportFailedFloatingPointComparison
+# define xtests_reportFailedIntegerComparison             xTests_reportFailedIntegerComparison
+# define xtests_report_failure_equal                      xTests_report_failure_equal
+# define xtests_require                                   xTests_require
+# define xtests_require_C                                 xTests_require_C
+# define xtests_runner_flags_t                            xTests_runner_flags_t
+# define xtests_setFloatingPointCloseFactor               xTests_setFloatingPointCloseFactor
+# define xtests_startRunner                               xTests_startRunner
+# define xtests_string_len_signed_form                    xTests_string_len_signed_form
+# define xtests_testCharactersA                           xTests_testCharactersA
+# define xtests_testCharactersW                           xTests_testCharactersW
+# define xtests_testFailed                                xTests_testFailed
+# define xtests_testFailed_boolean                        xTests_testFailed_boolean
+# define xtests_testFailed_double                         xTests_testFailed_double
+# define xtests_testFailed_int                            xTests_testFailed_int
+# define xtests_testFailed_llx                            xTests_testFailed_llx
+# define xtests_testFailed_long                           xTests_testFailed_long
+# define xtests_testFailed_longlong                       xTests_testFailed_longlong
+# define xtests_testFailed_ulong                          xTests_testFailed_ulong
+# define xtests_testFailed_ulonglong                      xTests_testFailed_ulonglong
+# define xtests_testFunctionPointers                      xTests_testFunctionPointers
+# define xtests_testMultibyteStringContains               xTests_testMultibyteStringContains
+# define xtests_testMultibyteStringSlice                  xTests_testMultibyteStringSlice
+# define xtests_testMultibyteStrings                      xTests_testMultibyteStrings
+# define xtests_testMultibyteStringsN                     xTests_testMultibyteStringsN
+# define xtests_testMultibyteStringsN_                    xTests_testMultibyteStringsN_
+# define xtests_testMultibyteStringsN_t                   xTests_testMultibyteStringsN_t
+# define xtests_testPassed                                xTests_testPassed
+# define xtests_testPointers                              xTests_testPointers
+# define xtests_testUdtFailed                             xTests_testUdtFailed
+# define xtests_testUdtPassed                             xTests_testUdtPassed
+# define xtests_testWideStringContains                    xTests_testWideStringContains
+# define xtests_testWideStringSlice                       xTests_testWideStringSlice
+# define xtests_testWideStrings                           xTests_testWideStrings
+# define xtests_testWideStringsN                          xTests_testWideStringsN
+# define xtests_testWideStringsN_                         xTests_testWideStringsN_
+# define xtests_testWideStringsN_t                        xTests_testWideStringsN_t
+# define xtests_test_boolean                              xTests_test_boolean
+# define xtests_test_boolean_                             xTests_test_boolean_
+# define xtests_test_character                            xTests_test_character
+# define xtests_test_floating_point                       xTests_test_floating_point
+# define xtests_test_integer                              xTests_test_integer
+# define xtests_test_integer_any_in_range                 xTests_test_integer_any_in_range
+# define xtests_test_integer_compare_to_range_            xTests_test_integer_compare_to_range_
+# define xtests_test_integer_is_different_sign_max_       xTests_test_integer_is_different_sign_max_
+# define xtests_test_integer_is_same_sign_                xTests_test_integer_is_same_sign_
+# define xtests_test_integer_is_same_type_                xTests_test_integer_is_same_type_
+# define xtests_test_integer_one_of                       xTests_test_integer_one_of
+# define xtests_test_integer_underlying_type_             xTests_test_integer_underlying_type_
+# define xtests_test_integer_when_same_sign_              xTests_test_integer_when_same_sign_
+# define xtests_test_type_t                               xTests_test_type_t
+# define xtests_variable_t                                xTests_variable_t
+# define xtests_variable_type_t                           xTests_variable_type_t
+# define xtests_variable_value_t                          xTests_variable_value_t
+# define xtests_verbosity_t                               xTests_verbosity_t
+# define xtests_writeFailMessage                          xTests_writeFailMessage
+
+/* 0.x packed enumerator spellings (xtests + Name) and intermediate
+ * xTests + Name (pre-underscore) -> canonical xTests_ + Name
+ */
+# define xtestsComparisonApproxEqual                      xTests_ComparisonApproxEqual
+# define xTestsComparisonApproxEqual                      xTests_ComparisonApproxEqual
+# define xtestsComparisonApproxNotEqual                   xTests_ComparisonApproxNotEqual
+# define xTestsComparisonApproxNotEqual                   xTests_ComparisonApproxNotEqual
+# define xtestsComparisonEqual                            xTests_ComparisonEqual
+# define xTestsComparisonEqual                            xTests_ComparisonEqual
+# define xtestsComparisonGreaterThan                      xTests_ComparisonGreaterThan
+# define xTestsComparisonGreaterThan                      xTests_ComparisonGreaterThan
+# define xtestsComparisonGreaterThanOrEqual               xTests_ComparisonGreaterThanOrEqual
+# define xTestsComparisonGreaterThanOrEqual               xTests_ComparisonGreaterThanOrEqual
+# define xtestsComparisonLessThan                         xTests_ComparisonLessThan
+# define xTestsComparisonLessThan                         xTests_ComparisonLessThan
+# define xtestsComparisonLessThanOrEqual                  xTests_ComparisonLessThanOrEqual
+# define xTestsComparisonLessThanOrEqual                  xTests_ComparisonLessThanOrEqual
+# define xtestsComparisonNotEqual                         xTests_ComparisonNotEqual
+# define xTestsComparisonNotEqual                         xTests_ComparisonNotEqual
+# define xtestsComparison_max_enumerator                  xTests_Comparison_max_enumerator
+# define xTestsComparison_max_enumerator                  xTests_Comparison_max_enumerator
+# define xtestsReportOnlyNonEmptyCases                    xTests_ReportOnlyNonEmptyCases
+# define xTestsReportOnlyNonEmptyCases                    xTests_ReportOnlyNonEmptyCases
+# define xtestsRunnerFlagsNoWindowsDebugString            xTests_RunnerFlagsNoWindowsDebugString
+# define xTestsRunnerFlagsNoWindowsDebugString            xTests_RunnerFlagsNoWindowsDebugString
+# define xtestsTestContainment                            xTests_TestContainment
+# define xTestsTestContainment                            xTests_TestContainment
+# define xtestsTestFullComparison                         xTests_TestFullComparison
+# define xTestsTestFullComparison                         xTests_TestFullComparison
+# define xtestsTestPartialComparison                      xTests_TestPartialComparison
+# define xTestsTestPartialComparison                      xTests_TestPartialComparison
+# define xtestsVariableBoolean                            xTests_VariableBoolean
+# define xTestsVariableBoolean                            xTests_VariableBoolean
+# define xtestsVariableDouble                             xTests_VariableDouble
+# define xTestsVariableDouble                             xTests_VariableDouble
+# define xtestsVariableInt                                xTests_VariableInt
+# define xTestsVariableInt                                xTests_VariableInt
+# define xtestsVariableLong                               xTests_VariableLong
+# define xTestsVariableLong                               xTests_VariableLong
+# define xtestsVariableLongLong                           xTests_VariableLongLong
+# define xTestsVariableLongLong                           xTests_VariableLongLong
+# define xtestsVariableMultibyteCharacter                 xTests_VariableMultibyteCharacter
+# define xTestsVariableMultibyteCharacter                 xTests_VariableMultibyteCharacter
+# define xtestsVariableMultibyteString                    xTests_VariableMultibyteString
+# define xTestsVariableMultibyteString                    xTests_VariableMultibyteString
+# define xtestsVariableNone                               xTests_VariableNone
+# define xTestsVariableNone                               xTests_VariableNone
+# define xtestsVariableOpaquePointer                      xTests_VariableOpaquePointer
+# define xTestsVariableOpaquePointer                      xTests_VariableOpaquePointer
+# define xtestsVariableShort                              xTests_VariableShort
+# define xTestsVariableShort                              xTests_VariableShort
+# define xtestsVariableSignedChar                         xTests_VariableSignedChar
+# define xTestsVariableSignedChar                         xTests_VariableSignedChar
+# define xtestsVariableUdt                                xTests_VariableUdt
+# define xTestsVariableUdt                                xTests_VariableUdt
+# define xtestsVariableUnsignedChar                       xTests_VariableUnsignedChar
+# define xTestsVariableUnsignedChar                       xTests_VariableUnsignedChar
+# define xtestsVariableUnsignedInt                        xTests_VariableUnsignedInt
+# define xTestsVariableUnsignedInt                        xTests_VariableUnsignedInt
+# define xtestsVariableUnsignedLong                       xTests_VariableUnsignedLong
+# define xTestsVariableUnsignedLong                       xTests_VariableUnsignedLong
+# define xtestsVariableUnsignedLongLong                   xTests_VariableUnsignedLongLong
+# define xTestsVariableUnsignedLongLong                   xTests_VariableUnsignedLongLong
+# define xtestsVariableUnsignedShort                      xTests_VariableUnsignedShort
+# define xTestsVariableUnsignedShort                      xTests_VariableUnsignedShort
+# define xtestsVariableWideCharacter                      xTests_VariableWideCharacter
+# define xTestsVariableWideCharacter                      xTests_VariableWideCharacter
+# define xtestsVariableWideString                         xTests_VariableWideString
+# define xTestsVariableWideString                         xTests_VariableWideString
+/* twins for symbols that were already xTests_* in 0.x */
+# define xtests_Reporter_t                                xTests_Reporter_t
+# define xtests_Setup_t                                   xTests_Setup_t
+# define xtests_Teardown_t                                xTests_Teardown_t
+# define xtests_hasRequiredConditionFailed                xTests_hasRequiredConditionFailed
+# define xtests_runner_results_t                          xTests_runner_results_t
+
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
