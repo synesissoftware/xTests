@@ -1,5 +1,5 @@
 /* /////////////////////////////////////////////////////////////////////////
- * File:    src/xtests.internal.string.cpp
+ * File:    src/xtests.internal.string.c
  *
  * Purpose: Internal string API.
  *
@@ -110,12 +110,12 @@ xtests_strncpy_(
 {
     if (l < n)
     {
-        ::memcpy(d, s, sizeof(char) * l);
+        memcpy(d, s, sizeof(char) * l);
         d[l] = '\0';
     }
     else
     {
-        ::memcpy(d, s, sizeof(char) * n);
+        memcpy(d, s, sizeof(char) * n);
     }
 }
 
@@ -129,12 +129,12 @@ xtests_wcsncpy_(
 {
     if (l < n)
     {
-        ::memcpy(d, s, sizeof(wchar_t) * l);
+        memcpy(d, s, sizeof(wchar_t) * l);
         d[l] = '\0';
     }
     else
     {
-        ::memcpy(d, s, sizeof(wchar_t) * n);
+        memcpy(d, s, sizeof(wchar_t) * n);
     }
 }
 
@@ -162,7 +162,7 @@ xtests_strcmp_(
     }
     else
     {
-        return ::strcmp(str1, str2);
+        return strcmp(str1, str2);
     }
 }
 
@@ -190,7 +190,7 @@ xtests_wcscmp_(
     }
     else
     {
-        return ::wcscmp(str1, str2);
+        return wcscmp(str1, str2);
     }
 }
 
@@ -279,7 +279,7 @@ xtests_strncmp_(
     }
     else
     {
-        return ::strncmp(str1, str2, n);
+        return strncmp(str1, str2, n);
     }
 }
 
@@ -312,7 +312,7 @@ xtests_wcsncmp_(
     }
     else
     {
-        return ::wcsncmp(str1, str2, n);
+        return wcsncmp(str1, str2, n);
     }
 }
 
@@ -394,7 +394,7 @@ xtests_strstr_(
     }
     else
     {
-        return ::strstr(str1, str2);
+        return strstr(str1, str2);
     }
 }
 
@@ -414,7 +414,7 @@ xtests_wcsstr_(
     }
     else
     {
-        return ::wcsstr(str1, str2);
+        return wcsstr(str1, str2);
     }
 }
 
@@ -434,7 +434,7 @@ xtests_stristr_(
     }
     else
     {
-        return stlsoft_C_strnistrn(str1, ::strlen(str1), str2, ::strlen(str2));
+        return stlsoft_C_strnistrn(str1, strlen(str1), str2, strlen(str2));
     }
 }
 
@@ -454,7 +454,7 @@ xtests_wcsistr_(
     }
     else
     {
-        return stlsoft_C_wcsnistrn(str1, ::wcslen(str1), str2, ::wcslen(str2));
+        return stlsoft_C_wcsnistrn(str1, wcslen(str1), str2, wcslen(str2));
     }
 }
 
