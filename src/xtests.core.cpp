@@ -3198,7 +3198,7 @@ RunnerInfo::get_reporter_(
                     // actual
                     if (is_tty)
                     {
-                        fmt_ += "actual string value '\033[1;35m%.*s\033[0m'";
+                        fmt_ += "actual string value '" XTESTS_ANSI_FG_BOLD_AND_MAGENTA_ "%.*s\033[0m'";
                     }
                     else
                     {
@@ -3221,7 +3221,7 @@ RunnerInfo::get_reporter_(
                     // expected
                     if (is_tty)
                     {
-                        fmt_ += " the expected value '\033[1;35m%.*s\033[0m'";
+                        fmt_ += " the expected value '" XTESTS_ANSI_FG_BOLD_AND_MAGENTA_ "%.*s\033[0m'";
                     }
                     else
                     {
@@ -3231,7 +3231,7 @@ RunnerInfo::get_reporter_(
                     //  to the length %d
                     if (is_tty)
                     {
-                        fmt_ += " to the length \033[1;35m%d" XTESTS_ANSI_RESET_;
+                        fmt_ += " to the length " XTESTS_ANSI_FG_BOLD_AND_MAGENTA_ "%d" XTESTS_ANSI_RESET_;
                     }
                     else
                     {
