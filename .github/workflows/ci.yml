@@ -1,6 +1,6 @@
 #
 # Created: 30th July 2026
-# Updated: 21st September 2026
+# Updated: 3rd November 2026
 #
 
 name: CI
@@ -115,13 +115,13 @@ jobs:
             mingw-w64-x86_64-cmake
             mingw-w64-x86_64-make
 
-      - name: Install STLSoft dependency
+      - name: Install dependencies (STLSoft + woad)
         uses: ./.github/actions/install-sis-deps
         with:
           build-type: ${{ env.BUILD_TYPE }}
           c-compiler: ${{ matrix.c_compiler }}
           cpp-compiler: ${{ matrix.cpp_compiler }}
-          dependencies: STLSoft
+          dependencies: STLSoft woad
           toolchain: ${{ matrix.toolchain }}
 
       - name: Configure
@@ -265,15 +265,24 @@ jobs:
           git clone --depth 1 https://github.com/synesissoftware/STLSoft "$STLSOFT_SRC"
           echo "STLSOFT_SRC=$STLSOFT_SRC" >> "$GITHUB_ENV"
 
+      - name: Install woad dependency
+        uses: ./.github/actions/install-sis-deps
+        with:
+          build-type: ${{ env.BUILD_TYPE }}
+          c-compiler: gcc
+          cpp-compiler: g++
+          dependencies: woad
+
       - name: Configure
         shell: bash
         run: |
           set -euo pipefail
-          # deliberately no CMAKE_PREFIX_PATH: nothing here may fall back to
-          # the STLSoft package
+          # Prefix is woad only, so find_package(STLSoft) cannot succeed
+          # from it. STLSoft remains the source tree selected above.
           if [ "${{ matrix.route }}" = "variable" ]; then
             cmake -B build -S . \
               -DCMAKE_BUILD_TYPE="${{ env.BUILD_TYPE }}" \
+              -DCMAKE_PREFIX_PATH="${{ env.SIS_DEPS }}" \
               -DSTLSOFT="${STLSOFT_SRC}" \
               -DBUILD_EXAMPLES=ON \
               -DBUILD_TESTING=ON \
@@ -281,6 +290,7 @@ jobs:
           else
             STLSOFT="${STLSOFT_SRC}" cmake -B build -S . \
               -DCMAKE_BUILD_TYPE="${{ env.BUILD_TYPE }}" \
+              -DCMAKE_PREFIX_PATH="${{ env.SIS_DEPS }}" \
               -DBUILD_EXAMPLES=ON \
               -DBUILD_TESTING=ON \
               2>&1 | tee configure.log
