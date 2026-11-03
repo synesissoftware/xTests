@@ -57,6 +57,7 @@ endif()
 
 set(CORE_SRCS
 	xtests.core.cpp
+	xtests.internal.string.cpp
 )
 
 # the real target is named for the library it produces, so that nothing as
