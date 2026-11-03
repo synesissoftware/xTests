@@ -51,9 +51,9 @@
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define XTESTS_VER_XTESTS_H_XTESTS_MAJOR       3
-# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       51
-# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    15
-# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        421
+# define XTESTS_VER_XTESTS_H_XTESTS_MINOR       55
+# define XTESTS_VER_XTESTS_H_XTESTS_REVISION    1
+# define XTESTS_VER_XTESTS_H_XTESTS_EDIT        431
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -74,9 +74,9 @@
  *
  * The patch number of the xTests library
  *
- * \def _XTESTS_VER_ALPHABETA
+ * \def _XTESTS_VER_RELSTATUS
  *
- * The alpha/beta number of the xTests library, in the range 1-0xFE for
+ * The release status of the xTests library, in the range 1-0xFE for
  * prerelease versions, and 0xFF for a released version
  *
  * \def _XTESTS_VER
@@ -85,21 +85,22 @@
  */
 
 #define _XTESTS_VER_MAJOR       0
-#define _XTESTS_VER_MINOR       26
-#define _XTESTS_VER_PATCH       6
-#define _XTESTS_VER_ALPHABETA   0x82
+#define _XTESTS_VER_MINOR       29
+#define _XTESTS_VER_PATCH       0
+#define _XTESTS_VER_RELSTATUS   0x82
 
 #define _XTESTS_VER \
     (0\
         |   (   _XTESTS_VER_MAJOR       << 24   ) \
         |   (   _XTESTS_VER_MINOR       << 16   ) \
         |   (   _XTESTS_VER_PATCH       <<  8   ) \
-        |   (   _XTESTS_VER_ALPHABETA   <<  0   ) \
+        |   (   _XTESTS_VER_RELSTATUS   <<  0   ) \
     )
 
 #ifndef XTESTS_DOCUMENTATION_SKIP_SECTION
 # define _XTESTS_VER_REVISION                               _XTESTS_VER_PATCH
-# define _XTESTS_VER_AB                                     _XTESTS_VER_ALPHABETA
+# define _XTESTS_VER_AB                                     _XTESTS_VER_RELSTATUS
+# define _XTESTS_VER_ALPHABETA                              _XTESTS_VER_RELSTATUS
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -122,13 +123,13 @@
     STLSOFT_VER >= 0x010c0000
 
 # define XTESTS_STLSOFT_1_12_OR_LATER
-#elif _STLSOFT_VER < 0x010b01c6
+#elif _STLSOFT_VER < 0x010B05FF
 
 /* NOTE: do not put "https://" (or any "//") in this #error text: under
  * ISO C90 + -Werror=pedantic, "//" is treated as a C++ comment introducer
  * and fails the build (seen with GCC/MinGW in the language matrix survey).
  */
-# error xTests requires STLSoft 1.11.1-rc5 or later; obtain from github.com/synesissoftware/STLSoft
+# error xTests requires STLSoft 1.11.5 or later; obtain from github.com/synesissoftware/STLSoft
 #endif /* _STLSOFT_VER */
 
 
@@ -681,8 +682,20 @@ typedef enum xTests_runner_flags_t                          xTests_runner_flags_
  *
  * A test runner is a logically-related group of test cases.
  *
- * \param name The name of the test-runner
- * \param verbosity The verbosity (see xTests_verbosity_t) at which the
+ * \param name The name of the test-runner, or the path of the source file
+ *   in which the runner is started (i.e. `__FILE__`), from which a name is
+ *   inferred. The name is inferred only if the path has a C/C++
+ *   extension (".c", ".cc", ".cpp", ".cxx") and either its stem is
+ *   "entry" or "main", or its stem equals its leaf directory (in which
+ *   case the stem is the name). For a stem of "entry" or "main", the
+ *   leaf directory is the name if it begins "example." or "test.";
+ *   otherwise the name is the nearest ancestor directory named "example",
+ *   "examples" (becoming "example"), or "test", followed by each
+ *   directory down to the leaf, joined with '.' (e.g.
+ *   ".../examples/cpp/udt/main.cpp" gives "example.cpp.udt", and
+ *   ".../test/unit/bec.AnsiConsole/entry.cpp" gives
+ *   "test.unit.bec.AnsiConsole"). Any other value is used as given
+ * \param verbosity The verbosity (see xtests_verbosity_t) at which the
  *   runner will be executed
  */
 #define XTESTS_START_RUNNER(name, verbosity)                \
@@ -696,8 +709,9 @@ typedef enum xTests_runner_flags_t                          xTests_runner_flags_
  *
  * A test runner is a logically-related group of test cases.
  *
- * \param name The name of the test-runner
- * \param verbosity The verbosity (see xTests_verbosity_t) at which the
+ * \param name The name of the test-runner, or `__FILE__` (see
+ *   XTESTS_START_RUNNER())
+ * \param verbosity The verbosity (see xtests_verbosity_t) at which the
  *   runner will be executed
  * \param setup The function to be called before each test
  * \param teardown The function to be called after each test
@@ -718,8 +732,9 @@ typedef enum xTests_runner_flags_t                          xTests_runner_flags_
  *
  * A test runner is a logically-related group of test cases.
  *
- * \param name The name of the test-runner
- * \param verbosity The verbosity (see xTests_verbosity_t) at which the
+ * \param name The name of the test-runner, or `__FILE__` (see
+ *   XTESTS_START_RUNNER())
+ * \param verbosity The verbosity (see xtests_verbosity_t) at which the
  *   runner will be executed
  * \param stm The stream to which output will be written
  */
@@ -734,8 +749,9 @@ typedef enum xTests_runner_flags_t                          xTests_runner_flags_
  *
  * A test runner is a logically-related group of test cases.
  *
- * \param name The name of the test-runner
- * \param verbosity The verbosity (see xTests_verbosity_t) at which the
+ * \param name The name of the test-runner, or `__FILE__` (see
+ *   XTESTS_START_RUNNER())
+ * \param verbosity The verbosity (see xtests_verbosity_t) at which the
  *   runner will be executed
  * \param reporter The reporter instance
  * \param reporterParam A caller-supplied parameter that is passed with
@@ -752,8 +768,9 @@ typedef enum xTests_runner_flags_t                          xTests_runner_flags_
  *
  * A test runner is a logically-related group of test cases.
  *
- * \param name The name of the test-runner
- * \param verbosity The verbosity (see xTests_verbosity_t) at which the
+ * \param name The name of the test-runner, or `__FILE__` (see
+ *   XTESTS_START_RUNNER())
+ * \param verbosity The verbosity (see xtests_verbosity_t) at which the
  *   runner will be executed
  * \param reporter The reporter instance
  * \param reporterParam A caller-supplied parameter that is passed with
@@ -771,8 +788,9 @@ typedef enum xTests_runner_flags_t                          xTests_runner_flags_
  *
  * A test runner is a logically-related group of test cases.
  *
- * \param name The name of the test-runner
- * \param verbosity The verbosity (see xTests_verbosity_t) at which the
+ * \param name The name of the test-runner, or `__FILE__` (see
+ *   XTESTS_START_RUNNER())
+ * \param verbosity The verbosity (see xtests_verbosity_t) at which the
  *   runner will be executed
  * \param reporter The reporter instance
  * \param reporterParam A caller-supplied parameter that is passed with
@@ -792,8 +810,9 @@ typedef enum xTests_runner_flags_t                          xTests_runner_flags_
  *
  * A test runner is a logically-related group of test cases.
  *
- * \param name The name of the test-runner
- * \param verbosity The verbosity (see xTests_verbosity_t) at which the
+ * \param name The name of the test-runner, or `__FILE__` (see
+ *   XTESTS_START_RUNNER())
+ * \param verbosity The verbosity (see xtests_verbosity_t) at which the
  *   runner will be executed
  * \param reporter The reporter instance
  * \param reporterParam A caller-supplied parameter that is passed with
@@ -817,8 +836,9 @@ typedef enum xTests_runner_flags_t                          xTests_runner_flags_
  *
  * A test runner is a logically-related group of test cases.
  *
- * \param name The name of the test-runner
- * \param verbosity The verbosity (see xTests_verbosity_t) at which the
+ * \param name The name of the test-runner, or `__FILE__` (see
+ *   XTESTS_START_RUNNER())
+ * \param verbosity The verbosity (see xtests_verbosity_t) at which the
  *   runner will be executed
  * \param flags The \link xtests::c::xTests_runner_flags_t flags\endlink
  *   that moderate the runner behaviour
@@ -2002,6 +2022,177 @@ typedef enum xTests_runner_flags_t                          xTests_runner_flags_
         ? XTESTS_NS_C_QUAL(xTests_testMultibyteStrings)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonEqual)) \
         : (0))
 
+/** \def XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF(expecteds, cExpecteds, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a multibyte string equals one of the strings in a set.
+ *
+ * \param expecteds Array of expected multibyte strings;
+ * \param cExpecteds Number of elements in \c expecteds;
+ * \param actual The actual multibyte string;
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ *
+ * \note An empty set fails. Comparison is exact and case-sensitive, as with
+ *   XTESTS_TEST_MULTIBYTE_STRING_EQUAL(). On failure the report says the
+ *   actual value should be equal to one of the expected values, and the set
+ *   is shown joined by "|".
+ */
+#define XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF(expecteds, cExpecteds, actual)    \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                         \
+        ? XTESTS_NS_C_QUAL(xTests_testMultibyteStringsEqualAnyOf)(                  \
+            XTESTS_FLF_()                                                           \
+        ,   "XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF(" #expecteds ", " #cExpecteds ", " #actual ")" \
+        ,   (expecteds)                                                             \
+        ,   (cExpecteds)                                                            \
+        ,   (actual)                                                                \
+        )                                                                           \
+        : (0))
+
+/** \def XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2(expected0, expected1, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a multibyte string equals one of two expected strings.
+ *
+ * \param expected0 The first expected string;
+ * \param expected1 The second expected string;
+ * \param actual The actual multibyte string;
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ *
+ * \sa XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF()
+ */
+#define XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2(expected0, expected1, actual)    \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                         \
+        ? XTESTS_NS_C_QUAL(xTests_testMultibyteStringsEqualAnyOf2)(                 \
+            XTESTS_FLF_()                                                           \
+        ,   "XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2(" #expected0 ", " #expected1 ", " #actual ")" \
+        ,   (expected0)                                                             \
+        ,   (expected1)                                                             \
+        ,   (actual)                                                                \
+        )                                                                           \
+        : (0))
+
+/** \def XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3(expected0, expected1, expected2, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a multibyte string equals one of three expected strings.
+ *
+ * \param expected0 The first expected string;
+ * \param expected1 The second expected string;
+ * \param expected2 The third expected string;
+ * \param actual The actual multibyte string;
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ *
+ * \sa XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF()
+ */
+#define XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3(expected0, expected1, expected2, actual) \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                         \
+        ? XTESTS_NS_C_QUAL(xTests_testMultibyteStringsEqualAnyOf3)(                 \
+            XTESTS_FLF_()                                                           \
+        ,   "XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3(" #expected0 ", " #expected1 ", " #expected2 ", " #actual ")" \
+        ,   (expected0)                                                             \
+        ,   (expected1)                                                             \
+        ,   (expected2)                                                             \
+        ,   (actual)                                                                \
+        )                                                                           \
+        : (0))
+
+/** \def XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF_APPROX(expecteds, cExpecteds, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a multibyte string equals one of the strings in a set,
+ * ignoring case.
+ *
+ * \param expecteds Array of expected multibyte strings;
+ * \param cExpecteds Number of elements in \c expecteds;
+ * \param actual The actual multibyte string;
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ *
+ * \note An empty set fails. Comparison ignores case, as with
+ *   XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX(). On failure the report says
+ *   the actual value should be approximately equal to one of the expected
+ *   values, and the set is shown joined by "|".
+ *
+ * \sa XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF()
+ */
+#define XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF_APPROX(expecteds, cExpecteds, actual)  \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                             \
+        ? XTESTS_NS_C_QUAL(xTests_testMultibyteStringsEqualAnyOfApprox)(                \
+            XTESTS_FLF_()                                                               \
+        ,   "XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF_APPROX(" #expecteds ", " #cExpecteds ", " #actual ")" \
+        ,   (expecteds)                                                                 \
+        ,   (cExpecteds)                                                                \
+        ,   (actual)                                                                    \
+        )                                                                               \
+        : (0))
+
+/** \def XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2_APPROX(expected0, expected1, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a multibyte string equals one of two expected strings,
+ * ignoring case.
+ *
+ * \param expected0 The first expected string;
+ * \param expected1 The second expected string;
+ * \param actual The actual multibyte string;
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ *
+ * \sa XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF_APPROX()
+ */
+#define XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2_APPROX(expected0, expected1, actual)  \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                             \
+        ? XTESTS_NS_C_QUAL(xTests_testMultibyteStringsEqualAnyOf2Approx)(               \
+            XTESTS_FLF_()                                                               \
+        ,   "XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2_APPROX(" #expected0 ", " #expected1 ", " #actual ")" \
+        ,   (expected0)                                                                 \
+        ,   (expected1)                                                                 \
+        ,   (actual)                                                                    \
+        )                                                                               \
+        : (0))
+
+/** \def XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3_APPROX(expected0, expected1, expected2, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a multibyte string equals one of three expected strings,
+ * ignoring case.
+ *
+ * \param expected0 The first expected string;
+ * \param expected1 The second expected string;
+ * \param expected2 The third expected string;
+ * \param actual The actual multibyte string;
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ *
+ * \sa XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF_APPROX()
+ */
+#define XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3_APPROX(expected0, expected1, expected2, actual) \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                             \
+        ? XTESTS_NS_C_QUAL(xTests_testMultibyteStringsEqualAnyOf3Approx)(               \
+            XTESTS_FLF_()                                                               \
+        ,   "XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3_APPROX(" #expected0 ", " #expected1 ", " #expected2 ", " #actual ")" \
+        ,   (expected0)                                                                 \
+        ,   (expected1)                                                                 \
+        ,   (expected2)                                                                 \
+        ,   (actual)                                                                    \
+        )                                                                               \
+        : (0))
+
 /** \def XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX(expected, actual)
  *
  * \ingroup group__xtests__test_assertion_functions
@@ -2220,6 +2411,63 @@ typedef enum xTests_runner_flags_t                          xTests_runner_flags_
 #define XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL(expected, actual)          \
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
      ?  XTESTS_NS_C_QUAL(xTests_testMultibyteStringSlice)(XTESTS_FLF_(), "", XTESTS_GET_EXPECTED_SLICE_MB_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xTests_ComparisonEqual)) \
+     : (0))
+
+/** \def XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL_APPROX(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a (multibyte) string slice is the same length and has the
+ * same contents as an expected value, ignoring case.
+ *
+ * \param expected The expected value of the string;
+ * \param actual The string slice to be evaluated, which is expected to have
+ *   the members <code>len</code> and <code>ptr</code>;
+ *
+ * \note This can only be invoked after a successful invocation of the macro
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL_APPROX(expected, actual)   \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+     ?  XTESTS_NS_C_QUAL(xTests_testMultibyteStringSlice)(XTESTS_FLF_(), "", XTESTS_GET_EXPECTED_SLICE_MB_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)) \
+     : (0))
+
+/** \def XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a (multibyte) string slice differs in length and/or
+ * contents from an expected value.
+ *
+ * \param expected The value that the slice is expected not to match;
+ * \param actual The string slice to be evaluated, which is expected to have
+ *   the members <code>len</code> and <code>ptr</code>;
+ *
+ * \note This can only be invoked after a successful invocation of the macro
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL(expected, actual)      \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+     ?  XTESTS_NS_C_QUAL(xTests_testMultibyteStringSlice)(XTESTS_FLF_(), "", XTESTS_GET_EXPECTED_SLICE_MB_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)) \
+     : (0))
+
+/** \def XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL_APPROX(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a (multibyte) string slice differs in length and/or
+ * contents from an expected value, ignoring case.
+ *
+ * \param expected The value that the slice is expected not to match;
+ * \param actual The string slice to be evaluated, which is expected to have
+ *   the members <code>len</code> and <code>ptr</code>;
+ *
+ * \note This can only be invoked after a successful invocation of the macro
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL_APPROX(expected, actual)   \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                     \
+     ?  XTESTS_NS_C_QUAL(xTests_testMultibyteStringSlice)(XTESTS_FLF_(), "", XTESTS_GET_EXPECTED_SLICE_MB_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)) \
      : (0))
 
 #ifdef XTESTS_USE_SHWILD
@@ -2526,6 +2774,60 @@ typedef enum xTests_runner_flags_t                          xTests_runner_flags_
         ? XTESTS_NS_C_QUAL(xTests_testWideStringSlice)(XTESTS_FLF_(), "", XTESTS_GET_EXPECTED_SLICE_WIDE_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xTests_ComparisonEqual)) \
         : (0))
 
+/** \def XTESTS_TEST_WIDE_STRING_SLICE_EQUAL_APPROX(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a (wide) string slice is the same length and has the same
+ * contents as an expected value, ignoring case.
+ *
+ * \param expected The expected value of the string;
+ * \param actual The string slice to be evaluated;
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_WIDE_STRING_SLICE_EQUAL_APPROX(expected, actual)        \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xTests_testWideStringSlice)(XTESTS_FLF_(), "", XTESTS_GET_EXPECTED_SLICE_WIDE_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonApproxEqual)) \
+        : (0))
+
+/** \def XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a (wide) string slice differs in length and/or contents
+ * from an expected value.
+ *
+ * \param expected The value that the slice is expected not to match;
+ * \param actual The string slice to be evaluated;
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL(expected, actual)           \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xTests_testWideStringSlice)(XTESTS_FLF_(), "", XTESTS_GET_EXPECTED_SLICE_WIDE_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonNotEqual)) \
+        : (0))
+
+/** \def XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL_APPROX(expected, actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that a (wide) string slice differs in length and/or contents
+ * from an expected value, ignoring case.
+ *
+ * \param expected The value that the slice is expected not to match;
+ * \param actual The string slice to be evaluated;
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL_APPROX(expected, actual)    \
+    (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
+        ? XTESTS_NS_C_QUAL(xTests_testWideStringSlice)(XTESTS_FLF_(), "", XTESTS_GET_EXPECTED_SLICE_WIDE_(expected), (actual).len, (actual).ptr, XTESTS_NS_C_QUAL(xtestsComparisonApproxNotEqual)) \
+        : (0))
+
 
 /* /////////////////////////////////////////////////////////
  * test pointers
@@ -2636,6 +2938,34 @@ typedef enum xTests_runner_flags_t                          xTests_runner_flags_
     (!XTESTS_NS_C_QUAL(xTests_hasRequiredConditionFailed())                 \
         ? XTESTS_NS_C_QUAL(xTests_testPointers)(XTESTS_FLF_(), "", (expected), (actual), XTESTS_NS_C_QUAL(xTests_ComparisonLessThanOrEqual)) \
         : (0))
+
+/** \def XTESTS_TEST_POINTER_NULL(actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that the pointer is `NULL` / `nullptr`.
+ *
+ * \param actual The actual value of the pointer;
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_POINTER_NULL(actual)                                    \
+    XTESTS_TEST_POINTER_EQUAL(NULL, actual)
+
+/** \def XTESTS_TEST_POINTER_NOT_NULL(actual)
+ *
+ * \ingroup group__xtests__test_assertion_functions
+ *
+ * Tests that the pointer is not `NULL` / `nullptr`.
+ *
+ * \param actual The actual value of the pointer;
+ *
+ * \note This can only be invoked after a successful invocation of
+ *   XTESTS_CASE_BEGIN() and before invocation of XTESTS_CASE_END().
+ */
+#define XTESTS_TEST_POINTER_NOT_NULL(actual)                                \
+    XTESTS_TEST_POINTER_NOT_EQUAL(NULL, actual)
 
 
 /* /////////////////////////////////////////////////////////
@@ -2819,34 +3149,35 @@ typedef enum xTests_comparison_t                            xTests_comparison_t;
 
 enum xTests_variable_type_t
 {
-        xTests_VariableNone                  =   0
-    ,   xTests_VariableBoolean               =   1
-    ,   xTests_VariableOpaquePointer         =   3
-    ,   xTests_VariableMultibyteCharacter    =   5
-    ,   xTests_VariableWideCharacter         =   6
-    ,   xTests_VariableMultibyteString       =   7
-    ,   xTests_VariableWideString            =   8
-    ,   xTests_VariableSignedChar            =   11
-    ,   xTests_VariableUnsignedChar          =   12
-    ,   xTests_VariableShort                 =   13
-    ,   xTests_VariableUnsignedShort         =   14
-    ,   xTests_VariableInt                   =   15
-    ,   xTests_VariableUnsignedInt           =   16
-    ,   xTests_VariableLong                  =   17
-    ,   xTests_VariableUnsignedLong          =   18
+        xTests_VariableNone                 =   0
+    ,   xTests_VariableBoolean              =   1
+    ,   xTests_VariableOpaquePointer        =   3
+    ,   xTests_VariableMultibyteCharacter   =   5
+    ,   xTests_VariableWideCharacter        =   6
+    ,   xTests_VariableMultibyteString      =   7
+    ,   xTests_VariableWideString           =   8
+    ,   xTests_VariableSignedChar           =   11
+    ,   xTests_VariableUnsignedChar         =   12
+    ,   xTests_VariableShort                =   13
+    ,   xTests_VariableUnsignedShort        =   14
+    ,   xTests_VariableInt                  =   15
+    ,   xTests_VariableUnsignedInt          =   16
+    ,   xTests_VariableLong                 =   17
+    ,   xTests_VariableUnsignedLong         =   18
 #  ifdef STLSOFT_CF_64BIT_INT_SUPPORT
-    ,   xTests_VariableLongLong              =   19
-    ,   xTests_VariableUnsignedLongLong      =   20
+    ,   xTests_VariableLongLong             =   19
+    ,   xTests_VariableUnsignedLongLong     =   20
 #  endif /* STLSOFT_CF_64BIT_INT_SUPPORT */
-    ,   xTests_VariableDouble                =   31
-    ,   xTests_VariableUdt                   =   32
+    ,   xTests_VariableDouble               =   31
+    ,   xTests_VariableUdt                  =   32
 };
 
 enum xTests_test_type_t
 {
-        xTests_TestFullComparison            =   0
-    ,   xTests_TestPartialComparison         =   1
-    ,   xTests_TestContainment               =   2
+        xTests_TestFullComparison           =   0
+    ,   xTests_TestPartialComparison        =   1
+    ,   xTests_TestContainment              =   2
+    ,   xTests_TestEqualAnyOf               =   3
 };
 
 union xTests_variable_value_t
@@ -3172,6 +3503,74 @@ xTests_testMultibyteStrings(
 );
 
 XTESTS_CALL(int)
+xTests_testMultibyteStringsEqualAnyOf(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const* const*  expecteds
+,   size_t              cExpecteds
+,   char const*         actual
+);
+
+XTESTS_CALL(int)
+xTests_testMultibyteStringsEqualAnyOf2(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const*         expected0
+,   char const*         expected1
+,   char const*         actual
+);
+
+XTESTS_CALL(int)
+xTests_testMultibyteStringsEqualAnyOf3(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const*         expected0
+,   char const*         expected1
+,   char const*         expected2
+,   char const*         actual
+);
+
+XTESTS_CALL(int)
+xTests_testMultibyteStringsEqualAnyOfApprox(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const* const*  expecteds
+,   size_t              cExpecteds
+,   char const*         actual
+);
+
+XTESTS_CALL(int)
+xTests_testMultibyteStringsEqualAnyOf2Approx(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const*         expected0
+,   char const*         expected1
+,   char const*         actual
+);
+
+XTESTS_CALL(int)
+xTests_testMultibyteStringsEqualAnyOf3Approx(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const*         expected0
+,   char const*         expected1
+,   char const*         expected2
+,   char const*         actual
+);
+
+XTESTS_CALL(int)
 xTests_testMultibyteStringsN(
     char const*         file
 ,   int                 line
@@ -3329,6 +3728,176 @@ xTests_testMultibyteStrings(
 }
 
 template<
+    typename S
+>
+inline
+int
+xTests_testMultibyteStringsEqualAnyOf(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const* const*  expecteds
+,   size_t              cExpecteds
+,   S const&            actual
+)
+{
+    return xTests_testMultibyteStringsEqualAnyOf(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   expecteds
+    ,   cExpecteds
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(actual).c_str()
+    );
+}
+
+template<
+    typename S0
+,   typename S1
+,   typename S2
+>
+inline
+int
+xTests_testMultibyteStringsEqualAnyOf2(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   S0 const&           expected0
+,   S1 const&           expected1
+,   S2 const&           actual
+)
+{
+    return xTests_testMultibyteStringsEqualAnyOf2(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected0).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected1).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(actual).c_str()
+    );
+}
+
+template<
+    typename S0
+,   typename S1
+,   typename S2
+,   typename S3
+>
+inline
+int
+xTests_testMultibyteStringsEqualAnyOf3(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   S0 const&           expected0
+,   S1 const&           expected1
+,   S2 const&           expected2
+,   S3 const&           actual
+)
+{
+    return xTests_testMultibyteStringsEqualAnyOf3(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected0).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected1).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected2).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(actual).c_str()
+    );
+}
+
+template<
+    typename S
+>
+inline
+int
+xTests_testMultibyteStringsEqualAnyOfApprox(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   char const* const*  expecteds
+,   size_t              cExpecteds
+,   S const&            actual
+)
+{
+    return xTests_testMultibyteStringsEqualAnyOfApprox(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   expecteds
+    ,   cExpecteds
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(actual).c_str()
+    );
+}
+
+template<
+    typename S0
+,   typename S1
+,   typename S2
+>
+inline
+int
+xTests_testMultibyteStringsEqualAnyOf2Approx(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   S0 const&           expected0
+,   S1 const&           expected1
+,   S2 const&           actual
+)
+{
+    return xTests_testMultibyteStringsEqualAnyOf2Approx(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected0).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected1).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(actual).c_str()
+    );
+}
+
+template<
+    typename S0
+,   typename S1
+,   typename S2
+,   typename S3
+>
+inline
+int
+xTests_testMultibyteStringsEqualAnyOf3Approx(
+    char const*         file
+,   int                 line
+,   char const*         function
+,   char const*         expr
+,   S0 const&           expected0
+,   S1 const&           expected1
+,   S2 const&           expected2
+,   S3 const&           actual
+)
+{
+    return xTests_testMultibyteStringsEqualAnyOf3Approx(
+        file
+    ,   line
+    ,   function
+    ,   expr
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected0).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected1).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(expected2).c_str()
+    ,   STLSOFT_NS_QUAL(sas_to_string_m)(actual).c_str()
+    );
+}
+
+template<
     typename S0
 ,   typename S1
 ,   typename I
@@ -3435,7 +4004,7 @@ xTests_testWideStringsN(
 ,   char const*         expr
 ,   wchar_t const*      expected
 ,   wchar_t const*      actual
-,   int                 n /* exact if +ve; limit if -ve */
+,   ptrdiff_t           n /* exact if +ve; limit if -ve */
 ,   xTests_comparison_t comp
 );
 # ifndef _XTESTS_NO_CPP_API
@@ -3658,8 +4227,8 @@ xTests_testFunctionPointers(
 ,   int                     line
 ,   char const*             function
 ,   char const*             expr
-,   void                    (*expected)(void)
-,   void                    (*actual)(void)
+,   void                  (*expected)(void)
+,   void                  (*actual)(void)
 ,   xTests_comparison_t     comp
 );
 
@@ -5485,7 +6054,7 @@ xTests_commandLine_parseHelpOrVerbosity(
 # define xtests_commandLine_parseHelp2                    xTests_commandLine_parseHelp2
 # define xtests_commandLine_parseHelpOrVerbosity          xTests_commandLine_parseHelpOrVerbosity
 # define xtests_commandLine_parseVerbosity                xTests_commandLine_parseVerbosity
-# define xtests_comparison_t                              xTests_comparison_t
+# define xTests_comparison_t                              xTests_comparison_t
 # define xtests_endRunner                                 xTests_endRunner
 # define xtests_endTestCase                               xTests_endTestCase
 # define xtests_failure_reporter                          xTests_failure_reporter
@@ -5555,71 +6124,71 @@ xTests_commandLine_parseHelpOrVerbosity(
  * xTests + Name (pre-underscore) -> canonical xTests_ + Name
  */
 # define xtestsComparisonApproxEqual                      xTests_ComparisonApproxEqual
-# define xTestsComparisonApproxEqual                      xTests_ComparisonApproxEqual
+# define xtestsComparisonApproxEqual                      xTests_ComparisonApproxEqual
 # define xtestsComparisonApproxNotEqual                   xTests_ComparisonApproxNotEqual
-# define xTestsComparisonApproxNotEqual                   xTests_ComparisonApproxNotEqual
+# define xtestsComparisonApproxNotEqual                   xTests_ComparisonApproxNotEqual
 # define xtestsComparisonEqual                            xTests_ComparisonEqual
-# define xTestsComparisonEqual                            xTests_ComparisonEqual
+# define xtestsComparisonEqual                            xTests_ComparisonEqual
 # define xtestsComparisonGreaterThan                      xTests_ComparisonGreaterThan
-# define xTestsComparisonGreaterThan                      xTests_ComparisonGreaterThan
+# define xtestsComparisonGreaterThan                      xTests_ComparisonGreaterThan
 # define xtestsComparisonGreaterThanOrEqual               xTests_ComparisonGreaterThanOrEqual
-# define xTestsComparisonGreaterThanOrEqual               xTests_ComparisonGreaterThanOrEqual
+# define xtestsComparisonGreaterThanOrEqual               xTests_ComparisonGreaterThanOrEqual
 # define xtestsComparisonLessThan                         xTests_ComparisonLessThan
-# define xTestsComparisonLessThan                         xTests_ComparisonLessThan
+# define xtestsComparisonLessThan                         xTests_ComparisonLessThan
 # define xtestsComparisonLessThanOrEqual                  xTests_ComparisonLessThanOrEqual
-# define xTestsComparisonLessThanOrEqual                  xTests_ComparisonLessThanOrEqual
+# define xtestsComparisonLessThanOrEqual                  xTests_ComparisonLessThanOrEqual
 # define xtestsComparisonNotEqual                         xTests_ComparisonNotEqual
-# define xTestsComparisonNotEqual                         xTests_ComparisonNotEqual
+# define xtestsComparisonNotEqual                         xTests_ComparisonNotEqual
 # define xtestsComparison_max_enumerator                  xTests_Comparison_max_enumerator
-# define xTestsComparison_max_enumerator                  xTests_Comparison_max_enumerator
+# define xtestsComparison_max_enumerator                  xTests_Comparison_max_enumerator
 # define xtestsReportOnlyNonEmptyCases                    xTests_ReportOnlyNonEmptyCases
-# define xTestsReportOnlyNonEmptyCases                    xTests_ReportOnlyNonEmptyCases
+# define xtestsReportOnlyNonEmptyCases                    xTests_ReportOnlyNonEmptyCases
 # define xtestsRunnerFlagsNoWindowsDebugString            xTests_RunnerFlagsNoWindowsDebugString
-# define xTestsRunnerFlagsNoWindowsDebugString            xTests_RunnerFlagsNoWindowsDebugString
+# define xtestsRunnerFlagsNoWindowsDebugString            xTests_RunnerFlagsNoWindowsDebugString
 # define xtestsTestContainment                            xTests_TestContainment
-# define xTestsTestContainment                            xTests_TestContainment
+# define xtestsTestContainment                            xTests_TestContainment
 # define xtestsTestFullComparison                         xTests_TestFullComparison
-# define xTestsTestFullComparison                         xTests_TestFullComparison
+# define xtestsTestFullComparison                         xTests_TestFullComparison
 # define xtestsTestPartialComparison                      xTests_TestPartialComparison
-# define xTestsTestPartialComparison                      xTests_TestPartialComparison
+# define xtestsTestPartialComparison                      xTests_TestPartialComparison
 # define xtestsVariableBoolean                            xTests_VariableBoolean
-# define xTestsVariableBoolean                            xTests_VariableBoolean
+# define xtestsVariableBoolean                            xTests_VariableBoolean
 # define xtestsVariableDouble                             xTests_VariableDouble
-# define xTestsVariableDouble                             xTests_VariableDouble
+# define xtestsVariableDouble                             xTests_VariableDouble
 # define xtestsVariableInt                                xTests_VariableInt
-# define xTestsVariableInt                                xTests_VariableInt
+# define xtestsVariableInt                                xTests_VariableInt
 # define xtestsVariableLong                               xTests_VariableLong
-# define xTestsVariableLong                               xTests_VariableLong
+# define xtestsVariableLong                               xTests_VariableLong
 # define xtestsVariableLongLong                           xTests_VariableLongLong
-# define xTestsVariableLongLong                           xTests_VariableLongLong
+# define xtestsVariableLongLong                           xTests_VariableLongLong
 # define xtestsVariableMultibyteCharacter                 xTests_VariableMultibyteCharacter
-# define xTestsVariableMultibyteCharacter                 xTests_VariableMultibyteCharacter
+# define xtestsVariableMultibyteCharacter                 xTests_VariableMultibyteCharacter
 # define xtestsVariableMultibyteString                    xTests_VariableMultibyteString
-# define xTestsVariableMultibyteString                    xTests_VariableMultibyteString
+# define xtestsVariableMultibyteString                    xTests_VariableMultibyteString
 # define xtestsVariableNone                               xTests_VariableNone
-# define xTestsVariableNone                               xTests_VariableNone
+# define xtestsVariableNone                               xTests_VariableNone
 # define xtestsVariableOpaquePointer                      xTests_VariableOpaquePointer
-# define xTestsVariableOpaquePointer                      xTests_VariableOpaquePointer
+# define xtestsVariableOpaquePointer                      xTests_VariableOpaquePointer
 # define xtestsVariableShort                              xTests_VariableShort
-# define xTestsVariableShort                              xTests_VariableShort
+# define xtestsVariableShort                              xTests_VariableShort
 # define xtestsVariableSignedChar                         xTests_VariableSignedChar
-# define xTestsVariableSignedChar                         xTests_VariableSignedChar
+# define xtestsVariableSignedChar                         xTests_VariableSignedChar
 # define xtestsVariableUdt                                xTests_VariableUdt
-# define xTestsVariableUdt                                xTests_VariableUdt
+# define xtestsVariableUdt                                xTests_VariableUdt
 # define xtestsVariableUnsignedChar                       xTests_VariableUnsignedChar
-# define xTestsVariableUnsignedChar                       xTests_VariableUnsignedChar
+# define xtestsVariableUnsignedChar                       xTests_VariableUnsignedChar
 # define xtestsVariableUnsignedInt                        xTests_VariableUnsignedInt
-# define xTestsVariableUnsignedInt                        xTests_VariableUnsignedInt
+# define xtestsVariableUnsignedInt                        xTests_VariableUnsignedInt
 # define xtestsVariableUnsignedLong                       xTests_VariableUnsignedLong
-# define xTestsVariableUnsignedLong                       xTests_VariableUnsignedLong
+# define xtestsVariableUnsignedLong                       xTests_VariableUnsignedLong
 # define xtestsVariableUnsignedLongLong                   xTests_VariableUnsignedLongLong
-# define xTestsVariableUnsignedLongLong                   xTests_VariableUnsignedLongLong
+# define xtestsVariableUnsignedLongLong                   xTests_VariableUnsignedLongLong
 # define xtestsVariableUnsignedShort                      xTests_VariableUnsignedShort
-# define xTestsVariableUnsignedShort                      xTests_VariableUnsignedShort
+# define xtestsVariableUnsignedShort                      xTests_VariableUnsignedShort
 # define xtestsVariableWideCharacter                      xTests_VariableWideCharacter
-# define xTestsVariableWideCharacter                      xTests_VariableWideCharacter
+# define xtestsVariableWideCharacter                      xTests_VariableWideCharacter
 # define xtestsVariableWideString                         xTests_VariableWideString
-# define xTestsVariableWideString                         xTests_VariableWideString
+# define xtestsVariableWideString                         xTests_VariableWideString
 /* twins for symbols that were already xTests_* in 0.x */
 # define xtests_Reporter_t                                xTests_Reporter_t
 # define xtests_Setup_t                                   xTests_Setup_t

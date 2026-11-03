@@ -1,11 +1,24 @@
 # xTests {#mainpage}
 
-**xTests** is a simple, easy-to-use, efficient unit- and component-testing library for **C** and **C++**. 
+**xTests** is a simple, easy-to-use, efficient unit- and component-testing
+library for **C** and **C++**. It is small, lightweight, and portable enough
+to bundle with other libraries and exercise them in their automated builds.
 
-It relies on no platform-specific or compiler-specific constructs. The only library it relies on is the 100% header-only, open-source **STLSoft** library. It is designed to be highly portable and sufficiently lightweight to be bundled directly with other libraries.
+It relies on no platform-specific or compiler-specific constructs. The only
+library it relies on is the 100% header-only, open-source **STLSoft** library.
 
 
 ## Components
+
+| Module | Header | Summary |
+| ------ | ------ | ------- |
+| @ref group__xtests__test_runner_functions | `<xtests/xtests.h>` | Start/end runners, print results, command-line helpers |
+| @ref group__xtests__test_case_functions | `<xtests/xtests.h>` | Register and run named test cases |
+| @ref group__xtests__test_assertion_functions | `<xtests/xtests.h>` | Typed assertion macros (`XTESTS_TEST_*`) |
+| @ref group__xtests__utiliy_functions | `<xtests/xtests.h>` | Utility helpers used by the assertion layer |
+| @ref group__xtests__misc | `<xtests/xtests.h>` | Miscellaneous constructs (verbosity, floating-point scope, …) |
+| Terse API | `<xtests/terse-api.h>` | Short aliases such as `TEST_INT_EQ` |
+| C++ utilities | `<xtests/util/temp_file.hpp>`, `<xtests/util/temp_directory.hpp>` | Temporary file and directory helpers for tests |
 
 The library consists of the following key layers:
 
@@ -29,6 +42,7 @@ Here is a simple example program demonstrating how to define test cases and asse
 
 ```c
 #include <xtests/xtests.h>
+
 #include <stdlib.h>
 
 int main(int argc, char* argv[])
@@ -56,13 +70,17 @@ int main(int argc, char* argv[])
         }
 
         XTESTS_PRINT_RESULTS();
-
         XTESTS_END_RUNNER_UPDATE_EXITCODE(&retCode);
     }
 
     return retCode;
 }
 ```
+
+Include `<xtests/xtests.h>` (or `<xtests/terse-api.h>`), start a runner,
+execute cases, print results, and end the runner. See the **Examples**
+section of the generated documentation for complete programs under
+**examples/**.
 
 
 ## Integration and Installation

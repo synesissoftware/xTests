@@ -5,5 +5,7 @@
 # List program names or stems (example.c.runner and example.c.runner.exe
 # are equivalent).
 example.c.runner
+example.c.string-equal-any-of
 example.c.tests
+example.cpp.string-comparisons-n
 example.cpp.udt

@@ -1,0 +1,3 @@
+# Scratch-test programs that are allowed to fail in CI /
+# run_all_scratch_tests. List program names or stems (one per line).
+# Blank lines and # comments are ignored.

@@ -1,0 +1,79 @@
+/* /////////////////////////////////////////////////////////////////////////
+ * File:    examples/c/runner/main.c
+ *
+ * Purpose: Example of in-runner test cases.
+ *
+ * Created: 20th February 2008
+ * Updated: 16th October 2026
+ *
+ * ////////////////////////////////////////////////////////////////////// */
+
+/** \file examples/c/runner/main.c
+ */
+
+
+/* xTests Header Files */
+#include <xtests/xtests.h>
+
+/* STLSoft Header Files */
+#include <stlsoft/stlsoft.h>
+
+/* Standard C Header Files */
+#include <stdlib.h>
+
+#include <xtests/internal/checked_main.h>
+
+
+/* /////////////////////////////////////////////////////////////////////////
+ * main()
+ */
+
+int main(int argc, char* argv[])
+{
+    int retCode = EXIT_SUCCESS;
+    int verbosity;
+
+    XTESTS_COMMANDLINE_PARSE_HELP_OR_VERBOSITY(argc, argv, &verbosity);
+
+    if (XTESTS_START_RUNNER("example.c.runner", verbosity))
+    {
+        /* test case 1 */
+        if (XTESTS_CASE_BEGIN("test-case-1", "checking sizes of different integer types"))
+        {
+            XTESTS_TEST_INTEGER_LESS_OR_EQUAL(sizeof(char), sizeof(short));
+            XTESTS_TEST_INTEGER_LESS_OR_EQUAL(sizeof(short), sizeof(int));
+            XTESTS_TEST_INTEGER_LESS_OR_EQUAL(sizeof(int), sizeof(long));
+
+            XTESTS_CASE_END("test-case-1");
+        }
+
+        /* test case 2 */
+        if (XTESTS_CASE_BEGIN("test-case-2", "checking equality of sizes of signed and unsigned integer types"))
+        {
+            XTESTS_TEST_INTEGER_EQUAL_EXACT(sizeof(signed char), sizeof(unsigned char));
+            XTESTS_TEST_INTEGER_EQUAL_EXACT(sizeof(signed short), sizeof(unsigned short));
+            XTESTS_TEST_INTEGER_EQUAL_EXACT(sizeof(signed int), sizeof(unsigned int));
+            XTESTS_TEST_INTEGER_EQUAL_EXACT(sizeof(signed long), sizeof(unsigned long));
+
+            XTESTS_CASE_END("test-case-2");
+        }
+
+        /* test case 3 */
+        if (XTESTS_CASE_BEGIN("test-case-3", "tests that always pass"))
+        {
+            XTESTS_TEST_PASSED();
+
+            XTESTS_CASE_END("test-case-3");
+        }
+
+        XTESTS_PRINT_RESULTS();
+
+        XTESTS_END_RUNNER_UPDATE_EXITCODE(&retCode);
+    }
+
+    return retCode;
+}
+
+
+/* ///////////////////////////// end of file //////////////////////////// */
+

@@ -8,9 +8,169 @@
 * Normalised enumerator spellings to `xTests_*` form (e.g. `xTests_VariableNone`, `xTests_ComparisonEqual`), with aliases for both `xtests*` and intermediate `xTests*` (no underscore) forms;
 
 
+## 0.29.0-alpha3 - 2nd November 2026
+
+* compatibility:
+  * requires **STLSoft** **1.11.5** or later (`_STLSOFT_VER` >= `0x010B05FF`);
 
 
+## 0.29.0-alpha2 - 1st November 2026
 
+* additions:
+  * `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF_APPROX()`, `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2_APPROX()`, and `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3_APPROX()`, with terse aliases `TEST_MS_EQ_ANY_OF_APPROX`, `TEST_MS_EQ_ANY_OF2_APPROX`, and `TEST_MS_EQ_ANY_OF3_APPROX`; comparison ignores case as with `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX()`;
+* examples:
+  * **example.c.string-equal-any-of** shows passing and failing case-insensitive membership;
+* testing:
+  * **test.unit.string-comparisons** and **test.unit.string-comparisons.C** cover the `_APPROX` macros;
+* documentation:
+  * updated the **COMPONENTS.md** multibyte-string section and Terse API table;
+* version:
+  * set `_XTESTS_VER` to **0.29.0-alpha2** (`_XTESTS_VER_RELSTATUS` `0x43`) in **xtests.h**; synced **Doxyfile** `PROJECT_NUMBER`;
+  * set the **xtests.h** include-file quadruple to 3.55.1 edit 430;
+  * set the **terse-api.h** include-file quadruple to 1.6.0 edit 11;
+
+
+## 0.29.0-alpha1 - 30th October 2026
+
+* additions:
+  * `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF()`, `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2()`, and `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3()`, with terse aliases `TEST_MS_EQ_ANY_OF`, `TEST_MS_EQ_ANY_OF2`, and `TEST_MS_EQ_ANY_OF3`; C++ string types are accepted via the string-access shims;
+* changes:
+  * equal-any-of failure reports say the actual multibyte string should be equal to one of the expected values;
+* examples:
+  * **example.c.string-equal-any-of** exercises membership of an actual multibyte string in a set, includes deliberate assertion failures, and is listed in **.sis/ci_examples_allowed_to_fail.txt**;
+  * **example.cpp.string-comparisons-n** includes deliberate `_N` assertion failures, and is listed in **.sis/ci_examples_allowed_to_fail.txt**;
+* testing:
+  * **test.unit.string-comparisons** and **test.unit.string-comparisons.C** cover the new macros;
+* documentation:
+  * updated the **COMPONENTS.md** multibyte-string section and Terse API table;
+* version:
+  * set `_XTESTS_VER` to **0.29.0-alpha1** (`_XTESTS_VER_RELSTATUS` `0x41`) in **xtests.h**; synced **Doxyfile** `PROJECT_NUMBER`;
+  * set the **xtests.h** include-file quadruple to 3.53.1 edit 428;
+
+
+## 0.28.2 - 29th October 2026
+
+* Case-insensitive bounded compare and search (`xtests_strnicmp_a_` / `xtests_strnicmp_w_` / `xtests_stristr_` / `xtests_stristr_w_`) now call `stlsoft_C_strnicmp`, `stlsoft_C_wcsnicmp`, `stlsoft_C_strnistrn`, and `stlsoft_C_wcsnistrn` without allocating; char fold is ASCII `a`-`z` by 32, and `stristr` returns a pointer into the caller's haystack;
+* Requires **STLSoft** 1.11.4 or later (`_STLSOFT_VER` >= `0x010B04FF`);
+
+
+## 0.28.1 - 27th October 2026
+
+* Defined `HAS_shwild` and `HAS_SHWILD` when **shwild** is detected;
+
+
+## 0.28.0 - 26th October 2026
+
+* additions:
+  * `XTESTS_TEST_POINTER_NULL()` and `XTESTS_TEST_POINTER_NOT_NULL()`, with terse aliases `TEST_POINTER_NULL` / `TEST_PTR_NULL` and `TEST_POINTER_NOT_NULL` / `TEST_PTR_NOT_NULL`;
+  * further short aliases in **xtests/terse-api.h**: `TEST_BOOL_*`, `TEST_CHAR_EQ_EXACT`, `TEST_FP_*_EXACT`, `TEST_INT_EQ_EXACT`, `TEST_INT_EQ_ANY_*`, `TEST_MS_SLICE_*` / `TEST_WS_SLICE_*`, `TEST_WS_NOT_CONTAIN_APPROX`, `TEST_EQUAL_WITH_MESSAGE` / `TEST_EQ_WITH_MSG`, `TEST_NOT_EQUAL_WITH_MESSAGE` / `TEST_NE_WITH_MSG`, and `END_RUNNER_UPDATE_EXITCODE`;
+  * `XTESTS_START_RUNNER()` (and related start-runner APIs) now infer a runner name from a source path such as `__FILE__` when it has a C/C++ extension (`.c`, `.cc`, `.cpp`, `.cxx`) and a stem of `entry` / `main` or equal to its leaf directory; any other value is used as given;
+* changes:
+  * pointer equality/inequality failure messages now say the actual value "is not null as expected" or "actual pointer is null not as expected" when the expected pointer is null, rather than comparing against a platform-formatted null address;
+  * collapsed the internal file, line, function, and expression parameters into an `flfe_t` helper in **xtests.core.cpp**;
+* dependencies:
+  * requires **STLSoft** 1.11.2 or later (`_STLSOFT_VER` >= `0x010b02FF`);
+* documentation:
+  * documented the `__FILE__` runner-name rules in the `XTESTS_START_RUNNER*()` Doxygen markup in **xtests.h**, in **COMPONENTS.md**, and in a new **README.md** *Runner Names* section;
+  * updated the **COMPONENTS.md** Terse API table;
+* examples:
+  * illustrated the new pointer-null macros in **example.c.tests**;
+  * **example.cpp.udt** now starts its runner with `__FILE__`;
+* testing:
+  * **test.component.temp_directory**, **test.scratch.fail_all**, and **test.unit.shwild-patterns** now start their runners with `__FILE__`;
+  * **test.scratch.versions** now also reports **shwild** (when `XTESTS_USE_SHWILD`) under `efferent dependencies:`, and omits the heading when no dependency is printed;
+* version:
+  * bumped `_XTESTS_VER_RELSTATUS` to `0xFF` (released) in **xtests.h**; synced **Doxyfile** `PROJECT_NUMBER`;
+
+
+## 0.28.0-beta1 - 23rd October 2026
+
+* Expanded **xtests/terse-api.h** with further short aliases matching the established `TYPE_OP` vocabulary (`BOOL`, `CHAR`/`FP`/`INT` + `EQ`/`NE`, `MS`/`WS` + `SLICE`, and message / exit-code helpers):
+  * `TEST_BOOL_TRUE` / `TEST_BOOL_FALSE` / `TEST_BOOL_EQ` / `TEST_BOOL_NE`;
+  * `TEST_CHAR_EQ_EXACT`, `TEST_FP_EQ_EXACT` / `TEST_FP_NE_EXACT`, `TEST_INT_EQ_EXACT`;
+  * `TEST_INT_EQ_ANY_IN_RANGE` / `TEST_INT_EQ_ANY_NOT_IN_RANGE` / `TEST_INT_EQ_ANY_OF` / `TEST_INT_EQ_ANY_OF2` / `TEST_INT_EQ_ANY_OF3`;
+  * `TEST_MS_SLICE_EQ` / `TEST_MS_SLICE_EQ_APPROX` / `TEST_MS_SLICE_NE` / `TEST_MS_SLICE_NE_APPROX` and the `TEST_WS_SLICE_*` counterparts;
+  * `TEST_WS_NOT_CONTAIN_APPROX` (parity with `TEST_MS_NOT_CONTAIN_APPROX`);
+  * `TEST_EQUAL_WITH_MESSAGE` / `TEST_EQ_WITH_MSG`, `TEST_NOT_EQUAL_WITH_MESSAGE` / `TEST_NE_WITH_MSG`, and `END_RUNNER_UPDATE_EXITCODE`;
+* Bumped `_XTESTS_VER_RELSTATUS` to `0x81` (beta 1) in **xtests.h**; synced **Doxyfile** `PROJECT_NUMBER`;
+* Updated **COMPONENTS.md** Terse API table for the new boolean short forms;
+
+
+## 0.28.0-alpha2 - 22nd October 2026
+
+* `XTESTS_START_RUNNER()` (and related start-runner APIs) now infer a runner name from a source path such as `__FILE__`, when the path has a C/C++ extension (`.c`, `.cc`, `.cpp`, `.cxx`) and either its stem is `entry` or `main` (result: the leaf directory if it begins `example.` or `test.`, otherwise the nearest `example`/`examples`/`test` ancestor joined with the directories below it by `.`, e.g. `example.cpp.udt`) or its stem equals its leaf directory (result: the stem); any other value is used as given;
+* Documented the `__FILE__` runner-name rules in the `XTESTS_START_RUNNER*()` Doxygen markup in **xtests.h**, in the test-runner section of **COMPONENTS.md**, and in a new **README.md** *Runner Names* section;
+* **example.cpp.udt**, **test.component.temp_directory**, **test.scratch.fail_all**, and **test.unit.shwild-patterns** now start their runners with `__FILE__`;
+* Collapsed the internal file, line, function, and expression parameters into an `flfe_t` helper in **xtests.core.cpp**;
+
+
+## 0.28.0-alpha1 - 18th October 2026
+
+* Added `XTESTS_TEST_POINTER_NULL()` and `XTESTS_TEST_POINTER_NOT_NULL()` (currently wrappers of `XTESTS_TEST_POINTER_EQUAL(NULL, …)` / `XTESTS_TEST_POINTER_NOT_EQUAL(NULL, …)`), with terse aliases `TEST_POINTER_NULL` / `TEST_PTR_NULL` and `TEST_POINTER_NOT_NULL` / `TEST_PTR_NOT_NULL`;
+* Illustrated the new pointer-null macros in **example.c.tests**, including deliberate failures that emit the null-expected wording;
+* Pointer equality/inequality failure messages now say the actual value "is not null as expected" (with the actual address) or "actual pointer is null not as expected" (without a redundant `'0x0'`) when the expected pointer is null, rather than comparing against a platform-formatted null address;
+
+
+## 0.27.0 - 17th October 2026
+
+0.27.0
+
+
+## 0.27.0-rc1 - 16th October 2026
+
+* Migrated `_XTESTS_VER_*` from `_XTESTS_VER_ALPHABETA` to `_XTESTS_VER_RELSTATUS` (`0xC1`), with documentation-skip aliases for `_XTESTS_VER_ALPHABETA` and `_XTESTS_VER_AB`;
+* Tip-synced **run_all_examples.sh**, **run_all_scratch_tests** (`.sh` / `.cmd`), and **run_all_unit_tests.sh** from **misc-dev-scripts** cmake-helpers;
+* Added empty **.sis** scratch ATF / skip-interactive list stubs (examples ATF retained);
+* Restructured **ci-cell.yml** to build → artifact → run jobs with non-Windows execute-bit restore (Windows **.cmd** dogfood, CTest, component, and scratch `continue-on-error` retained);
+* Added **README.md** **Developer Experience** section;
+* Synced **Doxyfile** `PROJECT_NUMBER` to **0.27.0-rc1**;
+
+
+## 0.27.0-beta3 - 16th October 2026
+
+* examples:
+  * Shortened **examples/** leaf directory names (dropped redundant `example.c.` / `example.cpp.` prefixes), e.g. **factorial**, **runner**, **string-comparisons-n**, **temp_directory**;
+  * Conformed each example **main.c** / **main.cpp** `File:` (and `\file`) banner to the slash-path form (e.g. `examples/c/factorial/main.c`);
+  * Aligned `XTESTS_START_RUNNER` names and CMake `define_example_program` targets with the shortened directories (notably **example.c.string-comparisons-n** / **example.cpp.string-comparisons-n**);
+  * Updated **examples/descriptors.cpp** `\example` paths for the shortened layout (and added the **string-comparisons-n** examples);
+* documentation:
+  * Restored missing **doc/mainpage.md** referenced by **Doxyfile** `USE_MDFILE_AS_MAINPAGE`;
+* version:
+  * Bumped `_XTESTS_VER_ALPHABETA` to `0x83` (beta 3) in **xtests.h**; synced **Doxyfile** `PROJECT_NUMBER`;
+  * **NEWS.md** chronology row for **0.27.0-beta3**;
+
+
+## 0.27.0-beta2 - 16th October 2026
+
+* testing:
+  * Shortened **test/** leaf directory names (dropped redundant `test.<kind>.` prefixes), e.g. **command-line-functions**, **string-comparisons.C**, **setup-fail**;
+  * Conformed each **entry.c** / **entry.cpp** `File:` banner to the slash-path form (e.g. `test/unit/string-comparisons/entry.cpp`);
+  * Aligned `XTESTS_START_RUNNER` names and CMake `define_*` targets with the shortened directories (including **test.unit.command-line-functions**, **test.scratch.setup-fail**, **test.scratch.fail_all**, and `.C`-suffixed C-API programs);
+  * Fixed runner typo `test.test.unit.string_comparisons` → **test.unit.string-comparisons**;
+  * Fixed **test/scratch/CMakeLists.txt** `add_subdirectory` for **integer_comparisons.C**;
+* version:
+  * Bumped `_XTESTS_VER_ALPHABETA` to `0x82` (beta 2) in **xtests.h**; synced **Doxyfile** `PROJECT_NUMBER`;
+  * **NEWS.md** chronology row for **0.27.0-beta2**;
+
+
+## 0.27.0-beta1 - 13th October 2026
+
+* API:
+  * Fixed `xtests_testWideStringsN` length parameter type from `int` to `ptrdiff_t`, matching the multibyte API and avoiding truncation of large `|n|` values;
+  * Fixed C-API `xtests_testMultibyteStringsN` / `xtests_testWideStringsN` to bound compared lengths to `|n|` (via bounded `strnlen` / `wcsnlen`), aligning with the C++ path and enabling safe use with non-NUL-terminated buffers;
+  * Added case-insensitive slice macros `XTESTS_TEST_*_STRING_SLICE_EQUAL_APPROX` / `XTESTS_TEST_*_STRING_SLICE_NOT_EQUAL_APPROX` (multibyte and wide, with terse aliases);
+  * Added `XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL` / `XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL` (and terse aliases);
+* documentation:
+  * **COMPONENTS.md** entries for the new slice `EQUAL` / `NOT_EQUAL` / `APPROX` macros;
+  * **NEWS.md** chronology row for **0.27.0-beta1**;
+* examples:
+  * Added **example.c.string_comparisons_n**, illustrating exact (`n > 0`) and limit (`n < 0`) forms of `TEST_MS_EQ_N` / `TEST_MS_NE_N`, including non-NUL-terminated buffers;
+  * Added **example.cpp.string_comparisons_n**, illustrating the same `_N` contract for wide strings, `std::wstring`, and non-NUL-terminated buffers;
+* testing:
+  * Extended **test.unit.string_slices.c** with `TEST_WIDE_STRING_SLICE_EQUAL` coverage parallel to the multibyte cases, plus `NOT_EQUAL` / `APPROX` coverage for multibyte and wide slices;
+  * Extended **test.unit.string_comparisons** / **test.unit.string_comparisons.c** for the `StringsN` `|n|` contract and non-NUL-terminated buffers;
+* version:
+  * Bumped `_XTESTS_VER` to **0.27.0** (`_XTESTS_VER_ALPHABETA` `0x81`) in **xtests.h**; synced **Doxyfile** `PROJECT_NUMBER`;
 
 ## 0.26.6-beta1 - 10th October 2026
 

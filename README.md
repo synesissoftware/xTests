@@ -14,9 +14,11 @@ Simple, easy-to-use, efficient testing library, for C, C++. It's not particularl
 ## Table of Contents <!-- omit in toc -->
 
 - [Introduction](#introduction)
+- [Developer Experience](#developer-experience)
 - [Installation](#installation)
 - [Components](#components)
 - [Examples](#examples)
+  - [Runner Names](#runner-names)
   - [Minimal C Example](#minimal-c-example)
   - [Minimal C++ Example](#minimal-c-example-1)
   - [Complete C Example (Factorial)](#complete-c-example-factorial)
@@ -50,6 +52,32 @@ code what you want, and nothing that you don't want.
 license.
 
 
+## Developer Experience
+
+**xTests** needs [**STLSoft**](https://github.com/synesissoftware/STLSoft)
+(**1.11.5** or later) for the library itself, so just:
+
+```bash
+./prepare_cmake.sh -m -v -E -T
+./run_all_unit_tests.sh
+```
+
+For a full tree (examples and tests), also install via CMake:
+* [**shwild**](https://github.com/synesissoftware/shwild) (optional; enables
+  wildcard matching in tests);
+
+then:
+
+```bash
+./prepare_cmake.sh -m -v
+./run_all_automated_tests.sh
+```
+
+Try **examples/c/factorial**, the minimal samples under **Examples** below,
+or a unit suite under **test/unit/**. Full options: [INSTALL.md](./INSTALL.md);
+`./prepare_cmake.sh --help`.
+
+
 ## Installation
 
 Detailed instructions — via **CMake**, via bundling — are provided in the accompanying [INSTALL.md](./INSTALL.md) file.
@@ -67,6 +95,23 @@ A typical program parses verbosity, starts a runner, executes cases, prints resu
 ## Examples
 
 Extensive examples are provided in the **examples** directory, along with a markdown description for each. Below are the simplest-possible starting examples for both C and C++, followed by a more complete C scenario.
+
+
+### Runner Names
+
+The name given to `XTESTS_START_RUNNER()` (and its variants) may be `__FILE__`, in which case a name is inferred from the path. This happens only if the path has a C/C++ extension (`.c`, `.cc`, `.cpp`, `.cxx`) and **either**:
+
+* its stem is `entry` or `main`, in which case the result is the leaf directory if that begins `example.` or `test.`, otherwise the nearest ancestor directory named `example`, `examples` (as `example`), or `test` followed by the directories below it, joined with `.`; **or**
+* its stem equals its leaf directory, in which case the result is the stem.
+
+Any other value is used as given. For example:
+
+| `__FILE__` | Runner name |
+| --- | --- |
+| `examples/cpp/udt/main.cpp` | `example.cpp.udt` |
+| `test/unit/bec.AnsiConsole/entry.cpp` | `test.unit.bec.AnsiConsole` |
+| `test/unit/test.unit.cpp.1/test.unit.cpp.1.cpp` | `test.unit.cpp.1` |
+| `test/unit/test.unit.utils.fs/entry.cpp` | `test.unit.utils.fs` |
 
 
 ### Minimal C Example
@@ -259,7 +304,7 @@ If you'd like to help out with the project, please raise an issue via [GitHub Pa
 
 **xTests** has two dependencies:
 
-* [STLSoft 1.11](http://github.com/synesissoftware/STLSoft/) is required, both for the implementation and for the interface, providing:
+* [STLSoft 1.11.5](http://github.com/synesissoftware/STLSoft/) is required, both for the implementation and for the interface, providing:
   * essential compiler and platform discrimination;
   * string compatibility;
   * string conversions (for C++ API);

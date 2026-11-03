@@ -79,6 +79,12 @@ Catalog of the public **xTests** API. Each construct has a short description and
   - [`XTESTS_TEST_CHARACTER_LESS_OR_EQUAL(expected, actual)`](#xtests_test_character_less_or_equalexpected-actual)
 - [Multibyte string assertion macros](#multibyte-string-assertion-macros)
   - [`XTESTS_TEST_MULTIBYTE_STRING_EQUAL(expected, actual)`](#xtests_test_multibyte_string_equalexpected-actual)
+  - [`XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF(expecteds, cExpecteds, actual)`](#xtests_test_multibyte_string_equal_any_ofexpecteds-cexpecteds-actual)
+  - [`XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2(expected0, expected1, actual)`](#xtests_test_multibyte_string_equal_any_of2expected0-expected1-actual)
+  - [`XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3(expected0, expected1, expected2, actual)`](#xtests_test_multibyte_string_equal_any_of3expected0-expected1-expected2-actual)
+  - [`XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF_APPROX(expecteds, cExpecteds, actual)`](#xtests_test_multibyte_string_equal_any_of_approxexpecteds-cexpecteds-actual)
+  - [`XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2_APPROX(expected0, expected1, actual)`](#xtests_test_multibyte_string_equal_any_of2_approxexpected0-expected1-actual)
+  - [`XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3_APPROX(expected0, expected1, expected2, actual)`](#xtests_test_multibyte_string_equal_any_of3_approxexpected0-expected1-expected2-actual)
   - [`XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX(expected, actual)`](#xtests_test_multibyte_string_equal_approxexpected-actual)
   - [`XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL(expected, actual)`](#xtests_test_multibyte_string_not_equalexpected-actual)
   - [`XTESTS_TEST_MULTIBYTE_STRING_NOT_EQUAL_APPROX(expected, actual)`](#xtests_test_multibyte_string_not_equal_approxexpected-actual)
@@ -91,6 +97,9 @@ Catalog of the public **xTests** API. Each construct has a short description and
   - [`XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN(expected, actual)`](#xtests_test_multibyte_string_not_containexpected-actual)
   - [`XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN_APPROX(expected, actual)`](#xtests_test_multibyte_string_not_contain_approxexpected-actual)
   - [`XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL(expected, actual)`](#xtests_test_multibyte_string_slice_equalexpected-actual)
+  - [`XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL_APPROX(expected, actual)`](#xtests_test_multibyte_string_slice_equal_approxexpected-actual)
+  - [`XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL(expected, actual)`](#xtests_test_multibyte_string_slice_not_equalexpected-actual)
+  - [`XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL_APPROX(expected, actual)`](#xtests_test_multibyte_string_slice_not_equal_approxexpected-actual)
   - [`XTESTS_TEST_MULTIBYTE_STRING_MATCHES(pattern, value)`](#xtests_test_multibyte_string_matchespattern-value)
   - [`XTESTS_TEST_MULTIBYTE_STRING_DOES_NOT_MATCH(pattern, value)`](#xtests_test_multibyte_string_does_not_matchpattern-value)
 - [Wide string assertion macros](#wide-string-assertion-macros)
@@ -107,6 +116,9 @@ Catalog of the public **xTests** API. Each construct has a short description and
   - [`XTESTS_TEST_WIDE_STRING_NOT_CONTAIN(expected, actual)`](#xtests_test_wide_string_not_containexpected-actual)
   - [`XTESTS_TEST_WIDE_STRING_NOT_CONTAIN_APPROX(expected, actual)`](#xtests_test_wide_string_not_contain_approxexpected-actual)
   - [`XTESTS_TEST_WIDE_STRING_SLICE_EQUAL(expected, actual)`](#xtests_test_wide_string_slice_equalexpected-actual)
+  - [`XTESTS_TEST_WIDE_STRING_SLICE_EQUAL_APPROX(expected, actual)`](#xtests_test_wide_string_slice_equal_approxexpected-actual)
+  - [`XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL(expected, actual)`](#xtests_test_wide_string_slice_not_equalexpected-actual)
+  - [`XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL_APPROX(expected, actual)`](#xtests_test_wide_string_slice_not_equal_approxexpected-actual)
 - [Boolean assertion macros](#boolean-assertion-macros)
   - [`XTESTS_TEST_BOOLEAN_EQUAL(expected, actual)`](#xtests_test_boolean_equalexpected-actual)
   - [`XTESTS_TEST_BOOLEAN_NOT_EQUAL(expected, actual)`](#xtests_test_boolean_not_equalexpected-actual)
@@ -118,6 +130,8 @@ Catalog of the public **xTests** API. Each construct has a short description and
 - [Pointer assertion macros](#pointer-assertion-macros)
   - [`XTESTS_TEST_POINTER_EQUAL(expected, actual)`](#xtests_test_pointer_equalexpected-actual)
   - [`XTESTS_TEST_POINTER_NOT_EQUAL(expected, actual)`](#xtests_test_pointer_not_equalexpected-actual)
+  - [`XTESTS_TEST_POINTER_NULL(actual)`](#xtests_test_pointer_nullactual)
+  - [`XTESTS_TEST_POINTER_NOT_NULL(actual)`](#xtests_test_pointer_not_nullactual)
   - [`XTESTS_TEST_POINTER_GREATER(expected, actual)`](#xtests_test_pointer_greaterexpected-actual)
   - [`XTESTS_TEST_POINTER_LESS(expected, actual)`](#xtests_test_pointer_lessexpected-actual)
   - [`XTESTS_TEST_POINTER_GREATER_OR_EQUAL(expected, actual)`](#xtests_test_pointer_greater_or_equalexpected-actual)
@@ -239,14 +253,14 @@ static int teardown(void* param)
 
 ## Test runner functions
 
-A **test runner** is a logically-related group of test cases.
+A **test runner** is a logically-related group of test cases. The **name** may be a literal runner name, or a C/C++ source path such as `__FILE__`, from which a name is inferred (see [Runner Names](./README.md#runner-names)).
 
 
 ### `XTESTS_START_RUNNER(name, verbosity)`
 
 Starts a runner that reports to stdout.
 
-* **name** — runner name;
+* **name** — runner name, or `__FILE__`;
 * **verbosity** — `xtests_verbosity_t` (or parsed `int`);
 
 ```c
@@ -810,13 +824,63 @@ XTESTS_TEST_CHARACTER_LESS_OR_EQUAL('A', 'A');
 
 ## Multibyte string assertion macros
 
-`_APPROX` forms are case-insensitive. `_N` forms compare at most **n** characters (`n < 0` means “full length” on the signed-length overloads).
+`_APPROX` forms are case-insensitive. `_N` forms compare at most **n** characters (`n < 0` means “full length” on the signed-length overloads). `_ANY_OF` forms require the actual string to equal one element of a set: `_ANY_OF` takes an array and a count; `_ANY_OF2` and `_ANY_OF3` take the expected strings directly. `_ANY_OF_APPROX`, `_ANY_OF2_APPROX`, and `_ANY_OF3_APPROX` are the same tests, ignoring case. Expected values come first and the actual value is last, as with the integer `ANY_OF` macros.
 
 
 ### `XTESTS_TEST_MULTIBYTE_STRING_EQUAL(expected, actual)`
 
 ```c
 XTESTS_TEST_MULTIBYTE_STRING_EQUAL("hello", greet());
+```
+
+
+### `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF(expecteds, cExpecteds, actual)`
+
+Passes when `actual` equals one element of `expecteds`. An empty set fails. Comparison is exact and case-sensitive.
+
+```c
+char const* const colours[] = { "red", "green", "blue" };
+
+XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF(colours, 3, "green");
+```
+
+
+### `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2(expected0, expected1, actual)`
+
+```c
+XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2("red", "green", colour);
+```
+
+
+### `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3(expected0, expected1, expected2, actual)`
+
+```c
+XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3("red", "green", "blue", colour);
+```
+
+
+### `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF_APPROX(expecteds, cExpecteds, actual)`
+
+Passes when `actual` equals one element of `expecteds`, ignoring case. An empty set fails.
+
+```c
+char const* const colours[] = { "red", "green", "blue" };
+
+XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF_APPROX(colours, 3, "GREEN");
+```
+
+
+### `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2_APPROX(expected0, expected1, actual)`
+
+```c
+XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2_APPROX("red", "green", colour);
+```
+
+
+### `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3_APPROX(expected0, expected1, expected2, actual)`
+
+```c
+XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3_APPROX("red", "green", "blue", colour);
 ```
 
 
@@ -904,6 +968,37 @@ XTESTS_TEST_MULTIBYTE_STRING_NOT_CONTAIN_APPROX("XYZ", "hello");
 ```c
 struct { size_t len; char const* ptr; } slice = { 5, "hello, world" };
 XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL("hello", slice);
+```
+
+
+### `XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL_APPROX(expected, actual)`
+
+Same as `XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL`, ignoring case.
+
+```c
+struct { size_t len; char const* ptr; } slice = { 5, "Hello, world" };
+XTESTS_TEST_MULTIBYTE_STRING_SLICE_EQUAL_APPROX("HELLO", slice);
+```
+
+
+### `XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL(expected, actual)`
+
+Succeeds when the slice differs in length and/or contents from **expected**.
+
+```c
+struct { size_t len; char const* ptr; } slice = { 5, "hello, world" };
+XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL("world", slice);
+XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL("hello!", slice);
+```
+
+
+### `XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL_APPROX(expected, actual)`
+
+Succeeds when the slice differs in length and/or contents from **expected**, ignoring case.
+
+```c
+struct { size_t len; char const* ptr; } slice = { 5, "hello, world" };
+XTESTS_TEST_MULTIBYTE_STRING_SLICE_NOT_EQUAL_APPROX("WORLD", slice);
 ```
 
 
@@ -1022,6 +1117,31 @@ XTESTS_TEST_WIDE_STRING_SLICE_EQUAL(L"hello", slice);
 ```
 
 
+### `XTESTS_TEST_WIDE_STRING_SLICE_EQUAL_APPROX(expected, actual)`
+
+```c
+struct { size_t len; wchar_t const* ptr; } slice = { 5, L"Hello, world" };
+XTESTS_TEST_WIDE_STRING_SLICE_EQUAL_APPROX(L"HELLO", slice);
+```
+
+
+### `XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL(expected, actual)`
+
+```c
+struct { size_t len; wchar_t const* ptr; } slice = { 5, L"hello, world" };
+XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL(L"world", slice);
+XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL(L"hello!", slice);
+```
+
+
+### `XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL_APPROX(expected, actual)`
+
+```c
+struct { size_t len; wchar_t const* ptr; } slice = { 5, L"hello, world" };
+XTESTS_TEST_WIDE_STRING_SLICE_NOT_EQUAL_APPROX(L"WORLD", slice);
+```
+
+
 ## Boolean assertion macros
 
 
@@ -1086,6 +1206,24 @@ XTESTS_TEST_POINTER_EQUAL(p, q);
 
 ```c
 XTESTS_TEST_POINTER_NOT_EQUAL(NULL, p);
+```
+
+
+### `XTESTS_TEST_POINTER_NULL(actual)`
+
+Tests that `actual` is a null pointer. Currently equivalent to `XTESTS_TEST_POINTER_EQUAL(NULL, actual)`.
+
+```c
+XTESTS_TEST_POINTER_NULL(p);
+```
+
+
+### `XTESTS_TEST_POINTER_NOT_NULL(actual)`
+
+Tests that `actual` is not a null pointer. Currently equivalent to `XTESTS_TEST_POINTER_NOT_EQUAL(NULL, actual)`.
+
+```c
+XTESTS_TEST_POINTER_NOT_NULL(q);
 ```
 
 
@@ -1226,8 +1364,14 @@ XTESTS_TEST_FLOATINGPOINT_NOT_EQUAL(5.05, 5.06);
 | `XTESTS_TEST_INTEGER_EQUAL` | `TEST_INTEGER_EQUAL` | `TEST_INT_EQ` |
 | `XTESTS_TEST_INTEGER_NOT_EQUAL` | `TEST_INTEGER_NOT_EQUAL` | `TEST_INT_NE` |
 | `XTESTS_TEST_MULTIBYTE_STRING_EQUAL` | `TEST_MULTIBYTE_STRING_EQUAL` | `TEST_MS_EQ` |
+| `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF` | `TEST_MULTIBYTE_STRING_EQUAL_ANY_OF` | `TEST_MS_EQ_ANY_OF` |
+| `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF_APPROX` | `TEST_MULTIBYTE_STRING_EQUAL_ANY_OF_APPROX` | `TEST_MS_EQ_ANY_OF_APPROX` |
 | `XTESTS_TEST_WIDE_STRING_EQUAL` | `TEST_WIDE_STRING_EQUAL` | `TEST_WS_EQ` |
-| `XTESTS_TEST_BOOLEAN_TRUE` | `TEST_BOOLEAN_TRUE` | |
+| `XTESTS_TEST_BOOLEAN_EQUAL` | `TEST_BOOLEAN_EQUAL` | `TEST_BOOLEAN_EQ`, `TEST_BOOL_EQ` |
+| `XTESTS_TEST_BOOLEAN_FALSE` | `TEST_BOOLEAN_FALSE` | `TEST_BOOL_FALSE` |
+| `XTESTS_TEST_BOOLEAN_TRUE` | `TEST_BOOLEAN_TRUE` | `TEST_BOOL_TRUE` |
+| `XTESTS_TEST_POINTER_NULL` | `TEST_POINTER_NULL` | `TEST_PTR_NULL` |
+| `XTESTS_TEST_POINTER_NOT_NULL` | `TEST_POINTER_NOT_NULL` | `TEST_PTR_NOT_NULL` |
 | `XTESTS_TEST_POINTER_NOT_EQUAL` | `TEST_POINTER_NOT_EQUAL` | `TEST_PTR_NE` |
 | `XTESTS_REQUIRE` | `REQUIRE` | |
 | `XTESTS_TEST_FAIL` | `TEST_FAIL` | `FAIL` |

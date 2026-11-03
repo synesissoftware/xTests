@@ -41,9 +41,11 @@ Standing principle: prefer **STLSoft** (or other SIS libraries) over private
 
 ### Near-term absorption (R0)
 
-* [ ] Absorb **StringsN** / slice work and **0.27.0-beta1** prep from `ss/fix-TEST_MS_EQ_N` without regressing `_N` / SLICE contracts (**R0.1**);
-* [ ] Absorb `mwsis/null-ptr` pointer NULL / NOT_NULL helpers with dedicated failure wording (**R0.2**);
-* [ ] Absorb `mwsis/start-runner-__FILE__` runner-name-from-`__FILE__` (**R0.3**);
+* [x] ~~~Absorb **StringsN** / slice work and **0.27.0-beta1** prep from `ss/fix-TEST_MS_EQ_N` without regressing `_N` / SLICE contracts~~~ - ✅ (**R0.1**);
+* [x] ~~~Absorb `mwsis/null-ptr` pointer NULL / NOT_NULL helpers with dedicated failure wording~~~ - ✅ (**R0.2**);
+* [x] ~~~Absorb `mwsis/start-runner-__FILE__` runner-name-from-`__FILE__` (core inference)~~~ - ✅ (**R0.3**);
+* [ ] apply `XTESTS_START_RUNNER(__FILE__, …)` name inference in remaining test and example programs (**R0.3** follow-on);
+* [ ] unit tests for runner-name inference from `__FILE__` / source paths (**R0.3** follow-on);
 * [ ] Re-verify boilerplate / modernisation leftovers against tip (**R0.4**);
 
 
@@ -63,7 +65,7 @@ Standing principle: prefer **STLSoft** (or other SIS libraries) over private
 
 ### Reporter (R2)
 
-* [ ] Remove function-local static default reporter (`s_reporter`) (**R2.1**);
+* [ ] Remove the function-local static default `fprintf_reporter` (`s_reporter` in `get_reporter_()`), which permanently binds the first `FILE*` / tty flags and breaks subsequent `XTESTS_START_RUNNER_WITH_STREAM` uses (e.g. capture-to-temp-file then a later stdout runner) (**R2.1**);
 * [ ] Refactor out default reporter into separate implementation file (**R2.2**);
 * [ ] Make reporter C-implementable (not C++ ABC only) (**R2.3**);
 * [ ] Apply Visitor and have custom outputs (**R2.4**);
@@ -83,6 +85,7 @@ Standing principle: prefer **STLSoft** (or other SIS libraries) over private
 * [ ] change `uint32_t` type(s)?? (**R3.9**);
 * [ ] Fix terse-api dead alias `TEST_MS_EQUAL` / plural drift (**R3.10**);
 * [ ] Consider char-type-generic string assertion family (Pantheios per-TU redefine) (**R3.11**);
+* [ ] wide-string forms of string equal-any-of;
 
 
 ### Runner architecture (R4)
@@ -91,7 +94,7 @@ Standing principle: prefer **STLSoft** (or other SIS libraries) over private
 * [ ] Explicit runner handle (opaque C; thin C++ wrapper; TLS/current binding for macros) (**R4.2**);
 * [ ] Support multiple concurrent runners in different threads; document no intra-runner concurrency for stock runners (**R4.3**, **R4.4**);
 * [ ] Replace combinatorial `XTESTS_START_RUNNER_WITH_*` with config struct (**R4.5**);
-* [ ] refactor internally params { file+line+function } into a structure (**R4.6**);
+* [x] ~~~refactor internally params { file+line+function } into a structure~~~ - ✅ (**R4.6**);
 * [ ] Design data-driven / parametrised cases after handles (no strong preference yet) (**R4.7**);
 * [ ] Constructs assisting client libraries for parallel multi-runner runs (**R4.8**);
 
@@ -189,6 +192,7 @@ Standing principle: prefer **STLSoft** (or other SIS libraries) over private
 
 ### Completed (retained)
 
+* [x] ~~~document `__FILE__` runner-name inference in **README.md** and Doxygen~~~ - ✅;
 * [x] ~~~summary should list #cases that failed/succeeded~~~ - ✅;
 * [x] ~~~coloured console output, for `"SUCCESS"` and `"FAILURE"` reports~~~ - ✅;
 * [x] ~~~enhance C-form of macros using `_Generic` - this provided as of version 0.24.0~~~ - ✅;

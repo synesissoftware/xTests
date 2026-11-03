@@ -4,7 +4,7 @@
  * Purpose: Scratch-test program for xTests showing version(s).
  *
  * Created: 30th June 2025
- * Updated: 9th October 2026
+ * Updated: 27th October 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -16,18 +16,14 @@
 #include <xtests/xtests.h>
 
 #include <stlsoft/stlsoft.h>
+#ifdef XTESTS_USE_SHWILD
+# include <shwild/shwild.h>
+#endif /* XTESTS_USE_SHWILD */
 
 #include <iomanip>
 #include <iostream>
 
 #include <stdlib.h>
-
-
-/* /////////////////////////////////////////////////////////////////////////
- * includes
- */
-
-#define PROGRAM_NAME                                        "test.scratch.versions"
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -76,22 +72,43 @@ version(
 
 int main(int /* argc */, char* /* argv */[])
 {
+    int efferents_count = 0;
+
     {
         unsigned const libver = _XTESTS_VER;
 
         version(std::cout, "", "xTests", "_XTESTS_VER", libver);
     }
 
-    std::cout << "\n" << "efferent dependencies:" << std::endl;
+#ifdef _STLSOFT_VER
+
+    if (0 == efferents_count++)
+    {
+        std::cout << "\n" << "efferent dependencies:" << std::endl;
+    }
 
     {
         unsigned const libver = _STLSOFT_VER;
 
         version(std::cout, "\t", "STLSoft", "_STLSOFT_VER", libver);
     }
+#endif /* _STLSOFT_VER */
+
+#ifdef SHWILD_VER
+
+    if (0 == efferents_count++)
+    {
+        std::cout << "\n" << "efferent dependencies:" << std::endl;
+    }
+
+    {
+        unsigned const libver = SHWILD_VER;
+
+        version(std::cout, "\t", "shwild", "SHWILD_VER", libver);
+    }
+#endif /* SHWILD_VER */
 
     return EXIT_SUCCESS;
 }
-
 
 /* ///////////////////////////// end of file //////////////////////////// */

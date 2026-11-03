@@ -5,7 +5,7 @@
 # Purpose:  Top-level CMake lists file for xTests
 #
 # Created:  9th October 2019
-# Updated:  20th September 2026
+# Updated:  2nd November 2026
 #
 # ######################################################################## #
 
@@ -150,7 +150,7 @@ option(BUILD_TESTING "Build tests" ON)
 # 3. if the package STLSoft (via find_package()) is found then it is used; otherwise
 # 4. we abort
 
-set(STLSoft_REQUIRED_VERSION_ 1.11)
+set(STLSoft_REQUIRED_VERSION_ 1.11.5)
 
 if(NOT DEFINED STLSOFT AND NOT DEFINED ENV{STLSOFT})
 
@@ -183,6 +183,12 @@ else()
 	include_directories(${STLSOFT_INCLUDE_DIR})
 endif()
 
+if(DEFINED STLSOFT_INCLUDE_DIR OR DEFINED STLSoft_FOUND)
+
+	add_compile_definitions(HAS_STLSOFT)
+	add_compile_definitions(HAS_STLSoft)
+endif()
+
 # ############################
 # shwild (testing only; optional)
 
@@ -196,7 +202,12 @@ if(NOT (NO_SHWILD))
 
 			message("-- CMake package shwild found (version ${shwild_VERSION})")
 
-			add_compile_definitions(XTESTS_HAS_SHWILD)
+			add_compile_definitions(
+				HAS_shwild
+				HAS_SHWILD
+			)
+
+			add_compile_definitions(XTESTS_HAS_SHWILD) # Unlike in other projects, this is cromulent here
 		endif(shwild_FOUND)
 	endif(BUILD_TESTING)
 endif()

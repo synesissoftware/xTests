@@ -1,0 +1,3 @@
+# Scratch programs that require an interactive desktop and would hang a
+# headless CI run. Skipped when run_all_scratch_tests is invoked with
+# --skip-interactive. List program names or stems (one per line).
