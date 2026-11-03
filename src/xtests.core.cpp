@@ -223,6 +223,7 @@
 #define XTESTS_ANSI_FG_BOLD_AND_RED_                        "\033[1;31m"
 #define XTESTS_ANSI_FG_BOLD_AND_GREEN_                      "\033[1;32m"
 #define XTESTS_ANSI_FG_BOLD_AND_BLUE_                       "\033[1;34m"
+#define XTESTS_ANSI_FG_BOLD_AND_CYAN_                       "\033[1;36m"
 
 #define XTESTS_ANSI_RESET_                                  "\033[0m"
 
@@ -946,7 +947,7 @@ namespace
         {
             if (is_tty)
             {
-                fmt_ += "\033[1;36m";
+                fmt_ += XTESTS_ANSI_FG_BOLD_AND_CYAN_;
                 fmt_ += type_qualifier;
                 fmt_ += XTESTS_ANSI_RESET_;
             }
@@ -1008,7 +1009,7 @@ namespace
         // comparison
         if (is_tty)
         {
-            fmt_ += "\033[1;36m";
+            fmt_ += XTESTS_ANSI_FG_BOLD_AND_CYAN_;
         }
         fmt_ += (*pfn_relation)(comparison);
         if (is_tty)
@@ -1369,7 +1370,7 @@ namespace
         fmt_ += "%s(%d): test condition failed: actual ";
         if (is_tty)
         {
-            fmt_ += "\033[1;36m";
+            fmt_ += XTESTS_ANSI_FG_BOLD_AND_CYAN_;
             fmt_ += "pointer";
             fmt_ += XTESTS_ANSI_RESET_;
         }
@@ -1398,7 +1399,7 @@ namespace
         }
         if (is_tty)
         {
-            fmt_ += "\033[1;36m";
+            fmt_ += XTESTS_ANSI_FG_BOLD_AND_CYAN_;
         }
         fmt_ += phrase;
         if (is_tty)
@@ -3208,7 +3209,7 @@ RunnerInfo::get_reporter_(
                     // comparison
                     if (is_tty)
                     {
-                        fmt_ += "\033[1;36m";
+                        fmt_ += XTESTS_ANSI_FG_BOLD_AND_CYAN_;
                     }
                     fmt_ += relation_equals_(comparison);
                     if (is_tty)
@@ -3651,7 +3652,7 @@ RunnerInfo::get_reporter_(
 
                 if (m_is_tty)
                 {
-                    fn_pre      =   "\033[1;36m";
+                    fn_pre      =   XTESTS_ANSI_FG_BOLD_AND_CYAN_;
                     fn_post     =   XTESTS_ANSI_RESET_;
                     msg_pre     =   "\033[1;35m";
                     msg_post    =   XTESTS_ANSI_RESET_;
@@ -3747,11 +3748,11 @@ RunnerInfo::get_reporter_(
 
                 if (m_is_tty)
                 {
-                    case_pre    =   "\033[1;36m";
+                    case_pre    =   XTESTS_ANSI_FG_BOLD_AND_CYAN_;
                     case_post   =   XTESTS_ANSI_RESET_;
-                    rsn_pre     =   "\033[1;36m";
+                    rsn_pre     =   XTESTS_ANSI_FG_BOLD_AND_CYAN_;
                     rsn_post    =   XTESTS_ANSI_RESET_;
-                    msg_pre     =   "\033[1;36m";
+                    msg_pre     =   XTESTS_ANSI_FG_BOLD_AND_CYAN_;
                     msg_post    =   XTESTS_ANSI_RESET_;
                     xt_pre      =   "\033[1;35m";
                     xt_post     =   XTESTS_ANSI_RESET_;
@@ -3826,11 +3827,11 @@ RunnerInfo::get_reporter_(
 
                 if (m_is_tty)
                 {
-                    case_pre    =   "\033[1;36m";
+                    case_pre    =   XTESTS_ANSI_FG_BOLD_AND_CYAN_;
                     case_post   =   XTESTS_ANSI_RESET_;
-                    rsn_pre     =   "\033[1;36m";
+                    rsn_pre     =   XTESTS_ANSI_FG_BOLD_AND_CYAN_;
                     rsn_post    =   XTESTS_ANSI_RESET_;
-                    rx_pre      =   "\033[1;36m";
+                    rx_pre      =   XTESTS_ANSI_FG_BOLD_AND_CYAN_;
                     rx_post     =   XTESTS_ANSI_RESET_;
                     xt_pre      =   "\033[1;35m";
                     xt_post     =   XTESTS_ANSI_RESET_;
