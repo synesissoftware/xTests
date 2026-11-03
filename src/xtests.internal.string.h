@@ -55,6 +55,8 @@
  * includes
  */
 
+#include <stlsoft/stlsoft.h>
+
 #include <stddef.h>
 
 
@@ -215,7 +217,7 @@ int
 xtests_strcmp_(
     char const*     str1
 ,   char const*     str2
-);
+) STLSOFT_NOEXCEPT;
 
 /** Case-sensitive lexicographic comparison of two wide C-strings,
  * tolerating @c NULL.
@@ -236,7 +238,7 @@ int
 xtests_wcscmp_(
     wchar_t const*  str1
 ,   wchar_t const*  str2
-);
+) STLSOFT_NOEXCEPT;
 
 /** Case-insensitive lexicographic comparison of two multibyte
  * C-strings, tolerating @c NULL.
@@ -270,7 +272,7 @@ int
 xtests_stricmp_(
     char const*     str1
 ,   char const*     str2
-);
+) STLSOFT_NOEXCEPT;
 
 /** Case-insensitive lexicographic comparison of two wide C-strings,
  * tolerating @c NULL.
@@ -306,7 +308,7 @@ int
 xtests_wcsicmp_(
     wchar_t const*  str1
 ,   wchar_t const*  str2
-);
+) STLSOFT_NOEXCEPT;
 
 /** Case-sensitive lexicographic comparison of the first @a n characters
  * of two multibyte C-strings, tolerating @c NULL.
@@ -340,7 +342,7 @@ xtests_strncmp_(
     char const*     str1
 ,   char const*     str2
 ,   size_t          n
-);
+) STLSOFT_NOEXCEPT;
 
 /** Case-sensitive lexicographic comparison of the first @a n characters
  * of two wide C-strings, tolerating @c NULL.
@@ -365,7 +367,7 @@ xtests_wcsncmp_(
     wchar_t const*  str1
 ,   wchar_t const*  str2
 ,   size_t          n
-);
+) STLSOFT_NOEXCEPT;
 
 /** Case-insensitive lexicographic comparison of the first @a n
  * characters of two multibyte C-strings, tolerating @c NULL.
@@ -400,7 +402,7 @@ xtests_strnicmp_(
     char const*     str1
 ,   char const*     str2
 ,   size_t          n
-);
+) STLSOFT_NOEXCEPT;
 
 /** Case-insensitive lexicographic comparison of the first @a n
  * characters of two wide C-strings, tolerating @c NULL.
@@ -425,7 +427,7 @@ xtests_wcsnicmp_(
     wchar_t const*  str1
 ,   wchar_t const*  str2
 ,   size_t          n
-);
+) STLSOFT_NOEXCEPT;
 
 /** Finds the first occurrence of a multibyte substring, tolerating
  * @c NULL.
@@ -452,7 +454,7 @@ char const*
 xtests_strstr_(
     char const*     str1
 ,   char const*     str2
-);
+) STLSOFT_NOEXCEPT;
 
 /** Finds the first occurrence of a wide substring, tolerating @c NULL.
  *
@@ -470,7 +472,7 @@ wchar_t const*
 xtests_wcsstr_(
     wchar_t const*  str1
 ,   wchar_t const*  str2
-);
+) STLSOFT_NOEXCEPT;
 
 /** Finds the first occurrence of a multibyte substring,
  * case-insensitively, tolerating @c NULL.
@@ -495,7 +497,7 @@ char const*
 xtests_stristr_(
     char const*     str1
 ,   char const*     str2
-);
+) STLSOFT_NOEXCEPT;
 
 /** Finds the first occurrence of a wide substring, case-insensitively,
  * tolerating @c NULL.
@@ -517,7 +519,7 @@ wchar_t const*
 xtests_wcsistr_(
     wchar_t const*  str1
 ,   wchar_t const*  str2
-);
+) STLSOFT_NOEXCEPT;
 
 
 /* /////////////////////////////////////////////////////////////////////////

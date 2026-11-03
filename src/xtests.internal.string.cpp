@@ -166,7 +166,7 @@ int
 xtests_strcmp_(
     char const*     str1
 ,   char const*     str2
-)
+) STLSOFT_NOEXCEPT
 {
     if (str1 == str2)
     {
@@ -194,7 +194,7 @@ int
 xtests_wcscmp_(
     wchar_t const*  str1
 ,   wchar_t const*  str2
-)
+) STLSOFT_NOEXCEPT
 {
     if (str1 == str2)
     {
@@ -222,7 +222,7 @@ int
 xtests_stricmp_(
     char const*     str1
 ,   char const*     str2
-)
+) STLSOFT_NOEXCEPT
 {
     if (str1 == str2)
     {
@@ -269,7 +269,7 @@ int
 xtests_wcsicmp_(
     wchar_t const*  str1
 ,   wchar_t const*  str2
-)
+) STLSOFT_NOEXCEPT
 {
     if (str1 == str2)
     {
@@ -317,7 +317,7 @@ xtests_strncmp_(
     char const*     str1
 ,   char const*     str2
 ,   size_t          n
-)
+) STLSOFT_NOEXCEPT
 {
     if (str1 == str2)
     {
@@ -350,7 +350,7 @@ xtests_wcsncmp_(
     wchar_t const*  str1
 ,   wchar_t const*  str2
 ,   size_t          n
-)
+) STLSOFT_NOEXCEPT
 {
     if (str1 == str2)
     {
@@ -383,7 +383,7 @@ xtests_strnicmp_(
     char const*     str1
 ,   char const*     str2
 ,   size_t          n
-)
+) STLSOFT_NOEXCEPT
 {
     if (str1 == str2)
     {
@@ -414,7 +414,7 @@ xtests_wcsnicmp_(
     wchar_t const*  str1
 ,   wchar_t const*  str2
 ,   size_t          n
-)
+) STLSOFT_NOEXCEPT
 {
     if (str1 == str2)
     {
@@ -444,7 +444,7 @@ char const*
 xtests_strstr_(
     char const*     str1
 ,   char const*     str2
-)
+) STLSOFT_NOEXCEPT
 {
     if (NULL == str1)
     {
@@ -464,7 +464,7 @@ wchar_t const*
 xtests_wcsstr_(
     wchar_t const*  str1
 ,   wchar_t const*  str2
-)
+) STLSOFT_NOEXCEPT
 {
     if (NULL == str1)
     {
@@ -484,7 +484,7 @@ char const*
 xtests_stristr_(
     char const*     str1
 ,   char const*     str2
-)
+) STLSOFT_NOEXCEPT
 {
     if (NULL == str1)
     {
@@ -504,7 +504,7 @@ wchar_t const*
 xtests_wcsistr_(
     wchar_t const*  str1
 ,   wchar_t const*  str2
-)
+) STLSOFT_NOEXCEPT
 {
     if (NULL == str1)
     {
