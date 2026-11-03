@@ -125,6 +125,11 @@ xtests_wcsnlen_(
 /** Copies a length-bounded multibyte string into a capacity-bounded
  * destination buffer.
  *
+ * Implemented in terms of <code>stlsoft_C_string_copy_a</code>, with a
+ * small adjustment so that @a l of 0 still writes a terminating NUL when
+ * @a n is non-zero (the STLSoft helper leaves @a d untouched in that
+ * case).
+ *
  * Copies @a l characters from @a s into @a d, subject to the destination
  * capacity @a n:
  *
@@ -160,7 +165,9 @@ xtests_strncpy_(
 /** Copies a length-bounded wide string into a capacity-bounded
  * destination buffer.
  *
- * Wide-character counterpart of xtests_strncpy_().
+ * Wide-character counterpart of xtests_strncpy_(), implemented in terms
+ * of <code>stlsoft_C_string_copy_w</code> (which already writes a NUL
+ * when @a l is 0 and @a n is non-zero).
  *
  * @param d Destination buffer. Must not be @c NULL.
  * @param n Capacity of @a d, in wide characters.

@@ -50,6 +50,7 @@
 #include <stlsoft/string/c_string/strnicmp.h>
 #include <stlsoft/string/c_string/strnistrn.h>
 #include <stlsoft/string/c_string/strnstrn.h>
+#include <stlsoft/string/copy_functions.h>
 
 #include <string.h>
 #include <wchar.h>
@@ -109,14 +110,15 @@ xtests_strncpy_(
 ,   size_t          l
 ) STLSOFT_NOEXCEPT
 {
-    if (l < n)
+    stlsoft_C_string_copy_a(d, n, s, l);
+
+    /* stlsoft_C_string_copy_a leaves dest untouched when cchSrc is 0;
+     * preserve the prior contract of writing a NUL when l < n.
+     */
+    if (0 == l &&
+        0 != n)
     {
-        memcpy(d, s, sizeof(char) * l);
-        d[l] = '\0';
-    }
-    else
-    {
-        memcpy(d, s, sizeof(char) * n);
+        d[0] = '\0';
     }
 }
 
@@ -128,15 +130,7 @@ xtests_wcsncpy_(
 ,   size_t          l
 ) STLSOFT_NOEXCEPT
 {
-    if (l < n)
-    {
-        memcpy(d, s, sizeof(wchar_t) * l);
-        d[l] = L'\0';
-    }
-    else
-    {
-        memcpy(d, s, sizeof(wchar_t) * n);
-    }
+    stlsoft_C_string_copy_w(d, n, s, l);
 }
 
 int
