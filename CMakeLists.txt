@@ -212,6 +212,16 @@ if(NOT (NO_SHWILD))
 	endif(BUILD_TESTING)
 endif()
 
+# ############################
+# woad
+
+set(woad_REQUIRED_VERSION_ 0.2)
+
+find_package(woad ${woad_REQUIRED_VERSION_} REQUIRED)
+
+message("-- CMake package woad found (version ${woad_VERSION}; ${woad_REQUIRED_VERSION_} requested)")
+
+
 # ################################################
 # includes - 2
 

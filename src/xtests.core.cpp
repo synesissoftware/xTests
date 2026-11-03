@@ -109,6 +109,8 @@
 #endif /* STLSoft 1.12+ */
 #include <stlsoft/util/string/snprintf.h>
 
+#include <woad/woad.h>
+
 /* Standard C++ Header Files */
 #include <algorithm>
 #include <map>
@@ -220,13 +222,13 @@
 # define RETURN_UNUSED(x)
 #endif /* compiler */
 
-#define XTESTS_ANSI_FG_BOLD_AND_RED_                        "\033[1;31m"
-#define XTESTS_ANSI_FG_BOLD_AND_GREEN_                      "\033[1;32m"
-#define XTESTS_ANSI_FG_BOLD_AND_BLUE_                       "\033[1;34m"
-#define XTESTS_ANSI_FG_BOLD_AND_MAGENTA_                    "\033[1;35m"
-#define XTESTS_ANSI_FG_BOLD_AND_CYAN_                       "\033[1;36m"
+#define XTESTS_ANSI_FG_BOLD_AND_RED_                        WOAD_BOLD WOAD_FG_RED
+#define XTESTS_ANSI_FG_BOLD_AND_GREEN_                      WOAD_BOLD WOAD_FG_GREEN
+#define XTESTS_ANSI_FG_BOLD_AND_BLUE_                       WOAD_BOLD WOAD_FG_BLUE
+#define XTESTS_ANSI_FG_BOLD_AND_MAGENTA_                    WOAD_BOLD WOAD_FG_MAGENTA
+#define XTESTS_ANSI_FG_BOLD_AND_CYAN_                       WOAD_BOLD WOAD_FG_CYAN
 
-#define XTESTS_ANSI_RESET_                                  "\033[0m"
+#define XTESTS_ANSI_RESET_                                  WOAD_RESET
 
 
 /* /////////////////////////////////////////////////////////////////////////
