@@ -220,9 +220,8 @@
 # define RETURN_UNUSED(x)
 #endif /* compiler */
 
-#define XTESTS_ANSI_FG_RED_                                 (31)
-#define XTESTS_ANSI_FG_GREEN_                               (32)
-
+#define XTESTS_ANSI_FG_BOLD_AND_RED_                        "\033[1;31m"
+#define XTESTS_ANSI_FG_BOLD_AND_GREEN_                      "\033[1;32m"
 #define XTESTS_ANSI_FG_BOLD_AND_BLUE_                       "\033[1;34m"
 
 #define XTESTS_ANSI_RESET_                                  "\033[0m"
@@ -829,7 +828,7 @@ namespace
 
         if (is_tty)
         {
-            stlsoft::snprintf(&buff[0], 101, "\033[1;%dm%s" XTESTS_ANSI_RESET_, succeeded ? XTESTS_ANSI_FG_GREEN_ : XTESTS_ANSI_FG_RED_, response);
+            stlsoft::snprintf(&buff[0], 101, "%s%s" XTESTS_ANSI_RESET_, succeeded ? XTESTS_ANSI_FG_BOLD_AND_GREEN_ : XTESTS_ANSI_FG_BOLD_AND_RED_, response);
         }
         else
         {
