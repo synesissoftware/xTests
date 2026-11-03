@@ -224,6 +224,8 @@
 #define XTESTS_ANSI_FG_GREEN_                               (32)
 #define XTESTS_ANSI_FG_BLUE_                                (34)
 
+#define XTESTS_ANSI_RESET_                                  "\033[0m"
+
 
 /* /////////////////////////////////////////////////////////////////////////
  * Windows debugging support
@@ -801,7 +803,7 @@ namespace
         {
             buff.resize(11 + cchName + 1);
 
-            int const n         =   stlsoft::snprintf(&buff[0], buff.size(), "\033[1;%dm%s\033[0m", XTESTS_ANSI_FG_BLUE_, name);
+            int const n         =   stlsoft::snprintf(&buff[0], buff.size(), "\033[1;34m%s" XTESTS_ANSI_RESET_, name);
             int const buf_size  =   static_cast<signed int>(buff.size());
 
             STLSOFT_ASSERT(n < 0 || n == (buf_size - 1));
@@ -826,7 +828,7 @@ namespace
 
         if (is_tty)
         {
-            stlsoft::snprintf(&buff[0], 101, "\033[1;%dm%s\033[0m", succeeded ? XTESTS_ANSI_FG_GREEN_ : XTESTS_ANSI_FG_RED_, response);
+            stlsoft::snprintf(&buff[0], 101, "\033[1;%dm%s" XTESTS_ANSI_RESET_, succeeded ? XTESTS_ANSI_FG_GREEN_ : XTESTS_ANSI_FG_RED_, response);
         }
         else
         {
@@ -946,7 +948,7 @@ namespace
             {
                 fmt_ += "\033[1;36m";
                 fmt_ += type_qualifier;
-                fmt_ += "\033[0m";
+                fmt_ += XTESTS_ANSI_RESET_;
             }
             else
             {
@@ -974,7 +976,7 @@ namespace
         {
             fmt_ += "\033[1;35m";
             fmt_ += fmt_specifier;
-            fmt_ += "\033[0m";
+            fmt_ += XTESTS_ANSI_RESET_;
         }
         else
         {
@@ -1011,7 +1013,7 @@ namespace
         fmt_ += (*pfn_relation)(comparison);
         if (is_tty)
         {
-            fmt_ += "\033[0m";
+            fmt_ += XTESTS_ANSI_RESET_;
         }
 
         // expected
@@ -1034,7 +1036,7 @@ namespace
         {
             fmt_ += "\033[1;35m";
             fmt_ += fmt_specifier;
-            fmt_ += "\033[0m";
+            fmt_ += XTESTS_ANSI_RESET_;
         }
         else
         {
@@ -1064,7 +1066,7 @@ namespace
         // function (?)
         if (is_tty)
         {
-            fmt_ += "%s\033[1;36m%s\033[0m";
+            fmt_ += "%s\033[1;36m%s" XTESTS_ANSI_RESET_;
         }
         else
         {
@@ -1369,7 +1371,7 @@ namespace
         {
             fmt_ += "\033[1;36m";
             fmt_ += "pointer";
-            fmt_ += "\033[0m";
+            fmt_ += XTESTS_ANSI_RESET_;
         }
         else
         {
@@ -1382,7 +1384,7 @@ namespace
             {
                 fmt_ += "\033[1;35m";
                 fmt_ += "%p";
-                fmt_ += "\033[0m";
+                fmt_ += XTESTS_ANSI_RESET_;
             }
             else
             {
@@ -1401,12 +1403,12 @@ namespace
         fmt_ += phrase;
         if (is_tty)
         {
-            fmt_ += "\033[0m";
+            fmt_ += XTESTS_ANSI_RESET_;
         }
 
         if (is_tty)
         {
-            fmt_ += "%s\033[1;36m%s\033[0m";
+            fmt_ += "%s\033[1;36m%s" XTESTS_ANSI_RESET_;
         }
         else
         {
@@ -3211,7 +3213,7 @@ RunnerInfo::get_reporter_(
                     fmt_ += relation_equals_(comparison);
                     if (is_tty)
                     {
-                        fmt_ += "\033[0m";
+                        fmt_ += XTESTS_ANSI_RESET_;
                     }
 
                     // expected
@@ -3227,7 +3229,7 @@ RunnerInfo::get_reporter_(
                     //  to the length %d
                     if (is_tty)
                     {
-                        fmt_ += " to the length \033[1;35m%d\033[0m";
+                        fmt_ += " to the length \033[1;35m%d" XTESTS_ANSI_RESET_;
                     }
                     else
                     {
@@ -3237,7 +3239,7 @@ RunnerInfo::get_reporter_(
                     // function (?)
                     if (is_tty)
                     {
-                        fmt_ += "%s\033[1;36m%s\033[0m";
+                        fmt_ += "%s\033[1;36m%s" XTESTS_ANSI_RESET_;
                     }
                     else
                     {
@@ -3650,9 +3652,9 @@ RunnerInfo::get_reporter_(
                 if (m_is_tty)
                 {
                     fn_pre      =   "\033[1;36m";
-                    fn_post     =   "\033[0m";
+                    fn_post     =   XTESTS_ANSI_RESET_;
                     msg_pre     =   "\033[1;35m";
-                    msg_post    =   "\033[0m";
+                    msg_post    =   XTESTS_ANSI_RESET_;
                 }
                 else
                 {
@@ -3746,13 +3748,13 @@ RunnerInfo::get_reporter_(
                 if (m_is_tty)
                 {
                     case_pre    =   "\033[1;36m";
-                    case_post   =   "\033[0m";
+                    case_post   =   XTESTS_ANSI_RESET_;
                     rsn_pre     =   "\033[1;36m";
-                    rsn_post    =   "\033[0m";
+                    rsn_post    =   XTESTS_ANSI_RESET_;
                     msg_pre     =   "\033[1;36m";
-                    msg_post    =   "\033[0m";
+                    msg_post    =   XTESTS_ANSI_RESET_;
                     xt_pre      =   "\033[1;35m";
-                    xt_post     =   "\033[0m";
+                    xt_post     =   XTESTS_ANSI_RESET_;
                 }
                 else
                 {
@@ -3825,13 +3827,13 @@ RunnerInfo::get_reporter_(
                 if (m_is_tty)
                 {
                     case_pre    =   "\033[1;36m";
-                    case_post   =   "\033[0m";
+                    case_post   =   XTESTS_ANSI_RESET_;
                     rsn_pre     =   "\033[1;36m";
-                    rsn_post    =   "\033[0m";
+                    rsn_post    =   XTESTS_ANSI_RESET_;
                     rx_pre      =   "\033[1;36m";
-                    rx_post     =   "\033[0m";
+                    rx_post     =   XTESTS_ANSI_RESET_;
                     xt_pre      =   "\033[1;35m";
-                    xt_post     =   "\033[0m";
+                    xt_post     =   XTESTS_ANSI_RESET_;
                 }
                 else
                 {
