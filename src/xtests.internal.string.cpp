@@ -72,7 +72,7 @@ size_t
 xtests_strnlen_(
     char const* s
 ,   size_t      limit
-)
+) STLSOFT_NOEXCEPT
 {
     size_t n = 0;
 
@@ -88,7 +88,7 @@ size_t
 xtests_wcsnlen_(
     wchar_t const*  s
 ,   size_t          limit
-)
+) STLSOFT_NOEXCEPT
 {
     size_t n = 0;
 
@@ -106,7 +106,7 @@ xtests_strncpy_(
 ,   size_t          n
 ,   char const*     s
 ,   size_t          l
-)
+) STLSOFT_NOEXCEPT
 {
     if (l < n)
     {
@@ -125,7 +125,7 @@ xtests_wcsncpy_(
 ,   size_t          n
 ,   wchar_t const*  s
 ,   size_t          l
-)
+) STLSOFT_NOEXCEPT
 {
     if (l < n)
     {

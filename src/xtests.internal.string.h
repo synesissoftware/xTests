@@ -98,7 +98,7 @@ size_t
 xtests_strnlen_(
     char const* s
 ,   size_t      limit
-);
+) STLSOFT_NOEXCEPT;
 
 /** Counts characters in a wide C-string, bounded by @a limit.
  *
@@ -120,7 +120,7 @@ size_t
 xtests_wcsnlen_(
     wchar_t const*  s
 ,   size_t          limit
-);
+) STLSOFT_NOEXCEPT;
 
 /** Copies a length-bounded multibyte string into a capacity-bounded
  * destination buffer.
@@ -155,7 +155,7 @@ xtests_strncpy_(
 ,   size_t          n
 ,   char const*     s
 ,   size_t          l
-);
+) STLSOFT_NOEXCEPT;
 
 /** Copies a length-bounded wide string into a capacity-bounded
  * destination buffer.
@@ -182,7 +182,7 @@ xtests_wcsncpy_(
 ,   size_t          n
 ,   wchar_t const*  s
 ,   size_t          l
-);
+) STLSOFT_NOEXCEPT;
 
 /** Case-sensitive lexicographic comparison of two multibyte C-strings,
  * tolerating @c NULL.
