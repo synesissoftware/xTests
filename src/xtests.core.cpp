@@ -75,7 +75,6 @@
 /* STLSoft Header Files */
 #include <platformstl/platformstl.h>
 #include <platformstl/filesystem/path_functions.h>
-#include <platformstl/system/console_functions.h>
 #include <platformstl/system/environment_variable.hpp>
 #if 0
 #elif defined(PLATFORMSTL_OS_IS_WINDOWS)
@@ -4107,50 +4106,6 @@ RunnerInfo::report_unstartedCase_defect_()
 #endif /* STLSOFT_CF_EXCEPTION_SUPPORT */
 }
 
-namespace tty
-{
-    // Intended to ensure that, on Windows, we are not emitting ANSI colour
-    // codes when on an old terminal that cannot be instructed to accept
-    // them
-    struct ansi_supporter
-    {
-    public:
-        static
-        bool
-        determine_support()
-        {
-#ifdef PLATFORMSTL_OS_IS_WINDOWS
-
-            using winstl::system_version;
-
-            if (system_version::build_number() >= 22000)
-            {
-                return true;
-            }
-
-            if (system_version::build_number() >= 16257)
-            {
-                DWORD consoleMode;
-                HANDLE h = ::GetStdHandle(STD_INPUT_HANDLE);
-
-                if (::GetConsoleMode(h, &consoleMode))
-                {
-                    if (::SetConsoleMode(h, consoleMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-#else
-
-            return true;
-#endif
-        }
-    };
-}
-
 RunnerInfo::RunnerInfo(
     char const*             name
 ,   size_t                  nameLen
@@ -4167,8 +4122,7 @@ RunnerInfo::RunnerInfo(
                         reporter
                     ,   stm
                     ,   flags
-                    ,   platformstl::isatty(stdout) &&
-                        tty::ansi_supporter::determine_support()
+                    ,   woad_stream_supports_colour(stdout)
                     ))
     , m_reporterParam(reporterParam)
     , m_name(name, nameLen)

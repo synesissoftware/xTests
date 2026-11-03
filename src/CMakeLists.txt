@@ -111,6 +111,14 @@ else()
 	)
 endif()
 
+# Implementation dependency only: the public headers do not include woad.
+# PRIVATE still propagates the link through this static library, and does
+# not publish woad's include path to consumers.
+target_link_libraries(xtests.core
+	PRIVATE
+		woad::woad
+)
+
 target_compile_options(xtests.core
 	PRIVATE
 		$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
