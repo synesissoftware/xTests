@@ -193,25 +193,9 @@
 
 #ifdef XTESTS_USING_SAFE_STR_FUNCTIONS
 
-# define xtests_strcpy_(d, n, s)                            ::strcpy_s(d, n, s)
-# define xtests_wcscpy_(d, n, s)                            ::wcscpy_s(d, n, s)
-# define xtests_sprintf_2_(s, n, fmt, a0, a1)               ::sprintf_s(s, n, fmt, a0, a1)
-# define xtests_sprintf_3_(s, n, fmt, a0, a1, a2)           ::sprintf_s(s, n, fmt, a0, a1, a2)
 # define xtests_vsnprintf_(s, z, n, fmt, args)              ::vsnprintf_s(s, z, n, fmt, args)
 #else /* ? XTESTS_USING_SAFE_STR_FUNCTIONS */
 
-# define xtests_strcpy_(d, n, s)                            ::strcpy(d, s)
-# define xtests_wcscpy_(d, n, s)                            ::wcscpy(d, s)
-# if defined(__clang__) && \
-     __clang_major__ >= 14
-
-#  define xtests_sprintf_2_(s, n, fmt, a0, a1)              ::snprintf(s, n, fmt, a0, a1)
-#  define xtests_sprintf_3_(s, n, fmt, a0, a1, a2)          ::snprintf(s, n, fmt, a0, a1, a2)
-# else
-
-#  define xtests_sprintf_2_(s, n, fmt, a0, a1)              ::sprintf(s, fmt, a0, a1)
-#  define xtests_sprintf_3_(s, n, fmt, a0, a1, a2)          ::sprintf(s, fmt, a0, a1, a2)
-# endif
 # if defined(STLSOFT_COMPILER_IS_DMC) || \
      (   (   defined(WIN32) || \
              defined(WIN64)) && \
