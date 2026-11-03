@@ -3,6 +3,11 @@
 
 ## 0.29.0-beta1 - 4th November 2026
 
+* changes:
+  * split the internal string helpers out of **xtests.core.cpp** into **src/xtests.internal.string.c**, with `char_buffer_m_t_` / `char_buffer_w_t_` and `string_traits` in **src/char_buffer.hpp**;
+  * renamed those helpers from the `_a_` / `_w_` forms to CRT-style names (`xtests_strcmp_`, `xtests_wcscmp_`, …);
+  * implemented case-insensitive compare via `stlsoft_C_strnicmp` / `stlsoft_C_wcsnicmp`, substring search via `stlsoft_C_strnstrn` / `stlsoft_C_wcsnstrn` (and the `stristr` pair via `stlsoft_C_strnistrn` / `stlsoft_C_wcsnistrn`), and bounded copy via `stlsoft_C_string_copy_a` / `stlsoft_C_string_copy_w`;
+  * marked the internal string functions `STLSOFT_NOEXCEPT` and documented their contracts in **src/xtests.internal.string.h**;
 * version:
   * set `_XTESTS_VER` to **0.29.0-beta1** (`_XTESTS_VER_RELSTATUS` `0x81`) in **xtests.h**; synced **Doxyfile** `PROJECT_NUMBER`;
   * set the **xtests.h** include-file quadruple to 3.55.1 edit 432;
