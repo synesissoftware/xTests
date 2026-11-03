@@ -3,6 +3,7 @@
 
 | Date                | News Item                        | Details                                                  |
 |---------------------|----------------------------------|----------------------------------------------------------|
+| 4th November 2026   | [**xTests** 0.29.0-beta1](https://github.com/synesissoftware/xTests/releases/tag/0.29.0-beta1) released | **woad** **0.2** (linked); colour via `woad_stream_supports_colour()` |
 | 2nd November 2026   | [**xTests** 0.29.0-alpha3](https://github.com/synesissoftware/xTests/releases/tag/0.29.0-alpha3) released | **STLSoft** **1.11.5** |
 | 1st November 2026   | [**xTests** 0.29.0-alpha2](https://github.com/synesissoftware/xTests/releases/tag/0.29.0-alpha2) released | Case-insensitive equal-any-of (`TEST_MS_EQ_ANY_OF_APPROX`) |
 | 30th October 2026   | [**xTests** 0.29.0-alpha1](https://github.com/synesissoftware/xTests/releases/tag/0.29.0-alpha1) released | Multibyte string equal-any-of (`TEST_MS_EQ_ANY_OF`) |

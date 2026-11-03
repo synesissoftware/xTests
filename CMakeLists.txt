@@ -5,7 +5,7 @@
 # Purpose:  Top-level CMake lists file for xTests
 #
 # Created:  9th October 2019
-# Updated:  2nd November 2026
+# Updated:  3rd November 2026
 #
 # ######################################################################## #
 
@@ -136,6 +136,8 @@ option(BUILD_TESTING "Build tests" ON)
 #
 # required:
 # - STLSoft - required, both for implementation and interface;
+# - woad - required for the implementation; linked, not part of the public
+#   headers;
 #
 # optional:
 # - shwild - for enhanced match constructs;
@@ -211,6 +213,16 @@ if(NOT (NO_SHWILD))
 		endif(shwild_FOUND)
 	endif(BUILD_TESTING)
 endif()
+
+# ############################
+# woad
+
+set(woad_REQUIRED_VERSION_ 0.2)
+
+find_package(woad ${woad_REQUIRED_VERSION_} REQUIRED)
+
+message("-- CMake package woad found (version ${woad_VERSION}; ${woad_REQUIRED_VERSION_} requested)")
+
 
 # ################################################
 # includes - 2
