@@ -1068,7 +1068,7 @@ namespace
         // function (?)
         if (is_tty)
         {
-            fmt_ += "%s\033[1;36m%s" XTESTS_ANSI_RESET_;
+            fmt_ += "%s" XTESTS_ANSI_FG_BOLD_AND_CYAN_ "%s" XTESTS_ANSI_RESET_;
         }
         else
         {
@@ -1410,7 +1410,7 @@ namespace
 
         if (is_tty)
         {
-            fmt_ += "%s\033[1;36m%s" XTESTS_ANSI_RESET_;
+            fmt_ += "%s" XTESTS_ANSI_FG_BOLD_AND_CYAN_ "%s" XTESTS_ANSI_RESET_;
         }
         else
         {
@@ -3241,7 +3241,7 @@ RunnerInfo::get_reporter_(
                     // function (?)
                     if (is_tty)
                     {
-                        fmt_ += "%s\033[1;36m%s" XTESTS_ANSI_RESET_;
+                        fmt_ += "%s" XTESTS_ANSI_FG_BOLD_AND_CYAN_ "%s" XTESTS_ANSI_RESET_;
                     }
                     else
                     {
