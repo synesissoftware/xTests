@@ -5,7 +5,7 @@
 # Purpose:  CMake lists file for xTests core library
 #
 # Created:  ...
-# Updated:  6th May 2025
+# Updated:  3rd November 2026
 #
 # ######################################################################## #
 
@@ -57,6 +57,7 @@ endif()
 
 set(CORE_SRCS
 	xtests.core.cpp
+	xtests.internal.string.c
 )
 
 # the real target is named for the library it produces, so that nothing as
@@ -109,6 +110,16 @@ else()
 			$<BUILD_INTERFACE:${STLSOFT_INCLUDE_DIR}>
 	)
 endif()
+
+# Implementation dependency only: the public headers do not include woad.
+# PRIVATE still propagates the link through this static library, and does
+# not publish woad's include path to consumers. Linking also supplies the
+# headers, including when the package is installed under a prefix that is
+# not on the compiler's default search path.
+target_link_libraries(xtests.core
+	PRIVATE
+		woad::woad
+)
 
 target_compile_options(xtests.core
 	PRIVATE

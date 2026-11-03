@@ -1,12 +1,17 @@
 @PACKAGE_INIT@
 
+include(CMakeFindDependencyMacro)
+
+# The core library calls woad. Public headers do not include it, so this
+# is a link dependency only. It must be found before the targets file,
+# which names woad::woad.
+find_dependency(woad @woad_REQUIRED_VERSION_@)
+
 # xTests' public headers include STLSoft's, so a consumer needs STLSoft
 # either way; how it is obtained depends on how xTests itself was built.
 if(@STLSoft_IS_PACKAGE_@)
 
 	# built against the STLSoft package, which the exported target links
-	include(CMakeFindDependencyMacro)
-
 	find_dependency(STLSoft @STLSoft_REQUIRED_VERSION_@)
 
 	include("${CMAKE_CURRENT_LIST_DIR}/@EXPORT_NAME@-targets.cmake")
