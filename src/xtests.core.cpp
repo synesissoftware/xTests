@@ -223,6 +223,7 @@
 #define XTESTS_ANSI_FG_BOLD_AND_RED_                        "\033[1;31m"
 #define XTESTS_ANSI_FG_BOLD_AND_GREEN_                      "\033[1;32m"
 #define XTESTS_ANSI_FG_BOLD_AND_BLUE_                       "\033[1;34m"
+#define XTESTS_ANSI_FG_BOLD_AND_MAGENTA_                    "\033[1;35m"
 #define XTESTS_ANSI_FG_BOLD_AND_CYAN_                       "\033[1;36m"
 
 #define XTESTS_ANSI_RESET_                                  "\033[0m"
@@ -975,7 +976,7 @@ namespace
         }
         if (is_tty)
         {
-            fmt_ += "\033[1;35m";
+            fmt_ += XTESTS_ANSI_FG_BOLD_AND_MAGENTA_;
             fmt_ += fmt_specifier;
             fmt_ += XTESTS_ANSI_RESET_;
         }
@@ -1035,7 +1036,7 @@ namespace
         }
         if (is_tty)
         {
-            fmt_ += "\033[1;35m";
+            fmt_ += XTESTS_ANSI_FG_BOLD_AND_MAGENTA_;
             fmt_ += fmt_specifier;
             fmt_ += XTESTS_ANSI_RESET_;
         }
@@ -1383,7 +1384,7 @@ namespace
             fmt_ += " value '";
             if (is_tty)
             {
-                fmt_ += "\033[1;35m";
+                fmt_ += XTESTS_ANSI_FG_BOLD_AND_MAGENTA_;
                 fmt_ += "%p";
                 fmt_ += XTESTS_ANSI_RESET_;
             }
@@ -3654,7 +3655,7 @@ RunnerInfo::get_reporter_(
                 {
                     fn_pre      =   XTESTS_ANSI_FG_BOLD_AND_CYAN_;
                     fn_post     =   XTESTS_ANSI_RESET_;
-                    msg_pre     =   "\033[1;35m";
+                    msg_pre     =   XTESTS_ANSI_FG_BOLD_AND_MAGENTA_;
                     msg_post    =   XTESTS_ANSI_RESET_;
                 }
                 else
@@ -3754,7 +3755,7 @@ RunnerInfo::get_reporter_(
                     rsn_post    =   XTESTS_ANSI_RESET_;
                     msg_pre     =   XTESTS_ANSI_FG_BOLD_AND_CYAN_;
                     msg_post    =   XTESTS_ANSI_RESET_;
-                    xt_pre      =   "\033[1;35m";
+                    xt_pre      =   XTESTS_ANSI_FG_BOLD_AND_MAGENTA_;
                     xt_post     =   XTESTS_ANSI_RESET_;
                 }
                 else
@@ -3833,7 +3834,7 @@ RunnerInfo::get_reporter_(
                     rsn_post    =   XTESTS_ANSI_RESET_;
                     rx_pre      =   XTESTS_ANSI_FG_BOLD_AND_CYAN_;
                     rx_post     =   XTESTS_ANSI_RESET_;
-                    xt_pre      =   "\033[1;35m";
+                    xt_pre      =   XTESTS_ANSI_FG_BOLD_AND_MAGENTA_;
                     xt_post     =   XTESTS_ANSI_RESET_;
                 }
                 else
