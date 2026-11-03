@@ -113,7 +113,9 @@ endif()
 
 # Implementation dependency only: the public headers do not include woad.
 # PRIVATE still propagates the link through this static library, and does
-# not publish woad's include path to consumers.
+# not publish woad's include path to consumers. Linking also supplies the
+# headers, including when the package is installed under a prefix that is
+# not on the compiler's default search path.
 target_link_libraries(xtests.core
 	PRIVATE
 		woad::woad
