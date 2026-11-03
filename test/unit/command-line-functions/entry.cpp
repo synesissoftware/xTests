@@ -4,7 +4,7 @@
  * Purpose: Unit-tests for utility functions.
  *
  * Created: 30th December 2024
- * Updated: 16th October 2026
+ * Updated: 3rd November 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -124,9 +124,9 @@ int main(int argc, char **argv)
 
 namespace {
 
-    using XTESTS_NS_C_QUAL(xtests_commandLine_parseHelp2);
-    using XTESTS_NS_C_QUAL(xtests_commandLine_parseVerbosity);
-    using XTESTS_NS_C_QUAL(xtests_commandLine_parseHelpOrVerbosity);
+    using XTESTS_NS_C_QUAL(xTests_commandLine_parseHelp2);
+    using XTESTS_NS_C_QUAL(xTests_commandLine_parseVerbosity);
+    using XTESTS_NS_C_QUAL(xTests_commandLine_parseHelpOrVerbosity);
 
     using ::xtests::cpp::util::temp_file;
 
@@ -144,7 +144,7 @@ static void TEST_parseHelp2_NO_ARGUMENTS()
     {
         platformstl::FILE_stream stm(tf.c_str(), "w");
 
-        xtests_commandLine_parseHelp2(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL);
+        xTests_commandLine_parseHelp2(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL);
     }
 
     {
@@ -168,7 +168,7 @@ static void TEST_parseHelp2_WITH_help_FLAG()
     {
         platformstl::FILE_stream stm(tf.c_str(), "w");
 
-        xtests_commandLine_parseHelp2(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL);
+        xTests_commandLine_parseHelp2(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL);
     }
 
     {
@@ -198,7 +198,7 @@ static void TEST_parseHelp2_WITH_help_FLAG_AFTER_DOUBLEDASH()
     {
         platformstl::FILE_stream stm(tf.c_str(), "w");
 
-        xtests_commandLine_parseHelp2(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL);
+        xTests_commandLine_parseHelp2(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL);
     }
 
     {
@@ -218,7 +218,7 @@ static void TEST_parseVerbosity_NO_ARGUMENTS()
     };
 
     int         verbosity = -12345678;
-    int const   r = xtests_commandLine_parseVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, &verbosity);
+    int const   r = xTests_commandLine_parseVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, &verbosity);
 
     TEST_INT_EQ(0, r);
     TEST_INT_EQ(ASSUMED_DEFAULT_VERBOSITY, verbosity);
@@ -234,7 +234,7 @@ static void TEST_parseVerbosity_WITH_SINGLE_verbosity_OPTION()
     };
 
     int         verbosity = -12345678;
-    int const   r = xtests_commandLine_parseVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, &verbosity);
+    int const   r = xTests_commandLine_parseVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, &verbosity);
 
     TEST_INT_EQ(1, r);
     TEST_INT_EQ(99, verbosity);
@@ -251,7 +251,7 @@ static void TEST_parseVerbosity_WITH_verbosity_OPTION_FOLLOWED_BY_SECOND_verbosi
     };
 
     int         verbosity = -12345678;
-    int const   r = xtests_commandLine_parseVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, &verbosity);
+    int const   r = xTests_commandLine_parseVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, &verbosity);
 
     TEST_INT_EQ(1, r);
     TEST_INT_EQ(99, verbosity);
@@ -268,7 +268,7 @@ static void TEST_parseVerbosity_WITH_SINGLE_verbosity_OPTION_AFTER_DOUBLEDASH()
     };
 
     int         verbosity = -12345678;
-    int const   r = xtests_commandLine_parseVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, &verbosity);
+    int const   r = xTests_commandLine_parseVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, &verbosity);
 
     TEST_INT_EQ(0, r);
     TEST_INT_EQ(3, verbosity);
@@ -290,7 +290,7 @@ static void TEST_parseHelpOrVerbosity_NO_ARGUMENTS()
 
         int verbosity = -12345678;
 
-        int const r = xtests_commandLine_parseHelpOrVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL, NULL, &verbosity);
+        int const r = xTests_commandLine_parseHelpOrVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL, NULL, &verbosity);
 
         TEST_INT_EQ(0, r);
         TEST_INT_EQ(3, verbosity);
@@ -319,7 +319,7 @@ static void TEST_parseHelpOrVerbosity_WITH_help_FLAG()
 
         int verbosity = -12345678;
 
-        int const r = xtests_commandLine_parseHelpOrVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL, NULL, &verbosity);
+        int const r = xTests_commandLine_parseHelpOrVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL, NULL, &verbosity);
 
         TEST_INT_EQ(2, r);
         TEST_INT_EQ(3, verbosity);
@@ -354,7 +354,7 @@ static void TEST_parseHelpOrVerbosity_WITH_help_FLAG_AFTER_DOUBLEDASH()
 
         int verbosity = -12345678;
 
-        int const r = xtests_commandLine_parseHelpOrVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL, NULL, &verbosity);
+        int const r = xTests_commandLine_parseHelpOrVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL, NULL, &verbosity);
 
         TEST_INT_EQ(0, r);
         TEST_INT_EQ(3, verbosity);
@@ -382,7 +382,7 @@ static void TEST_parseHelpOrVerbosity_WITH_SINGLE_verbosity_OPTION()
         platformstl::FILE_stream stm(tf.c_str(), "w");
 
         int         verbosity = -12345678;
-        int const   r = xtests_commandLine_parseHelpOrVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL, NULL, &verbosity);
+        int const   r = xTests_commandLine_parseHelpOrVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL, NULL, &verbosity);
 
         TEST_INT_EQ(1, r);
         TEST_INT_EQ(99, verbosity);
@@ -411,7 +411,7 @@ static void TEST_parseHelpOrVerbosity_WITH_verbosity_OPTION_FOLLOWED_BY_SECOND_v
         platformstl::FILE_stream stm(tf.c_str(), "w");
 
         int         verbosity = -12345678;
-        int const   r = xtests_commandLine_parseHelpOrVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL, NULL, &verbosity);
+        int const   r = xTests_commandLine_parseHelpOrVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL, NULL, &verbosity);
 
         TEST_INT_EQ(1, r);
         TEST_INT_EQ(99, verbosity);
@@ -440,7 +440,7 @@ static void TEST_parseHelpOrVerbosity_WITH_SINGLE_verbosity_OPTION_AFTER_DOUBLED
         platformstl::FILE_stream stm(tf.c_str(), "w");
 
         int         verbosity = -12345678;
-        int const   r = xtests_commandLine_parseHelpOrVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL, NULL, &verbosity);
+        int const   r = xTests_commandLine_parseHelpOrVerbosity(STLSOFT_NUM_ELEMENTS(argv) - 1, argv, stlsoft::get_FILE_ptr(stm), NULL, NULL, &verbosity);
 
         TEST_INT_EQ(0, r);
         TEST_INT_EQ(3, verbosity);
