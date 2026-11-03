@@ -683,8 +683,8 @@ namespace
 
         FILE*   stm = (sev < xtestsNotice) ? stderr : stdout;
 
-        /* NOTE: the empty string is required to forestall GCC 4.3+'s over-eager
-         * warnings
+        /* NOTE: the empty string is required to forestall GCC 4.3+'s
+         * over-eager warnings
          */
         return ::fprintf(stm, message, "");
 #endif /* XTESTS_USE_PANTHEIOS */
@@ -2314,8 +2314,8 @@ xtests_commandLine_parseVerbosity(
         return 0;
     }
 
-    /* at this point, "--verbosity=???" has not been specified, so consult
-     * environment variable(s):
+    /* at this point, "--verbosity=???" has not been specified, so
+     * consult environment variable(s):
      *
      * - "XTESTS_VERBOSITY";
      * - "TEST_VERBOSITY";
@@ -2486,12 +2486,12 @@ xtests_commandLine_parseHelpOrVerbosity(
             return 1;
         }
 
-        /* at this point, "--verbosity=???" has not been specified, so consult
-        * environment variable(s):
-        *
-        * - "XTESTS_VERBOSITY";
-        * - "TEST_VERBOSITY";
-        */
+        /* at this point, "--verbosity=???" has not been specified, so
+         * consult environment variable(s):
+         *
+         * - "XTESTS_VERBOSITY";
+         * - "TEST_VERBOSITY";
+         */
 
         static char const* const ENVIRONMENT_VARIABLES[] =
         {
@@ -3102,7 +3102,9 @@ RunnerInfo::get_reporter_(
             ,   int                 is_tty
             )
             {
-                /* TODO: implement colour when fix the wide-character issue */
+                /* TODO: implement colour when fix the wide-character
+                 * issue
+                 */
 
                 STLSOFT_SUPPRESS_UNUSED(is_tty);
 
@@ -4332,7 +4334,8 @@ RunnerInfo::EndCase(char const* /* name */)
         results[1].numMissingExpectedExceptions =   m_unexpectedExceptions;
 
 
-        // NOTE: The following are not x += y because Intel C/C++ gets awfully confused by that
+        // NOTE: The following are not x += y because Intel C/C++ gets
+        // awfully confused by that
         m_totalConditions       =   m_totalConditions + testInfo.totalConditions;
         m_failedConditions      =   m_failedConditions + testInfo.failedConditions;
         m_unexpectedExceptions  =   m_unexpectedExceptions + testInfo.unexpectedExceptions;

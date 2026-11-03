@@ -66,9 +66,11 @@
 
 
 /*
- * macro:   XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_(oom_msg, stdx_msg)
+ * macro:
+ *  XTESTS_EXCEPTION_CATCH_CATCH_STD_WITH_MESSAGES_(oom_msg, stdx_msg)
  *
- * purpose: handles std::bad_alloc and std::exception, with differing messages for each
+ * purpose: handles std::bad_alloc and std::exception, with differing
+ *  messages for each
  */
 
 #ifdef STLSOFT_CF_EXCEPTION_SUPPORT

@@ -128,8 +128,7 @@ xtests_wcsnlen_(
  *
  * Implemented in terms of <code>stlsoft_C_string_copy_a</code>, with a
  * small adjustment so that @a l of 0 still writes a terminating NUL when
- * @a n is non-zero (the STLSoft helper leaves @a d untouched in that
- * case).
+ * @a n is non-zero (the STLSoft helper leaves @a d untouched in that case).
  *
  * Copies @a l characters from @a s into @a d, subject to the destination
  * capacity @a n:
@@ -166,9 +165,9 @@ xtests_strncpy_(
 /** Copies a length-bounded wide string into a capacity-bounded
  * destination buffer.
  *
- * Wide-character counterpart of xtests_strncpy_(), implemented in terms
- * of <code>stlsoft_C_string_copy_w</code> (which already writes a NUL
- * when @a l is 0 and @a n is non-zero).
+ * Wide-character counterpart of xtests_strncpy_(), implemented in terms of
+ * <code>stlsoft_C_string_copy_w</code> (which already writes a NUL when
+ * @a l is 0 and @a n is non-zero).
  *
  * @param d Destination buffer. Must not be @c NULL.
  * @param n Capacity of @a d, in wide characters.
@@ -431,8 +430,8 @@ xtests_wcsnicmp_(
  *
  * - if @a str1 (haystack) is @c NULL, returns @c NULL;
  * - if @a str2 (needle) is @c NULL, returns @a str1;
- * - otherwise searches via
- *   <code>stlsoft_C_strnstrn(str1, strlen(str1), str2, strlen(str2))</code>.
+ * - otherwise searches via <code>stlsoft_C_strnstrn</code> with the
+ *   NUL-terminated lengths of both arguments;
  *
  * @param str1 Haystack string; may be @c NULL.
  * @param str2 Needle string; may be @c NULL.
@@ -455,8 +454,7 @@ xtests_strstr_(
 /** Finds the first occurrence of a wide substring, tolerating @c NULL.
  *
  * Wide-character counterpart of xtests_strstr_(), implemented in terms
- * of <code>stlsoft_C_wcsnstrn</code> when both arguments are
- * non-@c NULL.
+ * of <code>stlsoft_C_wcsnstrn</code> when both arguments are non-@c NULL.
  *
  * @param str1 Haystack string; may be @c NULL.
  * @param str2 Needle string; may be @c NULL.
@@ -478,8 +476,8 @@ xtests_wcsstr_(
  *
  * - if @a str1 (haystack) is @c NULL, returns @c NULL;
  * - if @a str2 (needle) is @c NULL, returns @a str1;
- * - otherwise searches via
- *   <code>stlsoft_C_strnistrn(str1, strlen(str1), str2, strlen(str2))</code>.
+ * - otherwise searches via <code>stlsoft_C_strnistrn</code> with the
+ *     NUL-terminated lengths of both arguments;
  *
  * @param str1 Haystack string; may be @c NULL.
  * @param str2 Needle string; may be @c NULL.
