@@ -1,6 +1,34 @@
 # xTests - Changes <!-- omit in toc -->
 
 
+## 0.29.0 - 5th November 2026
+
+* additions:
+  * `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF()`, `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2()`, and `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3()`, with terse aliases `TEST_MS_EQ_ANY_OF`, `TEST_MS_EQ_ANY_OF2`, and `TEST_MS_EQ_ANY_OF3`; C++ string types are accepted via the string-access shims;
+  * `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF_APPROX()`, `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF2_APPROX()`, and `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_ANY_OF3_APPROX()`, with terse aliases `TEST_MS_EQ_ANY_OF_APPROX`, `TEST_MS_EQ_ANY_OF2_APPROX`, and `TEST_MS_EQ_ANY_OF3_APPROX`; comparison ignores case as with `XTESTS_TEST_MULTIBYTE_STRING_EQUAL_APPROX()`;
+* changes:
+  * equal-any-of failure reports say the actual multibyte string should be equal to one of the expected values;
+  * coloured output now asks `woad_stream_supports_colour(stdout)` whether to emit SGR sequences, replacing the in-tree Windows virtual-terminal probe;
+  * the bold SGR sequences in **xtests.core.cpp** (`XTESTS_ANSI_FG_BOLD_AND_RED_`, `XTESTS_ANSI_FG_BOLD_AND_GREEN_`, `XTESTS_ANSI_FG_BOLD_AND_BLUE_`, `XTESTS_ANSI_FG_BOLD_AND_MAGENTA_`, `XTESTS_ANSI_FG_BOLD_AND_CYAN_`, and `XTESTS_ANSI_RESET_`) are `WOAD_BOLD`, `WOAD_FG_*`, and `WOAD_RESET` from **woad/woad.h**;
+  * split the internal string helpers out of **xtests.core.cpp** into **src/xtests.internal.string.c**, with `char_buffer_m_t_` / `char_buffer_w_t_` and `string_traits` in **src/char_buffer.hpp**;
+  * renamed those helpers from the `_a_` / `_w_` forms to CRT-style names (`xtests_strcmp_`, `xtests_wcscmp_`, …), marked them `STLSOFT_NOEXCEPT`, and documented their contracts in **src/xtests.internal.string.h**;
+  * implemented case-insensitive compare via `stlsoft_C_strnicmp` / `stlsoft_C_wcsnicmp`, substring search via `stlsoft_C_strnstrn` / `stlsoft_C_wcsnstrn` (and the `stristr` pair via `stlsoft_C_strnistrn` / `stlsoft_C_wcsnistrn`), and bounded copy via `stlsoft_C_string_copy_a` / `stlsoft_C_string_copy_w`;
+* dependencies:
+  * requires **STLSoft** **1.11.5** or later (`_STLSOFT_VER` >= `0x010B05FF`);
+  * requires **woad** **0.2** or later; **xtests.core** links `woad::woad` `PRIVATE` (public headers do not include it), and **cmake/xtests-config.cmake.in** calls `find_dependency(woad)` before the exported targets;
+  * CI installs **woad** with **STLSoft** and **shwild**; the STLSoft source-tree routes install **woad** alone and pass that prefix as `CMAKE_PREFIX_PATH`;
+* examples:
+  * **example.c.string-equal-any-of** shows passing and failing case-sensitive and case-insensitive membership, and is listed in **.sis/ci_examples_allowed_to_fail.txt**;
+  * **example.cpp.string-comparisons-n** includes deliberate `_N` assertion failures, and is listed in **.sis/ci_examples_allowed_to_fail.txt**;
+* testing:
+  * **test.unit.string-comparisons** and **test.unit.string-comparisons.C** cover the equal-any-of macros and their `_APPROX` forms;
+* documentation:
+  * updated the **COMPONENTS.md** multibyte-string section and Terse API table;
+* version:
+  * bumped `_XTESTS_VER_RELSTATUS` to `0xFF` (released) in **xtests.h**; synced **Doxyfile** `PROJECT_NUMBER`;
+  * set the **xtests.h** include-file quadruple to 3.55.1 edit 433;
+
+
 ## 0.29.0-beta1 - 4th November 2026
 
 * dependencies:
