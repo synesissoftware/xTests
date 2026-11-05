@@ -4,7 +4,7 @@
  * Purpose: Definition of the filesystem_exception class.
  *
  * Created: 1st October 2015
- * Updated: 9th August 2026
+ * Updated: 6th November 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,7 +52,7 @@
 # define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_MAJOR      0
 # define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_MINOR      1
 # define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_REVISION   8
-# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_EDIT       14
+# define XTESTS_VER_XTESTS_UTIL_HPP_FILESYSTEM_EXCEPTION_EDIT       15
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -277,9 +277,9 @@ c_str_ptr(
  * namespace
  */
 
-} /* namespace util */
-} /* namespace cpp */
-} /* namespace xtests */
+} // namespace util
+} // namespace cpp
+} // namespace xtests
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -314,7 +314,7 @@ namespace stlsoft
 
 # if !defined(_STLSOFT_NO_NAMESPACE) && \
     !defined(STLSOFT_NO_NAMESPACE)
-} /* namespace stlsoft */
+} // namespace stlsoft
 # endif
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
