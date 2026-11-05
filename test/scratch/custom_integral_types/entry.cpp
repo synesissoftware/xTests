@@ -4,7 +4,7 @@
  * Purpose: Illustrates facility for comparing custom integral types.
  *
  * Created: 23rd November 2024
- * Updated: 16th October 2026
+ * Updated: 5th November 2026
  *
  * ////////////////////////////////////////////////////////////////////// */
 
@@ -65,8 +65,7 @@ namespace stlsoft {
             return iw.value;
         }
     };
-
-} /* namespace stlsoft */
+} // namespace stlsoft
 
 
 int main(int argc, char* argv[])
