@@ -4,7 +4,7 @@
  * Purpose: Definition of the temp_file class.
  *
  * Created: 8th May 2014
- * Updated: 20th September 2026
+ * Updated: 6th November 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,7 +52,7 @@
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MAJOR     0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_MINOR     4
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_REVISION  4
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      28
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_FILE_EDIT      29
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -896,9 +896,9 @@ c_str_ptr(
  * namespace
  */
 
-} /* namespace util */
-} /* namespace cpp */
-} /* namespace xtests */
+} // namespace util
+} // namespace cpp
+} // namespace xtests
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -982,7 +982,7 @@ namespace stlsoft
 
 # if !defined(_STLSOFT_NO_NAMESPACE) && \
     !defined(STLSOFT_NO_NAMESPACE)
-} /* namespace stlsoft */
+} // namespace stlsoft
 # endif
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 

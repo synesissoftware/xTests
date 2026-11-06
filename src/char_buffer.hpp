@@ -4,7 +4,7 @@
  * Purpose: Internal string API.
  *
  * Created: 30th September 2015
- * Updated: 3rd November 2026
+ * Updated: 6th November 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -81,7 +81,7 @@ namespace stlsoft
     };
 # endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 #ifndef _STLSOFT_NO_NAMESPACE
-} /* namespace stlsoft */
+} // namespace stlsoft
 #endif /* _STLSOFT_NO_NAMESPACE */
 
 

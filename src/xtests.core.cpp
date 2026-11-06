@@ -4,7 +4,7 @@
  * Purpose: Primary implementation file for xTests core library.
  *
  * Created: 20th June 1999
- * Updated: 3rd November 2026
+ * Updated: 5th November 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -6287,8 +6287,8 @@ RunnerInfo::Call_onTestFailed(
  */
 
 #ifndef _XTESTS_NO_NAMESPACE
-} /* namespace c */
-} /* namespace xtests */
+} // namespace c
+} // namespace xtests
 #endif /* !_XTESTS_NO_NAMESPACE */
 
 

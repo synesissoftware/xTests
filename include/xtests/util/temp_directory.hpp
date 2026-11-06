@@ -4,7 +4,7 @@
  * Purpose: Definition of the temp_directory class.
  *
  * Created: 1st October 2015
- * Updated: 9th August 2026
+ * Updated: 6th November 2026
  *
  * Home:    https://github.com/synesissoftware/xTests/
  *
@@ -52,7 +52,7 @@
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MAJOR    0
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_MINOR    2
 # define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_REVISION 5
-# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     21
+# define XTESTS_VER_XTESTS_UTIL_HPP_TEMP_DIRECTORY_EDIT     22
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
 
@@ -564,9 +564,9 @@ c_str_ptr(
  * namespace
  */
 
-} /* namespace util */
-} /* namespace cpp */
-} /* namespace xtests */
+} // namespace util
+} // namespace cpp
+} // namespace xtests
 
 
 /* /////////////////////////////////////////////////////////////////////////
@@ -638,7 +638,7 @@ namespace stlsoft
 
 # if !defined(_STLSOFT_NO_NAMESPACE) && \
     !defined(STLSOFT_NO_NAMESPACE)
-} /* namespace stlsoft */
+} // namespace stlsoft
 # endif
 #endif /* !XTESTS_DOCUMENTATION_SKIP_SECTION */
 
